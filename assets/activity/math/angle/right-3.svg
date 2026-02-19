@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ght-3</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-3855, -2607)">
+            <g id="ght-3" transform="translate(3855, 2607)">
+                <rect id="Rectangle" x="0" y="0" width="240" height="150"></rect>
+                <g id="right-3" transform="translate(46, 1)">
+                    <g id="Group-2" transform="translate(47.6517, 101.3787) rotate(-45) translate(-47.6517, -101.3787)translate(18.1213, 95.8787)">
+                        <line x1="10.5" y1="5.5" x2="58.3286886" y2="5.47855339" id="Line-4" stroke="#332925" stroke-width="2" stroke-linecap="round"></line>
+                        <path d="M6.39442719,1.78885438 L10.2763932,9.5527864 C10.5233825,10.0467649 10.3231581,10.6474379 9.82917961,10.8944272 C9.69032417,10.9638549 9.53721111,11 9.38196601,11 L1.61803399,11 C1.06574924,11 0.618033989,10.5522847 0.618033989,10 C0.618033989,9.8447549 0.654179081,9.69164184 0.723606798,9.5527864 L4.60557281,1.78885438 C4.85256206,1.29487588 5.4532351,1.09465154 5.9472136,1.34164079 C6.140741,1.43840449 6.29766349,1.59532698 6.39442719,1.78885438 Z" id="Triangle" fill="#332925" transform="translate(5.5, 5.5) scale(-1, 1) rotate(-270) translate(-5.5, -5.5)"></path>
+                    </g>
+                    <rect id="Rectangle" stroke="#332925" stroke-width="3" x="1.5" y="1.5" width="146" height="146" rx="2"></rect>
+                    <polyline id="Path-9" stroke="#332925" stroke-width="2" points="1.32136685 128.605672 20.7172435 128.605672 20.7172435 147.605672"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

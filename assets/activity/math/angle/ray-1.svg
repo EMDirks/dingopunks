@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ray-1</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="240" height="150"></rect>
+    </defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-3345, -2094)">
+            <g id="ray-1" transform="translate(3345, 2094)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g mask="url(#mask-2)">
+                    <g transform="translate(0, 67)">
+                        <line x1="12.5" y1="8.5" x2="226.5" y2="8.5" id="Path-6" stroke="#332925" stroke-width="3" fill="none"></line>
+                        <circle id="Oval" stroke="none" fill="#332925" fill-rule="evenodd" cx="6.5" cy="8.5" r="6.5"></circle>
+                        <path d="M233.394427,1.78885438 L240.276393,15.5527864 C240.523382,16.0467649 240.323158,16.6474379 239.82918,16.8944272 C239.690324,16.9638549 239.537211,17 239.381966,17 L225.618034,17 C225.065749,17 224.618034,16.5522847 224.618034,16 C224.618034,15.8447549 224.654179,15.6916418 224.723607,15.5527864 L231.605573,1.78885438 C231.852562,1.29487588 232.453235,1.09465154 232.947214,1.34164079 C233.140741,1.43840449 233.297663,1.59532698 233.394427,1.78885438 Z" id="Triangle" stroke="none" fill="#332925" fill-rule="evenodd" transform="translate(232.5, 8.5) rotate(-270) translate(-232.5, -8.5)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

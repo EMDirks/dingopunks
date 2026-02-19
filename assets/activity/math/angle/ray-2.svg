@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ray-2</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-3600, -2094)">
+            <g id="ray-2" transform="translate(3600, 2094)">
+                <rect id="Rectangle" x="0" y="0" width="240" height="150"></rect>
+                <g transform="translate(112, 0)" id="Group-3">
+                    <line x1="8.5" y1="145" x2="8" y2="9.5" id="Path-6" stroke="#332925" stroke-width="3"></line>
+                    <circle id="Oval" fill="#332925" cx="8.5" cy="143.5" r="6.5"></circle>
+                    <path d="M8.89442719,1.78885438 L15.2763932,14.5527864 C15.5233825,15.0467649 15.3231581,15.6474379 14.8291796,15.8944272 C14.6903242,15.9638549 14.5372111,16 14.381966,16 L1.61803399,16 C1.06574924,16 0.618033989,15.5522847 0.618033989,15 C0.618033989,14.8447549 0.654179081,14.6916418 0.723606798,14.5527864 L7.10557281,1.78885438 C7.35256206,1.29487588 7.9532351,1.09465154 8.4472136,1.34164079 C8.640741,1.43840449 8.79766349,1.59532698 8.89442719,1.78885438 Z" id="Triangle" fill="#332925"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>circle_1-2</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-554, -286)">
+            <g id="circle_1-2" transform="translate(554, 286)">
+                <rect id="Rectangle" x="0" y="0" width="240" height="150"></rect>
+                <circle id="Oval" cx="119.99948" cy="74.9994798" r="74.9994798"></circle>
+                <path d="M119.99948,150 C120.411565,150 119.99948,116.832634 119.99948,75.4115649 C119.99948,33.9904959 120.411565,0 119.99948,0 C78.5784109,0 45,33.5784109 45,74.9994798 C45,116.420549 78.5784109,150 119.99948,150 Z" id="Oval" fill="#FBB941"></path>
+                <circle id="Oval" stroke="#332925" stroke-width="3" cx="119.99948" cy="74.9994798" r="73.4994798"></circle>
+                <line x1="120.411565" y1="3.70876549" x2="120.411565" y2="146.290194" id="Line" stroke="#332925" stroke-width="3" stroke-linecap="square"></line>
+            </g>
+        </g>
+    </g>
+</svg>

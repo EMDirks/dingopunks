@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>circle_6-7</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-2089, -1319)">
+            <g id="circle_6-7" transform="translate(2089, 1318.9983)">
+                <rect id="Rectangle" x="0" y="0.00168539422" width="240" height="150"></rect>
+                <circle id="Oval" cx="119.999305" cy="75.0006945" r="74.9993055"></circle>
+                <path d="M119.999305,150 C161.420278,150 194.998611,116.421667 194.998611,75.0006945 C194.998611,57.1020005 188.728702,40.6677222 178.265418,27.7743935 C178.265418,27.7743935 120.41139,75.0006945 120.41139,75.0006945 C120.41139,75.0006945 119.999305,0 119.999305,0 C78.5783328,0 45,33.5797219 45,75.0006945 C45,116.421667 78.5783328,150 119.999305,150 Z" id="Oval" fill="#FBB941"></path>
+                <circle id="Oval" stroke="#332925" stroke-width="3" cx="119.999305" cy="75.0006945" r="73.4993055"></circle>
+                <line x1="120.41139" y1="3.34066236" x2="120.41139" y2="76.4855894" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="176.866911" y1="28.5426919" x2="120.823474" y2="75.3052784" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="191.701938" y1="89.3137488" x2="119.999305" y2="74.6984995" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="152.966033" y1="139.593241" x2="120.41139" y2="74.5886104" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="85.3842414" y1="139.593241" x2="120.41139" y2="74.5886104" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="48.2966728" y1="86.856037" x2="120.823474" y2="74.6837068" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="65.6042048" y1="26.8898763" x2="120.823474" y2="75.3097576" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+            </g>
+        </g>
+    </g>
+</svg>

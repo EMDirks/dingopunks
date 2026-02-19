@@ -1,0 +1,7616 @@
+---------------------------------------------------
+
+// passage + title + image (3x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    image: {
+                        type: "theme",
+                        file: "1.png",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "2.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    },  
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "3.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: {                   
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent75",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                dimension: {
+                    width: "percent12",
+                    height: "auto",
+                }
+            },
+            {
+                title: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "percent85",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage + title + image (4x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    image: {
+                        type: "theme",
+                        file: "1.png",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "2.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    },  
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "3.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "3.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: {      
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            }
+        },     
+        contentArray: [
+            {
+                dimension: {
+                    width: "percent20",
+                    height: "auto",
+                }
+            },
+            {
+                title: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "percent75",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage + image (4x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    image: {
+                        type: "theme",
+                        file: "1.png",
+                    },
+                },
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "2.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    },  
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "3.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    image: {
+                        file: "3.png",
+                        type: "theme",
+                    },
+                },
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: {      
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            }
+        },     
+        contentArray: [
+            {
+                dimension: {
+                    width: "percent20",
+                    height: "auto",
+                }
+            },
+            {
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "percent75",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+---------------------------------------------------
+
+// passage-short + symbol-key (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "A",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text:   "[<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text:   "[<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'symbols',
+                size: 'medium',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+            }, 
+        ]
+    },
+},
+
+// passage-short [tag] (4x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+            }, 
+        ]
+    },
+},
+
+// passage-short [tag] (5x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+            }, 
+        ]
+    },
+},
+
+// passage-short [tag] (6x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+            }, 
+        ]
+    },
+},
+
+// passage-short [tag] (8x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+            }, 
+        ]
+    },
+},
+
+// passage-short + title + subtitle (3x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-medium (2x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            tag: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left',
+                    padding: 'default'
+                },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-medium + title (1x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-medium + title (4x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-medium + title + subtitle (1x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-medium + title + subtitle (2x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-long + title + subtitle (1x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: "Lorem Ipsum",
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-long + title + subtitle (1x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: "Lorem Ipsum",
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-long with br-split + title + subtitle (1x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    title: {
+                        text: "Lorem",
+                    },
+                    subtitle: {
+                        text: "Lorem",
+                    },
+                    passage: {
+                        text: "Lorem"
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'double'
+            },
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left',
+                    indent: 'default',
+                    brSplit: 'default',
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+// passage-long + title (3x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        }
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},
+
+---------------------------------------------------
+
+// fractions [tag] (10x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },
+                
+                
+            } 
+        ]
+    },
+},
+
+// fractions [tag] (6x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent15",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },
+                
+                
+            } 
+        ]
+    },
+},
+
+// fractions (5x) + passage-medium (1x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+         {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "auto",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },  
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },           
+            } 
+        ]
+    },
+},
+
+// fractions (4x) + passage-medium (2x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "auto",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },  
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },           
+            } 
+        ]
+    },
+},
+
+---------------------------------------------------
+
+// puzzle + passage (9x)
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        asset: "<asset>",
+    },
+    blockArray: [              
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "1.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "2.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "3.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "4.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "5.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "6.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "7.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "8.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "9.png"
+                    }
+                }
+            ],
+        },
+    ],  
+    style: { 
+        block: {
+            dimension: {
+                width: "puzzleWidth",
+                height: "puzzleHeight",
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center',
+                    puzzle: 'default',
+                },   
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ]
+    },
+},
+
+// puzzle + fraction (9x)
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        asset: "<asset>",
+    },
+    blockArray: [              
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "1.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "2.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "3.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "4.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "5.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "6.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "7.png"
+                    }
+                },
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "8.png"
+                    }
+                }
+            ],
+        },
+        {
+            contentArray: [
+                {
+                    fraction: {
+                        text: "Lorem",
+                    }, 
+                    backgroundImage: {
+                        file: "9.png"
+                    }
+                }
+            ],
+        },
+    ],  
+    style: { 
+        block: {
+            dimension: {
+                width: "puzzleWidth",
+                height: "puzzleHeight",
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },  
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ]
+    },
+},
+
+// fraction + symbol-key (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                 
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "L",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text:   "[<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text:   "[<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum<br> \
+                                [<s>A] = lorem ipsum",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'symbols',
+                size: 'medium',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                misc: {
+                    padding: "default"
+                },
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },
+            }, 
+        ]
+    },
+},
+
+---------------------------------------------------
+
+// cryptogram + figure-line (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [                
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 1,
+                        },
+                        label: {
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent35",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center",
+            },
+        },
+        contentArray: [
+            {
+                figure: {
+                    border: {
+                        width: 'thin'
+                    },
+                    background: {
+                        color: 'gold',
+                    }
+                },   
+                cell: {
+                    border: {
+                        width: 'thin'
+                    },
+                    dimension: {
+                        size: 'large',
+                    }
+                },
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                misc: {
+                    padding: "default"
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },              
+            } 
+        ]
+    },
+},
+
+// cryptogram + figure-rectangle (3x) + word-problem (1x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [               
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent35",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                figure: {
+                    border: {
+                        width: 'default'
+                    },
+                    background: {
+                        color: 'gold',
+                    }
+                },  
+                cell: {
+                    border: {
+                        width: 'none'
+                    },
+                    dimension: {
+                        size: 'default',
+                    }
+                }, 
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },           
+            } 
+        ]
+    },
+},
+
+// cryptogram + passage-short (4x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "auto",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                }, 
+            } 
+        ]
+    },
+},
+
+// cryptogram + passage-short (5x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "auto",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                }, 
+            } 
+        ]
+    },
+},
+
+// cryptogram + passage-short (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor"
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent25",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                passage: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                }, 
+            } 
+        ]
+    },
+},
+
+// cryptogram + angles (4x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [               
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "angle",
+                        file: "right-1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "angle",
+                        file: "right-1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "angle",
+                        file: "right-1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "angle",
+                        file: "right-1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent22",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },
+                
+            } 
+        ]
+    },
+},
+
+// cryptogram + number-line (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                dimension: {
+                    width: "percent80",
+                    height: "full",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },
+            }, 
+        ]
+    },
+},
+
+// cryptogram + fraction (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "N/N",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'large',
+                        fraction: 'medium'
+                    },
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },               
+            } 
+        ]
+    },
+},
+
+// cryptogram + passage-long + title (1x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },   
+            }
+        ]
+    },
+},
+
+// cryptogram + passage-long-patterns + title (1x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                        }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "double"
+            },
+            dimension: {
+                width: "percent85",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'patterns',
+                    size: 'mediumSmall',
+                    align: 'center',
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },   
+            }
+        ]
+    },
+},
+
+// cryptogram + passage-medium (2x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: {              
+        block: {
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },  
+            }
+        ]
+    },
+},
+
+// cryptogram + passage-medium + title + subtitle (2x)
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    title: {
+                        text: 'Lorem Ipsum Dolor',
+                    },
+                    subtitle: {
+                        text: 'Lorem Ipsum',
+                    },
+                    passage: {
+                        text:   "Lorem ipsum dolor sit amet."
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "2%",
+                    translateY: "12%",
+                    rotate: "-2deg",
+                }
+            }
+        },
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent45",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                title: {
+                    font: 'default',
+                    size: 'medium',
+                    align: 'center'
+                },
+                subtitle: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'center'
+                },
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },  
+            }
+        ]
+    },
+},
+
+----------------------------------------------------
+
+// figure-volume (3x) + word-problem (1x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [        
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "local",
+                        file: "hh3_1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "local",
+                        file: "hh3_1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "local",
+                        file: "hh3_1.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem ipsum dolor sit amet.",
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent35",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+
+                passage: {
+                    font: 'default',
+                    size: 'small',
+                    align: 'left'
+                },
+                dimension: {
+                    width: "percent70",
+                    height: "full",
+                },
+                
+                
+            } 
+        ]
+    },
+},
+
+// figure-rectangle (5x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [               
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "-0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'defaultNoBottom'
+            },
+            dimension: {
+                width: "percent35",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                figure: {
+                    border: {
+                        width: 'default'
+                    },
+                    background: {
+                        color: 'gold',
+                    }
+                },  
+                cell: {
+                    border: {
+                        width: 'none'
+                    },
+                    dimension: {
+                        size: 'default',
+                    }
+                }, 
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },          
+            } 
+        ]
+    },
+},
+
+// number-line (2x) + image (4x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_4-5.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_4-5.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_4-5.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_4-5.svg",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                dimension: {
+                    width: "percent80",
+                    height: "full",
+                },
+            }, 
+        ]
+    },
+},
+
+// number-line (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [   
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        },
+                    }
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'small',
+                align: 'left',
+                padding: 'default'
+            },
+            dimension: {
+                width: "percent30",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            { 
+                label: {
+                    font: 'default',
+                    size: 'tiny'
+                },
+                dimension: {
+                    width: "percent80",
+                    height: "full",
+                },
+            }, 
+        ]
+    },
+},
+
+-----------------------------------------------------
+
+// sort-3-column + fractions, shapes, passage, number lines (4x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+            "header"
+        ],
+        asset: {
+            scope: "global",
+            path: "3-column-stone.png"
+        }
+    },   
+    blockArray: [
+        
+        // fraction
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+
+        // shape
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_1-3.svg",
+                    },
+                }
+            ],
+            correctIndex: 0
+        },
+
+        // text
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+
+        // number line
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        },  
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort3Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'medium',
+                        fraction: 'mediumSmall'
+                    },
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-3-column + passage (7x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "3-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort3Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-3-column + fractions (9x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+            "header"
+        ],
+        asset: {
+            scope: "global",
+            path: "3-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort3Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {  
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'medium',
+                        fraction: 'mediumSmall'
+                    },
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + fractions (7x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "3-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {  
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'medium',
+                        fraction: 'mediumSmall'
+                    },
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + fractions, shapes, passage, number lines (4x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "2-column-stone.png"
+        }
+    },   
+    blockArray: [
+        
+        // fraction
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    fraction: {
+                        text: "1/8",
+                    }, 
+                },
+            ],
+            correctIndex: 0
+        },
+
+        // shape
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    image: {
+                        type: "shape-partition",
+                        file: "circle_1-3.svg",
+                    },
+                }
+            ],
+            correctIndex: 0
+        },
+
+        // text
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+
+        // number line
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        },  
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'medium',
+                        fraction: 'mediumSmall'
+                    },
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + number lines (7x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "2-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        },  
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    numberLine: {
+                        measurement: {
+                            fraction: 8,
+                            dot: 4
+                        },
+                        label: {
+                            start: '0',
+                            end: '1',
+                        }
+                    },
+                    dimension: {
+                        width: "full",
+                        height: "full",
+                    }
+                }
+            ],
+            correctIndex: 1
+        }, 
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + passage (7x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "2-column-stone.png"
+        }
+    },   
+    blockArray: [
+         {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + passage (6x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "2-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-2-column + figure (5x) [tag]
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "2-column-stone.png"
+        }
+    },   
+    blockArray: [
+        
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            correctIndex: 0
+        },
+        {
+            tag: {
+                text: "Lorem",
+            },
+            contentArray: [
+                {
+                    figure: {
+                        measurement: {
+                            width: 8,
+                            height: 5,
+                        },
+                        label: {
+                            top: "16 units",
+                            left: "10 units",    
+                            right: "offset"                               
+                        },
+                    }
+                }
+            ],
+            correctIndex: 0
+        },
+
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            tag: {
+                font: 'default',
+                size: 'tiny',
+                align: 'left',
+                padding: 'defaultSmallContainer'
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'center'
+                },   
+                fraction: {
+                    font: 'default',
+                    size: {
+                        integer: 'medium',
+                        fraction: 'mediumSmall'
+                    },
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+
+// sort-1-column + passage (4x)
+activity: {
+    info: {
+        type: "dynamic",
+        functionality: "drag-and-drop",
+        columnArray: [
+            "header",
+        ],
+        asset: {
+            scope: "global",
+            path: "1-column-stone.png"
+        }
+    },   
+    blockArray: [
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        },  
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+        {
+            contentArray: [
+                {
+                    passage: {
+                        text: "Lorem Ipsum",
+                    }, 
+                }
+            ],
+            correctIndex: 1
+        }, 
+    ],      
+    style: { 
+        block: {
+            dimension: {
+                width: "sort2Width",
+                height: "auto",
+            },
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            flexbox: {
+                justifyContent: "spaceBetween",
+                alignItems: "center"
+            },
+        },
+        contentArray: [
+            {
+                passage: {
+                    font: 'default',
+                    size: 'mediumSmall',
+                    align: 'left'
+                }, 
+                dimension: {
+                    width: "full",
+                    height: "full",
+                },
+                background: {
+                    size: 'contain',
+                    repeat: 'noRepeat'
+                },
+                flexbox: {
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                
+            } 
+        ] 
+    }, 
+},
+    
+
+-------------------------------------------------------
+
+// coordinate plane
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        
+        {
+            contentArray: [
+                {
+                    coordinatePlane: {
+                        key: [
+                            {
+                                color: 'salmon',
+                                image: '',
+                                text: 'LOREM',
+                                coordinate: [8,8]
+                            },
+                            {
+                                color: 'gold',
+                                image: '',
+                                text: 'IPSUM',
+                                coordinate: [7,1]
+                            },
+                            {
+                                color: 'teal',
+                                image: '',
+                                text: 'DOLOR',
+                                coordinate: [1,5]
+                            },
+                            {
+                                color: 'blue',
+                                image: '',
+                                text: 'SITAM',
+                                coordinate: [3,4]
+                            }
+                        ]
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+        {
+            contentArray: [
+                {
+                    cryptogram: {
+                    }, 
+                }
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: { 
+        block: {
+            misc: {
+                material: 'metal',
+                padding: "default"
+            },
+            dimension: {
+                width: "percent50",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            },
+            
+        },
+        contentArray: [
+            {
+                key: {
+                    font: 'patterns',
+                    size: 'small',
+                    align: 'left',
+                },
+                cryptogram: {
+                    font1: {
+                        font: 'default',
+                        size: 'medium'
+                    },
+                    font2: {
+                        font: 'patterns',
+                        size: 'medium'
+                    }
+                },
+                dimension: {
+                    width: "full",
+                    height: "full",
+                }
+                
+            } 
+        ]
+    },
+},
+
+-------------------------------------------------------
+
+// image
+activity: {
+    info: {
+        type: "dynamic",
+        asset: "<asset>",
+    },
+    blockArray: [
+        {
+            contentArray: [ 
+                {
+                    image: {
+                        type: "local",
+                        file: "cu_1.png",
+                    },
+                },
+            ],
+            style: {
+                transform: {
+                    translateX: "0%",
+                    translateY: "0%",
+                    rotate: "0deg",
+                }
+            }
+        },
+    ],  
+    style: {              
+        block: {
+            misc: {
+                material: 'paper',
+                padding: "default"
+            },
+            dimension: {
+                width: "auto",
+                height: "auto",
+            },
+            flexbox: {
+                justifyContent: "center",
+                alignItems: "center"
+            }
+        },                   
+        contentArray: [
+            {
+                dimension: {
+                    width: "full",
+                    height: "auto",
+                }
+            }
+        ]
+    },
+},

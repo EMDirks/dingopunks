@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>circle_2-3</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-861, -493)">
+            <g id="circle_2-3" transform="translate(861, 492.9988)">
+                <rect id="Rectangle" x="0" y="0.00121683064" width="240" height="150"></rect>
+                <circle id="Oval" cx="119.999499" cy="75.0005014" r="74.9994986"></circle>
+                <path d="M119.999499,150 C147.830203,150 172.120371,134.841165 185.064827,112.329798 C185.064827,112.329798 120.411584,74.5884163 120.411584,74.5884163 C120.411584,33.167337 119.935278,0 119.999499,0 C78.5784193,0 45,33.5794221 45,75.0005014 C45,116.421581 78.5784193,150 119.999499,150 Z" id="Oval" fill="#FBB941"></path>
+                <circle id="Oval" stroke="#332925" stroke-width="3" cx="119.999499" cy="75.0005014" r="73.4994986"></circle>
+                <polyline id="Path" stroke="#332925" stroke-width="3" points="56.4001012 111.345602 120.411584 75.0005014 183.470456 111.345602"></polyline>
+                <line x1="120.411584" y1="75.4125866" x2="120.411584" y2="2.06142866" id="Line-2" stroke="#332925" stroke-width="3" stroke-linecap="square"></line>
+            </g>
+        </g>
+    </g>
+</svg>

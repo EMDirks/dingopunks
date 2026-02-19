@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>circle_7-7</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-2089, -1524)">
+            <g id="circle_7-7" transform="translate(2089, 1524)">
+                <rect id="Rectangle" x="0" y="0" width="240" height="150"></rect>
+                <circle id="Oval" fill="#FFE5AF" cx="120" cy="75" r="75"></circle>
+                <circle id="Oval" fill="#FBB941" cx="120" cy="75" r="75"></circle>
+                <circle id="Oval" stroke="#332925" stroke-width="3" cx="120" cy="75" r="73.5"></circle>
+                <line x1="120.412088" y1="3.33928571" x2="120.412088" y2="76.4848901" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="176.868132" y1="28.5415671" x2="120.824176" y2="75.3045867" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="191.703297" y1="89.3131868" x2="120" y2="74.6978022" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="152.967033" y1="139.593145" x2="120.412088" y2="74.5879121" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="85.3846154" y1="139.593145" x2="120.412088" y2="74.5879121" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="48.2967033" y1="86.8554522" x2="120.824176" y2="74.6830093" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+                <line x1="65.6043956" y1="26.8887363" x2="120.824176" y2="75.3090659" id="Line-3" stroke="#332925" stroke-width="3" fill="#D8D8D8" stroke-linecap="square"></line>
+            </g>
+        </g>
+    </g>
+</svg>

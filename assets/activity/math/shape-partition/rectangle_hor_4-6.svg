@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>rectangle_hor_4-6</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-4486, -811)" stroke="#332925" stroke-width="3">
+            <g id="rectangle_hor_4-6" transform="translate(4486, 811)">
+                <rect id="Rectangle" x="1.5" y="1.5" width="237" height="147" rx="3"></rect>
+                <path d="M40.5,1.5 L40.5,148.5 L3,148.5 C2.58578644,148.5 2.21078644,148.332107 1.93933983,148.06066 C1.66789322,147.789214 1.5,147.414214 1.5,147 L1.5,3 C1.5,2.58578644 1.66789322,2.21078644 1.93933983,1.93933983 C2.21078644,1.66789322 2.58578644,1.5 3,1.5 L40.5,1.5 Z" id="Rectangle" fill="#FBB941"></path>
+                <rect id="Rectangle" fill="#FBB941" x="40.5" y="1.5" width="40" height="147"></rect>
+                <rect id="Rectangle" fill="#FBB941" x="80.5" y="1.5" width="40" height="147"></rect>
+                <rect id="Rectangle" fill="#FBB941" x="120.5" y="1.5" width="40" height="147"></rect>
+                <rect id="Rectangle" x="160.5" y="1.5" width="40" height="147"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,1595 @@
+challengeArray: [
+    // code box
+    {
+
+        info: {
+            type: "code-box",
+            asset: "node-background-codeBox.png",
+            title: "Code Box",
+            state: "incomplete",
+        },
+
+        content: {
+            codeBox: null
+        }
+
+    }   
+]
+
+-----------------------------------------------------
+
+// Wacky Workshop
+
+-----------------------------------------------------
+
+// Turkey Takedown
+
+// ⭐ bix's hideout
+{
+    info: {
+        type: 'challenge',
+        title: "Bix's Hideout",
+        asset: "bix-gribble.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Bix Gribble",
+        asset: "bix-gribble.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ main office
+{
+    info: {
+        type: 'challenge',
+        title: 'Main Office',
+        asset: "dale.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Dale",
+        asset: "dale.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ dumpster
+{
+
+    info: {
+        type: 'challenge',
+        title: "Dumpster",
+        asset: "ched-muckley.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Ched Muckley",
+        asset: "ched-muckley.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ machine room
+{
+    info: {
+        type: 'challenge',
+        title: 'Machine Room',
+        asset: "lady-thistledown.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Lady Thistledown",
+        asset: "lady-thistledown.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ gift shop
+{
+    info: {
+        type: 'challenge',
+        title: "Gift Shop",
+        asset: "sparklepants.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Sparklepants",
+        asset: "sparklepants.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Funhouse Fright
+
+// ⭐ ticket booth
+{
+    info: {
+        type: 'challenge',
+        title: "Ticket Booth",
+        asset: "miss-tally.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Miss Tally",
+        asset: "miss-tally.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ ringmaster's stage
+{
+    info: {
+        type: 'challenge',
+        title: 'Ringmaster\'s Stage',
+        asset: "pippo-fizzlepop.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Ringmaster Pippo",
+        asset: "pippo-fizzlepop.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ terror tunnel
+{
+
+    info: {
+        type: 'challenge',
+        title: "Terror Tunnel",
+        asset: "plucky-the-clown.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Plucky the Clown",
+        asset: "plucky-the-clown.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ hall of mirrors
+{
+    info: {
+        type: 'challenge',
+        title: 'Hall of Mirrors',
+        asset: "count-visage.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Count Visage",
+        asset: "count-visage.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ boiler room
+{
+    info: {
+        type: 'challenge',
+        title: "Boiler Room",
+        asset: "boiler-belle.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Boiler Belle",
+        asset: "boiler-belle.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Escape from Pickle's Playground
+
+// ⭐ ball pit
+{
+    info: {
+        type: 'challenge',
+        title: "Ball Pit",
+        asset: "gribba.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Gribba",
+        asset: "gribba.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ swing set
+{
+    info: {
+        type: 'challenge',
+        title: 'Swing Set',
+        asset: "merriwig.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Merriwig Fenn",
+        asset: "merriwig.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ monkey bars 
+{
+
+    info: {
+        type: 'challenge',
+        title: "Monkey Bars",
+        asset: "banana-gunk-jr.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Banana Gunk Jr.",
+        asset: "banana-gunk-jr.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ tunnel slide
+{
+    info: {
+        type: 'challenge',
+        title: 'Tunnel Slide',
+        asset: "twisted-tori.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Twisted Tori",
+        asset: "twisted-tori.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ play palace
+{
+    info: {
+        type: 'challenge',
+        title: "Play Palace",
+        asset: "king-kevin.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "King Kevin",
+        asset: "king-kevin.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Escape the Midnight Mall
+
+// ⭐ critterwerks
+{
+    info: {
+        type: 'challenge',
+        title: "Critterwerks",
+        asset: "critterwerks.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Terrible Topsy",
+        asset: "topsy.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ the candy cave
+{
+    info: {
+        type: 'challenge',
+        title: 'The Candy Cave',
+        asset: "the-candy-cave.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Martin Shortnose",
+        asset: "noah-shortnose.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ zeebplex
+{
+
+    info: {
+        type: 'challenge',
+        title: "ZeebPlex",
+        asset: "zeeb-plex.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Zeeb",
+        asset: "zeeb.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ prismatica
+{
+    info: {
+        type: 'challenge',
+        title: 'Prismatica',
+        asset: "holographia.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Prisma",
+        asset: "prisma.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+// ⭐ helio athletics
+{
+    info: {
+        type: 'challenge',
+        title: "Helio Athletics",
+        asset: "underworld-athletics.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+    intro: {
+        character: "Robustus the Great",
+        asset: "robustus-the-great.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// The Yeti and the Yams
+
+// ⭐ dr. seraphina's cell
+{
+    info: {
+        type: 'challenge',
+        title: "Dr. Seraphina's Cell",
+        asset: "dr-seraphina.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Dr. Seraphina",
+        asset: "dr-seraphina.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ tater durant's cell
+{
+    info: {
+        type: 'challenge',
+        title: "Tater Durant's Cell",
+        asset: "tater-drift.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Tater Durant",
+        asset: "tater-drift.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ fishbeard's cell
+{
+    info: {
+        type: 'challenge',
+        title: "Fishbeard's Cell",
+        asset: "fishbeard.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Fishbeard",
+        asset: "fishbeard.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ pippo's cell
+{
+    info: {
+        type: 'challenge',
+        title: "Pippo's Cell",
+        asset: "pippo-fizzlepop.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Pippo Fizzlepop",
+        asset: "pippo-fizzlepop.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ the knight's cell
+{
+    info: {
+        type: 'challenge',
+        title: "The Knight's Cell",
+        asset: "the-frozen-knight.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "The Frozen Knight",
+        asset: "the-frozen-knight.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Beehive Blitz
+
+// ⭐ basil rabbit
+{
+    info: {
+        type: 'challenge',
+        title: "Honey Vats",
+        asset: "basil-rabbit.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+
+    intro: {
+        character: "Basil Rabbit",
+        asset: "basil-rabbit.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ riff wingman
+{
+    info: {
+        type: 'challenge',
+        title: "Riff's Study",
+        asset: "riff-wingman.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+
+    intro: {
+        character: "Riff Wingman",
+        asset: "riff-wingman.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ sunny snap
+{
+    info: {
+        type: 'challenge',
+        title: "Accounting Dept.",
+        asset: "sunny-snap.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+
+    intro: {
+        character: "Sunny Snap",
+        asset: "sunny-snap.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ grumblegrub
+{
+    info: {
+        type: 'challenge',
+        title: "The Warehouse",
+        asset: "grumblegrub.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+
+    intro: {
+        character: "Grumblegrub",
+        asset: "grumblegrub.png",
+        dialogue: {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ queen bella
+{
+    info: {
+        type: 'challenge',
+        title: "Throne Room",
+        asset: "queen-bella.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+
+    intro: {
+        character: "Queen Bella",
+        asset: "queen-bella.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Cupid's Countdown
+
+// ⭐ broken animatronic
+{
+    info: {
+        type: 'challenge',
+        title: "Contestant #1",
+        asset: "broken-animatronic.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Contestant #1: Broken Animatronic",
+        asset: "broken-animatronic.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ tater durant
+{
+    info: {
+        type: 'challenge',
+        title: "Contestant #2",
+        asset: "tater-durant.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Contestant #2: Tater Durant",
+        asset: "tater-durant.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ stefan sage
+{
+    info: {
+        type: 'challenge',
+        title: "Contestant #3",
+        asset: "stefan-sage.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Contestant #3: Stefan Sage",
+        asset: "stefan-sage.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ grumblegrub
+{
+    info: {
+        type: 'challenge',
+        title: "Contestant #4",
+        asset: "grumblegrub.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Contestant #4: Grumblegrub",
+        asset: "grumblegrub.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ terrible topsy
+{
+    info: {
+        type: 'challenge',
+        title: "Contestant #5",
+        asset: "terrible-topsy.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Contestant #5: \"Terrible\" Topsy",
+        asset: "terrible-topsy.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Rainbow Rescue
+
+// ⭐ sir eggbert
+{
+    info: {
+        type: 'challenge',
+        title: "Eggbert's Hall",
+        asset: "sir-eggbert.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Sir Eggbert",
+        asset: "sir-eggbert.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ madame mystica
+{
+    info: {
+        type: 'challenge',
+        title: "Mystic Hideaway",
+        asset: "madame-mystica.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Madame Mystica",
+        asset: "madame-mystica.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ sparklepants
+{
+    info: {
+        type: 'challenge',
+        title: "Sparkle Cave",
+        asset: "sparklepants.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Sparklepants",
+        asset: "sparklepants.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ sunny snap
+{
+    info: {
+        type: 'challenge',
+        title: "Sunny's Office",
+        asset: "sunny-snap.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Sunny Snap",
+        asset: "sunny-snap.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ charm
+{
+    info: {
+        type: 'challenge',
+        title: "Secret Workshop",
+        asset: "charm.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "C.H.A.R.M.",
+        asset: "charm.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Eggworld Emergency
+
+// ⭐ ziggy voss
+{
+    info: {
+        type: 'challenge',
+        title: "Jewelry Shop",
+        asset: "ziggy-voss.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Ziggy Voss",
+        asset: "ziggy-voss.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ sir eggbert
+{
+    info: {
+        type: 'challenge',
+        title: "Castle Eggbert",
+        asset: "sir-eggbert.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Sir Eggbert",
+        asset: "sir-eggbert.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ shelly, sunny, and yoko
+{
+    info: {
+        type: 'challenge',
+        title: "Cozy Coop",
+        asset: "shelly-sunny-and-yoko.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Shelly, Sunny, and Yoko",
+        asset: "shelly-sunny-and-yoko.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ e.v.a.
+{
+    info: {
+        type: 'challenge',
+        title: "The Archives",
+        asset: "eva.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "E.V.A.",
+        asset: "eva.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ cornelius rabbit
+{
+    info: {
+        type: 'challenge',
+        title: "Town Hall",
+        asset: "cornelius-rabbit.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                {
+                    subject: "<subject>",
+                    grade: ["<grade>"],
+                    category: "<category>",
+                    standard: "<standard>",
+                },
+            ],
+        }
+    },
+    intro: {
+        character: "Cornelius Rabbit",
+        asset: "cornelius-rabbit.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+-----------------------------------------------------
+
+// Camp Calamari
+
+// ⭐ driftwood dan
+{
+    info: {
+        type: 'challenge',
+        title: "Driftwood Dan",
+        asset: "driftwood-dan.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                "X.X.X",
+            ],
+        }
+    },
+    intro: {
+        character: "Driftwood Dan",
+        asset: "driftwood-dan.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ broken animatronic
+{
+    info: {
+        type: 'challenge',
+        title: "Broken Animatronic",
+        asset: "melodina.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                "X.X.X",
+            ],
+        }
+    },
+    intro: {
+        character: "Broken Animatronic",
+        asset: "melodina.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ chef gumbo
+{
+    info: {
+        type: 'challenge',
+        title: "Chef Gumbo",
+        asset: "chef-gumbo.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                "X.X.X",
+            ],
+        }
+    },
+    intro: {
+        character: "Chef Gumbo",
+        asset: "chef-gumbo.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ madame mystica
+{
+    info: {
+        type: 'challenge',
+        title: "Madame Mystica",
+        asset: "madame-mystica.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                "X.X.X",
+            ],
+        }
+    },
+    intro: {
+        character: "Madame Mystica",
+        asset: "madame-mystica.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},
+
+// ⭐ captain fishbeard
+{
+    info: {
+        type: 'challenge',
+        title: "Captain Fishbeard",
+        asset: "fishbeard.png",
+        state: "incomplete",
+        hint: {
+            text: "<hint> The yellow letters, in order, are the answer.",
+            isUsed: false
+        },
+        education: {
+            topic: "<topic>",
+            commonCore: [
+                "X.X.X",
+            ],
+        }
+    },
+    intro: {
+        character: "Captain Fishbeard",
+        asset: "fishbeard.png",
+        dialogue : {
+            incomplete: "<dialogue>",
+            complete: "<dialogue>"
+        },
+    },
+},

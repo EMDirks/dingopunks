@@ -1,0 +1,42 @@
+body {
+    background-color: rgba(var(--off-black), 1);
+}
+
+.error__information {
+    width: calc(100% - 4rem);
+    max-width: 40rem;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.information__title {
+    font-family: 'Primer Print Bold';
+    color: rgba(var(--off-white), 1);
+    font-size: 3rem;
+    text-align: center;
+}
+
+.information__paragraph {
+    font-family: 'Primer Print Bold';
+    color: rgba(var(--off-white), 1);
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.information__paragraph a {
+    color: rgba(var(--gold), 1);
+}
+
+.information__button {
+    font-family: 'Primer Print Bold';
+    background-color: rgba(var(--gold), 1);
+    color: rgba(var(--off-black), 1);
+    font-size: 2rem;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+}

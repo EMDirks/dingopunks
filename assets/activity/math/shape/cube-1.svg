@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>cube-1</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-7144, -737)">
+            <g id="cube-1" transform="translate(7146, 737)">
+                <rect id="Rectangle" x="-2" y="0" width="240" height="150"></rect>
+                <g id="Group-7" transform="translate(53, 12)" stroke="#332925" stroke-width="3">
+                    <g id="Group">
+                        <g>
+                            <path d="M2.2137481,1.5 L94.772746,1.5 L131.248979,32.3354108 C131.408242,32.4710208 131.5,32.6696682 131.5,32.878844 L131.5,123.780348 C131.5,123.977444 131.420111,124.155881 131.290948,124.285044 C131.161785,124.414207 130.983348,124.494096 130.790247,124.494102 L35.117515,124.239308 C34.9283944,124.238804 34.7472047,124.163263 34.6137368,124.029273 L1.70806895,90.9950449 C1.57481672,90.8612721 1.5,90.6801494 1.5,90.4913338 L1.5,2.2137481 C1.5,2.01665201 1.57988898,1.83821498 1.70905198,1.70905198 C1.83821498,1.57988898 2.01665201,1.5 2.2137481,1.5 Z" id="Path-15" fill="#FBB941"></path>
+                            <g transform="translate(1.5, 1.5)" stroke-dasharray="5,5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="130" y1="123" x2="93.5" y2="89.5" id="Path-16"></line>
+                                <path d="M0.5,89.5 L0.5,0.5 L93.5,0.5" id="Path-14" transform="translate(47, 45) rotate(180) translate(-47, -45)"></path>
+                            </g>
+                        </g>
+                        <polyline id="Path-14" points="35 124 35 32 131 32"></polyline>
+                        <line x1="35.5" y1="32.5" x2="2.5" y2="2.5" id="Path-16"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

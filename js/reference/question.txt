@@ -1,0 +1,105 @@
+// multiple choice (4x)
+questions: {             
+    info: {
+        type: "multiple-choice"
+    },
+    contentArray: [
+        {
+            title: "[<g>1.] Lorem ipsum dolor sit amet?",
+            correctIndex: 0,
+            paragraph: [
+                "{L}orem",
+                "{L}orem",
+                "{L}orem",
+            ],
+        },
+        {
+            title: "[<g>2.] Lorem ipsum dolor sit amet?",
+            correctIndex: 0,
+            paragraph: [
+                "{L}orem",
+                "{L}orem",
+                "{L}orem",
+            ],
+        },
+        {
+            title: "[<g>3.] Lorem ipsum dolor sit amet?",
+            correctIndex: 0,
+            paragraph: [
+                "{L}orem",
+                "{L}orem",
+                "{L}orem",
+            ],
+        },
+        {
+            title: "[<g>4.] Lorem ipsum dolor sit amet?",
+            correctIndex: 0,
+            paragraph: [
+                "{L}orem",
+                "{L}orem",
+                "{L}orem",
+            ],
+        },
+    ],  
+    code: {
+        answer: "CODE",
+        userArray: ["","","",""]
+    },
+},
+
+// decoder (4x)
+questions: {             
+    info: {
+        type: "decoder"
+    },
+    contentArray: [
+        {
+            title: "[<g>1.] Lorem ipsum dolor sit amet?",
+            word: "L[O]REM",
+        },
+        {
+            title: "[<g>2.] Lorem ipsum dolor sit amet?",
+            word: "L[O]REM",
+        },
+        {
+            title: "[<g>3.] Lorem ipsum dolor sit amet?",
+            word: "L[O]REM",
+        },
+        {
+            title: "[<g>4.] Lorem ipsum dolor sit amet?",
+            word: "L[O]REM",
+        },
+    ],
+    code: {
+        answer: "CODE",
+        userArray: ["","","",""]
+    },
+}
+
+// crossword (7x6)
+questions: {            
+    info: {
+        type: "crossword"
+    },
+    contentArray: {
+        title: "Answer the questions to fill in the crossword.",
+        paragraph: [
+            'A. Lorem ipsum dolor sit amet?',
+            'B. Lorem ipsum dolor sit amet?',
+            'C. Lorem ipsum dolor sit amet?',     
+            'D. Lorem ipsum dolor sit amet?',                    
+        ],
+        puzzle: [
+            ["0","0","0","0","0","0","0"],
+            ["0","0","0","0","0","0","0"],
+            ["0","0","0","0","0","0","0"],
+            ["0","0","0","0","0","0","0"],
+            ["0","0","0","0","0","0","0"],
+            ["0","0","0","0","0","0","0"],
+        ]
+    },  
+    code: {
+        answer: "CODE",
+        userArray: ["","","",""]
+    },
+}

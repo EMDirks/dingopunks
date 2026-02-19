@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>acute-1</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="240" height="150"></rect>
+    </defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-3345, -2436)">
+            <g id="acute-1" transform="translate(3345, 2436)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g mask="url(#mask-2)">
+                    <g transform="translate(21, -0.1601)">
+                        <polyline id="Path-7" stroke="#332925" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" points="187.712723 9.30169113 3.27881753 142.312315 190.712723 142.312315"></polyline>
+                        <circle id="Oval" stroke="none" fill="#332925" fill-rule="evenodd" cx="4.5" cy="141.660097" r="4.5"></circle>
+                        <path d="M34.8645589,143 C35.5558324,133.841227 33.6009795,127.174561 29,123" id="Path-8" stroke="#332925" stroke-width="2.4" fill="none"></path>
+                        <path d="M190.60715,135.161673 L197.489116,148.925606 C197.736105,149.419584 197.535881,150.020257 197.041902,150.267246 C196.903047,150.336674 196.749934,150.372819 196.594689,150.372819 L182.830757,150.372819 C182.278472,150.372819 181.830757,149.925104 181.830757,149.372819 C181.830757,149.217574 181.866902,149.064461 181.936329,148.925606 L188.818295,135.161673 C189.065285,134.667695 189.665958,134.467471 190.159936,134.71446 C190.353464,134.811224 190.510386,134.968146 190.60715,135.161673 Z" id="Triangle" stroke="none" fill="#332925" fill-rule="evenodd" transform="translate(189.7127, 141.8728) rotate(-270) translate(-189.7127, -141.8728)"></path>
+                        <path d="M184.60715,5.16167348 L191.489116,18.9256055 C191.736105,19.419584 191.535881,20.020257 191.041902,20.2672463 C190.903047,20.336674 190.749934,20.3728191 190.594689,20.3728191 L176.830757,20.3728191 C176.278472,20.3728191 175.830757,19.9251038 175.830757,19.3728191 C175.830757,19.217574 175.866902,19.0644609 175.936329,18.9256055 L182.818295,5.16167348 C183.065285,4.66769498 183.665958,4.46747063 184.159936,4.71445988 C184.353464,4.81122358 184.510386,4.96814608 184.60715,5.16167348 Z" id="Triangle" stroke="none" fill="#332925" fill-rule="evenodd" transform="translate(183.7127, 11.8728) rotate(-306) translate(-183.7127, -11.8728)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

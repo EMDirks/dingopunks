@@ -1,0 +1,40 @@
+body {
+    background-color: rgba(var(--off-black), 1);
+}
+
+.button__answer-key {
+    font-family: 'Primer Print Bold';
+    font-size: 3vmin;
+    padding: 1vmin 2vmin;
+    border-radius: 0.5vmin;
+    background-color: rgba(var(--gold), 1);
+    color: rgba(var(--off-black), 1);
+    position: absolute;
+    top: 1vmin;
+    right: 1vmin;
+    z-index: 1;
+}
+
+.button__answer-key:hover {
+    background-color: rgba(var(--gold-light), 1);
+}
+
+.button__answer-key:active {
+    transform: scale(0.95);
+}
+
+.iframe__answer-key {
+    width: 100vw;
+    height: 100vh;
+	height: calc(var(--vh, 1vh) * 100);
+	max-width: 180vh;
+	z-index: 0;
+	position: relative;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	left: 50%;
+	transform: translateX(-50%);
+    box-sizing: border-box;
+    border: none;
+} 

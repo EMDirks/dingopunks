@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="150px" viewBox="0 0 240 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>segment-1</title>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-3345, -1929)">
+            <g id="segment-1" transform="translate(3345, 1929)">
+                <rect id="Rectangle" x="0" y="0" width="240" height="150"></rect>
+                <g transform="translate(0, 69)">
+                    <line x1="6.5" y1="6.5" x2="233.5" y2="6.5" id="Path-6" stroke="#332925" stroke-width="3"></line>
+                    <circle id="Oval" fill="#332925" cx="6.5" cy="6.5" r="6.5"></circle>
+                    <circle id="Oval" fill="#332925" cx="233.5" cy="6.5" r="6.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
