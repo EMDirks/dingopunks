@@ -118,6 +118,16 @@ Examples:
 - Two side-by-side: left `-2deg`, right `2deg`
 - Three docs: vary between `-3deg`, `2deg`, `-1deg`
 
+### Image File Naming Convention
+
+When the user provides images, **the number in the filename indicates the challenge order**:
+- `intro-1`, `activity-1`, `questions-1` → Challenge 1
+- `intro-2`, `activity-2`, `questions-2` → Challenge 2
+- `intro-3`, `activity-3`, `questions-3` → Challenge 3
+- `intro-4`, `activity-4`, `questions-4` → Challenge 4
+
+Use these numbers to match intros, activities, and questions to the correct challenge.
+
 ## Questions
 
 ### Multiple Choice
