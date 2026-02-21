@@ -109,14 +109,27 @@ activity: {
 }
 ```
 
-### Document Rotation Rule
+### Document Transform Rules
 
-**Always add slight rotation to document blocks (1-4 degrees).** Never use `rotate: "0deg"`. This creates a natural, hand-placed look.
+**Rotation:** Always add slight rotation (1-4 degrees). Never use `rotate: "0deg"`.
+
+**Position:** Keep `translateX` and `translateY` values small — typically **-10% to 10%**. Documents should be relatively close together, not spread far apart.
 
 Examples:
-- Single centered doc: `rotate: "2deg"` or `rotate: "-2deg"`
-- Two side-by-side: left `-2deg`, right `2deg`
-- Three docs: vary between `-3deg`, `2deg`, `-1deg`
+```javascript
+// Single doc (slight offset)
+{ translateX: "1%", translateY: "2%", rotate: "-2deg" }
+
+// Two side-by-side
+{ translateX: "-5%", translateY: "2%", rotate: "-2deg" }   // left
+{ translateX: "5%", translateY: "-3%", rotate: "3deg" }    // right
+
+// Four docs (2x2 grid)
+{ translateX: "-5%", translateY: "-5%", rotate: "-1deg" }  // top-left
+{ translateX: "5%", translateY: "-5%", rotate: "2deg" }    // top-right
+{ translateX: "-5%", translateY: "5%", rotate: "-2deg" }   // bottom-left
+{ translateX: "5%", translateY: "5%", rotate: "3deg" }     // bottom-right
+```
 
 ### Image File Naming Convention
 
