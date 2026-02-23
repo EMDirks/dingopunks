@@ -187,6 +187,12 @@ const analyticsArray = [
 
             // Poetry
             {
+                level: ['2nd','3rd'],
+                topic: 'Poetry',
+                resourceJS: 'topic/reading/poetry/poetry_2nd3rdGrade.js',
+                googleAnalyticsID: 'Psd52E4-11ZsmdS-YqndMds'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Poetry',
                 resourceJS: 'topic/reading/poetry/poetry_4th5thGrade.js',
@@ -194,6 +200,12 @@ const analyticsArray = [
             },
 
             // Grammar
+            {
+                level: ['2nd', '3rd'],
+                topic: 'Grammar',
+                resourceJS: 'topic/reading/grammar/grammar_2nd3rdGrade.js',
+                googleAnalyticsID: 'MY98S7-Vff2d6S-RqomXpx'
+            },
             {
                 level: ['4th', '5th'],
                 topic: 'Grammar',

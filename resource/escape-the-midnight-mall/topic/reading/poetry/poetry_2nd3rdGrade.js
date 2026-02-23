@@ -9,7 +9,7 @@ const resource =  {
 
     challengeArray: [
 
-        // ⭐ the candy cave - frogs in the cave
+        // ⭐ the candy cave
         {
 
             info: {
@@ -66,7 +66,7 @@ const resource =  {
                             transform: {
                                 translateX: "0%",
                                 translateY: "0%",
-                                rotate: "0deg",
+                                rotate: "2deg",
                             }
                         }
                     }
@@ -78,7 +78,7 @@ const resource =  {
                             padding: "double"
                         },
                         dimension: {
-                            width: "percent55",
+                            width: "auto",
                             height: "auto",
                         },
                         flexbox: {
@@ -90,17 +90,17 @@ const resource =  {
                         {
                             title: {
                                 font: 'default',
-                                size: 'medium',
+                                size: 'large',
                                 align: 'center'
                             },
                             subtitle: {
                                 font: 'default',
-                                size: 'small',
+                                size: 'mediumSmall',
                                 align: 'center'
                             },
                             passage: {
                                 font: 'default',
-                                size: 'mediumSmall',
+                                size: 'medium',
                                 align: 'center'
                             },
                             dimension: {
@@ -162,7 +162,7 @@ const resource =  {
 
         },
 
-        // ⭐ critterwerks - my robot hamster keeps escaping
+        // ⭐ critterwerks
         {
 
             info: {
@@ -199,33 +199,30 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: "My Robot Hamster Keeps Escaping",
+                                    text: "My Robot Hamster",
                                 },
                                 passage: {
-                                    text: "My name is Carl. And in my house,\
+                                    text: "<br>My name is Carl. And in my house,\
                                     <br>\
                                     my robot hamster keeps escaping.\
                                     <br>\
                                     <br>\
-                                    [<tal>At first, I put her in the closet.\
+                                    At first, I put her in the closet.\
                                     <br>\
                                     I closed it tight. I locked the door.\
                                     <br>\
-                                    But every morning, she was gone —\
+                                    But every morning, she was gone \u2014\
                                     <br>\
-                                    eating cheese in the kitchen.]\
-                                    <br>\
-                                    <br>\
-                                    She keeps escaping!\
+                                    eating cheese in the kitchen.\
                                     <br>\
                                     <br>\
-                                    [<tal>So I bought a metal box.\
+                                    So I bought a metal box.\
                                     <br>\
                                     I closed it tight. I locked the door.\
                                     <br>\
                                     But this morning, she was gone —\
                                     <br>\
-                                    eating cheese in the bedroom.]\
+                                    eating cheese in the bedroom.\
                                     <br>\
                                     <br>\
                                     She keeps escaping!"
@@ -235,8 +232,8 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "0%",
-                                rotate: "0deg",
+                                translateY: "2%",
+                                rotate: "1deg",
                             }
                         }
                     }
@@ -248,7 +245,7 @@ const resource =  {
                             padding: "double"
                         },
                         dimension: {
-                            width: "percent55",
+                            width: "auto",
                             height: "auto",
                         },
                         flexbox: {
@@ -260,7 +257,7 @@ const resource =  {
                         {
                             title: {
                                 font: 'default',
-                                size: 'medium',
+                                size: 'large',
                                 align: 'center'
                             },
                             passage: {
@@ -327,7 +324,6 @@ const resource =  {
 
         },
 
-
         // ⭐ prismatica - dress, boots, scarf
         {
 
@@ -381,8 +377,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-18%",
-                                translateY: "-20%",
+                                translateX: "-12%",
+                                translateY: "5%",
                                 rotate: "-2deg",
                             }
                         }
@@ -407,8 +403,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "18%",
-                                translateY: "-20%",
+                                translateX: "10%",
+                                translateY: "-10%",
                                 rotate: "2deg",
                             }
                         }
@@ -434,8 +430,8 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "18%",
-                                rotate: "0deg",
+                                translateY: "10%",
+                                rotate: "3deg",
                             }
                         }
                     }
@@ -494,12 +490,11 @@ const resource =  {
                         'D. Which poem uses "like" to compare two things: "[<u>Dress]" or "[<u>Scarf]"?',                    
                     ],
                     puzzle: [
-                        ["0","0","0","0","0","0","(D)4S"],
-                        ["0","0","(C)3S","0","0","0","C"],
-                        ["0","(B)T","3R","2U","(A)E","0","A"],
-                        ["0","0","O","0","0","0","R"],
-                        ["(A)S","2P","1I","4N","S","0","F"],
-                        ["0","0","M","0","0","0","0"],
+                        ["0","0","(C)3S","0","0","0","(D)4S"],
+                        ["0","(B)T","3R","2U","(A)E","0","C"],
+                        ["0","0","O","0","0","0","A"],
+                        ["(A)S","2P","1I","4N","S","0","R"],
+                        ["0","0","M","0","0","0","F"],
                         ["0","0","P","0","0","0","0"],
                     ]
                 },  
@@ -510,7 +505,6 @@ const resource =  {
             }
 
         },
-
 
         // ⭐ helio athletics - honesty and cleaning
         {
@@ -555,7 +549,7 @@ const resource =  {
                                     text: "By Robustus",
                                 },
                                 passage: {
-                                    text: "[<tal>There once was a warrior named Me,\
+                                    text: "There once was a warrior named Me,\
                                     <br>\
                                     as brave as a hero could be.\
                                     <br>\
@@ -563,14 +557,14 @@ const resource =  {
                                     <br>\
                                     but lying is for fools.\
                                     <br>\
-                                    Honesty is the best choice, you see!]"
+                                    Honesty is the best choice, you see!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "-20%",
-                                translateY: "0%",
+                                translateX: "0%",
+                                translateY: "-15%",
                                 rotate: "-2deg",
                             }
                         }
@@ -585,7 +579,7 @@ const resource =  {
                                     text: "By Robustus",
                                 },
                                 passage: {
-                                    text: "[<tal>Crumbs slipped from my hands as I ate,\
+                                    text: "Crumbs slipped from my hands as I ate,\
                                     <br>\
                                     and rolled far away from my plate.\
                                     <br>\
@@ -593,14 +587,14 @@ const resource =  {
                                     <br>\
                                     as much as they\'re able.\
                                     <br>\
-                                    So I cleaned up my mess and felt great!]"
+                                    So I cleaned up my mess and felt great!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "20%",
-                                translateY: "0%",
+                                translateX: "5%",
+                                translateY: "20%",
                                 rotate: "2deg",
                             }
                         }
@@ -610,10 +604,10 @@ const resource =  {
                     block: {
                         misc: {
                             material: 'paper',
-                            padding: "default"
+                            padding: "double"
                         },
                         dimension: {
-                            width: "percent40",
+                            width: "auto",
                             height: "auto",
                         },
                         flexbox: {
@@ -636,7 +630,7 @@ const resource =  {
                             passage: {
                                 font: 'default',
                                 size: 'mediumSmall',
-                                align: 'left'
+                                align: 'center'
                             },
                             dimension: {
                                 width: "full",

@@ -9,132 +9,6 @@ const resource =  {
 
     challengeArray: [
 
-        // ⭐ the candy cave - sentence structure
-        {
-
-            info: {
-                type: 'challenge',
-                title: "The Candy Cave",
-                asset: "the-candy-cave.png",
-                state: "incomplete",
-                hint: {
-                    text: "Read the notes, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
-                    isUsed: false
-                },
-                education: {
-                    topic: "Sentence Structure",
-                    commonCore: [],
-                }
-            },
-
-            intro: {
-                character: "Martin Shortnose",
-                asset: "noah-shortnose.png",
-                dialogue : {
-                    incomplete: "Oh no... the frogs are back! I wrote two notes. One is for the frogs, and one is for my friend Robustus. Can you make sure they are written the right way?",
-                    complete: "Thank you. I feel a little better now."
-                },
-            },
-
-            activity: {
-                info: {
-                    type: "dynamic",
-                    asset: "the-candy-cave.png",
-                },
-                blockArray: [
-                    {
-                        contentArray: [
-                            {
-                                passage: {
-                                    text: "To: The frogs<br>From: Martin Shortnose<br><br>This note is for the frogs that live nearby. [<sal>I don\'t like how loud you croak. I don\'t like how you eat all my candy.] Can you go somewhere else?"
-                                }
-                            }
-                        ],
-                        style: {
-                            transform: {
-                                translateX: "-18%",
-                                translateY: "0%",
-                                rotate: "-2deg",
-                            }
-                        }
-                    },
-                    {
-                        contentArray: [
-                            {
-                                passage: {
-                                    text: "To: Robustus<br>From: Martin Shortnose<br><br>Robustus, I\'m sorry to bother you. The frogs are back. They are scaring people away. [<u>Not happy about it.] I don\'t know what to do. Can you help me?"
-                                }
-                            }
-                        ],
-                        style: {
-                            transform: {
-                                translateX: "18%",
-                                translateY: "0%",
-                                rotate: "2deg",
-                            }
-                        }
-                    }
-                ],  
-                style: {              
-                    block: {
-                        misc: {
-                            material: 'paper',
-                            padding: "default"
-                        },
-                        dimension: {
-                            width: "percent40",
-                            height: "auto",
-                        },
-                        flexbox: {
-                            justifyContent: "center",
-                            alignItems: "center"
-                        }
-                    },                   
-                    contentArray: [
-                        {
-                            passage: {
-                                font: 'default',
-                                size: 'mediumSmall',
-                                align: 'left'
-                            },
-                            dimension: {
-                                width: "full",
-                                height: "auto",
-                            }
-                        }
-                    ]
-                },
-            },
-
-            questions: {            
-                info: {
-                    type: "crossword"
-                },
-                contentArray: {
-                    title: "Answer the questions to fill in the crossword puzzle.",
-                    paragraph: [
-                        'A. [<u>True] or [<u>false]: the underlined text is a full sentence.',
-                        'B. In the sentence "The frogs are back," what is the subject: [<u>frogs] or [<u>back]?',
-                        'C. [<u>True] or [<u>false]: Martin\'s note to the frogs has no errors.',
-                        'D. Which word can you use to join the two red sentences: [<u>and] or [<u>how]?',
-                    ],
-                    puzzle: [
-                        ["0","0","0","0","0","0","(C)T"],
-                        ["(B)F","R","O","G","1S","0","R"],
-                        ["0","0","0","0","0","0","U"],
-                        ["(A)F","A","L","3S","2E","0","4E"],
-                        ["0","0","0","0","0","0","0"],
-                        ["0","0","(D)A","N","D","0","0"],
-                    ]
-                },  
-                code: {
-                    answer: "SEND",
-                    userArray: ["","","",""]
-                },
-            },
-
-        },
-
         // ⭐ critterwerks - parts of speech
         {
 
@@ -175,14 +49,14 @@ const resource =  {
                                     text: "Rules for the Big Robot Battle",
                                 },
                                 passage: {
-                                    text: "If you want to enter the Big Robot Battle, your robot must follow these three rules.<br><br>[<sal>Rule A]: Your robot must be able to [<u>spray] slime.<br><br>[<sal>Rule B]: Your robot must wear orange shoes.<br><br>[<sal>Rule C]: Your robot must not [<u>wearing] roller skates.<br>[<sal>Rule D]: If your robot falls down, [<u>your robot] must stand back up."
+                                    text: "If you want to enter the Big Robot Battle, your robot must follow these four rules.<br><br>[<sal>Rule A]: Your robot must be able to [<u>spray] slime.<br><br>[<sal>Rule B]: Your robot must wear orange shoes.<br><br>[<sal>Rule C]: Your robot must not [<u>wearing] roller skates.<br><br>[<sal>Rule D]: If your robot falls down, [<u>your robot] must stand back up."
                                 }
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "0%",
+                                translateY: "2%",
                                 rotate: "-2deg",
                             }
                         }
@@ -207,7 +81,7 @@ const resource =  {
                         {
                             title: {
                                 font: 'default',
-                                size: 'medium',
+                                size: 'large',
                                 align: 'left'
                             },
                             passage: {
@@ -276,7 +150,6 @@ const resource =  {
 
         },
 
-
         // ⭐ helio athletics - capitalization and punctuation
         {
 
@@ -323,8 +196,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-22%",
-                                translateY: "-18%",
+                                translateX: "-6%",
+                                translateY: "-16%",
                                 rotate: "-1deg",
                             }
                         }
@@ -342,8 +215,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "22%",
-                                translateY: "-18%",
+                                translateX: "4%",
+                                translateY: "-3%",
                                 rotate: "2deg",
                             }
                         }
@@ -361,15 +234,15 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-22%",
-                                translateY: "18%",
+                                translateX: "2%",
+                                translateY: "6%",
                                 rotate: "-2deg",
                             }
                         }
                     },
                     {
                         tag: {
-                            text: "TIP D",
+                            text: "Tip D",
                         },
                         contentArray: [
                             {
@@ -380,8 +253,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "22%",
-                                translateY: "18%",
+                                translateX: "7%",
+                                translateY: "25%",
                                 rotate: "3deg",
                             }
                         }
@@ -395,7 +268,7 @@ const resource =  {
                         },
                         tag: {
                             font: 'default',
-                            size: 'small',
+                            size: 'mediumSmall',
                             align: 'left',
                             padding: 'default'
                         },
@@ -412,7 +285,7 @@ const resource =  {
                         {
                             passage: {
                                 font: 'default',
-                                size: 'mediumSmall',
+                                size: 'medium',
                                 align: 'left'
                             },
                             dimension: {
@@ -430,7 +303,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] Which word in \"Tip D\" should have a capital letter?",
+                        title: "[<g>1.] Which word in \"Tip D\" needs a capital letter?",
                         correctIndex: 0,
                         paragraph: [
                             "{I}t",
@@ -474,13 +347,138 @@ const resource =  {
 
         },
 
+        // ⭐ the candy cave - sentence structure
+        {
+
+            info: {
+                type: 'challenge',
+                title: "The Candy Cave",
+                asset: "the-candy-cave.png",
+                state: "incomplete",
+                hint: {
+                    text: "Read the notes, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    isUsed: false
+                },
+                education: {
+                    topic: "Sentence Structure",
+                    commonCore: [],
+                }
+            },
+
+            intro: {
+                character: "Martin Shortnose",
+                asset: "noah-shortnose.png",
+                dialogue : {
+                    incomplete: "Oh no... the frogs are back! I wrote two notes. One is for the frogs, and one is for my friend Robustus. Can you make sure they are written well?",
+                    complete: "Thank you. I feel a little better now."
+                },
+            },
+
+            activity: {
+                info: {
+                    type: "dynamic",
+                    asset: "the-candy-cave.png",
+                },
+                blockArray: [
+                    {
+                        contentArray: [
+                            {
+                                passage: {
+                                    text: "To: The frogs<br>From: Martin Shortnose<br><br>This note is for the frogs that live nearby. [<sal>I don\'t like how loud you croak. I don\'t like how you eat all my candy.] Can you go somewhere else?"
+                                }
+                            }
+                        ],
+                        style: {
+                            transform: {
+                                translateX: "-8%",
+                                translateY: "-2%",
+                                rotate: "-2deg",
+                            }
+                        }
+                    },
+                    {
+                        contentArray: [
+                            {
+                                passage: {
+                                    text: "To: Robustus<br>From: Martin Shortnose<br><br>Robustus, I\'m sorry to bother you. The frogs are back. They are scaring people away. [<u>Not happy about it.] I don\'t know what to do. Can you help?"
+                                }
+                            }
+                        ],
+                        style: {
+                            transform: {
+                                translateX: "7%",
+                                translateY: "5%",
+                                rotate: "2deg",
+                            }
+                        }
+                    }
+                ],  
+                style: {              
+                    block: {
+                        misc: {
+                            material: 'paper',
+                            padding: "default"
+                        },
+                        dimension: {
+                            width: "percent50",
+                            height: "auto",
+                        },
+                        flexbox: {
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }
+                    },                   
+                    contentArray: [
+                        {
+                            passage: {
+                                font: 'default',
+                                size: 'mediumSmall',
+                                align: 'left'
+                            },
+                            dimension: {
+                                width: "full",
+                                height: "auto",
+                            }
+                        }
+                    ]
+                },
+            },
+
+            questions: {            
+                info: {
+                    type: "crossword"
+                },
+                contentArray: {
+                    title: "Answer the questions to fill in the crossword puzzle.",
+                    paragraph: [
+                        'A. [<u>True] or [<u>false]: the underlined text is a full sentence.',
+                        'B. In the sentence "The frogs are back," what is the subject: [<u>frogs] or [<u>back]?',
+                        'C. [<u>True] or [<u>false]: Martin\'s note to the frogs has no errors.',
+                        'D. Which word can you use to join the two red sentences: [<u>and] or [<u>how]?',
+                    ],
+                    puzzle: [
+                        ["0","0","0","0","0","0","(C)T"],
+                        ["(B)F","R","O","G","1S","0","R"],
+                        ["0","0","0","0","0","0","U"],
+                        ["0","0","(A)F","(D)A","L","S","2E"],
+                        ["0","0","0","3N","0","0","0"],
+                        ["0","0","0","4D","0","0","0"],
+                    ]
+                },  
+                code: {
+                    answer: "SEND",
+                    userArray: ["","","",""]
+                },
+            },
+
+        },
 
         // ⭐ zeeb-plex - frequently confused words
         {
 
             info: {
                 type: 'challenge',
-                title: "Zeeb-Plex",
+                title: "ZeebPlex",
                 asset: "zeeb-plex.png",
                 state: "incomplete",
                 hint: {

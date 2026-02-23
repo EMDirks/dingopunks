@@ -12,7 +12,7 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-spring-2';
-const version = '3.3.96';
+const version = '3.4.01';
 
 // set order
 let splashOrder = [];
@@ -255,12 +255,13 @@ function drawSplash(){
     splashNav = createElement("p", ["splash-nav", "splash-nav--visible"],splashContainer);
     splashVersion = createElement("p", ["splash-version", "splash-version--visible"],splashContainer);
     splashVersion.textContent = "VERSION " + version;
-    splashNav.innerHTML = "<a href = 'https://playpuzzlepunks.com'>HOME</a> &#183; <a href = 'https://playpuzzlepunks.com/search'>SHOP</a> &#183; <a href = 'https://playpuzzlepunks.com/pages/contact.html'>CONTACT</a>"; 
+    splashNav.innerHTML = "<a href = 'https://playpuzzlepunks.com'>HOME</a> &#183; <a href = 'https://playpuzzlepunks.com/collections/all'>SHOP</a> &#183; <a href = 'https://playpuzzlepunks.com/pages/contact.html'>CONTACT</a>"; 
+    /*
     if (gameMode === 'preview'){
       splashVersion.innerHTML = "";
       splashNav.innerHTML = "";
     }
-
+   */
     if (gameMode ===  "free"){
       splashNav.style.display = "none";
       splashVersion.style.display = "none";
@@ -452,12 +453,15 @@ function addAccess(){
 
   };
 
-  splashTitle.innerHTML = '&nbsp &nbspEnter your <span class="character-select-text-player">access PIN</span><span class = "icon-clickable--splash">?</span>';
+  splashTitle.innerHTML = 'To play, enter your <span class="character-select-text-player">access PIN</span><span class = "icon-clickable--splash">?</span>';
+
+  if (gameMode === "preview"){
+    splashTitle.innerHTML = 'To view the answers, enter your <span class="character-select-text-player">access PIN</span><span class = "icon-clickable--splash">?</span>';
+  }
 
   let iconClickableSplash = document.querySelectorAll('.icon-clickable--splash');
 
   // Loop through each element in the NodeList and add an event listener
-
   iconClickableSplash.forEach(function(element) {
     element.addEventListener("click", function() { 
       createModal(
@@ -467,10 +471,6 @@ function addAccess(){
       )
     });
   });
-
-  if (gameMode === "preview"){
-    splashTitle.innerHTML = 'Enter your <span class="character-select-text-player">access PIN</span> to view the answers.';
-  }
   splashButton.textContent = 'Next';
   const accessInputContainer = createElement('div', ['access-input-container'], splashContent);
   for (let i = 0; i < 5; i++) {
@@ -501,7 +501,7 @@ function addAccess(){
   // promo
   addPromo();
   function addPromo(){
-    if (isPromoEnabled === true && gameMode !== "preview") {
+    if (isPromoEnabled === true /* && gameMode !== "preview" */) {
 
       // timer
       setTimeout(bringInPromo,2000);
