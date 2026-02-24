@@ -12,7 +12,7 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-spring-2';
-const version = '3.4.01';
+const version = '3.4.02';
 
 // set order
 let splashOrder = [];
@@ -388,9 +388,19 @@ function addAccess(){
   }
   function addPreviewBumper(){
     let bumperContainer = createElement('div', ['bumper-container--preview', 'bumper-container--visible'], splash);
-    setTimeout(hideBumperContainer,200);
+    let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
+    bumperLogo.style.backgroundImage = "url('assets/branding/logo/logo-answer-key.png')";
+    setTimeout(hideBumperContainer,1000);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
+    }
+    setTimeout(bringInBumperLogo,400);
+    function bringInBumperLogo(){
+      toggleClass(bumperLogo,'bumper-logo--hidden','bumper-logo--visible');
+    }
+    setTimeout(bringOutBumperLogo,1000);
+    function bringOutBumperLogo(){
+      toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
   }
 

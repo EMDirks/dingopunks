@@ -134,7 +134,7 @@
 .bumper-container--preview {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(var(--off-black), 1);
+    background-color: rgba(var(--salmon), 1);
     z-index: 999;
     transition: opacity 0.25s;
     top: 50%;

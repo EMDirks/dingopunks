@@ -133,13 +133,14 @@ Examples:
 
 ### Image File Naming Convention
 
-When the user provides images, **the number in the filename indicates the challenge order**:
-- `intro-1`, `activity-1`, `questions-1` → Challenge 1
-- `intro-2`, `activity-2`, `questions-2` → Challenge 2
-- `intro-3`, `activity-3`, `questions-3` → Challenge 3
-- `intro-4`, `activity-4`, `questions-4` → Challenge 4
+The number appended to `intro-`, `activity-`, and `questions-` indicates **challenge order**. All images with the same number belong to the same challenge:
 
-Use these numbers to match intros, activities, and questions to the correct challenge.
+- All **1**s → first challenge: `intro-1`, `activity-1`, `questions-1`
+- All **2**s → second challenge: `intro-2`, `activity-2`, `questions-2`
+- All **3**s → third challenge: `intro-3`, `activity-3`, `questions-3`
+- All **4**s → fourth challenge: `intro-4`, `activity-4`, `questions-4`
+
+Match intros, activities, and questions to the correct challenge by this number.
 
 ## Questions
 
@@ -195,6 +196,7 @@ questions: {
 | `[<tal>...]` | Poem text alignment | Wrap entire poem stanzas |
 | `[<em>text]` | Emphasis/italic | `"means [<em>not heavy]"` |
 | `[<i>text]` | Italic | `"This is [<i>not] correct"` |
+| `[<sal>text]` | Salmon/red (inference highlight) | `"[<sal>Leo's chest felt tight.]"` |
 | `<br>` | Line break | Use in poems between lines |
 
 ## Code Box (Final Challenge)

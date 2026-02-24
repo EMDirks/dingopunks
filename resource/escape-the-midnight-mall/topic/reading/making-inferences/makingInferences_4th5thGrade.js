@@ -497,7 +497,7 @@ const resource =  {
                                     text:   "Dear Prisma,\
                                     <br>\
                                     <br>\
-                                    I\'ve always worn gray and tried not to stand out. But for my birthday, I did something unsual: I bought a bright red scarf from your collection! I didn\'t think I could pull it off, but I wore it anyway.\
+                                    I\'ve always worn gray and tried not to stand out. But for my birthday, I did something unusual: I bought a bright red scarf from your collection! I didn\'t think I could pull it off, but I wore it anyway.\
                                     <br>\
                                     <br>\
                                     At school, people actually noticed \u2014 in a good way! I raised my hand in class without even thinking, and I laughed with my friends at lunch. That hasn\'t happened in a long time. I never knew a scarf could make me feel so different... braver, maybe.\
