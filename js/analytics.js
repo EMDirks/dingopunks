@@ -215,6 +215,12 @@ const analyticsArray = [
 
             // Making Inferences
             {
+                level: ['2nd', '3rd'],
+                topic: 'Making Inferences',
+                resourceJS: 'topic/reading/making-inferences/makingInferences_2nd3rdGrade.js',
+                googleAnalyticsID: '21674'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Making Inferences',
                 resourceJS: 'topic/reading/making-inferences/makingInferences_4th5thGrade.js',

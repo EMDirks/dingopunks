@@ -196,6 +196,7 @@ let style = {
       percent30: 'style-width--percent-30',
       percent32: 'style-width--percent-32',
       percent35: 'style-width--percent-35',
+      percent38: 'style-width--percent-38',
       percent40: 'style-width--percent-40',
       percent43: 'style-width--percent-43',
       percent45: 'style-width--percent-45',

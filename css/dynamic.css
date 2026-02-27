@@ -293,6 +293,10 @@ p {
     width: 35%;
 }
 
+.style-width--percent-38 {
+    width: 38%;
+}
+
 .style-width--percent-40 {
     width: 40%;
 }
@@ -487,11 +491,17 @@ p {
 }
 
 .style-text--salmon {
+    /*
     color: rgba(var(--salmon), 1);
+    */
+    color: #DF424D;
 }
 
 .style-text--blue {
+    /*
     color: rgba(var(--blue), 1);
+    */
+    color: #5A79BE;
 }
 
 .style-text--symbol {

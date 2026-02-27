@@ -12,7 +12,7 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-spring-2';
-const version = '3.4.02';
+const version = '3.4.06';
 
 // set order
 let splashOrder = [];

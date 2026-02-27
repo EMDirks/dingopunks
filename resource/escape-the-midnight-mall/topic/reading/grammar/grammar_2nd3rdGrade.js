@@ -23,7 +23,28 @@ const resource =  {
                 },
                 education: {
                     topic: "Parts of Speech",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.6",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.1c",
+                        "L.2.1d",
+                        "L.2.1e",
+                        "L.2.1f",
+                        "L.2.5",
+                        "L.2.6",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "L.3.1a",
+                        "L.3.1d",
+                        "L.3.3",
+                        "L.3.5",
+                        "RF.3.4",
+                        "RF.3.4a",
+                    ],
                 }
             },
 
@@ -31,8 +52,8 @@ const resource =  {
                 character: "Terrible Topsy",
                 asset: "topsy.png",
                 dialogue : {
-                    incomplete: "The Big Robot Battle is tomorrow! I wrote the rules by myself, but that was a bad idea... I don\'t think I picked the right words. Can you help me fix this?",
-                    complete: "Hee hee! Thanks for helping my fix it the rules!"
+                    incomplete: "The Big Robot Battle is tomorrow! I wrote the rules myself, but that was a bad idea... I don\'t think I picked the right words. Can you fix it?",
+                    complete: "Hee hee! Thanks for helping me fix the rules. I\'ll save you a seat tomorrow!"
                 },
             },
 
@@ -49,7 +70,7 @@ const resource =  {
                                     text: "Rules for the Big Robot Battle",
                                 },
                                 passage: {
-                                    text: "If you want to enter the Big Robot Battle, your robot must follow these four rules.<br><br>[<sal>Rule A]: Your robot must be able to [<u>spray] slime.<br><br>[<sal>Rule B]: Your robot must wear orange shoes.<br><br>[<sal>Rule C]: Your robot must not [<u>wearing] roller skates.<br><br>[<sal>Rule D]: If your robot falls down, [<u>your robot] must stand back up."
+                                    text: "If you want to enter the Big Robot Battle, your robot must follow these four rules.<br><br>[<sal>Rule A:] Your robot must be able to [<u>spray] slime.<br><br>[<sal>Rule B:] Your robot must wear orange shoes.<br><br>[<sal>Rule C:] Your robot must not [<u>wearing] roller skates.<br><br>[<sal>Rule D:] If your robot falls down, [<u>your robot] must stand back up."
                                 }
                             }
                         ],
@@ -104,7 +125,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] In Rule A, the underlined word is a ___ .",
+                        title: "[<g>1.] In \"Rule A,\" the underlined word is a ___ .",
                         correctIndex: 1,
                         paragraph: [
                             "No{u}n",
@@ -113,7 +134,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] Which word in Rule B is an adjective?",
+                        title: "[<g>2.] Which word in \"Rule B\" is an adjective?",
                         correctIndex: 1,
                         paragraph: [
                             "Robo{t}",
@@ -122,7 +143,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] True or false: the underlined word in Rule C should be [<i>wore].",
+                        title: "[<g>3.] True or false: the underlined word in \"Rule C\" should be [<i>wore].",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [
@@ -131,7 +152,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] Read Rule D. What pronoun can replace the underlined words?",
+                        title: "[<g>4.] Read \"Rule D.\" What pronoun can replace the underlined words?",
                         correctIndex: 3,
                         columns: 2,
                         paragraph: [
@@ -164,7 +185,18 @@ const resource =  {
                 },
                 education: {
                     topic: "Capitalization and Punctuation",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.7",
+                        "L.2.2",
+                        "L.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "L.3.2",
+                        "L.3.3",
+                        "RF.3.4",
+                        "RF.3.4a"
+                    ],
                 }
             },
 
@@ -172,8 +204,8 @@ const resource =  {
                 character: "Robustus the Great",
                 asset: "robustus-the-great.png",
                 dialogue : {
-                    incomplete: "I spent all month getting ready for battle! I wrote some tips for my team, but I wrote them too fast. I need you to fix them so I don\'t look silly!",
-                    complete: "Good work. I may call on you again, brave helper!"
+                    incomplete: "I spent all month getting ready for battle! I wrote some tips for my team, but I wrote them too fast. I need you to fix them so I don\'t look silly. Got it?",
+                    complete: "Hmm... very good work. I may call on you again, brave warrior."
                 },
             },
 
@@ -197,7 +229,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-6%",
-                                translateY: "-16%",
+                                translateY: "-13%",
                                 rotate: "-1deg",
                             }
                         }
@@ -228,7 +260,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "You must always try your best!"
+                                    text: "You must always do your best!"
                                 }
                             }
                         ],
@@ -325,7 +357,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "It needs a {c}omma between \"your\" and \"best\"",
-                            "\"Try\" should have {a} capital letter",
+                            "\"Do\" should have {a} capital letter",
                             "Ther{e} is nothing wrong with \"Tip C\"",
                         ],
                     },
@@ -361,7 +393,24 @@ const resource =  {
                 },
                 education: {
                     topic: "Sentence Structure",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.1f",
+                        "L.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "L.3.1h",
+                        "L.3.1i",
+                        "L.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        ""
+                    ],
                 }
             },
 
@@ -369,8 +418,8 @@ const resource =  {
                 character: "Martin Shortnose",
                 asset: "noah-shortnose.png",
                 dialogue : {
-                    incomplete: "Oh no... the frogs are back! I wrote two notes. One is for the frogs, and one is for my friend Robustus. Can you make sure they are written well?",
-                    complete: "Thank you. I feel a little better now."
+                    incomplete: "Oh no... the frogs are back! I wrote two notes. One is for the frogs, and one is for my friend Robustus. Can you make sure they\'re written well?",
+                    complete: "Oh my, thank you so much. I feel a just a bit better already."
                 },
             },
 
@@ -384,7 +433,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "To: The frogs<br>From: Martin Shortnose<br><br>This note is for the frogs that live nearby. [<sal>I don\'t like how loud you croak. I don\'t like how you eat all my candy.] Can you go somewhere else?"
+                                    text: "To: The frogs<br>From: Martin Shortnose<br><br>This note is for the frogs that live nearby. [<sal>I don\'t like how loudly you croak. I don\'t like how you eat all my candy.] Can you go somewhere else?"
                                 }
                             }
                         ],
@@ -400,7 +449,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "To: Robustus<br>From: Martin Shortnose<br><br>Robustus, I\'m sorry to bother you. The frogs are back. They are scaring people away. [<u>Not happy about it.] I don\'t know what to do. Can you help?"
+                                    text: "To: Robustus<br>From: Martin Shortnose<br><br>Robustus, I\'m sorry to bother you. The frogs are back. They are scaring people away. [<blu>Not happy about it.] I don\'t know what to do. Can you help?"
                                 }
                             }
                         ],
@@ -451,9 +500,9 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword puzzle.",
                     paragraph: [
-                        'A. [<u>True] or [<u>false]: the underlined text is a full sentence.',
+                        'A. [<u>True] or [<u>false]: the blue text is a full sentence.',
                         'B. In the sentence "The frogs are back," what is the subject: [<u>frogs] or [<u>back]?',
-                        'C. [<u>True] or [<u>false]: Martin\'s note to the frogs has no errors.',
+                        'C. [<u>True] or [<u>false]: There are no errors in Martin\'s note to the frogs.',
                         'D. Which word can you use to join the two red sentences: [<u>and] or [<u>how]?',
                     ],
                     puzzle: [
@@ -486,8 +535,31 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Frequently Confused Words",
-                    commonCore: [],
+                    topic: "Commonly Confused Words",
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.6",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.1d",
+                        "L.2.2",
+                        "L.2.3",
+                        "L.2.4",
+                        "L.2.4a",
+                        "L.2.5",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "L.3.1d",
+                        "L.3.2",
+                        "L.3.3",
+                        "L.3.4a",
+                        "L.3.5",
+                        "RF.3.4",
+                        "RF.3.4a",
+                    ],
                 }
             },
 
@@ -495,8 +567,8 @@ const resource =  {
                 character: "Zeeb",
                 asset: "zeeb.png",
                 dialogue : {
-                    incomplete: "Someone tore my computer board to pieces! I REALLY don\'t have time to fix this mess. Can you put the pieces back together for me?",
-                    complete: "Fine. You fixed it. I guess that was helpful."
+                    incomplete: "I can\'t believe it! Someone broke my computer board! I REALLY don\'t have time to fix this mess. Can you put the pieces back together?",
+                    complete: "Yeah, Yeah. Fine. You fixed it. I guess that was helpful."
                 },
             },
 
@@ -523,7 +595,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "B. The girls has two quarters.",
+                                    text: "B. The girl has two quarters.",
                                 }, 
                                 backgroundImage: {
                                     file: "20.png"
@@ -686,7 +758,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] Find the green puzzle piece in the middle. Is its underlined word right or wrong?",
+                        title: "[<g>4.] Find the green puzzle piece in the very middle. Is its underlined word right or wrong?",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [

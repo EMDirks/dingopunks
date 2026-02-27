@@ -23,7 +23,26 @@ const resource =  {
                 },
                 education: {
                     topic: "Elements and Structure",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.4",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "L.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.10"
+                    ],
                 }
             },
 
@@ -31,8 +50,8 @@ const resource =  {
                 character: "Martin Shortnose",
                 asset: "noah-shortnose.png",
                 dialogue : {
-                    incomplete: "I write poems when I\'m feeling stressed. It helps me sort out my feelings. And right now, I have a big problem... I need you to read about it! Will you?",
-                    complete: "Thanks for reading my poem. Come back anytime!"
+                    incomplete: "I write poems when I feel stressed. It helps me sort out my feelings. And right now, I have a problem... I need you to read about it! Will you?",
+                    complete: "Thanks for reading my poem, Puzzle Punks. Come back anytime!"
                 },
             },
 
@@ -127,7 +146,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] How many syllables are in line four?",
+                        title: "[<g>2.] How many syllables are in line three?",
                         correctIndex: 0,
                         paragraph: [
                             "{E}ight syllables",
@@ -176,7 +195,27 @@ const resource =  {
                 },
                 education: {
                     topic: "Comprehension",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.10"
+                    ],
                 }
             },
 
@@ -184,8 +223,8 @@ const resource =  {
                 character: "Terrible Topsy",
                 asset: "topsy.png",
                 dialogue : {
-                    incomplete: "Oh dear! A customer wrote me a letter! I want to read it, but my shop is such a mess right now. Can you read it for me and tell me what it says?",
-                    complete: "The robot hamster escapes every time? Awesome!"
+                    incomplete: "Oh dear! A customer wrote me a letter! I want to read it, but my shop is a mess. I need to clean up first! Can you read it for me?",
+                    complete: "The robot hamster escapes every time? Wow, that's pretty awesome!"
                 },
             },
 
@@ -220,7 +259,7 @@ const resource =  {
                                     <br>\
                                     I closed it tight. I locked the door.\
                                     <br>\
-                                    But this morning, she was gone —\
+                                    But this morning, she was gone \u2014\
                                     <br>\
                                     eating cheese in the bedroom.\
                                     <br>\
@@ -258,7 +297,7 @@ const resource =  {
                             title: {
                                 font: 'default',
                                 size: 'large',
-                                align: 'center'
+                                align: 'left'
                             },
                             passage: {
                                 font: 'default',
@@ -292,18 +331,18 @@ const resource =  {
                         title: "[<g>2.] Who is Carl?",
                         correctIndex: 1,
                         paragraph: [
-                            "A ro{b}ot hamster",
+                            "The ro{b}ot hamster",
                             "The robot h{a}mster\'s owner",
                             "A ch{e}f",
                         ],
                     },
                     {
-                        title: "[<g>3.] After escaping the metal box, where did the robot hamster start eating cheese?",
+                        title: "[<g>3.] After escaping the metal box, where did the robot hamster eat cheese?",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [
-                            "\"in the kit{c}hen\"",
-                            "\"in {t}he bedroom\"",
+                            "The kit{c}hen",
+                            "{T}he bedroom",
                         ],
                     },
                     {
@@ -338,7 +377,41 @@ const resource =  {
                 },
                 education: {
                     topic: "Vocabulary and Word Meaning",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.5",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.3",
+                        "L.2.4",
+                        "L.2.4a",
+                        "L.2.5",
+                        "L.2.5b",
+                        "RF.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "RI.2.4",
+                        "L.3.3",
+                        "L.3.3a",
+                        "L.3.4",
+                        "L.3.4a",
+                        "L.3.5c",
+                        "L.3.6",
+                        "RF.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RF.3.4c",
+                        "RL.3.1",
+                        "RL.3.4",
+                        "RL.3.10"
+                    ],
                 }
             },
 
@@ -346,8 +419,8 @@ const resource =  {
                 character: "Prisma",
                 asset: "prisma.png",
                 dialogue : {
-                    incomplete: "I wrote tags for my new clothes. They are, of course, amazing. But I need you to read them and make sure they make sense. Now get to work!",
-                    complete: "Good. I knew you could handle it. You may go now."
+                    incomplete: "I wrote some tags for my new clothes. They are, of course, amazing. But I need you to read them. Just make sure they make sense. Now get to work!",
+                    complete: "Very good. I did not think you could handle it. You may go now."
                 },
             },
 
@@ -378,7 +451,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-12%",
-                                translateY: "5%",
+                                translateY: "1%",
                                 rotate: "-2deg",
                             }
                         }
@@ -430,7 +503,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "10%",
+                                translateY: "12%",
                                 rotate: "3deg",
                             }
                         }
@@ -485,17 +558,17 @@ const resource =  {
                     title: "Answer the questions to fill in the crossword puzzle.",
                     paragraph: [
                         'A. Which word means the same thing as "twirls" — [<u>spins] or [<u>feels]?',
-                        'B. [<u>True] or [<u>false]: In the poem "Dress," "light" means [<em>not heavy.]',
+                        'B. [<u>True] or [<u>false]: In the poem "Dress," the word "light" means [<i>not heavy.]',
                         'C. Find the underlined word in "Boots." Which of these words is louder: [<u>tiptoe] or [<u>stomp]?',     
-                        'D. Which poem uses "like" to compare two things: "[<u>Dress]" or "[<u>Scarf]"?',                    
+                        'D. Which poem uses the word "like" to compare two things: "[<u>Dress]" or "[<u>Scarf]"?',                    
                     ],
                     puzzle: [
-                        ["0","0","(C)3S","0","0","0","(D)4S"],
-                        ["0","(B)T","3R","2U","(A)E","0","C"],
-                        ["0","0","O","0","0","0","A"],
-                        ["(A)S","2P","1I","4N","S","0","R"],
-                        ["0","0","M","0","0","0","F"],
-                        ["0","0","P","0","0","0","0"],
+                        ["0","0","0","0","0","0","(D)S"],
+                        ["0","(C)S","0","0","0","0","C"],
+                        ["0","(B)3T","2R","U","E","0","1A"],
+                        ["0","O","0","0","0","0","R"],
+                        ["0","M","0","0","0","0","F"],
+                        ["(A)S","P","I","N","4S","0","0"],
                     ]
                 },  
                 code: {
@@ -520,7 +593,32 @@ const resource =  {
                 },
                 education: {
                     topic: "Central Message or Lesson",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.10"
+                    ],
                 }
             },
 
@@ -529,7 +627,7 @@ const resource =  {
                 asset: "robustus-the-great.png",
                 dialogue : {
                     incomplete: "I had work to do today, but that sounded boring. So I wrote some battle cries instead! Read them and tell me if they make you feel brave.",
-                    complete: "Good work. I will remember your skills."
+                    complete: "Very fine work, Puzzle Punks. I will remember your skills forever."
                 },
             },
 
@@ -555,16 +653,16 @@ const resource =  {
                                     <br>\
                                     I could lie to look cool,\
                                     <br>\
-                                    but lying is for fools.\
+                                    but I'm not a fool.\
                                     <br>\
-                                    Honesty is the best choice, you see!"
+                                    Being honest is good, you see!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "-15%",
+                                translateY: "-12%",
                                 rotate: "-2deg",
                             }
                         }
@@ -651,7 +749,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "It i{s} fun to lie",
-                            "Hones{t}y is the best choice",
+                            "I{t} is a good idea to be honest",
                             "Warriors m{u}st always be cool",
                         ],
                     },
@@ -659,27 +757,27 @@ const resource =  {
                         title: "[<g>2.] Line ___ of \"Honesty\" shows the main message.",
                         correctIndex: 2,
                         paragraph: [
-                            "Th{r}ee",
-                            "{F}our",
+                            "O{n}e",
+                            "Tw{o}",
                             "F{i}ve",
                         ],
                     },
                     {
-                        title: "[<g>3.] In \"Cleaning,\" why does the poet clean up his mess?",
+                        title: "[<g>3.] In \"Cleaning,\" the poet cleans his mess because:",
                         correctIndex: 2,
                         paragraph: [
-                            "Because he feels bo{r}ed",
-                            "Bec{a}use crumbs feel itchy",
-                            "Because his frien{d}s use the same table",
+                            "He feels bo{r}ed",
+                            "Crumbs can get {i}tchy",
+                            "His frien{d}s use the table too",
                         ],
                     },
                     {
                         title: "[<g>4.] What lesson does \"Cleaning\" teach us?",
                         correctIndex: 0,
                         paragraph: [
-                            "It\'s important to clean up {y}our own mess",
+                            "It is important to clean up {y}our own mess",
                             "Sharin{g} food is a nice thing to do",
-                            "You should always use a pla{t}e",
+                            "You should always eat with a pla{t}e",
                         ],
                     },
                 ],  
