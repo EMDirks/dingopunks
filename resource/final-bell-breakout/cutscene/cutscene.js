@@ -31,7 +31,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Oh no... we\'ve got a SERIOUS situation. My cousin Frederick is back.',
+            text: 'This is bad, Puzzle Punks. Really bad.',
             textDelay: 500,
             characterSprite: {
                 name: "J.J. CRISPY",
@@ -42,7 +42,6 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                 },
-                
             },
             backgroundImage1: {
                 path: 'jjcrispy-alert.png',
@@ -55,7 +54,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },    
         {
-            text: 'He just opened some kind of freaky funhouse \u2014 and he challenged us to escape it.',
+            text: 'The final bell at Snobsley Academy will ring soon...',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-closeup.png',
@@ -65,7 +64,6 @@ let cutscene = {
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-500ms',
                 },
-
             },
             backgroundImage1: {
                 path: 'main.png',
@@ -79,7 +77,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'If we can, he\'ll finally admit I\'m smarter than him.',
+            text: '...but some students still have work to do.',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-1.png',
@@ -97,7 +95,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'But if we fail, he\'ll lock us inside... forever!',
+            text: 'If they don\'t finish in time, the Headmaster will send them to summer school!',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-2.png',
@@ -110,7 +108,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'So now I need you, Puzzle Punks. We have one chance to escape.',
+            text: 'That\'s why I brought you here.',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-3.png',
@@ -128,7 +126,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'I\'m willing to risk your lives on it.',
+            text: 'You\'re the only ones who can help!',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-3.png',
@@ -151,11 +149,11 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Step right up, kids. Welcome to Frederick\'s Funhouse!',
+            text: 'Oh my. They\'ve called in the Puzzle Punks?',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "FREDERICK",
+                name: "HEADMASTER SLIPPY",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -167,10 +165,10 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Think you\'re clever enough to break free?',
+            text: 'This will be fun. Let\'s see what you can do.',
             textStyle: 'badguy',
             characterSprite: {
-                name: "FREDERICK",
+                name: "HEADMASTER SLIPPY",
             },
             backgroundImage1: {
                 path: 'badguy.png',
@@ -179,19 +177,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Well, think again. Ha ha ha!',
-            textStyle: 'badguy',
-            characterSprite: {
-                name: "FREDERICK",
-            },
-            backgroundImage1: {
-                path: 'badguy.png',
-                scope: 'local',
-            },
-            backgroundColor: 'background-color-salmon'
-        },
-        {
-            text: 'Alright, Puzzle Punks. Pull up your socks and ready your brains.',
+            text: 'Okay, Puzzle Punks! Ready your brains.',
             textDelay: 500,
             characterSprite: {
                 name: "J.J. CRISPY",
@@ -215,7 +201,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'We\'re going in...',
+            text: 'The bell is ringing soon...',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-3.png',
@@ -241,7 +227,7 @@ let cutscene = {
 
     outro: [
         {
-            text: 'Hah! I knew I could count on you, Puzzle Punks!',
+            text: 'Right on! I knew I could count on you!',
             textDelay: 700,
             characterSprite: {
                 name: "J.J. CRISPY",
@@ -266,7 +252,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Let\'s get outta this creepy place.',
+            text: 'Safe from summer school. For now.',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-2.png',
@@ -279,7 +265,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'                 
         },
         {
-            text: 'Come aboard! I think I\'m ready for a nap...',
+            text: 'Come aboard! I think I\'m ready for the beach...',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-2.png',
@@ -315,11 +301,11 @@ let cutscene = {
 
     fail: [
         {
-            text: 'Ladies and gentlemen, your time is up!',
+            text: 'The bell has rung. Your time is up.',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "FREDERICK",
+                name: "HEADMASTER SLIPPY",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -331,10 +317,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Now you\'re locked inside my funhouse... forever!',
+            text: 'I sentence you to... summer school!',
             textStyle: 'badguy',
             characterSprite: {
-                name: "FREDERICK",
+                name: "HEADMASTER SLIPPY",
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -355,23 +341,23 @@ let localAssetArrays = {
           },
         onCharacterSelect: {
           asset: [
-              'resource/funhouse-fright/assets/cutscene/main.png',  
-              'resource/funhouse-fright/assets/cutscene/badguy.png', 
+              'resource/final-bell-breakout/assets/cutscene/main.png',  
+              'resource/final-bell-breakout/assets/cutscene/badguy.png', 
           ],
           delay: 1200,
         },
         onCutsceneStart: {
           asset: [
-              'resource/funhouse-fright/assets/activity/node/node-1.png',
-              'resource/funhouse-fright/assets/activity/node/node-2.png',
-              'resource/funhouse-fright/assets/activity/node/node-3.png',
-              'resource/funhouse-fright/assets/activity/node/node-4.png',
-              'resource/funhouse-fright/assets/activity/node/node-5.png',
-              'resource/funhouse-fright/assets/activity/character/character-1.png',
-              'resource/funhouse-fright/assets/activity/character/character-2.png',
-              'resource/funhouse-fright/assets/activity/character/character-3.png',
-              'resource/funhouse-fright/assets/activity/character/character-4.png',
-              'resource/funhouse-fright/assets/activity/character/character-5.png',
+                'resource/final-bell-breakout/assets/activity/node/node-1.png',
+                'resource/final-bell-breakout/assets/activity/node/node-2.png',
+              'resource/final-bell-breakout/assets/activity/node/node-3.png',
+              'resource/final-bell-breakout/assets/activity/node/node-4.png',
+              'resource/final-bell-breakout/assets/activity/node/node-5.png',
+            'resource/final-bell-breakout/assets/activity/character/character-1.png',
+            'resource/final-bell-breakout/assets/activity/character/character-2.png',
+              'resource/final-bell-breakout/assets/activity/character/character-3.png',
+              'resource/final-bell-breakout/assets/activity/character/character-4.png',
+              'resource/final-bell-breakout/assets/activity/character/character-5.png',
           ],
           delay: 1000,
         },
@@ -382,8 +368,9 @@ let localAssetArrays = {
         },
       }
     }
-  }
+}
   
+
 
 
   

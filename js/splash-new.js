@@ -11,8 +11,8 @@ let splashIndex = 0;
 let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
-const promoDataSet = 'promo-spring-2';
-const version = '3.4.06';
+const promoDataSet = 'promo-easter-2';
+const version = '3.4.11';
 
 // set order
 let splashOrder = [];
@@ -140,7 +140,7 @@ if (promoDataSet === 'promo-st-patricks-1'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-st-patricks-1.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
+      link: 'https://playpuzzlepunks.com/collections/digital-st-patricks-day-escape-rooms',
     }
   }
 }
@@ -213,6 +213,14 @@ if (promoDataSet === 'promo-spring-2'){
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-spring-2.png)',
       link: 'https://playpuzzlepunks.com/collections/digital-spring-escape-rooms',
+    }
+  }
+}
+if (promoDataSet === 'promo-easter-2'){
+  promoData = {
+    singleImage: {
+      backgroundImage: 'url(assets/website/promo/promo-easter-2.png)',
+      link: 'https://playpuzzlepunks.com/collections/digital-easter-escape-rooms',
     }
   }
 }

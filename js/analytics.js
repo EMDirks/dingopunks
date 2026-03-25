@@ -1205,6 +1205,47 @@ const analyticsArray = [
         ]
     },
 
+    // Wacky Workshop
+    {
+        title: 'Final Bell Breakout', 
+        path: 'final-bell-breakout',
+        season: 'End of Year',
+        resources: [
+
+            //////////
+            // Reading
+            //////////
+
+            // All
+
+            {
+                level: ['2nd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_2ndGrade.js',
+                googleAnalyticsID: 'LstyMfk-f5Dma8-371Yamfh'
+            },
+            {
+                level: ['3rd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_3rdGrade.js',
+                googleAnalyticsID: '9dd261G-da4Temd-HsuaKc'
+            },
+            {
+                level: ['4th'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_4thGrade.js',
+                googleAnalyticsID: 'Kf4s7Ty-dndyD18-sjU3smY'
+            },
+            {
+                level: ['5th'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_5thGrade.js',
+                googleAnalyticsID: 'Uayd8mm-qra5LxL-K9s2a6Y'
+            },
+
+        ]
+    },
+
     // Test
     {
     title: 'Test', 
