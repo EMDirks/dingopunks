@@ -23,7 +23,24 @@ const resource =  {
                 },
                 education: {
                     topic: "Main Idea and Supporting Details",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.2",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.10",
+                        "RL.2.1",                      
+                    ],
                 }
             },
 
@@ -52,7 +69,7 @@ const resource =  {
                                     text: "By Chef Marina",
                                 },
                                 passage: {
-                                    text:   "&nbsp;&nbsp;It is hard to make a jellyfish cake! [<sal>First, it is hard to make the cake the right shape.] It needs to be smooth and round, just like a jellyfish. [<blu>Also, it is hard to keep the taffy tentacles from getting messy.] They must be neat! Finally, it is hard to get the frosting color right. You have to mix blue and white very slowly."
+                                    text:   "&nbsp; &nbsp; It is hard to make a jellyfish cake! [<sal>First, it is hard to make the cake the right shape.] It needs to be smooth and round, just like a jellyfish. [<blu>Also, it is hard to keep the taffy tentacles from getting messy.] They must be neat! Finally, it is hard to get the frosting color right. You have to mix blue and white very slowly."
                                     }
                             }
                         ],
@@ -112,7 +129,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the main idea of \"Jellyfish Cake\"?",
+                        title: "[<g>1.] What is this text mostly about?",
                         correctIndex: 2,
                         paragraph: [
                             "Jell{y}fish are smooth and round",
@@ -139,7 +156,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] What two colors must you use for the frosting?",
+                        title: "[<g>4.] Which two colors must you mix for the frosting?",
                         correctIndex: 1,
                         paragraph: [
                             "Re{d} and blue",
@@ -170,7 +187,31 @@ const resource =  {
                 },
                 education: {
                     topic: "Context Clues and Vocabulary",
-                    commonCore: [],
+                    commonCore: [
+                       "CCRA.L.3",,
+                       "CCRA.L.4",
+                       "CCRA.L.5",
+                       "CCRA.L.6",
+                       "CCRA.R.1",
+                       "CCRA.R.4",
+                       "CCRA.R.7",
+                       "CCRA.R.10",
+                       "L.2.3",
+                       "L.2.4",
+                       "L.2.4a",
+                       "L.2.4d",
+                       "L.2.5",
+                       "L.2.5b",
+                       "L.2.6",
+                       "RF.2.3",
+                       "RF.2.4",
+                       "RF.2.4a",
+                       "RF.2.4b",
+                       "RF.2.4c",
+                       "RF.2.1",
+                       "RI.2.4",
+                       "RI.2.10",
+                    ],
                 }
             },
 
@@ -241,7 +282,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-5%",
-                                translateY: "18%",
+                                translateY: "12%",
                                 rotate: "3deg",
                             }
                         }
@@ -276,7 +317,7 @@ const resource =  {
                             font: 'default',
                             size: 'small',
                             align: 'left',
-                            padding: 'defaultNoBottom'
+                            padding: 'default'
                         },
                         dimension: {
                             width: "percent35",
@@ -367,12 +408,31 @@ const resource =  {
                 asset: "node-3.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the passage, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passage and look at the picture, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
                     topic: "Text Features",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.2",
+                        "RI.2.3",
+                        "RI.2.5",
+                        "RI.2.6",
+                        "RI.2.7",
+                        "RI.2.9",
+                        "RI.2.10",
+                        "RL.2.1",
+                        "RL.2.7",                  
+                    ],
                 }
             },
 
@@ -380,7 +440,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "They call me Robustus. My teacher says I have to read a recess rule book. A rule book! Ugh! Can you just read it for me?",
+                    incomplete: "They call me Robustus. My teacher says I have to read a some rules about recess. Rules about recess! Ugh! Can you just read it for me?",
                     complete: "Hmph. You did a good job. Now move on! I have important work to do."
                 },
             },   
@@ -486,7 +546,7 @@ const resource =  {
                         'A. Is the title of this text \"[<u>Recess]\" or \"[<u>Rules]\"?',
                         'B. What is the author\'s name?',
                         'C. [<u>True] or [<u>false]: the picture shows the boring cheese video.',     
-                        'D. D. Read the label under the picture. Was this picture taken on [<u>Monday] or [<u>Tuesday]?',                    
+                        'D. Read the label under the picture. Was this picture taken on [<u>Monday] or [<u>Tuesday]?',                    
                     ],
                     puzzle: [
                         ["(A)R","E","C","E","(B)S","3S","0"],
@@ -514,12 +574,30 @@ const resource =  {
                 asset: "node-4.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the poems, then type in the answers to the questions below. Use the cryptogram if you get stuck. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the poem, then type in the answers to the questions below. Use the cryptogram if you get stuck. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
                     topic: "Poetry",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.3",
+                        "L.2.5",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.4",
+                        "RL.2.10"
+                    ],
                 }
             },
 
@@ -528,7 +606,7 @@ const resource =  {
                 asset: "character-4.png",
                 dialogue : {
                     incomplete: "This science lab is so weird! My teacher wants me to read about a goo monster. I don't get it. Can you help me?",
-                    complete: "Oh, that makes sense! Thanks! I will be really careful now!"
+                    complete: "Oh, that makes sense! Thanks! I will be really careful now."
                 },
             },
 
@@ -542,7 +620,7 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: 'Mixing Goo',
+                                    text: 'Monster',
                                 },
                                 subtitle: {
                                     text: 'By Keith',
@@ -569,38 +647,27 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-3%",
-                                translateY: "0%",
-                                rotate: "-1deg",
+                                translateX: "0%",
+                                translateY: "6%",
+                                rotate: "3deg",
                             }
-                        }
+                        },
                     },
                     {
                         contentArray: [
                             {
-                                title: {
-                                    text: 'Think Before You Act',
-                                },
-                                subtitle: {
-                                    text: 'By Blake',
-                                },
-                                passage: {
-                                    text:   "Quinn mixed with no care\
-                                    <br>\
-                                    Out came a sticky monster\
-                                    <br>\
-                                    Think before you act"
-                                }
+                                cryptogram: {
+                                }, 
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "3%",
-                                translateY: "25%",
-                                rotate: "4deg",
+                                translateX: "2%",
+                                translateY: "5%",
+                                rotate: "-4deg",
                             }
                         }
-                    }
+                    },
                 ],  
                 style: {              
                     block: {
@@ -637,8 +704,18 @@ const resource =  {
                             dimension: {
                                 width: "full",
                                 height: "auto",
-                            }
-                        }
+                            },
+                            cryptogram: {
+                                font1: {
+                                    font: 'default',
+                                    size: 'medium'
+                                },
+                                font2: {
+                                    font: 'patterns',
+                                    size: 'medium'
+                                }
+                            },  
+                        },
                     ]
                 },
             },
@@ -649,7 +726,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the title of this poem?",
+                        title: "[<g>1.] What is the title of the poem?",
                         word: "MO[N]STER",
                     },
                     {
@@ -687,7 +764,23 @@ const resource =  {
                 },
                 education: {
                     topic: "Story Elements",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10"
+                    ],
                 }
             },
 
@@ -717,7 +810,7 @@ const resource =  {
                                     <br>\
                                     When she put them on, she won every race! She even beat her best friend Zara, who practiced for many hours every week. But it did not feel right. She knew the shoes were doing all the work, not her.\
                                     <br>\
-                                    Then one day, the shoes broke. Amy ran without them and came in last. So, she started to try harder. Every day she got a little faster. Every win felt real\
+                                    Then one day, the shoes broke. Amy ran without them and came in last. So, she started to try harder. Every day she got a little faster. Every win felt real.\
                                     <br>\
                                     That is when she learned something important. [<u>Cheating will not make you better. You have to work hard!]"
                                     }

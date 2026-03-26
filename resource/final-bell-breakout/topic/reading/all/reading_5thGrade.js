@@ -31,7 +31,7 @@ const resource =  {
                 character: "Student Mystica",
                 asset: "character-1.png",
                 dialogue : {
-                    incomplete: "Ah, just in time! I've been so busy gathering ingredients for this jellyfish cake... I simply haven't had a moment to read my instructor\'s advice. Would you let me know she\'s trying to say?",
+                    incomplete: "I've been so busy gathering ingredients for this jellyfish cake... I simply haven't had a moment to read my instructor\'s advice. Would you let me know what she\'s trying to say?",
                     complete: "Mm, yes. Somehow I knew it would all work out... Now, back to my cake."
                 },
             },
@@ -54,7 +54,7 @@ const resource =  {
                                 passage: {
                                     text:   "Jellyfish cakes are tricky to get right! Licorice strips can become tangled very easily, but they make fantastic tentacles. You just have to keep each one separate and dangly.\
                                     <br>\
-                                    Shaping the cake can also be a challenge. The body needs to be  smooth and round, or it simply won\'t look like a jellyfish. Did you know that real jellyfish have existed for millions of years?\
+                                    Shaping the cake can also be a challenge. The body needs to be smooth and round, or it simply won\'t look like a jellyfish. Did you know that real jellyfish have existed for millions of years?\
                                     <br>\
                                     Oh, I almost forgot \u2014 choosing the right frosting color is tough too! You'll need to mix your colors carefully to achieve the perfect pale blue or white glow.\
                                     <br>\
@@ -142,7 +142,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "\"Lico{r}ice strips can become tangled very easily\"",
-                            "\"Jellyfish have existed on for {m}illions of years\"",
+                            "\"Jellyfish have existed for {m}illions of years\"",
                             "\"It's m{y} personal favorite\"",
                         ],
                     },
@@ -187,7 +187,7 @@ const resource =  {
                 asset: "character-2.png",
                 dialogue : {
                     incomplete: "There are SO many cool tools in this class! My instructor said I have to read some warning labels first, but these words are super tricky. Wanna help me figure out what they mean?",
-                    complete: "Woohoo, let\'s go! Thanks for the help \u2014 I\'ve already got my eye on the gear crusher!"
+                    complete: "Woohoo, let\'s go! Thanks for the help \u2014 I\'ve already got my eye on the gear cruncher!"
                 },
             },
 
@@ -210,7 +210,7 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-6%",
+                                translateX: "-8%",
                                 translateY: "5%",
                                 rotate: "-2deg",
                             }
@@ -248,7 +248,7 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "-2%",
+                                translateX: "-4%",
                                 translateY: "5%",
                                 rotate: "3deg",
                             }
@@ -284,7 +284,7 @@ const resource =  {
                             font: 'default',
                             size: 'small',
                             align: 'left',
-                            padding: 'defaultNoBottom'
+                            padding: 'default'
                         },
                         dimension: {
                             width: "percent35",
@@ -329,7 +329,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] In \"Slammer,\" __ is an antonym of \"hazardous.\"",
+                        title: "[<g>2.] In \"Slammer,\" ___ is an antonym of \"hazardous.\"",
                         correctIndex: 1,
                         paragraph: [
                             "Ma{j}or",
@@ -377,7 +377,7 @@ const resource =  {
                 asset: "node-3.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the passage, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passages, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -390,7 +390,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been tasked with reviewing a pair of recess passes \u2014 a job far beneath my abilities. I refuse to waste my time on such tiny matters. Will you take care of them for me?",
+                    incomplete: "I, Robustus, have been tasked with reviewing a pair of recess passes \u2014 a job far beneath my abilities. I refuse to waste my time on such a tiny matter. Will you take care of it for me?",
                     complete: "Hmph. Fair work, I suppose. Now stand aside! I have greater things to accomplish."
                 },
             },   
@@ -414,7 +414,7 @@ const resource =  {
                                     text: "Recess Pass: Version One",
                                 },
                                 passage: {
-                                    text: "To earn this recess pass, all you need to do is stay focused and finish your work. [<u>There are a million things trying to distract you,] but don't let them! Just keep your eyes on the prize.",
+                                    text: "To earn this recess pass, all you need to do is stay focused and finish your work. There are [<u>a million things] trying to distract you, but don't let them! Just keep your eyes on the prize.",
                                 },  
                             }
                         ],
@@ -439,7 +439,7 @@ const resource =  {
                                     text: "Recess Pass: Version Two",
                                 },
                                 passage: {
-                                    text: "Think you deserve recess? Think again! This pass won\'t hand itself over without a fight. You must be a machine: working without stopping, never getting tired, never making mistakes, and always doing what you\'re told.",
+                                    text: "Think you deserve recess? Think again! This pass won\'t hand itself over without a fight. You must be a machine: work without stopping, never get tired, never make mistakes, and always do exactly what you\'re told.",
                                 }, 
                             }
                         ],
@@ -501,10 +501,10 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Is the underlined text in \"Recess Pass: Version One\" an [<u>idiom] or a [<u>simile]?',
-                        'B. [<u>Right] or [<u>wrong]: the phrase \"the early bird catches the worm\" is an example of [<i>literal language.]',
-                        'C. [<u>Right] or [<u>wrong]: the underlined text in \"Recess Pass: Version Two\" is a metaphor.',     
-                        'D. Does \"Recess Pass [<u>One]\" or \"Recess Pass [<u>Two]\" contain a simile?',                    
+                        'A. [<u>Right] or [<u>wrong]: the underlined text in \"Recess Pass: Version One\" is an onomatopoeia.',
+                        'B. Does the [<u>first] or [<u>third] sentence of \"Recess Pass: Version One\" contain an idiom?',
+                        'C. [<u>Right] or [<u>wrong]: the personification in \"Recess Pass: Version Two\" shows how hard this pass is to get.',     
+                        'D. Does \"Recess Pass: Version [<u>One]\" or \"Recess Pass: Version [<u>Two]\" contain a metaphor?',                    
                     ],
                     puzzle: [
                         ["0","(B)T","0","0","0","0","0"],
@@ -588,8 +588,8 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-3%",
-                                translateY: "0%",
-                                rotate: "-1deg",
+                                translateY: "9%",
+                                rotate: "4deg",
                             }
                         }
                     },
@@ -615,10 +615,25 @@ const resource =  {
                             transform: {
                                 translateX: "3%",
                                 translateY: "25%",
-                                rotate: "4deg",
+                                rotate: "3deg",
                             }
                         }
-                    }
+                    },
+                    {
+                        contentArray: [
+                            {
+                                cryptogram: {
+                                }, 
+                            }
+                        ],
+                        style: {
+                            transform: {
+                                translateX: "2%",
+                                translateY: "4%",
+                                rotate: "-4deg",
+                            }
+                        }
+                    },
                 ],  
                 style: {              
                     block: {
@@ -655,7 +670,17 @@ const resource =  {
                             dimension: {
                                 width: "full",
                                 height: "auto",
-                            }
+                            },
+                            cryptogram: {
+                                font1: {
+                                    font: 'default',
+                                    size: 'medium'
+                                },
+                                font2: {
+                                    font: 'patterns',
+                                    size: 'medium'
+                                }
+                            },  
                         }
                     ]
                 },
@@ -667,7 +692,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] There are ___ syllables in line 7 of \"Goo Monster.\"",
+                        title: "[<g>1.] There are ___ syllables in line 7 of \"Mix.\"",
                         word: "E[L]EVEN",
                     },
                     {
@@ -713,7 +738,7 @@ const resource =  {
                 character: "Student Kevin",
                 asset: "character-5.png",
                 dialogue : {
-                    incomplete: "HONK! My instructor wants me to see if this short story can be adapted into a play. Well, I\'m not going to even read it! Just tell me what it\'s all about, okay? HONK!",
+                    incomplete: "HONK! My director wants me to see if this short story can be adapted into a play. Well, I\'m not going to even read it! Just tell me what it\'s all about, okay? HONK!",
                     complete: "Fine. HONK. Don\'t expect any gratitude. Now leave me alone."
                 },
             },  
@@ -733,7 +758,7 @@ const resource =  {
                                 passage: {
                                     text:   "Maya was the slowest runner in gym class, and she couldn\'t have cared less. She never practiced and never pushed herself. Then one day, she discovered a pair of shiny sneakers tucked beneath a bench. The moment she laced them up, something changed. Her feet moved like they had a mind of their own, and suddenly she was crossing every finish line first!\
                                     <br>\
-                                    Maya wore them again the next day. And the day after that. The victories piled up easily \u2014 but somewhere along the way, the thrill began to fade. Each win began to feel unsatisfying in a way she couldn\'t quite explain. She found herself watching her friend Zara, who showed up early every morning and tried her hardest. She\'d been getting quietly getting faster for months.\
+                                    Maya wore them again the next day. And the day after that. The victories piled up easily \u2014 but somewhere along the way, the thrill began to fade. Each win began to feel unsatisfying in a way she couldn\'t quite explain. She found herself watching her friend Zara, who showed up early every morning and tried her hardest. She\'d been quietly getting faster for months.\
                                     <br>\
                                     Then one afternoon, the sneakers gave out entirely. The seams split, the soles cracked; they were done. Maya ran the next race without them and finished last. But somewhere in those final strides, something clicked. She picked up the ruined sneakers, dropped them in the trash, and showed up to gym early the next day.\
                                     <br>\

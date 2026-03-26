@@ -31,7 +31,7 @@ const resource =  {
                 character: "Student Mystica",
                 asset: "character-1.png",
                 dialogue : {
-                    incomplete: "Ah, you\'re just in time! I've been so busy gathering ingredients for this jellyfish cake that I haven\'t had a chance to read my instructor\'s tips. Would you let me know she\'s trying to say?",
+                    incomplete: "Ah, you\'re just in time! I've been so busy gathering ingredients for this jellyfish cake, that I haven\'t had a chance to read my instructor\'s tips. Would you let me know what she\'s trying to say?",
                     complete: "Mm, yes. I knew it would all work out... Now, back to my cake."
                 },
             },
@@ -54,7 +54,7 @@ const resource =  {
                                 passage: {
                                     text:   "Making a jellyfish cake is really hard! Long licorice strips hang down like tentacles, but they get tangled up easily. You have to be careful to keep each one separate and dangly.\
                                     <br>\
-                                    Frosting the cake can also be a problem. It needs to be perfectly smooth and round, or the cake won\'t look like a jellyfish. Did you know that real jellyfish have existed for millions of years?\
+                                    Frosting the cake can also be a problem. It needs to be perfectly smooth and round, or the cake won\'t look like a jellyfish. Did you know that real jellyfish have been here for millions of years?\
                                     <br>\
                                     Even though it's hard to make, this cake is always super tasty. It\'s my personal favorite."
                                     }
@@ -130,7 +130,7 @@ const resource =  {
                         title: "[<g>2.] Which of the following quotes is a key detail?",
                         correctIndex: 1,
                         paragraph: [
-                            "\"Real jellyfish have existed fo{r} millions of years\"",
+                            "\"Jellyfish have been here fo{r} millions of years\"",
                             "\"Frosting t{h}e cake can also be a problem\"",
                             "\"Th{i}s cake is always super tasty\"",
                         ],
@@ -185,7 +185,7 @@ const resource =  {
                 asset: "character-2.png",
                 dialogue : {
                     incomplete: "Oh boy! There are SO many cool tools in this class! My instructor said I have to read the warning labels first, but some of these words are really hard. Wanna help me figure them out?",
-                    complete: "Woohoo, let\'s go! Thanks for the help \u2014 I\'ve already got my eye on that laser cutter!"
+                    complete: "Woohoo, let\'s go! Thanks for the help \u2014 I\'ve already got my eye on that laser!"
                 },
             },
 
@@ -240,26 +240,26 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The blaster takes apart old metal pieces. It\'s easy to make mistakes with this tool, so it takes a [<u>skillful] person to use.",
+                                    text: "The blaster breaks apart old metal pieces. It\'s easy to make mistakes with this tool, so it takes a [<u>skillful] person to use.",
                                 },
                             },
                         ],
                         style: {
                             transform: {
                                 translateX: "-5%",
-                                translateY: "10%",
+                                translateY: "6%",
                                 rotate: "3deg",
                             }
                         }
                     },
                     {
                         tag: {
-                            text: "Laser Cutter",
+                            text: "Laser",
                         },
                         contentArray: [
                             {
                                 passage: {
-                                    text: "NEVER go near the laser cutter when it is turned on. This tool is super [<u>hazardous]. It\'s more dangerous than a lightning strike!",
+                                    text: "NEVER go near the laser when it is turned on. This tool is super [<u>hazardous]. It\'s more dangerous than a lightning strike!",
                                 },
                             },
                         ],
@@ -282,7 +282,7 @@ const resource =  {
                             font: 'default',
                             size: 'small',
                             align: 'left',
-                            padding: 'defaultNoBottom'
+                            padding: 'default'
                         },
                         dimension: {
                             width: "percent35",
@@ -338,7 +338,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] In \"Laser Cutter,\" __ is a synonym of \"hazardous.\"",
+                        title: "[<g>3.] In \"Laser,\" ___ is a synonym of \"hazardous.\"",
                         correctIndex: 1,
                         paragraph: [
                             "Supe{r}",
@@ -373,7 +373,7 @@ const resource =  {
                 asset: "node-3.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the passage, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passages, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -386,7 +386,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been tasked with checking over a pair of recess passes \u2014 a job far too small for me. I cannot waste my time on such tiny tasks. Will you take care of them for me?",
+                    incomplete: "I, Robustus, have been tasked with checking over a pair of recess passes \u2014 a job far too small for me. I cannot waste my time on such a tiny task. Will you take care of it for me?",
                     complete: "Hmph. Well done, I suppose. Now stand aside! Great things await me."
                 },
             },   
@@ -410,7 +410,7 @@ const resource =  {
                                     text: "Recess Pass: Version One",
                                 },
                                 passage: {
-                                    text: "To earn this recess pass, all you need to do is [<u>keep your eyes on the prize]; just stay focused and finish your work. Remember, the early bird catches the worm, so if you get your tasks done quickly, you\'ll have extra time to play.",
+                                    text: "To earn this recess pass, all you need to do is [<u>keep your eyes on the prize]. Just stay focused and finish your work. Remember, the early bird catches the worm, so if you get your tasks done quickly, you\'ll have extra time to play.",
                                 },  
                             }
                         ],
@@ -435,7 +435,7 @@ const resource =  {
                                     text: "Recess Pass: Version Two",
                                 },
                                 passage: {
-                                    text: "You think you deserve recess? Getting this pass is as hard as lifting a boulder. [<u>You must be a machine]: working without stopping, never getting tired, never making mistakes, always doing exactly what you\'re told.",
+                                    text: "You think you deserve recess? Getting this pass is as hard as lifting a boulder. [<u>You must be a machine]: work without stopping, never get tired, never make mistakes, and always do exactly what you\'re told.",
                                 }, 
                             }
                         ],
@@ -575,17 +575,17 @@ const resource =  {
                                     <br>\
                                     sticking to desks and chairs so tight.\
                                     <br>\
-                                    But when I stopped it, once and for all,\
+                                    Although I stopped it, once and for all,\
                                     <br>\
-                                    the room was SO sticky... oh, what a fright!"
+                                    the room was still gooey... oh, what a fright!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "-3%",
-                                translateY: "0%",
-                                rotate: "-1deg",
+                                translateY: "9%",
+                                rotate: "4deg",
                             }
                         }
                     },
@@ -614,7 +614,22 @@ const resource =  {
                                 rotate: "4deg",
                             }
                         }
-                    }
+                    },
+                    {
+                        contentArray: [
+                            {
+                                cryptogram: {
+                                }, 
+                            }
+                        ],
+                        style: {
+                            transform: {
+                                translateX: "2%",
+                                translateY: "4%",
+                                rotate: "-4deg",
+                            }
+                        }
+                    },
                 ],  
                 style: {              
                     block: {
@@ -651,7 +666,17 @@ const resource =  {
                             dimension: {
                                 width: "full",
                                 height: "auto",
-                            }
+                            },
+                            cryptogram: {
+                                font1: {
+                                    font: 'default',
+                                    size: 'medium'
+                                },
+                                font2: {
+                                    font: 'patterns',
+                                    size: 'medium'
+                                }
+                            },  
                         }
                     ]
                 },
@@ -709,7 +734,7 @@ const resource =  {
                 character: "Student Kevin",
                 asset: "character-5.png",
                 dialogue : {
-                    incomplete: "HONK! My instructor wants me to see if this short story can be turned into a play. Well, I\'m not going to even read it! Just tell me what it\'s all about, okay? HONK!",
+                    incomplete: "HONK! My director wants me to see if this short story can be turned into a play. Well, I\'m not going to even read it! Just tell me what it\'s all about, okay? HONK!",
                     complete: "Fine. HONK. Don\'t expect a thank you. Now leave me alone."
                 },
             },  
@@ -727,7 +752,7 @@ const resource =  {
                                     text: 'Maya\'s Magic Sneakers',
                                 },
                                 passage: {
-                                    text:   "Maya was the slowest runner in gym class, and she didn\'t care at all. She never practiced and never tried hard. Then one day, she found magic sneakers under a bench. When she put them on, her feet moved so fast she won every race.\
+                                    text:   "Maya was the slowest runner in gym class. She skipped practice, dragged her feet in every race, and didn\'t care one bit. Then one day, she found magic sneakers under a bench. When she put them on, her feet moved so fast she won every race.\
                                     <br>\
                                     The next day, Maya wore the magic sneakers again. She won easily. In fact, she kept winning race after race. But something felt wrong. Winning the same way over and over wasn\'t exciting anymore. She thought about how her friend Zara worked hard every single day to get faster on her own.\
                                     <br>\
@@ -822,7 +847,7 @@ const resource =  {
                         paragraph: [
                             "Rea{l} success comes from hard work",
                             "Maya foun{d} magic sneakers under a bench",
-                            "It\'s important to practice running ever{y} day",
+                            "It\'s important to run ever{y} day",
                         ],
                     },
                 ],  

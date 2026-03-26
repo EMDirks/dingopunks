@@ -32,7 +32,7 @@ const resource =  {
                 character: "Student Mystica",
                 asset: "character-1.png",
                 dialogue : {
-                    incomplete: "Oh, you\'re just in time! I've been so busy getting things ready for my jellyfish cake that I haven't read my teacher\'s tips. Can you tell me what she\'s trying to say?",
+                    incomplete: "Oh, you\'re just in time! I've been so busy making this jellyfish cake that I haven't read my teacher\'s tips. Can you tell me what she\'s trying to say?",
                     complete: "Mm, yes. I knew it would work out. Now, back to my cake!"
                 },
             },
@@ -53,9 +53,9 @@ const resource =  {
                                     text: "By Chef Marina",
                                 },
                                 passage: {
-                                    text:   "Making a jellyfish cake is tricky! [<sal>First, it\'s hard to get the taffy tentacles just right.] They get tangled super easily! You must keep each one perfectly straight.\
+                                    text:   "Making a jellyfish cake is tricky! [<sal>First, it\'s hard to get the taffy tentacles just right.] They get tangled super easily. You must keep each one perfectly straight.\
                                     <br>\
-                                    Frosting the cake can be hard too. It needs to be smooth and round, or it won\'t look like a jellyfish. By the way, did you know that there are more than 2,000 types of jellyfish?\
+                                    Frosting the cake can be hard too. It needs to be smooth and round, or it won\'t look like a jellyfish. By the way, did you know that there are more than 2,000 species of jellyfish?\
                                     <br>\
                                     Even though it\'s hard to make, this cake always tastes great. [<blu>I like other cakes too.] Chocolate is pretty good!"
                                     }
@@ -120,11 +120,11 @@ const resource =  {
                 contentArray: [
                     {
                         title: "[<g>1.] What is the main idea of \"Jellyfish Cake Tips\"?",
-                        correctIndex: 1,
+                        correctIndex: 0,
                         paragraph: [
-                            "It is diffi{c}ult to make a jellyfish cake",
-                            "Long {s}trips of licorice are hard to find",
-                            "Chef Marina Bubbles loves c{o}oking",
+                            "It is difficult to {m}ake a jellyfish cake",
+                            "Long {s}trips of taffy are hard to find",
+                            "Chef Marina loves c{o}oking",
                         ],
                     },
                     {
@@ -141,7 +141,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "\"Fro{s}ting the cake can be hard too\"",
-                            "\"There are {m}ore than 2,000 types of jellyfish\"",
+                            "\"There are {m}ore than 2,000 species of jellyfish\"",
                             "\"Chocolate is prett{y} good\"",
                         ],
                     },
@@ -151,7 +151,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "Tr{u}e",
-                            "Fal{s]e",
+                            "Fal{s}e",
                         ],
                     },
                 ],  
@@ -209,7 +209,7 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "2%",
+                                translateX: "0%",
                                 translateY: "4%",
                                 rotate: "-2deg",
                             }
@@ -241,7 +241,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The blaster gets really hot. Actually, it gets more than hot. It gets [scorching]! You need to be very careful around this tool.",
+                                    text: "The blaster gets really hot. Actually, it gets more than hot. It gets [<u>scorching]! You need to be very careful around this tool.",
                                 },
                             },
                         ],
@@ -283,7 +283,7 @@ const resource =  {
                             font: 'default',
                             size: 'small',
                             align: 'left',
-                            padding: 'defaultNoBottom'
+                            padding: 'default'
                         },
                         dimension: {
                             width: "percent35",
@@ -323,7 +323,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "A dangerous t{o}ol",
-                            "Som{e}thing brighter than the sun",
+                            "Dar{k} orange",
                             "Light from the {s}un",
                         ],
                     },
@@ -376,7 +376,7 @@ const resource =  {
                 asset: "node-3.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the passage, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passages, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -389,7 +389,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been asked to check some recess passes. This job is way too small for someone as great as me. Can you take care of them for me?",
+                    incomplete: "I, Robustus, have been asked to check some recess passes. This job is way too small for someone as great as me. Can you take care of it for me?",
                     complete: "Hmph. Good job, I guess. Now move aside! Great things await me."
                 },
             },   
@@ -413,7 +413,7 @@ const resource =  {
                                     text: "Recess Pass One",
                                 },
                                 passage: {
-                                    text: "I, Robustus, have been asked to check some recess passes. This job is way too small for someone as great as me. Can you take care of them for me?",
+                                    text: "Want this recess pass? [<u>Be like a cheetah] and zoom quickly through your work! If you\'re as busy as a bee, you'll earn that pass in no time.",
                                 },  
                             }
                         ],
@@ -438,7 +438,7 @@ const resource =  {
                                     text: "Recess Pass Two",
                                 },
                                 passage: {
-                                    text: "You think you deserve recess? Getting this pass is [<u>like lifting a mountain.] So don\'t get your hopes up. [<sal>You must be a robot]: work without stopping, don\'t make a single mistake, and always do exactly what you're told.",
+                                    text: "You think you deserve recess? Getting this pass is [<u>like lifting a mountain.] So don\'t get your hopes up. To get it, [<sal>you must be a robot]: work without stopping, don\'t make a single mistake, and always do exactly what you're told.",
                                 }, 
                             }
                         ],
@@ -500,10 +500,10 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Is the underlined text in \"Recess Pass: Version One\" an [<u>idiom] or a [<u>simile]?',
-                        'B. [<u>Right] or [<u>wrong]: the phrase \"the early bird catches the worm\" is an example of [<i>literal language.]',
-                        'C. [<u>Right] or [<u>wrong]: the underlined text in \"Recess Pass: Version Two\" is a metaphor.',     
-                        'D. Does \"Recess Pass [<u>One]\" or \"Recess Pass [<u>Two]\" contain a simile?',                    
+                        'A. Is the underlined text in \"Recess Pass One\" an [<u>simile] or a [<u>metaphor]?',
+                        'B. In all, are there [<u>one], [<u>two], or [<u>three] similes in \"Recess Pass One\"',
+                        'C. Does the underlined text in \"Recess Pass Two\" mean that getting the pass is [<u>hard] or [<u>easy]?',     
+                        'D. [<u>True] or [<u>false]: the red text in \"Recess Pass Two\" is a metaphor.',                    
                     ],
                     puzzle: [
                         ["(B)1T","0","0","0","0","0","0"],
@@ -587,8 +587,8 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-3%",
-                                translateY: "0%",
-                                rotate: "-1deg",
+                                translateY: "8%",
+                                rotate: "3deg",
                             }
                         }
                     },
@@ -602,7 +602,7 @@ const resource =  {
                                     text: 'By Blake',
                                 },
                                 passage: {
-                                    text:   "Quinn mixed with no care\
+                                    text:   "Keith mixed with no care\
                                     <br>\
                                     Out came a sticky monster\
                                     <br>\
@@ -617,7 +617,23 @@ const resource =  {
                                 rotate: "4deg",
                             }
                         }
-                    }
+                    },
+                    {
+                        contentArray: [
+                            {
+                                cryptogram: {
+                                }, 
+                            }
+                        ],
+                        style: {
+                            transform: {
+                                translateX: "2%",
+                                translateY: "4%",
+                                rotate: "-2deg",
+                            }
+                        }
+                    },
+                    
                 ],  
                 style: {              
                     block: {
@@ -654,7 +670,17 @@ const resource =  {
                             dimension: {
                                 width: "full",
                                 height: "auto",
-                            }
+                            },
+                            cryptogram: {
+                                font1: {
+                                    font: 'default',
+                                    size: 'medium'
+                                },
+                                font2: {
+                                    font: 'patterns',
+                                    size: 'medium'
+                                }
+                            },  
                         }
                     ]
                 },
@@ -732,7 +758,7 @@ const resource =  {
                                 passage: {
                                     text:   "Amy was the slowest runner in gym class. She didn\'t care. She never practiced and never tried. Then one day, she found magic sneakers under a bench. When she put them on, her feet moved so fast she won every race!\
                                     <br>\
-                                    The next day, Amy wore the sneakers again. She won easily. She kept winning race after race. But something felt wrong. Winning this way wasn\'t fun. She thought about her friend Zara, who worked hard every single day to get faster on her own.\
+                                    The next day, Amy wore the sneakers again. She won easily. In fact, she kept winning race after race. But something felt wrong. Winning this way wasn\'t fun. She thought about her friend Zara, who worked hard every day to get faster on her own.\
                                     <br>\
                                     A few weeks later, Amy\'s sneakers fell apart. She ran without them and came in last. But as she ran, she learned something important. [<u>Real success comes from hard work, not shortcuts.] So, she threw the sneakers away and started to practice. Every day she got a little faster. Every win felt real."
                                     }

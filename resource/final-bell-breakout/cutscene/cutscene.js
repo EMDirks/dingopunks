@@ -126,7 +126,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'You\'re the only ones who can help!',
+            text: 'You\'re the only ones who can help.',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-3.png',
@@ -227,7 +227,7 @@ let cutscene = {
 
     outro: [
         {
-            text: 'Right on! I knew I could count on you!',
+            text: 'Right on! I knew I could count on you.',
             textDelay: 700,
             characterSprite: {
                 name: "J.J. CRISPY",
