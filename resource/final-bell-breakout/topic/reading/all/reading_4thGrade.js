@@ -386,7 +386,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been tasked with checking over a pair of recess passes \u2014 a job far too small for me. I cannot waste my time on such a tiny task. Will you take care of it for me?",
+                    incomplete: "I, Robustus, have been asked to check over a pair of recess passes \u2014 a job far too small for me. I cannot waste my time on such a tiny task. Will you take care of it?",
                     complete: "Hmph. Well done, I suppose. Now stand aside! Great things await me."
                 },
             },   
@@ -500,7 +500,7 @@ const resource =  {
                         'A. Is the underlined text in \"Recess Pass: Version One\" an [<u>idiom] or a [<u>simile]?',
                         'B. [<u>Right] or [<u>wrong]: the phrase \"the early bird catches the worm\" is an example of [<i>literal language.]',
                         'C. [<u>Right] or [<u>wrong]: the underlined text in \"Recess Pass: Version Two\" is a metaphor.',     
-                        'D. Does \"Recess Pass [<u>One]\" or \"Recess Pass [<u>Two]\" contain a simile?',                    
+                        'D. Does \"Recess Pass: Version [<u>One]\" or \"Recess Pass: Version [<u>Two]\" contain a simile?',                    
                     ],
                     puzzle: [
                         ["0","(C)R","(A)I","1G","H","T","0"],
@@ -577,7 +577,7 @@ const resource =  {
                                     <br>\
                                     Although I stopped it, once and for all,\
                                     <br>\
-                                    the room was still gooey... oh, what a fright!"
+                                    the room was all gooey. Oh what a fright!"
                                 }
                             }
                         ],
@@ -688,7 +688,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the rhyme scheme of \"Mix\"?",
+                        title: "[<g>1.] Stanza 2 of \"Mix\" has this rhyme scheme:",
                         word: "A[B]AB",
                     },
                     {
@@ -772,7 +772,7 @@ const resource =  {
                 style: {              
                     block: {
                         misc: {
-                            material: 'paper',
+                            material: 'metal',
                             padding: "double"
                         },
                         dimension: {
@@ -847,7 +847,7 @@ const resource =  {
                         paragraph: [
                             "Rea{l} success comes from hard work",
                             "Maya foun{d} magic sneakers under a bench",
-                            "It\'s important to run ever{y} day",
+                            "It\'s important to run as fast as pos{s}ible",
                         ],
                     },
                 ],  

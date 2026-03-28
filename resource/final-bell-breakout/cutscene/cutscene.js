@@ -265,7 +265,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'                 
         },
         {
-            text: 'Come aboard! I think I\'m ready for the beach...',
+            text: 'Come aboard! I think I\'m ready for a long vacation...',
             characterSprite: {
                 name: "J.J. CRISPY",
                 path: 'jjcrispy-2.png',

@@ -12,7 +12,7 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-easter-2';
-const version = '3.4.11';
+const version = '3.4.12';
 
 // set order
 let splashOrder = [];

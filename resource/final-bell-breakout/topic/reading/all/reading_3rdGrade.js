@@ -122,7 +122,7 @@ const resource =  {
                         title: "[<g>1.] What is the main idea of \"Jellyfish Cake Tips\"?",
                         correctIndex: 0,
                         paragraph: [
-                            "It is difficult to {m}ake a jellyfish cake",
+                            "{M}aking a jellyfish cake is tricky",
                             "Long {s}trips of taffy are hard to find",
                             "Chef Marina loves c{o}oking",
                         ],
@@ -389,7 +389,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been asked to check some recess passes. This job is way too small for someone as great as me. Can you take care of it for me?",
+                    incomplete: "I, Robustus, have been asked to check some recess passes. This job is way too small for someone as great as me. Can you take care of it?",
                     complete: "Hmph. Good job, I guess. Now move aside! Great things await me."
                 },
             },   
@@ -413,7 +413,7 @@ const resource =  {
                                     text: "Recess Pass One",
                                 },
                                 passage: {
-                                    text: "Want this recess pass? [<u>Be like a cheetah] and zoom quickly through your work! If you\'re as busy as a bee, you'll earn that pass in no time.",
+                                    text: "Want this recess pass? [<u>Be like a cheetah] and zoom quickly through your work! If you\'re as busy as a bee, you'll earn this pass in no time.",
                                 },  
                             }
                         ],
@@ -500,9 +500,9 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Is the underlined text in \"Recess Pass One\" an [<u>simile] or a [<u>metaphor]?',
-                        'B. In all, are there [<u>one], [<u>two], or [<u>three] similes in \"Recess Pass One\"',
-                        'C. Does the underlined text in \"Recess Pass Two\" mean that getting the pass is [<u>hard] or [<u>easy]?',     
+                        'A. Is the underlined text in \"Recess Pass One\" a [<u>simile] or a [<u>metaphor]?',
+                        'B. In all, are there [<u>one], [<u>two], or [<u>three] similes in \"Recess Pass One\"?',
+                        'C. Does the underlined text in \"Recess Pass Two\" mean that getting this pass is [<u>hard] or [<u>easy]?',     
                         'D. [<u>True] or [<u>false]: the red text in \"Recess Pass Two\" is a metaphor.',                    
                     ],
                     puzzle: [
@@ -776,7 +776,7 @@ const resource =  {
                 style: {              
                     block: {
                         misc: {
-                            material: 'paper',
+                            material: 'metal',
                             padding: "double"
                         },
                         dimension: {
@@ -844,12 +844,12 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] True / false: the underlined sentence is the theme of this story.",
+                        title: "[<g>4.] Does the underlined sentence tell us the theme of this story?",
                         columns: 2,
                         correctIndex: 0,
                         paragraph: [
-                            "Tru{e}",
-                            "F{a}lse",
+                            "Y{e}s",
+                            "N{o}",
                         ],
                     },
                 ],  

@@ -1,0 +1,3 @@
+# Cloudflare Pages (Wrangler direct upload)
+name = "puzzle-punks-game"
+pages_build_output_dir = "."

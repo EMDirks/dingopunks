@@ -31,7 +31,7 @@ const resource =  {
                 character: "Student Mystica",
                 asset: "character-1.png",
                 dialogue : {
-                    incomplete: "I've been so busy gathering ingredients for this jellyfish cake... I simply haven't had a moment to read my instructor\'s advice. Would you let me know what she\'s trying to say?",
+                    incomplete: "I've been so busy gathering ingredients for this jellyfish cake, I simply haven't had a moment to read my instructor\'s advice. Would you let me know what she\'s trying to say?",
                     complete: "Mm, yes. Somehow I knew it would all work out... Now, back to my cake."
                 },
             },
@@ -54,7 +54,7 @@ const resource =  {
                                 passage: {
                                     text:   "Jellyfish cakes are tricky to get right! Licorice strips can become tangled very easily, but they make fantastic tentacles. You just have to keep each one separate and dangly.\
                                     <br>\
-                                    Shaping the cake can also be a challenge. The body needs to be smooth and round, or it simply won\'t look like a jellyfish. Did you know that real jellyfish have existed for millions of years?\
+                                    Shaping the cake can also be a challenge. The body needs to be smooth and round, or it just won\'t look like a jellyfish. Did you know that real jellyfish have existed for millions of years?\
                                     <br>\
                                     Oh, I almost forgot \u2014 choosing the right frosting color is tough too! You'll need to mix your colors carefully to achieve the perfect pale blue or white glow.\
                                     <br>\
@@ -187,7 +187,7 @@ const resource =  {
                 asset: "character-2.png",
                 dialogue : {
                     incomplete: "There are SO many cool tools in this class! My instructor said I have to read some warning labels first, but these words are super tricky. Wanna help me figure out what they mean?",
-                    complete: "Woohoo, let\'s go! Thanks for the help \u2014 I\'ve already got my eye on the gear cruncher!"
+                    complete: "Woohoo, let\'s go! Thanks for the help; I\'ve already got my eye on the gear cruncher!"
                 },
             },
 
@@ -261,7 +261,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "NEVER go near the slammer when it is turned on. Unlike the other major tools in this room, which are perfectly safe, this one is [<u>hazardous].",
+                                    text: "NEVER go near the slammer when it\'s turned on. Like the other major tools in this room, it is not safe. It is extremely [<u>hazardous].",
                                 },
                             },
                         ],
@@ -390,7 +390,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "I, Robustus, have been tasked with reviewing a pair of recess passes \u2014 a job far beneath my abilities. I refuse to waste my time on such a tiny matter. Will you take care of it for me?",
+                    incomplete: "I, Robustus, have been tasked with reviewing a pair of recess passes \u2014 a job far beneath my abilities. I refuse to waste my time on such a tiny matter. You shall take care of it for me!",
                     complete: "Hmph. Fair work, I suppose. Now stand aside! I have greater things to accomplish."
                 },
             },   
@@ -414,7 +414,7 @@ const resource =  {
                                     text: "Recess Pass: Version One",
                                 },
                                 passage: {
-                                    text: "To earn this recess pass, all you need to do is stay focused and finish your work. There are [<u>a million things] trying to distract you, but don't let them! Just keep your eyes on the prize.",
+                                    text: "To earn this recess pass, all you need to do is stay focused and finish your work. There might be [<u>a million things] trying to distract you, but don't let them! Just keep your eyes on the prize.",
                                 },  
                             }
                         ],
@@ -575,7 +575,7 @@ const resource =  {
                                     and out popped a monster, made out of goo!\
                                     <br>\
                                     <br>\
-                                    The dreadful creature slinked down the hall,\
+                                    The dreadful creature slunk down the hall,\
                                     <br>\
                                     sticking to desks impossibly tight.\
                                     <br>\
@@ -758,7 +758,7 @@ const resource =  {
                                 passage: {
                                     text:   "Maya was the slowest runner in gym class, and she couldn\'t have cared less. She never practiced and never pushed herself. Then one day, she discovered a pair of shiny sneakers tucked beneath a bench. The moment she laced them up, something changed. Her feet moved like they had a mind of their own, and suddenly she was crossing every finish line first!\
                                     <br>\
-                                    Maya wore them again the next day. And the day after that. The victories piled up easily \u2014 but somewhere along the way, the thrill began to fade. Each win began to feel unsatisfying in a way she couldn\'t quite explain. She found herself watching her friend Zara, who showed up early every morning and tried her hardest. She\'d been quietly getting faster for months.\
+                                    Maya wore them again the next day. And the day after that. The victories piled up easily, but somewhere along the way, the thrill began to fade. She found herself watching her friend Zara, who showed up early every morning and tried her hardest. She\'d been quietly getting faster for months.\
                                     <br>\
                                     Then one afternoon, the sneakers gave out entirely. The seams split, the soles cracked; they were done. Maya ran the next race without them and finished last. But somewhere in those final strides, something clicked. She picked up the ruined sneakers, dropped them in the trash, and showed up to gym early the next day.\
                                     <br>\
@@ -778,7 +778,7 @@ const resource =  {
                 style: {              
                     block: {
                         misc: {
-                            material: 'paper',
+                            material: 'metal',
                             padding: "double"
                         },
                         dimension: {

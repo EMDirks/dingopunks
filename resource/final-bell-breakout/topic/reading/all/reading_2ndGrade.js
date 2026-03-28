@@ -48,7 +48,7 @@ const resource =  {
                 character: "Student Mystica",
                 asset: "character-1.png",
                 dialogue : {
-                    incomplete: "Oh, you are just in time! I am making a jellyfish cake. But I have not read my teacher's tips yet. Can you help me?",
+                    incomplete: "Oh, you are just in time! I am making a jellyfish cake. But I have not read my teacher's note yet. Can you help me?",
                     complete: "Great! I knew you could help! Now, back to making this tasty cake."
                 },
             },
@@ -69,7 +69,7 @@ const resource =  {
                                     text: "By Chef Marina",
                                 },
                                 passage: {
-                                    text:   "&nbsp; &nbsp; It is hard to make a jellyfish cake! [<sal>First, it is hard to make the cake the right shape.] It needs to be smooth and round, just like a jellyfish. [<blu>Also, it is hard to keep the taffy tentacles from getting messy.] They must be neat! Finally, it is hard to get the frosting color right. You have to mix blue and white very slowly."
+                                    text:   "&nbsp; &nbsp; It is hard to make a jellyfish cake! [<sal>First, it is hard to make the cake the right shape.] It needs to be smooth and round, just like a jellyfish. [<blu>Also, it is hard to keep the taffy tentacles from getting messy.] They must be neat! Finally, it is hard to make the frosting. You have to mix blue and white very slowly."
                                     }
                             }
                         ],
@@ -132,7 +132,7 @@ const resource =  {
                         title: "[<g>1.] What is this text mostly about?",
                         correctIndex: 2,
                         paragraph: [
-                            "Jell{y}fish are smooth and round",
+                            "Jell{y}fish are round",
                             "Jellyfish cake tastes g{o}od",
                             "It is hard to {m}ake a jellyfish cake",
                         ],
@@ -188,7 +188,7 @@ const resource =  {
                 education: {
                     topic: "Context Clues and Vocabulary",
                     commonCore: [
-                       "CCRA.L.3",,
+                       "CCRA.L.3",
                        "CCRA.L.4",
                        "CCRA.L.5",
                        "CCRA.L.6",
@@ -256,7 +256,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "This tool cleans dirty and rusty pieces of metal. When you\'re done, they look [<u>polished] \u2014 smooth and shiny!",
+                                    text: "This tool cleans dirty pieces of metal. When you are done, the pieces look [<u>polished] \u2014 smooth and shiny!",
                                 },
                             },
                         ],
@@ -440,7 +440,7 @@ const resource =  {
                 character: "Student Robustus",
                 asset: "character-3.png",
                 dialogue : {
-                    incomplete: "They call me Robustus. My teacher says I have to read a some rules about recess. Rules about recess! Ugh! Can you just read it for me?",
+                    incomplete: "They call me Robustus. My teacher says I have to read some rules about recess. Rules about recess! Ugh! Can you just read them for me?",
                     complete: "Hmph. You did a good job. Now move on! I have important work to do."
                 },
             },   
@@ -808,7 +808,7 @@ const resource =  {
                                 passage: {
                                     text:   "Amy was the slowest runner in gym class. She did not care. She never tried. Then one day, she found magic shoes under a bench.\
                                     <br>\
-                                    When she put them on, she won every race! She even beat her best friend Zara, who practiced for many hours every week. But it did not feel right. She knew the shoes were doing all the work, not her.\
+                                    When she put the magic shoes on, she won every race! She even beat her best friend Zara, who practiced for many hours every week. But it did not feel right. She knew the shoes were doing all the work, not her.\
                                     <br>\
                                     Then one day, the shoes broke. Amy ran without them and came in last. So, she started to try harder. Every day she got a little faster. Every win felt real.\
                                     <br>\
@@ -828,7 +828,7 @@ const resource =  {
                 style: {              
                     block: {
                         misc: {
-                            material: 'paper',
+                            material: 'metal',
                             padding: "double"
                         },
                         dimension: {
