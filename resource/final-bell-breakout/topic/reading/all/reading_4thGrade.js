@@ -23,7 +23,24 @@ const resource =  {
                 },
                 education: {
                     topic: "Main Idea and Supporting Details",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.4.4",
+                        "RF.4.4a",
+                        "RI.4.1",
+                        "RI.4.2",
+                        "RI.4.3",
+                        "RI.4.5",
+                        "RI.4.8",
+                        "RI.4.10",
+                    ],
                 }
             },
 
@@ -176,7 +193,31 @@ const resource =  {
                 },
                 education: {
                     topic: "Context Clues",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.5",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.4.3",
+                        "L.4.3a",
+                        "L.4.4",
+                        "L.4.4a",
+                        "L.4.4b",
+                        "L.4.5c",
+                        "L.4.6",
+                        "RF.4.3",
+                        "RF.4.3a",
+                        "RF.4.4",
+                        "RF.4.4a",
+                        "RF.4.4c",
+                        "RI.4.1",
+                        "RI.4.4",
+                        "RI.4.10",
+                    ],
                 }
             },
 
@@ -378,7 +419,25 @@ const resource =  {
                 },
                 education: {
                     topic: "Figurative Language",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "L.4.3",
+                        "L.4.5",
+                        "L.4.5a",
+                        "L.4.5b",
+                        "RF.4.4",
+                        "RF.4.4a",
+                        "RI.4.1",
+                        "RI.4.9",
+                        "RI.4.10"
+                    ],
                 }
             },
 
@@ -533,7 +592,24 @@ const resource =  {
                 },
                 education: {
                     topic: "Poetry",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.1",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "L.4.5",
+                        "RF.4.4",
+                        "RF.4.4a",
+                        "RF.4.4b",
+                        "RL.4.1",
+                        "RL.4.3",
+                        "RL.4.5",
+                        "RL.4.9",
+                        "RL.4.10"
+                    ],
                 }
             },
 
@@ -726,7 +802,20 @@ const resource =  {
                 },
                 education: {
                     topic: "Story Elements",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.4.4",
+                        "RF.4.4a",
+                        "RL.4.1",
+                        "RL.4.2",
+                        "RL.4.3",
+                        "RL.4.10"
+                    ],
                 }
             },
 

@@ -23,7 +23,20 @@ const resource =  {
                 },
                 education: {
                     topic: "Main Idea and Supporting Details",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.5.4",
+                        "RF.5.4a",
+                        "RI.5.1",
+                        "RI.5.8",
+                        "RI.5.10"
+                    ],
                 }
             },
 
@@ -178,7 +191,31 @@ const resource =  {
                 },
                 education: {
                     topic: "Context Clues",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3.",
+                        "CCRA.L.4",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.5.3",
+                        "L.5.3a",
+                        "L.5.4",
+                        "L.5.4a",
+                        "L.5.4b",
+                        "L.5.5c",
+                        "L.5.6",
+                        "RF.5.3",
+                        "RF.5.3a",
+                        "RF.5.4",
+                        "RF.5.4a",
+                        "RF.5.4c",
+                        "RI.5.1",
+                        "RI.5.4",
+                        "RI.5.7",
+                        "RI.5.10",
+                    ],
                 }
             },
 
@@ -382,7 +419,30 @@ const resource =  {
                 },
                 education: {
                     topic: "Figurative Language",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "L.5.3",
+                        "L.5.4",
+                        "L.5.5",
+                        "L.5.5a",
+                        "L.5.5b",
+                        "RF.5.4",
+                        "RF.5.4a",
+                        "RI.5.1",
+                        "RI.5.6",
+                        "RI.5.7",
+                        "RI.5.8",
+                        "RI.5.9",
+                        "RI.5.10",
+                        "RL.5.4",
+                    ],
                 }
             },
 
@@ -503,7 +563,7 @@ const resource =  {
                     paragraph: [
                         'A. [<u>Right] or [<u>wrong]: the underlined text in \"Recess Pass: Version One\" is an onomatopoeia.',
                         'B. Does the [<u>first] or [<u>third] sentence of \"Recess Pass: Version One\" contain an idiom?',
-                        'C. [<u>Right] or [<u>wrong]: the personification in \"Recess Pass: Version Two\" shows how hard this pass is to get.',     
+                        'C. [<u>Right] or [<u>wrong]: \"Recess Pass: Version Two\" uses personification to show how hard this pass is to get.',       
                         'D. Does \"Recess Pass: Version [<u>One]\" or \"Recess Pass: Version [<u>Two]\" contain a metaphor?',                    
                     ],
                     puzzle: [
@@ -537,7 +597,23 @@ const resource =  {
                 },
                 education: {
                     topic: "Poetry",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.5.4",
+                        "RF.5.4a",
+                        "RF.5.4b",
+                        "RL.5.2",
+                        "RL.5.3",
+                        "RL.5.5",
+                        "RL.5.9",
+                        "RL.5.10",
+                    ],
                 }
             },
 
@@ -730,7 +806,24 @@ const resource =  {
                 },
                 education: {
                     topic: "Story Elements",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.6",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.5.4",
+                        "RF.5.4a",
+                        "RL.5.1",
+                        "RL.5.2",
+                        "RL.5.3",
+                        "RL.5.5",
+                        "RL.5.6",
+                        "RL.5.10",
+                    ],
                 }
             },
 

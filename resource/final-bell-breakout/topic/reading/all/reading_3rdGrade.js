@@ -24,7 +24,22 @@ const resource =  {
                 },
                 education: {
                     topic: "Main Idea and Supporting Details",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.1",
+                        "RI.3.2",
+                        "RI.3.3",
+                        "RI.3.8",
+                        "RI.3.10",
+                    ],
                 }
             },
 
@@ -177,7 +192,31 @@ const resource =  {
                 },
                 education: {
                     topic: "Context Clues and Vocabulary",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.5",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.3.3",
+                        "L.3.3a",
+                        "L.3.4",
+                        "L.3.4a",
+                        "L.3.4b",
+                        "L.3.4c",
+                        "L.3.5",
+                        "L.3.5c",
+                        "RF.3.3",
+                        "RF.3.3a",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4c",
+                        "RI.3.4",
+                        "RI.3.10",
+                    ],
                 }
             },
 
@@ -381,7 +420,22 @@ const resource =  {
                 },
                 education: {
                     topic: "Figurative Language",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "L.3.3",
+                        "L.3.5a",
+                        "L.3.6",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RL.3.4",
+                    ],
                 }
             },
 
@@ -536,7 +590,21 @@ const resource =  {
                 },
                 education: {
                     topic: "Poetry",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "L.3.3",
+                        "L.3.5",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.5",
+                        "RL.3.10",
+                    ],
                 }
             },
 
@@ -730,7 +798,21 @@ const resource =  {
                 },
                 education: {
                     topic: "Story Elements",
-                    commonCore: [],
+                    commonCore: [
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.10"
+                    ],
                 }
             },
 

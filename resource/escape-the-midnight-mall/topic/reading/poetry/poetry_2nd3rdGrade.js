@@ -376,7 +376,7 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Vocabulary and Word Meaning",
+                    topic: "Language and Vocabulary",
                     commonCore: [
                         "CCRA.L.3",
                         "CCRA.L.4",
@@ -401,6 +401,7 @@ const resource =  {
                         "L.3.3a",
                         "L.3.4",
                         "L.3.4a",
+                        "L.3.5",
                         "L.3.5c",
                         "L.3.6",
                         "RF.3.3",
