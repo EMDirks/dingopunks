@@ -629,6 +629,7 @@ function updateLineThickness() {
     ['.cryptogram', 0.0032],
     ['.activity-scene-dialogue-wrapper', 0.0025],
     ['.activity-scene-button', 0.0025],
+    ['.theme-speech-bubble__text', 0.005],
   ];
 
   elements.forEach(([selector, thickness]) => {
@@ -689,6 +690,7 @@ function updateElementSize() {
     ['.splash-version', 0.018],
     ['.cutscene-character-name',0.035],
     ['.cutscene-skip-text',0.02],
+    ['.theme-speech-bubble__text', 0.06],
     // scene
     ['.activity-scene-dialogue', 0.045],
     ['.activity-scene-player-text', 0.06],

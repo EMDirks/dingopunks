@@ -15,7 +15,7 @@ const promoDataSet = 'promo-summer-2';
 const version = '3.4.15';
 
 const promoDelay = 2100;
-const hidethemeDelay = 5000;
+const hidethemeDelay = 3000;
 let theme = "summer";
 
 /** Theme key → background + optional character img (root-relative paths) */
@@ -26,6 +26,7 @@ const themeAssets = {
   summer: {
     background: 'resource/camp-calamari/assets/cutscene/main.png',
     character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
+    speech: 'Summer Escape Rooms',
   },
   fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
   winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
@@ -434,6 +435,45 @@ function addAccess(){
       setTimeout(function themeCharacterIn() {
         toggleClass(themeCharacterImg, 'theme-container-character--hidden', 'theme-container-character--visible');
       }, 1200);
+
+      if (assets.speech) {
+        let themeSpeechRevealed = false;
+        let themeSpeechFallbackId;
+        function revealThemeSpeechBubble() {
+          if (themeSpeechRevealed) {
+            return;
+          }
+          themeSpeechRevealed = true;
+          if (themeSpeechFallbackId !== undefined) {
+            clearTimeout(themeSpeechFallbackId);
+          }
+          const speechBubble = createElement('div', ['theme-speech-bubble', 'theme-speech-bubble--hidden'], themeContainerWrapper);
+          const speechP = createElement('p', ['theme-speech-bubble__text'], speechBubble);
+          speechP.textContent = assets.speech;
+          /* scaleElements / lineElements use parent width — bubble did not exist during earlier updateElementSize / updateLineThickness in addTheme */
+          updateElementSize();
+          updateLineThickness();
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              toggleClass(speechBubble, 'theme-speech-bubble--hidden', 'theme-speech-bubble--visible');
+              updateElementSize();
+              updateLineThickness();
+            });
+          });
+        }
+        function onCharacterTransitionEnd(ev) {
+          if (ev.propertyName !== 'transform') {
+            return;
+          }
+          themeCharacterImg.removeEventListener('transitionend', onCharacterTransitionEnd);
+          revealThemeSpeechBubble();
+        }
+        themeCharacterImg.addEventListener('transitionend', onCharacterTransitionEnd);
+        themeSpeechFallbackId = setTimeout(function themeSpeechFallback() {
+          themeCharacterImg.removeEventListener('transitionend', onCharacterTransitionEnd);
+          revealThemeSpeechBubble();
+        }, 3000);
+      }
     }
     updateElementSize();
     setTimeout(hidethemeContainer, hidethemeDelay);
