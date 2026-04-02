@@ -629,7 +629,7 @@ function updateLineThickness() {
     ['.cryptogram', 0.0032],
     ['.activity-scene-dialogue-wrapper', 0.0025],
     ['.activity-scene-button', 0.0025],
-    ['.theme-speech-bubble__text', 0.005],
+    ['.theme-speech-bubble__text', 0.003],
   ];
 
   elements.forEach(([selector, thickness]) => {

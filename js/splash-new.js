@@ -14,7 +14,7 @@ const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
 const version = '3.4.15';
 
-const promoDelay = 2100;
+const promoDelay = 3100;
 const hidethemeDelay = 3000;
 let theme = "summer";
 
@@ -24,9 +24,9 @@ const themeAssets = {
   more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
   spring: { background: 'resource/beehive-blitz/assets/cutscene/main.png' },
   summer: {
-    background: 'resource/camp-calamari/assets/cutscene/main.png',
+    background: '',
     character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
-    speech: 'Summer Escape Rooms',
+    speech: 'Help us defend Camp Calamari!',
   },
   fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
   winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
