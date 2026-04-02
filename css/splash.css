@@ -10,12 +10,11 @@
     color: rgba(var(--off-white), 1);
     text-align: left;
     position: absolute;
-    bottom: 0%;
-    left: 0.5%;
+    bottom: 4%;
+    left: 3%;
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
-    background-color: red;
 }
 
 .splash-nav--visible {
@@ -40,8 +39,8 @@
     color: rgba(var(--off-white), 1);
     text-align: left;
     position: absolute;
-    bottom: 5%;
-    left: 0.5%;
+    bottom: 9%;
+    left: 3%;
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
@@ -1000,12 +999,12 @@
 
 .promo-container--hidden {
     opacity: 0;
-    transform: translate(-50%, -50%);
+    transform: scale(0);
 }
 
 .promo-container--visible {
     opacity: 1;
-    transform: translateY(0%);
+    transform: scale(1);
 }
 
 .promo-container__banner {

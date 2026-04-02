@@ -11,28 +11,31 @@ let splashIndex = 0;
 let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
-const promoDataSet = 'promo-easter-2';
+const promoDataSet = 'promo-summer-2';
 const version = '3.4.15';
 
 const promoDelay = 2100;
-const hidethemeDelay = 2000;
-let theme = "easter";
+const hidethemeDelay = 5000;
+let theme = "summer";
 
-/** Theme key → root-relative path to background image for .theme-container */
-const themeBackgroundImages = {
-  all_year: 'resource/escape-the-midnight-mall/assets/cutscene/main.png',
-  more_all_year: 'resource/pickles-playground/assets/cutscene/main.png',
-  spring: 'resource/beehive-blitz/assets/cutscene/main.png',
-  summer: 'resource/camp-calamari/assets/cutscene/main.png',
-  fall: 'resource/the-hasty-harvest/assets/cutscene/main.png',
-  winter: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png',
-  valentines: 'resource/cupids-countdown/assets/cutscene/main.png',
-  st_patricks: 'resource/rainbow-rescue/assets/cutscene/main.png',
-  easter: 'resource/eggworld-emergency/assets/cutscene/main.png',
-  end_of_year: 'resource/final-bell-breakout/assets/cutscene/main.png',
-  halloween: 'resource/funhouse-fright/assets/cutscene/main.png',
-  thanksgiving: 'resource/turkey-takedown/assets/cutscene/main.png',
-  christmas: 'resource/wacky-workshop/assets/cutscene/main.png',
+/** Theme key → background + optional character img (root-relative paths) */
+const themeAssets = {
+  all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
+  more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
+  spring: { background: 'resource/beehive-blitz/assets/cutscene/main.png' },
+  summer: {
+    background: 'resource/camp-calamari/assets/cutscene/main.png',
+    character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
+  },
+  fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
+  winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
+  valentines: { background: 'resource/cupids-countdown/assets/cutscene/main.png' },
+  st_patricks: { background: 'resource/rainbow-rescue/assets/cutscene/main.png' },
+  easter: { background: 'resource/eggworld-emergency/assets/cutscene/main.png' },
+  end_of_year: { background: 'resource/final-bell-breakout/assets/cutscene/main.png' },
+  halloween: { background: 'resource/funhouse-fright/assets/cutscene/main.png' },
+  thanksgiving: { background: 'resource/turkey-takedown/assets/cutscene/main.png' },
+  christmas: { background: 'resource/wacky-workshop/assets/cutscene/main.png' },
 };
 
 // set order
@@ -419,9 +422,18 @@ function addAccess(){
   function addTheme(){
     const themeContainer = createElement('div', ['theme-container', 'theme-container--visible'], splash);
     const themeContainerWrapper = createElement('div', ['theme-container-wrapper'], themeContainer);
-    const bgPath = themeBackgroundImages[theme];
-    if (bgPath) {
-      themeContainerWrapper.style.backgroundImage = `url('${bgPath}')`;
+    const assets = themeAssets[theme];
+    if (assets?.background) {
+      themeContainerWrapper.style.backgroundImage = `url('${assets.background}')`;
+    }
+    if (assets?.character) {
+      const themeCharacterImg = createElement('img', ['theme-container-character', 'theme-container-character--hidden'], themeContainerWrapper);
+      themeCharacterImg.src = assets.character;
+      themeCharacterImg.alt = '';
+      /* After wrapper scale-in (1s delay + 0.2s), transition hidden → visible (overshoot via CSS bezier) */
+      setTimeout(function themeCharacterIn() {
+        toggleClass(themeCharacterImg, 'theme-container-character--hidden', 'theme-container-character--visible');
+      }, 1200);
     }
     updateElementSize();
     setTimeout(hidethemeContainer, hidethemeDelay);
