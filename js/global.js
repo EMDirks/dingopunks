@@ -734,6 +734,10 @@ function updateElementSize() {
   });
 
   splashContainerWrapper.style.height = `${splashContainerWrapper.parentNode.offsetWidth * 0.503}px`;
+  const themeContainerWrapper = document.querySelector('.theme-container-wrapper');
+  if (themeContainerWrapper) {
+    themeContainerWrapper.style.height = `${themeContainerWrapper.parentNode.offsetWidth * 0.503}px`;
+  }
   activityNodeContainer.style.height = `${activityNodeContainer.parentNode.offsetWidth * 0.503}px`;
   activityModal.style.height = `${activityModal.parentNode.offsetWidth * 0.53}px`;
   keyboard.style.height = `${keyboard.parentNode.offsetWidth * 0.0975}px`;

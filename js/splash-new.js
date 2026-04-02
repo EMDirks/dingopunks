@@ -14,6 +14,27 @@ const isPromoEnabled = true;
 const promoDataSet = 'promo-easter-2';
 const version = '3.4.15';
 
+const promoDelay = 2100;
+const hidethemeDelay = 2000;
+let theme = "easter";
+
+/** Theme key → root-relative path to background image for .theme-container */
+const themeBackgroundImages = {
+  all_year: 'resource/escape-the-midnight-mall/assets/cutscene/main.png',
+  more_all_year: 'resource/pickles-playground/assets/cutscene/main.png',
+  spring: 'resource/beehive-blitz/assets/cutscene/main.png',
+  summer: 'resource/camp-calamari/assets/cutscene/main.png',
+  fall: 'resource/the-hasty-harvest/assets/cutscene/main.png',
+  winter: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png',
+  valentines: 'resource/cupids-countdown/assets/cutscene/main.png',
+  st_patricks: 'resource/rainbow-rescue/assets/cutscene/main.png',
+  easter: 'resource/eggworld-emergency/assets/cutscene/main.png',
+  end_of_year: 'resource/final-bell-breakout/assets/cutscene/main.png',
+  halloween: 'resource/funhouse-fright/assets/cutscene/main.png',
+  thanksgiving: 'resource/turkey-takedown/assets/cutscene/main.png',
+  christmas: 'resource/wacky-workshop/assets/cutscene/main.png',
+};
+
 // set order
 let splashOrder = [];
 
@@ -374,6 +395,7 @@ function addAccess(){
 
   if (gameMode !== "preview"){
     addBumper();
+    addTheme();
   }
   else {
     addPreviewBumper();
@@ -392,6 +414,19 @@ function addAccess(){
     setTimeout(bringOutBumperLogo,1000);
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
+    }
+  }
+  function addTheme(){
+    const themeContainer = createElement('div', ['theme-container', 'theme-container--visible'], splash);
+    const themeContainerWrapper = createElement('div', ['theme-container-wrapper'], themeContainer);
+    const bgPath = themeBackgroundImages[theme];
+    if (bgPath) {
+      themeContainerWrapper.style.backgroundImage = `url('${bgPath}')`;
+    }
+    updateElementSize();
+    setTimeout(hidethemeContainer, hidethemeDelay);
+    function hidethemeContainer(){
+      toggleClass(themeContainer, 'theme-container--visible', 'theme-container--hidden');
     }
   }
   function addPreviewBumper(){
@@ -522,7 +557,7 @@ function addAccess(){
     if (isPromoEnabled === true /* && gameMode !== "preview" */) {
 
       // timer
-      setTimeout(bringInPromo,2000);
+      setTimeout(bringInPromo,promoDelay);
     
       // container
       let promoContainer = createElement('div', ['promo-container', 'promo-container--hidden'], splashContainer);

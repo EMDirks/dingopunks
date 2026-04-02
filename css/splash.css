@@ -15,6 +15,7 @@
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
+    background-color: red;
 }
 
 .splash-nav--visible {
@@ -999,7 +1000,7 @@
 
 .promo-container--hidden {
     opacity: 0;
-    transform: translateY(50%);
+    transform: translate(-50%, -50%);
 }
 
 .promo-container--visible {
