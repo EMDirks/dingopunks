@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Final Bell Breakout",
         path: "final-bell-breakout",
-        logo: "assets/branding/placeholder/need-image.png",
+        logo: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-2nd-grade.png",
         timerLabel: "TIME TIL THE BELL"
     },
 
@@ -208,7 +208,7 @@ const resource =  {
                        "RF.2.4a",
                        "RF.2.4b",
                        "RF.2.4c",
-                       "RF.2.1",
+                       "RI.2.1",
                        "RI.2.4",
                        "RI.2.10",
                     ],

@@ -12,9 +12,9 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
-const version = '3.4.15';
+const version = '3.4.20';
 
-const promoDelay = 3100;
+const promoDelay = 2000;
 const hidethemeDelay = 3000;
 let theme = "summer";
 
@@ -24,7 +24,7 @@ const themeAssets = {
   more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
   spring: { background: 'resource/beehive-blitz/assets/cutscene/main.png' },
   summer: {
-    background: '',
+    background: 'resource/camp-calamari/assets/cutscene/main.png',
     character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
     speech: 'Help us defend Camp Calamari!',
   },
@@ -249,6 +249,14 @@ if (promoDataSet === 'promo-easter-2'){
     }
   }
 }
+if (promoDataSet === 'promo-spring-3'){
+  promoData = {
+    singleImage: {
+      backgroundImage: 'url(assets/website/promo/promo-spring-3.png)',
+      link: 'https://playpuzzlepunks.com/collections/digital-spring-escape-rooms',
+    }
+  }
+}
 
 // draw splash
 function drawSplash(){
@@ -288,7 +296,7 @@ function drawSplash(){
     splashNav = createElement("p", ["splash-nav", "splash-nav--visible"],splashContainer);
     splashVersion = createElement("p", ["splash-version", "splash-version--visible"],splashContainer);
     splashVersion.textContent = "VERSION " + version;
-    splashNav.innerHTML = "<a href = 'https://playpuzzlepunks.com'>HOME</a> &#183; <a href = 'https://playpuzzlepunks.com/collections/all'>SHOP</a> &#183; <a href = 'https://playpuzzlepunks.com/pages/contact.html'>CONTACT</a>"; 
+    splashNav.innerHTML = "<a href = 'https://playpuzzlepunks.com'>HOME</a><a href = 'https://playpuzzlepunks.com/collections/all'>SHOP</a><a href = 'https://playpuzzlepunks.com/pages/teacher-portal'>TEACHERS</a>"; 
     /*
     if (gameMode === 'preview'){
       splashVersion.innerHTML = "";
@@ -399,7 +407,9 @@ function addAccess(){
 
   if (gameMode !== "preview"){
     addBumper();
+    /*
     addTheme();
+    */
   }
   else {
     addPreviewBumper();
@@ -425,7 +435,9 @@ function addAccess(){
     const themeContainerWrapper = createElement('div', ['theme-container-wrapper'], themeContainer);
     const assets = themeAssets[theme];
     if (assets?.background) {
-      themeContainerWrapper.style.backgroundImage = `url('${assets.background}')`;
+      const themeBackgroundImg = createElement('img', ['theme-container-background'], themeContainerWrapper);
+      themeBackgroundImg.src = assets.background;
+      themeBackgroundImg.alt = '';
     }
     if (assets?.character) {
       const themeCharacterImg = createElement('img', ['theme-container-character', 'theme-container-character--hidden'], themeContainerWrapper);

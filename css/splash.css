@@ -15,6 +15,7 @@
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
+    width: 100%;
 }
 
 .splash-nav--visible {
@@ -28,10 +29,30 @@
 
 .splash-nav a {
     color: rgba(var(--gold), 1);
+    padding: 0.5% 1%;
+    border: 0.3vmin solid rgba(var(--gold), 1);
+    border-radius: 1vmin;
+    margin-right: 0.7%;
+}
+
+.splash-nav > a:nth-child(1) { 
+    border-color: rgba(var(--gold), 1); 
+    color: rgba(var(--gold), 1);
+}
+
+.splash-nav > a:nth-child(2) { 
+    border-color: rgba(var(--teal), 1);
+    color: rgba(var(--teal), 1);
+}
+
+.splash-nav > a:nth-child(3) { 
+    border-color: rgba(var(--salmon), 1); 
+    color: rgba(var(--salmon), 1);
 }
 
 .splash-nav a:hover {
     color: rgba(var(--off-white), 1);
+    border: 0.3vmin solid rgba(var(--off-white), 1);
 }
 
 .splash-version {
@@ -39,7 +60,7 @@
     color: rgba(var(--off-white), 1);
     text-align: left;
     position: absolute;
-    bottom: 9%;
+    bottom: 9.5%;
     left: 3%;
     transition: opacity 0.4s;
     transition-delay: 0s;
@@ -999,12 +1020,12 @@
 
 .promo-container--hidden {
     opacity: 0;
-    transform: scale(0);
+    transform: translateY(50%);
 }
 
 .promo-container--visible {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0%);
 }
 
 .promo-container__banner {

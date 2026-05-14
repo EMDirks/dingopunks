@@ -18,7 +18,7 @@ const resource =  {
                 asset: "critterwerks.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the chart, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Look at the diagram, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {

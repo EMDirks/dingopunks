@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Final Bell Breakout",
         path: "final-bell-breakout",
-        logo: "assets/branding/placeholder/need-image.png",
+        logo: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-5th-grade.png",
         timerLabel: "TIME TIL THE BELL"
     },
 
@@ -192,7 +192,7 @@ const resource =  {
                 education: {
                     topic: "Context Clues",
                     commonCore: [
-                        "CCRA.L.3.",
+                        "CCRA.L.3",
                         "CCRA.L.4",
                         "CCRA.L.6",
                         "CCRA.R.1",

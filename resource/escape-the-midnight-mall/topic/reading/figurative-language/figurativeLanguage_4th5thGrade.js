@@ -4,7 +4,7 @@ const resource =  {
         title: "Escape the Midnight Mall",
         logo: "resource/escape-the-midnight-mall/assets/branding/figurative-language/preview-4th-5th-grade.png",
         path: "escape-the-midnight-mall",
-        timerLabel: "TIME TO MIDNIGHT",
+        timerLabel: "TIME TIL MIDNIGHT",
         timeLimit: ['30 min', '40 min', '50 min', 'No limit'],
     },
 

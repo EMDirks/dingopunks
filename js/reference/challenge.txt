@@ -18,6 +18,169 @@ challengeArray: [
 
 -----------------------------------------------------
 
+// Paradise Panic
+
+-----------------------------------------------------
+
+// ⭐ Hotel Kallisto
+
+{
+    info: {
+        type: 'challenge',
+        title: "Hotel Kallisto",
+        asset: "background1.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+
+    intro: {
+        character: "Demi Voss",
+        asset: "character1.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+
+},
+
+// ⭐ Old Stavros's Farm
+
+{
+    info: {
+        type: 'challenge',
+        title: 'Old Stavros\'s Farm',
+        asset: "background2.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+
+    intro: {
+        character: "Old Stavros",
+        asset: "character2.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+
+},
+
+// ⭐ Thessaly's Provisions
+
+{
+
+    info: {
+        type: 'challenge',
+        title: "Thessaly's Provisions",
+        asset: "background3.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+
+    intro: {
+        character: "Thessaly Tidewater",
+        asset: "character3.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+
+},
+
+// ⭐ Tomb of Kastor
+
+{
+    info: {
+        type: 'challenge',
+        title: 'Tomb of Kastor',
+        asset: "background4.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+
+    intro: {
+        character: "Kastor\'s Ghost",
+        asset: "character4.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+
+},
+
+// ⭐ Shoreline
+
+{
+
+    info: {
+        type: 'challenge',
+        title: "Shoreline",
+        asset: "background5.png",
+        state: "incomplete",
+        hint: {
+            text: "Lorem ipsum",
+            isUsed: false
+        },
+        education: {
+            topic: "Lorem ipsum",
+            commonCore: [
+                "XXX"
+            ],
+        }
+    },
+
+    intro: {
+        character: "Ned",
+        asset: "character5.png",
+        dialogue : {
+            incomplete: "Lorem ipsum",
+            complete: "Lorem ipsum"
+        },
+    },
+
+},
+
+-----------------------------------------------------
+
 // Wacky Workshop
 
 -----------------------------------------------------

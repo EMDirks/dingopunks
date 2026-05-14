@@ -1132,7 +1132,14 @@
     display: inline-block;
     background-size: cover;
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-    background-color: rgba(var(--black), 0.97);
+    background-color: rgba(var(--black), 1);
+    /* Defensive redundant backdrop: some district-deployed Chrome extensions and
+       stale cached stylesheets cause the background-color above to render as
+       transparent on student devices. background-image is a separate property,
+       so overrides targeting only background-color cannot strip it. Hardcoded
+       color values also defend against cases where the --black CSS variable
+       fails to resolve. */
+    background-image: linear-gradient(rgb(51, 41, 37), rgb(51, 41, 37));
     z-index: 5;
 }
 
@@ -1171,6 +1178,10 @@
 
 .activity-modal-hint-button {
     background-color: rgba(var(--off-white));
+    /* Defensive redundant background: see comment on .activity-modal-hint above.
+       Keeps the CLOSE button visible if a school-deployed extension or stale
+       stylesheet strips its background-color. */
+    background-image: linear-gradient(rgb(255, 229, 175), rgb(255, 229, 175));
     font-family: 'Primer Print Bold', sans-serif;
     color: rgba(var(--black), 1);
     display: block;

@@ -87,12 +87,36 @@ const analyticsArray = [
                 googleAnalyticsID: 'Lpga253-Jd84Nss-MbqtyGd'
             },
 
+            // Authors Purpose
+            {
+                level: ['4th','5th'],
+                topic: 'Authors Purpose',
+                resourceJS: 'topic/reading/authors-purpose/authorsPurpose_4th5thGrade.js',
+                googleAnalyticsID: 'Lp58H5d-A4ddYaU-2shYuwk'
+            },
+
+            // Character Traits
+            {
+                level: ['4th','5th'],
+                topic: 'Character Traits',
+                resourceJS: 'topic/reading/character-traits/characterTraits_4th5thGrade.js',
+                googleAnalyticsID: '43KspeE-8S7BNayd-5HayRRs'
+            },
+
+            // Text Structures
+            {
+                level: ['4th','5th'],
+                topic: 'Text Structures',
+                resourceJS: 'topic/reading/text-structures/textStructures_4th5thGrade.js',
+                googleAnalyticsID: '8K4dIap-dAd69Dw-May8Eaa'
+            },
+
             // Growth Mindset
             {
                 level: ['4th','5th'],
                 topic: 'Growth Mindset',
                 resourceJS: 'topic/social-emotional-learning/growthMindset_4th5thGrade.js',
-                googleAnalyticsID: '71671'
+                googleAnalyticsID: 'Kal7Yat-1671Sha-MayflaH'
             },
 
         ]
@@ -1205,7 +1229,7 @@ const analyticsArray = [
         ]
     },
 
-    // Wacky Workshop
+    // Final Bell Breakout
     {
         title: 'Final Bell Breakout', 
         path: 'final-bell-breakout',
@@ -1241,6 +1265,47 @@ const analyticsArray = [
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_5thGrade.js',
                 googleAnalyticsID: 'Uayd8mm-qra5LxL-K9s2a6Y'
+            },
+
+        ]
+    },
+
+    // Paradise Panic
+    {
+        title: 'Paradise Panic', 
+        path: 'paradise-panic',
+        season: 'Back to School',
+        resources: [
+
+            //////////
+            // Reading
+            //////////
+
+            // All
+
+            {
+                level: ['2nd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_2ndGrade.js',
+                googleAnalyticsID: '65912'
+            },
+            {
+                level: ['3rd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_3rdGrade.js',
+                googleAnalyticsID: '77849'
+            },
+            {
+                level: ['4th'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_4thGrade.js',
+                googleAnalyticsID: '25253'
+            },
+            {
+                level: ['5th'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_5thGrade.js',
+                googleAnalyticsID: '87365'
             },
 
         ]
