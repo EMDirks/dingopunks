@@ -12,7 +12,7 @@ let isAccess = true;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
-const version = '3.4.21';
+const version = '3.4.23';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;

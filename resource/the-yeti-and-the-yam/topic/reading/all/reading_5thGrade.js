@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "The Yeti and the Yams",
         path: "the-yeti-and-the-yam",
-        logo: "resource/the-yeti-and-the-yam/assets/branding/reading/all/preview-5th-grade.png",
+        logo: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-5th-grade.png",
         timerLabel: "YETI AWAKES"
     },
 

@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Escape the Midnight Mall",
         path: "escape-the-midnight-mall",
-        logo: "resource/escape-the-midnight-mall/assets/branding/preview-4th-grade.png",
+        logo: "resource/escape-the-midnight-mall/assets/branding/all/thumbnail-4th-grade.png",
         timerLabel: "TIME TIL MIDNIGHT",
     },
 

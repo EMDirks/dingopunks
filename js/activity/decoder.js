@@ -1,4 +1,11 @@
 //create elements
+function isDecoderLetterVisible(j, wordLength) {
+  if (wordLength <= 3) return j === 0;
+  if (wordLength <= 5) return j === 0 || j === wordLength - 1;
+  if (wordLength <= 8) return j === 0 || j === 3 || j === wordLength - 1;
+  return j === 0 || j === 4 || j === 8;
+}
+
 // ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
 function drawDecoder(activityIndex) {
 
@@ -37,6 +44,11 @@ function drawDecoder(activityIndex) {
       let machineItemCryptogramDecoderLetter = createElement('p', ['machine-item-cryptograph-decoder-letter'], machineItemCryptogramInputColumn);
       let individualLetter = activityDecoderWord.split("")[j];
       machineItemCryptogramDecoderLetter.textContent = individualLetter.replace(/[\[\]]/g, '');
+
+      if (!isDecoderLetterVisible(j, activityDecoderWord.length)){
+        machineItemCryptogramDecoderLetter.classList.add('state-visibility-hidden');
+      }
+
       machineItemCryptogramInput = createElement('input', ['machine-item-cryptogram-input', 'input-functionality-default'], machineItemCryptogramInputColumn);
       machineItemCryptogramInput.type = 'text';
       machineItemCryptogramInput.maxLength = '1';
@@ -113,6 +125,11 @@ function drawActivity_decoder(activityIndex) {
       let machineItemCryptogramDecoderLetter = createElement('p', ['machine-item-cryptograph-decoder-letter'], machineItemCryptogramInputColumn);
       let individualLetter = activityDecoderWord.split("")[j];
       machineItemCryptogramDecoderLetter.textContent = individualLetter.replace(/[\[\]]/g, '');
+
+      if (!isDecoderLetterVisible(j, activityDecoderWord.length)){
+        machineItemCryptogramDecoderLetter.classList.add('state-visibility-hidden');
+      }
+
       machineItemCryptogramInput = createElement('input', ['machine-item-cryptogram-input', 'input-functionality-default'], machineItemCryptogramInputColumn);
       machineItemCryptogramInput.type = 'text';
       machineItemCryptogramInput.maxLength = '1';

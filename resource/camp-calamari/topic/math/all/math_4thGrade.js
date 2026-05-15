@@ -3,7 +3,7 @@ const resource = {
     info: {
         title: "Camp Calamari",
         path: "camp-calamari",
-        logo: "resource/camp-calamari/assets/branding/math/all/preview-4th-grade.png",
+        logo: "resource/camp-calamari/assets/branding/math/all/thumbnail-4th-grade.png",
         timerLabel: "PIRATES ARRIVE"
     },
 

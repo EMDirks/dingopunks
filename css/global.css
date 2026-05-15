@@ -387,6 +387,11 @@ button, input[type="submit"], input[type="reset"] {
 	pointer-events: auto;
 }
 
+.state-visibility-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .state-display-flex {
     display: flex;
 }

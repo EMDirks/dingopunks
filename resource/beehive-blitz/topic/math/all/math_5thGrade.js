@@ -3,7 +3,7 @@ const resource = {
     info: {
         title: "Beehive Blitz",
         path: "beehive-blitz",
-        logo: "resource/beehive-blitz/assets/branding/math/all/preview-5th-grade.png",
+        logo: "resource/beehive-blitz/assets/branding/math/all/thumbnail-5th-grade.png",
         timerLabel: "GUSTAV ARRIVES"
     },
 
