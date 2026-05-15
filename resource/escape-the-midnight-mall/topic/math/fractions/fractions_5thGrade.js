@@ -601,7 +601,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "I must determine the yards of fabric needed for a new set of garments, but dividing these fractions is such a tedious task. I truly can't be bothered, so you will do it for me.",
-                    complete: "Consider me impressed, Puzzle Punks. Next time you visit the mall, say hello."
+                    complete: "Consider me impressed, Dingo Punks. Next time you visit the mall, say hello."
                 },
             },
 
@@ -949,7 +949,7 @@ const resource =  {
                 asset: "robustus-the-great.png",
                 dialogue : {
                     incomplete: "I am distraught! The fight against the Undermurk commands my attention, yet I must stand here taking inventory for this cursed athletic store. I request your assistance.",
-                    complete: "Well done, Puzzle Punks. You might not be as useless as I thought."
+                    complete: "Well done, Dingo Punks. You might not be as useless as I thought."
                 },
             },
 

@@ -865,7 +865,7 @@ const resource =  {
                 character: "C.H.A.R.M.",
                 asset: "charm.png",
                 dialogue : {
-                    incomplete: "Task: Bring blue, indigo, and violet back to the rainbow. How: Read story carefully. Failure: not an option. Need help from Puzzle Punks!",
+                    incomplete: "Task: Bring blue, indigo, and violet back to the rainbow. How: Read story carefully. Failure: not an option. Need help from Dingo Punks!",
                     complete: "Task complete. Colors are back. I feel proud. Thank you for helping."
                 },
             },

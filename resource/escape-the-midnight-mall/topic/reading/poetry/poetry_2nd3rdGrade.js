@@ -51,7 +51,7 @@ const resource =  {
                 asset: "noah-shortnose.png",
                 dialogue : {
                     incomplete: "I write poems when I feel stressed. It helps me sort out my feelings. And right now, I have a problem... I need you to read about it! Will you?",
-                    complete: "Thanks for reading my poem, Puzzle Punks. Come back anytime!"
+                    complete: "Thanks for reading my poem, Dingo Punks. Come back anytime!"
                 },
             },
 
@@ -628,7 +628,7 @@ const resource =  {
                 asset: "robustus-the-great.png",
                 dialogue : {
                     incomplete: "I had work to do today, but that sounded boring. So I wrote some battle cries instead! Read them and tell me if they make you feel brave.",
-                    complete: "Very fine work, Puzzle Punks. I will remember your skills forever."
+                    complete: "Very fine work, Dingo Punks. I will remember your skills forever."
                 },
             },
 

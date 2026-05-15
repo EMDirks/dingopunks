@@ -79,7 +79,7 @@ if (promoDataSet === 'promo-halloween'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-halloween.png)',
-      link: 'https://playpuzzlepunks.com/collections/halloween-escape-rooms',
+      link: 'https://dingopunks.com/collections/halloween-escape-rooms',
     }
   }
 }
@@ -111,7 +111,7 @@ if (promoDataSet === 'promo-winter-1'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-winter-1.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-winter-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-winter-escape-rooms',
     }
   }
 }
@@ -135,7 +135,7 @@ if (promoDataSet === 'promo-valentines-3'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-valentines-3.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-valentines-day-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-valentines-day-escape-rooms',
     }
   }
 }
@@ -165,7 +165,7 @@ if (promoDataSet === 'promo-st-patricks-1'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-st-patricks-1.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-st-patricks-day-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-st-patricks-day-escape-rooms',
     }
   }
 }
@@ -197,7 +197,7 @@ if (promoDataSet === 'promo-summer-2'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-summer-2.png)',
-      link: 'https://playpuzzlepunks.com/collections/summer-escape-rooms',
+      link: 'https://dingopunks.com/collections/summer-escape-rooms',
     }
   }
 }
@@ -205,7 +205,7 @@ if (promoDataSet === 'promo-pickle-1'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-pickle-1.png)',
-      link: 'https://playpuzzlepunks.com/collections/all-year',
+      link: 'https://dingopunks.com/collections/all-year',
     }
   }
 }
@@ -213,7 +213,7 @@ if (promoDataSet === 'promo-fall-4'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-fall-4.png)',
-      link: 'https://playpuzzlepunks.com/collections/fall-escape-rooms',
+      link: 'https://dingopunks.com/collections/fall-escape-rooms',
     }
   }
 }
@@ -221,7 +221,7 @@ if (promoDataSet === 'promo-thanksgiving'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-thanksgiving.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-thanksgiving-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-thanksgiving-escape-rooms',
     }
   }
 }
@@ -229,7 +229,7 @@ if (promoDataSet === 'promo-christmas'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-christmas.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-christmas-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-christmas-escape-rooms',
     }
   }
 }
@@ -237,7 +237,7 @@ if (promoDataSet === 'promo-spring-2'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-spring-2.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-spring-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-spring-escape-rooms',
     }
   }
 }
@@ -245,7 +245,7 @@ if (promoDataSet === 'promo-easter-2'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-easter-2.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-easter-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-easter-escape-rooms',
     }
   }
 }
@@ -253,7 +253,7 @@ if (promoDataSet === 'promo-spring-3'){
   promoData = {
     singleImage: {
       backgroundImage: 'url(assets/website/promo/promo-spring-3.png)',
-      link: 'https://playpuzzlepunks.com/collections/digital-spring-escape-rooms',
+      link: 'https://dingopunks.com/collections/digital-spring-escape-rooms',
     }
   }
 }
@@ -296,7 +296,7 @@ function drawSplash(){
     splashNav = createElement("p", ["splash-nav", "splash-nav--visible"],splashContainer);
     splashVersion = createElement("p", ["splash-version", "splash-version--visible"],splashContainer);
     splashVersion.textContent = "VERSION " + version;
-    splashNav.innerHTML = "<a href = 'https://playpuzzlepunks.com'>HOME</a><a href = 'https://playpuzzlepunks.com/collections/all'>SHOP</a><a href = 'https://playpuzzlepunks.com/pages/teacher-portal'>TEACHERS</a>"; 
+    splashNav.innerHTML = "<a href = 'https://dingopunks.com'>HOME</a><a href = 'https://dingopunks.com/collections/all'>SHOP</a><a href = 'https://dingopunks.com/pages/teacher-portal'>TEACHERS</a>"; 
     /*
     if (gameMode === 'preview'){
       splashVersion.innerHTML = "";
@@ -402,7 +402,7 @@ function transitionSplash(){
 // BUMPER
 /////////
 
-// access PIN
+// game code
 function addAccess(){
 
   if (gameMode !== "preview"){
@@ -570,10 +570,10 @@ function addAccess(){
 
   };
 
-  splashTitle.innerHTML = 'To play, enter your <span class="character-select-text-player">access PIN</span><span class = "icon-clickable--splash">?</span>';
+  splashTitle.innerHTML = 'To play, enter your <span class="character-select-text-player">game code</span><span class = "icon-clickable--splash">?</span>';
 
   if (gameMode === "preview"){
-    splashTitle.innerHTML = 'To view the answers, enter your <span class="character-select-text-player">access PIN</span><span class = "icon-clickable--splash">?</span>';
+    splashTitle.innerHTML = 'To view the answers, enter your <span class="character-select-text-player">game code</span><span class = "icon-clickable--splash">?</span>';
   }
 
   let iconClickableSplash = document.querySelectorAll('.icon-clickable--splash');
@@ -582,8 +582,8 @@ function addAccess(){
   iconClickableSplash.forEach(function(element) {
     element.addEventListener("click", function() { 
       createModal(
-        "What's an access PIN?",
-        "It's a unique <span class = 'p--highlight'>5-digit code</span> needed to play Puzzle Punks. If you're a student, your teacher will provide it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
+        "What's a game code?",
+        "It's a unique <span class = 'p--highlight'>5-digit code</span> needed to play Dingo Punks. If you're a student, your teacher will provide it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
         "Got it!"
       )
     });

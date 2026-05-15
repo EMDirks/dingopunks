@@ -402,7 +402,7 @@ const resource =  {
                 asset: "banana-gunk-jr.png",
                 dialogue : {
                     incomplete: "Years ago, I lost my instruction manual. I thought it was gone forever. But Pickle found the scraps! Can you help me put it back together?",
-                    complete: "I can\'t believe it, my instruction manual is complete again. Thanks, Puzzle Punks!"
+                    complete: "I can\'t believe it, my instruction manual is complete again. Thanks, Dingo Punks!"
                 },
             },
 

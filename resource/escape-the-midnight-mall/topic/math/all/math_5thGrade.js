@@ -857,7 +857,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "I need to measure some bits of fabric for a new clothing line, but it's such a bore. I truly can't be bothered to read the fractional measurements myself. Will you help me get the job done?",
-                    complete: "I appreciate the help, Puzzle Punks. Send J.J. Crispy my warmest regards."
+                    complete: "I appreciate the help, Dingo Punks. Send J.J. Dingo my warmest regards."
                 },
             },
 

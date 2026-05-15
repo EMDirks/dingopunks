@@ -832,7 +832,7 @@ const resource = {
                 asset: "the-frozen-knight.png",
                 dialogue : {
                     incomplete: "I cannot spend one more day in this freezing prison... I must break free! Will you read my escape plan and let me know what you think? If you do, I'll lend you a pan to cook those yams.",
-                    complete: "Farewell, Puzzle Punks! Watch your step, and beware of large footprints in the snow."
+                    complete: "Farewell, Dingo Punks! Watch your step, and beware of large footprints in the snow."
                 },
             },
 

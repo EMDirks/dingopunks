@@ -640,7 +640,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "I need to determine how much fabric to order for next week, but it's such a tedious chore. I truly cannot be bothered to do it myself. Will you take on this task?",
-                    complete: "Consider me impressed, Puzzle Punks. Next time you visit the mall, say hello."
+                    complete: "Consider me impressed, Dingo Punks. Next time you visit the mall, say hello."
                 },
             },
 

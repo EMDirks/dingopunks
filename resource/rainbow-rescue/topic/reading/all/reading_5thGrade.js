@@ -957,7 +957,7 @@ const resource =  {
                 character: "C.H.A.R.M.",
                 asset: "charm.png",
                 dialogue : {
-                    incomplete: "Task: Recover blue, indigo, and violet for rainbow restoration. How: Analyze provided story. Failure: not an option. Requesting immediate assistance from Puzzle Punks!",
+                    incomplete: "Task: Recover blue, indigo, and violet for rainbow restoration. How: Analyze provided story. Failure: not an option. Requesting immediate assistance from Dingo Punks!",
                     complete: "Task complete. Colors restored. Self-worth calculated. Your assistance was... invaluable."
                 },
             },

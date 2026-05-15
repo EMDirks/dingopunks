@@ -1109,7 +1109,7 @@ const resource = {
                 asset: "the-frozen-knight.png",
                 dialogue : {
                     incomplete: "I just uncovered a secret stash of loot hidden in this cave, and I need help counting it up before I escape! If you lend me a hand, I'll give you some gold coins and cinnamon. What do you say?",
-                    complete: "It was an honor working with you, Puzzle Punks. I bid you farewell, and good luck!"
+                    complete: "It was an honor working with you, Dingo Punks. I bid you farewell, and good luck!"
                 },
             },
 

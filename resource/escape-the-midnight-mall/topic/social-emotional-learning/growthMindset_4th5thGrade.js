@@ -660,7 +660,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "My designers have been working with a secret new thread for Lady Fresno\'s next dress, but they ran into trouble. I need you to read their notes and figure out what went wrong.",
-                    complete: "Very fine work, Puzzle Punks. I can already tell you have an eye for detail."
+                    complete: "Very fine work, Dingo Punks. I can already tell you have an eye for detail."
                 },
             },
 

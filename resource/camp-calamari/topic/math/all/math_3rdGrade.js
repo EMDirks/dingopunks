@@ -489,7 +489,7 @@ const resource = {
                 character: "Madame Mystica",
                 asset: "madame-mystica.png",
                 dialogue : {
-                    incomplete: "Greetings, Puzzle Punks. My magic mirror can show when the Red Tide pirates will attack, but it's broken to pieces! Do you think you can put it back together?",
+                    incomplete: "Greetings, Dingo Punks. My magic mirror can show when the Red Tide pirates will attack, but it's broken to pieces! Do you think you can put it back together?",
                     complete: "Ah, my clever friend, your help has been a lighthouse in the fog. Farewell, and good luck!"
                 },
             },

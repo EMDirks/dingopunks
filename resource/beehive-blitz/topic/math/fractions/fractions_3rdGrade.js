@@ -830,7 +830,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "Our survival depends on harvesting nectar from the flower fields. As such, I must sort each field based on how much nectar has been harvested. Will you help me?",
-                    complete: "Well done, Puzzle Punks. Send J.J. Crispy my thanks."
+                    complete: "Well done, Dingo Punks. Send J.J. Dingo my thanks."
                 },
             },
 

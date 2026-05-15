@@ -841,7 +841,7 @@ const resource = {
                 asset: "the-frozen-knight.png",
                 dialogue : {
                     incomplete: "The King's men smuggled me some safe escape routes! But they're encoded as equations that must be sorted as either true or false. Assist me, and I'll give you a pan for those yams. Deal?",
-                    complete: "Thanks to you, my escape route has been secured. Fare thee well, Puzzle Punks!"
+                    complete: "Thanks to you, my escape route has been secured. Fare thee well, Dingo Punks!"
                 },
             },
 

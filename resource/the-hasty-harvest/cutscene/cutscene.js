@@ -2,7 +2,7 @@ let cutscene = {
 
     intro: [
         {
-            text: 'Alert! Alert! Calling all Puzzle Punks!',
+            text: 'Alert! Alert! Calling all Dingo Punks!',
             textDelay: 500,
             textStyle: 'alert',
             characterSprite: {
@@ -20,7 +20,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Stand by for a message from your handsome leader, J.J. Crispy.',
+            text: 'Stand by for a message from your handsome leader, J.J. Dingo.',
             textStyle: 'alert',
             characterSprite: {
                 name: "EMERGENCY ALERT",
@@ -31,10 +31,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Puzzle Punks! A tricky task awaits you this evening.',
+            text: 'Dingo Punks! A tricky task awaits you this evening.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -57,7 +57,7 @@ let cutscene = {
         {
             text: 'The sun has almost set at Candlewick\'s Farm...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -81,7 +81,7 @@ let cutscene = {
         {
             text: '...but the workers haven\'t yet finished the harvest.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
@@ -99,7 +99,7 @@ let cutscene = {
         {
             text: 'Use your codebreaking skills to help, but move quickly!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
             },
@@ -112,7 +112,7 @@ let cutscene = {
         {
             text: 'For when the sun sets, from somewhere deep within the Undermurk...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -130,7 +130,7 @@ let cutscene = {
         {
             text: '...the Fallcrawlers will emerge. And they\'ll eat all the crops!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -151,7 +151,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Not just the crops, Puzzle Punks.',
+            text: 'Not just the crops, Dingo Punks.',
             textDelay: 300,
             textStyle: 'badguy',
             characterSprite: {
@@ -181,10 +181,10 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Hurry, Puzzle Punks! You must crack the codes before the harvest is ruined.',
+            text: 'Hurry, Dingo Punks! You must crack the codes before the harvest is ruined.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -207,7 +207,7 @@ let cutscene = {
         {
             text: 'Sunset is nearly here...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -231,10 +231,10 @@ let cutscene = {
  
     outro: [
         {
-            text: 'Well done, Puzzle Punks! Well done!',
+            text: 'Well done, Dingo Punks! Well done!',
             textDelay: 700,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -258,7 +258,7 @@ let cutscene = {
         {
             text: 'The Fallcrawlers aren\'t stealing any crops tonight!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -271,7 +271,7 @@ let cutscene = {
         {
             text: 'Come aboard! Your mission is complete.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {

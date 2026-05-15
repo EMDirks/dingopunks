@@ -2,7 +2,7 @@ let cutscene = {
        
     intro: [
         {
-            text: 'Alert! Alert! Calling all Puzzle Punks!',
+            text: 'Alert! Alert! Calling all Dingo Punks!',
             textDelay: 500,
             textStyle: 'alert',
             characterSprite: {
@@ -20,7 +20,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Stand by for a message from your handsome leader, J.J. Crispy.',
+            text: 'Stand by for a message from your handsome leader, J.J. Dingo.',
             textStyle: 'alert',
             characterSprite: {
                 name: "EMERGENCY ALERT",
@@ -31,10 +31,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Ready for something exciting, Puzzle Punks?',
+            text: 'Ready for something exciting, Dingo Punks?',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -57,7 +57,7 @@ let cutscene = {
         {
             text: 'Welcome to the world\'s hottest new game show \u2014 Cupid\'s Countdown: Love or Lose!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -81,7 +81,7 @@ let cutscene = {
         {
             text: 'Your mission? Help each contestant find their secret admirer.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
@@ -99,7 +99,7 @@ let cutscene = {
         {
             text: 'If you win, the magic of love will shine for another year.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
             },
@@ -112,7 +112,7 @@ let cutscene = {
         {
             text: 'But if you lose, love will vanish... forever!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -130,7 +130,7 @@ let cutscene = {
         {
             text: 'No pressure though.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -151,7 +151,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Hehehe! I hope you\'re ready, Puzzle Punks.',
+            text: 'Hehehe! I hope you\'re ready, Dingo Punks.',
             textDelay: 400,
             textStyle: 'badguy',
             characterSprite: {
@@ -184,7 +184,7 @@ let cutscene = {
             text: 'Well, you heard the baby! Go figure out those secret admirers.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -207,7 +207,7 @@ let cutscene = {
         {
             text: 'The show is starting in 3... 2... 1...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -231,10 +231,10 @@ let cutscene = {
 
     outro: [
         {
-            text: 'You did it again, Puzzle Punks!',
+            text: 'You did it again, Dingo Punks!',
             textDelay: 700,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -258,7 +258,7 @@ let cutscene = {
         {
             text: 'I can already feel love in the air.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -271,7 +271,7 @@ let cutscene = {
         {
             text: 'Now let\'s get going! Your job is complete.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -305,7 +305,7 @@ let cutscene = {
 
     fail: [
         {
-            text: 'Hehehe... Game over, Puzzle Punks.',
+            text: 'Hehehe... Game over, Dingo Punks.',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {

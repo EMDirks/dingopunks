@@ -4,7 +4,7 @@ This is a relaunch, not a retreat.
 
 Dingo Punks isn't a name pulled from thin air — it comes from the heart of the universe you've already built. J.J. Dingo. The Dingo Spirit. A crew of scrappy, clever outcasts who solve impossible problems and travel the world doing it. The brand was always in the lore. Now the name matches.
 
-The Puzzle Punks era was your build phase. You proved the product, found the audience, earned the trust. Dingo Punks is what carries all of that forward — for the next decade, properly protected, with room to grow into everything you're building next.
+The Dingo Punks era was your build phase. You proved the product, found the audience, earned the trust. Dingo Punks is what carries all of that forward — for the next decade, properly protected, with room to grow into everything you're building next.
 
 Hold this frame when the work gets tedious. It is the truth.
 
@@ -43,26 +43,37 @@ ALREADY DONE
 - ✅ Redirect map: every playpuzzlepunks.com URL → dingopunks.com equivalent
 - ✅ Work assigned (30 thumbnail-a images)
 - ✅ Update homepage copy
-- ✅ Update "Access PIN" -> "Class Code"
+- ✅ Update "Access PIN" -> "game code"
 - ✅ Add "puzzle" keywords sprinkled throughout website
 
 INITIAL PREP (MAY 01 - JUN 05)
 
-- [ ] MAY 15 — Cloudflare: Cloudflare setup: make play.dingopunks.com live and test it
+- ✅ MAY 15 — Cloudflare: Cloudflare setup: make play.dingopunks.com live and test it
+– ✅ MAY 15 — Cloudflare: Create CNAME record pointing play → Cloudflare Pages deployment and verify play.dingopunks.com loads correctly
 - [ ] MAY 18 — Update 12 preview videos
 - [ ] MAY 19 — Update 12 preview videos
 - [ ] MAY 21 — Shopify: Add section to FAQ about inconsistent branding
 - [ ] MAY 21 — TPT: Create "Dingo Punks" (formerly Puzzle Punks) TPT banner
-- [ ] MAY 22 — Game: Replace 'Puzzle Punks' -> 'Dingo Punks'
-- [ ] MAY 22 — Game: Replace 'Access PIN' -> 'Class Code'
-- [ ] MAY 22 — Game: Replace 'J.J. Crispy' -> 'J.J. Dingo'
+⭐ [ ] MAY 22 — Game: Audit all HTML files for schema markup referencing playpuzzlepunks.com or game.playpuzzlepunks.com and update
+- [ ] MAY 22 — Game: Replace logo and og image
+- [ ] MAY 22 — Game: Replace thumbnail images
+- ✅ MAY 22 — Game: Replace 'Access PIN' -> 'game code'
+- ✅ MAY 22 — Game: Replace 'J.J. Crispy' -> 'J.J. Dingo'
+- ✅ MAY 22 — Game: Replace 'game.playpuzzlepunks.com' -> 'play.dingopunks.com'
+- ✅ MAY 22 — Game: Replace 'playpuzzlepunks' -> 'dingopunks'
 - [ ] MAY 22 — Game: QA on all game replacements
+⭐ [ ] MAY 30 — Screaming Frog: Crawl playpuzzlepunks.com, export all URLs, cross-reference against redirect map — flag any URLs not accounted for
 - [ ] MAY 31 — Google: Google Ads campaigns: set up but paused, ready to flip on
 - [ ] JUN 01 — Sketch: Thumbnails rebranding: approve Megan's designs
 
 CRITICAL MIGRATIONS (JUN 06)
 
+⭐ [ ] JUN 06 — Cloudflare: Confirm play.dingopunks.com CNAME is live and loading before touching any redirects
+⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: game.playpuzzlepunks.com → play.dingopunks.com
+⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: playpuzzlepunks.com → dingopunks.com (all sub-paths)
+⭐ [ ] JUN 06 — All: Verify no redirect chains exceed a single hop — direct 301s only, no loops
 - [ ] JUN 06 – TPT: Change TPT store name to Dingo Punks
+- [ ] JUN 06 — Game: Replace 'puzzle-punks' with 'dingo-punks' in code
 - [ ] JUN 06 – Shopify: Change shopify URL to dingopunks.com
 - [ ] JUN 06 – Shopify: Set up all shopify URL redirects
 - [ ] JUN 06 — Cloudflare: Set up game/ redirects
@@ -117,6 +128,7 @@ SOFT LAUNCH (JUN 15)
 - [ ] JUN 15 — **Google:** Activate Google Ads campaigns
 - [ ] JUN 15 – Misc: Update beanbeanbean, harperdirks, and tlr backlinks
 - [ ] JUN 15 — Update email campaign templates
+⭐ [ ] JUN 15 — Google: Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
 
 CONTINUED WORK (JUN 16 - JUL 31)
 
@@ -129,6 +141,7 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+⭐ [ ] JUN 28 — Google: Do not update GBP until Search Console confirms new domain is indexed and redirects are clean
 - [ ] JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 31 — Mailerlite: New BTS escape rooms completed and uploaded
 - [ ] JUL 31 — Shopify: Make code DINGO72 functional

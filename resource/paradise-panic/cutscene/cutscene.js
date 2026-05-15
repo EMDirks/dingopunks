@@ -2,7 +2,7 @@ let cutscene = {
        
     intro: [
         {
-            text: 'Alert! Alert! Calling all Puzzle Punks!',
+            text: 'Alert! Alert! Calling all Dingo Punks!',
             textDelay: 500,
             textStyle: 'alert',
             characterSprite: {
@@ -20,7 +20,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Stand by for a message from your handsome leader, J.J. Crispy.',
+            text: 'Stand by for a message from your handsome leader, J.J. Dingo.',
             textStyle: 'alert',
             characterSprite: {
                 name: "EMERGENCY ALERT",
@@ -34,7 +34,7 @@ let cutscene = {
             text: 'Oh no... we\'ve got a SERIOUS situation. My cousin Frederick is back.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -57,7 +57,7 @@ let cutscene = {
         {
             text: 'He just opened some kind of freaky funhouse \u2014 and he challenged us to escape it.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -81,7 +81,7 @@ let cutscene = {
         {
             text: 'If we can, he\'ll finally admit I\'m smarter than him.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
@@ -99,7 +99,7 @@ let cutscene = {
         {
             text: 'But if we fail, he\'ll lock us inside... forever!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },
@@ -110,9 +110,9 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'So now I need you, Puzzle Punks. We have one chance to escape.',
+            text: 'So now I need you, Dingo Punks. We have one chance to escape.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -130,7 +130,7 @@ let cutscene = {
         {
             text: 'I\'m willing to risk your lives on it.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -191,10 +191,10 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Alright, Puzzle Punks. Pull up your socks and ready your brains.',
+            text: 'Alright, Dingo Punks. Pull up your socks and ready your brains.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -217,7 +217,7 @@ let cutscene = {
         {
             text: 'We\'re going in...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -241,10 +241,10 @@ let cutscene = {
 
     outro: [
         {
-            text: 'Hah! I knew I could count on you, Puzzle Punks!',
+            text: 'Hah! I knew I could count on you, Dingo Punks!',
             textDelay: 700,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -268,7 +268,7 @@ let cutscene = {
         {
             text: 'Let\'s get outta this creepy place.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -281,7 +281,7 @@ let cutscene = {
         {
             text: 'Come aboard! I think I\'m ready for a nap...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {

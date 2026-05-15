@@ -216,7 +216,7 @@ const resource =  {
                 asset: "robustus-the-great.png",
                 dialogue : {
                     incomplete: "I am Sir Robb the Brave. I fear nothing... not even the Mallcrawlers! Don\'t believe me? Read my wild story and see for yourself. I dare you!",
-                    complete: "Well done. I may need your help again someday, Puzzle Punks."
+                    complete: "Well done. I may need your help again someday, Dingo Punks."
                 },
             },
 
@@ -642,7 +642,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "I gathered some pages for my new clothing show tomorrow, and they MUST be perfect. Check them for me, please. I have no time for mistakes!",
-                    complete: "Very nice work. You know, J.J. Crispy is an old friend. Tell him I said hi."
+                    complete: "Very nice work. You know, J.J. Dingo is an old friend. Tell him I said hi."
                 },
             },
 

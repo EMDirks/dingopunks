@@ -2,7 +2,7 @@ let cutscene = {
 
     intro: [
         {
-            text: 'Alert! Alert! Calling all Puzzle Punks!',
+            text: 'Alert! Alert! Calling all Dingo Punks!',
             textDelay: 500,
             textStyle: 'alert',
             characterSprite: {
@@ -20,7 +20,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Stand by for a message from your handsome leader, J.J. Crispy.',
+            text: 'Stand by for a message from your handsome leader, J.J. Dingo.',
             textStyle: 'alert',
             characterSprite: {
                 name: "EMERGENCY ALERT",
@@ -31,10 +31,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'It\'s finally spring, Puzzle Punks!',
+            text: 'It\'s finally spring, Dingo Punks!',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -57,7 +57,7 @@ let cutscene = {
         {
             text: 'I just hope you\'re not afraid of bees...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 
@@ -67,7 +67,7 @@ let cutscene = {
         {
             text: '...because Bumbleburg Hive needs your help.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -91,7 +91,7 @@ let cutscene = {
         {
             text: 'You see, its workers haven\'t finished collecting nectar from the nearby valley.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
@@ -109,7 +109,7 @@ let cutscene = {
         {
             text: 'And in less than an hour, a terrible storm is blowing in.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },
@@ -122,7 +122,7 @@ let cutscene = {
         {
             text: 'His name is Gustav, and he hates EVERYTHING. Especially spring.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -140,7 +140,7 @@ let cutscene = {
         {
             text: 'We can\'t let him destroy the valley!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -161,7 +161,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Can you hear the thunder, Puzzle Punks?',
+            text: 'Can you hear the thunder, Dingo Punks?',
             textDelay: 300,
             textStyle: 'badguy',
             characterSprite: {
@@ -194,7 +194,7 @@ let cutscene = {
             text: 'Well \u2014 don\'t just sit there! Go help the hive before Gustav arrives.',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -217,7 +217,7 @@ let cutscene = {
         {
             text: 'It\'s almost too late...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -241,10 +241,10 @@ let cutscene = {
 
     outro: [
         {
-            text: 'I knew I could count on you, Puzzle Punks!',
+            text: 'I knew I could count on you, Dingo Punks!',
             textDelay: 700,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -268,7 +268,7 @@ let cutscene = {
         {
             text: 'Thanks to you, Bumbleburg Hive is going to be just fine.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -281,7 +281,7 @@ let cutscene = {
         {
             text: 'Quickly now, come aboard! Let\'s get going.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -314,7 +314,7 @@ let cutscene = {
 
     fail: [
         {
-            text: 'Hah! Too slow, Puzzle Punks.',
+            text: 'Hah! Too slow, Dingo Punks.',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {

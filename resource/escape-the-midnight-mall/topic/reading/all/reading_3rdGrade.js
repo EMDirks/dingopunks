@@ -377,7 +377,7 @@ const resource =  {
             hint: "Read the notes, then find the meaning of each word by looking for context clues. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
             dialogue : {
                 incomplete: "I wrote some notes for a fashion show, but I think some of the words are too hard. Perhaps you can use context clues to find out what they mean...",
-                complete: "So, J.J. Crispy sent you? I have not heard that name in a long time..."
+                complete: "So, J.J. Dingo sent you? I have not heard that name in a long time..."
             }, 
             symbol: ["AA","BB","CC","DD","EE","FF","GG","HH","II","JJ","KK","LL","MM","NN","OO","PP","QQ","RR","SS","TT","UU","VV","WW","XX","YY","ZZ"]
         },

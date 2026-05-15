@@ -957,7 +957,7 @@ const resource = {
                 asset: "madame-mystica.png",
                 dialogue : {
                     incomplete: "I've gazed into my orb and seen the pirates' fleet on the move! I've plotted the exact coordinates of four ships, but I need you to make sense of my findings. Will you take a look?",
-                    complete: "Well done, Puzzle Punks. Sometimes, what's been thrown away holds the greatest value..."
+                    complete: "Well done, Dingo Punks. Sometimes, what's been thrown away holds the greatest value..."
                 },
             },
 

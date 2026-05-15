@@ -248,7 +248,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "Ah, finally... the long-awaited Lavender Report has arrived. This document is of extreme importance to the hive. Study it well, and deliver its key truths to me at once!",
-                    complete: "Your help is appreciated more than you know. I see why J.J. Crispy speaks so highly of you."
+                    complete: "Your help is appreciated more than you know. I see why J.J. Dingo speaks so highly of you."
                 },
             },
 

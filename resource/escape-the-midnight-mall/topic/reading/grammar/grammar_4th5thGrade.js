@@ -238,7 +238,7 @@ const resource =  {
                 asset: "robustus-the-great.png",
                 dialogue : {
                     incomplete: "For my upcoming raid on the Undermurk, I wrote some lines to inspire my troops. However, I penned them quickly, and I fear that my words sound foolish. I command you to fix my mistakes!",
-                    complete: "Well done, Puzzle Punks. These words will truly inspire. Onward to the Undermurk!"
+                    complete: "Well done, Dingo Punks. These words will truly inspire. Onward to the Undermurk!"
                 },
             },
 
@@ -675,7 +675,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "A supplier hid secret notes in my latest fabric shipment. They say someone in this mall is a traitor working for the Undermurk! I have no time to figure out who it is \u2014 will you do it for me?",
-                    complete: "So, it\'s Gary \u2014 Martin\'s assistant. Thank you for the help, Puzzle Punks. I\'ll handle it from here."
+                    complete: "So, it\'s Gary \u2014 Martin\'s assistant. Thank you for the help, Dingo Punks. I\'ll handle it from here."
                 },
             },
 

@@ -48,7 +48,7 @@ const resource =  {
                 asset: "broken-animatronic.png",
                 dialogue : {
                     incomplete: "Wow! I went from being thrown into a junk pile to being on a TV show. I can't believe it! Are you ready to help me find my secret admirer?",
-                    complete: "Ahh... Theo! Doesn't it have such a lovely sound? Thank you, Puzzle Punks \u2014 thank you!"
+                    complete: "Ahh... Theo! Doesn't it have such a lovely sound? Thank you, Dingo Punks \u2014 thank you!"
                 },
             },
 

@@ -377,7 +377,7 @@ const resource =  {
             hint: "Read each passage, then find the meaning of each word by looking at context clues. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
             dialogue : {
                 incomplete: "I wrote some notes for an upcoming fashion show, but my assistant said the words are too... \"fancy.\" So, I need you to use context clues to find simpler ones. Such work is beneath me, darling.",
-                complete: "So, J.J. Crispy sent you? I have not heard that name in a long time... Perhaps you can send him my regards."
+                complete: "So, J.J. Dingo sent you? I have not heard that name in a long time... Perhaps you can send him my regards."
             }, 
             symbol: ["AA","BB","CC","DD","EE","FF","GG","HH","II","JJ","KK","LL","MM","NN","OO","PP","QQ","RR","SS","TT","UU","VV","WW","XX","YY","ZZ"]
         },

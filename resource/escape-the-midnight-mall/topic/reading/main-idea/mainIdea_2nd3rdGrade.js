@@ -249,7 +249,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "Someone sent me a letter, but I do not have time to read it. You will read it for me and report back. That\'s why you\'re here, right?",
-                    complete: "That is all, Puzzle Punks. I am no longer in need of your skills. You may leave now."
+                    complete: "That is all, Dingo Punks. I am no longer in need of your skills. You may leave now."
                 },
             },
 

@@ -53,7 +53,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "Oh! A letter for me? I want to know what it says, but I\'m too busy getting ready for my fashion show tomorrow. Can you read it for me?",
-                    complete: "Thank you, Puzzle Punks. What a lovely letter to read."
+                    complete: "Thank you, Dingo Punks. What a lovely letter to read."
                 },
             },
 

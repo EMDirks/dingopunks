@@ -25,7 +25,7 @@ const resource =  {
             isHintUsed: false,
             dialogue : {
                 incomplete: "I'm here to help the bees gather nectar! The Queen gave me some instructions on which flowers to find, but I haven't had time to read them yet. Can you take a look for me?",
-                complete: "I'm so glad the Puzzle Punks are here. We all need to work together!"
+                complete: "I'm so glad the Dingo Punks are here. We all need to work together!"
             },
             content: {
                 passage: {
@@ -395,7 +395,7 @@ const resource =  {
             hint: "Read the short story, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "My dear Puzzle Punks, welcome to the throne room! Would you like to read a history of my leadership? I am certain it will inspire you.",
+                incomplete: "My dear Dingo Punks, welcome to the throne room! Would you like to read a history of my leadership? I am certain it will inspire you.",
                 complete: "My lovely guest! I hope you enjoyed my story. Perhaps you will visit again soon."
             }, 
             content: {

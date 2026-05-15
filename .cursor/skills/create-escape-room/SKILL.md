@@ -7,7 +7,7 @@ description: Create escape room content files from uploaded images. Use when the
 
 ## Overview
 
-Extract content from uploaded images and create a `resource` JS file following the Puzzle Punks escape room format.
+Extract content from uploaded images and create a `resource` JS file following the Dingo Punks escape room format.
 
 ## File Location
 

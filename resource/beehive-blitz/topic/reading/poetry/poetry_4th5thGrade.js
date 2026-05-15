@@ -713,8 +713,8 @@ const resource = {
                 character: "Queen Bella",
                 asset: "queen-bella.png",
                 dialogue : {
-                    incomplete: "Greetings, Puzzle Punks. I've written some couplets to inspire the hive, and I need a second set of eyes to review my work. Tell me, are you up to the challenge?",
-                    complete: "We shall face every storm with unwavering strength! Many thanks, Puzzle Punks."
+                    incomplete: "Greetings, Dingo Punks. I've written some couplets to inspire the hive, and I need a second set of eyes to review my work. Tell me, are you up to the challenge?",
+                    complete: "We shall face every storm with unwavering strength! Many thanks, Dingo Punks."
                 },
             },
 

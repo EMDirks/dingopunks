@@ -309,7 +309,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "J.J. Crispy",
+                            text: "J.J. DINGO",
                         },
                         contentArray: [
                             {
@@ -953,7 +953,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "It seems Gustav isn't acting alone \u2014 he's brought friends. I need you to track their movements on a coordinate plane, but beware, the data is encoded for secrecy! Are you up to the challenge?",
-                    complete: "My dear Puzzle Punks, your help has been immeasurable! I wish you well."
+                    complete: "My dear Dingo Punks, your help has been immeasurable! I wish you well."
                 },
             },
 

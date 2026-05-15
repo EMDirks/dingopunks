@@ -25,7 +25,7 @@ const resource =  {
             isHintUsed: false,
             dialogue : {
                 incomplete: "I'm here to help the bees gather nectar! The Queen gave me some instructions on which flowers to collect, but I haven't had time to read them yet. Can you take a look for me?",
-                complete: "I'm so glad the Puzzle Punks are here. We all need to work together!"
+                complete: "I'm so glad the Dingo Punks are here. We all need to work together!"
             },
             content: {
                 passage: {

@@ -449,7 +449,7 @@ const resource = {
                 asset: "chef-gumbo.png",
                 dialogue : {
                     incomplete: "I'm cookin' up me famous Stinky Seaweed Stew to scare off the pirates! The local newspaper wrote about it, but I never learned me letters. Can ye check if it's smelly enough to do the job?",
-                    complete: "Thank ye, Puzzle Punks. It seems me stinky stew will do the trick. Now, back to sea we go!"
+                    complete: "Thank ye, Dingo Punks. It seems me stinky stew will do the trick. Now, back to sea we go!"
                 },
             },
 

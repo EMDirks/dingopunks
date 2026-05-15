@@ -623,7 +623,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "I have received several reports from around the hive, and many of them are quite unacceptable. I command you to sort them! There is no room for even a single mistake in my royal records.",
-                    complete: "Excellent work, Puzzle Punks. We shall endure this storm together."
+                    complete: "Excellent work, Dingo Punks. We shall endure this storm together."
                 },
             },
 

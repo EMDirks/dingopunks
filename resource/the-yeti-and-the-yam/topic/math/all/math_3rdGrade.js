@@ -1163,7 +1163,7 @@ const resource = {
                 asset: "the-frozen-knight.png",
                 dialogue : {
                     incomplete: "I must escape soon, but I need to count my supplies first. I'm willing to share some cinnamon if you lend a hand. Will you help me, friend?",
-                    complete: "It was an honor working with you, Puzzle Punks. I bid you farewell, and good luck!"
+                    complete: "It was an honor working with you, Dingo Punks. I bid you farewell, and good luck!"
                 },
             },
 

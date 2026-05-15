@@ -542,7 +542,7 @@ const resource =  {
                 asset: "lady-thistledown.png",
                 dialogue : {
                     incomplete: "Oh dear... I was sent to look for clues to stop these awful machines. I found a strange little poem, and it seems important. Can you help me figure out what it means?",
-                    complete: "Thanks to you, Puzzle Punks, we can stop these machines for good."
+                    complete: "Thanks to you, Dingo Punks, we can stop these machines for good."
                 },
             },
 

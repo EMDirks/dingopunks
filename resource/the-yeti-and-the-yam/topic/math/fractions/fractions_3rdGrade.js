@@ -712,7 +712,7 @@ const resource = {
                 asset: "the-frozen-knight.png",
                 dialogue : {
                     incomplete: "The King sent me a secret shipment of supplies, but all the labels are in code. If you help me figure out what I have here, I'll gladly share some butter with you. Do we have a deal?",
-                    complete: "Farewell, Puzzle Punks! Watch your step, and beware of large footprints in the snow..."
+                    complete: "Farewell, Dingo Punks! Watch your step, and beware of large footprints in the snow..."
                 },
             },
 

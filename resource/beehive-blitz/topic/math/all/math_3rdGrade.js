@@ -945,7 +945,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "My dear guest, you have arrived at the perfect moment. You see, I have all these fractions that need sorting. Don't ask why \u2014 just do it.",
-                    complete: "Thank you, Puzzle Punks. You served your Queen well."
+                    complete: "Thank you, Dingo Punks. You served your Queen well."
                 },
             },
 

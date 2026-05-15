@@ -671,7 +671,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "I have a couple of problems, but I don\'t have time to solve them. You will do it for me. And don\'t make any mistakes.",
-                    complete: "Well done, Puzzle Punks. I must say, everything looks perfect now."
+                    complete: "Well done, Dingo Punks. I must say, everything looks perfect now."
                 },
             },
 

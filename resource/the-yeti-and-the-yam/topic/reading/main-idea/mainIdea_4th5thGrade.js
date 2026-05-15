@@ -168,7 +168,7 @@ const resource = {
                                     text: 'PIRATE CREW PLOTS CAPTAIN\'S RESCUE',
                                 },
                                 subtitle: {
-                                    text: "By J.J. Crispy, Contributing Reporter",
+                                    text: "By J.J. Dingo, Contributing Reporter",
                                 },
                                 passage: {
                                     text: "Two winters ago, Captain Fishbeard led his crew of misfits on an epic journey through the frigid North Sea. But the mission took a dire turn when their ship, <em>Storm Breaker</em>, blew off course into a snowy island. The situation was desperate. Within minutes, a prowling yeti ambushed the crew and dragged Captain Fishbeard away into its secret lair.\

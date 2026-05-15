@@ -2,7 +2,7 @@ let cutscene = {
 
     intro: [
         {
-            text: 'Alert! Alert! Calling all Puzzle Punks!',
+            text: 'Alert! Alert! Calling all Dingo Punks!',
             textDelay: 500,
             textStyle: 'alert',
             characterSprite: {
@@ -20,7 +20,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Stand by for a message from your handsome leader, J.J. Crispy.',
+            text: 'Stand by for a message from your handsome leader, J.J. Dingo.',
             textStyle: 'alert',
             characterSprite: {
                 name: "EMERGENCY ALERT",
@@ -31,10 +31,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Ahoy, Puzzle Punks!',
+            text: 'Ahoy, Dingo Punks!',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -57,7 +57,7 @@ let cutscene = {
         {
             text: 'I hope you brought a swimsuit, because we\'re heading to the beach.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 
@@ -67,7 +67,7 @@ let cutscene = {
         {
             text: 'Welcome to Camp Calamari!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -91,7 +91,7 @@ let cutscene = {
         {
             text: 'A place of friendship, smiles, and a great big secret.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
@@ -109,7 +109,7 @@ let cutscene = {
         {
             text: 'You see, legend says there\'s treasure buried beneath the sand.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
             },
@@ -122,7 +122,7 @@ let cutscene = {
         {
             text: 'But the secret is out, and the pirates are coming!',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -140,7 +140,7 @@ let cutscene = {
         {
             text: 'Called the Red Tide, they\'re known far and wide for their greed and cruelty.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -179,7 +179,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'That\'s the last mistake ye\'ll ever make, Puzzle Punks.',
+            text: 'That\'s the last mistake ye\'ll ever make, Dingo Punks.',
             textStyle: 'badguy',
             characterSprite: {
                 name: "THE RED TIDE",
@@ -194,7 +194,7 @@ let cutscene = {
             text: 'Well, that doesn\'t sound good. Go help the counselors prepare the camp\'s defenses!',
             textDelay: 500,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -217,7 +217,7 @@ let cutscene = {
         {
             text: 'The Red Tide will be here soon...',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -241,10 +241,10 @@ let cutscene = {
 
     outro: [
         {
-            text: 'Great work, Puzzle Punks!',
+            text: 'Great work, Dingo Punks!',
             textDelay: 700,
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -268,7 +268,7 @@ let cutscene = {
         {
             text: 'Those Red Tide pirates don\'t stand a chance.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -281,7 +281,7 @@ let cutscene = {
         {
             text: 'Let\'s get you out of there! Your job is done.',
             characterSprite: {
-                name: "J.J. CRISPY",
+                name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
@@ -314,7 +314,7 @@ let cutscene = {
 
     fail: [
         {
-            text: 'Arr! We be here, Puzzle Punks!',
+            text: 'Arr! We be here, Dingo Punks!',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {

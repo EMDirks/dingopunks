@@ -43,7 +43,7 @@ const resource =  {
                 asset: "broken-animatronic.png",
                 dialogue : {
                     incomplete: "I spent ages in a junk pile, all rusty and forgotten, trying to remember who I once was \u2014 and now I'm on a TV show! I can't believe it! Are you ready to help me find my secret admirer?",
-                    complete: "Ryan? Wait... I... I remember Ryan! Oh, thank you, Puzzle Punks \u2014 thank you!"
+                    complete: "Ryan? Wait... I... I remember Ryan! Oh, thank you, Dingo Punks \u2014 thank you!"
                 },
             },
 

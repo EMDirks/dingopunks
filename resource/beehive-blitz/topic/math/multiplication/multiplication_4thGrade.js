@@ -723,8 +723,8 @@ const resource = {
                 character: "Queen Bella",
                 asset: "queen-bella.png",
                 dialogue : {
-                    incomplete: "Welcome, Puzzle Punks. A great storm is coming! I must count all my bees, but they're a mess right now. Sort them into categories so I may know how many forces we have.",
-                    complete: "Well done, Puzzle Punks. Do not delay a second more. Help whoever you can!"
+                    incomplete: "Welcome, Dingo Punks. A great storm is coming! I must count all my bees, but they're a mess right now. Sort them into categories so I may know how many forces we have.",
+                    complete: "Well done, Dingo Punks. Do not delay a second more. Help whoever you can!"
                 },
             },
 

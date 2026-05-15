@@ -226,7 +226,7 @@ const resource =  {
                 asset: "sir-eggbert.png",
                 dialogue : {
                     incomplete: "Two of my knights gave me escape plans, but each one has its risks. I need you to read both and tell me what you think.",
-                    complete: "Thank you, Puzzle Punks. I will think about your advice carefully."
+                    complete: "Thank you, Dingo Punks. I will think about your advice carefully."
                 },
             },
 

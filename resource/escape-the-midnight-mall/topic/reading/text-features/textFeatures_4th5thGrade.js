@@ -395,7 +395,7 @@ const resource =  {
                 asset: "prisma.png",
                 dialogue : {
                     incomplete: "My runway show is almost here, and everything must be flawless. I wrote a table of contents, a glossary, and an index \u2014 all quite fabulous! Will you make sure they\'re clear and correct?",
-                    complete: "Lovely work, Puzzle Punks. Send J.J. Crispy my regards, will you?"
+                    complete: "Lovely work, Dingo Punks. Send J.J. Dingo my regards, will you?"
                 },
             },
 
