@@ -50,13 +50,15 @@ INITIAL PREP (MAY 01 - JUN 05)
 
 - ✅ MAY 15 — Cloudflare: Cloudflare setup: make play.dingopunks.com live and test it
 – ✅ MAY 15 — Cloudflare: Create CNAME record pointing play → Cloudflare Pages deployment and verify play.dingopunks.com loads correctly
+- [ ] More instructive 404 page, asking to contact us for a coupon
 - [ ] MAY 18 — Update 12 preview videos
 - [ ] MAY 19 — Update 12 preview videos
 - [ ] MAY 21 — Shopify: Add section to FAQ about inconsistent branding
 - [ ] MAY 21 — TPT: Create "Dingo Punks" (formerly Puzzle Punks) TPT banner
 ⭐ [ ] MAY 22 — Game: Audit all HTML files for schema markup referencing playpuzzlepunks.com or game.playpuzzlepunks.com and update
-- [ ] MAY 22 — Game: Replace logo and og image
 - [ ] MAY 22 — Game: Replace thumbnail images
+- ✅ MAY 22 — Game: Add new OG images
+- ✅ MAY 22 — Game: Replace logo
 - ✅ MAY 22 — Game: Replace 'Access PIN' -> 'game code'
 - ✅ MAY 22 — Game: Replace 'J.J. Crispy' -> 'J.J. Dingo'
 - ✅ MAY 22 — Game: Replace 'game.playpuzzlepunks.com' -> 'play.dingopunks.com'
@@ -102,6 +104,7 @@ SHOPIFY FLIP (JUN 10 - JUN 14)
 - [ ] JUN 09 — Shopify: Flip new shopify theme
 - [ ] JUN 09 — Shopify: Display shopify rebranding banner
 - [ ] JUN 09 — Shopify: Publish FAQ blog post
+- [ ] JUN 09 — Shopify: Add OG image
 - [ ] JUN 09 — Shopify: Update Menu
 - [ ] JUN 09 — Shopify: QA for shopify pages
 - [ ] JUN 09 — Shopify: Update transactional email templates
