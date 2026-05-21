@@ -4,7 +4,7 @@ This is a relaunch, not a retreat.
 
 Dingo Punks isn't a name pulled from thin air — it comes from the heart of the universe you've already built. J.J. Dingo. The Dingo Spirit. A crew of scrappy, clever outcasts who solve impossible problems and travel the world doing it. The brand was always in the lore. Now the name matches.
 
-The Dingo Punks era was your build phase. You proved the product, found the audience, earned the trust. Dingo Punks is what carries all of that forward — for the next decade, properly protected, with room to grow into everything you're building next.
+The Puzzle Punks era was your build phase. You proved the product, found the audience, earned the trust. Dingo Punks is what carries all of that forward — for the next decade, properly protected, with room to grow into everything you're building next.
 
 Hold this frame when the work gets tedious. It is the truth.
 
@@ -50,10 +50,10 @@ INITIAL PREP (MAY 01 - JUN 05)
 
 - ✅ MAY 15 — Cloudflare: Cloudflare setup: make play.dingopunks.com live and test it
 – ✅ MAY 15 — Cloudflare: Create CNAME record pointing play → Cloudflare Pages deployment and verify play.dingopunks.com loads correctly
-- [ ] MAY 18 — Update 12 preview videos
-- [ ] MAY 19 — Update 12 preview videos
-- [ ] MAY 21 — TPT: Create "Dingo Punks" (formerly Puzzle Punks) TPT banner
-⭐ [ ] MAY 21 — Game: Audit all HTML files for schema markup referencing playpuzzlepunks.com or game.playpuzzlepunks.com and update
+- ✅ MAY 18 — Update 12 preview videos
+- ✅ MAY 21 — TPT: Create "Dingo Punks" (formerly Puzzle Punks) TPT banner
+- ✅ ⭐ MAY 21 — Game: Audit all HTML files for schema markup referencing playpuzzlepunks.com or game.playpuzzlepunks.com and update
+- ✅ MAY 21 — Game: Add small link to play page
 - ✅ MAY 21 — Shopify: Add section to FAQ about inconsistent branding
 - ✅ MAY 22 — More instructive 404 page, asking to contact us for a coupon
 - ✅ MAY 22 — Game: Replace thumbnail images
@@ -63,10 +63,10 @@ INITIAL PREP (MAY 01 - JUN 05)
 - ✅ MAY 22 — Game: Replace 'J.J. Crispy' -> 'J.J. Dingo'
 - ✅ MAY 22 — Game: Replace 'game.playpuzzlepunks.com' -> 'play.dingopunks.com'
 - ✅ MAY 22 — Game: Replace 'playpuzzlepunks' -> 'dingopunks'
-- [ ] MAY 22 — Game: QA on all game replacements
-⭐ [ ] MAY 30 — Screaming Frog: Crawl playpuzzlepunks.com, export all URLs, cross-reference against redirect map — flag any URLs not accounted for
-- [ ] MAY 31 — Google: Google Ads campaigns: set up but paused, ready to flip on
-- [ ] JUN 01 — Sketch: Thumbnails rebranding: approve Megan's designs
+- ✅ MAY 22 — Game: QA on all game replacements
+– ✅ ⭐ MAY 30 — Screaming Frog: Crawl playpuzzlepunks.com, export all URLs, cross-reference against redirect map — flag any URLs not accounted for
+- ✅ MAY 31 — Google: Google Ads campaigns: set up but paused, ready to flip on
+- ✅ JUN 01 — Sketch: Thumbnails rebranding: approve Megan's designs
 
 CRITICAL MIGRATIONS (JUN 06)
 

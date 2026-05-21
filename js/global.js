@@ -562,6 +562,10 @@ function updateAbsoluteElements() {
     ['.modal__button',0.02,'fontSize'],
     ['.modal__x',0.02,'fontSize'],
     ['.modal__x',0.022,'widthHeight'],
+    ['.rate-limit-overlay__title',0.035,'fontSize'],
+    ['.rate-limit-overlay__message',0.015,'fontSize'],
+    ['.rate-limit-overlay__countdown',0.0015,'borderWidth'],
+    ['.rate-limit-overlay__countdown',0.015,'fontSize'],
   ]
 
   elements.forEach(([selector, scale, type]) => {
@@ -688,6 +692,7 @@ function updateElementSize() {
     ['.splash-subtitle', 0.019],
     ['.splash-nav', 0.02],
     ['.splash-version', 0.015],
+    ['.splash-note', 0.015],
     ['.cutscene-character-name',0.035],
     ['.cutscene-skip-text',0.02],
     ['.theme-speech-bubble__text', 0.06],

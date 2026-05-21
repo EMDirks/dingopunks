@@ -374,3 +374,68 @@
 .splash-text-link:hover {
     background-color: rgba(var(--off-white), 1);
 }
+
+
+/* ---- rate limit overlay ---- */
+
+.rate-limit-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--off-black), 1);
+    transition: opacity 0.3s;
+}
+
+.rate-limit-overlay--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.rate-limit-overlay--visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.rate-limit-overlay__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vmin;
+    text-align: center;
+    margin-top: -5%;
+}
+
+.rate-limit-overlay__title {
+    font-family: 'Primer Print Bold', sans-serif;
+    color: rgba(var(--gold), 1);
+    margin: 0;
+}
+
+.rate-limit-overlay__message {
+    font-family: 'Primer Print Bold', sans-serif;
+    color: rgba(var(--off-white), 1);
+    margin: 0;
+    width: 55%;
+}
+
+.rate-limit-overlay__countdown {
+    font-family: 'Primer Print Bold', sans-serif;
+    color: rgba(var(--off-white), 1);
+    border: 1px solid rgba(var(--off-white), 1);
+    padding: 2% 4%;
+    border-radius: 1vmin;
+    margin-top: 2.5%;
+    width: 36%;
+    text-align: left;
+}
+
+.rate-limit-overlay__seconds {
+    color: rgba(var(--gold), 1);
+}
+
+.rate-limit-overlay__seconds-label {
+    color: rgba(var(--gold), 1);
+}

@@ -50,7 +50,7 @@
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Answer Key | Dingo Punks",
-      "url": "https://play.dingopunks.com/answer-key.html",
+      "url": "https://play.dingopunks.com/answer-key",
       "description": "View the Dingo Punks answer keys.",
       "isPartOf": {
         "@type": "WebSite",
@@ -76,6 +76,15 @@
 
 		<!-- website container -->
 		<div class = "site-container">
+
+			<!-- rate limit overlay -->
+		<section class="rate-limit-overlay rate-limit-overlay--hidden">
+			<div class="rate-limit-overlay__content">
+				<p class="rate-limit-overlay__title">Slow down!</p>
+				<p class="rate-limit-overlay__message">You've tried too many times. Check your PDF for the game code, then try again.</p>
+				<p class="rate-limit-overlay__countdown">🔒 You can try again in <span class="rate-limit-overlay__seconds">60</span><span class="rate-limit-overlay__seconds-label">s</span></p>
+			</div>
+		</section>
 
 			<!-- modal -->
 			<section class = "modal modal--hidden">

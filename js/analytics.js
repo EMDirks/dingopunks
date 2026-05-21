@@ -1284,28 +1284,22 @@ const analyticsArray = [
             // All
 
             {
-                level: ['2nd'],
-                topic: 'Reading Comprehension',
-                resourceJS: 'topic/reading/all/reading_2ndGrade.js',
-                googleAnalyticsID: '65912'
-            },
-            {
                 level: ['3rd'],
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_3rdGrade.js',
-                googleAnalyticsID: '77849'
+                googleAnalyticsID: 'Lahd778-Js4Syhw-9gSYnnS'
             },
             {
                 level: ['4th'],
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_4thGrade.js',
-                googleAnalyticsID: '25253'
+                googleAnalyticsID: 'L2sy5AA-2Snae53-YandKLs'
             },
             {
                 level: ['5th'],
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_5thGrade.js',
-                googleAnalyticsID: '87365'
+                googleAnalyticsID: '8PLhayt-K7sakYd-3D6s5Ta'
             },
 
         ]

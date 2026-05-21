@@ -60,7 +60,7 @@
     color: rgba(var(--off-white), 1);
     text-align: left;
     position: absolute;
-    bottom: 9.5%;
+    bottom: 13.2%;
     left: 3%;
     transition: opacity 0.4s;
     transition-delay: 0s;
@@ -75,6 +75,32 @@
     opacity: 0;
     pointer-events: none;
 }
+
+.splash-note {
+    font-family: 'Primer Print Bold', cursive;
+    color: rgba(var(--off-white), 1);
+    text-align: left;
+    position: absolute;
+    bottom: 10%;
+    left: 3%;
+    transition: opacity 0.4s;
+    transition-delay: 0s;
+    line-height: 100%;
+}
+
+.splash-note span {
+    color: rgba(var(--gold), 1);
+}
+
+.splash-note--visible {
+    opacity: 1;
+}
+
+.splash-note--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 
 .splash--visible {
     transition: opacity 0.3s;

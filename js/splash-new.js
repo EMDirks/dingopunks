@@ -9,6 +9,13 @@ let promoData;
 // set variables
 let splashIndex = 0;
 let isAccess = true;
+
+// rate limiting
+let pinFailedAttempts = 0;
+let pinLockoutTimeoutId = null;
+let pinLockoutIntervalId = null;
+const PIN_MAX_ATTEMPTS = 5;
+const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
@@ -258,6 +265,45 @@ if (promoDataSet === 'promo-spring-3'){
   }
 }
 
+function isPinLockedOut() {
+  return pinLockoutTimeoutId !== null;
+}
+
+function triggerPinLockout() {
+  const overlay = document.querySelector('.rate-limit-overlay');
+  const secondsEl = overlay ? overlay.querySelector('.rate-limit-overlay__seconds') : null;
+  let remaining = PIN_LOCKOUT_SECONDS;
+  if (secondsEl) secondsEl.textContent = remaining;
+  if (overlay) overlay.classList.replace('rate-limit-overlay--hidden', 'rate-limit-overlay--visible');
+
+  pinLockoutIntervalId = setInterval(function() {
+    remaining -= 1;
+    if (secondsEl) secondsEl.textContent = remaining;
+  }, 1000);
+
+  pinLockoutTimeoutId = setTimeout(endPinLockout, PIN_LOCKOUT_SECONDS * 1000);
+}
+
+function endPinLockout() {
+  clearTimeout(pinLockoutTimeoutId);
+  clearInterval(pinLockoutIntervalId);
+  pinLockoutTimeoutId = null;
+  pinLockoutIntervalId = null;
+  pinFailedAttempts = 0;
+
+  const overlay = document.querySelector('.rate-limit-overlay');
+  if (overlay) overlay.classList.replace('rate-limit-overlay--visible', 'rate-limit-overlay--hidden');
+
+  const cells = document.querySelectorAll('.access-input');
+  cells.forEach(function(cell, i) {
+    cell.value = '';
+    if (i === 0) {
+      cell.focus();
+      activeInput__codeInput = cell;
+    }
+  });
+}
+
 // draw splash
 function drawSplash(){
 
@@ -293,10 +339,12 @@ function drawSplash(){
 
   // create version and navigation
   if (splashIndex === 0){
+    splashNote = createElement("p", ["splash-note", "splash-note--visible"],splashContainer);
     splashNav = createElement("p", ["splash-nav", "splash-nav--visible"],splashContainer);
     splashVersion = createElement("p", ["splash-version", "splash-version--visible"],splashContainer);
     splashVersion.textContent = "VERSION " + version;
     splashNav.innerHTML = "<a href = 'https://dingopunks.com'>HOME</a><a href = 'https://dingopunks.com/collections/all'>SHOP</a><a href = 'https://dingopunks.com/pages/teacher-portal'>TEACHERS</a>"; 
+    splashNote.innerHTML = "Puzzle Punks is now <span><a href = 'https://dingopunks.com/blogs/dingopunks/puzzle-punks-is-now-dingo-punks'>Dingo Punks</a></span> — same game, new name!";
     /*
     if (gameMode === 'preview'){
       splashVersion.innerHTML = "";
@@ -671,6 +719,7 @@ function addAccess(){
 }
 
 function checkIfAccessInputIsFilled() {
+  if (isPinLockedOut()) return false;
   toggleClass(splashButton, 'splash-button--visible', 'splash-button--hidden');
   var filledCells = document.querySelectorAll('.access-input');
   var allFilled = true;
@@ -760,6 +809,7 @@ function checkIfAccessInputIsFilled() {
     }
 
     if (!foundMatch) {
+      pinFailedAttempts += 1;
       for (let i = 0; i < filledCells.length; i++) {
         toggleClass(
           filledCells[i],
@@ -767,6 +817,9 @@ function checkIfAccessInputIsFilled() {
           'access-input--flash'
         );
         setTimeout(clearCells, 400, filledCells[i], i);
+      }
+      if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
+        setTimeout(triggerPinLockout, 450);
       }
     }
 

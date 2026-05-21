@@ -58,7 +58,7 @@
 			"@type": "WebSite",
 			"name": "Play Now | Dingo Punks",
 			"url": "https://play.dingopunks.com",
-			"sameAs": "https://dingopunks.com",
+			"sameAs": ["https://dingopunks.com"],
 			"isPartOf": {
 				"@type": "WebSite",
 				"name": "Dingo Punks",
@@ -82,7 +82,16 @@
 		<!-- website container -->
 		<div class = "site-container">
 
-			<!-- modal -->
+		<!-- rate limit overlay -->
+		<section class="rate-limit-overlay rate-limit-overlay--hidden">
+			<div class="rate-limit-overlay__content">
+				<p class="rate-limit-overlay__title">Slow down!</p>
+				<p class="rate-limit-overlay__message">You've tried too many times. Ask your teacher for the game code, then try again.</p>
+				<p class="rate-limit-overlay__countdown">🔒 You can try again in <span class="rate-limit-overlay__seconds">60</span><span class="rate-limit-overlay__seconds-label">s</span></p>
+			</div>
+		</section>
+
+		<!-- modal -->
 			<section class = "modal modal--hidden">
 				<div class = "modal__popup modal__popup--hidden style-border--default">
 					<p class = "modal__x style-border--default">&#x2715</p>

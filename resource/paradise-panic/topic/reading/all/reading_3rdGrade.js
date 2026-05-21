@@ -4,7 +4,7 @@ const resource =  {
         title: "Paradise Panid",
         path: "paradise-panic",
         logo: "assets/branding/placeholder/need-image.png",
-        timerLabel: "FERRY LEAVES"
+        timerLabel: "BOAT LEAVES"
     },
 
     challengeArray: [
@@ -23,9 +23,26 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Main Idea and Supporting Details",
+                    topic: "Main Topic and Key Details",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.2",
+                        "RI.2.6",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.1",
+                        "RI.3.2",
+                        "RI.3.8",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -34,8 +51,8 @@ const resource =  {
                 character: "Demi Voss",
                 asset: "character1.png",
                 dialogue : {
-                    incomplete: "This guest keeps making the weirdest demands! I already have a hotel to run, and I don\'t have time for this. Can you figure out what his note says?",
-                    complete: "Thanks, sweetie. I knew you were someone I could trust."
+                    incomplete: "Girl, this guest is SO demanding! I already have a whole hotel to run, and I don\'t have time for this. Can you tell me what his note is all about?",
+                    complete: "Thanks, bestie. You know, you really looked like someone I could trust."
                 },
             },
 
@@ -55,7 +72,7 @@ const resource =  {
                                     &nbsp; &nbsp; First, the boat needs a big swimming pool. Second, it needs a giant glass dining room. And third, it needs the softest chairs money can buy.\
                                     <br>\
                                     <br>\
-                                    &nbsp; &nbsp; Also, my friends say I should stop eating steak for every meal. But it makes me feel amazing.\
+                                    &nbsp; &nbsp; Also, my friends say I should stop eating so many hot dogs for every meal. But why stop when it makes me feel amazing?\
                                     <br>\
                                     <br>\
                                     Yours truly,\
@@ -66,7 +83,7 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
+                                translateX: "-2%",
                                 translateY: "5%",
                                 rotate: "-1deg",
                             }
@@ -110,16 +127,16 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the main idea of this note?",
+                        title: "[<g>1.] What is this note all about?",
                         correctIndex: 1,
                         paragraph: [
                             "Dem{i} has no friends",
-                            "{M}ateo needs a huge fancy boat",
+                            "{M}ateo wants a huge fancy boat",
                             "Mateo wants to g{o} swimming",
                         ],
                     },
                     {
-                        title: "[<g>2.] True or false: the sentence \"First, the boat needs a big swimming pool\" is a key detail.",
+                        title: "[<g>2.] True or false: the quote \"the boat needs a big swimming pool\" supports what this note is about.",
                         correctIndex: 0,
                         columns: 2,
                         paragraph: [
@@ -128,16 +145,16 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] Which paragraph does not have any key details?",
-                        correctIndex: 2,
+                        title: "[<g>3.] True or false: \"I should stop eating so many hot dogs\" supports what this note is about.",
+                        correctIndex: 1,
+                        columns: 2,
                         paragraph: [
-                            "Para{g}raph one",
-                            "Paragra{p}h two",
-                            "Par{a}graph three",
+                            "Tr{u}e",
+                            "F{a}lse",
                         ],
                     },
                     {
-                        title: "[<g>4.] Read the last sentence of Brantly\'s note. Is this sentence a supporting detail?",
+                        title: "[<g>4.] Read the last sentence of Mateo\'s note. Does it support the main topic?",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [
@@ -170,7 +187,24 @@ const resource =  {
                 education: {
                     topic: "Story Elements",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.1",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.3",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -179,7 +213,7 @@ const resource =  {
                 character: "Old Stavros",
                 asset: "character2.png",
                 dialogue : {
-                    incomplete: "I've been trying to write down stories from when I was young, but I can\'t tell if this one makes sense. Read it for me and tell me what you think.",
+                    incomplete: "I've been trying to write down stories from when I was young, but I can\'t tell if this one is any good. Read it for me and tell me what you think, okay?",
                     complete: "Thanks for listening, kid. This island sure was a lot quieter back then..."
                 },
             },
@@ -200,20 +234,20 @@ const resource =  {
                                     text: 'By Old Stavros',
                                 },
                                 passage: {
-                                    text:   "Long ago, there was a goat on the island named Princess. She was always causing trouble. She ate flowers, tomato plants, and even a birthday cake cooling by a window. The villagers shouted at her all day.\
+                                    text:   "Many summers ago, there was a goat on this island named Princess. She was always causing trouble. She ate flowers, tomato plants, and even a birthday cake cooling by a window. The villagers shouted at her all day.\
                                     <br>\
                                     One summer, a quiet girl named Alana tried something different. She gave Princess apple slices and spoke kindly to her. Soon, the goat followed Alana everywhere.\
                                     <br>\
-                                    Alana tied little baskets to Princess and taught her to carry bread and letters around the village. Soon, everyone on the island knew Princess the goat.\
+                                    Alana tied little baskets to Princess and taught her to carry bread and letters around the village. Soon, everyone on the island loved Princess the goat.\
                                     <br>\
-                                    That summer, the villagers learned something important. Being kind works better than being mean."
+                                    That summer, the villagers learned something important. Being kind works better than being mean!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "-3%",
-                                translateY: "0%",
+                                translateY: "5%",
                                 rotate: "-2deg",
                             }
                         }
@@ -328,7 +362,46 @@ const resource =  {
                 education: {
                     topic: "Context Clues and Vocabulary",
                     commonCore: [
-                        "XXX"
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.5",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.3",
+                        "L.2.4",
+                        "L.2.4c",
+                        "L.2.4d",
+                        "L.2.5",
+                        "L.2.5b",
+                        "RF.2.3",
+                        "RF.2.3d",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "RI.2.4",
+                        "RI.2.10",
+                        "L.3.3",
+                        "L.3.3a",
+                        "L.3.4",
+                        "L.3.4a",
+                        "L.3.4b",
+                        "L.3.4c",
+                        "L.3.5",
+                        "L.3.5c",
+                        "L.3.6",
+                        "RF.3.3",
+                        "RF.3.3a",
+                        "RF.3.3b",
+                        "RF.3.3c",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4c",
+                        "RI.3.4",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -337,7 +410,7 @@ const resource =  {
                 character: "Thessaly Tidewater",
                 asset: "character3.png",
                 dialogue : {
-                    incomplete: "I\'ve been writing new labels for my products, and my brain is getting mixed up. Some of these words might be too big! Will you take a look for me?",
+                    incomplete: "I\'ve been writing new labels for my products, and my brain is getting all mixed up! These words are tough. Will you tell me if everything makes sense?",
                     complete: "Ah, glad that makes sense! I think we\'re all set for next season, don\'t you think?"
                 },
             },
@@ -480,13 +553,30 @@ const resource =  {
                 asset: "node4.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the passage and look at the image, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passage and look at the map, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
-                    topic: "Figurative Language",
+                    topic: "Text Structures",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.5",
+                        "RI.2.7",
+                        "RI.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.1",
+                        "RI.3.5",
+                        "RI.3.7",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -495,8 +585,8 @@ const resource =  {
                 character: "Kastor\'s Ghost",
                 asset: "character4.png",
                 dialogue : {
-                    incomplete: "What is this place? I woke up to dust and silence, and nothing makes sense... These old texts are all I have left. Please, help me find out what happened!",
-                    complete: "This is very strange, but you did a great job, friend. We make a good team, don\'t we?"
+                    incomplete: "What is this place? I woke up to dust and silence, and nothing makes sense. These old texts are all I have left. Please, help me find out what happened!",
+                    complete: "This is all so strange, but you did a great job. We make a good team, don\'t we?"
                 },
             },
 
@@ -523,7 +613,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "2%",
-                                translateY: "2%",
+                                translateY: "5%",
                                 rotate: "-2deg",
                             }
                         }
@@ -540,7 +630,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "10%",
+                                translateY: "9%",
                                 rotate: "4deg",
                             }
                         }
@@ -595,7 +685,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the title of this short passage?",
+                        title: "[<g>1.] What is the title of the passage?",
                         correctIndex: 0,
                         paragraph: [
                             "\"Kastor t{h}e Warrior\"",
@@ -655,7 +745,25 @@ const resource =  {
                 education: {
                     topic: "Poetry",
                     commonCore: [
-                        "XXX"
+                        "CCRA.L.3",
+                        "CCRA.R.1",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.4",
+                        "RL.2.10",
+                        "L.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.5",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -665,7 +773,7 @@ const resource =  {
                 asset: "character5.png",
                 dialogue : {
                     incomplete: "Please don't step on me! I've been writing poems for open mic night, but I'm scared they\'re no good. Can you read them and let me know?",
-                    complete: "Yay! You liked them... and you didn't eat me! I'd call that a win, yeah?"
+                    complete: "Yay! You liked my poems... and you didn't eat me! I'd call that a win, yeah?"
                 },
             },
 
@@ -789,13 +897,13 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Only one of these poems has a rhyme scheme. Which poem is it?',
-                        'B. Does \"Friend\" have [<u>three] or [<u>eight] stanzas?',
-                        'C. [<u>Right] or [<u>wrong]: \"Urchin\" and \"Spikes\" share a similar topic.',     
-                        'D. How many syllables are in line three of \"Urchin\"? ',                    
+                        'A. Is the rhyme scheme of “My Tidepool” [<u>AABB], [<u>ABCD], or [<u>ABAB]?',
+                        'B. Does “I Want a Friend” have [<u>one] or [<u>two] stanzas?',
+                        'C. In “I Want a Friend,” what type of animal swam up to Ned?',     
+                        'D. How many syllables are in the first line of “My Tidepool”? ',                    
                     ],
                     puzzle: [
-                        ["0","0","(D)E","I","G","H","(B)4T"],
+                        ["0","0","(D)E","I","G","h","(B)4T"],
                         ["0","0","0","0","0","0","W"],
                         ["0","(C)C","0","0","0","0","2O"],
                         ["0","R","0","0","0","0","0"],

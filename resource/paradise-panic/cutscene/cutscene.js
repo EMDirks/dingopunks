@@ -31,7 +31,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Oh no... we\'ve got a SERIOUS situation. My cousin Frederick is back.',
+            text: 'Dingo Punks, we have a problem...',
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
@@ -55,7 +55,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },    
         {
-            text: 'He just opened some kind of freaky funhouse \u2014 and he challenged us to escape it.',
+            text: 'We spent all our money on vacation, and now we can\'t pay for the boat ride home!',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-closeup.png',
@@ -65,7 +65,7 @@ let cutscene = {
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-500ms',
                 },
-
+    
             },
             backgroundImage1: {
                 path: 'main.png',
@@ -79,7 +79,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'If we can, he\'ll finally admit I\'m smarter than him.',
+            text: 'The captain says she\'ll only let us come aboard if we help the locals first.',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',
@@ -97,23 +97,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'But if we fail, he\'ll lock us inside... forever!',
+            text: 'Now, I know what you\'re thinking. Stuck in paradise? Sounds great!',
             characterSprite: {
                 name: "J.J. DINGO",
-                path: 'jjcrispy-2.png',
-                scope: 'global',
-            },
-            backgroundImage1: {
-                path: 'main.png',
-                scope: 'local',
-            },
-            backgroundColor: 'background-color-black'
-        },
-        {
-            text: 'So now I need you, Dingo Punks. We have one chance to escape.',
-            characterSprite: {
-                name: "J.J. DINGO",
-                path: 'jjcrispy-3.png',
+                path: 'jjcrispy-0.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-25_0',
@@ -128,10 +115,36 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'I\'m willing to risk your lives on it.',
+            text: 'But the only food here is seafood. And you KNOW how I feel about seafood.',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
+                scope: 'global',
+            },
+            backgroundImage1: {
+                path: 'main.png',
+                scope: 'local',
+            },
+            backgroundColor: 'background-color-black'
+        },
+        {
+            text: 'I had to eat a SEA URCHIN for breakfast!',
+            characterSprite: {
+                name: "J.J. DINGO",
+                path: 'jjcrispy-2.png',
+                scope: 'global',
+            },
+            backgroundImage1: {
+                path: 'main.png',
+                scope: 'local',
+            },
+            backgroundColor: 'background-color-black'
+        },
+        {
+            text: 'Please, Dingo Punks... get me off this island.',
+            characterSprite: {
+                name: "J.J. DINGO",
+                path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
@@ -151,11 +164,11 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Step right up, kids. Welcome to Frederick\'s Funhouse!',
+            text: 'You want off my island? Then you\'ll work for it.',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "FREDERICK",
+                name: "CAPTAIN DRAKA",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -167,10 +180,10 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Think you\'re clever enough to break free?',
+            text: 'Help the locals with their tasks. Then I\'ll let you on the boat. Simple.',
             textStyle: 'badguy',
             characterSprite: {
-                name: "FREDERICK",
+                name: "CAPTAIN DRAKA",
             },
             backgroundImage1: {
                 path: 'badguy.png',
@@ -179,19 +192,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Well, think again. Ha ha ha!',
-            textStyle: 'badguy',
-            characterSprite: {
-                name: "FREDERICK",
-            },
-            backgroundImage1: {
-                path: 'badguy.png',
-                scope: 'local',
-            },
-            backgroundColor: 'background-color-salmon'
-        },
-        {
-            text: 'Alright, Dingo Punks. Pull up your socks and ready your brains.',
+            text: 'Okay. You heard the captain. It\'s time to get to work.',
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
@@ -215,7 +216,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'We\'re going in...',
+            text: 'The clock is ticking!',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
@@ -237,11 +238,11 @@ let cutscene = {
             },
             backgroundColor: 'background-color-black'
         },
-    ], 
+    ],
 
     outro: [
         {
-            text: 'Hah! I knew I could count on you, Dingo Punks!',
+            text: 'Nice work! I knew I could count on you.',
             textDelay: 700,
             characterSprite: {
                 name: "J.J. DINGO",
@@ -266,7 +267,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Let\'s get outta this creepy place.',
+            text: 'Now let\'s get out of here. Everyone, head to the airship!',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
@@ -279,7 +280,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'                 
         },
         {
-            text: 'Come aboard! I think I\'m ready for a nap...',
+            text: 'Oh yeah... I kind of forgot we had an airship. We could\'ve left at any time! Hah!',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',
@@ -312,14 +313,14 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
     ],
-
+    
     fail: [
         {
-            text: 'Ladies and gentlemen, your time is up!',
+            text: 'Time\'s up. The boat is leaving.',
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "FREDERICK",
+                name: "FERRYWOMAN",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -331,10 +332,10 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'Now you\'re locked inside my funhouse... forever!',
+            text: 'Hope you like urchin. You\'re going to be eating a lot of it.',
             textStyle: 'badguy',
             characterSprite: {
-                name: "FREDERICK",
+                name: "FERRYWOMAN",
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -355,23 +356,23 @@ let localAssetArrays = {
           },
         onCharacterSelect: {
           asset: [
-              'resource/funhouse-fright/assets/cutscene/main.png',  
-              'resource/funhouse-fright/assets/cutscene/badguy.png', 
+              'resource/paradise-panic/assets/cutscene/main.png',  
+              'resource/paradise-panic/assets/cutscene/badguy.png', 
           ],
           delay: 1200,
         },
         onCutsceneStart: {
           asset: [
-              'resource/funhouse-fright/assets/activity/node/node-1.png',
-              'resource/funhouse-fright/assets/activity/node/node-2.png',
-              'resource/funhouse-fright/assets/activity/node/node-3.png',
-              'resource/funhouse-fright/assets/activity/node/node-4.png',
-              'resource/funhouse-fright/assets/activity/node/node-5.png',
-              'resource/funhouse-fright/assets/activity/character/character-1.png',
-              'resource/funhouse-fright/assets/activity/character/character-2.png',
-              'resource/funhouse-fright/assets/activity/character/character-3.png',
-              'resource/funhouse-fright/assets/activity/character/character-4.png',
-              'resource/funhouse-fright/assets/activity/character/character-5.png',
+              'resource/paradise-panic/assets/activity/node/node1.png',
+              'resource/paradise-panic/assets/activity/node/node2.png',
+              'resource/paradise-panic/assets/activity/node/node3.png',
+              'resource/paradise-panic/assets/activity/node/node4.png',
+              'resource/paradise-panic/assets/activity/node/node5.png',
+              'resource/paradise-panic/assets/activity/character/character1.png',
+              'resource/paradise-panic/assets/activity/character/character2.png',
+              'resource/paradise-panic/assets/activity/character/character3.png',
+              'resource/paradise-panic/assets/activity/character/character4.png',
+              'resource/paradise-panic/assets/activity/character/character5.png',
           ],
           delay: 1000,
         },
