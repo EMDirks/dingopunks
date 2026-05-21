@@ -566,6 +566,8 @@ function updateAbsoluteElements() {
     ['.rate-limit-overlay__message',0.015,'fontSize'],
     ['.rate-limit-overlay__countdown',0.0015,'borderWidth'],
     ['.rate-limit-overlay__countdown',0.015,'fontSize'],
+    ['.code-input-line__lockout-overlay',0.015,'fontSize'],
+    ['.code-input-line__lockout-overlay',0.0015,'borderWidth'],
   ]
 
   elements.forEach(([selector, scale, type]) => {

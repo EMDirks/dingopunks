@@ -1,3 +1,160 @@
+// -----------------------------------------
+// code word rate limiting
+// -----------------------------------------
+
+const codeWordRateLimit = {};
+const WRONG_LIMIT = 3;
+const WINDOW_MS = 30_000;
+const LOCKOUT_MS = 60_000;
+
+function wouldTriggerLockout(key) {
+  const entry = codeWordRateLimit[key];
+  if (entry && entry.lockoutEndsAt && entry.lockoutEndsAt > Date.now()) return false;
+  const now = Date.now();
+  const recent = entry ? entry.attempts.filter(t => now - t <= WINDOW_MS) : [];
+  return recent.length + 1 >= WRONG_LIMIT;
+}
+
+function registerWrongCodeAttempt(key) {
+  if (!codeWordRateLimit[key]) {
+    codeWordRateLimit[key] = { attempts: [], lockoutEndsAt: null, intervalId: null, startTimeoutId: null };
+  }
+  const entry = codeWordRateLimit[key];
+  if (entry.lockoutEndsAt && entry.lockoutEndsAt > Date.now()) return;
+  const now = Date.now();
+  entry.attempts.push(now);
+  entry.attempts = entry.attempts.filter(t => now - t <= WINDOW_MS);
+  if (entry.attempts.length >= WRONG_LIMIT) {
+    triggerCodeWordLockout(key);
+  }
+}
+
+function triggerCodeWordLockout(key) {
+  if (!codeWordRateLimit[key]) {
+    codeWordRateLimit[key] = { attempts: [], lockoutEndsAt: null, intervalId: null, startTimeoutId: null };
+  }
+  const entry = codeWordRateLimit[key];
+  if (entry.intervalId) { clearInterval(entry.intervalId); entry.intervalId = null; }
+  if (entry.startTimeoutId) { clearTimeout(entry.startTimeoutId); entry.startTimeoutId = null; }
+
+  const line = document.querySelector('.code-input-line-' + key);
+  if (!line) return;
+
+  const focused = line.querySelector('.code-input:focus');
+  if (focused) focused.blur();
+  if (typeof activeInput__codeInput !== 'undefined' && activeInput__codeInput && line.contains(activeInput__codeInput)) {
+    activeInput__codeInput = null;
+  }
+
+  line.classList.add('state-pointer-events-none');
+
+  // clear any values left in the cells
+  line.querySelectorAll('.code-input').forEach(function(cell) {
+    cell.value = '';
+    syncUpdates(cell, 'change');
+  });
+
+  let overlay = line.querySelector('.code-input-line__lockout-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'code-input-line__lockout-overlay';
+    overlay.innerHTML = "You're trying too fast! Slow down. Try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
+    line.appendChild(overlay);
+    scaleAbsolutely('.code-input-line__lockout-overlay', 0.015, 'fontSize');
+    scaleAbsolutely('.code-input-line__lockout-overlay', 0.0015, 'borderWidth');
+  }
+
+  const countEl = overlay.querySelector('.code-input-line__lockout-count');
+  if (countEl) countEl.textContent = ' ' + Math.ceil(LOCKOUT_MS / 1000);
+  // +1s to account for the start delay so the first tick shows exactly LOCKOUT_MS/1000
+  entry.lockoutEndsAt = Date.now() + LOCKOUT_MS + 1000;
+
+  entry.startTimeoutId = setTimeout(function() {
+    entry.startTimeoutId = null;
+    entry.intervalId = setInterval(function() {
+      const remaining = Math.ceil((entry.lockoutEndsAt - Date.now()) / 1000);
+      if (countEl) countEl.textContent = ' ' + remaining;
+      if (remaining <= 0) {
+        if (countEl) countEl.textContent = ' 0';
+        clearInterval(entry.intervalId);
+        entry.intervalId = null;
+        setTimeout(function() { endCodeWordLockout(key); }, 1000);
+      }
+    }, 1000);
+  }, 1000);
+}
+
+function endCodeWordLockout(key) {
+  const entry = codeWordRateLimit[key];
+  if (entry) {
+    if (entry.intervalId) { clearInterval(entry.intervalId); entry.intervalId = null; }
+    if (entry.startTimeoutId) { clearTimeout(entry.startTimeoutId); entry.startTimeoutId = null; }
+    entry.lockoutEndsAt = null;
+    entry.attempts = [];
+  }
+  const line = document.querySelector('.code-input-line-' + key);
+  if (!line) return;
+  const overlay = line.querySelector('.code-input-line__lockout-overlay');
+  if (overlay) {
+    overlay.classList.add('code-input-line__lockout-overlay--fly-out');
+    overlay.addEventListener('animationend', function() { overlay.remove(); }, { once: true });
+  }
+  line.classList.remove('state-pointer-events-none');
+}
+
+function clearCodeWordRateLimit(key) {
+  const entry = codeWordRateLimit[key];
+  if (entry) {
+    if (entry.intervalId) { clearInterval(entry.intervalId); }
+    if (entry.startTimeoutId) { clearTimeout(entry.startTimeoutId); }
+    delete codeWordRateLimit[key];
+  }
+  const line = document.querySelector('.code-input-line-' + key);
+  if (line) {
+    const overlay = line.querySelector('.code-input-line__lockout-overlay');
+    if (overlay) overlay.remove();
+    line.classList.remove('state-pointer-events-none');
+  }
+}
+
+function maybeRestoreCodeWordLockout(key, codeInputLine) {
+  const entry = codeWordRateLimit[key];
+  if (!entry || !entry.lockoutEndsAt) return;
+  const remaining = entry.lockoutEndsAt - Date.now();
+  if (remaining <= 0) {
+    delete codeWordRateLimit[key];
+    return;
+  }
+  if (entry.intervalId) { clearInterval(entry.intervalId); entry.intervalId = null; }
+  if (entry.startTimeoutId) { clearTimeout(entry.startTimeoutId); entry.startTimeoutId = null; }
+
+  codeInputLine.classList.add('state-pointer-events-none');
+
+  let overlay = codeInputLine.querySelector('.code-input-line__lockout-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'code-input-line__lockout-overlay';
+    overlay.innerHTML = "You're trying too fast! Slow down. Try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
+    codeInputLine.appendChild(overlay);
+    scaleAbsolutely('.code-input-line__lockout-overlay', 0.015, 'fontSize');
+    scaleAbsolutely('.code-input-line__lockout-overlay', 0.0015, 'borderWidth');
+  }
+
+  const countEl = overlay.querySelector('.code-input-line__lockout-count');
+  if (countEl) countEl.textContent = ' ' + Math.ceil(remaining / 1000);
+
+  entry.intervalId = setInterval(function() {
+    const rem = Math.ceil((entry.lockoutEndsAt - Date.now()) / 1000);
+    if (countEl) countEl.textContent = ' ' + rem;
+    if (rem <= 0) {
+      if (countEl) countEl.textContent = ' 0';
+      clearInterval(entry.intervalId);
+      entry.intervalId = null;
+      setTimeout(function() { endCodeWordLockout(key); }, 1000);
+    }
+  }, 1000);
+}
+
 /////////////////////////////////////////
 // draw code inputs at bottom of activity
 /////////////////////////////////////////
@@ -58,6 +215,9 @@ function drawCodeInput(activityArrayIndex){
       
       // set software keyboard functionality
       setSoftwareKeyboardFunctionality("code-input","code-input-line--activity"); 
+
+      // restore lockout overlay if a cooldown is still active for this activity
+      maybeRestoreCodeWordLockout(activityArrayIndex, codeInputLine);
   
     } 
   }
@@ -116,6 +276,9 @@ function drawCodeInput(activityArrayIndex){
       
       // set software keyboard functionality
       setSoftwareKeyboardFunctionality("code-input","code-input-line--activity"); 
+
+      // restore lockout overlay if a cooldown is still active for this activity
+      maybeRestoreCodeWordLockout(activityArrayIndex - 1, codeInputLine);
   
     } 
   }
@@ -184,7 +347,8 @@ function setComplete(activityArrayIndex){
     let answerArray = resource.challengeArray[activityArrayIndex].questions.code.answer.split("");
     let userArray = resource.challengeArray[activityArrayIndex].questions.code.userArray;
     if (resource.challengeArray[activityArrayIndex].questions.code.answer !== userArray.join('').toUpperCase() && numInputsFilled == resource.challengeArray[activityArrayIndex].questions.code.answer.length) {
-      findNonIdenticalIndices(answerArray,userArray);
+      if (!wouldTriggerLockout(activityArrayIndex)) { findNonIdenticalIndices(answerArray,userArray); }
+      registerWrongCodeAttempt(activityArrayIndex);
     }
 
     function findNonIdenticalIndices(arr1, arr2) {
@@ -225,6 +389,7 @@ function setComplete(activityArrayIndex){
     
     // if the correct code matches the user's code input
     if (resource.challengeArray[activityArrayIndex].questions.code.answer === resource.challengeArray[activityArrayIndex].questions.code.userArray.join('').toUpperCase()) {
+      clearCodeWordRateLimit(activityArrayIndex);
       // set state
       if (resource.challengeArray[activityArrayIndex].info.state !== "complete"){
         debriefStats.activitiesCompleted = debriefStats.activitiesCompleted + 1;    
@@ -304,7 +469,8 @@ function setComplete(activityArrayIndex){
     let answerArray = resource.activityArray[activityArrayIndex-1].code.split("");
     let userArray = resource.activityArray[activityArrayIndex-1].userCode;
     if (resource.activityArray[activityArrayIndex-1].code !== userArray.join('').toUpperCase() && numInputsFilled == resource.activityArray[activityArrayIndex-1].code.length) {
-      findNonIdenticalIndices(answerArray,userArray);
+      if (!wouldTriggerLockout(activityArrayIndex - 1)) { findNonIdenticalIndices(answerArray,userArray); }
+      registerWrongCodeAttempt(activityArrayIndex - 1);
     }
 
     function findNonIdenticalIndices(arr1, arr2) {
@@ -345,6 +511,7 @@ function setComplete(activityArrayIndex){
     
     // if the correct code matches the user's code input
     if (resource.activityArray[activityArrayIndex-1].code === resource.activityArray[activityArrayIndex-1].userCode.join('').toUpperCase()) {
+      clearCodeWordRateLimit(activityArrayIndex - 1);
       // set state
       if (resource.activityArray[activityArrayIndex-1].state !== "complete"){
         debriefStats.activitiesCompleted = debriefStats.activitiesCompleted + 1;    
