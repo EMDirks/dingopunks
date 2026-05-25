@@ -1,7 +1,7 @@
 const resource =  {
     
     info: {
-        title: "Paradise Panid",
+        title: "Paradise Panic",
         path: "paradise-panic",
         logo: "assets/branding/placeholder/need-image.png",
         timerLabel: "BOAT LEAVES"
@@ -362,7 +362,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Thessaly's Provisions",
+                title: "Thessaly's Shop",
                 asset: "node3.png",
                 state: "incomplete",
                 hint: {
@@ -440,7 +440,7 @@ const resource =  {
                                     text: "Baby Seaweed",
                                 },
                                 passage: {
-                                    text: "This plant arrives [<u>dormant], appearing dry and lifeless. But don\'t let that fool you. Once it hits the water, everything changes! Soon, this [<u>translucent] plant begins to stretch, the light glowing softly through its nearly see-through leaves. Like all [<u>aquatic] plants, seaweed must be placed in water to thrive!",
+                                    text: "This plant arrives [<u>dormant], appearing dry and lifeless. But don\'t let that fool you. Once it hits the water, everything changes! Soon, this [<u>translucent] plant begins to stretch, the light glowing softly through its nearly see-through leaves. Like all [<u>aquatic] plants, seaweed must live in water to thrive!",
                                 }, 
                             }
                         ],
@@ -676,7 +676,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The rising sun is like a golden key, unlocking the darkness that held Kastor for a thousand years."
+                                    text: "The rising sun is a golden key, unlocking the darkness that held Kastor for a thousand years."
                                 },
                             },
                         ],
@@ -784,7 +784,7 @@ const resource =  {
                         word: "WR[O]NG",
                     },
                     {
-                        title: "[<g>3.] \"Key\" uses a ___ to compare the rising sun to a key.",
+                        title: "[<g>3.] \"Key\" uses a ___ to compare the sun to a key.",
                         word: "METAPHO[R]",
                     },
                     {
@@ -806,7 +806,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Shoreline",
+                title: "Tidepool Beach",
                 asset: "node5.png",
                 state: "incomplete",
                 hint: {
@@ -917,7 +917,7 @@ const resource =  {
                                     <br>\
                                     I sit somewhere silent\
                                     <br>\
-                                    and wish I was shaped\
+                                    and wish I were shaped\
                                     <br>\
                                     like a starfish."
                                 }
@@ -1009,7 +1009,7 @@ const resource =  {
                         'A. Only one of these poems has a rhyme scheme. Which poem is it?',
                         'B. The poems \"Urchin\" and \"_____\" both have similar main ideas.',
                         'C. How many stanzas does \"Urchin\" have?',     
-                        'D. [<u>Right] or [<u>wrong]: line 6 of \"Friend\" contains a metaphor. ',                    
+                        'D. [<u>Right] or [<u>wrong]: line 6 of \"Friend\" contains a metaphor.',                    
                     ],
                     puzzle: [
                         ["0","0","(A)U","0","(C)O","0","0"],

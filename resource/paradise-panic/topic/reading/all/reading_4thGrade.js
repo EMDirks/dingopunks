@@ -1,7 +1,7 @@
 const resource =  {
     
     info: {
-        title: "Paradise Panid",
+        title: "Paradise Panic",
         path: "paradise-panic",
         logo: "assets/branding/placeholder/need-image.png",
         timerLabel: "BOAT LEAVES"
@@ -69,7 +69,7 @@ const resource =  {
                                     text:   "&nbsp; &nbsp; Demi, this is simple. I need a boat that makes me look rich and important.\
                                     <br>\
                                     <br>\
-                                    &nbsp; &nbsp; First, It needs a pool built from fine blocks of marble. Also, it needs a helicopter pad made of pure silver.\
+                                    &nbsp; &nbsp; First, it needs a pool built from fine blocks of marble. Also, it needs a helicopter pad made of pure silver.\
                                     <br>\
                                     <br>\
                                     &nbsp; &nbsp; Most importantly, there must be a huge glass dining room that hangs over the ocean, with dishes carved from giant emeralds.\
@@ -356,7 +356,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Thessaly's Provisions",
+                title: "Thessaly's Shop",
                 asset: "node3.png",
                 state: "incomplete",
                 hint: {
@@ -434,7 +434,7 @@ const resource =  {
                                     text: "Baby Seaweed",
                                 },
                                 passage: {
-                                    text: "Plop it in water, and watch it grow! This [<u>pocket-sized] seaweed starts small enough to fit in your hand. Then after a few days, it becomes huge. The curly, coiled strands may even spill over the sides of the bowl!",
+                                    text: "Plop it in water, and watch it grow! This [<u>pocket-sized] seaweed starts small enough to fit in your hand. Then after a few days, it becomes huge! The curly, coiled strands may even spill over the sides of the bowl.",
                                 }, 
                             }
                         ],
@@ -459,7 +459,7 @@ const resource =  {
                                     text: "Lemon Cones",
                                 },
                                 passage: {
-                                    text: "Each snow cone is made with just a few simple components: crushed ice, sugar syrup, and fresh lemon juice. That\'s it! It\'ll make you feel [<u>renewed] \u2014 the perfect treat to enjoy on a hot summer day.",
+                                    text: "Each snow cone is made with just a few simple components: crushed ice, sugar syrup, and fresh lemon juice. That\'s it! It\'ll make you feel [<u>renewed] \u2014 making it the perfect treat to enjoy on a hot summer day.",
                                 },  
                             }
                         ],
@@ -657,7 +657,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "5%",
-                                translateY: "5%",
+                                translateY: "0%",
                                 rotate: "-2deg",
                             }
                         }
@@ -799,7 +799,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Shoreline",
+                title: "Tidepool Beach",
                 asset: "node5.png",
                 state: "incomplete",
                 hint: {
@@ -998,7 +998,7 @@ const resource =  {
                         'A. Only one of these poems has a rhyme scheme. Which poem is it?',
                         'B. Does \"Friend\" have [<u>three] or [<u>eight] stanzas?',
                         'C. [<u>Right] or [<u>wrong]: \"Urchin\" and \"Spikes\" share a similar topic.',     
-                        'D. How many syllables are in line three of \"Urchin\"? ',                    
+                        'D. How many syllables are in line three of \"Urchin\"?',                    
                     ],
                     puzzle: [
                         ["0","(A)U","0","0","0","0","0"],

@@ -1,7 +1,7 @@
 const resource =  {
     
     info: {
-        title: "Paradise Panid",
+        title: "Paradise Panic",
         path: "paradise-panic",
         logo: "assets/branding/placeholder/need-image.png",
         timerLabel: "BOAT LEAVES"
@@ -23,7 +23,7 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Main Topic and Key Details",
+                    topic: "Main Idea and Key Details",
                     commonCore: [
                         "CCRA.R.1",
                         "CCRA.R.2",
@@ -127,34 +127,34 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is this note all about?",
+                        title: "[<g>1.] What is the main idea of this note?",
                         correctIndex: 1,
                         paragraph: [
                             "Dem{i} has no friends",
-                            "{M}ateo wants a huge fancy boat",
+                            "Mateo want{s} a huge fancy boat",
                             "Mateo wants to g{o} swimming",
                         ],
                     },
                     {
-                        title: "[<g>2.] True or false: the quote \"the boat needs a big swimming pool\" supports what this note is about.",
+                        title: "[<g>2.] True or false: \"the boat needs a big swimming pool\" supports the main idea.",
                         correctIndex: 0,
                         columns: 2,
                         paragraph: [
-                            "Tru{e}",
+                            "{T}rue",
                             "Fal{s}e",
                         ],
                     },
                     {
-                        title: "[<g>3.] True or false: \"I should stop eating so many hot dogs\" supports what this note is about.",
-                        correctIndex: 1,
+                        title: "[<g>3.] True or false: \"it needs a giant glass dining room\" supports the main idea.",
+                        correctIndex: 0,
                         columns: 2,
                         paragraph: [
                             "Tr{u}e",
-                            "F{a}lse",
+                            "Fa{l}se",
                         ],
                     },
                     {
-                        title: "[<g>4.] Read the last sentence of Mateo\'s note. Does it support the main topic?",
+                        title: "[<g>4.] Read the last sentence of Mateo\'s note. Does it support the main idea?",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [
@@ -164,7 +164,7 @@ const resource =  {
                     },
                 ],  
                 code: {
-                    answer: "MEAN",
+                    answer: "STUN",
                     userArray: ["","","",""]
                 },
             },
@@ -352,7 +352,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Thessaly's Provisions",
+                title: "Thessaly's Shop",
                 asset: "node3.png",
                 state: "incomplete",
                 hint: {
@@ -411,7 +411,7 @@ const resource =  {
                 asset: "character3.png",
                 dialogue : {
                     incomplete: "I\'ve been writing new labels for my products, and my brain is getting all mixed up! These words are tough. Will you tell me if everything makes sense?",
-                    complete: "Ah, glad that makes sense! I think we\'re all set for next season, don\'t you think?"
+                    complete: "Ah, glad that makes sense! I think we\'re all set for next season."
                 },
             },
 
@@ -434,7 +434,7 @@ const resource =  {
                                     text: "Baby Seaweed",
                                 },
                                 passage: {
-                                    text: "This plant starts small enough to fit in your hand. But it quickly becomes [<u>enormous], growing so big it can\'t even fit in a bathtub. So watch out! It can make water [<u>overflow] onto the floor!",
+                                    text: "This plant starts small enough to fit in your hand. But it quickly becomes [<u>enormous], growing so big it can\'t even fit in a bathtub. So watch out! It can make water [<u>overflow] onto the floor.",
                                 }, 
                             }
                         ],
@@ -456,7 +456,7 @@ const resource =  {
                             },
                             {
                                 title: {
-                                    text: "Lemon Cones",
+                                    text: "Lemon Snow Cones",
                                 },
                                 passage: {
                                     text: "These snow cones don\'t just taste good. They don\'t just taste great. They taste [<u>fantastic]! What makes them so [<u>flavorful]? Well, they\'re full of sweet syrup and fresh lemon juice.",
@@ -521,10 +521,10 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Read \"Baby Seaweed.\" What\'s another word for \"enormous\" \u2014 [<u>big], [<u>fit], or [<u>out]? ',
-                        'B. [<u>True] or [<u>False]: \"overflow\" means [<i>when something dries up completely.] ',
-                        'C. Read \"Lemon Snow Cones.\" The word \"flavorful\" means [<i>full of ___ ]. ',     
-                        'D. [<u>Right] or [<u>wrong]: \"Fantastic\" is better than \"good.\"',                    
+                        'A. Read \"Baby Seaweed.\" What\'s another word for \"enormous\" \u2014 [<u>big], [<u>fit], or [<u>out]?',
+                        'B. [<u>True] or [<u>False]: \"overflow\" means [<i>when something dries up completely.]',
+                        'C. Read \"Lemon Snow Cones.\" The word \"flavorful\" means [<i>full of ___ ].',     
+                        'D. [<u>Right] or [<u>wrong]: \"Fantastic\" is better than \"good\"',                    
                     ],
                     puzzle: [
                         ["0","(C)F","0","0","0","0","(A)B"],
@@ -735,7 +735,7 @@ const resource =  {
 
             info: {
                 type: 'challenge',
-                title: "Shoreline",
+                title: "Tidepool Beach",
                 asset: "node5.png",
                 state: "incomplete",
                 hint: {
@@ -772,7 +772,7 @@ const resource =  {
                 character: "Ned",
                 asset: "character5.png",
                 dialogue : {
-                    incomplete: "Please don't step on me! I've been writing poems for open mic night, but I'm scared they\'re no good. Can you read them and let me know?",
+                    incomplete: "Please don't step on me! I've been writing poems to read at the coffee shop, but I'm scared they\'re no good. Can you read them and let me know?",
                     complete: "Yay! You liked my poems... and you didn't eat me! I'd call that a win, yeah?"
                 },
             },
@@ -900,10 +900,10 @@ const resource =  {
                         'A. Is the rhyme scheme of “My Tidepool” [<u>AABB], [<u>ABCD], or [<u>ABAB]?',
                         'B. Does “I Want a Friend” have [<u>one] or [<u>two] stanzas?',
                         'C. In “I Want a Friend,” what type of animal swam up to Ned?',     
-                        'D. How many syllables are in the first line of “My Tidepool”? ',                    
+                        'D. How many syllables are in the first line of “My Tidepool”?',                    
                     ],
                     puzzle: [
-                        ["0","0","(D)E","I","G","h","(B)4T"],
+                        ["0","0","(D)E","I","G","H","(B)4T"],
                         ["0","0","0","0","0","0","W"],
                         ["0","(C)C","0","0","0","0","2O"],
                         ["0","R","0","0","0","0","0"],

@@ -58,7 +58,7 @@ function triggerCodeWordLockout(key) {
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.className = 'code-input-line__lockout-overlay';
-    overlay.innerHTML = "You're trying too fast! Slow down. Try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
+    overlay.innerHTML = "You've tried too many times! You can try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
     line.appendChild(overlay);
     scaleAbsolutely('.code-input-line__lockout-overlay', 0.015, 'fontSize');
     scaleAbsolutely('.code-input-line__lockout-overlay', 0.0015, 'borderWidth');
@@ -134,7 +134,7 @@ function maybeRestoreCodeWordLockout(key, codeInputLine) {
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.className = 'code-input-line__lockout-overlay';
-    overlay.innerHTML = "You're trying too fast! Slow down. Try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
+    overlay.innerHTML = "You've tried too many times! You can try again in <span class='code-input-line__lockout-count'></span><span class='code-input-line__lockout-unit'>s.</span>";
     codeInputLine.appendChild(overlay);
     scaleAbsolutely('.code-input-line__lockout-overlay', 0.015, 'fontSize');
     scaleAbsolutely('.code-input-line__lockout-overlay', 0.0015, 'borderWidth');

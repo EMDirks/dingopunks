@@ -354,6 +354,7 @@ function drawSplash(){
     if (gameMode ===  "free"){
       splashNav.style.display = "none";
       splashVersion.style.display = "none";
+      splashNote.style.display = "none";
     }
 
   }

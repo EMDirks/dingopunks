@@ -180,7 +180,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Help the locals with their tasks. Then I\'ll let you on the boat. Simple.',
+            text: 'Help the locals with their tasks. Then I\'ll let you on my boat. Simple.',
             textStyle: 'badguy',
             characterSprite: {
                 name: "CAPTAIN DRAKA",
@@ -192,7 +192,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'Okay. You heard the captain. It\'s time to get to work.',
+            text: 'Well, you heard the captain! Let\'s get to work.',
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
@@ -280,7 +280,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'                 
         },
         {
-            text: 'Oh yeah... I kind of forgot we had an airship. We could\'ve left at any time! Hah!',
+            text: 'Oh yeah... I kind of forgot we had an airship. We could\'ve left at any time! Oops!',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',

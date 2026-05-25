@@ -81,6 +81,7 @@ CRITICAL MIGRATIONS (JUN 06)
 - [ ] JUN 06 — Cloudflare: Set up game/ redirects
 - [ ] JUN 06 — Shopify: Thoroughly test all URLs
 - [ ] JUN 06 — Cloudflare: Thoroughly test URLS
+- [ ] JUN 06 — PDFS: Thoroughly test PDF URLS (sample 10ish)
 
 HEADS UP (JUN 07)
 
@@ -141,8 +142,8 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - [ ] JUN 28 — **Google:** Update GPB name to Dingo Punks
 - [ ] JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 05 — **Google:** Update website URL on GBP
-- [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 ⭐ [ ] JUN 28 — Google: Do not update GBP until Search Console confirms new domain is indexed and redirects are clean
 - [ ] JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
