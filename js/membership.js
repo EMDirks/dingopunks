@@ -262,7 +262,7 @@ function renderFavorites() {
   if (state.favorites.length === 0) {
     els.favoritesList.innerHTML = `
       <li><p class="dpaam-empty">
-        Save games from the Library to start building your favorites.
+        Add escape rooms from the Library to start collecting your favorites.
       </p></li>`;
     return;
   }
@@ -294,6 +294,7 @@ function renderFavorites() {
           data-game-id="${escapeHtml(game.id)}"
           draggable="true"
         >
+          <span class="dpaam-thumb" aria-hidden="true"></span>
           <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
           <div class="dpaam-lib-main">
             <div class="dpaam-lib-topic-row">
@@ -336,8 +337,8 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const action = saved
-        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ Saved</span>`
-        : `<button type="button" class="dpaam-btn" data-action="save-favorite">Save</button>`;
+        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ Added to Favorites</span>`
+        : `<button type="button" class="dpaam-btn" data-action="save-favorite">+ Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li
@@ -347,6 +348,7 @@ function renderLibrary() {
           role="button"
           aria-label="View details for ${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
+          <span class="dpaam-thumb" aria-hidden="true"></span>
           <div class="dpaam-lib-main">
             <div class="dpaam-lib-topic-row">
               <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
