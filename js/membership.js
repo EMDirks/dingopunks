@@ -112,6 +112,24 @@ function libTagsHtml(game) {
     .join("")}</div>`;
 }
 
+// Native browser lazy loading via `loading="lazy"`; we still emit a
+// fixed width/height so the row reserves the slot before the image
+// resolves and the gray .dpaam-thumb background shows through.
+function thumbHtml(game) {
+  if (!game.thumbnail) {
+    return `<span class="dpaam-thumb" aria-hidden="true"></span>`;
+  }
+  return `<img
+    class="dpaam-thumb"
+    src="${escapeHtml(game.thumbnail)}"
+    alt=""
+    loading="lazy"
+    decoding="async"
+    width="84"
+    height="84"
+  />`;
+}
+
 // During a live drag-reorder, decide which sibling row the dragged element
 // should land *before*. Returns null to mean "append to the end". The
 // currently-dragged element is skipped so it can never displace itself.
@@ -294,7 +312,7 @@ function renderFavorites() {
           data-game-id="${escapeHtml(game.id)}"
           draggable="true"
         >
-          <span class="dpaam-thumb" aria-hidden="true"></span>
+          ${thumbHtml(game)}
           <div class="dpaam-fav-row-body">
             <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
             <div class="dpaam-lib-main">
@@ -350,7 +368,7 @@ function renderLibrary() {
           role="button"
           aria-label="View details for ${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
-          <span class="dpaam-thumb" aria-hidden="true"></span>
+          ${thumbHtml(game)}
           <div class="dpaam-lib-row-body">
             <div class="dpaam-lib-main">
               <div class="dpaam-lib-topic-row">

@@ -12,6 +12,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/all/thumbnail-2nd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/all/reading_2ndGrade.js",
   },
   {
@@ -22,6 +23,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/all/thumbnail-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -32,6 +34,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/all/thumbnail-4th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -42,6 +45,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/all/thumbnail-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -52,6 +56,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/main-idea/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/main-idea/mainIdea_2nd3rdGrade.js",
   },
   {
@@ -62,6 +67,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/main-idea/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -72,6 +78,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/figurative-language/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -82,6 +89,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues-and-vocabulary",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/context-clues/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/context-clues/contextClues_2nd3rdGrade.js",
   },
   {
@@ -92,6 +100,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/context-clues/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -102,6 +111,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/story-elements/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/story-elements/storyElements_2nd3rdGrade.js",
   },
   {
@@ -112,6 +122,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/story-elements/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -122,6 +133,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/poetry/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/poetry/poetry_2nd3rdGrade.js",
   },
   {
@@ -132,6 +144,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/poetry/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -142,6 +155,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/grammar/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/grammar/grammar_2nd3rdGrade.js",
   },
   {
@@ -152,6 +166,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/grammar/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -162,6 +177,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/making-inferences/thumbnail-2nd-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/making-inferences/makingInferences_2nd3rdGrade.js",
   },
   {
@@ -172,6 +188,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/making-inferences/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -182,6 +199,7 @@ export const games = [
     subject: "reading",
     topic: "text-features",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/text-features/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/text-features/textFeatures_4th5thGrade.js",
   },
   {
@@ -192,6 +210,7 @@ export const games = [
     subject: "reading",
     topic: "text-structures",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/text-structures/thumbnail-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/text-structures/textStructures_4th5thGrade.js",
   },
   {
@@ -202,6 +221,7 @@ export const games = [
     subject: "reading",
     topic: "authors-purpose",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/authors-purpose/thumbnail-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/authors-purpose/authorsPurpose_4th5thGrade.js",
   },
   {
@@ -212,6 +232,7 @@ export const games = [
     subject: "reading",
     topic: "character-traits",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/character-traits/thumbnail-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/character-traits/characterTraits_4th5thGrade.js",
   },
   {
@@ -222,6 +243,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-2nd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/all/math_2ndGrade.js",
   },
   {
@@ -232,6 +254,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/all/math_3rdGrade.js",
   },
   {
@@ -242,6 +265,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-4th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/all/math_4thGrade.js",
   },
   {
@@ -252,6 +276,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/all/math_5thGrade.js",
   },
   {
@@ -262,6 +287,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/multiplication/preview-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/multiplication/multiplication_3rdGrade.js",
   },
   {
@@ -272,6 +298,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/multiplication/preview-4th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/multiplication/multiplication_4thGrade.js",
   },
   {
@@ -282,6 +309,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/fractions/preview-3rd-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/fractions/fractions_3rdGrade.js",
   },
   {
@@ -292,6 +320,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/fractions/preview-4th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/fractions/fractions_4thGrade.js",
   },
   {
@@ -302,6 +331,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/fractions/preview-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/fractions/fractions_5thGrade.js",
   },
   {
@@ -312,6 +342,7 @@ export const games = [
     subject: "math",
     topic: "order-of-operations",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/order-of-operations/preview-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/math/orderOfOperations/orderOfOperations_5thGrade.js",
   },
   {
@@ -322,6 +353,7 @@ export const games = [
     subject: "social-emotional-learning",
     topic: "growth-mindset",
     standards: [],
+    thumbnail: "resource/escape-the-midnight-mall/assets/branding/social-emotional-learning/growth-mindset/preview-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/social-emotional-learning/growthMindset_4th5thGrade.js",
   },
 
@@ -337,6 +369,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/pickles-playground/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -347,6 +380,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/pickles-playground/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -357,6 +391,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -367,6 +402,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/main-idea/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -377,6 +413,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/figurative-language/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -387,6 +424,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -397,6 +435,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/story-elements/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -407,6 +446,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/poetry/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -417,6 +457,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/making-inferences/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -427,6 +468,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/grammar/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -437,6 +479,7 @@ export const games = [
     subject: "reading",
     topic: "authors-purpose",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/authors-purpose/authorsPurpose_4th5thGrade.js",
   },
   {
@@ -447,6 +490,7 @@ export const games = [
     subject: "reading",
     topic: "character-traits",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/character-traits/characterTraits_4th5thGrade.js",
   },
   {
@@ -457,6 +501,7 @@ export const games = [
     subject: "reading",
     topic: "text-structures",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/reading/text-structures/textStructures_4th5thGrade.js",
   },
   {
@@ -467,6 +512,7 @@ export const games = [
     subject: "social-emotional-learning",
     topic: "growth-mindset",
     standards: [],
+    thumbnail: "resource/pickles-playground/assets/branding/social-emotional-learning/growth-mindset/thumbnail-4th-5th-grade.png",
     path: "resource/pickles-playground/topic/social-emotional-learning/growthMindset_4th5thGrade.js",
   },
 
@@ -482,6 +528,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/beehive-blitz/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -492,6 +539,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/beehive-blitz/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -502,6 +550,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -512,6 +561,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/context-clues/preview-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -522,6 +572,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/figurative-language/preview-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -532,6 +583,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/main-idea/preview-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -542,6 +594,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/poetry/preview-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -552,6 +605,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/story-elements/preview-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -562,6 +616,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/making-inferences/thumbnail-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -572,6 +627,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/reading/grammar/thumbnail-4th-5th-grade.png",
     path: "resource/beehive-blitz/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -582,6 +638,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/all/thumbnail-3rd-grade.png",
     path: "resource/beehive-blitz/topic/math/all/math_3rdGrade.js",
   },
   {
@@ -592,6 +649,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/all/thumbnail-4th-grade.png",
     path: "resource/beehive-blitz/topic/math/all/math_4thGrade.js",
   },
   {
@@ -602,6 +660,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/all/thumbnail-5th-grade.png",
     path: "resource/beehive-blitz/topic/math/all/math_5thGrade.js",
   },
   {
@@ -612,6 +671,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/fractions/preview-3rd-grade.png",
     path: "resource/beehive-blitz/topic/math/fractions/fractions_3rdGrade.js",
   },
   {
@@ -622,6 +682,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/fractions/preview-4th-grade.png",
     path: "resource/beehive-blitz/topic/math/fractions/fractions_4thGrade.js",
   },
   {
@@ -632,6 +693,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/fractions/preview-5th-grade.png",
     path: "resource/beehive-blitz/topic/math/fractions/fractions_5thGrade.js",
   },
   {
@@ -642,6 +704,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/multiplication/preview-3rd-grade.png",
     path: "resource/beehive-blitz/topic/math/multiplication/multiplication_3rdGrade.js",
   },
   {
@@ -652,6 +715,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/multiplication/preview-4th-grade.png",
     path: "resource/beehive-blitz/topic/math/multiplication/multiplication_4thGrade.js",
   },
   {
@@ -662,6 +726,7 @@ export const games = [
     subject: "math",
     topic: "order-of-operations",
     standards: [],
+    thumbnail: "resource/beehive-blitz/assets/branding/math/order-of-operations/preview-5th-grade.png",
     path: "resource/beehive-blitz/topic/math/order-of-operations/orderOfOperations_5thGrade.js",
   },
 
@@ -677,6 +742,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/camp-calamari/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -687,6 +753,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/camp-calamari/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -697,6 +764,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/camp-calamari/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -707,6 +775,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/context-clues/preview-4th5th-grade.png",
     path: "resource/camp-calamari/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -717,6 +786,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/figurative-language/preview-4th5th-grade.png",
     path: "resource/camp-calamari/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -727,6 +797,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/main-idea/preview-4th5th-grade.png",
     path: "resource/camp-calamari/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -737,6 +808,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/poetry/preview-4th5th-grade.png",
     path: "resource/camp-calamari/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -747,6 +819,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/story-elements/preview-4th5th-grade.png",
     path: "resource/camp-calamari/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -757,6 +830,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/making-inferences/thumbnail-4th-5th-grade.png",
     path: "resource/camp-calamari/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -767,6 +841,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/reading/grammar/thumbnail-4th-5th-grade.png",
     path: "resource/camp-calamari/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -777,6 +852,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/all/thumbnail-3rd-grade.png",
     path: "resource/camp-calamari/topic/math/all/math_3rdGrade.js",
   },
   {
@@ -787,6 +863,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/all/thumbnail-4th-grade.png",
     path: "resource/camp-calamari/topic/math/all/math_4thGrade.js",
   },
   {
@@ -797,6 +874,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/all/thumbnail-5th-grade.png",
     path: "resource/camp-calamari/topic/math/all/math_5thGrade.js",
   },
   {
@@ -807,6 +885,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/fractions/preview-3rd-grade.png",
     path: "resource/camp-calamari/topic/math/fractions/fractions_3rdGrade.js",
   },
   {
@@ -817,6 +896,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/fractions/preview-4th-grade.png",
     path: "resource/camp-calamari/topic/math/fractions/fractions_4thGrade.js",
   },
   {
@@ -827,6 +907,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/fractions/preview-5th-grade.png",
     path: "resource/camp-calamari/topic/math/fractions/fractions_5thGrade.js",
   },
   {
@@ -837,6 +918,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/multiplication/preview-3rd-grade.png",
     path: "resource/camp-calamari/topic/math/multiplication/multiplication_3rdGrade.js",
   },
   {
@@ -847,6 +929,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/multiplication/preview-4th-grade.png",
     path: "resource/camp-calamari/topic/math/multiplication/multiplication_4thGrade.js",
   },
   {
@@ -857,6 +940,7 @@ export const games = [
     subject: "math",
     topic: "order-of-operations",
     standards: [],
+    thumbnail: "resource/camp-calamari/assets/branding/math/order-of-operations/preview-5th-grade.png",
     path: "resource/camp-calamari/topic/math/order-of-operations/orderOfOperations_5thGrade.js",
   },
 
@@ -872,6 +956,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -882,6 +967,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -892,6 +978,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -902,6 +989,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/main-idea/preview-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -912,6 +1000,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/figurative-language/preview-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -922,6 +1011,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/context-clues/preview-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -932,6 +1022,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/story-elements/preview-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -942,6 +1033,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/poetry/preview-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -952,6 +1044,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/making-inferences/thumbnail-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -962,6 +1055,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/grammar/thumbnail-4th-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -972,6 +1066,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/all-standards/thumbnail-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/math/all/math_3rdGrade.js",
   },
   {
@@ -982,6 +1077,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/all-standards/thumbnail-4th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/all/math_4thGrade.js",
   },
   {
@@ -992,6 +1088,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/all-standards/thumbnail-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/all/math_5thGrade.js",
   },
   {
@@ -1002,6 +1099,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/multiplication/preview-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/math/multiplication/multiplication_3rdGrade.js",
   },
   {
@@ -1012,6 +1110,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/multiplication/preview-4th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/multiplication/multiplication_4thGrade.js",
   },
   {
@@ -1022,6 +1121,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/fractions/preview-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/math/fractions/fractions_3rdGrade.js",
   },
   {
@@ -1032,6 +1132,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/fractions/preview-4th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/fractions/fractions_4thGrade.js",
   },
   {
@@ -1042,6 +1143,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/fractions/preview-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/fractions/fractions_5thGrade.js",
   },
   {
@@ -1052,6 +1154,7 @@ export const games = [
     subject: "math",
     topic: "order-of-operations",
     standards: [],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/math/order-of-operations/preview-5th-grade.png",
     path: "resource/the-hasty-harvest/topic/math/orderOfOperations/orderOfOperations_5thGrade.js",
   },
 
@@ -1067,6 +1170,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1077,6 +1181,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1087,6 +1192,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_5thGrade.js",
   },
   {
@@ -1097,6 +1203,7 @@ export const games = [
     subject: "reading",
     topic: "main-idea-and-supporting-details",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/main-idea/preview-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/main-idea/mainIdea_4th5thGrade.js",
   },
   {
@@ -1107,6 +1214,7 @@ export const games = [
     subject: "reading",
     topic: "figurative-language",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/figurative-language/preview-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js",
   },
   {
@@ -1117,6 +1225,7 @@ export const games = [
     subject: "reading",
     topic: "context-clues",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/context-clues/preview-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/context-clues/contextClues_4th5thGrade.js",
   },
   {
@@ -1127,6 +1236,7 @@ export const games = [
     subject: "reading",
     topic: "story-elements",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/story-elements/preview-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/story-elements/storyElements_4th5thGrade.js",
   },
   {
@@ -1137,6 +1247,7 @@ export const games = [
     subject: "reading",
     topic: "poetry",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/poetry/preview-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/poetry/poetry_4th5thGrade.js",
   },
   {
@@ -1147,6 +1258,7 @@ export const games = [
     subject: "reading",
     topic: "making-inferences",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/making-inferences/thumbnail-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/making-inferences/makingInferences_4th5thGrade.js",
   },
   {
@@ -1157,6 +1269,7 @@ export const games = [
     subject: "reading",
     topic: "grammar",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/grammar/thumbnail-4th-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/grammar/grammar_4th5thGrade.js",
   },
   {
@@ -1167,6 +1280,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/all-standards/thumbnail-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/all/math_3rdGrade.js",
   },
   {
@@ -1177,6 +1291,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/all-standards/thumbnail-4th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/all/math_4thGrade.js",
   },
   {
@@ -1187,6 +1302,7 @@ export const games = [
     subject: "math",
     topic: "mixed-math-skills",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/all-standards/thumbnail-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/all/math_5thGrade.js",
   },
   {
@@ -1197,6 +1313,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/multiplication/preview-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/multiplication/multiplication_3rdGrade.js",
   },
   {
@@ -1207,6 +1324,7 @@ export const games = [
     subject: "math",
     topic: "multiplication",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/multiplication/preview-4th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/multiplication/multiplication_4thGrade.js",
   },
   {
@@ -1217,6 +1335,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/fractions/preview-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/fractions/fractions_3rdGrade.js",
   },
   {
@@ -1227,6 +1346,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/fractions/preview-4th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/fractions/fractions_4thGrade.js",
   },
   {
@@ -1237,6 +1357,7 @@ export const games = [
     subject: "math",
     topic: "fractions",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/fractions/preview-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/fractions/fractions_5thGrade.js",
   },
   {
@@ -1247,6 +1368,7 @@ export const games = [
     subject: "math",
     topic: "order-of-operations",
     standards: [],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/math/order-of-operations/preview-5th-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/math/order-of-operations/orderOfOperations_5thGrade.js",
   },
 
@@ -1262,6 +1384,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/cupids-countdown/assets/branding/reading/all/preview-3rd-grade.png",
     path: "resource/cupids-countdown/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1272,6 +1395,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/cupids-countdown/assets/branding/reading/all/preview-4th-grade.png",
     path: "resource/cupids-countdown/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1282,6 +1406,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/cupids-countdown/assets/branding/reading/all/preview-5th-grade.png",
     path: "resource/cupids-countdown/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1297,6 +1422,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/rainbow-rescue/assets/branding/reading/all/preview-3rd-grade.png",
     path: "resource/rainbow-rescue/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1307,6 +1433,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/rainbow-rescue/assets/branding/reading/all/preview-4th-grade.png",
     path: "resource/rainbow-rescue/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1317,6 +1444,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/rainbow-rescue/assets/branding/reading/all/preview-5th-grade.png",
     path: "resource/rainbow-rescue/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1332,6 +1460,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/eggworld-emergency/assets/branding/reading/all/preview-3rd-grade.png",
     path: "resource/eggworld-emergency/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1342,6 +1471,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/eggworld-emergency/assets/branding/reading/all/preview-4th-grade.png",
     path: "resource/eggworld-emergency/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1352,6 +1482,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/eggworld-emergency/assets/branding/reading/all/preview-5th-grade.png",
     path: "resource/eggworld-emergency/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1367,6 +1498,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-2nd-grade.png",
     path: "resource/final-bell-breakout/topic/reading/all/reading_2ndGrade.js",
   },
   {
@@ -1377,6 +1509,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/final-bell-breakout/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1387,6 +1520,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/final-bell-breakout/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1397,6 +1531,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/final-bell-breakout/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/final-bell-breakout/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1412,6 +1547,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/paradise-panic/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/paradise-panic/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1422,6 +1558,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/paradise-panic/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/paradise-panic/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1432,6 +1569,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/paradise-panic/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/paradise-panic/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1447,6 +1585,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/funhouse-fright/assets/branding/reading/all/preview-3rd-grade.png",
     path: "resource/funhouse-fright/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1457,6 +1596,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/funhouse-fright/assets/branding/reading/all/preview-4th-grade.png",
     path: "resource/funhouse-fright/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1467,6 +1607,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/funhouse-fright/assets/branding/reading/all/preview-5th-grade.png",
     path: "resource/funhouse-fright/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1482,6 +1623,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/turkey-takedown/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/turkey-takedown/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1492,6 +1634,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/turkey-takedown/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/turkey-takedown/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1502,6 +1645,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/turkey-takedown/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/turkey-takedown/topic/reading/all/reading_5thGrade.js",
   },
 
@@ -1517,6 +1661,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/wacky-workshop/assets/branding/reading/all/thumbnail-3rd-grade.png",
     path: "resource/wacky-workshop/topic/reading/all/reading_3rdGrade.js",
   },
   {
@@ -1527,6 +1672,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/wacky-workshop/assets/branding/reading/all/thumbnail-4th-grade.png",
     path: "resource/wacky-workshop/topic/reading/all/reading_4thGrade.js",
   },
   {
@@ -1537,6 +1683,7 @@ export const games = [
     subject: "reading",
     topic: "mixed-reading-skills",
     standards: [],
+    thumbnail: "resource/wacky-workshop/assets/branding/reading/all/thumbnail-5th-grade.png",
     path: "resource/wacky-workshop/topic/reading/all/reading_5thGrade.js",
   },
 
