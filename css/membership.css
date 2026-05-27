@@ -372,7 +372,7 @@ body {
 .dpaam-lib-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0px;
   padding: 0;
   cursor: pointer;
 }
@@ -384,7 +384,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 16px 24px;
-  border-radius: var(--dpaam-radius);
+  border-radius: var(--dpaam-radius), var(--dpaam-radius), 0 0;
   background: var(--dpaam-white);
   border: 1.5px solid var(--dpaam-light-gray);
 }
@@ -437,10 +437,10 @@ body {
 
 .dpaam-thumb {
   flex: 0 0 auto;
-  width: 64px;
-  height: 64px;
-  background: #e3e3df;
-  border-radius: var(--dpaam-radius-sm);
+  width: 84px;
+  height: 84px;
+  background-color: var(--dpaam-light-gray);
+  border-radius:  var(--dpaam-radius-sm) 0 0 var(--dpaam-radius-sm);
   background-size: cover;
   background-position: center;
 }
