@@ -38,9 +38,25 @@
 **Total estimated timeline: 4–5 months at 3hrs/day**
 **Target launch: Spring 2027 (buying season)**
 
----
+## URL Structure & Code Routing
 
-## Feature List
+### Sitemap
+- `dingopunks.com` — landing page
+- `dingopunks.com/shop` — shop
+- `dingopunks.com/teachers` — teacher dashboard login
+- `game.dingopunks.com` — single kid entry point
+- `game.dingopunks.com/free-play` — free play (unchanged)
+
+### Code Routing
+- `game.dingopunks.com` displays a single code input field
+- Code format determines routing silently — no kid-facing product distinction
+- 5-digit numeric = individual purchase room
+- 5-char alphanumeric (A-Z, 1-9, excluding O and 0) = membership room
+- 45,435,424 possible membership code combinations — brute force is mathematically pointless
+- Rate limiting remains in place as the primary abuse protection
+- Secondary option below input: **"No code? Play a free game →"** routes to `/free-play`
+
+---
 1. Stripe subscription infrastructure
 2. Full library access
 3. Gated minigame
@@ -183,7 +199,7 @@ Single scrolling page, three sections top to bottom:
 - Code displayed large and readable
 - 24hr countdown timer per code
 - Cancel button per code
-- Persistent n/10 active indicator
+- Persistent n/12 active indicator
 
 **2. My Favorites — collapsed by default**
 - Expandable — could be dozens of rooms long
