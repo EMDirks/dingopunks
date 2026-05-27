@@ -295,22 +295,24 @@ function renderFavorites() {
           draggable="true"
         >
           <span class="dpaam-thumb" aria-hidden="true"></span>
-          <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
-          <div class="dpaam-lib-main">
-            <div class="dpaam-lib-topic-row">
-              <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-              ${libTagsHtml(game)}
+          <div class="dpaam-fav-row-body">
+            <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
+            <div class="dpaam-lib-main">
+              <div class="dpaam-lib-topic-row">
+                <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+                ${libTagsHtml(game)}
+              </div>
+              ${libThemeHtml(game)}
             </div>
-            ${libThemeHtml(game)}
-          </div>
-          <div class="dpaam-fav-actions">
-            ${actionBlock}
-            <button
-              type="button"
-              class="dpaam-fav-remove"
-              data-action="remove-favorite"
-              aria-label="Remove from favorites"
-            >×</button>
+            <div class="dpaam-fav-actions">
+              ${actionBlock}
+              <button
+                type="button"
+                class="dpaam-fav-remove"
+                data-action="remove-favorite"
+                aria-label="Remove from favorites"
+              >×</button>
+            </div>
           </div>
         </li>`;
     })
@@ -349,14 +351,16 @@ function renderLibrary() {
           aria-label="View details for ${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
           <span class="dpaam-thumb" aria-hidden="true"></span>
-          <div class="dpaam-lib-main">
-            <div class="dpaam-lib-topic-row">
-              <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-              ${libTagsHtml(game)}
+          <div class="dpaam-lib-row-body">
+            <div class="dpaam-lib-main">
+              <div class="dpaam-lib-topic-row">
+                <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+                ${libTagsHtml(game)}
+              </div>
+              ${libThemeHtml(game)}
             </div>
-            ${libThemeHtml(game)}
+            ${action}
           </div>
-          ${action}
         </li>`;
     })
     .join("");
