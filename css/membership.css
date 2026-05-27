@@ -375,18 +375,31 @@ body {
   gap: 12px;
   padding: 0;
   cursor: pointer;
+  overflow: hidden;
 }
+
+.dpaam-lib-row:hover {
+  background-color: var(--dpaam-light-gray);
+}
+
+.dpaam-thumb {
+  flex: 0 0 auto;
+  display: block;
+  width: 84px;
+  height: 84px;
+  background-color: var(--dpaam-black);
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+}
+
 
 .dpaam-lib-row-body {
   flex: 1;
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
-  border-radius: 0 var(--dpaam-radius) var(--dpaam-radius) 0;
-  background: var(--dpaam-white);
-  border: 1px solid var(--dpaam-light-gray);
+  padding: 16px 24px 16px 12px;
 }
 
 .dpaam-lib-main {
@@ -431,20 +444,6 @@ body {
 .dpaam-lib-meta-sep {
   margin: 0 6px;
   color: var(--dpaam-border-strong);
-}
-
-/* ---------- Row thumbnail ---------- */
-
-.dpaam-thumb {
-  flex: 0 0 auto;
-  display: block;
-  width: 84px;
-  height: 84px;
-  background-color: var(--dpaam-light-gray);
-  border-radius: var(--dpaam-radius-sm);
-  background-size: cover;
-  background-position: center;
-  object-fit: cover;
 }
 
 /* ---------- Tag chips ---------- */
