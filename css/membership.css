@@ -3,8 +3,14 @@
    Scoped under .dpaam so it can't leak into other pages.
    ========================================================================== */
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .dpaam {
-  --dpaam-bg: #f7f7f5;
+  --dpaam-light-gray: #F7F6F6;
   --dpaam-surface: #ffffff;
   --dpaam-border: #e3e3df;
   --dpaam-border-strong: #c9c9c4;
@@ -23,7 +29,7 @@
 
   font-family: var(--dpaam-sans);
   color: var(--dpaam-text);
-  background: var(--dpaam-bg);
+  background: var(--dpaam-light-gray);
   min-height: 100vh;
   font-size: 15px;
   line-height: 1.45;
@@ -245,10 +251,15 @@
 }
 
 .dpaam-fav-row.is-dragging {
-  opacity: 0.55;
-  border-color: var(--dpaam-accent);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  background: #ececea;
+  border-color: var(--dpaam-border-strong);
+  border-style: dashed;
+  box-shadow: none;
   cursor: grabbing;
+}
+
+.dpaam-fav-row.is-dragging > * {
+  visibility: hidden;
 }
 
 .dpaam-fav-handle {

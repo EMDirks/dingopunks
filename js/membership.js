@@ -128,6 +128,41 @@ function rowAfterPointer(listEl, clientY, dragEl) {
   return null;
 }
 
+// FLIP reorder: record each non-dragged row's pre-mutation top, run the
+// DOM mutation, then animate each row from its old position to its new
+// position via the Web Animations API. Any in-flight animation on a row
+// is cancelled so rapid dragover events don't queue up.
+const flipAnims = new WeakMap();
+function flipReorder(listEl, dragEl, mutate) {
+  const rows = Array.from(listEl.querySelectorAll(".dpaam-fav-row"));
+  const firstTops = new Map();
+  for (const r of rows) {
+    if (r === dragEl) continue;
+    firstTops.set(r, r.getBoundingClientRect().top);
+  }
+
+  mutate();
+
+  for (const r of rows) {
+    if (r === dragEl) continue;
+    const newTop = r.getBoundingClientRect().top;
+    const delta = firstTops.get(r) - newTop;
+    if (!delta) continue;
+
+    const prev = flipAnims.get(r);
+    if (prev) prev.cancel();
+
+    const anim = r.animate(
+      [
+        { transform: `translateY(${delta}px)` },
+        { transform: "translateY(0)" },
+      ],
+      { duration: 180, easing: "ease" },
+    );
+    flipAnims.set(r, anim);
+  }
+}
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (ch) => {
     switch (ch) {
@@ -465,10 +500,14 @@ function wireEvents() {
     const after = rowAfterPointer(els.favoritesList, e.clientY, dragEl);
     if (after == null) {
       if (els.favoritesList.lastElementChild !== dragEl) {
-        els.favoritesList.appendChild(dragEl);
+        flipReorder(els.favoritesList, dragEl, () => {
+          els.favoritesList.appendChild(dragEl);
+        });
       }
     } else if (after !== dragEl && after !== dragEl.nextElementSibling) {
-      els.favoritesList.insertBefore(dragEl, after);
+      flipReorder(els.favoritesList, dragEl, () => {
+        els.favoritesList.insertBefore(dragEl, after);
+      });
     }
   });
 
