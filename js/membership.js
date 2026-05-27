@@ -25,6 +25,7 @@ const state = {
 // ---------- DOM refs ----------
 
 const els = {
+  activeSection: document.getElementById("dpaam-active-section"),
   activeCount: document.getElementById("dpaam-active-count"),
   activeList: document.getElementById("dpaam-active-list"),
   favoritesToggle: document.getElementById("dpaam-favorites-toggle"),
@@ -36,6 +37,7 @@ const els = {
     subject: document.getElementById("dpaam-filter-subject"),
   },
   libraryList: document.getElementById("dpaam-library-list"),
+  libraryCount: document.getElementById("dpaam-library-count"),
   libraryEmpty: document.getElementById("dpaam-library-empty"),
   modal: document.getElementById("dpaam-modal"),
   modalTitle: document.getElementById("dpaam-modal-title"),
@@ -89,28 +91,24 @@ function tagsHtml(game) {
 }
 
 function libThemeHtml(game) {
-  const theme = game.title
-    ? `<span class="dpaam-lib-meta-theme">${escapeHtml(game.title)}</span>`
-    : "";
   const season = game.season
     ? `<span class="dpaam-lib-meta-season">${escapeHtml(formatLabel(game.season))}</span>`
     : "";
-  if (!theme && !season) return "";
+  const theme = game.title
+    ? `<span class="dpaam-lib-meta-theme">${escapeHtml(game.title)}</span>`
+    : "";
+  if (!season && !theme) return "";
   const inner =
-    theme && season
-      ? `${theme}<span class="dpaam-lib-meta-sep" aria-hidden="true">·</span>${season}`
-      : theme || season;
+    season && theme
+      ? `${season}<span class="dpaam-lib-meta-sep" aria-hidden="true">·</span>${theme}`
+      : season || theme;
   return `<div class="dpaam-lib-meta">${inner}</div>`;
 }
 
 function libTagsHtml(game) {
-  const tags = [];
-  if (game.grades && game.grades.length) {
-    for (const g of game.grades) tags.push(`Grade ${g}`);
-  }
-  if (tags.length === 0) return "";
-  return `<div class="dpaam-tags">${tags
-    .map((t) => `<span class="dpaam-tag">${escapeHtml(t)}</span>`)
+  if (!game.grades || game.grades.length === 0) return "";
+  return `<div class="dpaam-tags">${game.grades
+    .map((g) => `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`)
     .join("")}</div>`;
 }
 
@@ -228,15 +226,14 @@ function cancelCode(gameId) {
 // ---------- renderers ----------
 
 function renderActiveCodes() {
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
+  els.activeSection.hidden = state.activeCodes.length === 0;
 
   if (state.activeCodes.length === 0) {
-    els.activeList.innerHTML = `
-      <p class="dpaam-empty">
-        No active codes yet. Generate one from My favorites.
-      </p>`;
+    els.activeList.innerHTML = "";
     return;
   }
+
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
 
   els.activeList.innerHTML = state.activeCodes
     .map((entry) => {
@@ -258,7 +255,7 @@ function renderActiveCodes() {
 }
 
 function renderFavorites() {
-  els.favoritesCount.textContent = `(${state.favorites.length})`;
+  els.favoritesCount.textContent = `${state.favorites.length} favorites`;
   els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
   els.favoritesList.hidden = !state.favoritesOpen;
 
@@ -290,6 +287,7 @@ function renderFavorites() {
             Generate code
           </button>`;
 
+      const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li
           class="dpaam-fav-row"
@@ -297,9 +295,12 @@ function renderFavorites() {
           draggable="true"
         >
           <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
-          <div class="dpaam-fav-main">
-            <h3 class="dpaam-fav-title">${escapeHtml(game.title)}</h3>
-            ${tagsHtml(game)}
+          <div class="dpaam-lib-main">
+            <div class="dpaam-lib-topic-row">
+              <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+              ${libTagsHtml(game)}
+            </div>
+            ${libThemeHtml(game)}
           </div>
           <div class="dpaam-fav-actions">
             ${actionBlock}
@@ -328,6 +329,7 @@ function renderLibrary() {
     return true;
   });
 
+  els.libraryCount.textContent = `${filtered.length} escape room${filtered.length === 1 ? "" : "s"}`;
   els.libraryEmpty.hidden = filtered.length !== 0;
 
   els.libraryList.innerHTML = filtered
@@ -346,9 +348,11 @@ function renderLibrary() {
           aria-label="View details for ${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
           <div class="dpaam-lib-main">
-            <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+            <div class="dpaam-lib-topic-row">
+              <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+              ${libTagsHtml(game)}
+            </div>
             ${libThemeHtml(game)}
-            ${libTagsHtml(game)}
           </div>
           ${action}
         </li>`;

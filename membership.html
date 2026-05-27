@@ -4,14 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dingo Punks — All-Access Membership</title>
+  <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
   <link rel="stylesheet" href="css/membership.css" />
 </head>
 <body>
   <div class="dpaam">
     <header class="dpaam-topbar">
       <div class="dpaam-brand">
-        <span class="dpaam-wordmark">Dingo Punks</span>
-        <span class="dpaam-pill">All-Access Member</span>
+        <img
+          class="dpaam-logo"
+          src="assets/branding/logo/logo-main.png"
+          alt="Dingo Punks"
+          width="800"
+          height="373"
+        />
+        <span class="dpaam-pill">All-Access Membership</span>
       </div>
       <button type="button" class="dpaam-account-btn">My account</button>
     </header>
@@ -20,7 +27,7 @@
       <!-- Section 1: Active Codes -->
       <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
         <div class="dpaam-section-header">
-          <h2 id="dpaam-active-heading" class="dpaam-section-title">Active codes</h2>
+          <h2 id="dpaam-active-heading" class="dpaam-section-title">Active Codes</h2>
           <span class="dpaam-active-count" id="dpaam-active-count">0 / 12 active</span>
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
@@ -28,19 +35,19 @@
 
       <!-- Section 2: My Favorites -->
       <section class="dpaam-section" aria-labelledby="dpaam-favorites-heading">
-        <button
-          type="button"
-          class="dpaam-section-header dpaam-favorites-toggle"
-          id="dpaam-favorites-toggle"
-          aria-expanded="false"
-          aria-controls="dpaam-favorites-list"
-        >
-          <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
-          <h2 id="dpaam-favorites-heading" class="dpaam-section-title">
-            My favorites
-            <span class="dpaam-favorites-count" id="dpaam-favorites-count">(0)</span>
-          </h2>
-        </button>
+        <div class="dpaam-section-header">
+          <button
+            type="button"
+            class="dpaam-favorites-toggle"
+            id="dpaam-favorites-toggle"
+            aria-expanded="false"
+            aria-controls="dpaam-favorites-list"
+          >
+            <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
+            <h2 id="dpaam-favorites-heading" class="dpaam-section-title">My Favorites</h2>
+          </button>
+          <span class="dpaam-favorites-count" id="dpaam-favorites-count">0 favorites</span>
+        </div>
         <ul class="dpaam-favorites-list" id="dpaam-favorites-list" hidden></ul>
       </section>
 
@@ -48,6 +55,7 @@
       <section class="dpaam-section" aria-labelledby="dpaam-library-heading">
         <div class="dpaam-section-header">
           <h2 id="dpaam-library-heading" class="dpaam-section-title">Library</h2>
+          <span class="dpaam-library-count" id="dpaam-library-count"></span>
         </div>
 
         <div class="dpaam-filters" id="dpaam-filters">
