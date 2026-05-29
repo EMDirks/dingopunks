@@ -6,7 +6,7 @@
 const THUMBNAIL_MODE = "render";
 
 const THUMB_COLORS = new Set([
-  "beige", "blue", "blush", "cyan", "gold", "gray", "green", "lavender",
+  "beige", "blue", "blush", "cyan", "lime", "gold", "gray", "green", "lavender",
   "orange", "pink", "purple", "salmon", "tan", "teal",
 ]);
 
@@ -48,9 +48,10 @@ function thumbColorVar(game) {
 
 function thumbHtmlRender(game) {
   const cssVar = thumbColorVar(game);
+  const bgVar = game.badguy ? `--thumb-badguy: url('/${game.badguy}');` : "";
   return `<span
     class="dpaam-thumb"
-    style="background-color: var(${cssVar})"
+    style="background-color: var(${cssVar}); ${bgVar}"
     aria-hidden="true"
   ></span>`;
 }

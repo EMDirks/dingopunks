@@ -82,8 +82,12 @@ function formatLabel(value) {
   if (Array.isArray(value)) return value.join(", ");
   const key = String(value);
   if (LABEL_OVERRIDES[key]) return LABEL_OVERRIDES[key];
-  const str = key.replace(/-/g, " ");
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return key
+    .replace(/-/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 function gradeLabel(grades) {

@@ -36,6 +36,7 @@ body {
   --dpaam-green: #80AA6A;
   --dpaam-pink: #FF8290;
   --dpaam-cyan: #97E6F9;
+  --dpaam-lime: #c7f0b0;
   --dpaam-lavender: #DA99F5;
   --dpaam-gray: #A08D8D;
   --dpaam-beige: #FFE4AE;
@@ -399,8 +400,10 @@ body {
   width: 84px;
   height: 84px;
   background-color: var(--dpaam-black);
-  background-size: cover;
-  background-position: center;
+  background-image: var(--thumb-badguy);
+  background-size: 250%;
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
   object-fit: cover;
   border-radius: var(--dpaam-radius-sm);
 }
