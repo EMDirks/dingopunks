@@ -32,6 +32,16 @@ body {
   --dpaam-gold: #FBB941;
   --dpaam-gold-light: #FEEAC6;
   --dpaam-gold-dark: #C87D3B;
+  --dpaam-purple: #986DD7;
+  --dpaam-green: #80AA6A;
+  --dpaam-pink: #FF8290;
+  --dpaam-cyan: #97E6F9;
+  --dpaam-lavender: #DA99F5;
+  --dpaam-gray: #A08D8D;
+  --dpaam-beige: #FFE4AE;
+  --dpaam-orange: #FF934E;
+  --dpaam-tan: #D59981;
+  --dpaam-blush: #EE5A6A;
   --dpaam-radius: 6px;
   --dpaam-radius-sm: 4px;
   --dpaam-pad: 16px;
@@ -633,10 +643,16 @@ body {
 
 .dpaam-modal-skills-list {
   margin: 0;
-  padding: 0 0 0 16px;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.dpaam-modal-skills-list li::before {
+  content: "•";
+  margin-right: 8px;
 }
 
 .dpaam-modal-footer {

@@ -7,6 +7,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-reading-skills-2",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2],
     subject: "reading",
@@ -25,6 +26,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-reading-skills-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [3],
     subject: "reading",
@@ -43,6 +45,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-reading-skills-4",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4],
     subject: "reading",
@@ -61,6 +64,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-reading-skills-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [5],
     subject: "reading",
@@ -79,6 +83,7 @@ export const games = [
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -96,6 +101,7 @@ export const games = [
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -113,6 +119,7 @@ export const games = [
   {
     id: "the-midnight-mall-figurative-language-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -130,6 +137,7 @@ export const games = [
   {
     id: "the-midnight-mall-context-clues-and-vocabulary-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -147,6 +155,7 @@ export const games = [
   {
     id: "the-midnight-mall-context-clues-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -163,6 +172,7 @@ export const games = [
   {
     id: "the-midnight-mall-story-elements-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -180,6 +190,7 @@ export const games = [
   {
     id: "the-midnight-mall-story-elements-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -197,6 +208,7 @@ export const games = [
   {
     id: "the-midnight-mall-poetry-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -214,6 +226,7 @@ export const games = [
   {
     id: "the-midnight-mall-poetry-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -231,6 +244,7 @@ export const games = [
   {
     id: "the-midnight-mall-grammar-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -248,6 +262,7 @@ export const games = [
   {
     id: "the-midnight-mall-grammar-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -265,6 +280,7 @@ export const games = [
   {
     id: "the-midnight-mall-making-inferences-2-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2, 3],
     subject: "reading",
@@ -282,6 +298,7 @@ export const games = [
   {
     id: "the-midnight-mall-making-inferences-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -299,6 +316,7 @@ export const games = [
   {
     id: "the-midnight-mall-text-features-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -316,16 +334,17 @@ export const games = [
   {
     id: "the-midnight-mall-text-structures-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
     topic: "text-structures",
     standards: [],
     skills: [
-      "",
-      "",
-      "",
-      "",
+      "Compare and Contrast",
+      "Cause and Effect",
+      "Problem and Solution",
+      "Chronological Order / Sequence; Description",
     ],
     thumbnail: "resource/escape-the-midnight-mall/assets/branding/text-structures/thumbnail-4th-5th-grade.png",
     path: "resource/escape-the-midnight-mall/topic/reading/text-structures/textStructures_4th5thGrade.js",
@@ -333,6 +352,7 @@ export const games = [
   {
     id: "the-midnight-mall-authors-purpose-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -350,6 +370,7 @@ export const games = [
   {
     id: "the-midnight-mall-character-traits-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -367,6 +388,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-math-skills-2",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [2],
     subject: "math",
@@ -385,6 +407,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-math-skills-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [3],
     subject: "math",
@@ -403,6 +426,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-math-skills-4",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4],
     subject: "math",
@@ -421,6 +445,7 @@ export const games = [
   {
     id: "the-midnight-mall-mixed-math-skills-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [5],
     subject: "math",
@@ -439,6 +464,7 @@ export const games = [
   {
     id: "the-midnight-mall-multiplication-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [3],
     subject: "math",
@@ -456,6 +482,7 @@ export const games = [
   {
     id: "the-midnight-mall-multiplication-4",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4],
     subject: "math",
@@ -473,6 +500,7 @@ export const games = [
   {
     id: "the-midnight-mall-fractions-3",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [3],
     subject: "math",
@@ -490,6 +518,7 @@ export const games = [
   {
     id: "the-midnight-mall-fractions-4",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4],
     subject: "math",
@@ -507,6 +536,7 @@ export const games = [
   {
     id: "the-midnight-mall-fractions-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [5],
     subject: "math",
@@ -524,6 +554,7 @@ export const games = [
   {
     id: "the-midnight-mall-order-of-operations-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [5],
     subject: "math",
@@ -541,6 +572,7 @@ export const games = [
   {
     id: "the-midnight-mall-growth-mindset-4-5",
     title: "The Midnight Mall",
+    color: "purple",
     season: "all-year",
     grades: [4, 5],
     subject: "social-emotional-learning",
@@ -563,6 +595,7 @@ export const games = [
   {
     id: "pickles-playground-mixed-reading-skills-3",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [3],
     subject: "reading",
@@ -581,6 +614,7 @@ export const games = [
   {
     id: "pickles-playground-mixed-reading-skills-4",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4],
     subject: "reading",
@@ -599,6 +633,7 @@ export const games = [
   {
     id: "pickles-playground-mixed-reading-skills-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [5],
     subject: "reading",
@@ -617,6 +652,7 @@ export const games = [
   {
     id: "pickles-playground-main-idea-and-supporting-details-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -634,6 +670,7 @@ export const games = [
   {
     id: "pickles-playground-figurative-language-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -651,6 +688,7 @@ export const games = [
   {
     id: "pickles-playground-context-clues-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -668,6 +706,7 @@ export const games = [
   {
     id: "pickles-playground-story-elements-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -685,6 +724,7 @@ export const games = [
   {
     id: "pickles-playground-poetry-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -702,6 +742,7 @@ export const games = [
   {
     id: "pickles-playground-making-inferences-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -719,6 +760,7 @@ export const games = [
   {
     id: "pickles-playground-grammar-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -736,6 +778,7 @@ export const games = [
   {
     id: "pickles-playground-authors-purpose-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -747,12 +790,13 @@ export const games = [
       "Reasons, Evidence, and Audience",
       "Compare and Contrast Author's Purpose",
     ],
-    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
+    thumbnail: "",
     path: "resource/pickles-playground/topic/reading/authors-purpose/authorsPurpose_4th5thGrade.js",
   },
   {
     id: "pickles-playground-character-traits-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
@@ -764,29 +808,31 @@ export const games = [
       "Character Traits, Feelings, and Motivations",
       "Compare and Contrast Character Traits",
     ],
-    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
+    thumbnail: "",
     path: "resource/pickles-playground/topic/reading/character-traits/characterTraits_4th5thGrade.js",
   },
   {
     id: "pickles-playground-text-structures-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "reading",
     topic: "text-structures",
     standards: [],
     skills: [
-      "",
-      "",
-      "",
-      "",
+      "Cause and Effect",
+      "Compare and Contrast",
+      "Chronological Order / Sequence",
+      "Problem and Solution",
     ],
-    thumbnail: "resource/pickles-playground/assets/branding/reading/context-clues/thumbnail-4th-5th-grade.png",
+    thumbnail: "",
     path: "resource/pickles-playground/topic/reading/text-structures/textStructures_4th5thGrade.js",
   },
   {
     id: "pickles-playground-growth-mindset-4-5",
     title: "Pickle's Playground",
+    color: "green",
     season: "all-year",
     grades: [4, 5],
     subject: "social-emotional-learning",
@@ -809,6 +855,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-reading-skills-3",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [3],
     subject: "reading",
@@ -827,6 +874,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-reading-skills-4",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4],
     subject: "reading",
@@ -845,6 +893,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-reading-skills-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [5],
     subject: "reading",
@@ -863,6 +912,7 @@ export const games = [
   {
     id: "beehive-blitz-context-clues-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -880,6 +930,7 @@ export const games = [
   {
     id: "beehive-blitz-figurative-language-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -897,6 +948,7 @@ export const games = [
   {
     id: "beehive-blitz-main-idea-and-supporting-details-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -914,6 +966,7 @@ export const games = [
   {
     id: "beehive-blitz-poetry-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -931,6 +984,7 @@ export const games = [
   {
     id: "beehive-blitz-story-elements-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -948,6 +1002,7 @@ export const games = [
   {
     id: "beehive-blitz-making-inferences-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -965,6 +1020,7 @@ export const games = [
   {
     id: "beehive-blitz-grammar-4-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4, 5],
     subject: "reading",
@@ -982,6 +1038,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-math-skills-3",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [3],
     subject: "math",
@@ -1000,6 +1057,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-math-skills-4",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4],
     subject: "math",
@@ -1018,6 +1076,7 @@ export const games = [
   {
     id: "beehive-blitz-mixed-math-skills-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [5],
     subject: "math",
@@ -1036,6 +1095,7 @@ export const games = [
   {
     id: "beehive-blitz-fractions-3",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [3],
     subject: "math",
@@ -1053,6 +1113,7 @@ export const games = [
   {
     id: "beehive-blitz-fractions-4",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4],
     subject: "math",
@@ -1070,6 +1131,7 @@ export const games = [
   {
     id: "beehive-blitz-fractions-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [5],
     subject: "math",
@@ -1087,6 +1149,7 @@ export const games = [
   {
     id: "beehive-blitz-multiplication-3",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [3],
     subject: "math",
@@ -1104,6 +1167,7 @@ export const games = [
   {
     id: "beehive-blitz-multiplication-4",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [4],
     subject: "math",
@@ -1121,6 +1185,7 @@ export const games = [
   {
     id: "beehive-blitz-order-of-operations-5",
     title: "Beehive Blitz",
+    color: "teal",
     season: "spring",
     grades: [5],
     subject: "math",
@@ -1143,6 +1208,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-reading-skills-3",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [3],
     subject: "reading",
@@ -1161,6 +1227,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-reading-skills-4",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4],
     subject: "reading",
@@ -1179,6 +1246,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-reading-skills-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [5],
     subject: "reading",
@@ -1197,6 +1265,7 @@ export const games = [
   {
     id: "camp-calamari-context-clues-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1214,6 +1283,7 @@ export const games = [
   {
     id: "camp-calamari-figurative-language-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1231,6 +1301,7 @@ export const games = [
   {
     id: "camp-calamari-main-idea-and-supporting-details-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1248,6 +1319,7 @@ export const games = [
   {
     id: "camp-calamari-poetry-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1265,6 +1337,7 @@ export const games = [
   {
     id: "camp-calamari-story-elements-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1282,6 +1355,7 @@ export const games = [
   {
     id: "camp-calamari-making-inferences-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1299,6 +1373,7 @@ export const games = [
   {
     id: "camp-calamari-grammar-4-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4, 5],
     subject: "reading",
@@ -1316,6 +1391,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-math-skills-3",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [3],
     subject: "math",
@@ -1334,6 +1410,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-math-skills-4",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4],
     subject: "math",
@@ -1352,6 +1429,7 @@ export const games = [
   {
     id: "camp-calamari-mixed-math-skills-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [5],
     subject: "math",
@@ -1370,6 +1448,7 @@ export const games = [
   {
     id: "camp-calamari-fractions-3",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [3],
     subject: "math",
@@ -1387,6 +1466,7 @@ export const games = [
   {
     id: "camp-calamari-fractions-4",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4],
     subject: "math",
@@ -1404,6 +1484,7 @@ export const games = [
   {
     id: "camp-calamari-fractions-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [5],
     subject: "math",
@@ -1421,6 +1502,7 @@ export const games = [
   {
     id: "camp-calamari-multiplication-3",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [3],
     subject: "math",
@@ -1438,6 +1520,7 @@ export const games = [
   {
     id: "camp-calamari-multiplication-4",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [4],
     subject: "math",
@@ -1455,6 +1538,7 @@ export const games = [
   {
     id: "camp-calamari-order-of-operations-5",
     title: "Camp Calamari",
+    color: "salmon",
     season: "summer",
     grades: [5],
     subject: "math",
@@ -1477,6 +1561,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-reading-skills-3",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [3],
     subject: "reading",
@@ -1495,6 +1580,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-reading-skills-4",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4],
     subject: "reading",
@@ -1513,6 +1599,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-reading-skills-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [5],
     subject: "reading",
@@ -1531,6 +1618,7 @@ export const games = [
   {
     id: "the-hasty-harvest-main-idea-and-supporting-details-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1548,6 +1636,7 @@ export const games = [
   {
     id: "the-hasty-harvest-figurative-language-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1565,6 +1654,7 @@ export const games = [
   {
     id: "the-hasty-harvest-context-clues-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1582,6 +1672,7 @@ export const games = [
   {
     id: "the-hasty-harvest-story-elements-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1599,6 +1690,7 @@ export const games = [
   {
     id: "the-hasty-harvest-poetry-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1616,6 +1708,7 @@ export const games = [
   {
     id: "the-hasty-harvest-making-inferences-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1633,6 +1726,7 @@ export const games = [
   {
     id: "the-hasty-harvest-grammar-4-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4, 5],
     subject: "reading",
@@ -1650,6 +1744,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-math-skills-3",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [3],
     subject: "math",
@@ -1668,6 +1763,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-math-skills-4",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4],
     subject: "math",
@@ -1686,6 +1782,7 @@ export const games = [
   {
     id: "the-hasty-harvest-mixed-math-skills-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [5],
     subject: "math",
@@ -1704,6 +1801,7 @@ export const games = [
   {
     id: "the-hasty-harvest-multiplication-3",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [3],
     subject: "math",
@@ -1721,6 +1819,7 @@ export const games = [
   {
     id: "the-hasty-harvest-multiplication-4",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4],
     subject: "math",
@@ -1738,6 +1837,7 @@ export const games = [
   {
     id: "the-hasty-harvest-fractions-3",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [3],
     subject: "math",
@@ -1755,6 +1855,7 @@ export const games = [
   {
     id: "the-hasty-harvest-fractions-4",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [4],
     subject: "math",
@@ -1772,6 +1873,7 @@ export const games = [
   {
     id: "the-hasty-harvest-fractions-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [5],
     subject: "math",
@@ -1789,6 +1891,7 @@ export const games = [
   {
     id: "the-hasty-harvest-order-of-operations-5",
     title: "The Hasty Harvest",
+    color: "gold",
     season: "fall",
     grades: [5],
     subject: "math",
@@ -1811,6 +1914,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [3],
     subject: "reading",
@@ -1829,6 +1933,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-reading-skills-4",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4],
     subject: "reading",
@@ -1847,6 +1952,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-reading-skills-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [5],
     subject: "reading",
@@ -1865,6 +1971,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1882,6 +1989,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-figurative-language-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1899,6 +2007,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-context-clues-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1916,6 +2025,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-story-elements-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1933,6 +2043,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-poetry-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1950,6 +2061,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-making-inferences-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1967,6 +2079,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-grammar-4-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4, 5],
     subject: "reading",
@@ -1984,6 +2097,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-math-skills-3",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [3],
     subject: "math",
@@ -2002,6 +2116,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-math-skills-4",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4],
     subject: "math",
@@ -2020,6 +2135,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-mixed-math-skills-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [5],
     subject: "math",
@@ -2038,6 +2154,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-multiplication-3",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [3],
     subject: "math",
@@ -2055,6 +2172,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-multiplication-4",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4],
     subject: "math",
@@ -2072,6 +2190,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-fractions-3",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [3],
     subject: "math",
@@ -2089,6 +2208,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-fractions-4",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [4],
     subject: "math",
@@ -2106,6 +2226,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-fractions-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [5],
     subject: "math",
@@ -2123,6 +2244,7 @@ export const games = [
   {
     id: "yeti-and-the-yams-order-of-operations-5",
     title: "Yeti and the Yams",
+    color: "blue",
     season: "winter",
     grades: [5],
     subject: "math",
@@ -2145,6 +2267,7 @@ export const games = [
   {
     id: "cupids-countdown-mixed-reading-skills-3",
     title: "Cupid's Countdown",
+    color: "pink",
     season: "valentines-day",
     grades: [3],
     subject: "reading",
@@ -2163,6 +2286,7 @@ export const games = [
   {
     id: "cupids-countdown-mixed-reading-skills-4",
     title: "Cupid's Countdown",
+    color: "pink",
     season: "valentines-day",
     grades: [4],
     subject: "reading",
@@ -2181,6 +2305,7 @@ export const games = [
   {
     id: "cupids-countdown-mixed-reading-skills-5",
     title: "Cupid's Countdown",
+    color: "pink",
     season: "valentines-day",
     grades: [5],
     subject: "reading",
@@ -2204,6 +2329,7 @@ export const games = [
   {
     id: "rainbow-rescue-mixed-reading-skills-3",
     title: "Rainbow Rescue",
+    color: "cyan",
     season: "st-patricks-day",
     grades: [3],
     subject: "reading",
@@ -2222,6 +2348,7 @@ export const games = [
   {
     id: "rainbow-rescue-mixed-reading-skills-4",
     title: "Rainbow Rescue",
+    color: "cyan",
     season: "st-patricks-day",
     grades: [4],
     subject: "reading",
@@ -2240,6 +2367,7 @@ export const games = [
   {
     id: "rainbow-rescue-mixed-reading-skills-5",
     title: "Rainbow Rescue",
+    color: "cyan",
     season: "st-patricks-day",
     grades: [5],
     subject: "reading",
@@ -2263,6 +2391,7 @@ export const games = [
   {
     id: "eggworld-emergency-mixed-reading-skills-3",
     title: "Eggworld Emergency",
+    color: "lavender",
     season: "easter",
     grades: [3],
     subject: "reading",
@@ -2281,6 +2410,7 @@ export const games = [
   {
     id: "eggworld-emergency-mixed-reading-skills-4",
     title: "Eggworld Emergency",
+    color: "lavender",
     season: "easter",
     grades: [4],
     subject: "reading",
@@ -2299,6 +2429,7 @@ export const games = [
   {
     id: "eggworld-emergency-mixed-reading-skills-5",
     title: "Eggworld Emergency",
+    color: "lavender",
     season: "easter",
     grades: [5],
     subject: "reading",
@@ -2322,6 +2453,7 @@ export const games = [
   {
     id: "final-bell-breakout-mixed-reading-skills-2",
     title: "Final Bell Breakout",
+    color: "gray",
     season: "end-of-year",
     grades: [2],
     subject: "reading",
@@ -2340,6 +2472,7 @@ export const games = [
   {
     id: "final-bell-breakout-mixed-reading-skills-3",
     title: "Final Bell Breakout",
+    color: "gray",
     season: "end-of-year",
     grades: [3],
     subject: "reading",
@@ -2358,6 +2491,7 @@ export const games = [
   {
     id: "final-bell-breakout-mixed-reading-skills-4",
     title: "Final Bell Breakout",
+    color: "gray",
     season: "end-of-year",
     grades: [4],
     subject: "reading",
@@ -2376,6 +2510,7 @@ export const games = [
   {
     id: "final-bell-breakout-mixed-reading-skills-5",
     title: "Final Bell Breakout",
+    color: "gray",
     season: "end-of-year",
     grades: [5],
     subject: "reading",
@@ -2399,6 +2534,7 @@ export const games = [
   {
     id: "paradise-panic-mixed-reading-skills-3",
     title: "Paradise Panic",
+    color: "beige",
     season: "back-to-school",
     grades: [3],
     subject: "reading",
@@ -2417,6 +2553,7 @@ export const games = [
   {
     id: "paradise-panic-mixed-reading-skills-4",
     title: "Paradise Panic",
+    color: "beige",
     season: "back-to-school",
     grades: [4],
     subject: "reading",
@@ -2435,6 +2572,7 @@ export const games = [
   {
     id: "paradise-panic-mixed-reading-skills-5",
     title: "Paradise Panic",
+    color: "beige",
     season: "back-to-school",
     grades: [5],
     subject: "reading",
@@ -2458,6 +2596,7 @@ export const games = [
   {
     id: "funhouse-fright-mixed-reading-skills-3",
     title: "Funhouse Fright",
+    color: "orange",
     season: "halloween",
     grades: [3],
     subject: "reading",
@@ -2476,6 +2615,7 @@ export const games = [
   {
     id: "funhouse-fright-mixed-reading-skills-4",
     title: "Funhouse Fright",
+    color: "orange",
     season: "halloween",
     grades: [4],
     subject: "reading",
@@ -2494,6 +2634,7 @@ export const games = [
   {
     id: "funhouse-fright-mixed-reading-skills-5",
     title: "Funhouse Fright",
+    color: "orange",
     season: "halloween",
     grades: [5],
     subject: "reading",
@@ -2517,6 +2658,7 @@ export const games = [
   {
     id: "turkey-takedown-mixed-reading-skills-3",
     title: "Turkey Takedown",
+    color: "tan",
     season: "thanksgiving",
     grades: [3],
     subject: "reading",
@@ -2535,6 +2677,7 @@ export const games = [
   {
     id: "turkey-takedown-mixed-reading-skills-4",
     title: "Turkey Takedown",
+    color: "tan",
     season: "thanksgiving",
     grades: [4],
     subject: "reading",
@@ -2553,6 +2696,7 @@ export const games = [
   {
     id: "turkey-takedown-mixed-reading-skills-5",
     title: "Turkey Takedown",
+    color: "tan",
     season: "thanksgiving",
     grades: [5],
     subject: "reading",
@@ -2576,6 +2720,7 @@ export const games = [
   {
     id: "wacky-workshop-mixed-reading-skills-3",
     title: "Wacky Workshop",
+    color: "blush",
     season: "christmas",
     grades: [3],
     subject: "reading",
@@ -2594,6 +2739,7 @@ export const games = [
   {
     id: "wacky-workshop-mixed-reading-skills-4",
     title: "Wacky Workshop",
+    color: "blush",
     season: "christmas",
     grades: [4],
     subject: "reading",
@@ -2612,6 +2758,7 @@ export const games = [
   {
     id: "wacky-workshop-mixed-reading-skills-5",
     title: "Wacky Workshop",
+    color: "blush",
     season: "christmas",
     grades: [5],
     subject: "reading",

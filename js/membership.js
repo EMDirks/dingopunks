@@ -5,6 +5,7 @@
 // are the seams a real backend will plug into later.
 
 import { games } from "./games.js";
+import { thumbHtml } from "./thumbnails.js";
 
 // ---------- constants ----------
 
@@ -120,24 +121,6 @@ function libTagsHtml(game) {
   return `<div class="dpaam-tags">${game.grades
     .map((g) => `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`)
     .join("")}</div>`;
-}
-
-// Native browser lazy loading via `loading="lazy"`; we still emit a
-// fixed width/height so the row reserves the slot before the image
-// resolves and the gray .dpaam-thumb background shows through.
-function thumbHtml(game) {
-  if (!game.thumbnail) {
-    return `<span class="dpaam-thumb" aria-hidden="true"></span>`;
-  }
-  return `<img
-    class="dpaam-thumb"
-    src="${escapeHtml(game.thumbnail)}"
-    alt=""
-    loading="lazy"
-    decoding="async"
-    width="84"
-    height="84"
-  />`;
 }
 
 // During a live drag-reorder, decide which sibling row the dragged element
@@ -367,7 +350,7 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ Added</span>`
+        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Favorited</span>`
         : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Favorite</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
@@ -464,10 +447,10 @@ function openModal(gameId) {
 function refreshModalAddButton() {
   if (!modalGameId) return;
   if (isFavorite(modalGameId)) {
-    els.modalAdd.textContent = "✓ In favorites";
+    els.modalAdd.textContent = "✓ Favorited";
     els.modalAdd.disabled = true;
   } else {
-    els.modalAdd.textContent = "Add to favorites";
+    els.modalAdd.textContent = "+ Favorite";
     els.modalAdd.disabled = false;
   }
 }
