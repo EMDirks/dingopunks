@@ -68,10 +68,20 @@ function generateCodeString() {
 }
 
 // kebab-case / array values -> sentence-case display strings
+const LABEL_OVERRIDES = {
+  "all-year": "All Year",
+  "valentines-day": "Valentine's Day",
+  "st-patricks-day": "St. Patrick's Day",
+  "end-of-year": "End of Year",
+  "back-to-school": "Back to School",
+};
+
 function formatLabel(value) {
   if (value === null || value === undefined) return "";
   if (Array.isArray(value)) return value.join(", ");
-  const str = String(value).replace(/-/g, " ");
+  const key = String(value);
+  if (LABEL_OVERRIDES[key]) return LABEL_OVERRIDES[key];
+  const str = key.replace(/-/g, " ");
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
@@ -280,7 +290,7 @@ function renderFavorites() {
   if (state.favorites.length === 0) {
     els.favoritesList.innerHTML = `
       <li><p class="dpaam-empty">
-        Add escape rooms from the Library to start collecting your favorites.
+        To get started, add escape rooms from the Library.
       </p></li>`;
     return;
   }
@@ -356,17 +366,15 @@ function renderLibrary() {
   els.libraryList.innerHTML = filtered
     .map((game) => {
       const saved = isFavorite(game.id);
-      const action = saved
-        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ Added to Favorites</span>`
-        : `<button type="button" class="dpaam-btn" data-action="save-favorite">+ Add</button>`;
+      const addAction = saved
+        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ Added</span>`
+        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Favorite</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li
           class="dpaam-lib-row"
           data-game-id="${escapeHtml(game.id)}"
-          tabindex="0"
-          role="button"
-          aria-label="View details for ${escapeHtml(game.title)} — ${escapeHtml(topic)}"
+          aria-label="${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
           ${thumbHtml(game)}
           <div class="dpaam-lib-row-body">
@@ -377,7 +385,10 @@ function renderLibrary() {
               </div>
               ${libThemeHtml(game)}
             </div>
-            ${action}
+            <div class="dpaam-lib-actions">
+              <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">More info</button>
+              ${addAction}
+            </div>
           </div>
         </li>`;
     })
@@ -411,23 +422,35 @@ function fillSelect(selectEl, values, labelFn, allLabel = "All") {
 
 // ---------- modal ----------
 
+const SHOW_STANDARD_IN_MODAL = false;
+
 let modalGameId = null;
 
 function openModal(gameId) {
   const game = gameById(gameId);
   if (!game) return;
   modalGameId = gameId;
-  els.modalTitle.textContent = game.title;
+  els.modalTitle.textContent = formatLabel(game.topic);
+  const skillsHtml =
+    game.skills && game.skills.filter((s) => s).length
+      ? `<dt>Skills</dt><dd class="dpaam-modal-skills"><ul class="dpaam-modal-skills-list">${game.skills
+          .filter((s) => s)
+          .map((s) => `<li>${escapeHtml(s)}</li>`)
+          .join("")}</ul></dd>`
+      : "";
+
   els.modalBody.innerHTML = `
-    <dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>
-    <dt>Subject</dt><dd>${escapeHtml(formatLabel(game.subject))}</dd>
     <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
-    <dt>Grades</dt><dd>${escapeHtml(gradeLabel(game.grades))}</dd>
-    <dt>Standards</dt><dd>${
-      game.standards && game.standards.length
-        ? escapeHtml(game.standards.join(", "))
-        : "None listed"
-    }</dd>`;
+    <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
+    <dt>Grades</dt><dd>${escapeHtml(gradeLabel(game.grades))}</dd>${
+    SHOW_STANDARD_IN_MODAL
+      ? `<dt>Standard</dt><dd>${
+          game.standards && game.standards.length
+            ? escapeHtml(game.standards.join(", "))
+            : "None listed"
+        }</dd>`
+      : ""
+  }${skillsHtml}`;
 
   refreshModalAddButton();
 
@@ -551,20 +574,17 @@ function wireEvents() {
     });
   });
 
-  // Library — delegated. Save button vs row click (open modal).
+  // Library — delegated. Details button opens modal; + Add button adds to favorites.
   els.libraryList.addEventListener("click", (e) => {
-    const row = e.target.closest(".dpaam-lib-row");
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const row = btn.closest(".dpaam-lib-row");
     if (!row) return;
     const gameId = row.dataset.gameId;
-    const btn = e.target.closest("button[data-action]");
-    if (btn && btn.dataset.action === "save-favorite") {
-      e.stopPropagation();
-      addFavorite(gameId);
-      return;
-    }
-    openModal(gameId);
+    if (btn.dataset.action === "open-details") openModal(gameId);
+    else if (btn.dataset.action === "save-favorite") addFavorite(gameId);
   });
-  // Keyboard support for library rows.
+  // Keyboard support for library rows (activates the Details button).
   els.libraryList.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     const row = e.target.closest(".dpaam-lib-row");
