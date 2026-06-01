@@ -485,12 +485,26 @@ function refreshModalAddButton() {
 }
 
 function closeModal() {
-  modalGameId = null;
-  if (typeof els.modal.close === "function" && els.modal.open) {
-    els.modal.close();
-  } else {
-    els.modal.removeAttribute("open");
+  if (!els.modal.open) return;
+  if (els.modal.classList.contains("is-closing")) return;
+
+  els.modal.classList.add("is-closing");
+
+  function finish() {
+    els.modal.removeEventListener("animationend", onAnimEnd);
+    els.modal.classList.remove("is-closing");
+    if (typeof els.modal.close === "function") els.modal.close();
+    else els.modal.removeAttribute("open");
   }
+
+  function onAnimEnd(e) {
+    if (e.animationName !== "dpaam-modal-out") return;
+    clearTimeout(fallback);
+    finish();
+  }
+
+  const fallback = setTimeout(finish, 300);
+  els.modal.addEventListener("animationend", onAnimEnd);
 }
 
 // ---------- event wiring ----------
@@ -622,7 +636,24 @@ function wireEvents() {
     refreshModalAddButton();
   });
 
-  // Modal close via ESC / backdrop close — sync our local id state.
+  // Dismiss by clicking the backdrop (click lands directly on the <dialog>).
+  els.modal.addEventListener("click", (e) => {
+    if (e.target === els.modal) closeModal();
+  });
+
+  // Intercept ESC so the animated close runs before the dialog closes natively.
+  els.modal.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    closeModal();
+  });
+
+  // Intercept the close-button form submit so the animated close runs first.
+  els.modal.querySelector(".dpaam-modal-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    closeModal();
+  });
+
+  // Sync local state after the native close fires (covers all close paths).
   els.modal.addEventListener("close", () => {
     modalGameId = null;
   });
