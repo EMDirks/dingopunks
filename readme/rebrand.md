@@ -68,13 +68,13 @@ INITIAL PREP (MAY 01 - JUN 05)
 - ✅ MAY 31 — Google: Google Ads campaigns: set up but paused, ready to flip on
 - ✅ JUN 01 — Sketch: Thumbnails rebranding: approve Megan's designs
 
-CRITICAL MIGRATIONS (JUN 06)
+CRITICAL MIGRATIONS (JUN 05)
 
+- [ ] JUN 05 – TPT: Change TPT store name to Dingo Punks
 ⭐ [ ] JUN 06 — Cloudflare: Confirm play.dingopunks.com CNAME is live and loading before touching any redirects
 ⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: game.playpuzzlepunks.com → play.dingopunks.com
 ⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: playpuzzlepunks.com → dingopunks.com (all sub-paths)
 ⭐ [ ] JUN 06 — All: Verify no redirect chains exceed a single hop — direct 301s only, no loops
-- [ ] JUN 06 – TPT: Change TPT store name to Dingo Punks
 - [ ] JUN 06 — Game: Replace 'puzzle-punks' with 'dingo-punks' in code
 - [ ] JUN 06 – Shopify: Change shopify URL to dingopunks.com
 - [ ] JUN 06 – Shopify: Set up all shopify URL redirects

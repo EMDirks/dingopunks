@@ -87,10 +87,10 @@ const analyticsArray = [
                 googleAnalyticsID: 'Lpga253-Jd84Nss-MbqtyGd'
             },
 
-            // Authors Purpose
+            // Author's Purpose
             {
                 level: ['4th','5th'],
-                topic: 'Authors Purpose',
+                topic: "Author's Purpose",
                 resourceJS: 'topic/reading/authors-purpose/authorsPurpose_4th5thGrade.js',
                 googleAnalyticsID: 'Lp58H5d-A4ddYaU-2shYuwk'
             },

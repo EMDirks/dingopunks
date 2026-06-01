@@ -75,6 +75,7 @@ const LABEL_OVERRIDES = {
   "st-patricks-day": "St. Patrick's Day",
   "end-of-year": "End of Year",
   "back-to-school": "Back to School",
+  "authors-purpose": "Author's Purpose",
 };
 
 function formatLabel(value) {
@@ -106,18 +107,30 @@ function tagsHtml(game) {
 }
 
 function libThemeHtml(game) {
+  const gradeHtml =
+    game.grades && game.grades.length
+      ? `<div class="dpaam-tags">${game.grades
+          .map(
+            (g) =>
+              `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`,
+          )
+          .join("")}</div>`
+      : "";
   const season = game.season
     ? `<span class="dpaam-lib-meta-season">${escapeHtml(formatLabel(game.season))}</span>`
     : "";
   const theme = game.title
     ? `<span class="dpaam-lib-meta-theme">${escapeHtml(game.title)}</span>`
     : "";
-  if (!season && !theme) return "";
-  const inner =
+  const metaPart =
     season && theme
       ? `${season}<span class="dpaam-lib-meta-sep" aria-hidden="true">·</span>${theme}`
       : season || theme;
-  return `<div class="dpaam-lib-meta">${inner}</div>`;
+  if (!gradeHtml && !metaPart) return "";
+  return [
+    metaPart ? `<div class="dpaam-lib-meta">${metaPart}</div>` : "",
+    gradeHtml,
+  ].join("");
 }
 
 function libTagsHtml(game) {
@@ -315,7 +328,6 @@ function renderFavorites() {
             <div class="dpaam-lib-main">
               <div class="dpaam-lib-topic-row">
                 <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-                ${libTagsHtml(game)}
               </div>
               ${libThemeHtml(game)}
             </div>
@@ -368,12 +380,11 @@ function renderLibrary() {
             <div class="dpaam-lib-main">
               <div class="dpaam-lib-topic-row">
                 <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-                ${libTagsHtml(game)}
               </div>
               ${libThemeHtml(game)}
             </div>
             <div class="dpaam-lib-actions">
-              <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">More info</button>
+              <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">Details</button>
               ${addAction}
             </div>
           </div>
@@ -417,7 +428,7 @@ function openModal(gameId) {
   const game = gameById(gameId);
   if (!game) return;
   modalGameId = gameId;
-  els.modalTitle.textContent = formatLabel(game.topic);
+  els.modalTitle.textContent = "Escape Room Details";
   const skillsHtml =
     game.skills && game.skills.filter((s) => s).length
       ? `<dt>Skills</dt><dd class="dpaam-modal-skills"><ul class="dpaam-modal-skills-list">${game.skills
@@ -426,10 +437,17 @@ function openModal(gameId) {
           .join("")}</ul></dd>`
       : "";
 
+  const thumbImgHtml = game.thumbnail
+    ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
+    : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
+
   els.modalBody.innerHTML = `
-    <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
-    <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
-    <dt>Grades</dt><dd>${escapeHtml(gradeLabel(game.grades))}</dd>${
+    ${thumbImgHtml}
+    <dl class="dpaam-modal-dl">
+      ${game.topic ? `<dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>` : ""}
+      <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
+      <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
+      <dt>Grades</dt><dd>${escapeHtml(gradeLabel(game.grades))}</dd>${
     SHOW_STANDARD_IN_MODAL
       ? `<dt>Standard</dt><dd>${
           game.standards && game.standards.length
@@ -437,7 +455,8 @@ function openModal(gameId) {
             : "None listed"
         }</dd>`
       : ""
-  }${skillsHtml}`;
+  }${skillsHtml}
+    </dl>`;
 
   refreshModalAddButton();
 
@@ -450,12 +469,17 @@ function openModal(gameId) {
 
 function refreshModalAddButton() {
   if (!modalGameId) return;
+  const btn = els.modalAdd;
   if (isFavorite(modalGameId)) {
-    els.modalAdd.textContent = "✓ Favorited";
-    els.modalAdd.disabled = true;
+    btn.className = "dpaam-saved-mark";
+    btn.innerHTML = "✓ &nbsp;Favorited";
+    btn.disabled = true;
+    btn.setAttribute("aria-label", "Already in favorites");
   } else {
-    els.modalAdd.textContent = "+ Favorite";
-    els.modalAdd.disabled = false;
+    btn.className = "dpaam-btn dpaam-btn-add";
+    btn.textContent = "+ Favorite";
+    btn.disabled = false;
+    btn.removeAttribute("aria-label");
   }
 }
 
