@@ -323,7 +323,12 @@ function drawSplash(){
     ]
   }
 
-  if (gameMode === "preview"){
+  if (gameMode === "preview" && isPreviewPage){
+    splashOrder = [
+      addTitle,
+    ]
+  }
+  else if (gameMode === "preview"){
     splashOrder = [
       addAccess,     
       addTitle,    
@@ -351,7 +356,7 @@ function drawSplash(){
       splashNav.innerHTML = "";
     }
    */
-    if (gameMode ===  "free"){
+    if (gameMode === "free" || isPreviewPage){
       splashNav.style.display = "none";
       splashVersion.style.display = "none";
       splashNote.style.display = "none";
@@ -414,7 +419,10 @@ function transitionSplash(){
       splashContainer = createElement('div', ['splash-container', 'splash-container--off-right'], splashContainerWrapper);
     }
 
-    if (gameMode === "preview"){
+    if (gameMode === "preview" && isPreviewPage){
+      setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'introNoLimit');
+    }
+    else if (gameMode === "preview"){
       toggleClass(splash,'splash--visible','splash--hidden');
       setTimeout(removeSplash,2000);
       setTimeout(clearSplashContainer,2100);
@@ -888,8 +896,8 @@ function addTitle(){
     splashTitle.innerHTML = 'Right on! You\'re playing:';
     splashButton.textContent = 'Next';
     if (gameMode === 'preview'){
-      splashTitle.innerHTML = 'Right on! Your game is:';
-      splashButton.innerHTML = 'View Activities';
+      splashTitle.innerHTML = isPreviewPage ? 'You\'re previewing:' : 'Right on! Your game is:';
+      splashButton.innerHTML = isPreviewPage ? 'Start' : 'View Activities';
     }
     // add elements
     const splashLogo = createElement('img', ['splash-logo', 'splash-logo--hidden'], splashContent);
@@ -1808,6 +1816,7 @@ function removeSplash(){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+  if (isPreviewPage) return; // preview.js handles boot for the preview page
   drawSplash();
 });
 

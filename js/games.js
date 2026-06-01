@@ -6,6 +6,7 @@ export const games = [
 
   {
     id: "the-midnight-mall-mixed-reading-skills-2",
+    analyticsID: "Jp345ey-Hw1oPsc-pdkW2dW",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -27,6 +28,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-3",
+    analyticsID: "g1aoP6S-G2rXpLa-7hsW9Sq",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -48,6 +50,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-4",
+    analyticsID: "ayJt2rw-8rQw5ed-M4eWqf3",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -69,6 +72,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-5",
+    analyticsID: "A6Ks6ow-T2lPaaU-C3SHW9q",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -90,6 +94,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-2-3",
+    analyticsID: "X7M4Cwp-92DwPck-Jal3Eps",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -110,6 +115,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-4-5",
+    analyticsID: "KhTTsy9-dSgg9rT-Ps5dq71",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -130,6 +136,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-figurative-language-4-5",
+    analyticsID: "25xrWsk-Z5cVzM2-LLao6sA",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -150,6 +157,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-context-clues-and-vocabulary-2-3",
+    analyticsID: "Akf6F1c-4SrdUsm-d4S9bEE",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -170,6 +178,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-context-clues-4-5",
+    analyticsID: "PldGJas-7ee83Ax-9bxHA8s",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -189,6 +198,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-story-elements-2-3",
+    analyticsID: "PsGmXXq-1MsycbP-583Tqy6",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -209,6 +219,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-story-elements-4-5",
+    analyticsID: "Jaodl4S-885uAid-iAo7dnx",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -229,6 +240,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-poetry-2-3",
+    analyticsID: "Psd52E4-11ZsmdS-YqndMds",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -249,6 +261,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-poetry-4-5",
+    analyticsID: "412Hayx-73UaKyb-PJsnxed",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -269,6 +282,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-grammar-2-3",
+    analyticsID: "MY98S7-Vff2d6S-RqomXpx",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -289,6 +303,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-grammar-4-5",
+    analyticsID: "Jal22Es-Jkap16f-i4MaleP",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -309,6 +324,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-making-inferences-2-3",
+    analyticsID: "21674",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -329,6 +345,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-making-inferences-4-5",
+    analyticsID: "2IoamDs-Es9Juai-4U95lAk",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -349,6 +366,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-text-features-4-5",
+    analyticsID: "U3E7s1f-Jk7NNbe-5UahdkM",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -369,6 +387,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-text-structures-4-5",
+    analyticsID: "Posl183-hYak5Sk-ikabdL7",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -389,6 +408,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-authors-purpose-4-5",
+    analyticsID: "Hslaj92-Hs6MMdu-Sa4cU1x",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -409,6 +429,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-character-traits-4-5",
+    analyticsID: "UamFd7d-AKc5d4S-Lmc39fX",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -429,6 +450,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-2",
+    analyticsID: "Psmf6e4-Zqnd5rs-Mxq4e9X",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -450,6 +472,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-3",
+    analyticsID: "uAh8F4a-GA9sb6s-2kAkdbs",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -471,6 +494,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-4",
+    analyticsID: "aNc793D-14sUasn-YAmzSpi",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -492,6 +516,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-5",
+    analyticsID: "63LoSya-8Gauql8-hgSj1Ks",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -513,6 +538,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-multiplication-3",
+    analyticsID: "ksKd3d7-16kIScd-D4FhsSY",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -533,6 +559,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-multiplication-4",
+    analyticsID: "7Hasgjs-25USjjs-jhSs55d",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -553,6 +580,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-3",
+    analyticsID: "hYs4928-9GsyJsx-SjghYYd",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -573,6 +601,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-4",
+    analyticsID: "MZxa89d-Pa6Jas1-5jtAjfs",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -593,6 +622,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-5",
+    analyticsID: "525IaLL-GAxwkhD-pAosb21",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -613,6 +643,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-order-of-operations-5",
+    analyticsID: "CstJdla-247ab3A-7JAxWbc",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -633,6 +664,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-growth-mindset-4-5",
+    analyticsID: "4Jl9E9c-kOW18dA-uKaldeE",
     title: "The Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -658,6 +690,7 @@ export const games = [
 
   {
     id: "pickles-playground-mixed-reading-skills-3",
+    analyticsID: "735Ipsd-H2nhASW-9KlYYsf",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -679,6 +712,7 @@ export const games = [
   },
   {
     id: "pickles-playground-mixed-reading-skills-4",
+    analyticsID: "3KatQnx-Jal95pS-8Ha7NNz",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -700,6 +734,7 @@ export const games = [
   },
   {
     id: "pickles-playground-mixed-reading-skills-5",
+    analyticsID: "Jks4d1K-K8kLa6d-5LamsuD",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -721,6 +756,7 @@ export const games = [
   },
   {
     id: "pickles-playground-main-idea-and-supporting-details-4-5",
+    analyticsID: "Vx9e2F4-Pal6ddA-PlQ6bDs",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -741,6 +777,7 @@ export const games = [
   },
   {
     id: "pickles-playground-figurative-language-4-5",
+    analyticsID: "ABP51Ds-mb153Isk-HHsyqmdL",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -761,6 +798,7 @@ export const games = [
   },
   {
     id: "pickles-playground-context-clues-4-5",
+    analyticsID: "19457",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -781,6 +819,7 @@ export const games = [
   },
   {
     id: "pickles-playground-story-elements-4-5",
+    analyticsID: "Lk4d1v4-Abf3srH-m2meWqS",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -801,6 +840,7 @@ export const games = [
   },
   {
     id: "pickles-playground-poetry-4-5",
+    analyticsID: "Jak3J5D-cb9Ps62-MahfPkx",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -821,6 +861,7 @@ export const games = [
   },
   {
     id: "pickles-playground-making-inferences-4-5",
+    analyticsID: "Kd9dmS7-PD1sG36-MagyWWz",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -841,6 +882,7 @@ export const games = [
   },
   {
     id: "pickles-playground-grammar-4-5",
+    analyticsID: "Lpga253-Jd84Nss-MbqtyGd",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -861,6 +903,7 @@ export const games = [
   },
   {
     id: "pickles-playground-authors-purpose-4-5",
+    analyticsID: "Lp58H5d-A4ddYaU-2shYuwk",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -881,6 +924,7 @@ export const games = [
   },
   {
     id: "pickles-playground-character-traits-4-5",
+    analyticsID: "43KspeE-8S7BNayd-5HayRRs",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -901,6 +945,7 @@ export const games = [
   },
   {
     id: "pickles-playground-text-structures-4-5",
+    analyticsID: "8K4dIap-dAd69Dw-May8Eaa",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -921,6 +966,7 @@ export const games = [
   },
   {
     id: "pickles-playground-growth-mindset-4-5",
+    analyticsID: "Kal7Yat-1671Sha-MayflaH",
     title: "Pickle's Playground",
     color: "green",
     season: "all-year",
@@ -946,6 +992,7 @@ export const games = [
 
   {
     id: "beehive-blitz-mixed-reading-skills-3",
+    analyticsID: "9aUpwX-2EE64gw-tY9NoP",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -967,6 +1014,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-mixed-reading-skills-4",
+    analyticsID: "rY8s8sK-1eUa5Xx-3fdLSy",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -988,6 +1036,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-mixed-reading-skills-5",
+    analyticsID: "1W7pRs6-MhSaoE3-lsa4qZ",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1009,6 +1058,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-context-clues-4-5",
+    analyticsID: "8hayqx3-7say41v-pAgyEmx",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1029,6 +1079,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-figurative-language-4-5",
+    analyticsID: "iSjr5dd-pIsnBs6-432uAyc",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1049,6 +1100,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-main-idea-and-supporting-details-4-5",
+    analyticsID: "7iksSA9-2uA13ff-VCAjYtf",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1069,6 +1121,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-poetry-4-5",
+    analyticsID: "PAHas6s-8yytSx5-Rqm7d4s",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1089,6 +1142,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-story-elements-4-5",
+    analyticsID: "MXgst94-duYA3ds-uuTA2f7",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1109,6 +1163,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-making-inferences-4-5",
+    analyticsID: "Lskf97J-S2mnTs6-KhC3yTg",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1129,6 +1184,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-grammar-4-5",
+    analyticsID: "PdmsyL-D47haU4-37MXyTd",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1149,6 +1205,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-mixed-math-skills-3",
+    analyticsID: "Wr38saE-yhBAs1r-4yhS5sX",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1170,6 +1227,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-mixed-math-skills-4",
+    analyticsID: "BVsyer7s-2uuAd68-uytAs1f",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1191,6 +1249,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-mixed-math-skills-5",
+    analyticsID: "uTAfgMD-u4S9a1Z-Gadq53h",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1212,6 +1271,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-fractions-3",
+    analyticsID: "OyGBadY-tGa8dyH-sJ652f7",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1232,6 +1292,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-fractions-4",
+    analyticsID: "iuYAj3f-4729saA-nBStaoD",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1252,6 +1313,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-fractions-5",
+    analyticsID: "kj5YTsm-183dtYa-6daTsfv",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1272,6 +1334,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-multiplication-3",
+    analyticsID: "uyA7fka-SFa2drE-9eas84g",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1292,6 +1355,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-multiplication-4",
+    analyticsID: "iUjskad-d4637s5-YsnayIa",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1312,6 +1376,7 @@ export const games = [
   },
   {
     id: "beehive-blitz-order-of-operations-5",
+    analyticsID: "hh9Bala-g1u2af4-u8BVapY",
     title: "Beehive Blitz",
     color: "teal",
     season: "spring",
@@ -1337,6 +1402,7 @@ export const games = [
 
   {
     id: "camp-calamari-mixed-reading-skills-3",
+    analyticsID: "7ahXisS-1Tald95-llSa2Ar",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1358,6 +1424,7 @@ export const games = [
   },
   {
     id: "camp-calamari-mixed-reading-skills-4",
+    analyticsID: "hZsopWe-1e34Lc1-o7tAAwP",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1379,6 +1446,7 @@ export const games = [
   },
   {
     id: "camp-calamari-mixed-reading-skills-5",
+    analyticsID: "6SuAnns-5l63oXa-H7uZqPs",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1400,6 +1468,7 @@ export const games = [
   },
   {
     id: "camp-calamari-context-clues-4-5",
+    analyticsID: "sA5OP4x-3hADP93-UbALPey",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1420,6 +1489,7 @@ export const games = [
   },
   {
     id: "camp-calamari-figurative-language-4-5",
+    analyticsID: "s5KayM7-JaW68dA-KPqnx8s",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1440,6 +1510,7 @@ export const games = [
   },
   {
     id: "camp-calamari-main-idea-and-supporting-details-4-5",
+    analyticsID: "UQydKAP-fa6jPA4-16lpah8",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1460,6 +1531,7 @@ export const games = [
   },
   {
     id: "camp-calamari-poetry-4-5",
+    analyticsID: "Iaofms9-uamP5D8-Uqmp87S",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1480,6 +1552,7 @@ export const games = [
   },
   {
     id: "camp-calamari-story-elements-4-5",
+    analyticsID: "Pamd6Ea-x5517Ja-FfSJWLQ",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1500,6 +1573,7 @@ export const games = [
   },
   {
     id: "camp-calamari-making-inferences-4-5",
+    analyticsID: "KwpeM83-H9t52su-AyrnKDx",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1520,6 +1594,7 @@ export const games = [
   },
   {
     id: "camp-calamari-grammar-4-5",
+    analyticsID: "Lp3g8d9-U8dspoD-Dma1euw",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1540,6 +1615,7 @@ export const games = [
   },
   {
     id: "camp-calamari-mixed-math-skills-3",
+    analyticsID: "a1PabTd-RRQm689-vMs5waP",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1561,6 +1637,7 @@ export const games = [
   },
   {
     id: "camp-calamari-mixed-math-skills-4",
+    analyticsID: "PwYQNsK-K298R8s-Mvsx2aX",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1582,6 +1659,7 @@ export const games = [
   },
   {
     id: "camp-calamari-mixed-math-skills-5",
+    analyticsID: "Iqp6f12-jK7smay-2TYqpsd",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1603,6 +1681,7 @@ export const games = [
   },
   {
     id: "camp-calamari-fractions-3",
+    analyticsID: "uyHaks4d-LKap7as-7Uu54aE",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1623,6 +1702,7 @@ export const games = [
   },
   {
     id: "camp-calamari-fractions-4",
+    analyticsID: "J1d1q37-Uo8oPaZz-FaeLQYS",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1643,6 +1723,7 @@ export const games = [
   },
   {
     id: "camp-calamari-fractions-5",
+    analyticsID: "Kd3rQnd-3jkla6e-jNs36dW",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1663,6 +1744,7 @@ export const games = [
   },
   {
     id: "camp-calamari-multiplication-3",
+    analyticsID: "VVSgqQPE-uCXx1aS-73Io2d9",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1683,6 +1765,7 @@ export const games = [
   },
   {
     id: "camp-calamari-multiplication-4",
+    analyticsID: "jK59sdW-1MBrTjS-1Jkal2t",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1703,6 +1786,7 @@ export const games = [
   },
   {
     id: "camp-calamari-order-of-operations-5",
+    analyticsID: "ixpaMd9-233Hgat-lPsG5dd",
     title: "Camp Calamari",
     color: "salmon",
     season: "summer",
@@ -1728,6 +1812,7 @@ export const games = [
 
   {
     id: "the-hasty-harvest-mixed-reading-skills-3",
+    analyticsID: "tyB92LS-GYycIo1-d1IxZ7k",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1749,6 +1834,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-mixed-reading-skills-4",
+    analyticsID: "g2SO5aY-D8AabR3-DKqiSh9",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1770,6 +1856,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-mixed-reading-skills-5",
+    analyticsID: "4DSjU3s-YY7dRk6-SRua3ox",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1791,6 +1878,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-main-idea-and-supporting-details-4-5",
+    analyticsID: "yamPsuD-56WKSmI-B3sI4l2",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1811,6 +1899,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-figurative-language-4-5",
+    analyticsID: "kPahyDm-sAkdyes-437E92a",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1831,6 +1920,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-context-clues-4-5",
+    analyticsID: "8pOAbdf-r634HHas-PSZx1qe",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1851,6 +1941,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-story-elements-4-5",
+    analyticsID: "JS346Ps-D5d1iSd-KAywBBs",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1871,6 +1962,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-poetry-4-5",
+    analyticsID: "iYs9466-YandpDe-PaQbs8i",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1891,6 +1983,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-making-inferences-4-5",
+    analyticsID: "Plsf4Ka-S8kkxVw-49APld9",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1911,6 +2004,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-grammar-4-5",
+    analyticsID: "MGhtYsl-K6s2F9r-DA5vx9r",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1931,6 +2025,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-mixed-math-skills-3",
+    analyticsID: "K6p1s1z-98uAjda-mmowwAxp",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1952,6 +2047,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-mixed-math-skills-4",
+    analyticsID: "CCs71La-3e6iPax-duw7APxc",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1973,6 +2069,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-mixed-math-skills-5",
+    analyticsID: "8jAisma-7K8s5OPs-uIAmdph3",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1994,6 +2091,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-multiplication-3",
+    analyticsID: "4JAycks-643dhaJ-asdUYA2",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2014,6 +2112,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-multiplication-4",
+    analyticsID: "363oAps-23HUska-iPSNcwj",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2034,6 +2133,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-fractions-3",
+    analyticsID: "181oApd-dbJJUdZ-8dJAkc9",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2054,6 +2154,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-fractions-4",
+    analyticsID: "SUw2spA-H2Iz85s-7gAPwnd",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2074,6 +2175,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-fractions-5",
+    analyticsID: "UABFna2-dA91Sg1-adsF1oP",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2094,6 +2196,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-order-of-operations-5",
+    analyticsID: "oAPdn96-OPa726s-Hhxbwpp",
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2119,6 +2222,7 @@ export const games = [
 
   {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
+    analyticsID: "g4th5Je-sw1rT8G-r8GtHHs",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2140,6 +2244,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-reading-skills-4",
+    analyticsID: "as9TEyb-Yy3r95C-olPd2EC",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2161,6 +2266,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-reading-skills-5",
+    analyticsID: "isl7rea-e5rtJ2r-gjK8R1d",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2182,6 +2288,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-4-5",
+    analyticsID: "QkLSn2c-sd4682C-jBVclXm",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2202,6 +2309,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-figurative-language-4-5",
+    analyticsID: "D82YaiX-jha5Ios-5ghakM3",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2222,6 +2330,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-context-clues-4-5",
+    analyticsID: "opKAs9v-4sA4MM9-vkAd6uI",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2242,6 +2351,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-story-elements-4-5",
+    analyticsID: "as594Dw-3dasAd4-UHAndpd",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2262,6 +2372,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-poetry-4-5",
+    analyticsID: "loPAj6d-sjKAl9e-juA11d8",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2282,6 +2393,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-making-inferences-4-5",
+    analyticsID: "DSfeKps-63djShd-41JHdl9",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2302,6 +2414,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-grammar-4-5",
+    analyticsID: "Lo5zy8e-Amcy26e-Shr4Sfm",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2322,6 +2435,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-3",
+    analyticsID: "zxm616F-kmSAl4x-xxSyw6d",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2343,6 +2457,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-4",
+    analyticsID: "oMLTQDj-kIAn38d-dWw27k9",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2364,6 +2479,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-5",
+    analyticsID: "kLPWYFB-1JHSYwPa-9J69s6D",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2385,6 +2501,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-multiplication-3",
+    analyticsID: "8ikKhas-D7D1uSa-42uiosP",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2405,6 +2522,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-multiplication-4",
+    analyticsID: "4Uahsa4-J45DsEA-KKlc8pB",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2425,6 +2543,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-3",
+    analyticsID: "7UUs6c2-cj3Asja-iuTsas3Z",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2445,6 +2564,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-4",
+    analyticsID: "pS14sR1-UIAhfs1-ioDS3dA",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2465,6 +2585,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-5",
+    analyticsID: "dpA3uAH-dWKS1dD-4YUAa25",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2485,6 +2606,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-order-of-operations-5",
+    analyticsID: "YSsDjwq-Sjs96fd-598UYVs",
     title: "Yeti and the Yams",
     color: "blue",
     season: "winter",
@@ -2510,6 +2632,7 @@ export const games = [
 
   {
     id: "cupids-countdown-mixed-reading-skills-3",
+    analyticsID: "5d698uy-s9Tamsc-yTAJJsd",
     title: "Cupid's Countdown",
     color: "pink",
     season: "valentines-day",
@@ -2531,6 +2654,7 @@ export const games = [
   },
   {
     id: "cupids-countdown-mixed-reading-skills-4",
+    analyticsID: "OIApx82-aC3fE4w-hUYAk5d",
     title: "Cupid's Countdown",
     color: "pink",
     season: "valentines-day",
@@ -2552,6 +2676,7 @@ export const games = [
   },
   {
     id: "cupids-countdown-mixed-reading-skills-5",
+    analyticsID: "oBvztxa-7H9da99-iU3bvTw",
     title: "Cupid's Countdown",
     color: "pink",
     season: "valentines-day",
@@ -2578,6 +2703,7 @@ export const games = [
 
   {
     id: "rainbow-rescue-mixed-reading-skills-3",
+    analyticsID: "PAucSwE-CCa81eW-988iWcr",
     title: "Rainbow Rescue",
     color: "lime",
     season: "st-patricks-day",
@@ -2599,6 +2725,7 @@ export const games = [
   },
   {
     id: "rainbow-rescue-mixed-reading-skills-4",
+    analyticsID: "24IAdej-ddA1r9a-Vx1yyAs",
     title: "Rainbow Rescue",
     color: "lime",
     season: "st-patricks-day",
@@ -2620,6 +2747,7 @@ export const games = [
   },
   {
     id: "rainbow-rescue-mixed-reading-skills-5",
+    analyticsID: "Mnz7Yab-PamV7cd-1ae3iA8",
     title: "Rainbow Rescue",
     color: "lime",
     season: "st-patricks-day",
@@ -2646,6 +2774,7 @@ export const games = [
 
   {
     id: "eggworld-emergency-mixed-reading-skills-3",
+    analyticsID: "PnOsfDx-7Ka58dU-31SnaoE",
     title: "Eggworld Emergency",
     color: "cyan",
     season: "easter",
@@ -2667,6 +2796,7 @@ export const games = [
   },
   {
     id: "eggworld-emergency-mixed-reading-skills-4",
+    analyticsID: "d6iiA2A-iUq4NMs-9oPA5dz",
     title: "Eggworld Emergency",
     color: "cyan",
     season: "easter",
@@ -2688,6 +2818,7 @@ export const games = [
   },
   {
     id: "eggworld-emergency-mixed-reading-skills-5",
+    analyticsID: "o38Hywl-kLa1d5e-Io7bSls",
     title: "Eggworld Emergency",
     color: "cyan",
     season: "easter",
@@ -2714,6 +2845,7 @@ export const games = [
 
   {
     id: "final-bell-breakout-mixed-reading-skills-2",
+    analyticsID: "LstyMfk-f5Dma8-371Yamfh",
     title: "Final Bell Breakout",
     color: "gray",
     season: "end-of-year",
@@ -2735,6 +2867,7 @@ export const games = [
   },
   {
     id: "final-bell-breakout-mixed-reading-skills-3",
+    analyticsID: "9dd261G-da4Temd-HsuaKc",
     title: "Final Bell Breakout",
     color: "gray",
     season: "end-of-year",
@@ -2756,6 +2889,7 @@ export const games = [
   },
   {
     id: "final-bell-breakout-mixed-reading-skills-4",
+    analyticsID: "Kf4s7Ty-dndyD18-sjU3smY",
     title: "Final Bell Breakout",
     color: "gray",
     season: "end-of-year",
@@ -2777,6 +2911,7 @@ export const games = [
   },
   {
     id: "final-bell-breakout-mixed-reading-skills-5",
+    analyticsID: "Uayd8mm-qra5LxL-K9s2a6Y",
     title: "Final Bell Breakout",
     color: "gray",
     season: "end-of-year",
@@ -2803,6 +2938,7 @@ export const games = [
 
   {
     id: "paradise-panic-mixed-reading-skills-3",
+    analyticsID: "Lahd778-Js4Syhw-9gSYnnS",
     title: "Paradise Panic",
     color: "beige",
     season: "back-to-school",
@@ -2824,6 +2960,7 @@ export const games = [
   },
   {
     id: "paradise-panic-mixed-reading-skills-4",
+    analyticsID: "L2sy5AA-2Snae53-YandKLs",
     title: "Paradise Panic",
     color: "beige",
     season: "back-to-school",
@@ -2845,6 +2982,7 @@ export const games = [
   },
   {
     id: "paradise-panic-mixed-reading-skills-5",
+    analyticsID: "8PLhayt-K7sakYd-3D6s5Ta",
     title: "Paradise Panic",
     color: "beige",
     season: "back-to-school",
@@ -2871,6 +3009,7 @@ export const games = [
 
   {
     id: "funhouse-fright-mixed-reading-skills-3",
+    analyticsID: "Pl83ksW-Da5M5fR-SJAfxs2",
     title: "Funhouse Fright",
     color: "orange",
     season: "halloween",
@@ -2892,6 +3031,7 @@ export const games = [
   },
   {
     id: "funhouse-fright-mixed-reading-skills-4",
+    analyticsID: "JkspCdm-2kL9d95-NaumH1x",
     title: "Funhouse Fright",
     color: "orange",
     season: "halloween",
@@ -2913,6 +3053,7 @@ export const games = [
   },
   {
     id: "funhouse-fright-mixed-reading-skills-5",
+    analyticsID: "758IosD-88Mjdp-YaWWklf",
     title: "Funhouse Fright",
     color: "orange",
     season: "halloween",
@@ -2939,6 +3080,7 @@ export const games = [
 
   {
     id: "turkey-takedown-mixed-reading-skills-3",
+    analyticsID: "Kpf16Js-dDf3J5g-MMsh7Rw",
     title: "Turkey Takedown",
     color: "tan",
     season: "thanksgiving",
@@ -2960,6 +3102,7 @@ export const games = [
   },
   {
     id: "turkey-takedown-mixed-reading-skills-4",
+    analyticsID: "Kap8ddS-D9DmN52-PXs1HjK",
     title: "Turkey Takedown",
     color: "tan",
     season: "thanksgiving",
@@ -2981,6 +3124,7 @@ export const games = [
   },
   {
     id: "turkey-takedown-mixed-reading-skills-5",
+    analyticsID: "3PDdkLs-Km89Dsj-CVC6d2w",
     title: "Turkey Takedown",
     color: "tan",
     season: "thanksgiving",
@@ -3007,6 +3151,7 @@ export const games = [
 
   {
     id: "wacky-workshop-mixed-reading-skills-3",
+    analyticsID: "Kla58dD-341Nsgy-JKGxLpw",
     title: "Wacky Workshop",
     color: "blush",
     season: "christmas",
@@ -3028,6 +3173,7 @@ export const games = [
   },
   {
     id: "wacky-workshop-mixed-reading-skills-4",
+    analyticsID: "Ui9fSDs-JksleUU-2e673Jf",
     title: "Wacky Workshop",
     color: "blush",
     season: "christmas",
@@ -3049,6 +3195,7 @@ export const games = [
   },
   {
     id: "wacky-workshop-mixed-reading-skills-5",
+    analyticsID: "4J1lKe7-HJamc58-JkspDEd",
     title: "Wacky Workshop",
     color: "blush",
     season: "christmas",

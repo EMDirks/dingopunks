@@ -1,16 +1,19 @@
 let gameMode;
 let dragAndDropEdit = false;
+let isPreviewPage = false;
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  var currentUrl = window.location.href;
-  if (currentUrl.endsWith('answer-key.html') || currentUrl.endsWith('answer-key')) {
-    // Perform the desired action when the URL ends with 'answer-key'
+  var pathname = window.location.pathname;
+  if (pathname.endsWith('answer-key.html') || pathname.endsWith('answer-key')) {
     gameMode = 'preview';
   }
-  else if (currentUrl.endsWith('free-play.html') || currentUrl.endsWith('free-play')) {
-    // Perform the desired action when the URL ends with 'free-play'
+  else if (pathname.endsWith('free-play.html') || pathname.endsWith('free-play')) {
     gameMode = 'free';
+  }
+  else if (pathname.endsWith('preview.html') || pathname.endsWith('preview')) {
+    gameMode = 'preview';
+    isPreviewPage = true;
   }
   else {
     // gameMode = 'default';

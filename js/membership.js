@@ -44,6 +44,7 @@ const els = {
   modalTitle: document.getElementById("dpaam-modal-title"),
   modalBody: document.getElementById("dpaam-modal-body"),
   modalAdd: document.getElementById("dpaam-modal-add"),
+  modalPreview: document.getElementById("dpaam-modal-preview"),
 };
 
 // ---------- helpers ----------
@@ -602,6 +603,16 @@ function wireEvents() {
     if (!row) return;
     e.preventDefault();
     openModal(row.dataset.gameId);
+  });
+
+  // Modal "View Preview"
+  els.modalPreview.addEventListener("click", () => {
+    if (!modalGameId) return;
+    window.open(
+      window.location.origin + "/preview.html?game=" + encodeURIComponent(modalGameId),
+      "_blank",
+      "noopener"
+    );
   });
 
   // Modal "Add to favorites"
