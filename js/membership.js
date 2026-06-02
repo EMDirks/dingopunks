@@ -393,6 +393,7 @@ function renderLibrary() {
         <li
           class="dpaam-lib-row"
           data-game-id="${escapeHtml(game.id)}"
+          tabindex="0"
           aria-label="${escapeHtml(game.title)} — ${escapeHtml(topic)}"
         >
           ${thumbHtml(game)}
@@ -622,21 +623,24 @@ function wireEvents() {
     });
   });
 
-  // Library — delegated. Details button opens modal; + Add button adds to favorites.
+  // Library — row click opens modal; + Add button adds to favorites only.
   els.libraryList.addEventListener("click", (e) => {
-    const btn = e.target.closest("button[data-action]");
-    if (!btn) return;
-    const row = btn.closest(".dpaam-lib-row");
-    if (!row) return;
-    const gameId = row.dataset.gameId;
-    if (btn.dataset.action === "open-details") openModal(gameId);
-    else if (btn.dataset.action === "save-favorite") addFavorite(gameId);
-  });
-  // Keyboard support for library rows (activates the Details button).
-  els.libraryList.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" && e.key !== " ") return;
+    const addBtn = e.target.closest("button[data-action='save-favorite']");
+    if (addBtn) {
+      const row = addBtn.closest(".dpaam-lib-row");
+      if (row) addFavorite(row.dataset.gameId);
+      return;
+    }
     const row = e.target.closest(".dpaam-lib-row");
     if (!row) return;
+    openModal(row.dataset.gameId);
+  });
+  // Keyboard support for library rows.
+  els.libraryList.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if (e.target.closest("button[data-action='save-favorite']")) return;
+    const row = e.target.closest(".dpaam-lib-row");
+    if (!row || e.target !== row) return;
     e.preventDefault();
     openModal(row.dataset.gameId);
   });

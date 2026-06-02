@@ -25,7 +25,7 @@
    Motion            --dpaam-transition (0.15s ease, shared animation timing)
 
    Effects           --dpaam-overlay (backdrop + shadow alpha)
-                     --dpaam-shadow  (full box-shadow using --dpaam-overlay)
+                     --dpaam-shadow-sm · --dpaam-shadow-md · --dpaam-shadow-lg
 
    Component         --dpaam-code-bg       (code block background)
                      --dpaam-danger-border  (btn-danger border, tinted --dpaam-danger)
@@ -106,8 +106,10 @@ body {
   --dpaam-transition: 0.15s ease;
 
   /* --- effects --- */
-  --dpaam-overlay: rgba(51, 41, 37, 0.5);
-  --dpaam-shadow:  0px 2px 10px var(--dpaam-overlay);
+  --dpaam-overlay:     rgba(51, 41, 37, 0.5);
+  --dpaam-shadow-sm:   0 1px 3px rgba(51, 41, 37, 0.2);
+  --dpaam-shadow-md:   0 2px 6px rgba(51, 41, 37, 0.3);
+  --dpaam-shadow-lg:   0 4px 12px rgba(51, 41, 37, 0.5);
 
   /* --- component-specific --- */
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
@@ -374,7 +376,7 @@ body {
   margin-top: var(--dpaam-pad);
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad-sm);
+  gap: var(--dpaam-pad-md);
 }
 
 .dpaam-favorites-list[hidden] {
@@ -385,8 +387,10 @@ body {
   display: flex;
   align-items: center;
   gap: var(--dpaam-pad-md);
-  padding: 0;
+  padding: var(--dpaam-pad-sm);
   transition: transform var(--dpaam-transition);
+  box-shadow: var(--dpaam-shadow-sm);
+  border-radius: var(--dpaam-radius);
 }
 
 .dpaam-fav-row-body {
@@ -400,16 +404,20 @@ body {
   background: var(--dpaam-white);
 }
 
-.dpaam-fav-row.is-dragging .dpaam-fav-row-body {
+.dpaam-fav-row.is-dragging {
   background: #ececea; /* lightened --dpaam-border */
   border: 1px dashed var(--dpaam-border-strong);
-  box-shadow: none;
+  border-radius: var(--dpaam-radius);
   cursor: grabbing;
+  box-shadow: none !important;
 }
 
-.dpaam-fav-row.is-dragging > .dpaam-thumb,
-.dpaam-fav-row.is-dragging > .dpaam-fav-handle,
-.dpaam-fav-row.is-dragging .dpaam-fav-row-body > * {
+.dpaam-fav-row.is-dragging .dpaam-fav-row-body {
+  background: transparent;
+  box-shadow: none;
+}
+
+.dpaam-fav-row.is-dragging > * {
   visibility: hidden;
 }
 
@@ -418,7 +426,7 @@ body {
   color: var(--dpaam-black-muted);
   font-size: var(--dpaam-text-ui);
   user-select: none;
-  padding: 0 var(--dpaam-pad-xs);
+  padding: 0 var(--dpaam-pad-sm) 0 var(--dpaam-pad-md);
 }
 
 .dpaam-fav-handle:active {
@@ -451,21 +459,6 @@ body {
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
   white-space: nowrap;
-}
-
-.dpaam-fav-remove {
-  background: none;
-  border: 0;
-  font-size: var(--dpaam-text-lg);
-  line-height: 1;
-  color: var(--dpaam-black-muted);
-  padding: var(--dpaam-pad-xs) var(--dpaam-pad-sm);
-  border-radius: var(--dpaam-radius-sm);
-}
-
-.dpaam-fav-remove:hover {
-  color: var(--dpaam-danger);
-  background: #fbeceb; /* lightened --dpaam-danger */
 }
 
 /* ---------- Section 3: Library ---------- */
@@ -501,7 +494,7 @@ body {
 .dpaam-library-list {
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad-sm);
+  gap: var(--dpaam-pad-md);
 }
 
 .dpaam-lib-row {
@@ -512,7 +505,7 @@ body {
   overflow: hidden;
   padding: var(--dpaam-pad-sm);
   border-radius: var(--dpaam-radius);
-  border: 1px solid var(--dpaam-border);
+  box-shadow: var(--dpaam-shadow-sm);
 }
 
 .dpaam-thumb {
@@ -636,13 +629,11 @@ body {
 }
 
 .dpaam-btn-danger {
-  color: var(--dpaam-danger);
-  border: 2px solid var(--dpaam-danger-border);
+  background: var(--dpaam-salmon-light);
 }
 
 .dpaam-btn-danger:hover {
-  filter: none;
-  background: var(--dpaam-danger-hover);
+  filter: brightness(0.92);
 }
 
 .dpaam-lib-actions {
@@ -719,7 +710,7 @@ button.dpaam-saved-mark {
   border-radius: var(--dpaam-radius);
   background: var(--dpaam-white);
   border: none;
-  box-shadow: var(--dpaam-shadow);
+  box-shadow: var(--dpaam-shadow-lg);
 }
 
 .dpaam-modal[open] {
@@ -763,7 +754,8 @@ button.dpaam-saved-mark {
   font-weight: 600;
 }
 
-.dpaam-modal-close {
+.dpaam-modal-close,
+.dpaam-fav-remove {
   background: var(--dpaam-white);
   border: 0;
   font-size: var(--dpaam-text-lg);
@@ -772,13 +764,17 @@ button.dpaam-saved-mark {
   color: var(--dpaam-black);
   padding: 10px 11px 5px 11px;
   border-radius: var(--dpaam-radius-sm);
+}
+
+.dpaam-modal-close:hover,
+.dpaam-fav-remove:hover {
+  background: var(--dpaam-salmon-light);
+}
+
+.dpaam-modal-close {
   margin-right: -14px;
   margin-top: -8px;
   position: relative;
-}
-
-.dpaam-modal-close:hover {
-  background: var(--dpaam-salmon-light);
 }
 
 .dpaam-modal-body {
