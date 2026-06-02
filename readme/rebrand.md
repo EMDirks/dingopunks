@@ -121,7 +121,7 @@ SHOPIFY FLIP (JUN 10 - JUN 14)
 - [ ] JUN 12 – Shopify: QA on all 150 products
 - [ ] JUN 13 — **Google:** Submit Change of Address in Search Console (add new property, submit new sitemap)
 - [ ] JUN 13 — Shopify: Change "Puzzle Punks" in all reviews to "Dingo Punks"
-- [ ] JUN 13 — Social: Update social profiles: rebrand YouTube account, rebrand Pinterest
+- [ ] JUN 13 — Social: Update social profiles: rebrand YouTube account, rebrand Pinterest, rebrand TikTok
 - [ ] JUN 14 — All: Buffer / catch-up day
 
 SOFT LAUNCH (JUN 15)

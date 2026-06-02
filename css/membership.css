@@ -115,8 +115,10 @@ body {
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
-  --dpaam-add-btn-w:     85px;      /* paired: .dpaam-btn-add + .dpaam-saved-mark */
-  --dpaam-code-btn-w:    200px;     /* paired: generate-code + cancel-code */
+  --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-saved-mark */
+  --dpaam-code-btn-w:        214px; /* paired: generate-code + cancel-code */
+  --dpaam-answer-key-btn-w:  110px; /* favorites: answer key (UI only) */
+  --dpaam-share-copy-btn-w:  120px; /* paired: copy-share-code + .dpaam-share-copied */
 
   font-family: var(--dpaam-sans);
   color: var(--dpaam-black);
@@ -149,7 +151,6 @@ body {
 .dpaam-guide {
   background: var(--dpaam-gold-light);
   border-radius: var(--dpaam-radius);
-  border: 1px solid var(--dpaam-gold);
 }
 
 .dpaam-guide-inner {
@@ -191,12 +192,8 @@ body {
 }
 
 .dpaam-guide-list li strong {
-  background: var(--dpaam-gold);
-  padding: 3px 6px 0px 6px;
   border-radius: var(--dpaam-radius-sm);
-  color: var(--dpaam-black);
-  font-weight: 600;
-  margin: 0 2px;
+  font-weight: 700;
 }
 
 /* ---------- Top bar ---------- */
@@ -245,6 +242,12 @@ body {
 .dpaam-topbar-btn {
   flex-shrink: 0;
   background: var(--dpaam-white);
+}
+
+a.dpaam-topbar-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 /* ---------- Main layout ---------- */
@@ -456,7 +459,13 @@ body {
 .dpaam-fav-actions {
   display: flex;
   align-items: center;
-  gap: var(--dpaam-pad-sm);
+  gap: var(--dpaam-pad);
+}
+
+.dpaam-fav-code-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--dpaam-pad);
 }
 
 .dpaam-fav-active {
@@ -471,7 +480,7 @@ body {
   gap: 2px;
   background-color: var(--dpaam-black);
   border-radius: var(--dpaam-radius-sm);
-  padding: var(--dpaam-pad-md);
+  padding: var(--dpaam-pad-sm) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad-md);
   width: var(--dpaam-code-btn-w);
 }
 
@@ -486,7 +495,7 @@ body {
   user-select: text;
   cursor: text;
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .dpaam-fav-code-footer {
@@ -695,6 +704,17 @@ body {
   text-align: center;
 }
 
+.dpaam-fav-code-actions .dpaam-btn-secondary {
+  width: var(--dpaam-answer-key-btn-w);
+  text-align: center;
+}
+
+.dpaam-btn[data-action="copy-share-link"],
+.dpaam-btn[data-action="copy-share-code"] {
+  width: var(--dpaam-share-copy-btn-w);
+  text-align: center;
+}
+
 .dpaam-lib-actions {
   display: flex;
   align-items: center;
@@ -736,6 +756,12 @@ body {
   text-align: center;
   padding-left: -15px;
   padding-top: 3px;
+}
+
+.dpaam-share-copied {
+  width: var(--dpaam-share-copy-btn-w);
+  text-align: center;
+  padding-left: 28px;
 }
 
 .dpaam-saved-mark {
@@ -924,46 +950,53 @@ button.dpaam-saved-mark {
   padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
 }
 
-.dpaam-share-modal-body {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.dpaam-share-modal-content {
+.dpaam-modal-share-classroom {
   display: flex;
-  flex-direction: column;
-  gap: var(--dpaam-pad-xl);
-  width: 100%;
+  align-items: center;
+  gap: var(--dpaam-pad-sm);
+  flex-wrap: wrap;
 }
 
-.dpaam-share-instructions {
-  margin: 0;
-  font-size: var(--dpaam-text-ui);
-  line-height: 1.5;
+.dpaam-classroom-share-label {
+  white-space: nowrap;
 }
 
-.dpaam-share-instructions a {
+.dpaam-modal-dl dd a {
   font-weight: 600;
 }
 
+.dpaam-share-copy-actions {
+  display: flex;
+  gap: var(--dpaam-pad-sm);
+  margin-top: var(--dpaam-pad-md);
+}
+
 .dpaam-share-code {
+  display: inline-block;
   font-family: var(--dpaam-mono);
   font-size: var(--dpaam-text-display);
   font-weight: 600;
   letter-spacing: var(--dpaam-code-tracking);
-  text-align: center;
-  padding: var(--dpaam-pad-md);
+  padding: var(--dpaam-pad-md) var(--dpaam-pad-lg);
   background: var(--dpaam-black);
   color: var(--dpaam-gold);
   border-radius: var(--dpaam-radius-sm);
-  width: fit-content;
 }
 
-.dpaam-share-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--dpaam-pad);
+.dpaam-share-code-small {
+  display: inline-block;
+  font-family: var(--dpaam-mono);
+  font-size: var(--dpaam-text-sm);
+  font-weight: 600;
+  letter-spacing: var(--dpaam-code-tracking);
+  padding: 1px 4px 0px 5px;
+  background: var(--dpaam-black);
+  color: var(--dpaam-gold);
+  border-radius: var(--dpaam-radius-sm);
+}
+
+#classroom-share-btn {
+  margin-top: -2px;
 }
 
 /* ---------- Mobile fallback (desktop-first, but not broken) ---------- */

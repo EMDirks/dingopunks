@@ -332,7 +332,7 @@ function renderFavorites() {
       if (!game) return "";
       const active = activeCodeFor(id);
 
-      const actionBlock = active
+      const codeOrGenerate = active
         ? `
           <div class="dpaam-fav-active">
             <div class="dpaam-fav-code-stack">
@@ -350,8 +350,16 @@ function renderFavorites() {
           </div>`
         : `
           <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
-            Generate Code
+            Generate Game Code
           </button>`;
+
+      const actionBlock = `
+        <div class="dpaam-fav-code-actions">
+          <button type="button" class="dpaam-btn dpaam-btn-secondary">
+            Answers
+          </button>
+          ${codeOrGenerate}
+        </div>`;
 
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
@@ -475,10 +483,6 @@ function openModal(gameId) {
           .join("")}</ul></dd>`
       : "";
 
-  const thumbImgHtml = game.thumbnail
-    ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
-    : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
-
   const standardHtml = SHOW_STANDARD_IN_MODAL
     ? `<dt>Standard</dt><dd>${
         game.standards && game.standards.length
@@ -487,17 +491,15 @@ function openModal(gameId) {
       }</dd>`
     : "";
 
-  els.modalBody.innerHTML = `
-    ${thumbImgHtml}
-    <dl class="dpaam-modal-dl">
+  const dlHtml = `
       ${game.topic ? `<dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>` : ""}
       <dt>Grade</dt><dd>${escapeHtml(modalGradeLabel(game.grades))}</dd>
       ${skillsHtml}
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
       <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
-      ${standardHtml}
-    </dl>`;
+      ${standardHtml}`;
+  els.modalBody.innerHTML = modalBodyHtml(game, dlHtml);
 
   refreshModalAddButton();
 
@@ -550,31 +552,82 @@ function closeAnimatedModal(modal) {
 let shareGameId = null;
 let shareCode = null;
 
-function shareModalHtml(code) {
-  return `
-    <div class="dpaam-share-modal-content">
-      <p class="dpaam-share-instructions">
-        Have your students visit <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the code.
-      </p>
-      <div class="dpaam-share-code">${escapeHtml(code)}</div>
-      <div class="dpaam-share-actions">
-        <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="copy-share-code">
-          Copy Code
-        </button>
-        <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-google-classroom">
-          Share to Google Classroom
-        </button>
-      </div>
-    </div>`;
+function modalThumbHtml(game) {
+  return game.thumbnail
+    ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
+    : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
 }
 
+function modalBodyHtml(game, dlInner) {
+  return `${modalThumbHtml(game)}<dl class="dpaam-modal-dl">${dlInner}</dl>`;
+}
+
+function shareModalHtml(game, code) {
+  const dlHtml = `
+      <dt><strong>Option 1</strong><br>Game Code + URL</dt>
+      <dd>
+        Have your students enter the game code <span class="dpaam-share-code-small">${escapeHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
+      </dd>
+      <div class="dpaam-modal-dl-divider" role="separator"></div>
+      <dt><strong>Option 2</strong><br>Google Classroom</dt>
+      <dd class="dpaam-modal-share-classroom">
+        <div id="classroom-share-btn"></div>
+        <span class="dpaam-classroom-share-label">← Just click to share.</span>
+      </dd>`;
+  return modalBodyHtml(game, dlHtml);
+}
+
+function resetShareCopyButtons() {
+  const body = els.shareModalBody;
+  if (!body) return;
+  restoreShareCopyButton(body, "dpaam-share-copy-link", "copy-share-link", "Copy Link");
+  restoreShareCopyButton(body, "dpaam-share-copy", "copy-share-code", "Copy Code");
+}
+
+function restoreShareCopyButton(container, id, action, label) {
+  if (container.querySelector("#" + id)) return;
+  const mark = container.querySelector(`.dpaam-share-copied[data-for="${action}"]`);
+  if (!mark) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "dpaam-btn dpaam-btn-primary";
+  btn.id = id;
+  btn.dataset.action = action;
+  btn.textContent = label;
+  mark.replaceWith(btn);
+}
+
+function classroomShareTitle(game) {
+  if (!game?.topic) return "Dingo Punks Escape Room";
+  return `Dingo Punks Escape Room • ${formatLabel(game.topic)}`;
+}
+
+const CLASSROOM_SHARE_BODY = "Click the link to play your escape room!";
+
 function openShareModal(gameId) {
+  const game = gameById(gameId);
   const active = activeCodeFor(gameId);
-  if (!active) return;
+  if (!game || !active) return;
 
   shareGameId = gameId;
   shareCode = active.code;
-  els.shareModalBody.innerHTML = shareModalHtml(active.code);
+  resetShareCopyButtons();
+  els.shareModalBody.innerHTML = shareModalHtml(game, active.code);
+
+  const classroomBtnEl = document.getElementById("classroom-share-btn");
+  if (classroomBtnEl) {
+    classroomBtnEl.innerHTML = "";
+    if (window.gapi?.sharetoclassroom) {
+      gapi.sharetoclassroom.render("classroom-share-btn", {
+        url: "https://game.dingopunks.com?code=" + active.code,
+        title: classroomShareTitle(game),
+        body: CLASSROOM_SHARE_BODY,
+        itemtype: "material",
+        size: 32,
+        theme: "classic",
+      });
+    }
+  }
 
   if (typeof els.shareModal.showModal === "function") {
     els.shareModal.showModal();
@@ -583,13 +636,12 @@ function openShareModal(gameId) {
   }
 }
 
-async function copyShareCode(btn) {
-  if (!shareCode) return;
+async function copyToClipboard(text) {
   try {
-    await navigator.clipboard.writeText(shareCode);
+    await navigator.clipboard.writeText(text);
   } catch {
     const ta = document.createElement("textarea");
-    ta.value = shareCode;
+    ta.value = text;
     ta.setAttribute("readonly", "");
     ta.style.position = "absolute";
     ta.style.left = "-9999px";
@@ -598,26 +650,41 @@ async function copyShareCode(btn) {
     document.execCommand("copy");
     document.body.removeChild(ta);
   }
+}
 
+function showShareCopied(btn) {
   const mark = document.createElement("span");
-  mark.className = "dpaam-status-mark";
+  mark.className = "dpaam-status-mark dpaam-share-copied";
+  mark.dataset.for = btn.dataset.action;
   mark.setAttribute("aria-live", "polite");
   mark.innerHTML = "✓ &nbsp;Copied";
   btn.replaceWith(mark);
 }
 
+async function copyShareCode(btn) {
+  if (!shareCode) return;
+  await copyToClipboard(shareCode);
+  showShareCopied(btn);
+}
+
+async function copyShareLink(btn) {
+  if (!shareCode) return;
+  const link = "https://play.dingopunks.com?code=" + encodeURIComponent(shareCode);
+  await copyToClipboard(link);
+  showShareCopied(btn);
+}
+
 function shareToGoogleClassroom() {
   if (!shareCode) return;
   const game = shareGameId ? gameById(shareGameId) : null;
-  const title = game?.title || "Dingo Punks Escape Room";
-  const body = `Have your students visit play.dingopunks.com and enter the code: ${shareCode}`;
+  const title = game ? classroomShareTitle(game) : "Dingo Punks Escape Room";
   const shareUrl =
     "https://classroom.google.com/share?url=" +
     encodeURIComponent("https://play.dingopunks.com") +
     "&title=" +
     encodeURIComponent(title) +
     "&body=" +
-    encodeURIComponent(body);
+    encodeURIComponent(CLASSROOM_SHARE_BODY);
   window.open(shareUrl, "_blank", "noopener");
 }
 
@@ -791,12 +858,14 @@ function wireEvents() {
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
     shareCode = null;
+    resetShareCopyButtons();
   });
 
   els.shareModal.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     switch (btn.dataset.action) {
+      case "copy-share-link": copyShareLink(btn); break;
       case "copy-share-code": copyShareCode(btn); break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
     }
