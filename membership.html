@@ -85,10 +85,13 @@
             <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
             <h2 id="dpaam-favorites-heading" class="dpaam-section-title">Favorites</h2>
           </button>
+          <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
+          <!-- Active count in header — removed for now; restore when needed.
           <div class="dpaam-section-counts">
             <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
             <span class="dpaam-active-count" id="dpaam-active-count" hidden></span>
           </div>
+          -->
         </div>
         <ul class="dpaam-favorites-list" id="dpaam-favorites-list" hidden></ul>
       </section>
@@ -131,13 +134,24 @@
         </header>
         <div class="dpaam-modal-body" id="dpaam-modal-body"></div>
         <footer class="dpaam-modal-footer">
-          <button type="button" class="dpaam-btn dpaam-btn-preview" id="dpaam-modal-preview">
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-modal-preview">
             View Preview
           </button>
           <button type="button" class="dpaam-btn dpaam-btn-add" id="dpaam-modal-add">
             + Favorite
           </button>
         </footer>
+      </form>
+    </dialog>
+
+    <!-- Share modal -->
+    <dialog class="dpaam-modal" id="dpaam-share-modal" aria-labelledby="dpaam-share-modal-title">
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-share-modal-title">Share</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body" id="dpaam-share-modal-body"></div>
       </form>
     </dialog>
   </div>

@@ -9,10 +9,10 @@ import { thumbHtml } from "./thumbnails.js";
 
 // ---------- constants ----------
 
-const MAX_ACTIVE_CODES = 10;
+const MAX_ACTIVE_CODES = 20;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
-const STATIC_TIMER_LABEL = "Expires in 23h 47m";
+const STATIC_TIMER_LABEL = "23h 47m";
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 
@@ -30,7 +30,7 @@ const state = {
 const els = {
   // Active Codes section removed for now — Favorites handles code display.
   // activeSection: document.getElementById("dpaam-active-section"),
-  activeCount: document.getElementById("dpaam-active-count"),
+  // activeCount: document.getElementById("dpaam-active-count"),
   // activeList: document.getElementById("dpaam-active-list"),
   favoritesToggle: document.getElementById("dpaam-favorites-toggle"),
   favoritesList: document.getElementById("dpaam-favorites-list"),
@@ -48,6 +48,8 @@ const els = {
   modalBody: document.getElementById("dpaam-modal-body"),
   modalAdd: document.getElementById("dpaam-modal-add"),
   modalPreview: document.getElementById("dpaam-modal-preview"),
+  shareModal: document.getElementById("dpaam-share-modal"),
+  shareModalBody: document.getElementById("dpaam-share-modal-body"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
   helpBtn: document.getElementById("dpaam-help-btn"),
@@ -290,7 +292,7 @@ function cancelCode(gameId) {
 //           <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
 //           <div class="dpaam-active-card-timer">${escapeHtml(entry.expiresLabel)}</div>
 //           <div class="dpaam-active-card-actions">
-//             <button type="button" class="dpaam-btn dpaam-btn-danger" data-action="cancel-code">
+//             <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="cancel-code">
 //               Cancel Code
 //             </button>
 //           </div>
@@ -307,11 +309,12 @@ function renderFavorites() {
   els.favoritesToggle.disabled = !hasFavorites;
 
   els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
-  const activeCount = state.activeCodes.length;
-  els.activeCount.hidden = activeCount === 0;
-  if (activeCount > 0) {
-    els.activeCount.textContent = `${activeCount} / ${MAX_ACTIVE_CODES} active`;
-  }
+  // Active count in header — removed for now; restore when needed.
+  // const activeCount = state.activeCodes.length;
+  // els.activeCount.hidden = activeCount === 0;
+  // if (activeCount > 0) {
+  //   els.activeCount.textContent = `${activeCount} / ${MAX_ACTIVE_CODES} active`;
+  // }
   els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
   els.favoritesList.hidden = !state.favoritesOpen;
 
@@ -332,15 +335,22 @@ function renderFavorites() {
       const actionBlock = active
         ? `
           <div class="dpaam-fav-active">
-            <span class="dpaam-fav-code">${escapeHtml(active.code)}</span>
-            <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
-            <button type="button" class="dpaam-btn dpaam-btn-danger" data-action="cancel-code">
-              Cancel Code
-            </button>
+            <div class="dpaam-fav-code-stack">
+              <span class="dpaam-fav-code">${escapeHtml(active.code)}</span>
+              <div class="dpaam-fav-code-footer">
+                <button type="button" class="dpaam-fav-cancel-code" data-action="share-code">
+                  Share
+                </button>
+                <button type="button" class="dpaam-fav-cancel-code" data-action="cancel-code">
+                  Cancel
+                </button>
+                <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
+              </div>
+            </div>
           </div>`
         : `
           <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
-            Generate code
+            Generate Code
           </button>`;
 
       const topic = game.topic ? formatLabel(game.topic) : game.title;
@@ -348,9 +358,8 @@ function renderFavorites() {
         <li
           class="dpaam-fav-row"
           data-game-id="${escapeHtml(game.id)}"
-          draggable="true"
         >
-          <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
+          <span class="dpaam-fav-handle" draggable="true" aria-hidden="true">⋮⋮</span>
           ${thumbHtml(game)}
           <div class="dpaam-fav-row-body">
             <div class="dpaam-lib-main">
@@ -515,17 +524,17 @@ function refreshModalAddButton() {
   }
 }
 
-function closeModal() {
-  if (!els.modal.open) return;
-  if (els.modal.classList.contains("is-closing")) return;
+function closeAnimatedModal(modal) {
+  if (!modal.open) return;
+  if (modal.classList.contains("is-closing")) return;
 
-  els.modal.classList.add("is-closing");
+  modal.classList.add("is-closing");
 
   function finish() {
-    els.modal.removeEventListener("animationend", onAnimEnd);
-    els.modal.classList.remove("is-closing");
-    if (typeof els.modal.close === "function") els.modal.close();
-    else els.modal.removeAttribute("open");
+    modal.removeEventListener("animationend", onAnimEnd);
+    modal.classList.remove("is-closing");
+    if (typeof modal.close === "function") modal.close();
+    else modal.removeAttribute("open");
   }
 
   function onAnimEnd(e) {
@@ -535,7 +544,40 @@ function closeModal() {
   }
 
   const fallback = setTimeout(finish, 300);
-  els.modal.addEventListener("animationend", onAnimEnd);
+  modal.addEventListener("animationend", onAnimEnd);
+}
+
+let shareGameId = null;
+
+function openShareModal(gameId) {
+  shareGameId = gameId;
+  els.shareModalBody.innerHTML = "";
+
+  if (typeof els.shareModal.showModal === "function") {
+    els.shareModal.showModal();
+  } else {
+    els.shareModal.setAttribute("open", "");
+  }
+}
+
+function wireAnimatedModal(modal, onClose) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeAnimatedModal(modal);
+  });
+
+  modal.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    closeAnimatedModal(modal);
+  });
+
+  modal.querySelector(".dpaam-modal-form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    closeAnimatedModal(modal);
+  });
+
+  modal.addEventListener("close", () => {
+    onClose?.();
+  });
 }
 
 // ---------- event wiring ----------
@@ -567,6 +609,7 @@ function wireEvents() {
     switch (btn.dataset.action) {
       case "generate-code": generateCode(gameId); break;
       case "cancel-code": cancelCode(gameId); break;
+      case "share-code": openShareModal(gameId); break;
       case "remove-favorite": removeFavorite(gameId); break;
     }
   });
@@ -580,12 +623,22 @@ function wireEvents() {
   let dragEl = null;
 
   els.favoritesList.addEventListener("dragstart", (e) => {
+    if (!e.target.closest(".dpaam-fav-handle")) return;
     const row = e.target.closest(".dpaam-fav-row");
     if (!row) return;
     dragEl = row;
-    // Defer to next frame so the browser captures the original element
-    // bitmap as the drag image before we mark it transparent.
+
+    // Drag starts on the handle, so the default ghost is only the grip icon.
+    // Use the in-list row (still under .dpaam) so tokens and styles match exactly.
+    const rect = row.getBoundingClientRect();
+    e.dataTransfer.setDragImage(
+      row,
+      e.clientX - rect.left,
+      e.clientY - rect.top,
+    );
+    // Defer placeholder styling until after the browser snapshots the drag image.
     requestAnimationFrame(() => row.classList.add("is-dragging"));
+
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", row.dataset.gameId || "");
   });
@@ -670,26 +723,12 @@ function wireEvents() {
     refreshModalAddButton();
   });
 
-  // Dismiss by clicking the backdrop (click lands directly on the <dialog>).
-  els.modal.addEventListener("click", (e) => {
-    if (e.target === els.modal) closeModal();
-  });
-
-  // Intercept ESC so the animated close runs before the dialog closes natively.
-  els.modal.addEventListener("cancel", (e) => {
-    e.preventDefault();
-    closeModal();
-  });
-
-  // Intercept the close-button form submit so the animated close runs first.
-  els.modal.querySelector(".dpaam-modal-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    closeModal();
-  });
-
-  // Sync local state after the native close fires (covers all close paths).
-  els.modal.addEventListener("close", () => {
+  wireAnimatedModal(els.modal, () => {
     modalGameId = null;
+  });
+
+  wireAnimatedModal(els.shareModal, () => {
+    shareGameId = null;
   });
 }
 
