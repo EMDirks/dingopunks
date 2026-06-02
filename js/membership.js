@@ -13,6 +13,8 @@ const MAX_ACTIVE_CODES = 12;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
 const STATIC_TIMER_LABEL = "Expires in 23h 47m";
+const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
+const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 
 // ---------- state ----------
 
@@ -45,6 +47,9 @@ const els = {
   modalBody: document.getElementById("dpaam-modal-body"),
   modalAdd: document.getElementById("dpaam-modal-add"),
   modalPreview: document.getElementById("dpaam-modal-preview"),
+  quickStart: document.getElementById("dpaam-quick-start"),
+  quickStartClose: document.getElementById("dpaam-quick-start-close"),
+  helpBtn: document.getElementById("dpaam-help-btn"),
 };
 
 // ---------- helpers ----------
@@ -291,7 +296,7 @@ function renderFavorites() {
   if (state.favorites.length === 0) {
     els.favoritesList.innerHTML = `
       <li><p class="dpaam-empty">
-        To get started, add escape rooms from the Library.
+        You have no favorites yet.
       </p></li>`;
     return;
   }
@@ -367,8 +372,8 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Favorited</span>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Favorite</button>`;
+        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Added</span>`
+        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li
@@ -473,12 +478,12 @@ function refreshModalAddButton() {
   const btn = els.modalAdd;
   if (isFavorite(modalGameId)) {
     btn.className = "dpaam-saved-mark";
-    btn.innerHTML = "✓ &nbsp;Favorited";
+    btn.innerHTML = "✓ &nbsp;Added";
     btn.disabled = true;
     btn.setAttribute("aria-label", "Already in favorites");
   } else {
     btn.className = "dpaam-btn dpaam-btn-add";
-    btn.textContent = "+ Favorite";
+    btn.textContent = "+ Add";
     btn.disabled = false;
     btn.removeAttribute("aria-label");
   }
@@ -661,7 +666,43 @@ function wireEvents() {
 
 // ---------- init ----------
 
+function readQuickStartVisible() {
+  const saved = localStorage.getItem(QUICK_START_STATE_KEY);
+  if (saved === "open") return true;
+  if (saved === "closed" || saved === "minimized") return false;
+  if (localStorage.getItem(QUICK_START_LEGACY_DISMISS_KEY) === "1") return false;
+  return true;
+}
+
+function setQuickStartVisible(visible) {
+  localStorage.setItem(QUICK_START_STATE_KEY, visible ? "open" : "closed");
+  localStorage.removeItem(QUICK_START_LEGACY_DISMISS_KEY);
+}
+
+function applyQuickStartVisible(visible) {
+  if (!els.quickStart || !els.helpBtn) return;
+  els.quickStart.hidden = !visible;
+  els.helpBtn.hidden = visible;
+}
+
+function initQuickStartGuide() {
+  if (!els.quickStart || !els.quickStartClose || !els.helpBtn) return;
+  let visible = readQuickStartVisible();
+  applyQuickStartVisible(visible);
+  els.quickStartClose.addEventListener("click", () => {
+    visible = false;
+    applyQuickStartVisible(visible);
+    setQuickStartVisible(visible);
+  });
+  els.helpBtn.addEventListener("click", () => {
+    visible = true;
+    applyQuickStartVisible(visible);
+    setQuickStartVisible(visible);
+  });
+}
+
 function init() {
+  initQuickStartGuide();
   populateFilters();
   wireEvents();
   renderActiveCodes();

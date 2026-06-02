@@ -18,12 +18,49 @@
           width="800"
           height="373"
         />
-        <span class="dpaam-pill">All-Access Membership</span>
+        <span class="dpaam-pill"><em>✓ &nbsp; All-Access Membership</em></span>
       </div>
-      <button type="button" class="dpaam-account-btn">My account</button>
+      <div class="dpaam-topbar-buttons">
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-help-btn"
+          aria-label="Show Quick Start Guide"
+          hidden
+        >
+          ?
+        </button>
+        <button type="button" class="dpaam-btn dpaam-topbar-btn">My Account</button>
+      </div>
     </header>
 
     <main class="dpaam-main">
+      <aside
+        class="dpaam-guide"
+        id="dpaam-quick-start"
+        aria-labelledby="dpaam-quick-start-heading"
+      >
+        <div class="dpaam-guide-inner">
+          <header class="dpaam-guide-header">
+            <h2 id="dpaam-quick-start-heading" class="dpaam-guide-title">Quick Start Guide</h2>
+            <button
+              type="button"
+              class="dpaam-modal-close"
+              id="dpaam-quick-start-close"
+              aria-label="Close Quick Start Guide"
+            >
+              ×
+            </button>
+          </header>
+          <div class="dpaam-guide-body" id="dpaam-quick-start-body">
+            <ol class="dpaam-guide-list">
+              <li>Browse the Library and <strong>+ Add</strong> an escape room to your Favorites.</li>
+              <li>Click <strong>Generate Code</strong> to create a classroom code.</li>
+              <li>Share the code with your students.</li>
+            </ol>
+          </div>
+        </div>
+      </aside>
       <!-- Section 1: Active Codes -->
       <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
         <div class="dpaam-section-header">
