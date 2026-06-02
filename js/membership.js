@@ -338,7 +338,7 @@ function renderFavorites() {
             <div class="dpaam-fav-code-stack">
               <span class="dpaam-fav-code">${escapeHtml(active.code)}</span>
               <div class="dpaam-fav-code-footer">
-                <button type="button" class="dpaam-fav-cancel-code" data-action="share-code">
+                <button type="button" class="dpaam-fav-cancel-code dpaam-fav-share-code" data-action="share-code">
                   Share
                 </button>
                 <button type="button" class="dpaam-fav-cancel-code" data-action="cancel-code">
@@ -403,7 +403,7 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<span class="dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Added</span>`
+        ? `<span class="dpaam-status-mark dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Added</span>`
         : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
@@ -512,7 +512,7 @@ function refreshModalAddButton() {
   if (!modalGameId) return;
   const btn = els.modalAdd;
   if (isFavorite(modalGameId)) {
-    btn.className = "dpaam-saved-mark";
+    btn.className = "dpaam-status-mark dpaam-saved-mark";
     btn.innerHTML = "✓ &nbsp;Added";
     btn.disabled = true;
     btn.setAttribute("aria-label", "Already in favorites");
@@ -548,16 +548,77 @@ function closeAnimatedModal(modal) {
 }
 
 let shareGameId = null;
+let shareCode = null;
+
+function shareModalHtml(code) {
+  return `
+    <div class="dpaam-share-modal-content">
+      <p class="dpaam-share-instructions">
+        Have your students visit <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the code.
+      </p>
+      <div class="dpaam-share-code">${escapeHtml(code)}</div>
+      <div class="dpaam-share-actions">
+        <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="copy-share-code">
+          Copy Code
+        </button>
+        <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-google-classroom">
+          Share to Google Classroom
+        </button>
+      </div>
+    </div>`;
+}
 
 function openShareModal(gameId) {
+  const active = activeCodeFor(gameId);
+  if (!active) return;
+
   shareGameId = gameId;
-  els.shareModalBody.innerHTML = "";
+  shareCode = active.code;
+  els.shareModalBody.innerHTML = shareModalHtml(active.code);
 
   if (typeof els.shareModal.showModal === "function") {
     els.shareModal.showModal();
   } else {
     els.shareModal.setAttribute("open", "");
   }
+}
+
+async function copyShareCode(btn) {
+  if (!shareCode) return;
+  try {
+    await navigator.clipboard.writeText(shareCode);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = shareCode;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "absolute";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+
+  const mark = document.createElement("span");
+  mark.className = "dpaam-status-mark";
+  mark.setAttribute("aria-live", "polite");
+  mark.innerHTML = "✓ &nbsp;Copied";
+  btn.replaceWith(mark);
+}
+
+function shareToGoogleClassroom() {
+  if (!shareCode) return;
+  const game = shareGameId ? gameById(shareGameId) : null;
+  const title = game?.title || "Dingo Punks Escape Room";
+  const body = `Have your students visit play.dingopunks.com and enter the code: ${shareCode}`;
+  const shareUrl =
+    "https://classroom.google.com/share?url=" +
+    encodeURIComponent("https://play.dingopunks.com") +
+    "&title=" +
+    encodeURIComponent(title) +
+    "&body=" +
+    encodeURIComponent(body);
+  window.open(shareUrl, "_blank", "noopener");
 }
 
 function wireAnimatedModal(modal, onClose) {
@@ -729,6 +790,16 @@ function wireEvents() {
 
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
+    shareCode = null;
+  });
+
+  els.shareModal.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    switch (btn.dataset.action) {
+      case "copy-share-code": copyShareCode(btn); break;
+      case "share-google-classroom": shareToGoogleClassroom(); break;
+    }
   });
 }
 

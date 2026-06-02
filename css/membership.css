@@ -222,6 +222,11 @@ body {
   gap: 10px;
 }
 
+.dpaam-logo-link {
+  display: block;
+  line-height: 0;
+}
+
 .dpaam-logo {
   display: block;
   height: 76px;
@@ -716,6 +721,7 @@ body {
   background: none;
 }
 
+.dpaam-status-mark,
 .dpaam-saved-mark {
   display: inline-flex;
   align-items: center;
@@ -723,6 +729,16 @@ body {
   font-size: var(--dpaam-text-xs);
   font-weight: 500;
   color: var(--dpaam-black-muted);
+}
+
+.dpaam-status-mark {
+  width: var(--dpaam-add-btn-w);
+  text-align: center;
+  padding-left: -15px;
+  padding-top: 3px;
+}
+
+.dpaam-saved-mark {
   width: var(--dpaam-add-btn-w);
   text-align: center;
   padding-left: 17px;
@@ -906,6 +922,48 @@ button.dpaam-saved-mark {
   justify-content: flex-end;
   gap: var(--dpaam-pad);
   padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+}
+
+.dpaam-share-modal-body {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dpaam-share-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-xl);
+  width: 100%;
+}
+
+.dpaam-share-instructions {
+  margin: 0;
+  font-size: var(--dpaam-text-ui);
+  line-height: 1.5;
+}
+
+.dpaam-share-instructions a {
+  font-weight: 600;
+}
+
+.dpaam-share-code {
+  font-family: var(--dpaam-mono);
+  font-size: var(--dpaam-text-display);
+  font-weight: 600;
+  letter-spacing: var(--dpaam-code-tracking);
+  text-align: center;
+  padding: var(--dpaam-pad-md);
+  background: var(--dpaam-black);
+  color: var(--dpaam-gold);
+  border-radius: var(--dpaam-radius-sm);
+  width: fit-content;
+}
+
+.dpaam-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--dpaam-pad);
 }
 
 /* ---------- Mobile fallback (desktop-first, but not broken) ---------- */

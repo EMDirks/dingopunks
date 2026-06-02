@@ -11,13 +11,15 @@
   <div class="dpaam">
     <header class="dpaam-topbar">
       <div class="dpaam-brand">
-        <img
-          class="dpaam-logo"
-          src="assets/branding/logo/logo-main.png"
-          alt="Dingo Punks"
-          width="800"
-          height="373"
-        />
+        <a class="dpaam-logo-link" href="https://dingopunks.com">
+          <img
+            class="dpaam-logo"
+            src="assets/branding/logo/logo-main.png"
+            alt="Dingo Punks"
+            width="800"
+            height="373"
+          />
+        </a>
         <span class="dpaam-pill"><em>✓ &nbsp; All-Access Membership</em></span>
       </div>
       <div class="dpaam-topbar-buttons">
@@ -30,7 +32,12 @@
         >
           ?
         </button>
-        <button type="button" class="dpaam-btn dpaam-topbar-btn">My Account</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
+        >Play</button>
+        <button type="button" class="dpaam-btn dpaam-topbar-btn">Account</button>
       </div>
     </header>
 
@@ -55,8 +62,8 @@
           <div class="dpaam-guide-body" id="dpaam-quick-start-body">
             <ol class="dpaam-guide-list">
               <li>Browse the Library and <strong>+ Add</strong> an escape room to your Favorites.</li>
-              <li>Click <strong>Generate Code</strong> to create a classroom code.</li>
-              <li>Share the code with your students.</li>
+              <li>Click <strong>Generate Code</strong> to create a game code.</li>
+              <li>Have your students enter the code at <strong><a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a></strong>.</li>
             </ol>
           </div>
         </div>
@@ -148,10 +155,10 @@
     <dialog class="dpaam-modal" id="dpaam-share-modal" aria-labelledby="dpaam-share-modal-title">
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-share-modal-title">Share</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-share-modal-title">Share this Escape Room</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
-        <div class="dpaam-modal-body" id="dpaam-share-modal-body"></div>
+        <div class="dpaam-modal-body dpaam-share-modal-body" id="dpaam-share-modal-body"></div>
       </form>
     </dialog>
   </div>
