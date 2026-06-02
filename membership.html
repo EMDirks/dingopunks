@@ -61,7 +61,8 @@
           </div>
         </div>
       </aside>
-      <!-- Section 1: Active Codes -->
+      <!-- Section 1: Active Codes — removed for now; Favorites handles code display.
+           Kept here (commented out) so it can be restored later.
       <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
         <div class="dpaam-section-header">
           <h2 id="dpaam-active-heading" class="dpaam-section-title">Active Codes</h2>
@@ -69,6 +70,7 @@
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
       </section>
+      -->
 
       <!-- Section 2: My Favorites -->
       <section class="dpaam-section" aria-labelledby="dpaam-favorites-heading">
@@ -83,7 +85,10 @@
             <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
             <h2 id="dpaam-favorites-heading" class="dpaam-section-title">Favorites</h2>
           </button>
-          <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
+          <div class="dpaam-section-counts">
+            <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
+            <span class="dpaam-active-count" id="dpaam-active-count" hidden></span>
+          </div>
         </div>
         <ul class="dpaam-favorites-list" id="dpaam-favorites-list" hidden></ul>
       </section>
