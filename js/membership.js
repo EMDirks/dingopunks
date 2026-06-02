@@ -22,7 +22,7 @@ const state = {
   favorites: [],            // ordered array of game ids
   activeCodes: [],          // [{ gameId, code, expiresLabel }]
   filters: { season: "all", grade: "all", subject: "all" },
-  favoritesOpen: false,
+  favoritesOpen: true,
 };
 
 // ---------- DOM refs ----------
@@ -297,11 +297,17 @@ function renderActiveCodes() {
 }
 
 function renderFavorites() {
-  els.favoritesCount.textContent = `${state.favorites.length} favorites`;
+  const hasFavorites = state.favorites.length > 0;
+
+  // No favorites → always open, toggle disabled
+  if (!hasFavorites) state.favoritesOpen = true;
+  els.favoritesToggle.disabled = !hasFavorites;
+
+  els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
   els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
   els.favoritesList.hidden = !state.favoritesOpen;
 
-  if (state.favorites.length === 0) {
+  if (!hasFavorites) {
     els.favoritesList.innerHTML = `
       <li><p class="dpaam-empty">
         Browse the library below to add your first favorite.
@@ -336,9 +342,9 @@ function renderFavorites() {
           data-game-id="${escapeHtml(game.id)}"
           draggable="true"
         >
+          <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
           ${thumbHtml(game)}
           <div class="dpaam-fav-row-body">
-            <span class="dpaam-fav-handle" aria-hidden="true">⋮⋮</span>
             <div class="dpaam-lib-main">
               <div class="dpaam-lib-topic-row">
                 <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
