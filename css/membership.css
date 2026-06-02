@@ -309,6 +309,10 @@ body {
   gap: 8px;
 }
 
+.dpaam-favorites-list[hidden] {
+  display: none;
+}
+
 .dpaam-fav-row {
   display: flex;
   align-items: center;
@@ -553,13 +557,12 @@ body {
 }
 
 .dpaam-btn-primary {
-  color: var(--dpaam-accent-text);
-  background: var(--dpaam-accent);
+  color: var(--dpaam-black);
+  background: var(--dpaam-gold);
 }
 
 .dpaam-btn-primary:hover {
-  filter: none;
-  background: #1a1a1a;
+  filter: brightness(0.92);
 }
 
 .dpaam-btn-add,
@@ -730,7 +733,7 @@ button.dpaam-saved-mark:hover {
 }
 
 .dpaam-modal-close:hover {
-  filter: brightness(0.92);
+  background-color: var(--dpaam-salmon-light);
 }
 
 .dpaam-modal-body {
@@ -765,12 +768,19 @@ button.dpaam-saved-mark:hover {
 }
 
 .dpaam-modal-dl dt {
-  color: var(--dpaam-black);
-  font-weight: 700;
+  color: var(--dpaam-black-muted);
 }
 
 .dpaam-modal-dl dd {
   margin: 0;
+}
+
+.dpaam-modal-dl-divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  margin: 16px 0;
+  border: none;
+  border-top: 1px dashed var(--dpaam-border-strong);
 }
 
 .dpaam-modal-dl dt:has(+ .dpaam-modal-skills) {
@@ -801,7 +811,7 @@ button.dpaam-saved-mark:hover {
   display: flex;
   justify-content: flex-end;
   gap: 16px;
-  padding: 32px;
+  padding: 0px 32px 32px 32px;
 }
 
 /* ---------- Mobile fallback (desktop-first, but not broken) ---------- */

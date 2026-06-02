@@ -103,6 +103,14 @@ function gradeLabel(grades) {
   return `Grades ${grades.join(", ")}`;
 }
 
+function modalGradeLabel(grades) {
+  if (!grades || grades.length === 0) return "";
+  const nums = grades.map(String);
+  if (nums.length === 1) return `Grade ${nums[0]}`;
+  if (nums.length === 2) return `Grades ${nums[0]} and ${nums[1]}`;
+  return `Grades ${nums.slice(0, -1).join(", ")}, and ${nums[nums.length - 1]}`;
+}
+
 function tagsHtml(game) {
   const tags = [];
   if (game.topic) tags.push(formatLabel(game.topic));
@@ -296,7 +304,7 @@ function renderFavorites() {
   if (state.favorites.length === 0) {
     els.favoritesList.innerHTML = `
       <li><p class="dpaam-empty">
-        You have no favorites yet.
+        Browse the library below to add your first favorite.
       </p></li>`;
     return;
   }
@@ -447,21 +455,24 @@ function openModal(gameId) {
     ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
     : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
 
+  const standardHtml = SHOW_STANDARD_IN_MODAL
+    ? `<dt>Standard</dt><dd>${
+        game.standards && game.standards.length
+          ? escapeHtml(game.standards.join(", "))
+          : "None listed"
+      }</dd>`
+    : "";
+
   els.modalBody.innerHTML = `
     ${thumbImgHtml}
     <dl class="dpaam-modal-dl">
       ${game.topic ? `<dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>` : ""}
+      <dt>Grade</dt><dd>${escapeHtml(modalGradeLabel(game.grades))}</dd>
+      ${skillsHtml}
+      <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
       <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
-      <dt>Grades</dt><dd>${escapeHtml(gradeLabel(game.grades))}</dd>${
-    SHOW_STANDARD_IN_MODAL
-      ? `<dt>Standard</dt><dd>${
-          game.standards && game.standards.length
-            ? escapeHtml(game.standards.join(", "))
-            : "None listed"
-        }</dd>`
-      : ""
-  }${skillsHtml}
+      ${standardHtml}
     </dl>`;
 
   refreshModalAddButton();

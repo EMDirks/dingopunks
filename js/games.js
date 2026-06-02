@@ -441,7 +441,7 @@ export const games = [
       "Add and Subtract Within 20",
       "Add and Subtract Within 100",
       "Place Value",
-      "Word Problems With Addition and Subtraction",
+      "Word Problems: Add and Subtract",
       "Length and Shapes",
     ],
     thumbnail: "resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-2nd-grade-math-mem.png",
@@ -1159,7 +1159,7 @@ export const games = [
     standards: [],
     skills: [
       "Multiplication and Division Facts",
-      "Two Step Word Problems With Addition and Subtration",
+      "Two Step Word Problems: Add and Subtract",
       "Place Value and Rounding",
       "Area and Perimeter",
       "Fractions of Shapes and Number Lines",
@@ -1940,7 +1940,7 @@ export const games = [
     topic: "mixed-math-skills",
     standards: [],
     skills: [
-      "Multi-Step Word Problems With Addition and Subtraction",
+      "Multi-Step Word Problems: Add and Subtract",
       "Multiplication and Division Facts",
       "Round to the Nearest 10 or 100",
       "Measure and Compare Length in Units",
