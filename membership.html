@@ -155,6 +155,38 @@
       </form>
     </dialog>
 
+    <!-- Active code limit modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact"
+      id="dpaam-limit-modal"
+      aria-labelledby="dpaam-limit-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-limit-modal-title">
+            Game Code Limit Reached
+          </h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
+            ×
+          </button>
+        </header>
+        <div class="dpaam-modal-body dpaam-modal-body--message">
+          <p>
+            You've reached your limit of 20 active game codes. You must cancel an existing code to generate a new one.
+          </p>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-primary"
+            id="dpaam-limit-modal-dismiss"
+          >
+            Got It
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
     <!-- Share modal -->
     <dialog class="dpaam-modal" id="dpaam-share-modal" aria-labelledby="dpaam-share-modal-title">
       <form method="dialog" class="dpaam-modal-form">

@@ -9,7 +9,7 @@ import { thumbHtml } from "./thumbnails.js";
 
 // ---------- constants ----------
 
-const MAX_ACTIVE_CODES = 20;
+const MAX_ACTIVE_CODES = 3;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
 const STATIC_TIMER_LABEL = "23h 47m";
@@ -50,6 +50,8 @@ const els = {
   modalPreview: document.getElementById("dpaam-modal-preview"),
   shareModal: document.getElementById("dpaam-share-modal"),
   shareModalBody: document.getElementById("dpaam-share-modal-body"),
+  limitModal: document.getElementById("dpaam-limit-modal"),
+  limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
   helpBtn: document.getElementById("dpaam-help-btn"),
@@ -219,6 +221,18 @@ function escapeHtml(str) {
   });
 }
 
+function codeDisplayHtml(code, rootClass, charClass) {
+  const safe = escapeHtml(code);
+  const chars = [...code]
+    .map((ch) => `<span class="${charClass}" aria-hidden="true">${escapeHtml(ch)}</span>`)
+    .join("");
+  return `<span class="${rootClass}" data-code="${safe}" aria-label="Game code ${safe}">${chars}</span>`;
+}
+
+function favCodeDisplayHtml(code) {
+  return codeDisplayHtml(code, "dpaam-fav-code", "dpaam-fav-code-char");
+}
+
 // ---------- action functions (the seams a backend plugs into) ----------
 
 function addFavorite(gameId) {
@@ -249,7 +263,7 @@ function setFavoritesOrder(orderedIds) {
 function generateCode(gameId) {
   if (activeCodeFor(gameId)) return;
   if (state.activeCodes.length >= MAX_ACTIVE_CODES) {
-    alert(`You have ${MAX_ACTIVE_CODES} active codes — deactivate one to continue`);
+    openLimitModal();
     return;
   }
   if (!isFavorite(gameId)) addFavorite(gameId);
@@ -336,15 +350,15 @@ function renderFavorites() {
         ? `
           <div class="dpaam-fav-active">
             <div class="dpaam-fav-code-stack">
-              <span class="dpaam-fav-code">${escapeHtml(active.code)}</span>
+              ${favCodeDisplayHtml(active.code)}
               <div class="dpaam-fav-code-footer">
-                <button type="button" class="dpaam-fav-cancel-code dpaam-fav-share-code" data-action="share-code">
-                  Share
-                </button>
+                <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
                 <button type="button" class="dpaam-fav-cancel-code" data-action="cancel-code">
                   Cancel
                 </button>
-                <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
+                <button type="button" class="dpaam-fav-cancel-code dpaam-fav-share-code" data-action="share-code">
+                  Share
+                </button>
               </div>
             </div>
           </div>`
@@ -470,6 +484,14 @@ const SHOW_STANDARD_IN_MODAL = false;
 
 let modalGameId = null;
 
+function openLimitModal() {
+  if (typeof els.limitModal.showModal === "function") {
+    els.limitModal.showModal();
+  } else {
+    els.limitModal.setAttribute("open", "");
+  }
+}
+
 function openModal(gameId) {
   const game = gameById(gameId);
   if (!game) return;
@@ -566,13 +588,13 @@ function shareModalHtml(game, code) {
   const dlHtml = `
       <dt><strong>Option 1</strong><br>Game Code + URL</dt>
       <dd>
-        Have your students enter the game code <span class="dpaam-share-code-small">${escapeHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
+        Have your students enter the game code <strong>${escapeHtml(code)}</strong> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dt><strong>Option 2</strong><br>Google Classroom</dt>
       <dd class="dpaam-modal-share-classroom">
         <div id="classroom-share-btn"></div>
-        <span class="dpaam-classroom-share-label">← Just click to share.</span>
+        <span class="dpaam-classroom-share-label">← Click to share to your classroom.</span>
       </dd>`;
   return modalBodyHtml(game, dlHtml);
 }
@@ -853,6 +875,11 @@ function wireEvents() {
 
   wireAnimatedModal(els.modal, () => {
     modalGameId = null;
+  });
+
+  wireAnimatedModal(els.limitModal);
+  els.limitModalDismiss.addEventListener("click", () => {
+    closeAnimatedModal(els.limitModal);
   });
 
   wireAnimatedModal(els.shareModal, () => {

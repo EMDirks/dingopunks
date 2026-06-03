@@ -1,12 +1,12 @@
 export const games = [
 
   // ─────────────────────────────────────────────
-  // The Midnight Mall
+  // Escape the Midnight Mall
   // ─────────────────────────────────────────────
 
   {
     id: "the-midnight-mall-mixed-reading-skills-2",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2],
@@ -27,7 +27,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [3],
@@ -48,7 +48,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-4",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4],
@@ -69,7 +69,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [5],
@@ -90,7 +90,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -110,7 +110,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-main-idea-and-supporting-details-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -130,7 +130,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-figurative-language-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -150,7 +150,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-context-clues-and-vocabulary-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -170,7 +170,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-context-clues-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -190,7 +190,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-story-elements-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -210,7 +210,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-story-elements-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -230,7 +230,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-poetry-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -250,7 +250,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-poetry-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -270,7 +270,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-grammar-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -290,7 +290,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-grammar-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -310,7 +310,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-making-inferences-2-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2, 3],
@@ -330,7 +330,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-making-inferences-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -350,7 +350,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-text-features-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -370,7 +370,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-text-structures-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -390,7 +390,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-authors-purpose-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -410,7 +410,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-character-traits-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -430,7 +430,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-2",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [2],
@@ -451,7 +451,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [3],
@@ -472,7 +472,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-4",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4],
@@ -493,7 +493,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [5],
@@ -514,7 +514,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-multiplication-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [3],
@@ -534,7 +534,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-multiplication-4",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4],
@@ -554,7 +554,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-3",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [3],
@@ -574,7 +574,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-4",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4],
@@ -594,7 +594,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-fractions-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [5],
@@ -614,7 +614,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-order-of-operations-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [5],
@@ -634,7 +634,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-growth-mindset-4-5",
-    title: "The Midnight Mall",
+    title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
     grades: [4, 5],
@@ -654,12 +654,12 @@ export const games = [
   },
 
   // ─────────────────────────────────────────────
-  // Pickle's Playground
+  // Escape From Pickle's Playground
   // ─────────────────────────────────────────────
 
   {
     id: "pickles-playground-mixed-reading-skills-3",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [3],
@@ -680,7 +680,7 @@ export const games = [
   },
   {
     id: "pickles-playground-mixed-reading-skills-4",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4],
@@ -701,7 +701,7 @@ export const games = [
   },
   {
     id: "pickles-playground-mixed-reading-skills-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [5],
@@ -722,7 +722,7 @@ export const games = [
   },
   {
     id: "pickles-playground-main-idea-and-supporting-details-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -742,7 +742,7 @@ export const games = [
   },
   {
     id: "pickles-playground-figurative-language-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -762,7 +762,7 @@ export const games = [
   },
   {
     id: "pickles-playground-context-clues-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -782,7 +782,7 @@ export const games = [
   },
   {
     id: "pickles-playground-story-elements-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -802,7 +802,7 @@ export const games = [
   },
   {
     id: "pickles-playground-poetry-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -822,7 +822,7 @@ export const games = [
   },
   {
     id: "pickles-playground-making-inferences-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -842,7 +842,7 @@ export const games = [
   },
   {
     id: "pickles-playground-grammar-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -862,7 +862,7 @@ export const games = [
   },
   {
     id: "pickles-playground-authors-purpose-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -882,7 +882,7 @@ export const games = [
   },
   {
     id: "pickles-playground-character-traits-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -902,7 +902,7 @@ export const games = [
   },
   {
     id: "pickles-playground-text-structures-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -922,7 +922,7 @@ export const games = [
   },
   {
     id: "pickles-playground-growth-mindset-4-5",
-    title: "Pickle's Playground",
+    title: "Escape From Pickle's Playground",
     color: "green",
     season: "all-year",
     grades: [4, 5],
@@ -2115,12 +2115,12 @@ export const games = [
   },
 
   // ─────────────────────────────────────────────
-  // Yeti and the Yams
+  // The Yeti and the Yams
   // ─────────────────────────────────────────────
 
   {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [3],
@@ -2141,7 +2141,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-reading-skills-4",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4],
@@ -2162,7 +2162,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-reading-skills-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [5],
@@ -2183,7 +2183,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2203,7 +2203,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-figurative-language-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2223,7 +2223,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-context-clues-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2243,7 +2243,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-story-elements-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2263,7 +2263,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-poetry-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2283,7 +2283,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-making-inferences-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2303,7 +2303,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-grammar-4-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4, 5],
@@ -2323,7 +2323,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-3",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [3],
@@ -2344,7 +2344,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-4",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4],
@@ -2365,7 +2365,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-mixed-math-skills-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [5],
@@ -2386,7 +2386,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-multiplication-3",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [3],
@@ -2406,7 +2406,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-multiplication-4",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4],
@@ -2426,7 +2426,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-3",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [3],
@@ -2446,7 +2446,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-4",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [4],
@@ -2466,7 +2466,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-fractions-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [5],
@@ -2486,7 +2486,7 @@ export const games = [
   },
   {
     id: "yeti-and-the-yams-order-of-operations-5",
-    title: "Yeti and the Yams",
+    title: "The Yeti and the Yams",
     color: "blue",
     season: "winter",
     grades: [5],

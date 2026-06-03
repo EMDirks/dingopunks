@@ -477,32 +477,44 @@ a.dpaam-topbar-btn {
 .dpaam-fav-code-stack {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 2px;
   background-color: var(--dpaam-black);
   border-radius: var(--dpaam-radius-sm);
-  padding: var(--dpaam-pad-sm) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad-md);
+  padding: var(--dpaam-pad-lg) var(--dpaam-pad-md) var(--dpaam-pad-lg) var(--dpaam-pad-md);
   width: var(--dpaam-code-btn-w);
 }
 
 .dpaam-fav-code {
+  display: inline-flex;
+  justify-content: center;
+  gap: 4px;
   font-family: var(--dpaam-mono);
-  font-size: var(--dpaam-text-display);
+  font-size: var(--dpaam-text-xl);
   font-weight: 600;
-  letter-spacing: var(--dpaam-code-tracking);
-  background: var(--dpaam-black);
+  letter-spacing: 0;
   color: var(--dpaam-gold);
-  border-radius: var(--dpaam-radius-sm);
-  user-select: text;
+  user-select: all;
   cursor: text;
-  text-align: center;
-  margin-bottom: 2px;
+  margin-bottom: var(--dpaam-pad-sm);
+}
+
+.dpaam-fav-code-char {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25em;
+  padding: 4px 0px;
+  border: 1px solid var(--dpaam-gold);
+  border-radius: var(--dpaam-radius-sm);
+  line-height: 1;
 }
 
 .dpaam-fav-code-footer {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: var(--dpaam-pad-sm);
+  gap: var(--dpaam-pad-md);
 }
 
 .dpaam-fav-timer {
@@ -581,8 +593,8 @@ a.dpaam-topbar-btn {
 .dpaam-thumb {
   flex: 0 0 auto;
   display: block;
-  width: 120px;
-  height: 120px;
+  width: 128px;
+  height: 128px;
   background-color: var(--dpaam-black);
   background-image: var(--thumb-main);
   background-size: 300%;
@@ -883,6 +895,19 @@ button.dpaam-saved-mark {
   overflow-y: auto;
 }
 
+.dpaam-modal--compact {
+  width: min(520px, calc(100vw - 32px));
+}
+
+.dpaam-modal-body--message {
+  display: block;
+}
+
+.dpaam-modal-body--message p {
+  margin: 0;
+  line-height: 1.5;
+}
+
 .dpaam-modal-thumb {
   flex-shrink: 0;
   width: 240px;
@@ -961,10 +986,6 @@ button.dpaam-saved-mark {
   white-space: nowrap;
 }
 
-.dpaam-modal-dl dd a {
-  font-weight: 600;
-}
-
 .dpaam-share-copy-actions {
   display: flex;
   gap: var(--dpaam-pad-sm);
@@ -983,20 +1004,13 @@ button.dpaam-saved-mark {
   border-radius: var(--dpaam-radius-sm);
 }
 
-.dpaam-share-code-small {
-  display: inline-block;
-  font-family: var(--dpaam-mono);
-  font-size: var(--dpaam-text-sm);
-  font-weight: 600;
-  letter-spacing: var(--dpaam-code-tracking);
-  padding: 1px 4px 0px 5px;
-  background: var(--dpaam-black);
-  color: var(--dpaam-gold);
-  border-radius: var(--dpaam-radius-sm);
+.dpaam-classroom-share-label {
+  position: relative;
+  top: 2px;
 }
 
 #classroom-share-btn {
-  margin-top: -2px;
+  background-color: red;
 }
 
 /* ---------- Mobile fallback (desktop-first, but not broken) ---------- */
