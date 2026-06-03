@@ -64,27 +64,39 @@
             </button>
           </header>
           <div class="dpaam-guide-body" id="dpaam-quick-start-body">
-            <ol class="dpaam-guide-list">
-              <li>Browse the Library and <strong>+ Add</strong> an escape room to your Favorites.</li>
-              <li>Click <strong>Generate Game Code</strong> to create a game code.</li>
-              <li>Have your students enter this game code at <strong><a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a></strong>.</li>
-            </ol>
+            <div class="dpaam-guide-steps">
+              <div class="dpaam-guide-step">
+                <h3 class="dpaam-guide-step-subtitle">1. Add</h3>
+                <p class="dpaam-guide-step-body"><strong>+ Add</strong> an escape room from the Library.</p>
+              </div>
+              <div class="dpaam-guide-step">
+                <h3 class="dpaam-guide-step-subtitle">2. Generate</h3>
+                <p class="dpaam-guide-step-body">Click the <strong>Generate Game Code</strong> button.</p>
+              </div>
+              <div class="dpaam-guide-step">
+                <h3 class="dpaam-guide-step-subtitle">3. Share</h3>
+                <p class="dpaam-guide-step-body"><strong>Share</strong> the escape room with your students.</p>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
-      <!-- Section 1: Active Codes — removed for now; Favorites handles code display.
-           Kept here (commented out) so it can be restored later.
+      <!-- Section 1: Active Codes -->
       <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
         <div class="dpaam-section-header">
-          <h2 id="dpaam-active-heading" class="dpaam-section-title">Active Codes</h2>
-          <span class="dpaam-active-count" id="dpaam-active-count">0 / 12 active</span>
+          <h2 id="dpaam-active-heading" class="dpaam-section-title">Game Codes</h2>
+          <span class="dpaam-active-count" id="dpaam-active-count">0 / 20 active</span>
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
       </section>
-      -->
 
       <!-- Section 2: My Favorites -->
-      <section class="dpaam-section" aria-labelledby="dpaam-favorites-heading">
+      <section
+        class="dpaam-section"
+        id="dpaam-favorites-section"
+        aria-labelledby="dpaam-favorites-heading"
+        hidden
+      >
         <div class="dpaam-section-header">
           <button
             type="button"
@@ -195,6 +207,15 @@
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-share-modal-body"></div>
+        <footer class="dpaam-modal-footer">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-primary"
+            id="dpaam-share-modal-close"
+          >
+            Got It
+          </button>
+        </footer>
       </form>
     </dialog>
   </div>

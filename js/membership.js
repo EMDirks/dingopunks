@@ -9,7 +9,7 @@ import { thumbHtml } from "./thumbnails.js";
 
 // ---------- constants ----------
 
-const MAX_ACTIVE_CODES = 3;
+const MAX_ACTIVE_CODES = 20;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
 const STATIC_TIMER_LABEL = "23h 47m";
@@ -28,10 +28,10 @@ const state = {
 // ---------- DOM refs ----------
 
 const els = {
-  // Active Codes section removed for now — Favorites handles code display.
-  // activeSection: document.getElementById("dpaam-active-section"),
-  // activeCount: document.getElementById("dpaam-active-count"),
-  // activeList: document.getElementById("dpaam-active-list"),
+  activeSection: document.getElementById("dpaam-active-section"),
+  activeCount: document.getElementById("dpaam-active-count"),
+  activeList: document.getElementById("dpaam-active-list"),
+  favoritesSection: document.getElementById("dpaam-favorites-section"),
   favoritesToggle: document.getElementById("dpaam-favorites-toggle"),
   favoritesList: document.getElementById("dpaam-favorites-list"),
   favoritesCount: document.getElementById("dpaam-favorites-count"),
@@ -50,6 +50,7 @@ const els = {
   modalPreview: document.getElementById("dpaam-modal-preview"),
   shareModal: document.getElementById("dpaam-share-modal"),
   shareModalBody: document.getElementById("dpaam-share-modal-body"),
+  shareModalClose: document.getElementById("dpaam-share-modal-close"),
   limitModal: document.getElementById("dpaam-limit-modal"),
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   quickStart: document.getElementById("dpaam-quick-start"),
@@ -248,7 +249,7 @@ function removeFavorite(gameId) {
   // Removing a favorite also cancels any active code for that game.
   state.activeCodes = state.activeCodes.filter((c) => c.gameId !== gameId);
   renderFavorites();
-  // renderActiveCodes(); // Active Codes section removed for now
+  renderActiveCodes();
   renderLibrary();
 }
 
@@ -272,55 +273,60 @@ function generateCode(gameId) {
     code: generateCodeString(),
     expiresLabel: STATIC_TIMER_LABEL,
   });
-  // renderActiveCodes(); // Active Codes section removed for now
+  renderActiveCodes();
   renderFavorites();
 }
 
 function cancelCode(gameId) {
   state.activeCodes = state.activeCodes.filter((c) => c.gameId !== gameId);
-  // renderActiveCodes(); // Active Codes section removed for now
+  renderActiveCodes();
   renderFavorites();
 }
 
 // ---------- renderers ----------
 
-// Active Codes section removed for now — Favorites handles code display.
-// Logic preserved (commented out) so it can be restored later.
-// function renderActiveCodes() {
-//   els.activeSection.hidden = state.activeCodes.length === 0;
-//
-//   if (state.activeCodes.length === 0) {
-//     els.activeList.innerHTML = "";
-//     return;
-//   }
-//
-//   els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
-//
-//   els.activeList.innerHTML = state.activeCodes
-//     .map((entry) => {
-//       const game = gameById(entry.gameId);
-//       if (!game) return "";
-//       return `
-//         <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
-//           <h3 class="dpaam-active-card-title">${escapeHtml(game.title)}</h3>
-//           <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
-//           <div class="dpaam-active-card-timer">${escapeHtml(entry.expiresLabel)}</div>
-//           <div class="dpaam-active-card-actions">
-//             <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="cancel-code">
-//               Cancel Code
-//             </button>
-//           </div>
-//         </article>`;
-//     })
-//     .join("");
-// }
+function renderActiveCodes() {
+  els.activeSection.hidden = state.activeCodes.length === 0;
+
+  if (state.activeCodes.length === 0) {
+    els.activeList.innerHTML = "";
+    return;
+  }
+
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
+
+  els.activeList.innerHTML = state.activeCodes
+    .map((entry) => {
+      const game = gameById(entry.gameId);
+      if (!game) return "";
+      return `
+        <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
+          <h3 class="dpaam-active-card-title">${escapeHtml(game.title)}</h3>
+          <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
+          <div class="dpaam-active-card-timer">${escapeHtml(entry.expiresLabel)}</div>
+          <div class="dpaam-active-card-actions">
+            <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="cancel-code">
+              Cancel Code
+            </button>
+          </div>
+        </article>`;
+    })
+    .join("");
+}
 
 function renderFavorites() {
   const hasFavorites = state.favorites.length > 0;
 
-  // No favorites → always open, toggle disabled
-  if (!hasFavorites) state.favoritesOpen = true;
-  els.favoritesToggle.disabled = !hasFavorites;
+  els.favoritesSection.hidden = !hasFavorites;
+
+  // No favorites → section hidden; keep list state ready for first add
+  if (!hasFavorites) {
+    state.favoritesOpen = true;
+    els.favoritesList.innerHTML = "";
+    return;
+  }
+
+  els.favoritesToggle.disabled = false;
 
   els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
   // Active count in header — removed for now; restore when needed.
@@ -332,36 +338,25 @@ function renderFavorites() {
   els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
   els.favoritesList.hidden = !state.favoritesOpen;
 
-  if (!hasFavorites) {
-    els.favoritesList.innerHTML = `
-      <li><p class="dpaam-empty">
-        Browse the library below to add your first favorite.
-      </p></li>`;
-    return;
-  }
-
   els.favoritesList.innerHTML = state.favorites
     .map((id) => {
       const game = gameById(id);
       if (!game) return "";
       const active = activeCodeFor(id);
 
+      // dpaam-fav-code-footer hidden for now; restore when needed.
+      // `<div class="dpaam-fav-code-footer">
+      //   <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
+      //   <button type="button" class="dpaam-fav-cancel-code" data-action="cancel-code">
+      //     Cancel
+      //   </button>
+      //   <button type="button" class="dpaam-fav-cancel-code dpaam-fav-share-code" data-action="share-code">
+      //     Share
+      //   </button>
+      // </div>`
+
       const codeOrGenerate = active
-        ? `
-          <div class="dpaam-fav-active">
-            <div class="dpaam-fav-code-stack">
-              ${favCodeDisplayHtml(active.code)}
-              <div class="dpaam-fav-code-footer">
-                <span class="dpaam-fav-timer">${escapeHtml(active.expiresLabel)}</span>
-                <button type="button" class="dpaam-fav-cancel-code" data-action="cancel-code">
-                  Cancel
-                </button>
-                <button type="button" class="dpaam-fav-cancel-code dpaam-fav-share-code" data-action="share-code">
-                  Share
-                </button>
-              </div>
-            </div>
-          </div>`
+        ? `<span class="dpaam-status-mark dpaam-code-generated-mark" aria-label="Code generated">✓ &nbsp;Game Code Generated</span>`
         : `
           <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
             Generate Game Code
@@ -739,15 +734,15 @@ function wireEvents() {
     renderFavorites();
   });
 
-  // Active codes — delegated (section removed for now; Favorites handles codes)
-  // els.activeList.addEventListener("click", (e) => {
-  //   const btn = e.target.closest("button[data-action]");
-  //   if (!btn) return;
-  //   const card = btn.closest("[data-game-id]");
-  //   if (!card) return;
-  //   const gameId = card.dataset.gameId;
-  //   if (btn.dataset.action === "cancel-code") cancelCode(gameId);
-  // });
+  // Active codes — delegated
+  els.activeList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const card = btn.closest("[data-game-id]");
+    if (!card) return;
+    const gameId = card.dataset.gameId;
+    if (btn.dataset.action === "cancel-code") cancelCode(gameId);
+  });
 
   // Favorites — delegated
   els.favoritesList.addEventListener("click", (e) => {
@@ -887,6 +882,9 @@ function wireEvents() {
     shareCode = null;
     resetShareCopyButtons();
   });
+  els.shareModalClose.addEventListener("click", () => {
+    closeAnimatedModal(els.shareModal);
+  });
 
   els.shareModal.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
@@ -940,7 +938,7 @@ function init() {
   initQuickStartGuide();
   populateFilters();
   wireEvents();
-  // renderActiveCodes(); // Active Codes section removed for now
+  renderActiveCodes();
   renderFavorites();
   renderLibrary();
 }
