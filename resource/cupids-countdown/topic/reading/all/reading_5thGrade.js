@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Cupid's Countdown",
         path: "cupids-countdown",
-        logo: "resource/cupids-countdown/assets/branding/reading/all/preview-5th-grade.png",
+        logo: "resource/cupids-countdown/assets/branding/reading/all/thumbnail-5th-grade.png",
         timerLabel: "SHOW ENDS"
     },
 

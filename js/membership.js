@@ -293,7 +293,7 @@ function renderActiveCodes() {
     return;
   }
 
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} game codes`;
 
   els.activeList.innerHTML = state.activeCodes
     .map((entry) => {
@@ -301,6 +301,7 @@ function renderActiveCodes() {
       if (!game) return "";
       return `
         <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
+          ${thumbHtml(game)}
           <h3 class="dpaam-active-card-title">${escapeHtml(game.title)}</h3>
           <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
           <div class="dpaam-active-card-timer">${escapeHtml(entry.expiresLabel)}</div>
@@ -333,7 +334,7 @@ function renderFavorites() {
   // const activeCount = state.activeCodes.length;
   // els.activeCount.hidden = activeCount === 0;
   // if (activeCount > 0) {
-  //   els.activeCount.textContent = `${activeCount} / ${MAX_ACTIVE_CODES} active`;
+  //   els.activeCount.textContent = `${activeCount} / ${MAX_ACTIVE_CODES} game codes`;
   // }
   els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
   els.favoritesList.hidden = !state.favoritesOpen;
@@ -356,7 +357,7 @@ function renderFavorites() {
       // </div>`
 
       const codeOrGenerate = active
-        ? `<span class="dpaam-status-mark dpaam-code-generated-mark" aria-label="Code generated">✓ &nbsp;Game Code Generated</span>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark" disabled aria-label="Code generated">✓ &nbsp;Game Code Generated</button>`
         : `
           <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
             Generate Game Code
@@ -364,9 +365,7 @@ function renderFavorites() {
 
       const actionBlock = `
         <div class="dpaam-fav-code-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-secondary">
-            Answers
-          </button>
+          <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">Details</button>
           ${codeOrGenerate}
         </div>`;
 
@@ -420,7 +419,7 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<span class="dpaam-status-mark dpaam-saved-mark" aria-label="Already in favorites">✓ &nbsp;Added</span>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark" disabled aria-label="Already in favorites">✓ &nbsp;Added</button>`
         : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
@@ -478,6 +477,7 @@ function fillSelect(selectEl, values, labelFn, allLabel = "All") {
 const SHOW_STANDARD_IN_MODAL = false;
 
 let modalGameId = null;
+let modalContext = "library"; // "library" | "favorites"
 
 function openLimitModal() {
   if (typeof els.limitModal.showModal === "function") {
@@ -487,10 +487,11 @@ function openLimitModal() {
   }
 }
 
-function openModal(gameId) {
+function openModal(gameId, context = "library") {
   const game = gameById(gameId);
   if (!game) return;
   modalGameId = gameId;
+  modalContext = context;
   els.modalTitle.textContent = "Escape Room Details";
   const skillsHtml =
     game.skills && game.skills.filter((s) => s).length
@@ -518,7 +519,7 @@ function openModal(gameId) {
       ${standardHtml}`;
   els.modalBody.innerHTML = modalBodyHtml(game, dlHtml);
 
-  refreshModalAddButton();
+  refreshModalActionButton();
 
   if (typeof els.modal.showModal === "function") {
     els.modal.showModal();
@@ -527,11 +528,27 @@ function openModal(gameId) {
   }
 }
 
-function refreshModalAddButton() {
+function refreshModalActionButton() {
   if (!modalGameId) return;
   const btn = els.modalAdd;
+
+  if (modalContext === "favorites") {
+    if (activeCodeFor(modalGameId)) {
+      btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark";
+      btn.innerHTML = "✓ &nbsp;Game Code Generated";
+      btn.disabled = true;
+      btn.setAttribute("aria-label", "Code generated");
+    } else {
+      btn.className = "dpaam-btn dpaam-btn-primary";
+      btn.textContent = "Generate Game Code";
+      btn.disabled = false;
+      btn.removeAttribute("aria-label");
+    }
+    return;
+  }
+
   if (isFavorite(modalGameId)) {
-    btn.className = "dpaam-status-mark dpaam-saved-mark";
+    btn.className = "dpaam-btn dpaam-btn-done dpaam-saved-mark";
     btn.innerHTML = "✓ &nbsp;Added";
     btn.disabled = true;
     btn.setAttribute("aria-label", "Already in favorites");
@@ -670,9 +687,11 @@ async function copyToClipboard(text) {
 }
 
 function showShareCopied(btn) {
-  const mark = document.createElement("span");
-  mark.className = "dpaam-status-mark dpaam-share-copied";
+  const mark = document.createElement("button");
+  mark.type = "button";
+  mark.className = "dpaam-btn dpaam-btn-done dpaam-share-copied";
   mark.dataset.for = btn.dataset.action;
+  mark.disabled = true;
   mark.setAttribute("aria-live", "polite");
   mark.innerHTML = "✓ &nbsp;Copied";
   btn.replaceWith(mark);
@@ -755,6 +774,7 @@ function wireEvents() {
       case "generate-code": generateCode(gameId); break;
       case "cancel-code": cancelCode(gameId); break;
       case "share-code": openShareModal(gameId); break;
+      case "open-details": openModal(gameId, "favorites"); break;
       case "remove-favorite": removeFavorite(gameId); break;
     }
   });
@@ -861,15 +881,22 @@ function wireEvents() {
     );
   });
 
-  // Modal "Add to favorites"
+  // Modal footer action — + Add from library, Generate Game Code from favorites
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
+    if (modalContext === "favorites") {
+      if (activeCodeFor(modalGameId)) return;
+      generateCode(modalGameId);
+      refreshModalActionButton();
+      return;
+    }
     addFavorite(modalGameId);
-    refreshModalAddButton();
+    refreshModalActionButton();
   });
 
   wireAnimatedModal(els.modal, () => {
     modalGameId = null;
+    modalContext = "library";
   });
 
   wireAnimatedModal(els.limitModal);

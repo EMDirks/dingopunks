@@ -117,10 +117,9 @@ body {
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
-  --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-saved-mark */
-  --dpaam-code-btn-w:        214px; /* paired: generate-code + cancel-code */
-  --dpaam-answer-key-btn-w:  110px; /* favorites: answer key (UI only) */
-  --dpaam-share-copy-btn-w:  120px; /* paired: copy-share-code + .dpaam-share-copied */
+  --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
+  --dpaam-code-btn-w:        214px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
+  --dpaam-share-copy-btn-w:  120px; /* paired: copy-share-code + .dpaam-btn-done.dpaam-share-copied */
 
   font-family: var(--dpaam-sans);
   color: var(--dpaam-black);
@@ -329,6 +328,15 @@ a.dpaam-topbar-btn {
   display: flex;
   flex-direction: column;
   gap: var(--dpaam-pad-md);
+  background: var(--dpaam-white);
+  box-shadow: var(--dpaam-shadow-sm);
+}
+
+.dpaam-active-card .dpaam-thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .dpaam-active-card-title {
@@ -735,14 +743,28 @@ a.dpaam-topbar-btn {
   background: var(--dpaam-light-gray);
 }
 
+.dpaam-btn.dpaam-btn-done {
+  display: inline-flex;
+  align-items: center;
+  background: var(--dpaam-light-gray);
+  cursor: default;
+  text-align: center;
+  justify-content: center;
+  font-size: var(--dpaam-text-xs);
+  color: var(--dpaam-black-muted);
+  height: 38px;
+}
+
+.dpaam-btn.dpaam-btn-done:hover,
+.dpaam-btn.dpaam-btn-done:disabled {
+  filter: none;
+  opacity: 1;
+  color: var(--dpaam-black-muted);
+}
+
 .dpaam-btn[data-action="generate-code"],
 .dpaam-btn[data-action="cancel-code"] {
   width: var(--dpaam-code-btn-w);
-  text-align: center;
-}
-
-.dpaam-fav-code-actions .dpaam-btn-secondary {
-  width: var(--dpaam-answer-key-btn-w);
   text-align: center;
 }
 
@@ -778,45 +800,16 @@ a.dpaam-topbar-btn {
   background: none;
 }
 
-.dpaam-status-mark,
-.dpaam-saved-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--dpaam-pad-xs);
-  font-size: var(--dpaam-text-xs);
-  font-weight: 500;
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-status-mark {
-  width: var(--dpaam-add-btn-w);
-  text-align: center;
-  padding-left: -15px;
-  padding-top: 3px;
-}
-
-.dpaam-share-copied {
-  width: var(--dpaam-share-copy-btn-w);
-  text-align: center;
-  padding-left: 28px;
-}
-
 .dpaam-saved-mark {
   width: var(--dpaam-add-btn-w);
-  text-align: center;
-  padding-left: 17px;
 }
 
 .dpaam-code-generated-mark {
   width: var(--dpaam-code-btn-w);
-  justify-content: center;
 }
 
-button.dpaam-saved-mark {
-  border: none;
-  background: none;
-  cursor: default;
-  padding: 0 0 0 var(--dpaam-pad-lg);
+.dpaam-share-copied {
+  width: var(--dpaam-share-copy-btn-w);
 }
 
 /* ---------- Modal ---------- */
@@ -1003,6 +996,11 @@ button.dpaam-saved-mark {
   justify-content: flex-end;
   gap: var(--dpaam-pad);
   padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+}
+
+.dpaam-modal-footer #dpaam-modal-add.dpaam-btn-primary {
+  width: var(--dpaam-code-btn-w);
+  text-align: center;
 }
 
 .dpaam-modal-share-classroom {

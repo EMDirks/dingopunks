@@ -70,30 +70,31 @@ INITIAL PREP (MAY 01 - JUN 05)
 
 CRITICAL MIGRATIONS (JUN 05)
 
-- [ ] JUN 05 – TPT: Change TPT store name to Dingo Punks
-⭐ [ ] JUN 06 — Cloudflare: Confirm play.dingopunks.com CNAME is live and loading before touching any redirects
-⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: game.playpuzzlepunks.com → play.dingopunks.com
-⭐ [ ] JUN 06 — Cloudflare: Set 301 redirect: playpuzzlepunks.com → dingopunks.com (all sub-paths)
-⭐ [ ] JUN 06 — All: Verify no redirect chains exceed a single hop — direct 301s only, no loops
-- [ ] JUN 06 — Game: Replace 'puzzle-punks' with 'dingo-punks' in code
-- [ ] JUN 06 – Shopify: Change shopify URL to dingopunks.com
-- [ ] JUN 06 – Shopify: Set up all shopify URL redirects
-- [ ] JUN 06 — Cloudflare: Set up game/ redirects
-- [ ] JUN 06 — Shopify: Thoroughly test all URLs
-- [ ] JUN 06 — Cloudflare: Thoroughly test URLS
-- [ ] JUN 06 — PDFS: Thoroughly test PDF URLS (sample 10ish)
+- ✅ JUN 05 – TPT: Change TPT store name to Dingo Punks
+- ✅ ⭐ JUN 06 — Cloudflare: Confirm play.dingopunks.com CNAME is live and loading before touching any redirects
+– ✅ ⭐ JUN 06 — Cloudflare: Set 301 redirect: game.playpuzzlepunks.com → play.dingopunks.com
+– ✅ ⭐ JUN 06 — Cloudflare: Set 301 redirect: playpuzzlepunks.com → dingopunks.com (all sub-paths)
+– ✅ ⭐ JUN 06 — All: Verify no redirect chains exceed a single hop — direct 301s only, no loops
+- ✅ JUN 06 — Game: Replace 'puzzle-punks' with 'dingo-punks' in code
+- ✅ JUN 06 – Shopify: Change shopify URL to dingopunks.com
+- ✅ JUN 06 – Shopify: Set up all shopify URL redirects
+- ✅ JUN 06 — Cloudflare: Set up game/ redirects
+- ✅ JUN 06 — Shopify: Thoroughly test all URLs
+- ✅ JUN 06 — Cloudflare: Thoroughly test URLS
+- ✅ JUN 06 — PDFS: Thoroughly test PDF URLS (sample 10ish)
 
 HEADS UP (JUN 07)
 
 - [ ] JUN 07 — MAILERLITE: Heads up email goes out
+- [ ] JUN 07 — TPT: Heads up TPT note goes out
 
 TPT FLIP (JUN 07 - JUN 09)
 
-- [ ] JUN 07 — TPT: Heads up TPT note goes out
-- [ ] JUN 07 — TPT: Update TPT storefront banner with new branding "formerly Puzzle Punks"
-- [ ] JUN 07 – TPT: (A) 70 listings: update title, description, thumbnail, preview images, tags
-- [ ] JUN 07 – TPT: (A) 70 listings: replace all uploaded preview PDFs with rebranded versions
-- [ ] JUN 07 – TPT: (A) 70 listings: replace all access code tickets with rebranded versions
+- ✅ JUN 07 — TPT: Update TPT storefront banner with new branding "formerly Puzzle Punks"
+- ✅ JUN 07 – Re-enable Google Review widget + Judge.me widget
+- ✅ JUN 07 – TPT: (A) 70 listings: update title, description, thumbnail, preview images, tags
+- ✅ JUN 07 – TPT: (A) 70 listings: replace all uploaded preview PDFs with rebranded versions
+- ✅ JUN 07 – TPT: (A) 70 listings: replace all access code tickets with rebranded versions
 - [ ] JUN 08 – TPT: (B) 70 listings: update title, description, thumbnail, preview images, tags
 - [ ] JUN 08 – TPT: (B) 70 listings: replace all uploaded preview PDFs with rebranded versions
 - [ ] JUN 08 – TPT: (B) 70 listings: replace all access code tickets with rebranded versions
@@ -103,6 +104,7 @@ TPT FLIP (JUN 07 - JUN 09)
 SHOPIFY FLIP (JUN 10 - JUN 14)
 
 - [ ] JUN 09 — Shopify: Flip new shopify theme
+- [ ] JUN 09 — Shopify: Set up DMARC (https://help.shopify.com/en/manual/intro-to-shopify/initial-setup/setup-your-email#dmarc)
 - [ ] JUN 09 — Shopify: Display shopify rebranding banner
 - [ ] JUN 09 — Shopify: Publish FAQ blog post
 - [ ] JUN 09 — Shopify: Add OG image
@@ -144,6 +146,7 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - [ ] JUL 05 — **Google:** Update website URL on GBP
 - [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- [ ] JUL 18 – State: Set up DBA
 - [ ] JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 ⭐ [ ] JUN 28 — Google: Do not update GBP until Search Console confirms new domain is indexed and redirects are clean
 - [ ] JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
