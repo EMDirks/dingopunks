@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Eggworld Emergency",
         path: "eggworld-emergency",
-        logo: "resource/eggworld-emergency/assets/branding/reading/all/preview-5th-grade.png",
+        logo: "resource/eggworld-emergency/assets/branding/reading/all/thumbnail-5th-grade.png",
         timerLabel: "GIANT PAN ARRIVES"
     },
 

@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Rainbow Rescue",
         path: "rainbow-rescue",
-        logo: "resource/rainbow-rescue/assets/branding/reading/all/preview-5th-grade.png",
+        logo: "resource/rainbow-rescue/assets/branding/reading/all/thumbnail-5th-grade.png",
         timerLabel: "NOCTIS RETURNS"
     },
 
