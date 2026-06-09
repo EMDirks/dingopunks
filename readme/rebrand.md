@@ -122,20 +122,19 @@ SHOPIFY FLIP (JUN 10 - JUN 14)
 - ✅ JUN 13 — Shopify: Change "Puzzle Punks" in all reviews to "Dingo Punks"
 - ✅ JUN 12 – Shopify: QA on all 150 products
 - ✅ JUN 13 — Social: Update social profiles: rebrand YouTube account, rebrand Pinterest, rebrand TikTok
-- [ ] JUN 13 — **Google:** Submit Change of Address in Search Console (add new property, submit new sitemap)
-- [ ] JUN 13 - Mailerlite: Create soft launch email
-- [ ] JUN 13 - TPT: Create soft launch message
-- [ ] JUN 14 — All: Buffer / catch-up day
+- ✅ JUN 13 — **Google:** Submit Change of Address in Search Console (add new property, submit new sitemap)
+- ✅ JUN 13 - Mailerlite: Create soft launch email
+- ✅ JUN 13 - TPT: Create soft launch message
+- ✅ JUN 14 — All: Buffer / catch-up day
 
 SOFT LAUNCH (JUN 15)
 
-- [ ] JUN 15 — Mailerlite: Soft launch email goes out
-- [ ] JUN 15 — TPT: Soft launch TPT note goes out
-- [ ] JUN 15 – Shopify: replace rebranding banner with "formerly Puzzle Punks" banner
-- [ ] JUN 15 — **Google:** Activate Google Ads campaigns
+- ✅ JUN 15 – Shopify: replace rebranding banner with "formerly Puzzle Punks" banner
+- ✅ JUN 15 — **Google:** Activate Google Ads campaigns
 - ✅ JUN 15 – Misc: Update beanbeanbean, harperdirks, and tlr backlinks
-- [ ] JUN 15 — Update email campaign templates
-⭐ [ ] JUN 15 — Google: Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
+- ✅ JUN 15 — Update email campaign templates
+- [ ] JUN 15 — Mailerlite: Soft launch email goes out
+- [ ] JUN 15 — **Google:** Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
 
 CONTINUED WORK (JUN 16 - JUL 31)
 

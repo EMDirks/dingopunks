@@ -181,6 +181,19 @@ function libTagsHtml(game) {
     .join("")}</div>`;
 }
 
+function activeCardTagsRowHtml(game, expiresAt) {
+  const gradeTags =
+    game.grades && game.grades.length
+      ? game.grades
+          .map(
+            (g) =>
+              `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`,
+          )
+          .join("")
+      : "";
+  return `<div class="dpaam-tags dpaam-active-card-tags-row">${gradeTags}<span class="dpaam-active-card-timer">${escapeHtml(formatExpiresLabel(expiresAt))}</span></div>`;
+}
+
 // During a live drag-reorder, decide which sibling row the dragged element
 // should land *before*. Returns null to mean "append to the end". The
 // currently-dragged element is skipped so it can never displace itself.
@@ -322,17 +335,22 @@ function renderActiveCodes() {
     .map((entry) => {
       const game = gameById(entry.gameId);
       if (!game) return "";
+      const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
           ${thumbHtml(game)}
-          <h3 class="dpaam-active-card-title">${escapeHtml(game.title)}</h3>
-          <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
-          <div class="dpaam-active-card-timer">${escapeHtml(formatExpiresLabel(entry.expiresAt))}</div>
+          <div class="dpaam-lib-main">
+            <h3 class="dpaam-active-card-title">${escapeHtml(topic)}</h3>
+            ${activeCardTagsRowHtml(game, entry.expiresAt)}
+          </div>
           <div class="dpaam-active-card-actions">
             <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-code">Share</button>
-            <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="cancel-code">
-              Cancel Code
-            </button>
+            <button
+              type="button"
+              class="dpaam-fav-remove"
+              data-action="cancel-code"
+              aria-label="Cancel code"
+            >×</button>
           </div>
         </article>`;
     })
@@ -627,7 +645,7 @@ function shareModalHtml(game, code) {
   const dlHtml = `
       <dt><strong>Option 1</strong><br>Game Code + URL</dt>
       <dd>
-        Have your students enter the game code <strong>${escapeHtml(code)}</strong> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
+        Have your students enter the game code <strong class="dpaam-share-code">${escapeHtml(code)}</strong> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dt><strong>Option 2</strong><br>Google Classroom</dt>

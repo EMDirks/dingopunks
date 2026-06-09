@@ -357,15 +357,30 @@ a.dpaam-topbar-btn {
   text-align: center;
 }
 
-.dpaam-active-card-timer {
+.dpaam-active-card-tags-row {
+  margin-top: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding-bottom: var(--dpaam-pad-xs);
+}
+
+.dpaam-active-card-tags-row .dpaam-active-card-timer {
+  margin-left: auto;
+  flex-shrink: 0;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
-  text-align: center;
 }
 
 .dpaam-active-card-actions {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: var(--dpaam-pad-sm);
+  padding-top: 16px;
+  border-top: 1px solid var(--dpaam-border);
+}
+
+.dpaam-active-card-actions .dpaam-btn-primary {
+  flex: 1;
 }
 
 /* ---------- Section 2: My favorites ---------- */
@@ -1022,12 +1037,14 @@ a.dpaam-topbar-btn {
   margin-top: var(--dpaam-pad-md);
 }
 
-.dpaam-share-code {
+.dpaam-modal-dl dd strong.dpaam-share-code {
   display: inline-block;
+  vertical-align: middle;
   font-family: var(--dpaam-mono);
   font-size: var(--dpaam-text-display);
   font-weight: 600;
   letter-spacing: var(--dpaam-code-tracking);
+  line-height: 1;
   padding: var(--dpaam-pad-md) var(--dpaam-pad-lg);
   background: var(--dpaam-black);
   color: var(--dpaam-gold);
