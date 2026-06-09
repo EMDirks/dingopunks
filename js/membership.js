@@ -181,17 +181,12 @@ function libTagsHtml(game) {
     .join("")}</div>`;
 }
 
-function activeCardTagsRowHtml(game, expiresAt) {
-  const gradeTags =
-    game.grades && game.grades.length
-      ? game.grades
-          .map(
-            (g) =>
-              `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`,
-          )
-          .join("")
-      : "";
-  return `<div class="dpaam-tags dpaam-active-card-tags-row">${gradeTags}<span class="dpaam-active-card-timer">${escapeHtml(formatExpiresLabel(expiresAt))}</span></div>`;
+function activeCardTimerHtml(expiresAt) {
+  const expiresLabel = formatExpiresLabel(expiresAt);
+  if (expiresLabel === "Expired") {
+    return `<div class="dpaam-active-card-expiry"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+  }
+  return `<div class="dpaam-active-card-expiry">Expires in: <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
 // During a live drag-reorder, decide which sibling row the dragged element
@@ -329,28 +324,27 @@ function renderActiveCodes() {
     return;
   }
 
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active games`;
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
 
   els.activeList.innerHTML = state.activeCodes
     .map((entry) => {
       const game = gameById(entry.gameId);
       if (!game) return "";
-      const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
           ${thumbHtml(game)}
-          <div class="dpaam-lib-main">
-            <h3 class="dpaam-active-card-title">${escapeHtml(topic)}</h3>
-            ${activeCardTagsRowHtml(game, entry.expiresAt)}
-          </div>
-          <div class="dpaam-active-card-actions">
-            <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-code">Share</button>
-            <button
-              type="button"
-              class="dpaam-fav-remove"
-              data-action="cancel-code"
-              aria-label="Cancel code"
-            >×</button>
+          <div class="dpaam-active-card-footer">
+            ${activeCardTimerHtml(entry.expiresAt)}
+            <div class="dpaam-active-card-actions">
+              <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-code">Share</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-preview">Answers</button>
+              <button
+                type="button"
+                class="dpaam-fav-remove"
+                data-action="cancel-code"
+                aria-label="Cancel code"
+              >×</button>
+            </div>
           </div>
         </article>`;
     })
@@ -400,11 +394,8 @@ function renderFavorites() {
       // </div>`
 
       const codeOrGenerate = active
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark" disabled aria-label="Activated">✓ &nbsp;Activated</button>`
-        : `
-          <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
-            Activate
-          </button>`;
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">✓ &nbsp;Activated</button>`
+        : `<button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">Activate</button>`;
 
       const actionBlock = `
         <div class="dpaam-fav-code-actions">
@@ -464,7 +455,7 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark" disabled aria-label="Already in favorites">✓ &nbsp;Added</button>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">✓ &nbsp;Added</button>`
         : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
@@ -579,10 +570,10 @@ function refreshModalActionButton() {
 
   if (modalContext === "favorites") {
     if (activeCodeFor(modalGameId)) {
-      btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark";
-      btn.innerHTML = "✓ &nbsp;Activated";
-      btn.disabled = true;
-      btn.setAttribute("aria-label", "Activated");
+      btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert";
+      btn.textContent = "✓ \u00A0Activated";
+      btn.disabled = false;
+      btn.setAttribute("aria-label", "Cancel game code");
     } else {
       btn.className = "dpaam-btn dpaam-btn-primary";
       btn.textContent = "Activate";
@@ -593,10 +584,10 @@ function refreshModalActionButton() {
   }
 
   if (isFavorite(modalGameId)) {
-    btn.className = "dpaam-btn dpaam-btn-done dpaam-saved-mark";
-    btn.innerHTML = "✓ &nbsp;Added";
-    btn.disabled = true;
-    btn.setAttribute("aria-label", "Already in favorites");
+    btn.className = "dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert";
+    btn.textContent = "✓ \u00A0Added";
+    btn.disabled = false;
+    btn.setAttribute("aria-label", "Remove from favorites");
   } else {
     btn.className = "dpaam-btn dpaam-btn-add";
     btn.textContent = "+ Add";
@@ -642,38 +633,44 @@ function modalBodyHtml(game, dlInner) {
 }
 
 function shareModalHtml(game, code) {
+  const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(code);
+  const directLinkLabel = "play.dingopunks.com/?" + code;
   const dlHtml = `
-      <dt><strong>Option 1</strong><br>Game Code + URL</dt>
       <dd>
-        Have your students enter the game code <strong class="dpaam-share-code">${escapeHtml(code)}</strong> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
+        <strong>Option 1:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>
+        <div class="dpaam-share-copy-actions">
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy" data-action="copy-share-code">Copy Game Code</button>
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy Website</button>
+        </div>
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
-      <dt><strong>Option 2</strong><br>Google Classroom</dt>
-      <dd class="dpaam-modal-share-classroom">
-        <div id="classroom-share-btn"></div>
-        <span class="dpaam-classroom-share-label">← Click to share to your classroom.</span>
+      <dd>
+        <strong>Option 2:</strong>&nbsp; Have students visit the link <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>
+        <div class="dpaam-share-copy-actions">
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy Link</button>
+        </div>
+      </dd>
+      <div class="dpaam-modal-dl-divider" role="separator"></div>
+      <dd>
+        <strong>Option 3:</strong>&nbsp; Share to Google Classroom
+        <div class="dpaam-share-copy-actions">
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="share-google-classroom">Share to Google Classroom</button>
+        </div>
       </dd>`;
   return modalBodyHtml(game, dlHtml);
 }
 
-function resetShareCopyButtons() {
-  const body = els.shareModalBody;
-  if (!body) return;
-  restoreShareCopyButton(body, "dpaam-share-copy-link", "copy-share-link", "Copy Link");
-  restoreShareCopyButton(body, "dpaam-share-copy", "copy-share-code", "Copy Code");
-}
+let toastTimer = null;
 
-function restoreShareCopyButton(container, id, action, label) {
-  if (container.querySelector("#" + id)) return;
-  const mark = container.querySelector(`.dpaam-share-copied[data-for="${action}"]`);
-  if (!mark) return;
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "dpaam-btn dpaam-btn-primary";
-  btn.id = id;
-  btn.dataset.action = action;
-  btn.textContent = label;
-  mark.replaceWith(btn);
+function showToast(message) {
+  const toast = document.getElementById("dpaam-toast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add("dpaam-toast--visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("dpaam-toast--visible");
+  }, 2500);
 }
 
 function classroomShareTitle(game) {
@@ -690,23 +687,7 @@ function openShareModal(gameId) {
 
   shareGameId = gameId;
   shareCode = active.code;
-  resetShareCopyButtons();
   els.shareModalBody.innerHTML = shareModalHtml(game, active.code);
-
-  const classroomBtnEl = document.getElementById("classroom-share-btn");
-  if (classroomBtnEl) {
-    classroomBtnEl.innerHTML = "";
-    if (window.gapi?.sharetoclassroom) {
-      gapi.sharetoclassroom.render("classroom-share-btn", {
-        url: "https://game.dingopunks.com?code=" + active.code,
-        title: classroomShareTitle(game),
-        body: CLASSROOM_SHARE_BODY,
-        itemtype: "material",
-        size: 32,
-        theme: "classic",
-      });
-    }
-  }
 
   if (typeof els.shareModal.showModal === "function") {
     els.shareModal.showModal();
@@ -731,28 +712,24 @@ async function copyToClipboard(text) {
   }
 }
 
-function showShareCopied(btn) {
-  const mark = document.createElement("button");
-  mark.type = "button";
-  mark.className = "dpaam-btn dpaam-btn-done dpaam-share-copied";
-  mark.dataset.for = btn.dataset.action;
-  mark.disabled = true;
-  mark.setAttribute("aria-live", "polite");
-  mark.innerHTML = "✓ &nbsp;Copied";
-  btn.replaceWith(mark);
-}
-
-async function copyShareCode(btn) {
+async function copyShareCode() {
   if (!shareCode) return;
   await copyToClipboard(shareCode);
-  showShareCopied(btn);
+  showToast("✓ \u00A0 Game code copied");
 }
 
-async function copyShareLink(btn) {
+async function copyShareLink() {
   if (!shareCode) return;
-  const link = "https://play.dingopunks.com?code=" + encodeURIComponent(shareCode);
+  const link = "https://play.dingopunks.com";
   await copyToClipboard(link);
-  showShareCopied(btn);
+  showToast("✓ \u00A0 Website copied");
+}
+
+async function copyDirectLink() {
+  if (!shareCode) return;
+  const link = "https://play.dingopunks.com/?" + encodeURIComponent(shareCode);
+  await copyToClipboard(link);
+  showToast("✓ \u00A0 Link copied");
 }
 
 function shareToGoogleClassroom() {
@@ -808,6 +785,13 @@ function wireEvents() {
     switch (btn.dataset.action) {
       case "cancel-code": cancelCode(gameId); break;
       case "share-code": openShareModal(gameId); break;
+      case "open-preview":
+        window.open(
+          window.location.origin + "/preview.html?game=" + encodeURIComponent(gameId) + "&answers=1",
+          "_blank",
+          "noopener"
+        );
+        break;
     }
   });
 
@@ -819,7 +803,9 @@ function wireEvents() {
     if (!row) return;
     const gameId = row.dataset.gameId;
     switch (btn.dataset.action) {
-      case "generate-code": generateCode(gameId); break;
+      case "generate-code":
+        generateCode(gameId);
+        break;
       case "cancel-code": cancelCode(gameId); break;
       case "share-code": openShareModal(gameId); break;
       case "open-details": openModal(gameId, "favorites"); break;
@@ -899,10 +885,18 @@ function wireEvents() {
 
   // Library — row click opens modal; + Add button adds to favorites only.
   els.libraryList.addEventListener("click", (e) => {
-    const addBtn = e.target.closest("button[data-action='save-favorite']");
-    if (addBtn) {
-      const row = addBtn.closest(".dpaam-lib-row");
-      if (row) addFavorite(row.dataset.gameId);
+    const actionBtn = e.target.closest("button[data-action]");
+    if (actionBtn) {
+      const row = actionBtn.closest(".dpaam-lib-row");
+      if (!row) return;
+      const gameId = row.dataset.gameId;
+      switch (actionBtn.dataset.action) {
+        case "save-favorite":
+          addFavorite(gameId);
+          break;
+        case "remove-favorite": removeFavorite(gameId); break;
+        case "open-details": openModal(gameId); break;
+      }
       return;
     }
     const row = e.target.closest(".dpaam-lib-row");
@@ -912,7 +906,7 @@ function wireEvents() {
   // Keyboard support for library rows.
   els.libraryList.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
-    if (e.target.closest("button[data-action='save-favorite']")) return;
+    if (e.target.closest("button[data-action]")) return;
     const row = e.target.closest(".dpaam-lib-row");
     if (!row || e.target !== row) return;
     e.preventDefault();
@@ -929,16 +923,25 @@ function wireEvents() {
     );
   });
 
-  // Modal footer action — + Add from library, Activate from favorites
+  // Modal footer action — + Add / × Remove from library; Activate / × Cancel from favorites
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
+
     if (modalContext === "favorites") {
-      if (activeCodeFor(modalGameId)) return;
-      generateCode(modalGameId);
+      if (activeCodeFor(modalGameId)) {
+        cancelCode(modalGameId);
+      } else {
+        generateCode(modalGameId);
+      }
       refreshModalActionButton();
       return;
     }
-    addFavorite(modalGameId);
+
+    if (isFavorite(modalGameId)) {
+      removeFavorite(modalGameId);
+    } else {
+      addFavorite(modalGameId);
+    }
     refreshModalActionButton();
   });
 
@@ -955,7 +958,6 @@ function wireEvents() {
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
     shareCode = null;
-    resetShareCopyButtons();
   });
   els.shareModalClose.addEventListener("click", () => {
     closeAnimatedModal(els.shareModal);
@@ -965,8 +967,9 @@ function wireEvents() {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     switch (btn.dataset.action) {
-      case "copy-share-link": copyShareLink(btn); break;
-      case "copy-share-code": copyShareCode(btn); break;
+      case "copy-share-link": copyShareLink(); break;
+      case "copy-share-code": copyShareCode(); break;
+      case "copy-direct-link": copyDirectLink(); break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
     }
   });

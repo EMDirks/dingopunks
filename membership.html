@@ -84,7 +84,7 @@
       <!-- Section 1: Active Codes -->
       <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
         <div class="dpaam-section-header">
-          <h2 id="dpaam-active-heading" class="dpaam-section-title">Active Games</h2>
+          <h2 id="dpaam-active-heading" class="dpaam-section-title">Active</h2>
           <span class="dpaam-active-count" id="dpaam-active-count">0 / 20 active</span>
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
@@ -176,7 +176,7 @@
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
           <h3 class="dpaam-modal-title" id="dpaam-limit-modal-title">
-            Game Code Limit Reached
+            Active Escape Rooms Limit Reached
           </h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
             ×
@@ -184,16 +184,16 @@
         </header>
         <div class="dpaam-modal-body dpaam-modal-body--message">
           <p>
-            You've reached your limit of 20 active game codes. You must cancel an existing code to generate a new one.
+            You've reached your limit of 20 active escape rooms. You must cancel an existing code to generate a new one.
           </p>
         </div>
         <footer class="dpaam-modal-footer">
           <button
             type="button"
-            class="dpaam-btn dpaam-btn-primary"
+            class="dpaam-btn dpaam-btn-secondary"
             id="dpaam-limit-modal-dismiss"
           >
-            Got It
+            Close
           </button>
         </footer>
       </form>
@@ -203,21 +203,22 @@
     <dialog class="dpaam-modal" id="dpaam-share-modal" aria-labelledby="dpaam-share-modal-title">
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-share-modal-title">Share this Escape Room</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-share-modal-title">Sharing Options</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-share-modal-body"></div>
         <footer class="dpaam-modal-footer">
           <button
             type="button"
-            class="dpaam-btn dpaam-btn-primary"
+            class="dpaam-btn dpaam-btn-secondary"
             id="dpaam-share-modal-close"
           >
-            Got It
+            Close
           </button>
         </footer>
       </form>
     </dialog>
+    <div id="dpaam-toast" role="status" aria-live="polite"></div>
   </div>
 
   <script type="module" src="js/membership.js"></script>

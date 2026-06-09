@@ -19,11 +19,12 @@ const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
-const version = '3.4.28';
+const version = '3.4.29';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
 let theme = "summer";
+const isAnswersMode = new URLSearchParams(window.location.search).get('answers') === '1';
 
 /** Theme key → background + optional character img (root-relative paths) */
 const themeAssets = {
@@ -419,7 +420,7 @@ function transitionSplash(){
       splashContainer = createElement('div', ['splash-container', 'splash-container--off-right'], splashContainerWrapper);
     }
 
-    if (gameMode === "preview" && isPreviewPage){
+    if (gameMode === "preview" && isPreviewPage && !isAnswersMode){
       setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'introNoLimit');
     }
     else if (gameMode === "preview"){
@@ -896,8 +897,13 @@ function addTitle(){
     splashTitle.innerHTML = 'Right on! You\'re playing:';
     splashButton.textContent = 'Next';
     if (gameMode === 'preview'){
-      splashTitle.innerHTML = isPreviewPage ? 'You\'re previewing:' : 'Right on! Your game is:';
-      splashButton.innerHTML = isPreviewPage ? 'Start' : 'View Activities';
+      if (isAnswersMode) {
+        splashTitle.innerHTML = 'Your game is';
+        splashButton.innerHTML = 'View Answers';
+      } else {
+        splashTitle.innerHTML = isPreviewPage ? 'Your game is:' : 'Right on! Your game is:';
+        splashButton.innerHTML = isPreviewPage ? 'View Preview' : 'View Activities';
+      }
     }
     // add elements
     const splashLogo = createElement('img', ['splash-logo', 'splash-logo--hidden'], splashContent);
