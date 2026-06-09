@@ -85,8 +85,8 @@ CRITICAL MIGRATIONS (JUN 05)
 
 HEADS UP (JUN 07)
 
-- [ ] JUN 07 — MAILERLITE: Heads up email goes out
-- [ ] JUN 07 — TPT: Heads up TPT note goes out
+- ✅ JUN 07 — MAILERLITE: Heads up email goes out
+- ✅ JUN 07 — TPT: Heads up TPT note goes out
 
 TPT FLIP (JUN 07 - JUN 09)
 
@@ -95,35 +95,36 @@ TPT FLIP (JUN 07 - JUN 09)
 - ✅ JUN 07 – TPT: (A) 70 listings: update title, description, thumbnail, preview images, tags
 - ✅ JUN 07 – TPT: (A) 70 listings: replace all uploaded preview PDFs with rebranded versions
 - ✅ JUN 07 – TPT: (A) 70 listings: replace all access code tickets with rebranded versions
-- [ ] JUN 08 – TPT: (B) 70 listings: update title, description, thumbnail, preview images, tags
-- [ ] JUN 08 – TPT: (B) 70 listings: replace all uploaded preview PDFs with rebranded versions
-- [ ] JUN 08 – TPT: (B) 70 listings: replace all access code tickets with rebranded versions
-- [ ] JUN 09 — TPT: QA for TPT store
-- [ ] JUN 09 — TPT: QA for TPT listings
+- ✅ JUN 08 – TPT: (B) 70 listings: update title, description, thumbnail, preview images, tags
+- ✅ JUN 08 – TPT: (B) 70 listings: replace all uploaded preview PDFs with rebranded versions
+- ✅ JUN 08 – TPT: (B) 70 listings: replace all access code tickets with rebranded versions
+- ✅ JUN 09 - TPT: Update all "access PIN" text to "game code"
+- ✅ JUN 09 — TPT: QA for TPT store
+- ✅ JUN 09 — TPT: QA for TPT listings
 
 SHOPIFY FLIP (JUN 10 - JUN 14)
 
-- [ ] JUN 09 — Shopify: Flip new shopify theme
-- [ ] JUN 09 — Shopify: Set up DMARC (https://help.shopify.com/en/manual/intro-to-shopify/initial-setup/setup-your-email#dmarc)
-- [ ] JUN 09 — Shopify: Display shopify rebranding banner
-- [ ] JUN 09 — Shopify: Publish FAQ blog post
-- [ ] JUN 09 — Shopify: Add OG image
-- [ ] JUN 09 — Shopify: Update Menu
-- [ ] JUN 09 — Shopify: QA for shopify pages
-- [ ] JUN 09 — Shopify: Update transactional email templates
-- [ ] JUN 09 — Shopify: QA for transactional email templates
-- [ ] JUN 09 — Mailerlite: Update both bonus content kit flows
-- [ ] JUN 09 — Mailerlite: QA for both bonus content kit flows
-- [ ] JUN 10 — Shopify: Update email automation flows
-- [ ] JUN 10 — Shopify: Replace 30 relevant product images with rebranded versions
-- [ ] JUN 10 — Shopify: (A) 70 listings: update title, description, alt tags, tag taxonomy
-- [ ] JUN 10 — Shopify: (A) 70 listings: replace downloadable PDFs with rebranded versions
-- [ ] JUN 11 — Shopify: (B) 70 listings: update title, description, alt tags, tag taxonomy
-- [ ] JUN 11 — Shopify: (B) 70 listings: replace downloadable PDFs with rebranded versions
-- [ ] JUN 12 – Shopify: QA on all 150 products
+- ✅ JUN 09 — Shopify: Flip new shopify theme
+- ✅ JUN 09 — Shopify: Set up DMARC (https://help.shopify.com/en/manual/intro-to-shopify/initial-setup/setup-your-email#dmarc)
+- ✅ JUN 09 — Shopify: Display shopify rebranding banner
+- ✅ JUN 09 — Shopify: Publish FAQ blog post
+- ✅ JUN 09 — Shopify: Add OG image
+- ✅ JUN 09 — Shopify: Update Menu
+- ✅ JUN 09 — Shopify: QA for shopify pages
+- ✅ JUN 09 — Shopify: Update transactional email templates
+- ✅ JUN 09 — Shopify: QA for transactional email templates
+- ✅ JUN 09 — Mailerlite: Update both bonus content kit flows
+- ✅ JUN 09 — Mailerlite: QA for both bonus content kit flows
+- ✅ JUN 10 — Shopify: Update email automation flows
+- ✅ JUN 10 — Shopify: Replace 30 relevant product images with rebranded versions
+- ✅ JUN 10 — Shopify: 140 listings: update title, description, alt tags, tag taxonomy
+- ✅ JUN 11 — Shopify: 140 listings: replace downloadable PDFs with rebranded versions
+- ✅ JUN 13 — Shopify: Change "Puzzle Punks" in all reviews to "Dingo Punks"
+- ✅ JUN 12 – Shopify: QA on all 150 products
+- ✅ JUN 13 — Social: Update social profiles: rebrand YouTube account, rebrand Pinterest, rebrand TikTok
 - [ ] JUN 13 — **Google:** Submit Change of Address in Search Console (add new property, submit new sitemap)
-- [ ] JUN 13 — Shopify: Change "Puzzle Punks" in all reviews to "Dingo Punks"
-- [ ] JUN 13 — Social: Update social profiles: rebrand YouTube account, rebrand Pinterest, rebrand TikTok
+- [ ] JUN 13 - Mailerlite: Create soft launch email
+- [ ] JUN 13 - TPT: Create soft launch message
 - [ ] JUN 14 — All: Buffer / catch-up day
 
 SOFT LAUNCH (JUN 15)
@@ -132,7 +133,7 @@ SOFT LAUNCH (JUN 15)
 - [ ] JUN 15 — TPT: Soft launch TPT note goes out
 - [ ] JUN 15 – Shopify: replace rebranding banner with "formerly Puzzle Punks" banner
 - [ ] JUN 15 — **Google:** Activate Google Ads campaigns
-- [ ] JUN 15 – Misc: Update beanbeanbean, harperdirks, and tlr backlinks
+- ✅ JUN 15 – Misc: Update beanbeanbean, harperdirks, and tlr backlinks
 - [ ] JUN 15 — Update email campaign templates
 ⭐ [ ] JUN 15 — Google: Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
 
@@ -141,7 +142,11 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - [ ] JUN 16 — **Google:** Confirm website fully live with full NAP consistency across the web
 - [ ] JUN 16 — **Google:** Email anyone who has ever featured, linked to, or partnered with you
 - [ ] JUN 16 — **Google:** Update external mentions — review sites, blogs, Yelp, Foursquare, education directories
+- [ ] JUN 16 — TPT: Update featured reviews to remove Puzzle Punks mentions
 - [ ] JUN 28 — **Google:** Update GPB name to Dingo Punks
+- [ ] JUN 28 — **Google:** Update Merchant Center business URL to dingopunks.com
+- [ ] JUN 28 — **Google:** Re-verify and claim dingopunks.com in Merchant Center
+- [ ] JUN 28 — **Google:** Confirm product feed URLs are pulling from dingopunks.com (check if Shopify Google channel updated automatically first)
 - [ ] JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 05 — **Google:** Update website URL on GBP
 - [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
@@ -178,3 +183,6 @@ ONGOING (OCT 02 — Indefinite )
 - Keep playpuzzlepunks.com registered and redirecting — renew annually, forever
 - Continue monitoring Search Console for redirect and crawl issues
 - Return to Fresno Vortex with a clean slate, a protected brand, and this whole chapter behind you
+- Consider Shopify asset path updating
+- Continue updating Pinterest feed
+

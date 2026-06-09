@@ -118,7 +118,7 @@ body {
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
   --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
-  --dpaam-code-btn-w:        214px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
+  --dpaam-code-btn-w:        104px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
   --dpaam-share-copy-btn-w:  120px; /* paired: copy-share-code + .dpaam-btn-done.dpaam-share-copied */
 
   font-family: var(--dpaam-sans);
@@ -150,8 +150,9 @@ body {
 /* ---------- Quick Start Guide ---------- */
 
 .dpaam-guide {
-  background: var(--dpaam-light-gray);
+  background: var(--dpaam-white);
   border-radius: var(--dpaam-radius-lg);
+  border-bottom: 4px solid var(--dpaam-gold);
 }
 
 .dpaam-guide-inner {
@@ -207,10 +208,11 @@ body {
 
 .dpaam-guide-step-body strong {
   font-weight: 600;
-  background-color: var(--dpaam-gold-light);
+  background-color: var(--dpaam-gold);
   padding: 3px 6px 0px 6px;
   border-radius: var(--dpaam-radius-sm);
   margin: 0 1px;
+  color: var(--dpaam-black);
 }
 
 /* ---------- Top bar ---------- */

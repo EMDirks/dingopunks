@@ -19,7 +19,7 @@ const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
 const isPromoEnabled = true;
 const promoDataSet = 'promo-summer-2';
-const version = '3.4.26';
+const version = '3.4.27';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;

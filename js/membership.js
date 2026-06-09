@@ -12,7 +12,7 @@ import { thumbHtml } from "./thumbnails.js";
 const MAX_ACTIVE_CODES = 20;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
-const STATIC_TIMER_LABEL = "23h 47m";
+const CODE_TTL_MS = 168 * 60 * 60 * 1000; // 7 days
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 
@@ -20,7 +20,7 @@ const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 
 const state = {
   favorites: [],            // ordered array of game ids
-  activeCodes: [],          // [{ gameId, code, expiresLabel }]
+  activeCodes: [],          // [{ gameId, code, expiresAt }]
   filters: { season: "all", grade: "all", subject: "all" },
   favoritesOpen: true,
 };
@@ -70,6 +70,27 @@ function isFavorite(id) {
 
 function activeCodeFor(id) {
   return state.activeCodes.find((c) => c.gameId === id);
+}
+
+function formatExpiresLabel(expiresAt) {
+  const remaining = expiresAt - Date.now();
+  if (remaining <= 0) return "Expired";
+
+  const totalMinutes = Math.floor(remaining / 60000);
+  const days = Math.floor(totalMinutes / (24 * 60));
+  const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+  const minutes = totalMinutes % 60;
+
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  return `${minutes}m`;
+}
+
+function pruneExpiredCodes() {
+  const before = state.activeCodes.length;
+  const now = Date.now();
+  state.activeCodes = state.activeCodes.filter((c) => c.expiresAt > now);
+  return state.activeCodes.length !== before;
 }
 
 function generateCodeString() {
@@ -271,7 +292,7 @@ function generateCode(gameId) {
   state.activeCodes.push({
     gameId,
     code: generateCodeString(),
-    expiresLabel: STATIC_TIMER_LABEL,
+    expiresAt: Date.now() + CODE_TTL_MS,
   });
   renderActiveCodes();
   renderFavorites();
@@ -286,14 +307,16 @@ function cancelCode(gameId) {
 // ---------- renderers ----------
 
 function renderActiveCodes() {
+  const expiredRemoved = pruneExpiredCodes();
   els.activeSection.hidden = state.activeCodes.length === 0;
 
   if (state.activeCodes.length === 0) {
     els.activeList.innerHTML = "";
+    if (expiredRemoved) renderFavorites();
     return;
   }
 
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} game codes`;
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active games`;
 
   els.activeList.innerHTML = state.activeCodes
     .map((entry) => {
@@ -304,8 +327,9 @@ function renderActiveCodes() {
           ${thumbHtml(game)}
           <h3 class="dpaam-active-card-title">${escapeHtml(game.title)}</h3>
           <div class="dpaam-active-card-code">${escapeHtml(entry.code)}</div>
-          <div class="dpaam-active-card-timer">${escapeHtml(entry.expiresLabel)}</div>
+          <div class="dpaam-active-card-timer">${escapeHtml(formatExpiresLabel(entry.expiresAt))}</div>
           <div class="dpaam-active-card-actions">
+            <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-code">Share</button>
             <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="cancel-code">
               Cancel Code
             </button>
@@ -316,6 +340,7 @@ function renderActiveCodes() {
 }
 
 function renderFavorites() {
+  const expiredRemoved = pruneExpiredCodes();
   const hasFavorites = state.favorites.length > 0;
 
   els.favoritesSection.hidden = !hasFavorites;
@@ -357,10 +382,10 @@ function renderFavorites() {
       // </div>`
 
       const codeOrGenerate = active
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark" disabled aria-label="Code generated">✓ &nbsp;Game Code Generated</button>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark" disabled aria-label="Activated">✓ &nbsp;Activated</button>`
         : `
           <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">
-            Generate Game Code
+            Activate
           </button>`;
 
       const actionBlock = `
@@ -397,6 +422,8 @@ function renderFavorites() {
         </li>`;
     })
     .join("");
+
+  if (expiredRemoved) renderActiveCodes();
 }
 
 function renderLibrary() {
@@ -535,12 +562,12 @@ function refreshModalActionButton() {
   if (modalContext === "favorites") {
     if (activeCodeFor(modalGameId)) {
       btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark";
-      btn.innerHTML = "✓ &nbsp;Game Code Generated";
+      btn.innerHTML = "✓ &nbsp;Activated";
       btn.disabled = true;
-      btn.setAttribute("aria-label", "Code generated");
+      btn.setAttribute("aria-label", "Activated");
     } else {
       btn.className = "dpaam-btn dpaam-btn-primary";
-      btn.textContent = "Generate Game Code";
+      btn.textContent = "Activate";
       btn.disabled = false;
       btn.removeAttribute("aria-label");
     }
@@ -760,7 +787,10 @@ function wireEvents() {
     const card = btn.closest("[data-game-id]");
     if (!card) return;
     const gameId = card.dataset.gameId;
-    if (btn.dataset.action === "cancel-code") cancelCode(gameId);
+    switch (btn.dataset.action) {
+      case "cancel-code": cancelCode(gameId); break;
+      case "share-code": openShareModal(gameId); break;
+    }
   });
 
   // Favorites — delegated
@@ -881,7 +911,7 @@ function wireEvents() {
     );
   });
 
-  // Modal footer action — + Add from library, Generate Game Code from favorites
+  // Modal footer action — + Add from library, Activate from favorites
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
     if (modalContext === "favorites") {
@@ -968,6 +998,12 @@ function init() {
   renderActiveCodes();
   renderFavorites();
   renderLibrary();
+  setInterval(() => {
+    if (state.activeCodes.length === 0) return;
+    const expiredRemoved = pruneExpiredCodes();
+    renderActiveCodes();
+    if (expiredRemoved) renderFavorites();
+  }, 60_000);
 }
 
 init();
