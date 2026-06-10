@@ -23,6 +23,7 @@ const state = {
   activeCodes: [],          // [{ gameId, code, expiresAt }]
   filters: { season: "all", grade: "all", subject: "all" },
   favoritesOpen: true,
+  guideFaqOpen: false,
 };
 
 // ---------- DOM refs ----------
@@ -55,6 +56,8 @@ const els = {
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
+  guideFaqToggle: document.getElementById("dpaam-guide-faq-toggle"),
+  guideFaqList: document.getElementById("dpaam-guide-faq-list"),
   helpBtn: document.getElementById("dpaam-help-btn"),
 };
 
@@ -768,7 +771,19 @@ function wireAnimatedModal(modal, onClose) {
 
 // ---------- event wiring ----------
 
+function renderGuideFaq() {
+  if (!els.guideFaqToggle || !els.guideFaqList) return;
+  els.guideFaqToggle.setAttribute("aria-expanded", String(state.guideFaqOpen));
+  els.guideFaqList.hidden = !state.guideFaqOpen;
+}
+
 function wireEvents() {
+  // Guide FAQ toggle (open/close)
+  els.guideFaqToggle?.addEventListener("click", () => {
+    state.guideFaqOpen = !state.guideFaqOpen;
+    renderGuideFaq();
+  });
+
   // Favorites toggle (open/close)
   els.favoritesToggle.addEventListener("click", () => {
     state.favoritesOpen = !state.favoritesOpen;
@@ -1016,6 +1031,7 @@ function init() {
   initQuickStartGuide();
   populateFilters();
   wireEvents();
+  renderGuideFaq();
   renderActiveCodes();
   renderFavorites();
   renderLibrary();

@@ -181,6 +181,9 @@ body {
 
 .dpaam-guide-body {
   margin-top: var(--dpaam-pad-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-lg);
 }
 
 .dpaam-guide-steps {
@@ -215,6 +218,42 @@ body {
   color: var(--dpaam-black);
 }
 
+.dpaam-guide-faq {
+  margin-top: var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-md) var(--dpaam-pad);
+  background: var(--dpaam-light-gray);
+  border-radius: var(--dpaam-radius);
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-guide-faq-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dpaam-guide-faq-title {
+  font-size: var(--dpaam-text-md);
+  font-weight: 600;
+}
+
+.dpaam-guide-faq-toggle[aria-expanded="true"] .dpaam-toggle-chevron {
+  transform: rotate(90deg);
+}
+
+.dpaam-guide-faq-list {
+  line-height: 2;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-guide-faq-list[hidden] {
+  display: none;
+}
+
 /* ---------- Top bar ---------- */
 
 .dpaam-topbar {
@@ -245,7 +284,7 @@ body {
 
 .dpaam-logo {
   display: block;
-  height: 76px;
+  height: 64px;
   width: auto;
 }
 
@@ -1125,11 +1164,6 @@ dd a {
 
   .dpaam-guide-inner {
     padding: var(--dpaam-pad);
-  }
-
-  .dpaam-guide-steps {
-    flex-direction: column;
-    gap: var(--dpaam-pad);
   }
 
   .dpaam-active-list {
