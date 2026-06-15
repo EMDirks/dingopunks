@@ -133,15 +133,15 @@ SOFT LAUNCH (JUN 15)
 - ✅ JUN 15 — **Google:** Activate Google Ads campaigns
 - ✅ JUN 15 – Misc: Update beanbeanbean, harperdirks, and tlr backlinks
 - ✅ JUN 15 — Update email campaign templates
-- [ ] JUN 15 — Mailerlite: Soft launch email goes out
-- [ ] JUN 15 — **Google:** Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
+- ✅ JUN 15 — Mailerlite: Soft launch email goes out
+- ✅ JUN 15 — **Google:** Confirm Search Console is picking up dingopunks.com cleanly before touching GBP
 
 CONTINUED WORK (JUN 16 - JUL 31)
 
 - [ ] JUN 16 — **Google:** Confirm website fully live with full NAP consistency across the web
-- [ ] JUN 16 — **Google:** Email anyone who has ever featured, linked to, or partnered with you
-- [ ] JUN 16 — **Google:** Update external mentions — review sites, blogs, Yelp, Foursquare, education directories
-- [ ] JUN 16 — TPT: Update featured reviews to remove Puzzle Punks mentions
+- ✅ JUN 16 — **Google:** Email anyone who has ever featured, linked to, or partnered with you
+- ✅ JUN 16 — **Google:** Update external mentions — review sites, blogs, Yelp, Foursquare, education directories
+- ✅ JUN 16 — TPT: Update featured reviews to remove Puzzle Punks mentions
 - [ ] JUN 28 — **Google:** Update GPB name to Dingo Punks
 - [ ] JUN 28 — **Google:** Update Merchant Center business URL to dingopunks.com
 - [ ] JUN 28 — **Google:** Re-verify and claim dingopunks.com in Merchant Center

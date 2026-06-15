@@ -1,3 +1,7 @@
+const FEATURES = {
+  undermurk: true
+}
+
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
 const activitiesCompleted = document.querySelector(".debrief-stat-activitiesCompleted");
@@ -39,8 +43,45 @@ let retrievedDebriefStats = {};
 queryString.split('&').forEach(function (param) {
   let [key, value] = param.split('=');
   retrievedDebriefStats[decodeURIComponent(key)] = decodeURIComponent(value);
-  setTimeout(updateDebrief,10);
+  if (!FEATURES.undermurk) {
+    setTimeout(updateDebrief,10);
+  }
 });
+
+// Show the active container and hide the inactive one
+const debriefContainer = document.querySelector('.debrief-container');
+const dpaamDebriefContainer = document.querySelector('.dpaam-debrief-container');
+if (FEATURES.undermurk) {
+  // Keep debrief-container in the layout (hidden) so updateAbsoluteElements
+  // can still read its offsetWidth to size .image-outcome.
+  if (debriefContainer) {
+    debriefContainer.style.visibility = 'hidden';
+    debriefContainer.style.pointerEvents = 'none';
+  }
+} else {
+  if (dpaamDebriefContainer) dpaamDebriefContainer.style.display = 'none';
+}
+
+// Runs regardless of FEATURES.undermurk — sets and animates the victory/fail image
+function initOutcomeImage(){
+  if (retrievedDebriefStats.outcome === 'fail'){
+    imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/fail.png)";
+  } else if (retrievedDebriefStats.outcome === 'victory'){
+    imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/victory.png)";
+  }
+  setTimeout(function(){
+    updateElementHeight();
+    updateAbsoluteElements();
+    toggleClass(imageOutcome,"image-outcome--out","image-outcome--in");
+  }, 500);
+  setTimeout(function(){
+    toggleClass(pageWrapper,"page-wrapper--visible","page-wrapper--hidden");
+  }, 2300);
+}
+
+if (FEATURES.undermurk) {
+  initOutcomeImage();
+}
 
 function updateDebrief(){
 
@@ -80,12 +121,7 @@ function updateDebrief(){
     
     
 
-    if (retrievedDebriefStats.outcome === 'fail'){
-        imageOutcome.style.backgroundImage =  "url(assets/debrief/outcome/fail.png)";
-    }
-    else if (retrievedDebriefStats.outcome === 'victory'){
-        imageOutcome.style.backgroundImage =  "url(assets/debrief/outcome/victory.png)";
-    }
+    initOutcomeImage();
 
     function convertSecondsToMinutes(seconds) {
         var minutes = Math.floor(seconds / 60);
@@ -257,21 +293,7 @@ function updateDebrief(){
       toggleClass(buttonExit,"button__exit--hidden","button__exit--visible");
     }
 
-    // image and crack animation
-    setTimeout(bringInImage,500);
-    function bringInImage(){
-        updateElementHeight();
-        toggleClass(imageOutcome,"image-outcome--out","image-outcome--in");
-    }
-
-    // hide page wrapper
-    function bringInPageWrapper(){
-        toggleClass(pageWrapper,"page-wrapper--visible","page-wrapper--hidden");
-    }
-    
     let debriefDelay = 3200;
-    let bringInWrapperDelay = 2300;
-    setTimeout(bringInPageWrapper,bringInWrapperDelay);
     setTimeout(bringInStats,debriefDelay);
     setTimeout(bringInScoreMeter,statElements.length * 300 + 100 + debriefDelay);
     setTimeout(bringInExit, (statElements.length * 300) + 2500 + debriefDelay);
