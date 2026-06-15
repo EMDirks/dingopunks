@@ -1,8 +1,6 @@
 /* Parallel debrief layout for FEATURES.undermurk === true.
-   Splits the debrief area in half: score breakdown on the left
-   (.dpaam-debrief-stats), Into the Undermurk! minigame on the right
-   (.dpaam-debrief-minigame). Inner stat/score/medal elements reuse the
-   styling already defined in debrief.css. */
+   All inner debrief UI styles are scoped under .dpaam-debrief-container
+   so they never bleed into (or inherit sizing from) .debrief-container. */
 
 .dpaam-debrief-container {
     width: 75%;
@@ -23,18 +21,214 @@
     }
 }
 
-    .dpaam-debrief-stats {
-        width: 50%;
-        height: 100%;
-        box-sizing: border-box;
-        padding: 0 2%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+.dpaam-debrief-container > .dpaam-debrief-stats {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-    .dpaam-debrief-minigame {
-        width: 50%;
-        height: 100%;
-        box-sizing: border-box;
-    }
+.dpaam-debrief-container > .dpaam-debrief-minigame {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* ---- typography (scoped) ---- */
+
+.dpaam-debrief-container p {
+    font-family: 'Primer Print Bold', sans-serif;
+    color: rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .p-title {
+    margin: 0% auto 4% auto;
+    text-align: center;
+}
+
+.dpaam-debrief-container .icon-clickable--debrief {
+    color: rgba(var(--off-black), 1);
+    background-color: rgba(var(--gold), 1);
+    display: inline-block;
+    padding: 0% 1.3%;
+    border-radius: 100vmin;
+    transform: scale(0.4) translate(-60%, -35%);
+    box-sizing: border-box;
+}
+
+.dpaam-debrief-container .icon-clickable--debrief:hover {
+    background-color: rgba(var(--gold-light), 1);
+}
+
+.dpaam-debrief-container .style-border--debrief {
+    border-style: solid;
+    border-color: rgba(var(--off-black), 1);
+}
+
+/* ---- stat cards ---- */
+
+.dpaam-debrief-container .stat-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 2.5% auto;
+}
+
+.dpaam-debrief-container .stat {
+    margin: 0.5%;
+    background-color: rgba(var(--off-white));
+    padding: 0 0 1.5% 0;
+    border-radius: 1vmin;
+    width: 13%;
+    transition: transform 0.3s, opacity 0.3s;
+    border: 0.3vmin solid rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .stat--hidden {
+    opacity: 0;
+    transform: translate(0%, -50%);
+}
+
+.dpaam-debrief-container .stat--visible {
+    opacity: 1;
+    transform: translate(0%, 0%);
+}
+
+.dpaam-debrief-container .stat-score {
+    background-color: rgba(var(--gold), 1);
+}
+
+.dpaam-debrief-container .p-debrief-title {
+    text-align: center;
+    line-height: 95%;
+    width: 100%;
+    margin: 0 auto 10% auto;
+    padding: 5% 0;
+    color: rgba(var(--gold), 1);
+    background-color: rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .p-debrief-subtitle {
+    text-align: center;
+    line-height: 95%;
+    width: 80%;
+    margin: 5% auto;
+    color: rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .p-debrief-stat {
+    font-size: 5%;
+    text-align: center;
+    color: rgba(var(--off-black), 1);
+}
+
+/* ---- score meter ---- */
+
+.dpaam-debrief-container .score-container {
+    width: 90%;
+    height: 2%;
+    background-color: rgba(var(--off-black));
+    border-radius: 2vmin;
+    position: relative;
+    box-sizing: border-box;
+    margin: 3.5% auto 4% auto;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+    border: 0.35vmin solid rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .score-container--hidden {
+    opacity: 0;
+    transform: translate(0%, -200%);
+}
+
+.dpaam-debrief-container .score-container--visible {
+    opacity: 1;
+    transform: translate(0%, 0%);
+}
+
+.dpaam-debrief-container .score-meter {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(var(--gold), 1);
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 1s linear;
+}
+
+/* ---- medals ---- */
+
+.dpaam-debrief-container .medal-container {
+    width: 100%;
+    height: 45%;
+    display: flex;
+    justify-content: space-between;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.dpaam-debrief-container .medal-container--hidden {
+    opacity: 0;
+    transform: translate(0%, -20%);
+}
+
+.dpaam-debrief-container .medal-container--visible {
+    opacity: 1;
+    transform: translate(0%, 0%);
+}
+
+.dpaam-debrief-container .div-medal-container {
+    width: 14%;
+    height: 100%;
+    margin: 0 1%;
+    padding: 0.5% 1.5%;
+    transition: transform 0.2s;
+}
+
+.dpaam-debrief-container .div-medal-container--emphasis {
+    transform: scale(1.19);
+}
+
+.dpaam-debrief-container .div-medal-container--hidden {
+    transform: scale(1);
+}
+
+.dpaam-debrief-container .div-medal-container--visible {
+    transform: scale(1);
+}
+
+.dpaam-debrief-container .debrief-stat-rank {
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.dpaam-debrief-container .debrief-stat-rank--light-brown {
+    color: rgba(var(--brown-light), 1);
+}
+
+.dpaam-debrief-container .debrief-stat-rank--black {
+    color: rgba(var(--off-black), 1);
+}
+
+.dpaam-debrief-container .debrief-stat-rank--emphasis {
+    color: rgba(var(--off-white), 1);
+}
+
+.dpaam-debrief-container .img-medal {
+    width: 100%;
+    height: 100%;
+}
+
+.dpaam-debrief-container .img-medal--hidden {
+    opacity: 0.3;
+}
+
+.dpaam-debrief-container .img-medal--visible {
+    opacity: 1;
+}
