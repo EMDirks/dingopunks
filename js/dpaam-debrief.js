@@ -111,7 +111,7 @@
   const hintsUsed = q('.dpaam-debrief-stat-hintsUsed');
   const activitiesCompleted = q('.dpaam-debrief-stat-activitiesCompleted');
   const timeRemaining = q('.dpaam-debrief-stat-timeRemaining');
-  const finalScore = q('.dpaam-debrief-stat-finalScore');
+  const finalScoreValue = q('.stat-score .p-debrief-stat');
 
   const teamSizeModifier = q('.dpaam-debrief-stat-teamSize-modifier');
   const hintsUsedModifier = q('.dpaam-debrief-stat-hintsUsed-modifier');
@@ -131,7 +131,12 @@
   const capsuleElements = regularStats.map((statEl) => statEl.querySelector('.stat-tier-capsule'));
   const revealStep = 500;
   const cardToCapsuleDelay = 500;
-  const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep);
+  const finalScoreDelay = 500;
+  const finalScoreCountDelay = 1000;
+  const finalScoreCountDuration = 3500;
+  const scoreMeterAfterCountDelay = 1000;
+  const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep) + finalScoreDelay;
+  const scoreMeterRevealDuration = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration + scoreMeterAfterCountDelay;
 
   const buttonExit = document.querySelector('.button__exit');
 
@@ -175,15 +180,16 @@
 
   const score = Math.round(teamModifier + activityModifier + hintModifier + timeModifier);
 
-  function statTier(value) {
-    if (value < 100) return { class: 'stat-tier--oof', label: 'Oof' };
-    if (value < 150) return { class: 'stat-tier--mid', label: 'Mid' };
-    if (value < 200) return { class: 'stat-tier--good', label: 'Good' };
-    if (value < 250) return { class: 'stat-tier--great', label: 'Great' };
+  function statTier(value, max = 250) {
+    const scale = max / 250;
+    if (value < 100 * scale) return { class: 'stat-tier--oof', label: 'Oof' };
+    if (value < 150 * scale) return { class: 'stat-tier--mid', label: 'Mid' };
+    if (value < 200 * scale) return { class: 'stat-tier--good', label: 'Good' };
+    if (value < 250 * scale) return { class: 'stat-tier--great', label: 'Great' };
     return { class: 'stat-tier--perfect', label: 'Perfect' };
   }
 
-  function applyStatTier(statEl, value) {
+  function prepareStatTier(statEl, value) {
     const tier = statTier(value);
     const capsule = statEl.querySelector('.stat-tier-capsule');
 
@@ -191,18 +197,45 @@
       capsule.classList.add(tier.class);
       capsule.textContent = tier.label;
     }
+
+    return tier;
   }
 
-  applyStatTier(statTeam, teamModifier);
-  applyStatTier(statActivities, activityModifier);
-  applyStatTier(statHints, hintModifier);
-  applyStatTier(statTime, timeModifier);
+  const statTiers = [
+    prepareStatTier(statTeam, teamModifier),
+    prepareStatTier(statActivities, activityModifier),
+    prepareStatTier(statHints, hintModifier),
+    prepareStatTier(statTime, timeModifier),
+  ];
+  const finalScoreTier = statTier(score, 1000);
 
   teamSize.innerHTML = '+' + teamModifier;
   activitiesCompleted.innerHTML = '+' + activityModifier;
   hintsUsed.innerHTML = '+' + hintModifier;
   timeRemaining.innerHTML = '+' + timeModifier;
-  finalScore.innerHTML = '= ' + score;
+  finalScoreValue.innerHTML = '= 0';
+
+  function animateFinalScore(element, target, duration, onComplete) {
+    const startTime = performance.now();
+
+    function easeOutExpo(progress) {
+      return progress === 1 ? 1 : 1 - Math.pow(2, -12 * progress);
+    }
+
+    function frame(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const value = Math.round(easeOutExpo(progress) * target);
+      element.textContent = '= ' + value;
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else if (onComplete) {
+        onComplete();
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
 
   // ---- reveal sequence (scoped to the dpaam stats column) ----
   function bringInStats() {
@@ -211,17 +244,28 @@
     for (let i = 0; i < regularStats.length; i++) {
       setTimeout(toggleClass, delay, regularStats[i], 'stat--hidden', 'stat--visible');
       delay += cardToCapsuleDelay;
-      setTimeout(
-        toggleClass,
-        delay,
-        capsuleElements[i],
-        'stat-tier-capsule--hidden',
-        'stat-tier-capsule--visible'
-      );
+      const capsuleDelay = delay;
+      const statEl = regularStats[i];
+      const tier = statTiers[i];
+      setTimeout(() => {
+        toggleClass(capsuleElements[i], 'stat-tier-capsule--hidden', 'stat-tier-capsule--visible');
+        statEl.classList.add(tier.class);
+      }, capsuleDelay);
       delay += revealStep;
     }
 
-    setTimeout(toggleClass, delay, statScore, 'stat--hidden', 'stat--visible');
+    const finalScoreRevealDelay = delay + finalScoreDelay;
+
+    setTimeout(() => {
+      toggleClass(statScore, 'stat--hidden', 'stat--visible');
+    }, finalScoreRevealDelay);
+
+    setTimeout(() => {
+      animateFinalScore(finalScoreValue, score, finalScoreCountDuration, () => {
+        statScore.classList.add(finalScoreTier.class);
+        statScore.classList.add('stat-score--settled');
+      });
+    }, finalScoreRevealDelay + finalScoreCountDelay);
   }
 
   function bringInScoreMeter() {
@@ -291,8 +335,8 @@
 
   const debriefDelay = 3200;
   setTimeout(bringInStats, debriefDelay);
-  setTimeout(bringInScoreMeter, statsRevealDuration + 100 + debriefDelay);
-  setTimeout(bringInExit, statsRevealDuration + 2500 + debriefDelay);
+  setTimeout(bringInScoreMeter, scoreMeterRevealDuration + debriefDelay);
+  setTimeout(bringInExit, scoreMeterRevealDuration + 2500 + debriefDelay);
 
   // ---- help modal (reuses the shared modal + copy from debrief.js) ----
   const icon = q('#dpaam-icon-clickable--debrief');
