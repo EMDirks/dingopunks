@@ -25,6 +25,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    flex-shrink: 0;
+    margin-left: 0;
+    transition: margin-left 0.7s ease-out;
+}
+
+.dpaam-debrief-container--stats-centered > .dpaam-debrief-stats {
+    margin-left: 25%;
 }
 
 .dpaam-debrief-container > .dpaam-debrief-minigame {
@@ -33,6 +40,15 @@
     box-sizing: border-box;
     background-color: rgba(var(--black), 1);
     border-radius: 2vmin;
+    flex-shrink: 0;
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+}
+
+.dpaam-debrief-container > .dpaam-debrief-minigame.dpaam-debrief-minigame--enter {
+    opacity: 0;
+    transform: translateX(12%);
 }
 
 /* ---- typography (scoped) ---- */
@@ -81,7 +97,7 @@
 }
 
 .dpaam-debrief-container .stat {
-    margin: 1.5%;
+    margin: 2%;
     background-color: rgba(var(--off));
     border-radius: 1vmin;
     transition: transform 0.3s, opacity 0.3s;
@@ -93,8 +109,8 @@
 }
 
 .dpaam-debrief-container .stat:not(.stat-score) {
-    flex: 0 0 47%;
-    width: 47%;
+    flex: 0 0 46%;
+    width: 46%;
     position: relative;
 }
 
@@ -188,6 +204,10 @@
     position: relative;
     z-index: 2;
     transition: transform 0.3s ease-out;
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal--pending {
+    opacity: 0;
 }
 
 .dpaam-debrief-container .stat-score .dpaam-debrief-final-medal--emphasis {

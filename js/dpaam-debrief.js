@@ -19,6 +19,17 @@
     return;
   }
 
+  const dpaamContainer = document.querySelector('.dpaam-debrief-container');
+  const minigameEl = document.querySelector('.dpaam-debrief-minigame');
+
+  if (minigameEl && minigameEl.parentNode) {
+    minigameEl.remove();
+  }
+
+  if (dpaamContainer) {
+    dpaamContainer.classList.add('dpaam-debrief-container--stats-centered');
+  }
+
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
     <p class="p-title">&nbsp &nbsp Your Stats<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
@@ -80,7 +91,7 @@
             </div>
             <div class="stat-detail-medal">
               <div class="dpaam-debrief-final-medal-stage">
-                <img class="dpaam-debrief-final-medal" src="assets/debrief/medal/medal-1.png" alt="">
+                <img class="dpaam-debrief-final-medal dpaam-debrief-final-medal--pending" alt="">
               </div>
             </div>
           </div>
@@ -122,6 +133,7 @@
   const finalScoreCountDelay = 1000;
   const finalScoreCountDuration = 10500;
   const finalScoreRevealAfterTickDelay = 500;
+  const minigameDelayAfterStats = 2000;
   const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep) + finalScoreDelay;
   const finalSequenceEnd = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration + finalScoreRevealAfterTickDelay;
 
@@ -244,7 +256,7 @@
   }
 
   const earnedMedalCount = medalCountForScore(score);
-  let displayedMedalIndex = 1;
+  let displayedMedalIndex = 0;
 
   function spawnFallingMedal(src) {
     const fallout = document.createElement('img');
@@ -273,11 +285,13 @@
     const oldSrc = finalMedalImg.src;
     displayedMedalIndex = index;
     finalMedalImg.src = 'assets/debrief/medal/medal-' + index + '.png';
+    finalMedalImg.classList.remove('dpaam-debrief-final-medal--pending');
 
     if (previousIndex > 0) {
       spawnFallingMedal(oldSrc);
-      playMedalFlyIn();
     }
+
+    playMedalFlyIn();
   }
 
   function updateFinalMedalForValue(value) {
@@ -341,8 +355,6 @@
     setTimeout(() => {
       toggleClass(statScore, 'stat--hidden', 'stat--visible');
       finalScoreValue.classList.add('dpaam-debrief-finalScore--tick');
-      displayedMedalIndex = 0;
-      setFinalMedal(1);
     }, finalScoreRevealDelay);
 
     setTimeout(() => {
@@ -352,6 +364,7 @@
           setFinalMedal(earnedMedalCount);
           toggleClass(finalScoreRankGroup, 'dpaam-debrief-final-rank-group--hidden', 'dpaam-debrief-final-rank-group--visible');
           finalMedalImg.classList.add('dpaam-debrief-final-medal--emphasis');
+          finishStatsDisplay();
         }, finalScoreRevealAfterTickDelay);
       });
     }, finalScoreRevealDelay + finalScoreCountDelay);
@@ -359,6 +372,27 @@
 
   function bringInExit() {
     toggleClass(buttonExit, 'button__exit--hidden', 'button__exit--visible');
+  }
+
+  function revealMinigame() {
+    if (!dpaamContainer || !minigameEl || minigameEl.parentNode) {
+      return;
+    }
+
+    minigameEl.classList.add('dpaam-debrief-minigame--enter');
+    dpaamContainer.appendChild(minigameEl);
+    dpaamContainer.classList.remove('dpaam-debrief-container--stats-centered');
+
+    requestAnimationFrame(() => {
+      minigameEl.classList.remove('dpaam-debrief-minigame--enter');
+    });
+
+    if (typeof updateElementHeight === 'function') updateElementHeight();
+    if (typeof updateAbsoluteElements === 'function') updateAbsoluteElements();
+  }
+
+  function finishStatsDisplay() {
+    setTimeout(revealMinigame, minigameDelayAfterStats);
   }
 
   const debriefDelay = 3200;
