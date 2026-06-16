@@ -14,7 +14,6 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    border: 1px solid tan;
     container-type: inline-size;
 }
 
@@ -22,7 +21,7 @@
     width: 50%;
     height: 100%;
     box-sizing: border-box;
-    padding: 3%;
+    padding: 0% 3%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,11 +113,18 @@
 }
 
 .dpaam-debrief-container .stat-score .p-debrief-title {
-    font-size: 3cqi;
+    font-size: 2cqi;
+    padding: 2.5% 0;
+}
+
+.dpaam-debrief-container .stat-score .stat-body {
+    padding: 3% 0 1.7% 0;
 }
 
 .dpaam-debrief-container .stat-score .stat-body .stat-detail .p-debrief-subtitle {
     font-size: 2cqi;
+    margin-top: -1%;
+    margin-left: -1%;
 }
 
 .dpaam-debrief-container .stat-score .stat-body .stat-detail .p-debrief-stat {
@@ -164,12 +170,12 @@
 .dpaam-debrief-container .stat-tier-capsule {
     display: block;
     width: fit-content;
-    min-width: 33%;
+    min-width: 30%;
     padding: 2% 0%;
     border-radius: 100vmin;
     text-align: center;
     line-height: 1;
-    font-size: 1.7cqi;
+    font-size: 1.5cqi;
     transform: rotate(-8deg);
     position: absolute;
     bottom: -3%;
@@ -187,23 +193,28 @@
     transform: rotate(-8deg) scale(1);
 }
 
-.dpaam-debrief-container .stat-tier-capsule--salmon {
+.dpaam-debrief-container .stat-tier-capsule.stat-tier--oof {
     background-color: var(--dpaam-salmon);
     color: var(--dpaam-black);
 }
 
-.dpaam-debrief-container .stat-tier-capsule--gold {
+.dpaam-debrief-container .stat-tier-capsule.stat-tier--mid {
     background-color: var(--dpaam-gold);
     color: var(--dpaam-black);
 }
 
-.dpaam-debrief-container .stat-tier-capsule--teal {
+.dpaam-debrief-container .stat-tier-capsule.stat-tier--good {
     background-color: var(--dpaam-green);
     color: var(--dpaam-black);
 }
 
-.dpaam-debrief-container .stat-tier-capsule--blue {
+.dpaam-debrief-container .stat-tier-capsule.stat-tier--great {
     background-color: var(--dpaam-blue);
+    color: var(--dpaam-black);
+}
+
+.dpaam-debrief-container .stat-tier-capsule.stat-tier--perfect {
+    background-color: var(--dpaam-purple);
     color: var(--dpaam-black);
 }
 
@@ -251,7 +262,7 @@
 .dpaam-debrief-container .score-meter {
     height: 100%;
     width: 100%;
-    background-color: rgba(var(--gold), 1);
+    background-color: var(--dpaam-gold);
     position: absolute;
     box-sizing: border-box;
     top: 0;

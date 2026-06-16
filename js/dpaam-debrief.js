@@ -129,8 +129,8 @@
   const statScore = q('.stat-score');
   const regularStats = [statTeam, statActivities, statHints, statTime];
   const capsuleElements = regularStats.map((statEl) => statEl.querySelector('.stat-tier-capsule'));
-  const revealStep = 300;
-  const cardToCapsuleDelay = 400;
+  const revealStep = 500;
+  const cardToCapsuleDelay = 500;
   const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep);
 
   const buttonExit = document.querySelector('.button__exit');
@@ -175,25 +175,28 @@
 
   const score = Math.round(teamModifier + activityModifier + hintModifier + timeModifier);
 
-  function statCapsuleTier(value) {
-    if (value < 100) return { class: 'stat-tier-capsule--salmon', label: 'Oof' };
-    if (value < 200) return { class: 'stat-tier-capsule--gold', label: 'Meh' };
-    if (value < 250) return { class: 'stat-tier-capsule--teal', label: 'Good' };
-    return { class: 'stat-tier-capsule--blue', label: 'Perfect' };
+  function statTier(value) {
+    if (value < 100) return { class: 'stat-tier--oof', label: 'Oof' };
+    if (value < 150) return { class: 'stat-tier--mid', label: 'Mid' };
+    if (value < 200) return { class: 'stat-tier--good', label: 'Good' };
+    if (value < 250) return { class: 'stat-tier--great', label: 'Great' };
+    return { class: 'stat-tier--perfect', label: 'Perfect' };
   }
 
-  function applyStatCapsuleTier(statEl, value) {
+  function applyStatTier(statEl, value) {
+    const tier = statTier(value);
     const capsule = statEl.querySelector('.stat-tier-capsule');
-    if (!capsule) return;
-    const tier = statCapsuleTier(value);
-    capsule.classList.add(tier.class);
-    capsule.textContent = tier.label;
+
+    if (capsule) {
+      capsule.classList.add(tier.class);
+      capsule.textContent = tier.label;
+    }
   }
 
-  applyStatCapsuleTier(statTeam, teamModifier);
-  applyStatCapsuleTier(statActivities, activityModifier);
-  applyStatCapsuleTier(statHints, hintModifier);
-  applyStatCapsuleTier(statTime, timeModifier);
+  applyStatTier(statTeam, teamModifier);
+  applyStatTier(statActivities, activityModifier);
+  applyStatTier(statHints, hintModifier);
+  applyStatTier(statTime, timeModifier);
 
   teamSize.innerHTML = '+' + teamModifier;
   activitiesCompleted.innerHTML = '+' + activityModifier;
