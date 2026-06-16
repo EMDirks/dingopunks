@@ -245,10 +245,12 @@
 
     setTimeout(() => {
       toggleClass(statScore, 'stat--hidden', 'stat--visible');
+      finalScoreValue.classList.add('dpaam-debrief-finalScore--tick');
     }, finalScoreRevealDelay);
 
     setTimeout(() => {
       animateFinalScore(finalScoreValue, score, finalScoreCountDuration, () => {
+        finalScoreValue.classList.remove('dpaam-debrief-finalScore--tick');
         toggleClass(finalScoreCapsule, 'stat-tier-capsule--hidden', 'stat-tier-capsule--visible');
       });
     }, finalScoreRevealDelay + finalScoreCountDelay);

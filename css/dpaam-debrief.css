@@ -149,11 +149,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    gap: 0.5cqi;
     text-align: center;
-    padding-bottom: 5%;
+    padding-bottom: 8%;
     box-sizing: border-box;
-    border: 0.2cqi solid rgba(var(--off-black), 1);
     border-radius: 0.5vmin;
 }
 
@@ -170,6 +168,16 @@
 
 .dpaam-debrief-container .stat-score .stat-detail-score .p-debrief-stat {
     font-size: 6cqi;
+}
+
+.dpaam-debrief-container .stat-score .stat-detail-score .dpaam-debrief-stat-finalScore {
+    transition: transform 0.2s ease-out;
+    transform: translateY(0);
+}
+
+.dpaam-debrief-container .stat-score .stat-detail-score .dpaam-debrief-stat-finalScore.dpaam-debrief-finalScore--tick {
+    transition: none;
+    transform: translateY(2.5cqi);
 }
 
 .dpaam-debrief-container .stat-body {
