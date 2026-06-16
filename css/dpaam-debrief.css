@@ -112,14 +112,19 @@
     flex-basis: 100%;
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .dpaam-debrief-container .stat-score .p-debrief-title {
+    position: relative;
+    z-index: 10;
     font-size: 2cqi;
     padding: 2.5% 0;
 }
 
 .dpaam-debrief-container .stat-score .stat-body {
+    position: relative;
+    z-index: 1;
     flex-direction: column;
     align-items: center;
     padding: 5% 5% 3.2% 5%;
@@ -150,9 +155,10 @@
     justify-content: center;
     position: relative;
     text-align: center;
-    padding-bottom: 8%;
+    padding-bottom: 3%;
     box-sizing: border-box;
     border-radius: 0.5vmin;
+    gap: 0.5cqi;
 }
 
 .dpaam-debrief-container .stat-score .stat-detail-score > * {
@@ -164,6 +170,69 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible;
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal {
+    width: auto;
+    height: 25cqi;
+    max-width: 90%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease-out;
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal--emphasis {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal-fallout {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: auto;
+    height: 25cqi;
+    max-width: 90%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
+    animation: dpaam-debrief-medal-fallout 0.65s cubic-bezier(0.45, 0, 0.75, 1) forwards;
+}
+
+.dpaam-debrief-container .stat-score .dpaam-debrief-final-medal--fly-in {
+    animation: dpaam-debrief-medal-flyin 0.2s cubic-bezier(0.45, 0, 0.75, 1) forwards;
+}
+
+@keyframes dpaam-debrief-medal-fallout {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(14cqi) rotate(22deg);
+        opacity: 0;
+    }
+}
+
+@keyframes dpaam-debrief-medal-flyin {
+    from {
+        transform: translateY(-14cqi) rotate(-18deg) scale(4);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
 }
 
 .dpaam-debrief-container .stat-score .stat-detail-score .p-debrief-stat {
@@ -177,7 +246,7 @@
 
 .dpaam-debrief-container .stat-score .stat-detail-score .dpaam-debrief-stat-finalScore.dpaam-debrief-finalScore--tick {
     transition: none;
-    transform: translateY(2.5cqi);
+    transform: translateY(4.5cqi);
 }
 
 .dpaam-debrief-container .stat-body {
@@ -244,23 +313,53 @@
 
 /* ---- final score rank capsule (styled separately from stat capsules) ---- */
 
-.dpaam-debrief-container .stat-tier-capsule--final {
-    position: relative;
-    bottom: auto;
-    right: auto;
-    font-size: 2cqi;
-    padding: 4% 12%;
-    transform: none;
+.dpaam-debrief-container .dpaam-debrief-final-rank-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4cqi;
+    transition: transform 0.2s, opacity 0.3s;
 }
 
-.dpaam-debrief-container .stat-tier-capsule--final.stat-tier-capsule--hidden {
+.dpaam-debrief-container .dpaam-debrief-final-rank-group--hidden {
     opacity: 0;
     transform: scale(2);
 }
 
-.dpaam-debrief-container .stat-tier-capsule--final.stat-tier-capsule--visible {
+.dpaam-debrief-container .dpaam-debrief-final-rank-group--hidden .stat-tier-capsule--final {
+    transform: none;
+}
+
+.dpaam-debrief-container .dpaam-debrief-final-rank-group--visible {
     opacity: 1;
     transform: scale(1);
+}
+
+.dpaam-debrief-container .dpaam-debrief-next-rank-label {
+    margin: 0;
+    font-size: 1.5cqi;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--dpaam-black);
+}
+
+.dpaam-debrief-container .stat-tier-capsule--final {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.05;
+    font-size: 2.5cqi;
+    padding: 10% 18% 11% 18%;
+    transform: none;
+    border-radius: 1vmin;
+}
+
+.dpaam-debrief-container .stat-tier-capsule--final .stat-tier-capsule-rank-heading {
+    font-size: 1.5cqi;
+    letter-spacing: 0.04em;
 }
 
 

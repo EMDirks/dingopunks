@@ -5,7 +5,7 @@
 // .dpaam-debrief-minigame for the Into the Undermurk! minigame.
 //
 // Loads after debrief.js and reuses its globals: FEATURES, retrievedDebriefStats,
-// toggleClass, rankArray and createModal. All DOM lookups here are scoped to the dpaam stats
+// toggleClass and createModal. All DOM lookups here are scoped to the dpaam stats
 // container so they never collide with the (hidden) classic debrief-container.
 
 (function () {
@@ -70,9 +70,19 @@
           <div class="stat-detail">
             <div class="stat-detail-score">
               <p class="p-debrief-stat dpaam-debrief-stat-finalScore"></p>
-              <p class="stat-tier-capsule stat-tier-capsule--final stat-tier-capsule--hidden"></p>
+              <div class="dpaam-debrief-final-rank-group dpaam-debrief-final-rank-group--hidden">
+                <p class="stat-tier-capsule stat-tier-capsule--final">
+                  <span class="stat-tier-capsule-rank-heading">Rank:</span>
+                  <span class="dpaam-debrief-final-rank-value"></span>
+                </p>
+                <p class="dpaam-debrief-next-rank-label"></p>
+              </div>
             </div>
-            <div class="stat-detail-medal"></div>
+            <div class="stat-detail-medal">
+              <div class="dpaam-debrief-final-medal-stage">
+                <img class="dpaam-debrief-final-medal" src="assets/debrief/medal/medal-1.png" alt="">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,6 +98,11 @@
   const timeRemaining = q('.dpaam-debrief-stat-timeRemaining');
   const finalScoreValue = q('.stat-score .p-debrief-stat');
   const finalScoreCapsule = q('.stat-score .stat-tier-capsule--final');
+  const finalScoreRankGroup = q('.dpaam-debrief-final-rank-group');
+  const finalScoreRankValue = q('.dpaam-debrief-final-rank-value');
+  const finalScoreNextRankLabel = q('.dpaam-debrief-next-rank-label');
+  const finalMedalImg = q('.dpaam-debrief-final-medal');
+  const finalMedalStage = q('.dpaam-debrief-final-medal-stage');
 
   const teamSizeModifier = q('.dpaam-debrief-stat-teamSize-modifier');
   const hintsUsedModifier = q('.dpaam-debrief-stat-hintsUsed-modifier');
@@ -105,9 +120,10 @@
   const cardToCapsuleDelay = 500;
   const finalScoreDelay = 500;
   const finalScoreCountDelay = 1000;
-  const finalScoreCountDuration = 3500;
+  const finalScoreCountDuration = 10500;
+  const finalScoreRevealAfterTickDelay = 500;
   const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep) + finalScoreDelay;
-  const finalSequenceEnd = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration;
+  const finalSequenceEnd = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration + finalScoreRevealAfterTickDelay;
 
   const buttonExit = document.querySelector('.button__exit');
 
@@ -159,6 +175,8 @@
     return { class: 'stat-tier--perfect', label: 'Perfect' };
   }
 
+  const dpaamRankArray = ['"Rookie"', '"Apprentice"', '"Enigma"', '"Legend"', '"Brainwave"'];
+
   const finalScoreRankTiers = [
     { min: 0, class: 'stat-tier--oof' },
     { min: 350, class: 'stat-tier--mid' },
@@ -167,17 +185,28 @@
     { min: 900, class: 'stat-tier--perfect' },
   ];
 
-  function finalScoreRankTier(value) {
-    let rankIndex = 0;
+  function finalScoreRankIndex(value) {
     for (let i = finalScoreRankTiers.length - 1; i >= 0; i--) {
       if (value >= finalScoreRankTiers[i].min) {
-        rankIndex = i;
-        break;
+        return i;
       }
     }
+    return 0;
+  }
+
+  function nextRankLabelText(value) {
+    const rankIndex = finalScoreRankIndex(value);
+    if (rankIndex >= finalScoreRankTiers.length - 1) {
+      return 'Max Rank!';
+    }
+    return 'Next Rank: ' + finalScoreRankTiers[rankIndex + 1].min;
+  }
+
+  function finalScoreRankTier(value) {
+    const rankIndex = finalScoreRankIndex(value);
     return {
       class: finalScoreRankTiers[rankIndex].class,
-      label: rankArray[rankIndex],
+      label: dpaamRankArray[rankIndex],
     };
   }
 
@@ -197,7 +226,8 @@
   prepareStatTier(statTime, timeModifier);
   const finalScoreTier = finalScoreRankTier(score);
   finalScoreCapsule.classList.add(finalScoreTier.class);
-  finalScoreCapsule.textContent = finalScoreTier.label;
+  finalScoreRankValue.textContent = finalScoreTier.label;
+  finalScoreNextRankLabel.textContent = nextRankLabelText(score);
 
   teamSize.innerHTML = '+' + teamModifier;
   activitiesCompleted.innerHTML = '+' + activityModifier;
@@ -205,7 +235,56 @@
   timeRemaining.innerHTML = '+' + timeModifier;
   finalScoreValue.innerHTML = '0';
 
-  function animateFinalScore(element, target, duration, onComplete) {
+  function medalCountForScore(value) {
+    if (value < 350) return 1;
+    if (value < 700) return 2;
+    if (value < 800) return 3;
+    if (value < 900) return 4;
+    return 5;
+  }
+
+  const earnedMedalCount = medalCountForScore(score);
+  let displayedMedalIndex = 1;
+
+  function spawnFallingMedal(src) {
+    const fallout = document.createElement('img');
+    fallout.className = 'dpaam-debrief-final-medal dpaam-debrief-final-medal-fallout';
+    fallout.src = src;
+    fallout.alt = '';
+    finalMedalStage.appendChild(fallout);
+    fallout.addEventListener('animationend', () => fallout.remove());
+  }
+
+  function playMedalFlyIn() {
+    finalMedalImg.classList.remove('dpaam-debrief-final-medal--fly-in');
+    void finalMedalImg.offsetWidth;
+    finalMedalImg.classList.add('dpaam-debrief-final-medal--fly-in');
+    finalMedalImg.addEventListener('animationend', () => {
+      finalMedalImg.classList.remove('dpaam-debrief-final-medal--fly-in');
+    }, { once: true });
+  }
+
+  function setFinalMedal(index) {
+    if (index === displayedMedalIndex) {
+      return;
+    }
+
+    const previousIndex = displayedMedalIndex;
+    const oldSrc = finalMedalImg.src;
+    displayedMedalIndex = index;
+    finalMedalImg.src = 'assets/debrief/medal/medal-' + index + '.png';
+
+    if (previousIndex > 0) {
+      spawnFallingMedal(oldSrc);
+      playMedalFlyIn();
+    }
+  }
+
+  function updateFinalMedalForValue(value) {
+    setFinalMedal(medalCountForScore(value));
+  }
+
+  function animateFinalScore(element, target, duration, onValue, onComplete) {
     const startTime = performance.now();
 
     function easeOutQuart(progress) {
@@ -214,8 +293,24 @@
 
     function frame(now) {
       const progress = Math.min((now - startTime) / duration, 1);
-      const value = Math.round(easeOutQuart(progress) * target);
+      const easedProgress = easeOutQuart(progress);
+      const value = Math.round(easedProgress * target);
       element.textContent = String(value);
+
+      if (onValue) {
+        onValue(value);
+      }
+
+      if (value >= target) {
+        element.textContent = String(target);
+        if (onValue) {
+          onValue(target);
+        }
+        if (onComplete) {
+          onComplete();
+        }
+        return;
+      }
 
       if (progress < 1) {
         requestAnimationFrame(frame);
@@ -246,12 +341,18 @@
     setTimeout(() => {
       toggleClass(statScore, 'stat--hidden', 'stat--visible');
       finalScoreValue.classList.add('dpaam-debrief-finalScore--tick');
+      displayedMedalIndex = 0;
+      setFinalMedal(1);
     }, finalScoreRevealDelay);
 
     setTimeout(() => {
-      animateFinalScore(finalScoreValue, score, finalScoreCountDuration, () => {
-        finalScoreValue.classList.remove('dpaam-debrief-finalScore--tick');
-        toggleClass(finalScoreCapsule, 'stat-tier-capsule--hidden', 'stat-tier-capsule--visible');
+      animateFinalScore(finalScoreValue, score, finalScoreCountDuration, updateFinalMedalForValue, () => {
+        setTimeout(() => {
+          finalScoreValue.classList.remove('dpaam-debrief-finalScore--tick');
+          setFinalMedal(earnedMedalCount);
+          toggleClass(finalScoreRankGroup, 'dpaam-debrief-final-rank-group--hidden', 'dpaam-debrief-final-rank-group--visible');
+          finalMedalImg.classList.add('dpaam-debrief-final-medal--emphasis');
+        }, finalScoreRevealAfterTickDelay);
       });
     }, finalScoreRevealDelay + finalScoreCountDelay);
   }
