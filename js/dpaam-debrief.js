@@ -30,7 +30,6 @@
         <div class="stat-body">
           <div class="stat-detail">
             <p class="p-debrief-stat dpaam-debrief-stat-teamSize"></p>
-            <p class="p-debrief-subtitle dpaam-debrief-stat-teamSize-modifier">Modifier</p>
           </div>
           <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
         </div>
@@ -40,7 +39,6 @@
         <div class="stat-body">
           <div class="stat-detail">
             <p class="p-debrief-stat dpaam-debrief-stat-activitiesCompleted"></p>
-            <p class="p-debrief-subtitle dpaam-debrief-stat-activitiesCompleted-modifier">Modifier</p>
           </div>
           <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
         </div>
@@ -50,7 +48,6 @@
         <div class="stat-body">
           <div class="stat-detail">
             <p class="p-debrief-stat dpaam-debrief-stat-hintsUsed"></p>
-            <p class="p-debrief-subtitle dpaam-debrief-stat-hintsUsed-modifier">Modifier</p>
           </div>
           <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
         </div>
@@ -60,7 +57,6 @@
         <div class="stat-body">
           <div class="stat-detail">
             <p class="p-debrief-stat dpaam-debrief-stat-timeRemaining"></p>
-            <p class="p-debrief-subtitle dpaam-debrief-stat-timeRemaining-modifier">Modifier</p>
           </div>
           <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
         </div>
@@ -70,7 +66,6 @@
         <div class="stat-body">
           <div class="stat-detail">
             <p class="p-debrief-stat dpaam-debrief-stat-finalScore"></p>
-            <p class="p-debrief-subtitle dpaam-debrief-stat-finalScore">out of 1000</p>
           </div>
         </div>
       </div>
@@ -113,11 +108,6 @@
   const timeRemaining = q('.dpaam-debrief-stat-timeRemaining');
   const finalScoreValue = q('.stat-score .p-debrief-stat');
 
-  const teamSizeModifier = q('.dpaam-debrief-stat-teamSize-modifier');
-  const hintsUsedModifier = q('.dpaam-debrief-stat-hintsUsed-modifier');
-  const activitiesCompletedModifier = q('.dpaam-debrief-stat-activitiesCompleted-modifier');
-  const timeRemainingModifier = q('.dpaam-debrief-stat-timeRemaining-modifier');
-
   const scoreMeter = q('.score-meter');
   const scoreContainer = q('.score-container');
   const medalContainer = q('.medal-container');
@@ -139,31 +129,6 @@
   const scoreMeterRevealDuration = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration + scoreMeterAfterCountDelay;
 
   const buttonExit = document.querySelector('.button__exit');
-
-  // ---- modifier captions (identical wording to the classic debrief) ----
-  function convertSecondsToMinutes(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
-    return formattedMinutes + ':' + formattedSeconds;
-  }
-
-  if (!isNaN(retrievedDebriefStats.timeRemaining) && !isNaN(retrievedDebriefStats.timeStarting)) {
-    const totalSeconds = retrievedDebriefStats.timeStarting - retrievedDebriefStats.timeRemaining;
-    timeRemainingModifier.textContent = convertSecondsToMinutes(totalSeconds) + ' spent';
-  } else {
-    timeRemainingModifier.textContent = 'no limit';
-  }
-
-  if (retrievedDebriefStats.teamSize == 1) {
-    teamSizeModifier.textContent = retrievedDebriefStats.teamSize + ' person';
-  } else {
-    teamSizeModifier.textContent = retrievedDebriefStats.teamSize + ' people';
-  }
-
-  hintsUsedModifier.textContent = retrievedDebriefStats.hintsUsed + ' used';
-  activitiesCompletedModifier.textContent = retrievedDebriefStats.activitiesCompleted + ' completed';
 
   // ---- scoring (identical formulas to updateDebrief) ----
   const teamModifier = 250 - retrievedDebriefStats.teamSize * 42 + 42;
@@ -263,7 +228,6 @@
     setTimeout(() => {
       animateFinalScore(finalScoreValue, score, finalScoreCountDuration, () => {
         statScore.classList.add(finalScoreTier.class);
-        statScore.classList.add('stat-score--settled');
       });
     }, finalScoreRevealDelay + finalScoreCountDelay);
   }
