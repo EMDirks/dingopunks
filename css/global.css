@@ -27,6 +27,43 @@
 	--blue-light: 152, 230, 249;
 	--purple-light: 236, 181, 244;
 	--pink-light: 253, 126, 143;
+
+	--dpaam-light-gray: #F7F6F6;
+	--dpaam-page-gray: #EEEDEC;
+	--dpaam-white: #ffffff;
+	--dpaam-border: #e3e3df;
+	--dpaam-border-strong: #c9c9c4;
+	--dpaam-black: #332925;
+	--dpaam-black-muted: #6b6b66;
+	--dpaam-accent: #2b2b2b;
+	--dpaam-accent-text: #ffffff;
+	--dpaam-success: #1f7a4d;
+	--dpaam-danger: #a4302a;
+	--dpaam-blue: #69A0D7;
+	--dpaam-blue-light: #D2E2F3;
+	--dpaam-blue-dark: #535EA0;
+	--dpaam-teal: #2E9C96;
+	--dpaam-teal-light: #D4E9E0;
+	--dpaam-teal-dark: #45857E;
+	--dpaam-salmon: #FF5E58;
+	--dpaam-salmon-light: #FFCECD;
+	--dpaam-salmon-dark: #B74A6E;
+	--dpaam-gold: #FBB941;
+	--dpaam-gold-light: #FEEAC6;
+	--dpaam-gold-dark: #C87D3B;
+	--dpaam-brown: #AA605A;
+	--dpaam-purple: #986DD7;
+	--dpaam-green: #80AA6A;
+	--dpaam-pink: #FF8290;
+	--dpaam-cyan: #97E6F9;
+	--dpaam-lime: #c7f0b0;
+	--dpaam-lavender: #DA99F5;
+	--dpaam-gray: #A08D8D;
+	--dpaam-beige: #FFE4AE;
+	--dpaam-orange: #FF934E;
+	--dpaam-tan: #D59981;
+	--dpaam-blush: #EE5A6A;
+  
 }
 
 @font-face {

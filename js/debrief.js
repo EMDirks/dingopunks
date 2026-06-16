@@ -448,6 +448,7 @@ function updateFontSize() {
     });
     function scaleElements(elementSelector, scaleFactor) {
         document.querySelectorAll(elementSelector).forEach(element => {
+            if (dpaamDebriefContainer && dpaamDebriefContainer.contains(element)) return;
             const parentWidth = element.parentNode.offsetWidth;
             element.style.fontSize = `${parentWidth * scaleFactor}px`;
         });
@@ -463,6 +464,7 @@ window.addEventListener('click', updateFontSize);
 function updateElementHeight() {
     const elements = [    
         ['.debrief-container', 0.5],
+        ['.dpaam-debrief-container', 0.503],
         ['.footer-container', 0.06],
         ['.img-medal', 1.5],
         ['.img-footer', 0.05],
@@ -472,8 +474,9 @@ function updateElementHeight() {
     });
     function heightElements(elementSelector, heightFactor) {
         document.querySelectorAll(elementSelector).forEach(element => {
-        const parentWidth = element.parentNode.offsetWidth;
-        element.style.height = `${parentWidth * heightFactor}px`;
+            if (dpaamDebriefContainer && dpaamDebriefContainer !== element && dpaamDebriefContainer.contains(element)) return;
+            const parentWidth = element.parentNode.offsetWidth;
+            element.style.height = `${parentWidth * heightFactor}px`;
         });
     }
 }
@@ -501,59 +504,53 @@ function updateAbsoluteElements() {
     // scale absolutely
     function scaleAbsolutely(elementSelector, scaleFactor, type) {
     const siteContainer = document.querySelector('.debrief-container');
+    const allElements = Array.from(document.querySelectorAll(elementSelector))
+      .filter(el => !(dpaamDebriefContainer && dpaamDebriefContainer.contains(el)));
     if (siteContainer) {
+      const siteContainerWidth = siteContainer.offsetWidth;
       if (type === "fontSize"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.fontSize = `${siteContainerWidth * scaleFactor}px`;
         });
       }
       if (type === "widthHeight"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.width = `${siteContainerWidth * scaleFactor}px`;
           element.style.height = `${siteContainerWidth * scaleFactor}px`;
         });
       }
       if (type === "borderWidth"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.borderWidth = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "height"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.height = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "width"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.width = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "marginTop"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.marginTop = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "marginLeft"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.marginLeft = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "marginRight"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.marginRight = `${siteContainerWidth * scaleFactor}px`
         });
       }
       if (type === "marginBottom"){
-        const siteContainerWidth = siteContainer.offsetWidth;
-        document.querySelectorAll(elementSelector).forEach(element => {
+        allElements.forEach(element => {
           element.style.marginBottom = `${siteContainerWidth * scaleFactor}px`
         });
       }

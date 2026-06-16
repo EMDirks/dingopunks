@@ -22,33 +22,57 @@
 
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
-    <p class="p-title">&nbsp &nbsp Your Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
+    <p class="p-title">&nbsp &nbsp Your Stats<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
 
     <div class="stat-container">
       <div class="stat stat-team stat--hidden">
         <p class="p-debrief-title">Players</p>
-        <p class="p-debrief-stat dpaam-debrief-stat-teamSize"></p>
-        <p class="p-debrief-subtitle dpaam-debrief-stat-teamSize-modifier">Modifier</p>
+        <div class="stat-body">
+          <div class="stat-detail">
+            <p class="p-debrief-stat dpaam-debrief-stat-teamSize"></p>
+            <p class="p-debrief-subtitle dpaam-debrief-stat-teamSize-modifier">Modifier</p>
+          </div>
+          <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
+        </div>
       </div>
       <div class="stat stat-activities stat--hidden">
         <p class="p-debrief-title">Challenges</p>
-        <p class="p-debrief-stat dpaam-debrief-stat-activitiesCompleted"></p>
-        <p class="p-debrief-subtitle dpaam-debrief-stat-activitiesCompleted-modifier">Modifier</p>
+        <div class="stat-body">
+          <div class="stat-detail">
+            <p class="p-debrief-stat dpaam-debrief-stat-activitiesCompleted"></p>
+            <p class="p-debrief-subtitle dpaam-debrief-stat-activitiesCompleted-modifier">Modifier</p>
+          </div>
+          <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
+        </div>
       </div>
       <div class="stat stat-hints stat--hidden">
         <p class="p-debrief-title">Hints</p>
-        <p class="p-debrief-stat dpaam-debrief-stat-hintsUsed"></p>
-        <p class="p-debrief-subtitle dpaam-debrief-stat-hintsUsed-modifier">Modifier</p>
+        <div class="stat-body">
+          <div class="stat-detail">
+            <p class="p-debrief-stat dpaam-debrief-stat-hintsUsed"></p>
+            <p class="p-debrief-subtitle dpaam-debrief-stat-hintsUsed-modifier">Modifier</p>
+          </div>
+          <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
+        </div>
       </div>
       <div class="stat stat-time stat--hidden">
         <p class="p-debrief-title">Time</p>
-        <p class="p-debrief-stat dpaam-debrief-stat-timeRemaining"></p>
-        <p class="p-debrief-subtitle dpaam-debrief-stat-timeRemaining-modifier">Modifier</p>
+        <div class="stat-body">
+          <div class="stat-detail">
+            <p class="p-debrief-stat dpaam-debrief-stat-timeRemaining"></p>
+            <p class="p-debrief-subtitle dpaam-debrief-stat-timeRemaining-modifier">Modifier</p>
+          </div>
+          <p class="stat-tier-capsule stat-tier-capsule--hidden"></p>
+        </div>
       </div>
       <div class="stat stat-score stat--hidden">
         <p class="p-debrief-title p-debrief-title-finalscore">Final Score</p>
-        <p class="p-debrief-stat dpaam-debrief-stat-finalScore"></p>
-        <p class="p-debrief-subtitle dpaam-debrief-stat-finalScore">out of 1000</p>
+        <div class="stat-body">
+          <div class="stat-detail">
+            <p class="p-debrief-stat dpaam-debrief-stat-finalScore"></p>
+            <p class="p-debrief-subtitle dpaam-debrief-stat-finalScore">out of 1000</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -103,7 +127,11 @@
   const statTime = q('.stat-time');
   const statHints = q('.stat-hints');
   const statScore = q('.stat-score');
-  const statElements = [statTeam, statActivities, statHints, statTime, statScore];
+  const regularStats = [statTeam, statActivities, statHints, statTime];
+  const capsuleElements = regularStats.map((statEl) => statEl.querySelector('.stat-tier-capsule'));
+  const revealStep = 300;
+  const cardToCapsuleDelay = 400;
+  const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep);
 
   const buttonExit = document.querySelector('.button__exit');
 
@@ -147,6 +175,26 @@
 
   const score = Math.round(teamModifier + activityModifier + hintModifier + timeModifier);
 
+  function statCapsuleTier(value) {
+    if (value < 100) return { class: 'stat-tier-capsule--salmon', label: 'Oof' };
+    if (value < 200) return { class: 'stat-tier-capsule--gold', label: 'Meh' };
+    if (value < 250) return { class: 'stat-tier-capsule--teal', label: 'Good' };
+    return { class: 'stat-tier-capsule--blue', label: 'Perfect' };
+  }
+
+  function applyStatCapsuleTier(statEl, value) {
+    const capsule = statEl.querySelector('.stat-tier-capsule');
+    if (!capsule) return;
+    const tier = statCapsuleTier(value);
+    capsule.classList.add(tier.class);
+    capsule.textContent = tier.label;
+  }
+
+  applyStatCapsuleTier(statTeam, teamModifier);
+  applyStatCapsuleTier(statActivities, activityModifier);
+  applyStatCapsuleTier(statHints, hintModifier);
+  applyStatCapsuleTier(statTime, timeModifier);
+
   teamSize.innerHTML = '+' + teamModifier;
   activitiesCompleted.innerHTML = '+' + activityModifier;
   hintsUsed.innerHTML = '+' + hintModifier;
@@ -155,9 +203,22 @@
 
   // ---- reveal sequence (scoped to the dpaam stats column) ----
   function bringInStats() {
-    for (let i = 0; i <= statElements.length; i++) {
-      setTimeout(toggleClass, i * 300, statElements[i], 'stat--hidden', 'stat--visible');
+    let delay = 0;
+
+    for (let i = 0; i < regularStats.length; i++) {
+      setTimeout(toggleClass, delay, regularStats[i], 'stat--hidden', 'stat--visible');
+      delay += cardToCapsuleDelay;
+      setTimeout(
+        toggleClass,
+        delay,
+        capsuleElements[i],
+        'stat-tier-capsule--hidden',
+        'stat-tier-capsule--visible'
+      );
+      delay += revealStep;
     }
+
+    setTimeout(toggleClass, delay, statScore, 'stat--hidden', 'stat--visible');
   }
 
   function bringInScoreMeter() {
@@ -227,8 +288,8 @@
 
   const debriefDelay = 3200;
   setTimeout(bringInStats, debriefDelay);
-  setTimeout(bringInScoreMeter, statElements.length * 300 + 100 + debriefDelay);
-  setTimeout(bringInExit, statElements.length * 300 + 2500 + debriefDelay);
+  setTimeout(bringInScoreMeter, statsRevealDuration + 100 + debriefDelay);
+  setTimeout(bringInExit, statsRevealDuration + 2500 + debriefDelay);
 
   // ---- help modal (reuses the shared modal + copy from debrief.js) ----
   const icon = q('#dpaam-icon-clickable--debrief');
