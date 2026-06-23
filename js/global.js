@@ -1626,7 +1626,8 @@ function styleText(input) {
     'e': {
       customFormat: (content) => `<sup>${content}</sup>`
     },
-    'o0': 'style-text--opacity--0'
+    'o0': 'style-text--opacity--0',
+    'hi': ['style-text--background--highlight']
   };
 
   // Apply each style based on defined markers

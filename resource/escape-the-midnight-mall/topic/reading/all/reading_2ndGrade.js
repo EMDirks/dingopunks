@@ -22,7 +22,7 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Main Idea and Key Details",
+                    topic: "Main Idea and Supporting Details",
                     commonCore: [
                         "CCRA.R.1", 
                         "CCRA.R.2",

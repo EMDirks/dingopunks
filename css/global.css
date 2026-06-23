@@ -623,6 +623,11 @@ button, input[type="submit"], input[type="reset"] {
 	border-radius: 0.5vmin;
 }
 
+.style-text--background--highlight {
+	background-color: rgba(var(--gold), 1);
+	padding: 0% 1%;
+}
+
 
 @keyframes screenFlicker {
 	0% {

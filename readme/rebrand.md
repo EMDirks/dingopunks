@@ -138,7 +138,7 @@ SOFT LAUNCH (JUN 15)
 
 CONTINUED WORK (JUN 16 - JUL 31)
 
-- ✅ JUN 16 — **Google:** Confirm website fully live with full NAP consistency across the web
+- ✅ JUN 16 — **Google:** Confirm website fully live with ftull NAP consistency across the web
 - ✅ JUN 16 — **Google:** Email anyone who has ever featured, linked to, or partnered with you
 - ✅ JUN 16 — **Google:** Update external mentions — review sites, blogs, Yelp, Foursquare, education directories
 - ✅ JUN 16 — TPT: Update featured reviews to remove Puzzle Punks mentions

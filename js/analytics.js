@@ -383,6 +383,12 @@ const analyticsArray = [
 
             // All
             {
+                level: ['2nd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_2ndGrade.js',
+                googleAnalyticsID: 'JaDyaMs-3Y1ns93-Sj6Ahyq' //31936
+            },
+            {
                 level: ['3rd'],
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_3rdGrade.js',
@@ -403,6 +409,12 @@ const analyticsArray = [
 
             // Main Idea
             {
+                level: ['2nd', '3rd'],
+                topic: 'Main Idea',
+                resourceJS: 'topic/reading/main-idea/mainIdea_2nd3rdGrade.js',
+                googleAnalyticsID: '2Pl1H2S-Jauys5d-Klas5YY' //21255
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Main Idea',
                 resourceJS: 'topic/reading/main-idea/mainIdea_4th5thGrade.js',
@@ -418,6 +430,12 @@ const analyticsArray = [
             },
 
             // Context Clues
+            {
+                level: ['2nd', '3rd'],
+                topic: 'Context Clues',
+                resourceJS: 'topic/reading/context-clues/contextClues_2nd3rdGrade.js',
+                googleAnalyticsID: 'Lpas5Ms-2Sa3e7C-M1wwMis' //52371
+            },
             {
                 level: ['4th', '5th'],
                 topic: 'Context Clues',

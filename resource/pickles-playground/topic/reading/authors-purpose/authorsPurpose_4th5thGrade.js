@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Escape from Pickle\'s Playground",
         path: "escape-from-pickles-playground",
-        logo: "assets/branding/placeholder/need-image.png",
+        logo: "resource/pickles-playground/assets/branding/reading/authors-purpose/thumbnail-4th-5th-grade.png",
         timerLabel: "PICKLE ARRIVES"
     },
 
