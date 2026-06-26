@@ -47,7 +47,7 @@ let undermurkPreselectedCharacters = null;
 
 // Player-count-only setup step (no slug path). Mirrors the main game's tab styling.
 function addUndermurkSetup() {
-  splashTitle.innerHTML = 'How many punks are diving in?';
+  splashTitle.innerHTML = 'How many players?';
 
   const inputContainer = createElement('div', ['splash-setup-input-container', 'splash-setup-input-container--undermurk'], splashContent);
   const tabRow = createElement('div', ['tab-row'], inputContainer);

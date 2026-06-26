@@ -1315,7 +1315,11 @@ function addCharacter(){
   // create elements
   const characterSelectContainer = createElement("div", ["character-select-container","state-pointer-events-none"],splashContent);
   let playerNum = 1;
-  splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
+  if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
+    splashTitle.innerHTML = 'Same players?';
+  } else {
+    splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
+  }
 
   function lockCharacters(){
     const buttons = document.getElementsByClassName("character-select-button");
@@ -1332,7 +1336,11 @@ function addCharacter(){
     }
   }
   function changeText(){
-    splashTitle.textContent = "All punks ready!";
+    if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
+      splashTitle.textContent = 'Same players?';
+    } else {
+      splashTitle.textContent = "All punks ready!";
+    }
   }
 
   function enterReadyState(){
@@ -1349,27 +1357,33 @@ function addCharacter(){
     }
   }
 
-  // Into the Undermurk! shows a "Select New Characters" button to the left of the
-  // primary "Go into the Undermurk!" button. The row is full-width so the splash
-  // font-scaling (which reads parent width) stays consistent with the main game.
+  // Into the Undermurk! ready buttons.
+  // Preselected (slug) path: single "Start Game" button.
+  // Manual pick path: No/Yes row with reselect option.
   function addUndermurkReadyButtons(){
-    const buttonRow = createElement('div', ['splash-button-row'], splashContainer);
-    splashButton.classList.add('splash-button--in-row');
-    buttonRow.appendChild(splashButton);
-    splashButton.textContent = 'Go into the Undermurk!';
+    if (undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
+      const buttonRow = createElement('div', ['splash-button-row'], splashContainer);
+      splashButton.classList.add('splash-button--in-row');
+      buttonRow.appendChild(splashButton);
+      splashButton.textContent = 'Yes';
 
-    const reselectButton = createElement('button', ['splash-button','splash-button--secondary','splash-button--in-row','splash-button--hidden'], buttonRow);
-    buttonRow.insertBefore(reselectButton, splashButton);
-    reselectButton.textContent = 'Select New Characters';
-    setIpadActiveState(reselectButton);
-    reselectButton.addEventListener('click', function(){
-      resetUndermurkSelection();
-    });
+      const reselectButton = createElement('button', ['splash-button','splash-button--secondary','splash-button--in-row','splash-button--hidden'], buttonRow);
+      buttonRow.insertBefore(reselectButton, splashButton);
+      reselectButton.textContent = 'No';
+      setIpadActiveState(reselectButton);
+      reselectButton.addEventListener('click', function(){
+        resetUndermurkSelection();
+      });
 
-    updateElementSize();
-    updateLineThickness();
+      updateElementSize();
+      updateLineThickness();
+      setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
+      setTimeout(toggleClass,200,reselectButton,'splash-button--hidden','splash-button--visible');
+      return;
+    }
+
+    splashButton.textContent = 'Start Game';
     setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
-    setTimeout(toggleClass,200,reselectButton,'splash-button--hidden','splash-button--visible');
   }
 
   for (let i = 0; i < characterArray.length; i++) {

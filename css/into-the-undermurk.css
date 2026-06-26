@@ -34,6 +34,7 @@
     background-color: transparent;
     color: rgba(var(--gold), 1);
     border: 0.4vmin solid rgba(var(--gold), 1);
+    padding: 0.3% 2.5% 0.7% 2.5%;
 }
 
 @media (hover: hover) {
