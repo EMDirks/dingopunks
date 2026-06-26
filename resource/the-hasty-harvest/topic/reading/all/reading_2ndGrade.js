@@ -19,7 +19,7 @@ const resource =  {
                 asset: "candlewicks-cart.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read \"The Fall Flame\" and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Read \"Fall Flame\" and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -64,8 +64,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "0%",
+                                translateX: "-2%",
+                                translateY: "2%",
                                 rotate: "2deg",
                             }
                         }
@@ -137,16 +137,16 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] How many details are in this note?",
+                        title: "[<g>3.] How many key details are in this note?",
                         correctIndex: 2,
                         paragraph: [
-                            "On{e} detail",
-                            "Two {d}etails",
-                            "Three detai{l}s",
+                            "On{e} key detail",
+                            "Two key {d}etails",
+                            "Three key detai{l}s",
                         ],
                     },
                     {
-                        title: "[<g>4.] What is [<i>not] a special power of \"Fall Flame\" ?",
+                        title: "[<g>4.] What is [<i>not] a special power of the Fall Flame?",
                         correctIndex: 2,
                         paragraph: [
                             "It sca{r}es away bugs",
@@ -188,8 +188,8 @@ const resource =  {
                 character: "Silas Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "Hello, hello! Oh, what a day! I have so much advice to say. Nobody listens, and it's not fair. Will you hear me out? I have so much to share!",
-                    complete: "My words have found a home at last! Now off you go... just go fast!"
+                    incomplete: "Hello, hello! Oh, what a day! I have so much advice to say. Nobody listens, and it's not fair. Will you hear me? I have much to share!",
+                    complete: "My words have found a home at last! Now off you go... and please go fast!"
                 },
             },
 
@@ -206,7 +206,7 @@ const resource =  {
                                     text: 'Advice',
                                 },
                                 subtitle: {
-                                    text: 'By Silas',
+                                    text: 'By Silas Sage',
                                 },
                                 passage: {
                                     text:   "Never sneeze on a sleepy snail,\
@@ -288,7 +288,7 @@ const resource =  {
                         'A. Which word rhymes with bee: [<u>nail], [<u>fine], or [<u>tree]?',
                         'B. Is the title of this poem \"[<u>Advice]\" or \"[<u>Silas]\"?',
                         'C. Read the blue text. Does it have [<u>seven] or [<u>eight] syllables?',     
-                        'D. What is the name of the poet?',                    
+                        'D. What is the poet\'s first name?',                    
                     ],
                     puzzle: [
                         ["(D)S","I","L","(B)A","1S","0","0"],
@@ -332,7 +332,7 @@ const resource =  {
                 character: "The Gnomads",
                 asset: "the-gnomads.png",
                 dialogue : {
-                    incomplete: "You have to help us! The Fallcrawlers are coming and we need to move fast. But our map is torn to pieces! Can you put it back together?",
+                    incomplete: "You have to help us! The Fallcrawlers are coming and we need to get out of here. But our star map is torn to pieces! Can you put it back together?",
                     complete: "Oh thank you, thank you! Maybe we\'ll cross paths again one day."
                 },
             },
@@ -360,7 +360,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "B. Stars are not just big. They are [<u>huge]!",
+                                    text: "B. Stars are not just big. They are [<u>gigantic]!",
                                 }, 
                                 backgroundImage: {
                                     file: "2.png"
@@ -496,16 +496,16 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] The underlined word on puzzle piece B means:",
+                        title: "[<g>1.] Find the puzzle piece without a star. What does its underlined word mean?",
+                        columns: 2,
                         correctIndex: 1,
                         paragraph: [
                             "Very sm{a}ll",
                             "Very bi{g}",
-                            "Y{e}llow",
                         ],
                     },
                     {
-                        title: "[<g>2.] Read puzzle piece C. What is another word for \"shimmer\" ?",
+                        title: "[<g>2.] Read puzzle piece C. What is another word for \"shimmer\"?",
                         columns: 2,
                         correctIndex: 2,
                         paragraph: [
@@ -552,7 +552,7 @@ const resource =  {
                 asset: "frantic-factory.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read \"The Pumpkin Packer\" answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Read \"The Pumpkin Packer\" and answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -567,7 +567,7 @@ const resource =  {
                 character: "Hollow Jack",
                 asset: "hollow-jack.png",
                 dialogue : {
-                    incomplete: "The factory has a new machine. I do not understand it. I cannot stop to read about it. Will you find out how it works for me?",
+                    incomplete: "The factory has a new machine. I do not understand it. I cannot stop to read about it. Will you find out how it works?",
                     complete: "Good work. Do not come back after dark. I repeat: do not come back after dark."
                 },
             },
@@ -588,13 +588,13 @@ const resource =  {
                                     text: 'By Candlewick',
                                 },
                                 passage: {
-                                    text:   "The Pumpkin Packer runs all day and night. First, pumpkins roll onto the belt one by one. Then, the belt moves them to a big gear that [<hi>spins] fast. Finally, the pumpkin drops down and lands in a crate. The lid snaps shut, and the crate is ready!"
+                                    text:   "The Pumpkin Packer runs all day and night. First, pumpkins roll onto the belt one by one. Then, the belt moves them to a big gear that [<hi>spins] fast. Finally, the pumpkin drops down and lands in a crate. Put on a lid, and the crate is ready to ship!"
                                 }
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "2%",
+                                translateX: "0%",
                                 translateY: "-10%",
                                 rotate: "-2deg",
                             }
@@ -716,7 +716,7 @@ const resource =  {
                 asset: "mabel-mallow.png",
                 dialogue : {
                     incomplete: "I\'m delivering mail! But this story fell right out of my bag. It has a lesson that could really help the farm... Can you help me find out what it says?",
-                    complete: "That\'s the lesson! Now I can deliver it. Wait... Which way is the farm again?"
+                    complete: "That\'s the lesson! Now I can deliver it. Wait... Which way is the farm?"
                 },
             },
 
@@ -819,7 +819,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "Tru{e}",
-                            "Tru{e}",
+                            "F{a}lse",
                         ],
                     },
                     {

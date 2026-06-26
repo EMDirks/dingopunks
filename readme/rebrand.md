@@ -142,13 +142,13 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - ✅ JUN 16 — **Google:** Email anyone who has ever featured, linked to, or partnered with you
 - ✅ JUN 16 — **Google:** Update external mentions — review sites, blogs, Yelp, Foursquare, education directories
 - ✅ JUN 16 — TPT: Update featured reviews to remove Puzzle Punks mentions
-- [ ] JUN 28 — **Google:** Update GPB name to Dingo Punks
-- [ ] JUN 28 — **Google:** Update Merchant Center business URL to dingopunks.com
-- [ ] JUN 28 — **Google:** Re-verify and claim dingopunks.com in Merchant Center
-- [ ] JUN 28 - **Google:** Ensure dingopunks is linked on my Shopify Google reviews widget
-- [ ] JUN 28 — **Google:** Confirm product feed URLs are pulling from dingopunks.com (check if Shopify Google channel updated automatically first)
+- ✅ JUN 28 — **Google:** Update GPB name to Dingo Punks
+- ✅ JUN 28 — **Google:** Update Merchant Center business URL to dingopunks.com
+- ✅ JUN 28 — **Google:** Re-verify and claim dingopunks.com in Merchant Center
+- ✅ JUN 28 - **Google:** Ensure dingopunks is linked on my Shopify Google reviews widget
+- ✅ JUN 28 — **Google:** Confirm product feed URLs are pulling from dingopunks.com (check if Shopify Google channel updated automatically first)
+- ✅ JUN 28 — **Google:** Update website URL on GBP
 - [ ] JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 05 — **Google:** Update website URL on GBP
 - [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 18 – State: Set up DBA

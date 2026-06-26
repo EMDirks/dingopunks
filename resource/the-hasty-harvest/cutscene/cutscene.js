@@ -110,7 +110,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'For when the sun sets, from somewhere deep within the Undermurk...',
+            text: 'When the sun sets, from somewhere deep within the Undermurk...',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-2.png',

@@ -64,8 +64,8 @@ const resource =  {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "0%",
+                                translateX: "-10%",
+                                translateY: "7%",
                                 rotate: "-1deg",
                             }
                         }
@@ -83,7 +83,7 @@ const resource =  {
                                     text: "Wander Light",
                                 },
                                 passage: {
-                                    text: "The Wander Light makes crops move to market all on their own. It causes them to [<u>stroll] \u2014 to walk slowly and easily \u2014 all the way down the path. [<sal>It\'s quite a sight!]",
+                                    text: "The Wander Light makes crops move all on their own. It causes them to [<u>stroll] \u2014 to walk slowly and easily \u2014 all the way down the path. [<sal>It\'s quite a sight!]",
                                 },  
                             }
                         ],
@@ -108,14 +108,14 @@ const resource =  {
                                     text: "Guard Flame",
                                 },
                                 passage: {
-                                    text: "The Guard Flame uses magic to keep crops safe. It creates a [<u>fortress] around them \u2014 a strong shelter that keeps enemies out. This is a candle that only burns for twenty minutes, so use it wisely.",
+                                    text: "The Guard Flame uses magic to keep crops safe. It creates a [<u>fortress] around them, a strong shelter that keeps enemies out. This is a candle that only burns for twenty minutes, so use it wisely.",
                                 }, 
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "0%",
+                                translateX: "10%",
+                                translateY: "-9%",
                                 rotate: "2deg",
                             }
                         }
@@ -196,7 +196,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] A ___ of these is an example of a \"fortress.\"",
+                        title: "[<g>4.] A ___ is an example of a \"fortress.\"",
                         correctIndex: 0,
                         paragraph: [
                             "Cast{l}e",
@@ -238,8 +238,8 @@ const resource =  {
                 character: "Stefan Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "I wrote a poem the other day \u2014 I must make sure the words are okay! Read it through, if you don\'t mind. Then tell me friend, the things you find!",
-                    complete: "You\'ve read my words, now off you go. There\'s more to do, and the sun is low!"
+                    incomplete: "I wrote a poem the other day. I must make sure the words are okay! Read it through, if you don\'t mind. Then tell me friend, the things you find!",
+                    complete: "You\'ve read my words, now off you go. There\'s more to do; the sun is low!"
                 },
             },
 
@@ -262,15 +262,17 @@ const resource =  {
                                     text:   "Never lend your boots to an eel,<br>\
                                             or ask a turnip how it feels.<br>\
                                             That [<u>arrowhead] beneath the mud?<br>\
-                                            Leave it there, or expect a flood!<br><br>\
+                                            Leave it there, or expect a flood!<br>\
+                                            <br>\
                                             Stay out of the [<u>hayloft] at the barn,<br>\
                                             and [<u>leap] across a bit of yarn.<br>\
                                             If you see an owl, just walk away,<br>\
-                                            then make a mushroom out of clay.<br><br>\
+                                            then make a mushroom out of clay.<br>\
+                                            <br>\
                                             Now listen close, I\'ll tell you plain:<br>\
                                             [<i>Pretty] fades like autumn rain.<br>\
-                                            [<i>Beautiful] stays longer \u2014 that\'s a start.<br>\
-                                            But [<u>gorgeous]? It will fill your heart!"                        
+                                            [<i>Beautiful] is better; it\'s a start.<br>\
+                                            But something [<u>gorgeous] fills the heart!"                        
                                 }
                             }
                         ],
@@ -290,7 +292,7 @@ const resource =  {
                             padding: "double"
                         },
                         dimension: {
-                            width: "percent45",
+                            width: "percent50",
                             height: "auto",
                         },
                         flexbox: {
@@ -417,9 +419,10 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text:   "Dear Hollow Jack,<br><br\
-                                            All [<u>debris] must be cleared from the factory floor before sundown. This includes things like broken crates, fallen stems, and spilled seeds.<br>\
-                                            In addition, any [<u>intruders], (like robbers or uninvited guests) must be removed at once.<br><br>\
+                                    text:   "Dear Hollow Jack,<br>\
+                                            <br>\
+                                            &nbsp; &nbsp; All [<u>debris] must be cleared from the factory floor before sundown. This includes things like broken crates, fallen stems, and spilled seeds. In addition, any [<u>intruders], (like robbers or uninvited guests) must be removed at once.<br>\
+                                            <br>\
                                             Yours boss,<br>\
                                             Candlewick"
                                 }
@@ -428,8 +431,8 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "0%",
-                                rotate: "-3deg",
+                                translateY: "15%",
+                                rotate: "3deg",
                             }
                         }
                     },
@@ -440,19 +443,20 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text:   "Dear Hollow Jack,<br><br>\
-                                            The factory must be closed at night. Many [<u>nocturnal] animals will come out at that time: owls, bats, Fallcrawlers, and worse.<br>\
-                                            It\'s important that you do not allow ANYTHING to [<u>lurk] near the entrance. Wolves, thieves, and other sneaking creatures are known to live near the farm.<br><br>\
-                                            Yours boss,<br>\
+                                    text:   "Dear Hollow Jack,<br>\
+                                            <br>\
+                                            &nbsp; &nbsp; The factory must be closed at night. Many [<u>nocturnal] animals will come out at that time: owls, bats, Fallcrawlers, and worse. It\'s important that you do not allow ANYTHING to [<u>lurk] near the entrance. Wolves, thieves, and other sneaking creatures are known to live near the farm.<br>\
+                                            <br>\
+                                            Your boss,<br>\
                                             Candlewick"
                                 }
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "0%",
-                                rotate: "1deg",
+                                translateX: "-4%",
+                                translateY: "-5%",
+                                rotate: "-2deg",
                             }
                         }
                     }
@@ -484,7 +488,7 @@ const resource =  {
                             passage: {
                                 font: 'default',
                                 size: 'mediumSmall',
-                                align: 'center'
+                                align: 'left'
                             },
                             dimension: {
                                 width: "full",
@@ -505,7 +509,7 @@ const resource =  {
                         'A. [<u>True] or [<u>false]: an \"intruder\" is someone who enters a place without permission.',
                         'B. [<u>Right] or [<u>wrong]: a \"nocturnal\" animal comes out during the day.',
                         'C. Does \"lurk\" mean [<u>sneak] or [<u>think]?',     
-                        'D. What word in \"Letter A\" means [<i>pieces of trash left behind]?',                    
+                        'D. What word in \"Letter A\" means [<i>pieces of trash left behind] ?',                    
                     ],
                     puzzle: [
                         ["0","0","(D)D","0","0","0","(B)W"],
@@ -534,7 +538,7 @@ const resource =  {
                 asset: "mallow-maze.png",
                 state: "incomplete",
                 hint: {
-                    text: "Put together the puzzle pieces and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Put together the puzzle and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -547,7 +551,7 @@ const resource =  {
 
             intro: {
                 character: "Mabel Mallow",
-                asset: "mallow-maze.png",
+                asset: "mabel-mallow.png",
                 dialogue : {
                     incomplete: "Oh no! A dog got into my bag and shredded my map! I can\'t find the farm without it. Can you help me put the pieces back together?",
                     complete: "You put it back together! I knew you could do it. Let\'s keep moving, okay?"
@@ -613,7 +617,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "She was a brave [<u>explorer].",
+                                    text: "She was a brave [<blu>explorer].",
                                 }, 
                                 backgroundImage: {
                                     file: "14.png"
@@ -637,7 +641,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The map had [<blu>unmarked] trails.",
+                                    text: "The map had [<u>unmarked] trails.",
                                 }, 
                                 backgroundImage: {
                                     file: "16.png"
@@ -661,7 +665,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The huge corn field was [<u>pathless].",
+                                    text: "The corn field was [<u>pathless].",
                                 }, 
                                 backgroundImage: {
                                     file: "18.png"
@@ -713,7 +717,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] Find the puzzle piece with the red barn. What does its underlined word mean?",
+                        title: "[<g>1.] Find the puzzle piece that has a red barn. What does its underlined word mean?",
                         columns: 2,
                         correctIndex: 0,
                         paragraph: [
@@ -727,9 +731,9 @@ const resource =  {
                         title: "[<g>2.] Find the blue word. What does it mean?",
                         correctIndex: 2,
                         paragraph: [
-                            "E{a}sy to follow",
-                            "Bri{g}htly painted",
-                            "Not mark{e}d",
+                            "Someone wh{o} studies animals",
+                            "A person who builds roads in {a} forest",
+                            "Som{e}one who travels to discover new places",
                         ],
                     },
                     {

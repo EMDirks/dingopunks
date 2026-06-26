@@ -56,8 +56,8 @@ let openState = {
 let setup = {
   playerCount: [1,2,3,4,5],
   activityCount: [1,2,3,4,5],
-  timeLimit: ['60 min', '50 min', '40 min', 'No limit'],
-  reducedLimit: ['50 min', '40 min', '30 min', 'No limit'],
+  timeLimit: ['50 min', '37 min', '25 min', 'No limit'],
+  reducedLimit: ['40 min', '30 min', '20 min', 'No limit'],
   hints: ['Yes','No'],
 }
 let difficulty = ['EASY','NORMAL','HARD',''];

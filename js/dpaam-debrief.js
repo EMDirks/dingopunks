@@ -32,7 +32,7 @@
 
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
-    <p class="p-title">&nbsp &nbsp Your Stats<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
+    <p class="p-title">&nbsp &nbsp Your Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
 
     <div class="stat-container">
       <div class="stat stat-team stat--hidden">
@@ -191,9 +191,9 @@
 
   const finalScoreRankTiers = [
     { min: 0, class: 'stat-tier--oof' },
-    { min: 350, class: 'stat-tier--mid' },
-    { min: 700, class: 'stat-tier--good' },
-    { min: 800, class: 'stat-tier--great' },
+    { min: 250, class: 'stat-tier--mid' },
+    { min: 500, class: 'stat-tier--good' },
+    { min: 750, class: 'stat-tier--great' },
     { min: 900, class: 'stat-tier--perfect' },
   ];
 
@@ -248,9 +248,9 @@
   finalScoreValue.innerHTML = '0';
 
   function medalCountForScore(value) {
-    if (value < 350) return 1;
-    if (value < 700) return 2;
-    if (value < 800) return 3;
+    if (value < 250) return 1;
+    if (value < 500) return 2;
+    if (value < 750) return 3;
     if (value < 900) return 4;
     return 5;
   }
@@ -284,7 +284,7 @@
     const previousIndex = displayedMedalIndex;
     const oldSrc = finalMedalImg.src;
     displayedMedalIndex = index;
-    finalMedalImg.src = 'assets/debrief/medal/medal-' + index + '.png';
+    finalMedalImg.src = 'assets/debrief/medal/dpaam-medal-' + index + '.png';
     finalMedalImg.classList.remove('dpaam-debrief-final-medal--pending');
 
     if (previousIndex > 0) {
