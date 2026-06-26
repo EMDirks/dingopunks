@@ -1,6 +1,7 @@
 let gameMode;
 let dragAndDropEdit = false;
 let isPreviewPage = false;
+let isUndermurkPage = false;
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -14,6 +15,10 @@ document.addEventListener("DOMContentLoaded", function() {
   else if (pathname.endsWith('preview.html') || pathname.endsWith('preview')) {
     gameMode = 'preview';
     isPreviewPage = true;
+  }
+  else if (pathname.endsWith('into-the-undermurk.html') || pathname.endsWith('into-the-undermurk')) {
+    gameMode = 'undermurk';
+    isUndermurkPage = true;
   }
   else {
     // gameMode = 'default';

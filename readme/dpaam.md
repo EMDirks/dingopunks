@@ -136,8 +136,7 @@ Each room tagged with:
 - Hosted on same device; no networking required
 
 ### Setup
-- Players select 1–5 characters from existing Dingo Punks character roster (assets already exist)
-- Character select is Mario Kart-style — each player picks before the game begins
+- Characters are carried over via URL slug from the game at index.html (players have already selected them)
 - J.J. Dingo introduces the drop into the Undermurk via the Dingo Spirit
 
 ### Structure

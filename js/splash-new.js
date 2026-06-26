@@ -336,6 +336,15 @@ function drawSplash(){
     ]
   }
 
+  if (isUndermurkPage){
+    // Into the Undermurk! reuses the character-select step. When characters are
+    // carried over via the ?characters URL slug we jump straight to it; otherwise
+    // players pick a team size first.
+    splashOrder = undermurkPreselectedCharacters
+      ? [addCharacter]
+      : [addUndermurkSetup, addCharacter];
+  }
+
   // create html
   splashContainer = createElement('div', ['splash-container', 'splash-container--off-right'], splashContainerWrapper);
   splashTitle = createElement("p", ["splash-title","splash-title--hidden"],splashContainer); 
@@ -357,7 +366,7 @@ function drawSplash(){
       splashNav.innerHTML = "";
     }
    */
-    if (gameMode === "free" || isPreviewPage){
+    if (gameMode === "free" || isPreviewPage || isUndermurkPage){
       splashNav.style.display = "none";
       splashVersion.style.display = "none";
       splashNote.style.display = "none";
@@ -420,7 +429,10 @@ function transitionSplash(){
       splashContainer = createElement('div', ['splash-container', 'splash-container--off-right'], splashContainerWrapper);
     }
 
-    if (gameMode === "preview" && isPreviewPage && !isAnswersMode){
+    if (isUndermurkPage){
+      setTimeout(enterUndermurk,splashTransitionDuration);
+    }
+    else if (gameMode === "preview" && isPreviewPage && !isAnswersMode){
       setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'introNoLimit');
     }
     else if (gameMode === "preview"){
@@ -1297,11 +1309,69 @@ function addSetup(){
 
 // add character select view
 function addCharacter(){
-  handlePreloading('onCharacterSelect');
+  if (!isUndermurkPage){
+    handlePreloading('onCharacterSelect');
+  }
   // create elements
   const characterSelectContainer = createElement("div", ["character-select-container","state-pointer-events-none"],splashContent);
   let playerNum = 1;
   splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
+
+  function lockCharacters(){
+    const buttons = document.getElementsByClassName("character-select-button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.add("character-select-button--disabled");
+    }
+  }
+  function fadeCharacters(){
+    const characterSelectButtonUnselected = document.getElementsByClassName("character-select-button--unselected");
+    for (let i = 0; i < characterSelectButtonUnselected.length; i++) {
+      characterSelectButtonUnselected[i].classList.remove("character-select-button--visible");
+      characterSelectButtonUnselected[i].classList.add("character-select-button--translucent");
+      characterSelectButtonUnselected[i].classList.remove("state-pointer-events-auto");
+    }
+  }
+  function changeText(){
+    splashTitle.textContent = "All punks ready!";
+  }
+
+  function enterReadyState(){
+    debriefStats.teamSize = playerNum;
+    setTimeout(lockCharacters,10);
+    setTimeout(fadeCharacters,100);
+    setTimeout(changeText,200);
+    if (isUndermurkPage){
+      addUndermurkReadyButtons();
+    }
+    else {
+      splashButton.textContent = 'Start Game';
+      setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
+    }
+  }
+
+  // Into the Undermurk! shows a "Select New Characters" button to the left of the
+  // primary "Go into the Undermurk!" button. The row is full-width so the splash
+  // font-scaling (which reads parent width) stays consistent with the main game.
+  function addUndermurkReadyButtons(){
+    const buttonRow = createElement('div', ['splash-button-row'], splashContainer);
+    splashButton.classList.add('splash-button--in-row');
+    buttonRow.appendChild(splashButton);
+    splashButton.textContent = 'Go into the Undermurk!';
+
+    const reselectButton = createElement('button', ['splash-button','splash-button--secondary','splash-button--in-row','splash-button--hidden'], buttonRow);
+    buttonRow.insertBefore(reselectButton, splashButton);
+    reselectButton.textContent = 'Select New Characters';
+    setIpadActiveState(reselectButton);
+    reselectButton.addEventListener('click', function(){
+      resetUndermurkSelection();
+    });
+
+    updateElementSize();
+    updateLineThickness();
+    setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
+    setTimeout(toggleClass,200,reselectButton,'splash-button--hidden','splash-button--visible');
+  }
+
   for (let i = 0; i < characterArray.length; i++) {
     let characterSelectButton = createElement("button", ["character-select-button", "character-select-button--unselected", "character-select-button--hidden"], characterSelectContainer, "character-select-button-" + i);
 
@@ -1340,35 +1410,33 @@ function addCharacter(){
           playerNum++;
       }
       else {
-        debriefStats.teamSize = playerNum;
-        splashButton.textContent = 'Start Game';
-        setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
-        setTimeout(changeText,200);
-        setTimeout(lockCharacters,10);
-        setTimeout(fadeCharacters,100);
-        function lockCharacters(){
-          const buttons = document.getElementsByClassName("character-select-button");
-          for (let i = 0; i < buttons.length; i++) {
-            buttons[i].classList.add("character-select-button--disabled");
-          }
-        }
-        function fadeCharacters(){
-          const characterSelectButtonUnselected = document.getElementsByClassName("character-select-button--unselected");
-          for (let i = 0; i < characterSelectButtonUnselected.length; i++) {
-            characterSelectButtonUnselected[i].classList.remove("character-select-button--visible");
-            characterSelectButtonUnselected[i].classList.add("character-select-button--translucent");
-            characterSelectButtonUnselected[i].classList.remove("state-pointer-events-auto");
-
-          }
-        }
-        function changeText(){
-          splashTitle.textContent = "All punks ready!";
-        }
-
-        
+        enterReadyState();
       }
       splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character`;
     });
+  }
+
+  // Into the Undermurk!: characters carried over via the URL slug are auto-selected,
+  // dropping players straight into the ready state once the buttons have animated in.
+  if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
+    const preselectDelay = 300 + (characterArray.length * 40) + 500;
+    setTimeout(function applyPreselection(){
+      undermurkPreselectedCharacters.forEach(function(name){
+        const index = characterArray.findIndex(function(character){
+          return character.name === name && !character.selected;
+        });
+        if (index === -1) return;
+        const button = document.getElementById('character-select-button-' + index);
+        if (!button) return;
+        const image = button.querySelector('.character-select-button-image');
+        toggleClass(button, 'character-select-button--unselected', 'character-select-button--selected');
+        toggleClass(image, 'character-select-button-image--unselected', 'character-select-button-image--selected');
+        characterArray[index].selected = true;
+        playerCharacters.push(characterArray[index].name);
+      });
+      playerNum = settings.playerCount;
+      enterReadyState();
+    }, preselectDelay);
   }
 }
 
@@ -1508,6 +1576,10 @@ function addCutscene(cutsceneIndex,section){
     let queryString = Object.entries(debriefStats)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
+      // carry the chosen punks over so the debrief can hand them to Into the Undermurk!
+      if (playerCharacters.length){
+        queryString += '&characters=' + playerCharacters.map(encodeURIComponent).join(',');
+      }
       setTimeout(goToDebrief,700);
       function goToDebrief(){
         window.location.href = 'debrief.html?' + queryString;
