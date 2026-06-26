@@ -10,40 +10,10 @@
 // the splashOrder for isUndermurkPage. The slug is parsed at load time (before
 // DOMContentLoaded) so it is ready by the time drawSplash runs.
 
+// Character carry-over via the ?characters= slug is intentionally disabled: the
+// Undermurk entry always runs the "How many players?" → character-select flow.
+// Kept null so the shared splash branches in splash-new.js stay on that path.
 let undermurkPreselectedCharacters = null;
-
-(function parseUndermurkSlug() {
-  const raw = new URLSearchParams(window.location.search).get('characters');
-  if (!raw) {
-    return;
-  }
-
-  const requestedNames = raw.split(',').map(function (value) {
-    return decodeURIComponent(value.trim());
-  });
-
-  const validNames = [];
-  const claimed = {};
-
-  requestedNames.forEach(function (name) {
-    if (!name || validNames.length >= 5) {
-      return;
-    }
-    const match = characterArray.find(function (character) {
-      return character.name.toLowerCase() === name.toLowerCase();
-    });
-    if (match && !claimed[match.name]) {
-      validNames.push(match.name);
-      claimed[match.name] = true;
-    }
-  });
-
-  if (validNames.length) {
-    undermurkPreselectedCharacters = validNames;
-    settings.playerCount = validNames.length;
-    debriefStats.teamSize = validNames.length;
-  }
-})();
 
 // Player-count-only setup step (no slug path). Mirrors the main game's tab styling.
 function addUndermurkSetup() {
