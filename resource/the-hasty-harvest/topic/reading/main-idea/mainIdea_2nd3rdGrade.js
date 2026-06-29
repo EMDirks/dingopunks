@@ -58,14 +58,14 @@ const resource =  {
                                     text: "Magic Seed",
                                 },
                                 passage: {
-                                    text: "This is a special seed that grows very fast. If you plant it at night, it will be a full grown apple tree by morning! It grows faster than any other plant on the farm.",
+                                    text: "This is a special seed that grows very fast. If you plant it at night, it will be a full-grown apple tree by morning! It grows faster than any other plant on the farm.",
                                 }, 
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "-6%",
-                                translateY: "0%",
+                                translateY: "2%",
                                 rotate: "-4deg",
                             }
                         }
@@ -83,14 +83,14 @@ const resource =  {
                                     text: "Magic Pumpkin",
                                 },
                                 passage: {
-                                    text: "The Magic Pumpkin is not like other pumpkins. [<sal>It grows VERY big.] It starts out small, but it never stops growing. By harvest time, it can be as big as a barn!",
+                                    text: "The Magic Pumpkin is not like other pumpkins. [<sal>It grows VERY big.] It starts out small, but it never stops growing. In a few months, it can be as big as a barn!",
                                 }, 
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "10%",
-                                translateY: "2%",
+                                translateY: "0%",
                                 rotate: "1deg",
                             }
                         }
@@ -234,7 +234,7 @@ const resource =  {
                                     text: "By Stefan Sage",
                                 },
                                 passage: {
-                                    text:   "&nbsp; &nbsp; Fall is special because it does not last. Allow me to explain. First, the leaves turn red and then fall off the trees. [<blu>Second, the crops grow big and beautiful, and then they get picked.] Third, the air gets colder and colder every day."
+                                    text:   "&nbsp; &nbsp; Fall is special because it does not last. Allow me to explain. First, the leaves turn red and then fall off the trees. [<blu>Second, the crops grow big and beautiful, and then they get picked.] Third, the cool air gets colder every day, until it\'s too cold to go outside."
                                     }
                             }
                         ],
@@ -477,7 +477,7 @@ const resource =  {
                     paragraph: [
                         'A. [<u>True] or [<u>false]: the first sentence of \"Where to Hide\" states the main idea.',
                         'B. Does \"Where to Hide\" have [<u>one], [<u>two], or [<u>three] supporting details?',
-                        'C. [<u>Right] or [<u>wrong]: the main idea of \"The Fallcrawlers\" is [<i>the Fallcrawlers make creepy sounds.]',     
+                        'C. [<u>Right] or [<u>wrong]: [<i>the Fallcrawlers make creepy sounds] is the main idea of the poem.',     
                         'D. Read \"The Fallcrawlers.\" Does the [<u>first], [<u>third], or [<u>fourth] line state the main idea?',                    
                     ],
                     puzzle: [
@@ -522,7 +522,7 @@ const resource =  {
                 character: "Mabel Mallow",
                 asset: "mabel-mallow.png",
                 dialogue : {
-                    incomplete: "I have a story to deliver! Someone said it could help the farm. Can you read it first and make sure it all makes sense?",
+                    incomplete: "I have a story to deliver to the farm! Someone said it might help. Can you read it first and make sure it all makes sense?",
                     complete: "Great! I just really hope Fallcrawlers don\'t eat marshmallows. Wish me luck!"
                 },
             },
@@ -621,7 +621,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] Read the red sentence and the blue sentence. Which one is another supporting detail?",
+                        title: "[<g>3.] Read the red sentence and the blue sentence. Which one is a supporting detail?",
                         columns: 2,
                         correctIndex: 1,
                         paragraph: [

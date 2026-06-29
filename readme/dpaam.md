@@ -10,7 +10,7 @@
 - Room metadata structure + AI tagging pass (pre-launch task)
 - Basic teacher dashboard shell
 
-### Phase 2 — Into the Undermurk! (4–6 weeks)
+### Phase 2 — Enter the Undermurk! (4–6 weeks)
 - Core game mechanics — turn structure, lives, scoring, timer
 - Character select screen
 - Vocab bank (500 words minimum, grade-leveled)
@@ -127,7 +127,7 @@ Each room tagged with:
 
 ---
 
-## 3. Gated Minigame — *Into the Undermurk!*
+## 3. Gated Minigame — *Enter the Undermurk!*
 
 ### Concept
 - Arcade-style vocab game unlocked after completing any escape room
@@ -230,7 +230,7 @@ Classroom Mode already exists — it's simply selecting 1 player and proceeding.
 - A clearly labeled **Classroom Mode** entry point or badge on the game setup screen so teachers know it exists
 - Brief in-app tooltip or onboarding prompt on first login explaining the mode
 - Simple instructions: run on your device → project to screen → call on students → one character represents the class
-- Classroom Mode is available for both the core escape room and Into the Undermurk!
+- Classroom Mode is available for both the core escape room and Enter the Undermurk!
 
 ### Notes
 - Fully teacher-driven; no student devices required

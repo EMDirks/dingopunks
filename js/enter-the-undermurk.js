@@ -1,18 +1,11 @@
-// Into the Undermurk! — entry logic.
+// Enter the Undermurk! — entry logic.
 //
 // Reuses the main game's splash scaffolding (global.js + splash-new.js). This file
 // only adds the bits unique to the minigame entry:
-//   1. Reading preselected characters from the ?characters= URL slug.
-//   2. A player-count-only setup step for when no slug is present.
-//   3. The "Select New Characters" reset and the "Go into the Undermurk!" hand-off.
-//
-// drawSplash() (in splash-new.js) reads `undermurkPreselectedCharacters` and branches
-// the splashOrder for isUndermurkPage. The slug is parsed at load time (before
-// DOMContentLoaded) so it is ready by the time drawSplash runs.
+//   1. A player-count setup step (How many players?).
+//   2. The "Play now" ready state and hand-off to the minigame.
 
-// Character carry-over via the ?characters= slug is intentionally disabled: the
-// Undermurk entry always runs the "How many players?" → character-select flow.
-// Kept null so the shared splash branches in splash-new.js stay on that path.
+// Always null — Undermurk always starts at the player-count step.
 let undermurkPreselectedCharacters = null;
 
 // Player-count-only setup step (no slug path). Mirrors the main game's tab styling.
@@ -71,7 +64,7 @@ function resetUndermurkSelection() {
   }, splashTransitionDuration);
 }
 
-// Hand-off point after "Go into the Undermurk!". The minigame itself is built out
+// Hand-off point after "Enter the Undermurk!". The minigame itself is built out
 // separately; the chosen team is available on playerCharacters and via the event.
 function enterUndermurk() {
   document.dispatchEvent(new CustomEvent('undermurk:start', {

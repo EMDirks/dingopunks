@@ -337,7 +337,7 @@ function drawSplash(){
   }
 
   if (isUndermurkPage){
-    // Into the Undermurk! reuses the character-select step. When characters are
+    // Enter the Undermurk! reuses the character-select step. When characters are
     // carried over via the ?characters URL slug we jump straight to it; otherwise
     // players pick a team size first.
     splashOrder = undermurkPreselectedCharacters
@@ -653,8 +653,8 @@ function addAccess(){
     element.addEventListener("click", function() { 
       createModal(
         "What's a game code?",
-        "It's a unique <span class = 'p--highlight'>5-digit code</span> needed to play Dingo Punks. If you're a student, your teacher will provide it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
-        "Got it!"
+        "A game code is a unique <span class = 'p--highlight'>5-character code</span> needed to play a Dingo Punks escape room. If you're a student, your teacher will give it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
+        "Got it"
       )
     });
   });
@@ -1357,7 +1357,7 @@ function addCharacter(){
     }
   }
 
-  // Into the Undermurk! ready buttons.
+  // Enter the Undermurk! ready buttons.
   // Preselected (slug) path: single "Start Game" button.
   // Manual pick path: No/Yes row with reselect option.
   function addUndermurkReadyButtons(){
@@ -1430,7 +1430,7 @@ function addCharacter(){
     });
   }
 
-  // Into the Undermurk!: characters carried over via the URL slug are auto-selected,
+  // Enter the Undermurk!: characters carried over via the URL slug are auto-selected,
   // dropping players straight into the ready state once the buttons have animated in.
   if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
     const preselectDelay = 300 + (characterArray.length * 40) + 500;
@@ -1590,10 +1590,7 @@ function addCutscene(cutsceneIndex,section){
     let queryString = Object.entries(debriefStats)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
-      // carry the chosen punks over so the debrief can hand them to Into the Undermurk!
-      if (playerCharacters.length){
-        queryString += '&characters=' + playerCharacters.map(encodeURIComponent).join(',');
-      }
+
       setTimeout(goToDebrief,700);
       function goToDebrief(){
         window.location.href = 'debrief.html?' + queryString;

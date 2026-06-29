@@ -166,6 +166,25 @@ button, input[type="submit"], input[type="reset"] {
 	user-select: none;
 }
 
+.button-menu-global {
+	background-color: rgba(var(--off-white), 1);
+	color: rgba(var(--off-black), 1);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+	font-family: 'Primer Print Bold';
+	box-sizing: border-box;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	font-size: 20px;
+	z-index: 998;
+}
+
+.button-menu-global:hover {
+	filter: brightness(0.85);
+}
+
 .site-container {
     width: 100vw;
     height: 100vh;
@@ -216,7 +235,8 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .modal__popup {
-    width: 60%;
+    width: calc(100% - 64px);
+    max-width: 600px;
     height: auto;
     background-color: rgba(var(--off-white), 1);
     z-index: 1000;
@@ -224,11 +244,15 @@ button, input[type="submit"], input[type="reset"] {
     top: 45%;
     left: 50%;
     transform: translate(-50%, -60%);
-    border-radius: 1vmin;
+    border-radius: 8px;
     transition: transform 0.2s, opacity 0.15s;
     box-sizing: border-box;
-    padding: 2.5% 3%;
+    padding: 32px;
 	transform-origin: 65% 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	gap: 24px;
 }
 
 .modal__popup--hidden {
@@ -242,55 +266,65 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .modal__title {
-    margin-bottom: 2%;
+	font-size: 32px;
 }
 
 .modal__paragraph {
-    margin-bottom: 3.5%;
-    line-height: 125%;
-}
-
-.modal__paragraph a {
-    color: rgba(var(--salmon-dark), 1);
+	line-height: 130%;
+	font-size: 24px;
 }
 
 .modal__x {
-	border-radius: 100vmin;
 	text-align: center;
 	position: absolute;
-	right: -2.8%;
-	top: -6.5%;
-	background-color: rgba(var(--salmon), 1);
-	padding: 1%;
+	border: none !important;
+	top: 0;
+	right: 0;
+	padding: 3px 10px 3px 11px;
+	line-height: 130%;
+	font-size: 24px !important;
+	border-radius: 0px 0px 0px 6px;
 }
 
 .modal__x:hover {
-	background-color: rgba(var(--salmon-light), 1);
-	transform: scale(1.1);
+	background-color: rgba(var(--salmon), 0.3);
+
 }
 
 .modal__x:active {
-	background-color: rgba(var(--salmon-light), 1);
-	transform: scale(1);
+	background-color: rgba(var(--salmon), 0.3);
 }
 
 
 .modal__button {
 	background-color: rgba(var(--gold), 1);
 	color: rgba(var(--off-black), 1);
-    padding: 1% 3.5%;
-    border-radius: 1vmin;
     cursor: pointer;
 	font-family: 'Primer Print Bold';
 	box-sizing: border-box;
+	border: none !important;
+	width: fit-content;
+	padding: 7px 20px 8px 20px;
+	border-radius: 4px;
+	font-size: 24px;
+	font-family: 'Primer Print Bold';
 }
 
 .modal__button:hover {
-	background-color: rgba(var(--gold-light), 1);
+	filter: brightness(0.92);
 }
 
 .modal__button:active {
-	background-color: rgba(var(--gold), 1);
+	filter: brightness(0.92);
+}
+
+.modal__actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+	margin-top: 4px;
 }
 
 .modal__blackout {
@@ -311,6 +345,36 @@ button, input[type="submit"], input[type="reset"] {
     opacity: 0.9;
 }
 
+@media (max-width: 600px), (max-height: 500px) {
+    .button-menu-global {
+        font-size: 16px;
+        padding: 4px 8px;
+        top: 8px;
+        right: 8px;
+        border-radius: 3px;
+    }
+    .modal__popup {
+        width: calc(100% - 64px);
+        padding: 20px 16px 16px 16px;
+        gap: 16px;
+        border-radius: 6px;
+    }
+    .modal__title {
+        font-size: 20px;
+    }
+    .modal__paragraph {
+        font-size: 16px;
+    }
+    .modal__button {
+        font-size: 16px;
+        padding: 6px 14px 7px 14px;
+    }
+    .modal__x {
+        font-size: 18px !important;
+        padding: 3px 8px;
+    }
+}
+
 .modal--hidden {
     opacity: 0;
     pointer-events: none;
@@ -321,6 +385,38 @@ button, input[type="submit"], input[type="reset"] {
     pointer-events: auto;
 }
 
+
+/* global menu */
+
+.global-menu__items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 32px;
+  gap: 6px;
+}
+
+.global-menu__item {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  font-family: 'Primer Print Bold', sans-serif;
+  font-size: 24px;
+  background-color: rgba(var(--off-white), 1);
+  padding: 0px 0px 0px 6px;
+  border-radius: 2px;
+}
+
+.global-menu__item:hover {
+	filter: brightness(0.92);
+}
+
+.global-menu__item:active {
+}
 
 /* menu */
 

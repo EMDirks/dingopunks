@@ -1,7 +1,7 @@
-/* Into the Undermurk! — entry screen.
+/* Enter the Undermurk! — entry screen.
    Reuses the main game's splash scaffolding (.site-container / .splash). These rules
    only cover what is unique to the minigame entry: the player-count step centering
-   and the two-button "ready" row (Select New Characters + Go into the Undermurk!). */
+   and the two-button "ready" row (Select New Characters + Enter the Undermurk!). */
 
 /* Center the lone player-count row within the setup area. */
 .splash-setup-input-container--undermurk {

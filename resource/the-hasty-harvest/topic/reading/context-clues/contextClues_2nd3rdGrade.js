@@ -19,7 +19,7 @@ const resource =  {
                 asset: "candlewicks-cart.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read All three passages and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Read all three passages and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -58,7 +58,7 @@ const resource =  {
                                     text: "Ever Ember",
                                 },
                                 passage: {
-                                    text: "The Ever Ember is a magic candle with a flame that never goes out. Its glow is [<u>eternal]: it lasts forever!",
+                                    text: "The Ever Ember is a magic candle with a flame that never goes out. Its glow is [<u>eternal]. It lasts forever!",
                                 }, 
                             }
                         ],
@@ -108,15 +108,15 @@ const resource =  {
                                     text: "Guard Flame",
                                 },
                                 passage: {
-                                    text: "The Guard Flame uses magic to keep crops safe. It creates a [<u>fortress] around them, a strong shelter that keeps enemies out. This is a candle that only burns for twenty minutes, so use it wisely.",
+                                    text: "The Guard Flame uses magic to keep crops safe. It creates a [<u>fortress] around them: a strong, safe place that keeps enemies out. This is a candle that only burns for twenty minutes, so use it wisely.",
                                 }, 
                             }
                         ],
                         style: {
                             transform: {
                                 translateX: "10%",
-                                translateY: "-9%",
-                                rotate: "2deg",
+                                translateY: "-6%",
+                                rotate: "4deg",
                             }
                         }
                     },
@@ -192,7 +192,7 @@ const resource =  {
                         paragraph: [
                             "\"a candle that only burns for t{w}enty minutes\"",
                             "\"magic that keeps crops {s}afe\"",
-                            "\"a strong she{l}ter that keeps enemies out\"",
+                            "\"a strong, safe p{l}ace that keeps enemies out\"",
                         ],
                     },
                     {
@@ -238,7 +238,7 @@ const resource =  {
                 character: "Stefan Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "I wrote a poem the other day. I must make sure the words are okay! Read it through, if you don\'t mind. Then tell me friend, the things you find!",
+                    incomplete: "I wrote a poem the other day. I must make sure it sounds okay! Read it through, if you don\'t mind. Then tell me all the things you find!",
                     complete: "You\'ve read my words, now off you go. There\'s more to do; the sun is low!"
                 },
             },
@@ -271,8 +271,8 @@ const resource =  {
                                             <br>\
                                             Now listen close, I\'ll tell you plain:<br>\
                                             [<i>Pretty] fades like autumn rain.<br>\
-                                            [<i>Beautiful] is better; it\'s a start.<br>\
-                                            But something [<u>gorgeous] fills the heart!"                        
+                                            [<i>Beautiful] is better; that\'s a start.<br>\
+                                            But something [<u>gorgeous] fills your heart!"                        
                                 }
                             }
                         ],
@@ -421,9 +421,9 @@ const resource =  {
                                 passage: {
                                     text:   "Dear Hollow Jack,<br>\
                                             <br>\
-                                            &nbsp; &nbsp; All [<u>debris] must be cleared from the factory floor before sundown. This includes things like broken crates, fallen stems, and spilled seeds. In addition, any [<u>intruders], (like robbers or uninvited guests) must be removed at once.<br>\
+                                            &nbsp; &nbsp; All debris must be cleared from the factory floor before sundown. This includes things like broken crates, fallen stems, and spilled seeds. Also, any [<u>intruders], (like robbers or uninvited guests) must be removed at once.<br>\
                                             <br>\
-                                            Yours boss,<br>\
+                                            Your boss,<br>\
                                             Candlewick"
                                 }
                             }
@@ -445,7 +445,7 @@ const resource =  {
                                 passage: {
                                     text:   "Dear Hollow Jack,<br>\
                                             <br>\
-                                            &nbsp; &nbsp; The factory must be closed at night. Many [<u>nocturnal] animals will come out at that time: owls, bats, Fallcrawlers, and worse. It\'s important that you do not allow ANYTHING to [<u>lurk] near the entrance. Wolves, thieves, and other sneaking creatures are known to live near the farm.<br>\
+                                            &nbsp; &nbsp; The factory must be closed at night. Many [<u>nocturnal] animals will come out at that time: owls, bats, Fallcrawlers, and worse. It\'s important that you do not allow ANYTHING to [<u>lurk] near the entrance. Wolves, thieves, and other sneaky creatures are known to live near the farm.<br>\
                                             <br>\
                                             Your boss,<br>\
                                             Candlewick"
@@ -641,7 +641,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The map had [<u>unmarked] trails.",
+                                    text: "The map had unmarked trails.",
                                 }, 
                                 backgroundImage: {
                                     file: "16.png"
@@ -737,7 +737,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] If \"mis\u2014\" means [<i>wrong,] then \"misread\" means:",
+                        title: "[<g>3.] If \"mis-\" means [<i>wrong,] then \"misread\" means:",
                         correctIndex: 1,
                         paragraph: [
                             "To read ve{r}y slowly",

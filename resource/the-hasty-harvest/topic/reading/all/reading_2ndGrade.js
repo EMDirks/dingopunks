@@ -232,7 +232,7 @@ const resource =  {
                             transform: {
                                 translateX: "0%",
                                 translateY: "0%",
-                                rotate: "-1deg",
+                                rotate: "-2deg",
                             }
                         }
                     }
@@ -396,7 +396,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "E. We can see the moon through a telescope.",
+                                    text: "E. If you stand outside too long, you can get a [<u>sunburn]!",
                                 }, 
                                 backgroundImage: {
                                     file: "5.png"
@@ -432,7 +432,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "H. If you stand outside too long, you can get a [<u>sunburn]!",
+                                    text: "H. We can see the moon through a telescope.",
                                 }, 
                                 backgroundImage: {
                                     file: "8.png"
@@ -516,7 +516,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] The underlined word on puzzle piece H means:",
+                        title: "[<g>3.] The underlined word on the middle piece means:",
                         correctIndex: 0,
                         paragraph: [
                             "A burn y{o}u get from the sun",
@@ -649,8 +649,6 @@ const resource =  {
                                 font: 'default',
                                 size: 'mediumSmall',
                                 align: 'left',
-                                indent: 'default',
-                                brSplit: 'default'
                             },
                             dimension: {
                                 width: "full",

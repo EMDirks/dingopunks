@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
     gameMode = 'preview';
     isPreviewPage = true;
   }
-  else if (pathname.endsWith('into-the-undermurk.html') || pathname.endsWith('into-the-undermurk')) {
+  else if (
+    pathname.endsWith('enter-the-undermurk.html') || pathname.endsWith('enter-the-undermurk') ||
+    pathname.endsWith('into-the-undermurk.html') || pathname.endsWith('into-the-undermurk')
+  ) {
     gameMode = 'undermurk';
     isUndermurkPage = true;
   }
@@ -564,12 +567,6 @@ function updateAbsoluteElements() {
     ['.style-text--symbol--candy', 0.002, 'borderWidth'],
     ['.style-text--symbol--candy', 0.03, 'widthHeight'],
     ['.img-medal', 0.35, 'widthHeight'],
-    ['.modal__popup',0.5,'width'],
-    ['.modal__title',0.022,'fontSize'],
-    ['.modal__paragraph',0.015,'fontSize'],
-    ['.modal__button',0.02,'fontSize'],
-    ['.modal__x',0.02,'fontSize'],
-    ['.modal__x',0.022,'widthHeight'],
     ['.rate-limit-overlay__title',0.035,'fontSize'],
     ['.rate-limit-overlay__message',0.015,'fontSize'],
     ['.rate-limit-overlay__countdown',0.0015,'borderWidth'],
@@ -1648,6 +1645,27 @@ function styleText(input) {
   return input;
 }
 
+
+// global menu button
+const buttonMenuGlobal = document.querySelector('.button-menu-global');
+if (buttonMenuGlobal) {
+  buttonMenuGlobal.addEventListener('click', function() {
+    openGlobalMenu();
+  });
+}
+
+function openGlobalMenu() {
+  const menuHTML = `
+    <div class="global-menu__items">
+      <a class="global-menu__item" href="https://dingopunks.com/">Home</a>
+      <a class="global-menu__item" href="https://play.dingopunks.com/">Play</a>
+      <a class="global-menu__item" href="https://dingopunks.com/collections/all">Shop</a>
+      <a class="global-menu__item" href="https://dingopunks.com/pages/teacher-portal">Teachers</a>
+      <a class="global-menu__item" href="https://dingopunks.com/pages/contact">Contact</a>
+    </div>
+  `;
+  createModal('Menu', menuHTML, 'Close');
+}
 
 // modal
 function createModal(title,paragraph,button){

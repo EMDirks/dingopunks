@@ -2,7 +2,7 @@
 //
 // Renders the exact same score breakdown as the classic debrief, but inside
 // .dpaam-debrief-stats (the left half of .dpaam-debrief-container), leaving
-// .dpaam-debrief-minigame for the Into the Undermurk! minigame.
+// .dpaam-debrief-minigame for the Enter the Undermurk! minigame.
 //
 // Loads after debrief.js and reuses its globals: FEATURES, retrievedDebriefStats,
 // toggleClass and createModal. All DOM lookups here are scoped to the dpaam stats
@@ -22,13 +22,13 @@
   const dpaamContainer = document.querySelector('.dpaam-debrief-container');
   const minigameEl = document.querySelector('.dpaam-debrief-minigame');
 
-  // "Play Now" launches Into the Undermurk!, carrying over the characters that were
+  // "Play Now" launches Enter the Undermurk!, carrying over the characters that were
   // passed into the debrief via the ?characters= slug.
   if (minigameEl) {
     minigameEl.innerHTML = '<button class="dpaam-debrief-play-now" type="button">Play</button>';
     const playNowButton = minigameEl.querySelector('.dpaam-debrief-play-now');
     playNowButton.addEventListener('click', function () {
-      let url = 'into-the-undermurk.html';
+      let url = 'enter-the-undermurk.html';
       if (retrievedDebriefStats.characters) {
         url += '?characters=' + encodeURIComponent(retrievedDebriefStats.characters);
       }
@@ -42,6 +42,30 @@
 
   if (dpaamContainer) {
     dpaamContainer.classList.add('dpaam-debrief-container--stats-centered');
+  }
+
+  // Bottom menu bar (revealed with the minigame section).
+  const menuBar = document.querySelector('.dpaam-debrief-menu');
+  if (menuBar) {
+    const scoreButton = menuBar.querySelector('[data-action="score"]');
+    const playAgainButton = menuBar.querySelector('[data-action="play-again"]');
+    const undermurkButton = menuBar.querySelector('[data-action="undermurk"]');
+
+    if (scoreButton) {
+      scoreButton.addEventListener('click', function () {
+        window.location.href = 'debrief.html' + window.location.search;
+      });
+    }
+    if (playAgainButton) {
+      playAgainButton.addEventListener('click', function () {
+        window.location.href = 'index.html';
+      });
+    }
+    if (undermurkButton) {
+      undermurkButton.addEventListener('click', function () {
+        window.location.href = 'enter-the-undermurk.html';
+      });
+    }
   }
 
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
@@ -149,7 +173,6 @@
   const finalScoreRevealAfterTickDelay = 500;
   const minigameDelayAfterStats = 2000;
   const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep) + finalScoreDelay;
-  const finalSequenceEnd = statsRevealDuration + finalScoreCountDelay + finalScoreCountDuration + finalScoreRevealAfterTickDelay;
 
   const buttonExit = document.querySelector('.button__exit');
 
@@ -273,10 +296,16 @@
   let displayedMedalIndex = 0;
 
   function spawnFallingMedal(src) {
+    const mainRect = finalMedalImg.getBoundingClientRect();
+    const stageRect = finalMedalStage.getBoundingClientRect();
     const fallout = document.createElement('img');
     fallout.className = 'dpaam-debrief-final-medal dpaam-debrief-final-medal-fallout';
     fallout.src = src;
     fallout.alt = '';
+    fallout.style.left = (mainRect.left - stageRect.left) + 'px';
+    fallout.style.top = (mainRect.top - stageRect.top) + 'px';
+    fallout.style.width = mainRect.width + 'px';
+    fallout.style.height = mainRect.height + 'px';
     finalMedalStage.appendChild(fallout);
     fallout.addEventListener('animationend', () => fallout.remove());
   }
@@ -385,7 +414,9 @@
   }
 
   function bringInExit() {
-    toggleClass(buttonExit, 'button__exit--hidden', 'button__exit--visible');
+    if (menuBar) {
+      toggleClass(menuBar, 'dpaam-debrief-menu--hidden', 'dpaam-debrief-menu--visible');
+    }
   }
 
   function revealMinigame() {
@@ -406,12 +437,14 @@
   }
 
   function finishStatsDisplay() {
-    setTimeout(revealMinigame, minigameDelayAfterStats);
+    setTimeout(() => {
+      bringInExit();
+      revealMinigame();
+    }, minigameDelayAfterStats);
   }
 
   const debriefDelay = 3200;
   setTimeout(bringInStats, debriefDelay);
-  setTimeout(bringInExit, finalSequenceEnd + 2500 + debriefDelay);
 
   // ---- help modal (reuses the shared modal + copy from debrief.js) ----
   const icon = q('#dpaam-icon-clickable--debrief');

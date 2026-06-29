@@ -23,7 +23,7 @@ Report issues that would read as **mistakes** to a teacher or learner:
 1. **Spelling** — typos, inconsistent proper nouns for the **same** entity (e.g. title says "Blaze Flower" but the passage uses "Blazeflower").
 2. **Grammar and word choice** — subject–verb agreement, wrong preposition or verb valency (e.g. "sit one person" → "seat one person" / "fit one person"), clear tense problems.
 3. **Punctuation that breaks meaning** — missing closing quote in dialogue, doubled punctuation in displayed strings.
-4. **Copy hygiene** — stray **leading/trailing spaces** in options or labels; accidental `,,` in arrays if it surfaces in UI.
+4. **Copy hygiene** — stray **leading/trailing spaces** in options or labels; accidental `,,` in arrays if it surfaces in UI. **Exception:** a space between a closing escaped quote (`\"`) and end punctuation (`.`, `?`, `!`) is intentional—see below; do not flag it.
 5. **Logic / fairness** — answer key contradicts the passage; a stem says "paragraph two" but the keyed answer maps to a different block; crossword or code letters no longer match after a copy edit (call out when a text change would desync yellow-letter codes).
 
 ## What not to flag
@@ -33,6 +33,7 @@ Do **not** treat these as review findings unless the user explicitly asks for st
 - **Optional style** — debatable commas (e.g. comma before *or* in compound predicates), "sounds smoother if…" rewrites when the original is already acceptable English.
 - **Informal or dialect voice** — contractions, playful tone, "arch enemy" vs hyphenated forms, character grammar that matches voice.
 - **Punctuation inside styled/markup tokens** — colons, question marks, or periods inside `[<i>…]` (or similar) wrappers are fine if the product supports them.
+- **Space before end punctuation after `\"`** — in question stems and similar strings, a space between a closing escaped quote and terminal punctuation is a deliberate visual separator so the mark renders cleanly apart from the quoted text (e.g. `"Magic Pumpkin\" ?`, `"fortress\" ?`, `"Advice for Fall\" ?`). Do **not** suggest removing it.
 - **Empty placeholders** — `education.topic: ""`, `commonCore: ["XXX"]`, or other metadata left blank during production; do not nag unless the user asked to fill curriculum fields.
 - **No reassurance** — if nothing meets the bar above, output nothing (no "all clear"); see project `editorial-content-review` skill for the same "issues only" habit.
 
