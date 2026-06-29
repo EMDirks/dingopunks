@@ -366,40 +366,6 @@ function toggleModalVisibility(){
   }
 }
 
-// global menu button — debrief is always the 'finished' state
-const buttonMenuGlobal = document.querySelector('.button-menu-global');
-if (buttonMenuGlobal) {
-  buttonMenuGlobal.addEventListener('click', function() {
-    modalPopup.classList.add('modal__popup--global-menu');
-    createModal('Menu', buildGlobalMenuHTML('finished'), 'Close');
-  });
-}
-
-function buildGlobalMenuHTML(state) {
-  const teachersHTML = `
-    <div class="global-menu__teachers">
-      <div class="global-menu__teachers-links">
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
-      </div>
-    </div>
-  `;
-
-  return `
-    <div class="global-menu">
-      <div class="global-menu__kids">
-        <div class="global-menu__kids-links">
-          <a class="global-menu__kids-link" href="index.html">Play Again</a>
-          <a class="global-menu__kids-link" href="debrief.html">View Score</a>
-          <a class="global-menu__kids-link" href="enter-the-undermurk.html">Enter the Undermurk</a>
-        </div>
-      </div>
-      ${teachersHTML}
-    </div>
-  `;
-}
-
 iconDebrief.addEventListener("click", function() { 
   createModal(
     "How is your score calculated?",

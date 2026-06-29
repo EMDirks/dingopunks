@@ -127,6 +127,7 @@ button,input {
         background-color: rgba(var(--off-black),1);
         transition: opacity 1s;
         pointer-events: none;
+        z-index: 999;
     }
 
         .page-wrapper--visible {

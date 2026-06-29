@@ -899,7 +899,8 @@ function removeAccessInputs(){
 // title
 function addTitle(){
 
-    modal.remove();
+    hideModalElement();
+    window.globalMenuSplashStarted = true;
 
     if (gameMode !== "preview"){
       addUnloadEventListener();
@@ -969,8 +970,9 @@ function addFree(){
     }
   }
 
-  // remove modal
-  modal.remove();
+  // hide modal (keep it in the DOM so the shared modal/global menu still work)
+  hideModalElement();
+  window.globalMenuSplashStarted = true;
 
   // add title
   splashTitle.innerHTML = 'Choose a topic to begin.';

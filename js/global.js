@@ -1646,98 +1646,24 @@ function styleText(input) {
 }
 
 
-// global menu button
-const buttonMenuGlobal = document.querySelector('.button-menu-global');
-if (buttonMenuGlobal) {
-  buttonMenuGlobal.addEventListener('click', function() {
-    openGlobalMenu(getGlobalMenuState());
-  });
-}
-
-// Determines which global-menu state to show:
-//   'finished'   — on the debrief page (escape room complete)
-//   'active'     — escape room in progress (splash hidden, game on screen)
-//   'unfinished' — default (splash still visible, game not started)
-function getGlobalMenuState() {
-  if (window.location.pathname.endsWith('debrief.html')) {
-    return 'finished';
-  }
-  if (splash && splash.classList.contains('splash--hidden')) {
-    return 'active';
-  }
-  return 'unfinished';
-}
-
-function openGlobalMenu(state = 'unfinished') {
-  const menuHTML = buildGlobalMenuHTML(state);
-  modalPopup.classList.add('modal__popup--global-menu');
-  createModal('Menu', menuHTML, 'Close');
-}
-
-function buildGlobalMenuHTML(state) {
-  const teachersHTML = `
-    <div class="global-menu__teachers">
-      <div class="global-menu__teachers-links">
-        <a class="global-menu__teachers-link" href="https://dingopunks.com">Homepage</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
-      </div>
-    </div>
-  `;
-
-  if (state === 'unfinished') {
-    return `
-      <div class="global-menu">
-        <div class="global-menu__kids">
-          <div class="global-menu__kids-links">
-            <a class="global-menu__kids-link" href="index.html">Play Game</a>
-            <a class="global-menu__kids-link global-menu__kids-link--inactive">View Score</a>
-            <a class="global-menu__kids-link global-menu__kids-link--inactive">Enter the Undermurk</a>
-          </div>
-        </div>
-        ${teachersHTML}
-      </div>
-    `;
-  }
-
-  if (state === 'active') {
-    return `
-      <div class="global-menu">
-        <div class="global-menu__kids">
-          <div class="global-menu__kids-links">
-            <a class="global-menu__kids-link global-menu__kids-link--inactive">Play Game</a>
-            <a class="global-menu__kids-link global-menu__kids-link--inactive">View Score</a>
-            <a class="global-menu__kids-link global-menu__kids-link--inactive">Enter the Undermurk</a>
-          </div>
-        </div>
-        ${teachersHTML}
-      </div>
-    `;
-  }
-
-  if (state === 'finished') {
-    return `
-      <div class="global-menu">
-        <div class="global-menu__kids">
-          <div class="global-menu__kids-links">
-            <a class="global-menu__kids-link" href="index.html">Play Again</a>
-            <a class="global-menu__kids-link" href="debrief.html">View Score</a>
-            <a class="global-menu__kids-link" href="enter-the-undermurk.html">Enter the Undermurk</a>
-          </div>
-        </div>
-        ${teachersHTML}
-      </div>
-    `;
-  }
-}
-
 // modal
 function createModal(title,paragraph,button){
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
   toggleModalVisibility();
+}
+
+// Hides the shared modal without removing it from the DOM, so cached modal
+// references (and the global menu) keep working for the rest of the session.
+function hideModalElement(){
+  modal.classList.add('modal--hidden');
+  modal.classList.remove('modal--visible');
+  modalPopup.classList.add('modal__popup--hidden');
+  modalPopup.classList.remove('modal__popup--visible');
+  modalBlackout.classList.add('modal__blackout--hidden');
+  modalBlackout.classList.remove('modal__blackout--visible');
+  isModalVisible = false;
 }
 
 modalBlackout.addEventListener("click", function() { 
