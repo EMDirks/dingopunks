@@ -1654,17 +1654,39 @@ if (buttonMenuGlobal) {
   });
 }
 
-function openGlobalMenu() {
-  const menuHTML = `
-    <div class="global-menu__items">
-      <a class="global-menu__item" href="https://dingopunks.com/">Home</a>
-      <a class="global-menu__item" href="https://play.dingopunks.com/">Play</a>
-      <a class="global-menu__item" href="https://dingopunks.com/collections/all">Shop</a>
-      <a class="global-menu__item" href="https://dingopunks.com/pages/teacher-portal">Teachers</a>
-      <a class="global-menu__item" href="https://dingopunks.com/pages/contact">Contact</a>
+function openGlobalMenu(state = 'unfinished') {
+  const menuHTML = buildGlobalMenuHTML(state);
+  modalPopup.classList.add('modal__popup--global-menu');
+  createModal('Menu', menuHTML, 'Close');
+}
+
+function buildGlobalMenuHTML(state) {
+  const teachersHTML = `
+    <div class="global-menu__teachers">
+      <div class="global-menu__teachers-links">
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
+      </div>
     </div>
   `;
-  createModal('Menu', menuHTML, 'Close');
+
+  if (state === 'unfinished') {
+    return `
+      <div class="global-menu">
+        <div class="global-menu__kids">
+          <div class="global-menu__kids-links">
+            <a class="global-menu__kids-link" href="index.html">Play Now</a>
+            <a class="global-menu__kids-link global-menu__kids-link--inactive">View Score</a>
+            <a class="global-menu__kids-link global-menu__kids-link--inactive">Enter the Undermurk</a>
+          </div>
+        </div>
+        ${teachersHTML}
+      </div>
+    `;
+  }
+
+  // future states (e.g. 'finished') go here
 }
 
 // modal
@@ -1701,6 +1723,7 @@ function toggleModalVisibility(){
     setTimeout(hideModal,200);
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
+      modalPopup.classList.remove('modal__popup--global-menu');
     }
     isModalVisible = false;
     return false;

@@ -245,9 +245,10 @@ button, input[type="submit"], input[type="reset"] {
     left: 50%;
     transform: translate(-50%, -60%);
     border-radius: 8px;
+    border: none;
     transition: transform 0.2s, opacity 0.15s;
     box-sizing: border-box;
-    padding: 32px;
+    padding: 28px 32px 32px 32px;
 	transform-origin: 65% 100%;
 	display: flex;
 	flex-direction: column;
@@ -272,6 +273,7 @@ button, input[type="submit"], input[type="reset"] {
 .modal__paragraph {
 	line-height: 130%;
 	font-size: 24px;
+	margin-top: -2px;
 }
 
 .modal__x {
@@ -373,6 +375,13 @@ button, input[type="submit"], input[type="reset"] {
         font-size: 18px !important;
         padding: 3px 8px;
     }
+    .global-menu__kids-link {
+        font-size: 16px;
+        padding: 10px 8px;
+    }
+    .global-menu__teachers-link {
+        font-size: 16px;
+    }
 }
 
 .modal--hidden {
@@ -386,36 +395,96 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 
-/* global menu */
+/* ── Global Menu ───────────────────────────────────────────────────────── */
 
-.global-menu__items {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 32px;
-  gap: 6px;
+.global-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	width: 100%;
+	box-sizing: border-box;
 }
 
-.global-menu__item {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  text-align: left;
-  text-decoration: none;
-  color: inherit;
-  font-family: 'Primer Print Bold', sans-serif;
-  font-size: 24px;
-  background-color: rgba(var(--off-white), 1);
-  padding: 0px 0px 0px 6px;
-  border-radius: 2px;
+/* ── Kids section ──────────────────────────────────────────────────────── */
+
+.global-menu__kids {
+	margin-top: 6px;
 }
 
-.global-menu__item:hover {
+.global-menu__kids-links {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.global-menu__kids-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	min-width: 0;
+	box-sizing: border-box;
+	text-align: center;
+	text-decoration: none;
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: 24px;
+	line-height: 1;
+	padding: 16px 12px;
+	border-radius: 4px;
+	background-color: rgba(var(--gold), 1);
+	color: rgba(var(--off-black), 1);
+	cursor: pointer;
+}
+
+.global-menu__kids-link:hover {
 	filter: brightness(0.92);
 }
 
-.global-menu__item:active {
+.global-menu__kids-link:active {
+	filter: brightness(0.92);
+}
+
+.global-menu__kids-link--inactive {
+	background-color: rgba(var(--off-black), 0.08);
+	color: rgba(var(--off-black), 0.35);
+	cursor: default;
+	pointer-events: none;
+}
+
+/* ── Teachers section ──────────────────────────────────────────────────── */
+
+.global-menu__teachers {
+}
+
+.global-menu__teachers-links {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.global-menu__teachers-link {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	text-decoration: none;
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: 24px;
+	color: rgba(var(--off-black), 1);
+	border-radius: 2px;
+	background-color: rgba(var(--off-white), 1);
+}
+
+.global-menu__teachers-link:hover {
+	filter: brightness(0.92);
+}
+
+.global-menu__teachers-link:active {
+	filter: brightness(0.85);
 }
 
 /* menu */
