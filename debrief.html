@@ -41,7 +41,10 @@
 	<body>
 
 		<!-- exit button -->
-		<button class="button__exit button__exit--hidden style-border--default" onclick="history.back()">EXIT</button>
+		 <!--
+		<button class="button__exit button__exit--hidden style-border--default" onclick="history.back()">EXIT</button>-->
+
+		<button class="button-menu-global">Menu</button>
 
 		<!-- content -->
 		<div class = "content-wrapper">
@@ -51,7 +54,9 @@
 					<p class = "modal__x">&#x2715</p>
 					<p class = "modal__title"></p>
 					<p class = "modal__paragraph"></p>
-					<button class = "modal__button"></button>
+					<div class = "modal__actions">
+						<button class = "modal__button"></button>
+					</div>
 				</div>
 				<div class = "modal__blackout modal__blackout--hidden"></div>
 			</section>

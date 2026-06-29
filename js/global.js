@@ -1650,8 +1650,22 @@ function styleText(input) {
 const buttonMenuGlobal = document.querySelector('.button-menu-global');
 if (buttonMenuGlobal) {
   buttonMenuGlobal.addEventListener('click', function() {
-    openGlobalMenu();
+    openGlobalMenu(getGlobalMenuState());
   });
+}
+
+// Determines which global-menu state to show:
+//   'finished'   — on the debrief page (escape room complete)
+//   'active'     — escape room in progress (splash hidden, game on screen)
+//   'unfinished' — default (splash still visible, game not started)
+function getGlobalMenuState() {
+  if (window.location.pathname.endsWith('debrief.html')) {
+    return 'finished';
+  }
+  if (splash && splash.classList.contains('splash--hidden')) {
+    return 'active';
+  }
+  return 'unfinished';
 }
 
 function openGlobalMenu(state = 'unfinished') {
@@ -1664,6 +1678,7 @@ function buildGlobalMenuHTML(state) {
   const teachersHTML = `
     <div class="global-menu__teachers">
       <div class="global-menu__teachers-links">
+        <a class="global-menu__teachers-link" href="https://dingopunks.com">Homepage</a>
         <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
         <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
         <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
@@ -1676,7 +1691,7 @@ function buildGlobalMenuHTML(state) {
       <div class="global-menu">
         <div class="global-menu__kids">
           <div class="global-menu__kids-links">
-            <a class="global-menu__kids-link" href="index.html">Play Now</a>
+            <a class="global-menu__kids-link" href="index.html">Play Game</a>
             <a class="global-menu__kids-link global-menu__kids-link--inactive">View Score</a>
             <a class="global-menu__kids-link global-menu__kids-link--inactive">Enter the Undermurk</a>
           </div>
@@ -1686,7 +1701,35 @@ function buildGlobalMenuHTML(state) {
     `;
   }
 
-  // future states (e.g. 'finished') go here
+  if (state === 'active') {
+    return `
+      <div class="global-menu">
+        <div class="global-menu__kids">
+          <div class="global-menu__kids-links">
+            <a class="global-menu__kids-link global-menu__kids-link--inactive">Play Game</a>
+            <a class="global-menu__kids-link global-menu__kids-link--inactive">View Score</a>
+            <a class="global-menu__kids-link global-menu__kids-link--inactive">Enter the Undermurk</a>
+          </div>
+        </div>
+        ${teachersHTML}
+      </div>
+    `;
+  }
+
+  if (state === 'finished') {
+    return `
+      <div class="global-menu">
+        <div class="global-menu__kids">
+          <div class="global-menu__kids-links">
+            <a class="global-menu__kids-link" href="index.html">Play Again</a>
+            <a class="global-menu__kids-link" href="debrief.html">View Score</a>
+            <a class="global-menu__kids-link" href="enter-the-undermurk.html">Enter the Undermurk</a>
+          </div>
+        </div>
+        ${teachersHTML}
+      </div>
+    `;
+  }
 }
 
 // modal

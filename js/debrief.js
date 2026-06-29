@@ -359,10 +359,45 @@ function toggleModalVisibility(){
     setTimeout(hideModal,200);
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
+      modalPopup.classList.remove('modal__popup--global-menu');
     }
     isModalVisible = false;
     return false;
   }
+}
+
+// global menu button — debrief is always the 'finished' state
+const buttonMenuGlobal = document.querySelector('.button-menu-global');
+if (buttonMenuGlobal) {
+  buttonMenuGlobal.addEventListener('click', function() {
+    modalPopup.classList.add('modal__popup--global-menu');
+    createModal('Menu', buildGlobalMenuHTML('finished'), 'Close');
+  });
+}
+
+function buildGlobalMenuHTML(state) {
+  const teachersHTML = `
+    <div class="global-menu__teachers">
+      <div class="global-menu__teachers-links">
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
+      </div>
+    </div>
+  `;
+
+  return `
+    <div class="global-menu">
+      <div class="global-menu__kids">
+        <div class="global-menu__kids-links">
+          <a class="global-menu__kids-link" href="index.html">Play Again</a>
+          <a class="global-menu__kids-link" href="debrief.html">View Score</a>
+          <a class="global-menu__kids-link" href="enter-the-undermurk.html">Enter the Undermurk</a>
+        </div>
+      </div>
+      ${teachersHTML}
+    </div>
+  `;
 }
 
 iconDebrief.addEventListener("click", function() { 
@@ -488,13 +523,7 @@ function updateAbsoluteElements() {
       ['.icon-clickable--debrief', 0.04, 'fontSize'],
       ['.style-border--default', 0.0025, 'borderWidth'],
       ['.style-border--debrief', 0.004, 'borderWidth'],
-      ['.modal__popup', 0.67, 'width'],
-      ['.modal__title', 0.029, 'fontSize'],
-      ['.button__exit', 0.022, 'fontSize'],
-      ['.modal__paragraph', 0.02, 'fontSize'],
-      ['.modal__button', 0.026, 'fontSize'],
-      ['.modal__x', 0.027, 'fontSize'],
-      ['.modal__x', 0.029, 'widthHeight']
+      ['.button__exit', 0.022, 'fontSize']
     ]
   
     elements.forEach(([selector, scale, type]) => {

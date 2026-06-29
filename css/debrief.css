@@ -86,66 +86,6 @@ body {
     border-color: rgba(var(--off-black , 1));
 }
 
-.modal {
-    width: 100%;
-    height: 100%;
-    transition: translateZ(0);
-}
-
-.modal__popup {
-    width: 60%;
-    height: auto;
-    background-color: rgba(var(--off-white), 1);
-    z-index: 1000;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    border-radius: 1vmin;
-    transition: transform 0.2s, opacity 0.15s;
-    box-sizing: border-box;
-    padding: 2.5% 3%;
-	transform-origin: 65% 100%;
-}
-
-.modal__popup--hidden {
-    transform: translate(-50%, -60%) scale(0.8) rotate(-10deg);
-    opacity: 0;
-}
-
-.modal__popup--visible {
-    transform: translate(-50%, -45%);
-    opacity: 1;
-}
-
-.modal__title {
-    margin-bottom: 2%;
-}
-
-.modal__paragraph {
-    margin-bottom: 3.5%;
-    line-height: 125%;
-}
-
-.modal__x {
-	border-radius: 100vmin;
-	text-align: center;
-	position: absolute;
-	right: -2.8%;
-	top: -6.5%;
-	background-color: rgba(var(--salmon), 1);
-	padding: 1%;
-}
-
-.modal__x:hover {
-	background-color: rgba(var(--salmon-light), 1);
-	transform: scale(1.1);
-}
-
-.modal__x:active {
-	background-color: rgba(var(--salmon), 1);
-	transform: scale(1);
-}
 
 .link--text {
     text-decoration: underline;
@@ -158,53 +98,7 @@ body {
     border-radius: 0.1rem;
 }
 
-.modal__button {
-	background-color: rgba(var(--gold), 1);
-	color: rgba(var(--off-black), 1);
-    padding: 1% 3.5%;
-    border-radius: 1vmin;
-    cursor: pointer;
-	font-family: 'Primer Print Bold';
-	box-sizing: border-box;
-}
 
-.modal__button:hover {
-	background-color: rgba(var(--gold-light), 1);
-}
-
-.modal__button:active {
-	background-color: rgba(var(--gold), 1);
-}
-
-.modal__blackout {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(var(--off-black), 1);
-    position: absolute;
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.2s;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.modal__blackout--hidden {
-    opacity: 0;
-}
-
-.modal__blackout--visible {
-    opacity: 0.9;
-}
-
-.modal--hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.modal--visible {
-    opacity: 1;
-    pointer-events: auto;
-}
 
 button,input {
     cursor: url("../assets/interface/cursor/pointer.png"), auto;
