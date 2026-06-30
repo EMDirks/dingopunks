@@ -25,7 +25,24 @@ const resource =  {
                 education: {
                     topic: "Main Idea",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.6",
+                        "RI.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RI.3.1",
+                        "RI.3.2",
+                        "RI.3.8",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -171,7 +188,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] True or false: the red text in \"Magic Pumpkin\" tells you the main idea.",
+                        title: "[<g>4.] True or false: the red text in \"Magic Pumpkin\" tells us the main idea.",
                         columns: 2,
                         correctIndex: 0,
                         paragraph: [
@@ -204,7 +221,26 @@ const resource =  {
                 education: {
                     topic: "Main Idea and Supporting Details",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RI.3.1",
+                        "RI.3.2",
+                        "RI.3.8",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -228,13 +264,13 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: 'Advice for Fall',
+                                    text: 'The Truth About Fall',
                                 },
                                 subtitle: {
                                     text: "By Stefan Sage",
                                 },
                                 passage: {
-                                    text:   "&nbsp; &nbsp; Fall is special because it does not last. Allow me to explain. First, the leaves turn red and then fall off the trees. [<blu>Second, the crops grow big and beautiful, and then they get picked.] Third, the cool air gets colder every day, until it\'s too cold to go outside."
+                                    text:   "Fall is special because it does not last. Allow me to explain. First, the leaves turn red and then fall off the trees. [<blu>Second, the crops grow big and beautiful, and then they get picked.] Third, the cool air gets colder every day, until it\'s too cold to go outside."
                                     }
                             }
                         ],
@@ -354,7 +390,31 @@ const resource =  {
                 education: {
                     topic: "Main Idea and Details of Multiple Texts",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.10",
+                        "RL.2.1",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RI.3.1",
+                        "RI.3.2",
+                        "RI.3.8",
+                        "RI.3.10",
+                        "RL.3.1",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -421,7 +481,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "2%",
-                                translateY: "5%",
+                                translateY: "10%",
                                 rotate: "4deg",
                             }
                         }
@@ -477,7 +537,7 @@ const resource =  {
                     paragraph: [
                         'A. [<u>True] or [<u>false]: the first sentence of \"Where to Hide\" states the main idea.',
                         'B. Does \"Where to Hide\" have [<u>one], [<u>two], or [<u>three] supporting details?',
-                        'C. [<u>Right] or [<u>wrong]: [<i>the Fallcrawlers make creepy sounds] is the main idea of the poem.',     
+                        'C. [<u>Right] or [<u>wrong]: the main idea of the poem is that [<i>the Fallcrawlers make creepy sounds.]',     
                         'D. Read \"The Fallcrawlers.\" Does the [<u>first], [<u>third], or [<u>fourth] line state the main idea?',                    
                     ],
                     puzzle: [
@@ -513,7 +573,26 @@ const resource =  {
                 education: {
                     topic: "Main Idea and Details of a Story",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.5",
+                        "RL.3.10",
                     ],
                 }
             },

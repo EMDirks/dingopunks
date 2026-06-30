@@ -25,7 +25,22 @@ const resource =  {
                 education: {
                     topic: "Main Idea and Supporting Details",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1", 
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5", 
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.2",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.10",
+                        "RL.2.1",
                     ],
                 }
             },
@@ -179,7 +194,19 @@ const resource =  {
                 education: {
                     topic: "Poetry",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.L.5",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.4",
+                        "RL.2.9",
+                        "RL.2.10",
                     ],
                 }
             },
@@ -323,7 +350,26 @@ const resource =  {
                 education: {
                     topic: "Context Clues and Vocabulary",
                     commonCore: [
-                        "XXX"
+                        "CCRA.L.1",
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "L.2.4",
+                        "L.2.4a",
+                        "L.2.4b",
+                        "L.2.4d",
+                        "L.2.5",
+                        "L.2.5b",
+                        "L.2.6",
+                        "RF.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "RI.2.4",
                     ],
                 }
             },
@@ -505,7 +551,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] Read puzzle piece C. What is another word for \"shimmer\"?",
+                        title: "[<g>2.] Read puzzle piece C. What is another word for \"shimmer\" ?",
                         columns: 2,
                         correctIndex: 2,
                         paragraph: [
@@ -525,7 +571,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] If something is \"ragged\", that means it is ___ .",
+                        title: "[<g>4.] If something is \"ragged,\" that means it is ___ .",
                         correctIndex: 2,
                         paragraph: [
                             "Really b{i}g",
@@ -558,7 +604,21 @@ const resource =  {
                 education: {
                     topic: "Text Features",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.L.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "RI.2.1",
+                        "RI.2.5",
+                        "RI.2.7",
+                        "RI.2.10"
                     ],
                 }
             },
@@ -588,7 +648,7 @@ const resource =  {
                                     text: 'By Candlewick',
                                 },
                                 passage: {
-                                    text:   "The Pumpkin Packer runs all day and night. First, pumpkins roll onto the belt one by one. Then, the belt moves them to a big gear that [<hi>spins] fast. Finally, the pumpkin drops down and lands in a crate. Put on a lid, and the crate is ready to ship!"
+                                    text:   "The Pumpkin Packer runs all day and night. First, pumpkins roll onto the belt one by one. Then, the belt moves them to a big gear that [<hi>spins] fast. Finally, the pumpkins drop down and land in a crate. Put on a lid, and the crate is ready to ship!"
                                 }
                             }
                         ],
@@ -704,7 +764,20 @@ const resource =  {
                 education: {
                     topic: "Story Elements",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
                     ],
                 }
             },

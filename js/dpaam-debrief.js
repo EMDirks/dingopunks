@@ -1,16 +1,16 @@
-// Parallel debrief track for FEATURES.undermurk === true.
+// Parallel debrief track for UNDERMURK === true.
 //
 // Renders the exact same score breakdown as the classic debrief, but inside
 // .dpaam-debrief-stats (the left half of .dpaam-debrief-container), leaving
 // .dpaam-debrief-minigame for the Enter the Undermurk! minigame.
 //
-// Loads after debrief.js and reuses its globals: FEATURES, retrievedDebriefStats,
+// Loads after debrief.js and reuses its globals: UNDERMURK, retrievedDebriefStats,
 // toggleClass and createModal. All DOM lookups here are scoped to the dpaam stats
 // container so they never collide with the (hidden) classic debrief-container.
 
 (function () {
 
-  if (typeof FEATURES === 'undefined' || !FEATURES.undermurk) {
+  if (typeof UNDERMURK === 'undefined' || !UNDERMURK) {
     return;
   }
 

@@ -1,6 +1,4 @@
-const FEATURES = {
-  undermurk: true,
-}
+const version = '3.4.31';
 
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
@@ -43,7 +41,7 @@ let retrievedDebriefStats = {};
 queryString.split('&').forEach(function (param) {
   let [key, value] = param.split('=');
   retrievedDebriefStats[decodeURIComponent(key)] = decodeURIComponent(value);
-  if (!FEATURES.undermurk) {
+  if (!UNDERMURK) {
     setTimeout(updateDebrief,10);
   }
 });
@@ -51,7 +49,7 @@ queryString.split('&').forEach(function (param) {
 // Show the active container and hide the inactive one
 const debriefContainer = document.querySelector('.debrief-container');
 const dpaamDebriefContainer = document.querySelector('.dpaam-debrief-container');
-if (FEATURES.undermurk) {
+if (UNDERMURK) {
   // Keep debrief-container in the layout (hidden) so updateAbsoluteElements
   // can still read its offsetWidth to size .image-outcome.
   if (debriefContainer) {
@@ -62,7 +60,7 @@ if (FEATURES.undermurk) {
   if (dpaamDebriefContainer) dpaamDebriefContainer.style.display = 'none';
 }
 
-// Runs regardless of FEATURES.undermurk — sets and animates the victory/fail image
+// Runs regardless of UNDERMURK — sets and animates the victory/fail image
 function initOutcomeImage(){
   if (retrievedDebriefStats.outcome === 'fail'){
     imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/fail.png)";
@@ -79,7 +77,7 @@ function initOutcomeImage(){
   }, 2300);
 }
 
-if (FEATURES.undermurk) {
+if (UNDERMURK) {
   initOutcomeImage();
 }
 

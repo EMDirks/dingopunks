@@ -12,10 +12,26 @@ function buildGlobalMenuHTML(state) {
   const teachersHTML = `
     <div class="global-menu__teachers">
       <div class="global-menu__teachers-links">
-        <a class="global-menu__teachers-link" href="https://dingopunks.com">Homepage</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">Teacher Portal</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">Shop Escape Rooms</a>
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">Contact Us</a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com">
+          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-home.png" alt="" aria-hidden="true">
+          Home
+        </a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">
+          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-shop.png" alt="" aria-hidden="true">
+          Shop
+        </a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">
+          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-teachers.png" alt="" aria-hidden="true">
+          Teacher Portal
+        </a>
+        <a class="global-menu__teachers-link" href="membership.html">
+          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-dpaam.png" alt="" aria-hidden="true">
+          All-Access Membership
+        </a>
+        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/contact">
+          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-contact.png" alt="" aria-hidden="true">
+          Contact
+        </a>
       </div>
     </div>
   `;
@@ -65,15 +81,32 @@ function getGlobalMenuState() {
 
 function openGlobalMenu(state = 'unfinished') {
   modalPopup.classList.add('modal__popup--global-menu');
+  const modalVersionEl = document.querySelector('.modal-version');
+  if (modalVersionEl) {
+    const versionText = typeof version !== 'undefined'
+      ? `<span class="modal-version__number"> VERSION ${version}</span>`
+      : '';
+    modalVersionEl.innerHTML = `
+      ${versionText}
+      <a class="modal-version__link" href="https://dingopunks.com/policies/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
+      <a class="modal-version__link" href="https://dingopunks.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy</a>
+    `;
+  }
   createModal('Menu', buildGlobalMenuHTML(state), 'Close');
 }
 
 // Wires the menu button (no-op on pages without one).
 (function initGlobalMenuButton() {
   const buttonMenuGlobal = document.querySelector('.button-menu-global');
-  if (buttonMenuGlobal) {
-    buttonMenuGlobal.addEventListener('click', function() {
-      openGlobalMenu(getGlobalMenuState());
-    });
+  if (!buttonMenuGlobal) {
+    return;
   }
+  // Hidden when SHOW_GLOBAL_MENU_BUTTON (config.js) is false.
+  if (typeof SHOW_GLOBAL_MENU_BUTTON !== 'undefined' && !SHOW_GLOBAL_MENU_BUTTON) {
+    buttonMenuGlobal.style.display = 'none';
+    return;
+  }
+  buttonMenuGlobal.addEventListener('click', function() {
+    openGlobalMenu(getGlobalMenuState());
+  });
 })();
