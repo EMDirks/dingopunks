@@ -216,7 +216,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'The clock is ticking!',
+            text: 'The boat is leaving soon...',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-3.png',
