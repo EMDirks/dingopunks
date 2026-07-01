@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "Paradise Panic",
         path: "paradise-panic",
-        logo: "assets/branding/placeholder/need-image.png",
+        logo: "resource/paradise-panic/assets/branding/reading/all/thumbnail-4th-grade.png",
         timerLabel: "BOAT LEAVES"
     },
 
