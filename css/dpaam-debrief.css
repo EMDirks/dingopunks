@@ -19,7 +19,7 @@
 
 .dpaam-debrief-container > .dpaam-debrief-stats {
     width: 48%;
-    height: 88%;
+    height: 100%;
     box-sizing: border-box;
     padding: 0;
     display: flex;
@@ -38,7 +38,7 @@
 
 .dpaam-debrief-container > .dpaam-debrief-minigame {
     width: 48%;
-    height: 88%;
+    height: 100%;
     box-sizing: border-box;
     background-color: rgba(var(--black), 1);
     border-radius: 2vmin;
@@ -86,7 +86,7 @@
 } 
 
 .dpaam-debrief-container .p-title {
-    margin: 4% 0 5% 0;
+    margin: 6% 0 7% 0;
     text-align: center;
     font-size: 3cqi;
     line-height: 1;
@@ -185,7 +185,7 @@
     justify-content: center;
     width: 100%;
     margin-left: 0;
-    height: 22.3cqi;
+    height: 27.8cqi;
     padding-top: 2%;
     box-sizing: border-box;
 }
@@ -230,7 +230,7 @@
 
 .dpaam-debrief-container .stat-score .dpaam-debrief-final-medal {
     width: auto;
-    height: 21cqi;
+    height: 30cqi;
     max-width: 90%;
     object-fit: contain;
     position: relative;
@@ -244,7 +244,7 @@
 }
 
 .dpaam-debrief-container .stat-score .dpaam-debrief-final-medal--emphasis {
-    transform: scale(1.1) rotate(10deg);
+    transform: scale(1.2) rotate(10deg);
 }
 
 .dpaam-debrief-container .stat-score .dpaam-debrief-final-medal-fallout {
@@ -407,9 +407,10 @@
     align-items: center;
     line-height: 1.05;
     font-size: 2.5cqi;
-    padding: 10% 18% 11% 18%;
+    padding: 15% 25% 17% 25%;
     transform: none;
     border-radius: 1vmin;
+    gap: 0.2cqi;
 }
 
 .dpaam-debrief-container .stat-tier-capsule--final .stat-tier-capsule-rank-heading {
@@ -455,67 +456,4 @@
     text-align: center;
     color: rgba(var(--off-black), 1);
     font-size: 3cqi;
-}
-
-/* ---- bottom menu bar (absolute, anchored to .dpaam-debrief-container) ---- */
-.dpaam-debrief-menu {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    z-index: 100;
-    box-sizing: border-box;
-    transition: opacity 0.2s;
-    container-type: inline-size;
-    border-radius: 100vmin;
-    justify-content: center;
-}
-
-.dpaam-debrief-menu--hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.dpaam-debrief-menu--visible {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.dpaam-debrief-menu-button {
-    font-family: 'Primer Print Bold', sans-serif;
-    background-color: transparent;
-    color: rgba(var(--off-black), 1);
-    border: 0.25cqi solid rgba(var(--off-black), 1);
-    font-size: 2cqi;
-    text-align: center;
-    transition: background-color 0.15s ease-out, color 0.15s ease-out;
-    padding: 0.8% 2%;
-}
-
-.dpaam-debrief-menu-button:first-child {
-    border-radius: 1vmin 0 0 1vmin;
-    margin-right: -0.25cqi;
-}
-
-
-.dpaam-debrief-menu-button:last-child {
-    border-radius: 0 1vmin 1vmin 0;
-    margin-left: -0.25cqi;
-}
-
-.dpaam-debrief-menu-button--active {
-    background-color: rgba(var(--off-black), 1);
-    color: rgba(var(--gold), 1);
-}
-
-.dpaam-debrief-menu-button:active {
-    transform: scale(0.98);
-}
-
-@media (hover: hover) {
-    .dpaam-debrief-menu-button:not(.dpaam-debrief-menu-button--active):hover {
-        background-color: rgba(var(--gold), 1);
-    }
 }

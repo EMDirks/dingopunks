@@ -327,27 +327,25 @@ button, input[type="submit"], input[type="reset"] {
 	justify-content: flex-end;
 	align-items: flex-end;
 	gap: 8px;
+	margin-top: 8px;
 }
 
 .modal-version {
 	display: none;
 	flex-direction: row;
-	align-items: center;
-	flex-wrap: wrap;
+	align-items: flex-start;
 	margin-right: auto;
 	font-family: 'Primer Print Bold', sans-serif;
 	font-size: 14px;
 	color: rgba(var(--off-black), 0.5);
-}
-
-.modal__popup--global-menu .modal-version {
+	width: 100%;
 	display: flex;
 }
 
 .modal-version > *:not(:last-child)::after {
 	content: '•';
 	margin: 0 8px;
-	color: rgba(var(--off-black), 0.35);
+	color: rgba(var(--off-black), 0.5);
 }
 
 .modal-version__link {
@@ -356,7 +354,7 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .modal-version__link:hover {
-	color: rgba(var(--off-black), 0.75);
+	color: rgba(var(--off-black), 1);
 }
 
 .modal__blackout {
@@ -383,7 +381,7 @@ button, input[type="submit"], input[type="reset"] {
         padding: 4px 8px;
         top: 8px;
         right: 8px;
-        border-radius: 3px;
+        border-radius: 6px;
     }
     .modal__popup {
         width: calc(100% - 64px);
@@ -402,19 +400,38 @@ button, input[type="submit"], input[type="reset"] {
         padding: 6px 14px 7px 14px;
     }
     .modal__x {
-        font-size: 18px !important;
+        font-size: 20px !important;
         padding: 3px 8px;
     }
+    .global-menu {
+        gap: 16px !important;
+    }
+    .global-menu__kids {
+        margin-top: 2px !important;
+    }
+    .global-menu__kids-links {
+        gap: 8px !important;
+        padding-top: 8px !important;
+    }
     .global-menu__kids-link {
-        font-size: 16px;
-        padding: 10px 8px;
+        font-size: 16px !important;
+        padding: 0 !important;
+        gap: 0 !important;
+    }
+	.global-menu__kids-link-label {
+		padding: 5px 8px 6px 8px !important;
+	}
+    .global-menu__teachers-links {
+        gap: 4px !important;
     }
     .global-menu__teachers-link {
-        font-size: 16px;
+        font-size: 16px !important;
+        gap: 6px !important;
     }
     .global-menu__teachers-link-icon {
-        width: 18px;
-        height: 18px;
+        width: 12px !important;
+        height: 12px !important;
+        padding: 4px !important;
     }
 }
 
@@ -451,12 +468,14 @@ button, input[type="submit"], input[type="reset"] {
 	gap: 16px;
 	width: 100%;
 	box-sizing: border-box;
+	padding-top: 12px;
 }
 
 .global-menu__kids-link {
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
 	flex: 1;
 	min-width: 0;
 	box-sizing: border-box;
@@ -465,11 +484,69 @@ button, input[type="submit"], input[type="reset"] {
 	font-family: 'Primer Print Bold', sans-serif;
 	font-size: 24px;
 	line-height: 1;
-	padding: 16px 12px;
-	border-radius: 4px;
-	background-color: rgba(var(--gold), 1);
+	gap: 0;
+	border-radius: 8px;
 	color: rgba(var(--off-black), 1);
 	cursor: pointer;
+	overflow: visible;
+	position: relative;
+	border: 2.5px solid rgba(var(--off-black), 1);
+	background-color: rgba(var(--off-black), 1);
+}
+
+.modal__popup--global-menu .global-menu__kids-link {
+	opacity: 0;
+	transform: translateY(40px);
+}
+
+.modal__popup--global-menu.modal__popup--visible .global-menu__kids-link {
+	animation: global-menu-kids-link-in 0.2s ease-out forwards;
+}
+
+@keyframes global-menu-kids-link-in {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.global-menu__kids-link-image-wrap {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 4 / 2;
+	flex-shrink: 0;
+	overflow: visible;
+	background-color: rgba(var(--off-black), 1);
+	box-sizing: border-box;
+	border-radius: 6px 6px 0 0;
+	border-bottom: 2.5px solid rgba(var(--off-black), 1);
+}
+
+.global-menu__kids-link-image {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 131%;
+	object-fit: fill;
+	object-position: center bottom;
+}
+
+.global-menu__kids-link-label {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	line-height: 1.1;
+	min-height: 0;
+	padding: 10px 0 12px 0;
+	background-color: rgba(var(--gold), 1);
+	border-radius: 0 0 6px 6px;
 }
 
 .global-menu__kids-link:hover {
@@ -481,10 +558,89 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .global-menu__kids-link--inactive {
-	background-color: rgba(var(--off-black), 0.08);
-	color: rgba(var(--off-black), 0.35);
 	cursor: default;
+	cursor: url("../assets/interface/cursor/pointer-1x.png"), auto !important;
+	cursor: -webkit-image-set(
+		url("../assets/interface/cursor/pointer-1x.png") 1x,
+		url("../assets/interface/cursor/pointer-2x.png") 2x
+	), auto !important;
+}
+
+.global-menu__kids-link--inactive .global-menu__kids-link-image {
+	opacity: 1;
+}
+
+.global-menu__kids-link--inactive .global-menu__kids-link-image-wrap {
+	border-bottom: 2.5px solid var(--dpaam-brown);
+	background-color: var(--dpaam-brown);
+}
+
+.global-menu__kids-link--inactive .global-menu__kids-link-label {
+	color: var(--dpaam-brown);
+	background-color: var(--dpaam-tan);
+}
+
+.global-menu__kids-link-lock-clip {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	visibility: hidden;
+	z-index: 2;
 	pointer-events: none;
+	border-radius: 6px;
+}
+
+.global-menu__kids-link-lock {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	box-sizing: border-box;
+	padding: 8px;
+	width: 150%;
+	height: 100%;
+	transform: rotate(-45deg);
+	left: -30%;
+	top: -5%;
+	visibility: visible;
+}
+
+.global-menu__kids-link-lock-icon {
+	width: 18%;
+	height: auto;
+	flex-shrink: 0;
+}
+
+.global-menu__kids-link-lock-label {
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: 20px;
+	line-height: 1.1;
+	text-align: center;
+	color: rgba(var(--off-white), 1);
+	background-color: rgba(var(--off-black), 1);
+	border: 2.5px solid rgba(var(--off-black), 1);
+	padding: 4px;
+	width: 100%;
+}
+
+.global-menu__kids-link-lock-icon--wiggle {
+	animation: global-menu-kids-link-icon-wiggle 0.15s ease-in-out 2;
+}
+
+@keyframes global-menu-kids-link-icon-wiggle {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-8px);
+	}
+	75% {
+		transform: translateX(4px);
+	}
 }
 
 /* ── Teachers section ──────────────────────────────────────────────────── */

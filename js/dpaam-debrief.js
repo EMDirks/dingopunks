@@ -44,30 +44,6 @@
     dpaamContainer.classList.add('dpaam-debrief-container--stats-centered');
   }
 
-  // Bottom menu bar (revealed with the minigame section).
-  const menuBar = document.querySelector('.dpaam-debrief-menu');
-  if (menuBar) {
-    const scoreButton = menuBar.querySelector('[data-action="score"]');
-    const playAgainButton = menuBar.querySelector('[data-action="play-again"]');
-    const undermurkButton = menuBar.querySelector('[data-action="undermurk"]');
-
-    if (scoreButton) {
-      scoreButton.addEventListener('click', function () {
-        window.location.href = 'debrief.html' + window.location.search;
-      });
-    }
-    if (playAgainButton) {
-      playAgainButton.addEventListener('click', function () {
-        window.location.href = 'index.html';
-      });
-    }
-    if (undermurkButton) {
-      undermurkButton.addEventListener('click', function () {
-        window.location.href = 'enter-the-undermurk.html';
-      });
-    }
-  }
-
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
     <p class="p-title">&nbsp &nbsp Your Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
@@ -171,7 +147,7 @@
   const finalScoreCountDelay = 1000;
   const finalScoreCountDuration = 10500;
   const finalScoreRevealAfterTickDelay = 500;
-  const minigameDelayAfterStats = 2000;
+  const minigameDelayAfterStats = 1000;
   const statsRevealDuration = regularStats.length * (cardToCapsuleDelay + revealStep) + finalScoreDelay;
 
   const buttonExit = document.querySelector('.button__exit');
@@ -224,7 +200,7 @@
     return { class: 'stat-tier--perfect', label: 'Perfect' };
   }
 
-  const dpaamRankArray = ['"Rookie"', '"Apprentice"', '"Enigma"', '"Legend"', '"Brainwave"'];
+  const dpaamRankArray = ['ROOKIE', 'APPRENTICE', 'ENIGMA', 'LEGEND', 'BRAINWAVE'];
 
   const finalScoreRankTiers = [
     { min: 0, class: 'stat-tier--oof' },
@@ -413,12 +389,6 @@
     }, finalScoreRevealDelay + finalScoreCountDelay);
   }
 
-  function bringInExit() {
-    if (menuBar) {
-      toggleClass(menuBar, 'dpaam-debrief-menu--hidden', 'dpaam-debrief-menu--visible');
-    }
-  }
-
   function revealMinigame() {
     if (!dpaamContainer || !minigameEl || minigameEl.parentNode) {
       return;
@@ -437,10 +407,7 @@
   }
 
   function finishStatsDisplay() {
-    setTimeout(() => {
-      bringInExit();
-      revealMinigame();
-    }, minigameDelayAfterStats);
+    setTimeout(revealMinigame, minigameDelayAfterStats);
   }
 
   const debriefDelay = 3200;
