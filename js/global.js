@@ -597,7 +597,7 @@ function updateElementHeight() {
     ['.code-box-button',0.18],
     ['.code-input-flash',1.05],
     /* -container-wrapper',0.48], */
-    ['.promo-container',0.19],
+    ['.promo-container',0.17],
     ['.promo-container__resource',0.3],
     ['.promo-container__single-image',0.65],
   ];

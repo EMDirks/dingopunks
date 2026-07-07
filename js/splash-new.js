@@ -22,30 +22,6 @@ const promoDelay = 2000;
 const hidethemeDelay = 3000;
 const isAnswersMode = new URLSearchParams(window.location.search).get('answers') === '1';
 
-const theme = "summer";
-/** Theme key → background + optional character img (root-relative paths) */
-const themeAssets = {
-  all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
-  more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
-  spring: { background: 'resource/beehive-blitz/assets/cutscene/main.png' },
-  summer: {
-    background: 'resource/camp-calamari/assets/cutscene/main.png',
-    character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
-    text: 'Help defend Camp Calamari!',
-    button: 'Summer Escape Rooms →',
-    link: 'https://dingopunks.com/collections/digital-summer-escape-rooms'
-  },
-  fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
-  winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
-  valentines: { background: 'resource/cupids-countdown/assets/cutscene/main.png' },
-  st_patricks: { background: 'resource/rainbow-rescue/assets/cutscene/main.png' },
-  easter: { background: 'resource/eggworld-emergency/assets/cutscene/main.png' },
-  end_of_year: { background: 'resource/final-bell-breakout/assets/cutscene/main.png' },
-  halloween: { background: 'resource/funhouse-fright/assets/cutscene/main.png' },
-  thanksgiving: { background: 'resource/turkey-takedown/assets/cutscene/main.png' },
-  christmas: { background: 'resource/wacky-workshop/assets/cutscene/main.png' },
-};
-
 // set order
 let splashOrder = [];
 
@@ -469,7 +445,7 @@ function addAccess(){
 
   addPromo();
   function addPromo() {
-    const promoContainer = createElement('div', ['promo-container', 'promo-container--hidden'], splashContainer);
+    const promoContainer = createElement('a', ['promo-container', 'promo-container--hidden'], splashContainer);
 
     setTimeout(function bringInPromo() {
       const promoScript = document.createElement('script');
@@ -477,7 +453,7 @@ function addAccess(){
       promoScript.src = 'js/promo-container.js?version=' + version;
       promoScript.onload = function() {
         if (typeof renderPromoContainer === 'function') {
-          renderPromoContainer(promoContainer, theme, themeAssets);
+          renderPromoContainer(promoContainer);
         }
         toggleClass(promoContainer, 'promo-container--hidden', 'promo-container--visible');
         updateElementHeight();
