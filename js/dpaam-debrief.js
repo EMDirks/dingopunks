@@ -22,17 +22,11 @@
   const dpaamContainer = document.querySelector('.dpaam-debrief-container');
   const minigameEl = document.querySelector('.dpaam-debrief-minigame');
 
-  // "Play Now" launches Enter the Undermurk!, carrying over the characters that were
-  // passed into the debrief via the ?characters= slug.
+  // The minigame panel launches Enter the Undermurk!, carrying over the full
+  // debrief URL slug so score data and character preselection are preserved.
   if (minigameEl) {
-    minigameEl.innerHTML = '<button class="dpaam-debrief-play-now" type="button">Play</button>';
-    const playNowButton = minigameEl.querySelector('.dpaam-debrief-play-now');
-    playNowButton.addEventListener('click', function () {
-      let url = 'enter-the-undermurk.html';
-      if (retrievedDebriefStats.characters) {
-        url += '?characters=' + encodeURIComponent(retrievedDebriefStats.characters);
-      }
-      window.location.href = url;
+    minigameEl.addEventListener('click', function () {
+      window.location.href = 'enter-the-undermurk.html' + window.location.search;
     });
   }
 

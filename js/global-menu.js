@@ -95,6 +95,25 @@ function getPlayHomeHref() {
   return 'index.html';
 }
 
+function isEnterTheUndermurkPage() {
+  const pathname = window.location.pathname;
+  return pathname.endsWith('enter-the-undermurk.html') || pathname.endsWith('enter-the-undermurk') ||
+    pathname.endsWith('into-the-undermurk.html') || pathname.endsWith('into-the-undermurk');
+}
+
+function hasDebriefSlug() {
+  if (!window.location.search) {
+    return false;
+  }
+  const params = new URLSearchParams(window.location.search);
+  return params.has('outcome') || params.has('teamSize');
+}
+
+function appendLocationSearch(href) {
+  const search = window.location.search;
+  return search ? href + search : href;
+}
+
 function buildGlobalMenuHTML(state) {
   const teachersHTML = `
     <div class="global-menu__teachers">
@@ -125,21 +144,26 @@ function buildGlobalMenuHTML(state) {
 
   const kidsLinksByState = {
     unfinished: buildKidsLinksHTML([
-      { href: playHomeHref, label: 'Play Game', imageKey: 'play' },
-      { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
+      { href: playHomeHref, label: 'Play an<br>Escape Room', imageKey: 'play' },
+      { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     active: buildKidsLinksHTML([
-      { href: playHomeHref, label: 'Quit Game', imageKey: 'exitGame' },
-      { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
+      { href: playHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
+      { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     finished: buildKidsLinksHTML([
-      { href: 'index.html', label: 'Play Again', imageKey: 'playAgain' },
-      { label: 'View Score', imageKey: 'score', refresh: true },
+      { href: 'index.html', label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
+      { label: 'View Your<br>Score', imageKey: 'score', refresh: true },
       (typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON)
         ? { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' }
-        : { href: 'enter-the-undermurk.html', label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
+        : { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
+    ]),
+    undermurkFromDebrief: buildKidsLinksHTML([
+      { href: getPlayHomeHref(), label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
+      { href: appendLocationSearch('debrief.html'), label: 'View Your<br>Score', imageKey: 'score' },
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', refresh: true },
     ]),
   };
 
@@ -159,6 +183,9 @@ function buildGlobalMenuHTML(state) {
 function getGlobalMenuState() {
   if (window.location.pathname.endsWith('debrief.html')) {
     return 'finished';
+  }
+  if (isEnterTheUndermurkPage() && hasDebriefSlug()) {
+    return 'undermurkFromDebrief';
   }
   // 'active' once the user has advanced past step 1 (code entry) — set by
   // hideModalElement() calls in splash-new.js via window.globalMenuSplashStarted

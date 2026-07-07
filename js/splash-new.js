@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.33';
+const version = '3.4.34';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -699,7 +699,7 @@ function addFree(){
   hideModalElement();
 
   // add title
-  splashTitle.innerHTML = 'Choose a topic to begin.';
+  splashTitle.innerHTML = 'Choose an escape room to play.';
   splashSubtitle.innerHTML = 'Trying to play one of your purchases? &nbsp<span class="splash-text-link"><a href = "index.html">Click here</a></span>';
  
   // add elements
@@ -711,29 +711,29 @@ function addFree(){
     freeResource.id = 'free-resource-' + i;
     // Reading: 2nd → 3rd → 4th → 5th
     if (i === 0){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-reading-2nd.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/all/thumbnail-2nd-grade.png)";
     }
     if (i === 1){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-reading-3rd.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/all/thumbnail-3rd-grade.png)";
     }
     if (i === 2){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-reading-4th.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/all/thumbnail-4th-grade.png)";
     }
     if (i === 3){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-reading-5th.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/all/thumbnail-5th-grade.png)";
     }
     // Math: 2nd → 3rd → 4th → 5th
     if (i === 4){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-math-2nd.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-2nd-grade.png)";
     }
     if (i === 5){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-math-3rd.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-3rd-grade.png)";
     }
     if (i === 6){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-math-4th.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-4th-grade.png)";
     }
     if (i === 7){
-      freeResource.style.backgroundImage = "url(assets/splash/thumbnail-free-math-5th.png)";
+      freeResource.style.backgroundImage = "url(resource/escape-the-midnight-mall/assets/branding/math/all-standards/thumbnail-5th-grade.png)";
     }
 
       freeResource.addEventListener('click', function () {
@@ -1314,6 +1314,10 @@ function addCutscene(cutsceneIndex,section){
       if (section === "fail"){
         debriefStats.timeRemaining = 0;
       }     
+    if (playerCharacters.length) {
+      debriefStats.characters = playerCharacters.join(',');
+    }
+
     let queryString = Object.entries(debriefStats)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');

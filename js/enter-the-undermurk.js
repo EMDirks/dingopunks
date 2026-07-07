@@ -5,7 +5,9 @@
 //   1. A player-count setup step (How many players?).
 //   2. The "Play now" ready state and hand-off to the minigame.
 
-// Always null — Undermurk always starts at the player-count step.
+// Always null — Undermurk always starts at the player-count settings step.
+// The debrief URL slug is preserved in the address bar for View Score navigation
+// but is not used to preselect characters or skip setup.
 let undermurkPreselectedCharacters = null;
 
 // Player-count-only setup step (no slug path). Mirrors the main game's tab styling.

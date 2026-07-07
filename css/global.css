@@ -469,7 +469,7 @@ button, input[type="submit"], input[type="reset"] {
 .global-menu__kids-links {
 	display: flex;
 	flex-direction: row;
-	gap: 16px;
+	gap: 12px;
 	width: 100%;
 	box-sizing: border-box;
 	padding-top: 12px;
@@ -548,7 +548,7 @@ button, input[type="submit"], input[type="reset"] {
 	text-align: center;
 	line-height: 1.05;
 	min-height: 0;
-	padding: 12px 0 14px 0;
+	padding: 12px 0 15px 0;
 	border-radius: 0 0 6px 6px;
 }
 
@@ -629,7 +629,7 @@ button, input[type="submit"], input[type="reset"] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	top: -20%;
+	top: -21%;
 }
 
 .global-menu__kids-link-lock-icon {

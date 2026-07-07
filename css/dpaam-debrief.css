@@ -44,32 +44,18 @@
     flex-shrink: 0;
     opacity: 1;
     transform: translateX(0);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.15s ease-out;
     border: 0.25vmin solid var(--dpaam-white);
+    cursor: pointer;
 }
 
-.dpaam-debrief-play-now {
-    font-family: 'Primer Print Bold', sans-serif;
-    background-color: rgba(var(--gold), 1);
-    color: rgba(var(--off-black), 1);
-    border: none;
-    padding: 3% 9% 3.5% 9%;
-    border-radius: 1.5vmin;
-    font-size: 3.5cqi;
-    line-height: 1;
-    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
-}
-
-.dpaam-debrief-play-now:active {
-    transform: scale(0.95);
+.dpaam-debrief-container > .dpaam-debrief-minigame:active {
+    filter: brightness(0.92);
 }
 
 @media (hover: hover) {
-    .dpaam-debrief-play-now:hover {
-        background-color: rgba(var(--off-white), 1);
+    .dpaam-debrief-container > .dpaam-debrief-minigame:hover {
+        filter: brightness(1.08);
     }
 }
 
