@@ -44,17 +44,34 @@ function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, lockLabel
   const enterDelay = KIDS_LINK_ENTER_BASE_DELAY_MS + staggerIndex * KIDS_LINK_ENTER_STAGGER_MS;
   const styleAttr = ` style="animation-delay: ${enterDelay}ms"`;
   const image = kidsCardImages[imageKey][inactive ? 'inactive' : 'active'];
-  const lockHTML = inactive && lockLabel ? `
-      <div class="global-menu__kids-link-lock-clip" aria-hidden="true">
-        <img class="global-menu__kids-link-lock-icon" src="assets/global/menu-lock.png" alt="" aria-hidden="true">
-      </div>
-      <span class="global-menu__kids-link-lock-label">${lockLabel}</span>` : '';
-  return `
-    <${tag} class="global-menu__kids-link${imageKeyClass}${inactiveClass}"${hrefAttr}${styleAttr}>
+  const imageWrapHTML = `
       <div class="global-menu__kids-link-image-wrap">
         <img class="global-menu__kids-link-image" src="${image}" alt="" aria-hidden="true">
-      </div>
-      <span class="global-menu__kids-link-label">${label}</span>${lockHTML}
+      </div>`;
+  const labelHTML = `<span class="global-menu__kids-link-label">${label}</span>`;
+
+  if (inactive) {
+    const lockHTML = lockLabel ? `
+      <div class="global-menu__kids-link-lock-wrap">
+        <div class="global-menu__kids-link-lock-clip" aria-hidden="true">
+          <img class="global-menu__kids-link-lock-icon" src="assets/global/menu-lock.png" alt="" aria-hidden="true">
+        </div>
+        <span class="global-menu__kids-link-lock-label">${lockLabel}</span>
+      </div>` : '';
+    return `
+    <${tag} class="global-menu__kids-link${imageKeyClass}${inactiveClass}"${hrefAttr}${styleAttr}>
+      <div class="global-menu__kids-link-content">
+        ${imageWrapHTML}
+        ${labelHTML}
+      </div>${lockHTML}
+    </${tag}>
+  `;
+  }
+
+  return `
+    <${tag} class="global-menu__kids-link${imageKeyClass}${inactiveClass}"${hrefAttr}${styleAttr}>
+      ${imageWrapHTML}
+      ${labelHTML}
     </${tag}>
   `;
 }
@@ -197,7 +214,7 @@ function playInactiveKidsLinkWiggle(link) {
     if (e.animationName === 'global-menu-kids-link-icon-wiggle') {
       e.target.classList.remove('global-menu__kids-link-lock-icon--wiggle');
     }
-    if (e.animationName === 'global-menu-kids-link-lock-label-flash') {
+    if (e.animationName === 'global-menu-kids-link-lock-label-slam') {
       e.target.classList.remove('global-menu__kids-link-lock-label--flash');
     }
   });
