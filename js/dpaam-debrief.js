@@ -46,7 +46,7 @@
 
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
-    <p class="p-title">&nbsp &nbsp Your Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
+    <p class="p-title">Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
 
     <div class="stat-container">
       <div class="stat stat-team stat--hidden">

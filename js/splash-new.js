@@ -4,7 +4,6 @@ let splashContent;
 let splashButton;
 let splashTitle;
 let splashSubtitle;
-let promoData;
 
 // set variables
 let splashIndex = 0;
@@ -17,15 +16,13 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const isPromoEnabled = true;
-const promoDataSet = 'promo-summer-2';
 const version = '3.4.33';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
-let theme = "summer";
 const isAnswersMode = new URLSearchParams(window.location.search).get('answers') === '1';
 
+const theme = "summer";
 /** Theme key → background + optional character img (root-relative paths) */
 const themeAssets = {
   all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
@@ -34,7 +31,9 @@ const themeAssets = {
   summer: {
     background: 'resource/camp-calamari/assets/cutscene/main.png',
     character: 'resource/camp-calamari/assets/activity/character/chef-gumbo.png',
-    speech: 'Help us defend Camp Calamari!',
+    text: 'Help defend Camp Calamari!',
+    button: 'Summer Escape Rooms →',
+    link: 'https://dingopunks.com/collections/digital-summer-escape-rooms'
   },
   fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
   winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
@@ -49,222 +48,6 @@ const themeAssets = {
 
 // set order
 let splashOrder = [];
-
-// promo data
-if (promoDataSet === 'shop-spring'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/spring-escape-rooms.png)',
-      link: 'https://www.teacherspayteachers.com/Store/Puzzle-Punks',
-    }
-  }
-}
-if (promoDataSet === 'math-free'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/math-escape-rooms.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-free',
-    }
-  }
-}
-if (promoDataSet === 'fall-new'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/fall-escape-rooms.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-autumn',
-    }
-  }
-}
-if (promoDataSet === 'fall-new-2'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-fall-2.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-autumn-1217969',
-    }
-  }
-}
-if (promoDataSet === 'promo-halloween'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-halloween.png)',
-      link: 'https://dingopunks.com/collections/halloween-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-fall-3'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-fall-3.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-autumn-1217969',
-    }
-  }
-}
-if (promoDataSet === 'promo-fall-sale'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-fall-sale.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-autumn-1217969',
-    }
-  }
-}
-if (promoDataSet === 'promo-winter-sale'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-winter-sale.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks/category-winter-1217970',
-    }
-  }
-}
-if (promoDataSet === 'promo-winter-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-winter-1.png)',
-      link: 'https://dingopunks.com/collections/digital-winter-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-valentines-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-valentines-1.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
-    }
-  }
-}
-if (promoDataSet === 'promo-valentines-2'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-valentines-2.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
-    }
-  }
-}
-if (promoDataSet === 'promo-valentines-3'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-valentines-3.png)',
-      link: 'https://dingopunks.com/collections/digital-valentines-day-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'spring-sale'){
-  promoData = {
-    title: 'Spring <span class = "text-gold">TEST PREP</span> Escape Rooms',
-    resources: [
-      {
-        backgroundImage: 'url(assets/branding/promo-previews/beehive-blitz-3rd-reading.png)',
-        link: 'https://www.teacherspayteachers.com/Product/3rd-Grade-Reading-Comprehension-Escape-Room-Digital-Spring-Easter-Patricks-11181104',
-        text: '3rd &#x25B8'
-      },
-      {
-        backgroundImage: 'url(assets/branding/promo-previews/beehive-blitz-4th-reading.png)',
-        link: 'https://www.teacherspayteachers.com/Product/4th-Grade-Reading-Comprehension-Escape-Room-Digital-Spring-Easter-Patricks-11181146',
-        text: '4th &#x25B8'
-      },
-      {
-        backgroundImage: 'url(assets/branding/promo-previews/beehive-blitz-5th-reading.png)',
-        link: 'https://www.teacherspayteachers.com/Product/5th-Grade-Reading-Comprehension-Escape-Room-Digital-Spring-Easter-Patricks-11181185',
-        text: '5th &#x25B8'
-      }
-    ]
-  }
-}
-if (promoDataSet === 'promo-st-patricks-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-st-patricks-1.png)',
-      link: 'https://dingopunks.com/collections/digital-st-patricks-day-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-spring-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-spring-1.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
-    }
-  }
-}
-if (promoDataSet === 'promo-easter-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-easter-1.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
-    }
-  }
-}
-if (promoDataSet === 'promo-summer-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-summer-1.png)',
-      link: 'https://www.teacherspayteachers.com/store/puzzle-punks',
-    }
-  }
-}
-if (promoDataSet === 'promo-summer-2'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-summer-2.png)',
-      link: 'https://dingopunks.com/collections/summer-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-pickle-1'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-pickle-1.png)',
-      link: 'https://dingopunks.com/collections/all-year',
-    }
-  }
-}
-if (promoDataSet === 'promo-fall-4'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-fall-4.png)',
-      link: 'https://dingopunks.com/collections/fall-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-thanksgiving'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-thanksgiving.png)',
-      link: 'https://dingopunks.com/collections/digital-thanksgiving-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-christmas'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-christmas.png)',
-      link: 'https://dingopunks.com/collections/digital-christmas-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-spring-2'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-spring-2.png)',
-      link: 'https://dingopunks.com/collections/digital-spring-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-easter-2'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-easter-2.png)',
-      link: 'https://dingopunks.com/collections/digital-easter-escape-rooms',
-    }
-  }
-}
-if (promoDataSet === 'promo-spring-3'){
-  promoData = {
-    singleImage: {
-      backgroundImage: 'url(assets/website/promo/promo-spring-3.png)',
-      link: 'https://dingopunks.com/collections/digital-spring-escape-rooms',
-    }
-  }
-}
 
 function isPinLockedOut() {
   return pinLockoutTimeoutId !== null;
@@ -683,60 +466,26 @@ function addAccess(){
     
   }
   setSoftwareKeyboardFunctionality("access-input","access-input-container");    
-   
-  
-  // promo
+
   addPromo();
-  function addPromo(){
-    if (isPromoEnabled === true /* && gameMode !== "preview" */) {
+  function addPromo() {
+    const promoContainer = createElement('div', ['promo-container', 'promo-container--hidden'], splashContainer);
 
-      // timer
-      setTimeout(bringInPromo,promoDelay);
-    
-      // container
-      let promoContainer = createElement('div', ['promo-container', 'promo-container--hidden'], splashContainer);
-
-      //title
-      let promoContainerBanner = createElement('p', ['promo-container__banner'], promoContainer);
-      if (promoData.title){
-        promoContainerBanner.innerHTML = promoData.title;
-      }
-
-      // resources
-      if (promoData.resources){
-        let promoContainerResourceWrapper = createElement('div', ['promo-container__resource-wrapper'], promoContainer);
-        for (let i = 0; i < 3; i++) {
-          let promoContainerResource = createElement('div', ['promo-container__resource'], promoContainerResourceWrapper); 
-          let promoLink = createElement('a', ['promo-link'], promoContainerResource); 
-          let promoContainerResourceOverlay = createElement('div', ['promo-container__resource-overlay'], promoLink);
-          let promoContainerResourceOverlayText = createElement('p', ['promo-container__resource-overlay__text'], promoContainerResourceOverlay);
-          promoContainerResource.style.backgroundImage = promoData.resources[i].backgroundImage;  
-          promoContainerResourceOverlayText.innerHTML = promoData.resources[i].text; 
-          promoLink.href = promoData.resources[i].link;  
-          promoLink.target = "_blank";
-        }   
-      }
-
-      // singleImage
-      if (promoData.singleImage){
-        let promoLink = createElement('a', ['promo-link'], promoContainer); 
-        promoLink.href = promoData.singleImage.link;  
-        promoLink.target = "_blank";
-        let promoContainerSingleImage = createElement('div', ['promo-container__single-image'], promoLink);
-        promoContainerSingleImage.style.backgroundImage = promoData.singleImage.backgroundImage;  
-      }
-
-      function bringInPromo(){
-        toggleClass(promoContainer,'promo-container--hidden','promo-container--visible');
-      }  
-
-      updateElementHeight();
-      updateElementSize();
-
-    }
-
+    setTimeout(function bringInPromo() {
+      const promoScript = document.createElement('script');
+      promoScript.type = 'text/javascript';
+      promoScript.src = 'js/promo-container.js?version=' + version;
+      promoScript.onload = function() {
+        if (typeof renderPromoContainer === 'function') {
+          renderPromoContainer(promoContainer, theme, themeAssets);
+        }
+        toggleClass(promoContainer, 'promo-container--hidden', 'promo-container--visible');
+        updateElementHeight();
+        updateElementSize();
+      };
+      document.body.appendChild(promoScript);
+    }, promoDelay);
   }
-  
 
 }
 

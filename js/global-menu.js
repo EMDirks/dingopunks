@@ -127,12 +127,12 @@ function buildGlobalMenuHTML(state) {
     unfinished: buildKidsLinksHTML([
       { href: playHomeHref, label: 'Play Game', imageKey: 'play' },
       { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Game First' },
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     active: buildKidsLinksHTML([
       { href: playHomeHref, label: 'Quit Game', imageKey: 'exitGame' },
       { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Game First' },
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     finished: buildKidsLinksHTML([
       { href: 'index.html', label: 'Play Again', imageKey: 'playAgain' },

@@ -71,16 +71,6 @@
     opacity: 1;
 }
 
-.promo-container {
-    transition: transform 0.1s;
-}
-
-.promo-container:hover {
-    transform: scale(1.1);
-}
-
-
-
 @keyframes slideInBounceDown {
     0% {
         transform: translateY(0%);

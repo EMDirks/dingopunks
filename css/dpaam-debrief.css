@@ -17,10 +17,6 @@
     gap: 4%;
 }
 
-.p-title {
-    margin-left: -6% !important;
-}
-
 .dpaam-debrief-container > .dpaam-debrief-stats {
     width: 48%;
     height: 100%;
@@ -164,6 +160,7 @@
     width: 100%;
     position: relative;
     overflow: hidden;
+    height: 33.5cqi;
 }
 
 .dpaam-debrief-container .stat-score .p-debrief-title {
