@@ -1651,6 +1651,12 @@ function createModal(title,paragraph,button){
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
+  if (!modalPopup.classList.contains('modal__popup--global-menu')) {
+    const modalVersionEl = document.querySelector('.modal-version');
+    if (modalVersionEl) {
+      modalVersionEl.innerHTML = '';
+    }
+  }
   toggleModalVisibility();
 }
 
@@ -1693,6 +1699,10 @@ function toggleModalVisibility(){
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
       modalPopup.classList.remove('modal__popup--global-menu');
+      const modalVersionEl = document.querySelector('.modal-version');
+      if (modalVersionEl) {
+        modalVersionEl.innerHTML = '';
+      }
     }
     isModalVisible = false;
     return false;

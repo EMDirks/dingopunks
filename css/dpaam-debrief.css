@@ -17,6 +17,10 @@
     gap: 4%;
 }
 
+.p-title {
+    margin-left: -6% !important;
+}
+
 .dpaam-debrief-container > .dpaam-debrief-stats {
     width: 48%;
     height: 100%;
@@ -27,7 +31,7 @@
     flex-shrink: 0;
     margin-left: 0;
     transition: margin-left 0.3s ease-out;
-    border: 0.35vmin solid var(--dpaam-black);
+    border: 0.25vmin solid var(--dpaam-white);
     border-radius: 2vmin;
     background-color: var(--dpaam-black) !important;
 }
@@ -40,7 +44,6 @@
     width: 48%;
     height: 100%;
     box-sizing: border-box;
-    background-color: rgba(var(--black), 1);
     border-radius: 2vmin;
     flex-shrink: 0;
     opacity: 1;
@@ -49,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 0.25vmin solid var(--dpaam-white);
 }
 
 .dpaam-debrief-play-now {

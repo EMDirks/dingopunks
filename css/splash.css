@@ -16,6 +16,7 @@
     transition-delay: 0s;
     line-height: 100%;
     width: 100%;
+    display: none;
 }
 
 .splash-nav--visible {
@@ -65,6 +66,7 @@
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
+    display: none;
 }
 
 .splash-version--visible {
@@ -86,6 +88,7 @@
     transition: opacity 0.4s;
     transition-delay: 0s;
     line-height: 100%;
+    display: none;
 }
 
 .splash-note span {

@@ -77,6 +77,8 @@
 		<!-- website container -->
 		<div class = "site-container">
 
+			<button class="button-menu-global">Menu</button>
+
 			<!-- rate limit overlay -->
 		<section class="rate-limit-overlay rate-limit-overlay--hidden">
 			<div class="rate-limit-overlay__content">
@@ -92,7 +94,10 @@
 					<p class = "modal__x">&#x2715</p>
 					<p class = "modal__title"></p>
 					<p class = "modal__paragraph"></p>
-					<button class = "modal__button"></button>
+					<div class = "modal__actions">
+						<div class = "modal-version"></div>
+						<button class = "modal__button"></button>
+					</div>
 				</div>
 				<div class = "modal__blackout modal__blackout--hidden"></div>
 			</section>
@@ -202,8 +207,10 @@
 		<!-- scripts -->
 		<div id = "script-resource"></div>	
 		<div id = "script-cutscene"></div>	
+		<script type="text/javascript" src="js/config.js?version=3.4.33"></script>
 		<script type="text/javascript" src="js/analytics.js?version=3.4.33"></script>	
 		<script type="text/javascript" src="js/global.js?version=3.4.33"></script>
+		<script type="text/javascript" src="js/global-menu.js?version=3.4.33"></script>
 		<script type="text/javascript" src="js/home.js?version=3.4.33"></script>
 		<script type="text/javascript" src="js/scene.js?version=3.4.33"></script>
 		<script type="text/javascript" src="js/activity.js?version=3.4.33"></script>

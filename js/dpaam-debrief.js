@@ -420,7 +420,7 @@
       createModal(
         'How is your score calculated?',
         "Your score is determined by <span class = 'p--highlight'>the sum of 4 stats:</span> players, challenges, hints, and time. Each is worth up to 250 points. For a higher score, you must complete every available challenge, all while minimizing the number of players on your team, the number of hints used, and the time spent.<br>",
-        'Got it!'
+        'Close'
       );
     });
   }

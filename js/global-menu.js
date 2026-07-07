@@ -40,18 +40,17 @@ function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, lockLabel
     ? ' href="#" onclick="window.location.reload(); return false;"'
     : !inactive && href ? ` href="${href}"` : '';
   const inactiveClass = inactive ? ' global-menu__kids-link--inactive' : '';
+  const imageKeyClass = imageKey ? ` global-menu__kids-link--${imageKey}` : '';
   const enterDelay = KIDS_LINK_ENTER_BASE_DELAY_MS + staggerIndex * KIDS_LINK_ENTER_STAGGER_MS;
   const styleAttr = ` style="animation-delay: ${enterDelay}ms"`;
   const image = kidsCardImages[imageKey][inactive ? 'inactive' : 'active'];
   const lockHTML = inactive && lockLabel ? `
       <div class="global-menu__kids-link-lock-clip" aria-hidden="true">
-        <div class="global-menu__kids-link-lock">
-          <img class="global-menu__kids-link-lock-icon" src="assets/global/menu-lock.png" alt="" aria-hidden="true">
-          <span class="global-menu__kids-link-lock-label">${lockLabel}</span>
-        </div>
-      </div>` : '';
+        <img class="global-menu__kids-link-lock-icon" src="assets/global/menu-lock.png" alt="" aria-hidden="true">
+      </div>
+      <span class="global-menu__kids-link-lock-label">${lockLabel}</span>` : '';
   return `
-    <${tag} class="global-menu__kids-link${inactiveClass}"${hrefAttr}${styleAttr}>
+    <${tag} class="global-menu__kids-link${imageKeyClass}${inactiveClass}"${hrefAttr}${styleAttr}>
       <div class="global-menu__kids-link-image-wrap">
         <img class="global-menu__kids-link-image" src="${image}" alt="" aria-hidden="true">
       </div>
@@ -66,6 +65,17 @@ function buildKidsLinksHTML(cards) {
     html += buildKidsLinkCard({ ...cards[i], staggerIndex: i });
   }
   return html;
+}
+
+function getPlayHomeHref() {
+  const pathname = window.location.pathname;
+  if (pathname.endsWith('free-play.html') || pathname.endsWith('/free-play')) {
+    return 'free-play.html';
+  }
+  if (pathname.endsWith('answer-key.html') || pathname.endsWith('/answer-key')) {
+    return 'answer-key.html';
+  }
+  return 'index.html';
 }
 
 function buildGlobalMenuHTML(state) {
@@ -94,21 +104,25 @@ function buildGlobalMenuHTML(state) {
     </div>
   `;
 
+  const playHomeHref = getPlayHomeHref();
+
   const kidsLinksByState = {
     unfinished: buildKidsLinksHTML([
-      { href: 'index.html', label: 'Play Now', imageKey: 'play' },
+      { href: playHomeHref, label: 'Play Game', imageKey: 'play' },
       { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Game First' },
     ]),
     active: buildKidsLinksHTML([
-      { href: 'index.html', label: 'Exit Game', imageKey: 'exitGame' },
+      { href: playHomeHref, label: 'Quit Game', imageKey: 'exitGame' },
       { label: 'View Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Game First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Game First' },
     ]),
     finished: buildKidsLinksHTML([
       { href: 'index.html', label: 'Play Again', imageKey: 'playAgain' },
       { label: 'View Score', imageKey: 'score', refresh: true },
-      { href: 'enter-the-undermurk.html', label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
+      (typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON)
+        ? { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' }
+        : { href: 'enter-the-undermurk.html', label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
     ]),
   };
 
@@ -155,12 +169,19 @@ function openGlobalMenu(state = 'unfinished') {
 
 function playInactiveKidsLinkWiggle(link) {
   const lockIcon = link.querySelector('.global-menu__kids-link-lock-icon');
-  if (!lockIcon) {
-    return;
+  const lockLabel = link.querySelector('.global-menu__kids-link-lock-label');
+
+  if (lockIcon) {
+    lockIcon.classList.remove('global-menu__kids-link-lock-icon--wiggle');
+    void lockIcon.offsetWidth;
+    lockIcon.classList.add('global-menu__kids-link-lock-icon--wiggle');
   }
-  lockIcon.classList.remove('global-menu__kids-link-lock-icon--wiggle');
-  void lockIcon.offsetWidth;
-  lockIcon.classList.add('global-menu__kids-link-lock-icon--wiggle');
+
+  if (lockLabel) {
+    lockLabel.classList.remove('global-menu__kids-link-lock-label--flash');
+    void lockLabel.offsetWidth;
+    lockLabel.classList.add('global-menu__kids-link-lock-label--flash');
+  }
 }
 
 (function initGlobalMenuInactiveWiggle() {
@@ -175,6 +196,9 @@ function playInactiveKidsLinkWiggle(link) {
   document.addEventListener('animationend', function(e) {
     if (e.animationName === 'global-menu-kids-link-icon-wiggle') {
       e.target.classList.remove('global-menu__kids-link-lock-icon--wiggle');
+    }
+    if (e.animationName === 'global-menu-kids-link-lock-label-flash') {
+      e.target.classList.remove('global-menu__kids-link-lock-label--flash');
     }
   });
 })();

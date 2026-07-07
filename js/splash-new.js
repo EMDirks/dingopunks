@@ -654,7 +654,7 @@ function addAccess(){
       createModal(
         "What's a game code?",
         "A game code is a unique <span class = 'p--highlight'>5-character code</span> needed to play a Dingo Punks escape room. If you're a student, your teacher will give it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
-        "Got it"
+        "Close"
       )
     });
   });
@@ -972,7 +972,6 @@ function addFree(){
 
   // hide modal (keep it in the DOM so the shared modal/global menu still work)
   hideModalElement();
-  window.globalMenuSplashStarted = true;
 
   // add title
   splashTitle.innerHTML = 'Choose a topic to begin.';
@@ -1093,6 +1092,7 @@ function addFree(){
     }
 
       function nextStep(){
+        window.globalMenuSplashStarted = true;
         handlePreloading('onPinInput');
         setTimeout(transitionSplash, 400);
       }

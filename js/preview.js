@@ -9,7 +9,7 @@ function bootstrapPreviewRoom() {
     createModal(
       "Game not found",
       "That preview link is invalid. Please return to the membership page and try again.",
-      "Got it!"
+      "Close"
     );
     return;
   }

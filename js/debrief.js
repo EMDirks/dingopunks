@@ -328,6 +328,12 @@ function createModal(title,paragraph,button){
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
+  if (!modalPopup.classList.contains('modal__popup--global-menu')) {
+    const modalVersionEl = document.querySelector('.modal-version');
+    if (modalVersionEl) {
+      modalVersionEl.innerHTML = '';
+    }
+  }
   toggleModalVisibility();
 }
 
@@ -358,6 +364,10 @@ function toggleModalVisibility(){
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
       modalPopup.classList.remove('modal__popup--global-menu');
+      const modalVersionEl = document.querySelector('.modal-version');
+      if (modalVersionEl) {
+        modalVersionEl.innerHTML = '';
+      }
     }
     isModalVisible = false;
     return false;
@@ -369,7 +379,7 @@ iconDebrief.addEventListener("click", function() {
     "How is your score calculated?",
     "Your score is determined by <span class = 'p--highlight'>the sum of 4 stats:</span> players, challenges, hints, and time. Each is worth up to 250 points. For a higher score, you must complete every available challenge, all while minimizing the number of players on your team, the number of hints used, and the time spent.<br>\
     ",
-    "Got it!"
+    "Close"
   )
 });
 

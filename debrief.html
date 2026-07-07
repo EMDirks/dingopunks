@@ -40,14 +40,18 @@
 
 	<body>
 
-		<!-- exit button -->
-		 <!--
-		<button class="button__exit button__exit--hidden style-border--default" onclick="history.back()">EXIT</button>-->
-
-		<button class="button-menu-global">Menu</button>
+		<!-- device rotation -->
+		<div class = "div-rotate">
+			<div class = "div-rotate-content">
+				<img class = "img-rotate" src = "assets/website/rotate-device-example.png" alt = "example of a device in landscape mode">
+				<p class = "p-rotate"><span class = "p-rotate--gold">Rotate your device!</span> Dingo Punks works best in landscape mode.</p>
+			</div>
+		</div>	
 
 		<!-- content -->
 		<div class = "content-wrapper">
+			
+			<button class="button-menu-global">Menu</button>
 
 			<section class = "modal modal--hidden">
 				<div class = "modal__popup modal__popup--hidden">
@@ -61,10 +65,6 @@
 				</div>
 				<div class = "modal__blackout modal__blackout--hidden"></div>
 			</section>
-
-			<div class = "div-rotate">
-				<p class = "p-rotate">Rotate your device.</p>
-			</div>	
 
 			<section class = debrief-container>
 
