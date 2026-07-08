@@ -459,7 +459,7 @@ function renderLibrary() {
       const saved = isFavorite(game.id);
       const addAction = saved
         ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">✓ &nbsp;Added</button>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">+ Add</button>`;
+        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">Add</button>`;
       const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li

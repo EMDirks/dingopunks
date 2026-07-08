@@ -2,7 +2,7 @@
 const UNDERMURK = true;
 
 // Active/inactive "Enter the Undermurk" kids link in the global menu on debrief.
-const UNDERMURK_BUTTON = true;
+const UNDERMURK_BUTTON = false;
 
 // Controls the floating global-menu button
 const SHOW_GLOBAL_MENU_BUTTON = true;

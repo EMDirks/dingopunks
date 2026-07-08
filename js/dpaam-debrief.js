@@ -25,6 +25,37 @@
   // The minigame panel launches Enter the Undermurk!, carrying over the full
   // debrief URL slug so score data and character preselection are preserved.
   if (minigameEl) {
+    // Same CRT static overlay used on the promo container and intro cutscenes.
+    if (!minigameEl.querySelector('.splash-tv-overlay')) {
+      const tvOverlay = document.createElement('div');
+      tvOverlay.classList.add('splash-tv-overlay', 'splash-tv-overlay--visible');
+      minigameEl.appendChild(tvOverlay);
+    }
+
+    // Diagonal bar cutting across the tile with two stacked labels.
+    if (!minigameEl.querySelector('.dpaam-debrief-coming-soon')) {
+      const comingSoonBar = document.createElement('div');
+      comingSoonBar.classList.add('dpaam-debrief-coming-soon');
+
+      const titleLabel = document.createElement('span');
+      titleLabel.classList.add('dpaam-debrief-coming-soon__title');
+      titleLabel.textContent = 'Enter the Undermurk';
+
+      const statusLabel = document.createElement('span');
+      statusLabel.classList.add('dpaam-debrief-coming-soon__status');
+      statusLabel.textContent = 'Coming Soon';
+
+      const lockIcon = document.createElement('img');
+      lockIcon.classList.add('dpaam-debrief-coming-soon__lock');
+      lockIcon.src = 'assets/global/menu-lock.png';
+      lockIcon.alt = '';
+
+      comingSoonBar.appendChild(titleLabel);
+      comingSoonBar.appendChild(statusLabel);
+      comingSoonBar.appendChild(lockIcon);
+      minigameEl.appendChild(comingSoonBar);
+    }
+
     minigameEl.addEventListener('click', function () {
       window.location.href = 'enter-the-undermurk.html' + window.location.search;
     });
