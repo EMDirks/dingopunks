@@ -36,15 +36,35 @@
     margin-left: 25%;
 }
 
-.dpaam-debrief-container > .dpaam-debrief-minigame {
+.dpaam-debrief-container > .dpaam-debrief-minigame-panel {
     width: 48%;
     height: 100%;
     box-sizing: border-box;
-    border-radius: 2vmin;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    border: 0.25vmin solid var(--dpaam-white);
+    border-radius: 2vmin;
+    background-color: var(--dpaam-black) !important;
+    overflow: hidden;
+}
+
+.dpaam-debrief-container > .dpaam-debrief-minigame-panel.dpaam-debrief-minigame-panel--enter {
+    opacity: 0;
+    transform: translateX(12%);
+}
+
+.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame {
+    flex: 1 1 auto;
+    width: auto;
+    min-height: 0;
+    margin: 0 4% 4% 4%;
+    box-sizing: border-box;
+    border-radius: 1vmin;
     border: 0.25vmin solid var(--dpaam-white);
     cursor: pointer;
     position: relative;
@@ -55,19 +75,14 @@
     background-repeat: no-repeat;
 }
 
-.dpaam-debrief-container > .dpaam-debrief-minigame:active {
+.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:active {
     filter: brightness(0.92);
 }
 
 @media (hover: hover) {
-    .dpaam-debrief-container > .dpaam-debrief-minigame:hover {
+    .dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:hover {
         filter: brightness(1.2);
     }
-}
-
-.dpaam-debrief-container > .dpaam-debrief-minigame.dpaam-debrief-minigame--enter {
-    opacity: 0;
-    transform: translateX(12%);
 }
 
 /* CRT static overlay (mirrors .splash-tv-overlay from splash-new.css) */
@@ -121,11 +136,16 @@
     text-transform: uppercase;
 }
 
-.dpaam-debrief-coming-soon > .dpaam-debrief-coming-soon__lock {
+.dpaam-debrief-coming-soon > .dpaam-debrief-coming-soon__lock-wrap {
     position: absolute;
     left: 50%;
     top: -40%;
     transform: translate(-50%, -50%);
+    line-height: 0;
+}
+
+.dpaam-debrief-coming-soon__lock-wrap > .dpaam-debrief-coming-soon__lock {
+    display: block;
     height: 4.5cqi;
     width: auto;
 }
@@ -138,33 +158,29 @@
 } 
 
 .dpaam-debrief-container .p-title {
-    margin: 6% 0 7% 0;
+    margin: 6% 0 5% 7%;
     text-align: center;
     font-size: 3cqi;
     line-height: 1;
     color: var(--dpaam-white);
 }
 
-.dpaam-debrief-container .p-title .icon-clickable--debrief {
+.dpaam-debrief-container .p-title .icon-clickable--splash {
     color: rgba(var(--off-black), 1);
     background-color: rgba(var(--gold), 1);
     display: inline-block;
-    padding: 0.1em 0.35em;
+    padding: 0em 0.28em;
     border-radius: 100vmin;
-    transform: scale(0.4) translate(-60%, -35%);
+    transform: scale(0.4) translate(-60%, -60%);
     box-sizing: border-box;
-    font-size: 1.2em;
+    font-size: 1.5em;
     vertical-align: middle;
     margin-left: 0.1em;
-    display: none;
+    opacity: 0.5;
 }
 
-.dpaam-debrief-container .p-title .icon-clickable--debrief:hover {
-    background-color: rgba(var(--gold-light), 1);
-}
-
-.dpaam-debrief-container .p-title .style-border--debrief {
-    border: none !important;
+.dpaam-debrief-container .p-title .icon-clickable--splash:hover {
+    opacity: 1;
 }
 
 /* ---- stat cards ---- */
@@ -213,7 +229,7 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    height: 33.5cqi;
+    height: 33cqi;
 }
 
 .dpaam-debrief-container .stat-score .p-debrief-title {

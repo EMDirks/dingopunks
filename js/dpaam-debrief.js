@@ -2,7 +2,8 @@
 //
 // Renders the exact same score breakdown as the classic debrief, but inside
 // .dpaam-debrief-stats (the left half of .dpaam-debrief-container), leaving
-// .dpaam-debrief-minigame for the Enter the Undermurk! minigame.
+// .dpaam-debrief-minigame-panel (title + .dpaam-debrief-minigame tile) for the
+// Enter the Undermurk! bonus activity.
 //
 // Loads after debrief.js and reuses its globals: UNDERMURK, retrievedDebriefStats,
 // toggleClass and createModal. All DOM lookups here are scoped to the dpaam stats
@@ -20,9 +21,26 @@
   }
 
   const dpaamContainer = document.querySelector('.dpaam-debrief-container');
+  const minigamePanel = document.querySelector('.dpaam-debrief-minigame-panel');
   const minigameEl = document.querySelector('.dpaam-debrief-minigame');
 
-  // The minigame panel launches Enter the Undermurk!, carrying over the full
+  // Title lives on the panel (sibling of the clickable tile) so help / tooltip
+  // clicks never hit UNDERMURK_BUTTON handlers on .dpaam-debrief-minigame.
+  if (minigamePanel && !minigamePanel.querySelector('.p-title')) {
+    const minigameTitle = document.createElement('p');
+    minigameTitle.classList.add('p-title');
+    minigameTitle.appendChild(document.createTextNode('Bonus Mission'));
+
+    const minigameHelp = document.createElement('span');
+    minigameHelp.classList.add('icon-clickable--splash');
+    minigameHelp.id = 'dpaam-minigame-icon-clickable--splash';
+    minigameHelp.textContent = '?';
+    minigameTitle.appendChild(minigameHelp);
+
+    minigamePanel.insertBefore(minigameTitle, minigamePanel.firstChild);
+  }
+
+  // The minigame tile launches Enter the Undermurk!, carrying over the full
   // debrief URL slug so score data and character preselection are preserved.
   if (minigameEl) {
     // Same CRT static overlay used on the promo container and intro cutscenes.
@@ -32,8 +50,12 @@
       minigameEl.appendChild(tvOverlay);
     }
 
-    // Diagonal bar cutting across the tile with two stacked labels.
-    if (!minigameEl.querySelector('.dpaam-debrief-coming-soon')) {
+    // Locked "Coming Soon" bar when UNDERMURK_BUTTON is off (matches global menu).
+    if (
+      typeof UNDERMURK_BUTTON !== 'undefined' &&
+      !UNDERMURK_BUTTON &&
+      !minigameEl.querySelector('.dpaam-debrief-coming-soon')
+    ) {
       const comingSoonBar = document.createElement('div');
       comingSoonBar.classList.add('dpaam-debrief-coming-soon');
 
@@ -45,24 +67,54 @@
       statusLabel.classList.add('dpaam-debrief-coming-soon__status');
       statusLabel.textContent = 'Coming Soon';
 
+      // Wrapper holds centering transform so the shared menu wiggle can run on the img.
+      const lockWrap = document.createElement('span');
+      lockWrap.classList.add('dpaam-debrief-coming-soon__lock-wrap');
+
       const lockIcon = document.createElement('img');
       lockIcon.classList.add('dpaam-debrief-coming-soon__lock');
       lockIcon.src = 'assets/global/menu-lock.png';
       lockIcon.alt = '';
 
+      lockWrap.appendChild(lockIcon);
       comingSoonBar.appendChild(titleLabel);
       comingSoonBar.appendChild(statusLabel);
-      comingSoonBar.appendChild(lockIcon);
+      comingSoonBar.appendChild(lockWrap);
       minigameEl.appendChild(comingSoonBar);
     }
 
+    const undermurkLocked =
+      typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON;
+
     minigameEl.addEventListener('click', function () {
+      if (undermurkLocked) {
+        const lockIcon = minigameEl.querySelector('.dpaam-debrief-coming-soon__lock');
+        if (lockIcon) {
+          lockIcon.classList.remove('global-menu__kids-link-lock-icon--wiggle');
+          void lockIcon.offsetWidth;
+          lockIcon.classList.add('global-menu__kids-link-lock-icon--wiggle');
+        }
+        return;
+      }
       window.location.href = 'enter-the-undermurk.html' + window.location.search;
     });
   }
 
-  if (minigameEl && minigameEl.parentNode) {
-    minigameEl.remove();
+  if (minigamePanel) {
+    const minigameHelpIcon = minigamePanel.querySelector('#dpaam-minigame-icon-clickable--splash');
+    if (minigameHelpIcon && typeof createModal === 'function') {
+      minigameHelpIcon.addEventListener('click', function () {
+        createModal(
+          'What\'s a bonus mission?',
+          'We\'re building something new: a Bonus Mission section with new adventures after you finish an escape room! First up: Enter the Undermurk, a dangerous mission from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon!<br>',
+          'Close'
+        );
+      });
+    }
+  }
+
+  if (minigamePanel && minigamePanel.parentNode) {
+    minigamePanel.remove();
   }
 
   if (dpaamContainer) {
@@ -71,7 +123,7 @@
 
   // ---- markup (mirrors the classic debrief-container, with scoped IDs) ----
   statsRoot.innerHTML = `
-    <p class="p-title">Score<span class="icon-clickable--debrief style-border--debrief" id="dpaam-icon-clickable--debrief">?</span></p>
+    <p class="p-title">Score<span class="icon-clickable--splash" id="dpaam-icon-clickable--splash">?</span></p>
 
     <div class="stat-container">
       <div class="stat stat-team stat--hidden">
@@ -415,16 +467,16 @@
   }
 
   function revealMinigame() {
-    if (!dpaamContainer || !minigameEl || minigameEl.parentNode) {
+    if (!dpaamContainer || !minigamePanel || minigamePanel.parentNode) {
       return;
     }
 
-    minigameEl.classList.add('dpaam-debrief-minigame--enter');
-    dpaamContainer.appendChild(minigameEl);
+    minigamePanel.classList.add('dpaam-debrief-minigame-panel--enter');
+    dpaamContainer.appendChild(minigamePanel);
     dpaamContainer.classList.remove('dpaam-debrief-container--stats-centered');
 
     requestAnimationFrame(() => {
-      minigameEl.classList.remove('dpaam-debrief-minigame--enter');
+      minigamePanel.classList.remove('dpaam-debrief-minigame-panel--enter');
     });
 
     if (typeof updateElementHeight === 'function') updateElementHeight();
@@ -438,13 +490,13 @@
   const debriefDelay = 3200;
   setTimeout(bringInStats, debriefDelay);
 
-  // ---- help modal (reuses the shared modal + copy from debrief.js) ----
-  const icon = q('#dpaam-icon-clickable--debrief');
+  // ---- help modal (same ? pattern as splash / index.html) ----
+  const icon = q('#dpaam-icon-clickable--splash');
   if (icon && typeof createModal === 'function') {
     icon.addEventListener('click', function () {
       createModal(
-        'How is your score calculated?',
-        "Your score is determined by <span class = 'p--highlight'>the sum of 4 stats:</span> players, challenges, hints, and time. Each is worth up to 250 points. For a higher score, you must complete every available challenge, all while minimizing the number of players on your team, the number of hints used, and the time spent.<br>",
+        'How does scoring work?',
+        "Your score is made up of 4 things: players, challenges, hints, and time. Each is worth up to 250 points. Want a higher score? Keep your team small, finish every challenge, avoid using hints, and move fast.<br>",
         'Close'
       );
     });

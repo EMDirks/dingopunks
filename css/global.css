@@ -379,6 +379,16 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 @media (max-width: 600px), (max-height: 600px) {
+
+	.button-menu-global {
+		padding: 3px 6px;
+		border-radius: 6px;
+		top: 6px;
+		right: 6px;
+		font-size: 15px;
+		border: 2.5px solid rgba(var(--off-black), 1);
+	}
+
 	.modal__popup {
 		padding: 16px;
 		max-width: calc(100%-32px);
