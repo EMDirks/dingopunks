@@ -114,7 +114,6 @@ button,input {
         max-width: 180vh;
         left: 50%;
 	    transform: translateX(-50%);
-        background-color: blue;
     }
 
     .page-wrapper {
@@ -128,7 +127,6 @@ button,input {
         transition: opacity 1s;
         pointer-events: none;
         z-index: 999;
-        background-color: red;
     }
 
         .page-wrapper--visible {
