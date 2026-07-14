@@ -1259,8 +1259,8 @@ function focusNextInput(event, inputClass, inputElement, parentElement, keyboard
       const nextInputElement = inputElements[nextIndex];
       // If the nextInputElement value is empty
       if (nextInputElement.value === '') {
-        // Set it in focus
-        nextInputElement.focus();
+        // Set it in focus without letting Safari scroll the page
+        nextInputElement.focus({ preventScroll: true });
         // And set it to the new current inputElement
         activeInput__codeInput = nextInputElement;
         return;
@@ -1576,6 +1576,19 @@ let vh;
 function setContainerSize(){
   vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// iOS Safari force-scrolls the page to reveal a focused input even when
+// inputmode="none" suppresses the keyboard; on this fixed layout it never
+// scrolls back, leaving the game stuck behind the URL bar.
+function pinWindowScroll() {
+  if (window.scrollY !== 0 || window.scrollX !== 0) {
+    window.scrollTo(0, 0);
+  }
+}
+window.addEventListener('scroll', pinWindowScroll);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('scroll', pinWindowScroll);
 }
 
 // Style text
