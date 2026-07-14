@@ -180,6 +180,15 @@ button, input[type="submit"], input[type="reset"] {
 	font-size: 20px;
 	z-index: 998;
 	border: 2.5px solid rgba(var(--off-black), 1);
+	opacity: 1;
+	transition: opacity 0.5s;
+}
+
+/* Drop beneath .site-container (z-index: 0) while the splash bumper is visible */
+.button-menu-global--under-bumper {
+	z-index: 0;
+	opacity: 0;
+	transition: none;
 }
 
 .button-menu-global:hover {

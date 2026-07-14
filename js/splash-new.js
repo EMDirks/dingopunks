@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.37';
+const version = '3.4.38';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -231,6 +231,18 @@ function transitionSplash(){
 // BUMPER
 /////////
 
+// Sink the global menu under .site-container for the bumper fade (1s + 0.5s opacity)
+const BUMPER_MENU_UNDER_MS = 1000;
+function setMenuUnderBumper(isUnder) {
+  const menu = document.querySelector('.button-menu-global');
+  if (!menu) return;
+  if (isUnder) {
+    menu.classList.add('button-menu-global--under-bumper');
+  } else {
+    menu.classList.remove('button-menu-global--under-bumper');
+  }
+}
+
 // game code
 function addAccess(){
 
@@ -244,6 +256,7 @@ function addAccess(){
     addPreviewBumper();
   }
   function addBumper(){
+    setMenuUnderBumper(true);
     let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], splash);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     setTimeout(hideBumperContainer,1000);
@@ -258,6 +271,7 @@ function addAccess(){
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
+    setTimeout(function() { setMenuUnderBumper(false); }, BUMPER_MENU_UNDER_MS);
   }
   function addTheme(){
     const themeContainer = createElement('div', ['theme-container', 'theme-container--visible'], splash);
@@ -323,6 +337,7 @@ function addAccess(){
     }
   }
   function addPreviewBumper(){
+    setMenuUnderBumper(true);
     let bumperContainer = createElement('div', ['bumper-container--preview', 'bumper-container--visible'], splash);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     bumperLogo.style.backgroundImage = "url('assets/branding/logo/logo-answer-key.png')";
@@ -338,6 +353,7 @@ function addAccess(){
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
+    setTimeout(function() { setMenuUnderBumper(false); }, BUMPER_MENU_UNDER_MS);
   }
 
   // trigger test mode
@@ -679,6 +695,7 @@ function addFree(){
   // add bumper
   addBumper();
   function addBumper(){
+    setMenuUnderBumper(true);
     let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], splash);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     setTimeout(hideBumperContainer,1000);
@@ -693,6 +710,7 @@ function addFree(){
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
+    setTimeout(function() { setMenuUnderBumper(false); }, BUMPER_MENU_UNDER_MS);
   }
 
   // hide modal (keep it in the DOM so the shared modal/global menu still work)
