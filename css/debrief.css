@@ -110,7 +110,6 @@ button,input {
     .content-wrapper {
         width: 100vw;
         height: 100vh;
-	    height: calc(var(--vh, 1vh) * 100);
         position: relative;
         max-width: 180vh;
         left: 50%;
