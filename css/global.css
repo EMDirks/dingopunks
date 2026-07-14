@@ -425,6 +425,15 @@ button, input[type="submit"], input[type="reset"] {
 	.global-menu__kids-links {
 		gap: 8px !important;
 	}
+	.global-menu__kids-link {
+		border-width: 1.5px !important;
+	}
+	.global-menu__kids-link--inactive .global-menu__kids-link-content {
+		border-width: 1.5px !important;
+	}
+	.global-menu__kids-link--inactive .global-menu__kids-link-image-wrap {
+		border-bottom-width: 1.5px !important;
+	}
 	.global-menu__kids-link-label {
 		font-size: 16px;
 		padding: 4px !important;
