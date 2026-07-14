@@ -119,8 +119,8 @@ button,input {
 
     .page-wrapper {
         width: 100vw;
-        height: calc(var(--vh, 1vh) * 100);
-        top: 0;
+        height: 120vh;
+        top: -10vh;
         left: 50%;
         transform: translateX(-50%);
         z-index: 1;
