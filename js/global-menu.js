@@ -101,6 +101,11 @@ function isEnterTheUndermurkPage() {
     pathname.endsWith('into-the-undermurk.html') || pathname.endsWith('into-the-undermurk');
 }
 
+function isDebriefPage() {
+  // Cloudflare Pages often serves /debrief (no .html)
+  return /(?:^|\/)debrief(?:\.html)?\/?$/.test(window.location.pathname);
+}
+
 function hasDebriefSlug() {
   if (!window.location.search) {
     return false;
@@ -181,7 +186,7 @@ function buildGlobalMenuHTML(state) {
 
 // Determines which global-menu state to show for the current page.
 function getGlobalMenuState() {
-  if (window.location.pathname.endsWith('debrief.html')) {
+  if (isDebriefPage()) {
     return 'finished';
   }
   if (isEnterTheUndermurkPage() && hasDebriefSlug()) {
