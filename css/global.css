@@ -362,10 +362,10 @@ button, input[type="submit"], input[type="reset"] {
 
 .modal__blackout {
     width: 100vw;
-    height: 100vh;
+    height: 150vh;
     background-color: rgba(var(--off-black), 1);
     position: absolute;
-    top: -10%;
+    top: -25vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
