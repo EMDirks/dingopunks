@@ -125,7 +125,7 @@
       minigameHelpIcon.addEventListener('click', function () {
         createModal(
           'What\'s a bonus mission?',
-          'We\'re building something new: bonus missions for after you finish an escape room! First up: Enter the Undermurk, a dangerous assignment from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon.<br>',
+          'We\'re building something new: bonus missions to complete after you finish an escape room! First up: Enter the Undermurk, a dangerous assignment from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon.<br>',
           'Close'
         );
       });
