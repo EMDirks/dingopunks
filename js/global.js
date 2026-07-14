@@ -1591,6 +1591,21 @@ if (window.visualViewport) {
   window.visualViewport.addEventListener('scroll', pinWindowScroll);
 }
 
+// Take over tap-to-focus on touch devices so Safari's default focus
+// behavior never gets a chance to scroll the page in the first place.
+// (pinWindowScroll above remains as a backstop.)
+if (isTouchDevice) {
+  document.addEventListener('touchstart', (event) => {
+    const input = event.target.closest('input[inputmode="none"], input[readonly]');
+    if (!input) return;
+    event.preventDefault();
+    input.focus({ preventScroll: true });
+    if (input.matches('.code-input, .machine-item-cryptogram-input, .machine-crossword-input, .access-input')) {
+      activeInput__codeInput = input;
+    }
+  }, { passive: false });
+}
+
 // Style text
 
 function styleText(input) {
