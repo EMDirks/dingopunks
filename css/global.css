@@ -361,10 +361,6 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .modal__blackout {
-    /* Overshoot the wrapper on purpose: the wrapper can be narrower than the
-       screen (max-width: 180vh) and shorter than the visible viewport when the
-       iOS toolbar collapses. 100vw/100vh cover the full screen; the excess is
-       clipped by overflow: hidden on html/body. */
     width: 100vw;
     height: 100vh;
     background-color: rgba(var(--off-black), 1);
