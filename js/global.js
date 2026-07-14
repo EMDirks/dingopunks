@@ -1797,6 +1797,19 @@ let globalAssetArrays = {
       ]
     },
     low: {
+      onDebrief: {
+        asset: [
+          'assets/debrief/medal/dpaam-medal-1.png',
+          'assets/debrief/medal/dpaam-medal-2.png',
+          'assets/debrief/medal/dpaam-medal-3.png',
+          'assets/debrief/medal/dpaam-medal-4.png',
+          'assets/debrief/medal/dpaam-medal-5.png',
+          'assets/enter-the-undermurk/background/undermurk-mouth.png',
+          'assets/interface/scene/overlay/static.gif',
+          'assets/global/menu-lock.png',
+        ],
+        delay: 0,
+      },
       onPinInput: {
         asset: [
           'assets/cutscene/jjcrispy-0.png', 

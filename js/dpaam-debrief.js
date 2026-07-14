@@ -15,6 +15,25 @@
     return;
   }
 
+  // Low-priority warm for medal / minigame images (Image(), not <link rel="preload">).
+  if (typeof handlePreloading === 'function') {
+    handlePreloading('onDebrief');
+  } else {
+    [
+      'assets/debrief/medal/dpaam-medal-1.png',
+      'assets/debrief/medal/dpaam-medal-2.png',
+      'assets/debrief/medal/dpaam-medal-3.png',
+      'assets/debrief/medal/dpaam-medal-4.png',
+      'assets/debrief/medal/dpaam-medal-5.png',
+      'assets/enter-the-undermurk/background/undermurk-mouth.png',
+      'assets/interface/scene/overlay/static.gif',
+      'assets/global/menu-lock.png',
+    ].forEach(function (path) {
+      var img = new Image();
+      img.src = path;
+    });
+  }
+
   const statsRoot = document.querySelector('.dpaam-debrief-stats');
   if (!statsRoot) {
     return;
@@ -106,7 +125,7 @@
       minigameHelpIcon.addEventListener('click', function () {
         createModal(
           'What\'s a bonus mission?',
-          'We\'re building something new: Bonus Missions for after you finish an escape room! First up: Enter the Undermurk, a dangerous mission from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon.<br>',
+          'We\'re building something new: bonus missions for after you finish an escape room! First up: Enter the Undermurk, a dangerous assignment from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon.<br>',
           'Close'
         );
       });
