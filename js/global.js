@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   else if (pathname.endsWith('free-play.html') || pathname.endsWith('free-play')) {
     gameMode = 'free';
+    // Carried into the debrief URL so "Play Another Escape Room" returns here.
+    debriefStats.from = 'free';
   }
   else if (pathname.endsWith('preview.html') || pathname.endsWith('preview')) {
     gameMode = 'preview';

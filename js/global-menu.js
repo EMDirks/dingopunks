@@ -89,9 +89,14 @@ function getPlayHomeHref() {
   if (pathname.endsWith('free-play.html') || pathname.endsWith('/free-play')) {
     return 'free-play.html';
   }
-  if (pathname.endsWith('answer-key.html') || pathname.endsWith('/answer-key')) {
-    return 'answer-key.html';
-  }
+  // free-play → debrief (and Undermurk-with-slug) pass from=free in the query string
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'free') {
+      return 'free-play.html';
+    }
+  } catch (e) { /* ignore */ }
+  // answer-key and default play both return to index.html
   return 'index.html';
 }
 
@@ -159,7 +164,7 @@ function buildGlobalMenuHTML(state) {
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     finished: buildKidsLinksHTML([
-      { href: 'index.html', label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
+      { href: playHomeHref, label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
       { label: 'View Your<br>Score', imageKey: 'score', refresh: true },
       (typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON)
         ? { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' }
