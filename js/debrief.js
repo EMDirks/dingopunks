@@ -1,4 +1,4 @@
-const version = '3.4.45';
+const version = '3.4.46';
 
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
@@ -441,6 +441,9 @@ function setContainerSize(){
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
+document.addEventListener('DOMContentLoaded', setContainerSize);
+window.addEventListener('resize', setContainerSize);
+window.addEventListener('click', setContainerSize);
 
 // font
 function updateFontSize() {
