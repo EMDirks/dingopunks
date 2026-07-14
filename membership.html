@@ -41,7 +41,11 @@
           class="dpaam-btn dpaam-topbar-btn"
           onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
         >Play</button>
-        <button type="button" class="dpaam-btn dpaam-topbar-btn">My Account</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-account-btn"
+        >My Account</button>
       </div>
     </header>
 
@@ -67,7 +71,7 @@
             <div class="dpaam-guide-steps">
               <div class="dpaam-guide-step">
                 <h3 class="dpaam-guide-step-subtitle">1. <strong>Add</strong> an escape room</h3>
-                <p class="dpaam-guide-step-body">Browse the Library and add escape rooms to your Favorites, so they're easy to find later.
+                <p class="dpaam-guide-step-body">Browse the Library and add an escape room to your Favorites, so it's easy to find later.
                 </p>
               </div>
               <div class="dpaam-guide-step">
@@ -234,6 +238,126 @@
             Close
           </button>
         </footer>
+      </form>
+    </dialog>
+
+    <!-- My Account modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact dpaam-account-modal"
+      id="dpaam-account-modal"
+      aria-labelledby="dpaam-account-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-account-modal-title">My Account</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body dpaam-account-body">
+          <section class="dpaam-account-section" aria-labelledby="dpaam-account-email-label">
+            <div class="dpaam-account-row">
+              <div class="dpaam-account-row-main">
+                <h4 class="dpaam-account-label" id="dpaam-account-email-label">Email</h4>
+                <p class="dpaam-account-value" id="dpaam-account-email">teacher@example.com</p>
+                <p class="dpaam-account-helper">Contact support to change your email</p>
+              </div>
+            </div>
+          </section>
+
+          <hr class="dpaam-account-divider" />
+
+          <section class="dpaam-account-section" aria-labelledby="dpaam-account-password-label">
+            <div class="dpaam-account-row">
+              <div class="dpaam-account-row-main">
+                <h4 class="dpaam-account-label" id="dpaam-account-password-label">Password</h4>
+                <p class="dpaam-account-value dpaam-account-password-mask" aria-hidden="true">••••••••</p>
+              </div>
+              <button
+                type="button"
+                class="dpaam-btn dpaam-btn-secondary"
+                id="dpaam-account-change-password"
+                aria-expanded="false"
+                aria-controls="dpaam-account-password-form"
+              >
+                Change Password
+              </button>
+            </div>
+            <div class="dpaam-account-password-form" id="dpaam-account-password-form" hidden>
+              <label class="dpaam-account-field">
+                <span class="dpaam-account-field-label">Current password</span>
+                <input
+                  type="password"
+                  class="dpaam-account-input"
+                  id="dpaam-account-password-current"
+                  name="current-password"
+                  autocomplete="current-password"
+                  placeholder="••••••••"
+                />
+              </label>
+              <label class="dpaam-account-field">
+                <span class="dpaam-account-field-label">New password</span>
+                <input
+                  type="password"
+                  class="dpaam-account-input"
+                  id="dpaam-account-password-new"
+                  name="new-password"
+                  autocomplete="new-password"
+                  placeholder="••••••••"
+                />
+              </label>
+              <label class="dpaam-account-field">
+                <span class="dpaam-account-field-label">Confirm new password</span>
+                <input
+                  type="password"
+                  class="dpaam-account-input"
+                  id="dpaam-account-password-confirm"
+                  name="confirm-password"
+                  autocomplete="new-password"
+                  placeholder="••••••••"
+                />
+              </label>
+              <div class="dpaam-account-password-actions">
+                <button
+                  type="button"
+                  class="dpaam-btn dpaam-btn-secondary"
+                  id="dpaam-account-password-cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="dpaam-btn dpaam-btn-primary"
+                  id="dpaam-account-password-save"
+                >
+                  Update Password
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <hr class="dpaam-account-divider" />
+
+          <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
+            <div class="dpaam-account-subscription">
+              <h4 class="dpaam-account-plan-name" id="dpaam-account-plan-name">
+                All-Access Membership
+              </h4>
+              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$4.08/mo</p>
+              <p class="dpaam-account-plan-billing" id="dpaam-account-plan-billing">
+                billed annually at $49/yr
+              </p>
+              <p class="dpaam-account-plan-renewal" id="dpaam-account-plan-renewal">
+                Renews Jul 12, 2027
+              </p>
+              <button
+                type="button"
+                class="dpaam-btn dpaam-btn-primary dpaam-account-manage-btn"
+                id="dpaam-account-manage-subscription"
+              >
+                Manage Subscription
+              </button>
+            </div>
+          </section>
+        </div>
       </form>
     </dialog>
     <div id="dpaam-toast" role="status" aria-live="polite"></div>

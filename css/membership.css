@@ -1121,6 +1121,147 @@ a.dpaam-topbar-btn {
   margin-top: var(--dpaam-pad-lg);
 }
 
+/* ---------- My Account modal ---------- */
+
+.dpaam-account-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: stretch;
+}
+
+.dpaam-account-section {
+  margin: 0;
+}
+
+.dpaam-account-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--dpaam-pad);
+}
+
+.dpaam-account-row-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.dpaam-account-label {
+  margin: 0 0 var(--dpaam-pad-xs);
+  font-size: var(--dpaam-text-sm);
+  font-weight: 600;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-account-value {
+  margin: 0;
+  font-size: var(--dpaam-text-ui);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.dpaam-account-password-mask {
+  letter-spacing: 0.12em;
+}
+
+.dpaam-account-helper {
+  margin: var(--dpaam-pad-xs) 0 0;
+  font-size: var(--dpaam-text-xs);
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-account-divider {
+  width: 100%;
+  height: 0;
+  margin: var(--dpaam-pad-lg) 0;
+  border: none;
+  border-top: 1px solid var(--dpaam-border);
+}
+
+.dpaam-account-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-md);
+  margin-top: var(--dpaam-pad);
+}
+
+.dpaam-account-password-form[hidden] {
+  display: none;
+}
+
+.dpaam-account-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-xs);
+}
+
+.dpaam-account-field-label {
+  font-size: var(--dpaam-text-sm);
+  font-weight: 500;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-account-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: var(--dpaam-text-ui);
+  color: var(--dpaam-black);
+  background: var(--dpaam-white);
+  border: 1px solid var(--dpaam-border-strong);
+  border-radius: var(--dpaam-radius);
+}
+
+.dpaam-account-input:focus {
+  outline: 2px solid var(--dpaam-blue);
+  outline-offset: 1px;
+}
+
+.dpaam-account-password-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--dpaam-pad-sm);
+  flex-wrap: wrap;
+}
+
+.dpaam-account-subscription {
+  padding: var(--dpaam-pad-lg);
+  background: var(--dpaam-light-gray);
+  border-radius: 12px;
+}
+
+.dpaam-account-plan-name {
+  margin: 0 0 var(--dpaam-pad-sm);
+  font-size: var(--dpaam-text-md);
+  font-weight: 600;
+}
+
+.dpaam-account-plan-price {
+  margin: 0;
+  font-size: var(--dpaam-text-display);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.dpaam-account-plan-billing,
+.dpaam-account-plan-renewal {
+  margin: var(--dpaam-pad-xs) 0 0;
+  font-size: var(--dpaam-text-sm);
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-account-plan-renewal {
+  margin-top: var(--dpaam-pad-md);
+}
+
+.dpaam-account-manage-btn {
+  width: 100%;
+  margin-top: var(--dpaam-pad-lg);
+  box-sizing: border-box;
+  text-align: center;
+}
+
 .dpaam-modal-dl dd strong.dpaam-share-code {
   display: inline-flex;
   gap: 3px;

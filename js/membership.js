@@ -54,6 +54,13 @@ const els = {
   shareModalClose: document.getElementById("dpaam-share-modal-close"),
   limitModal: document.getElementById("dpaam-limit-modal"),
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
+  accountBtn: document.getElementById("dpaam-account-btn"),
+  accountModal: document.getElementById("dpaam-account-modal"),
+  accountChangePassword: document.getElementById("dpaam-account-change-password"),
+  accountPasswordForm: document.getElementById("dpaam-account-password-form"),
+  accountPasswordCancel: document.getElementById("dpaam-account-password-cancel"),
+  accountPasswordSave: document.getElementById("dpaam-account-password-save"),
+  accountManageSubscription: document.getElementById("dpaam-account-manage-subscription"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
   guideFaqToggle: document.getElementById("dpaam-guide-faq-toggle"),
@@ -699,6 +706,28 @@ function openShareModal(gameId) {
   }
 }
 
+function setAccountPasswordFormOpen(open) {
+  if (!els.accountPasswordForm || !els.accountChangePassword) return;
+  els.accountPasswordForm.hidden = !open;
+  els.accountChangePassword.setAttribute("aria-expanded", String(open));
+  if (!open) {
+    els.accountPasswordForm
+      .querySelectorAll("input")
+      .forEach((input) => {
+        input.value = "";
+      });
+  }
+}
+
+function openAccountModal() {
+  setAccountPasswordFormOpen(false);
+  if (typeof els.accountModal.showModal === "function") {
+    els.accountModal.showModal();
+  } else {
+    els.accountModal.setAttribute("open", "");
+  }
+}
+
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -987,6 +1016,30 @@ function wireEvents() {
       case "copy-direct-link": copyDirectLink(); break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
     }
+  });
+
+  // My Account modal
+  wireAnimatedModal(els.accountModal, () => {
+    setAccountPasswordFormOpen(false);
+  });
+  els.accountBtn?.addEventListener("click", () => {
+    openAccountModal();
+  });
+  els.accountChangePassword?.addEventListener("click", () => {
+    const open = els.accountPasswordForm?.hidden !== false;
+    setAccountPasswordFormOpen(open);
+  });
+  els.accountPasswordCancel?.addEventListener("click", () => {
+    setAccountPasswordFormOpen(false);
+  });
+  els.accountPasswordSave?.addEventListener("click", () => {
+    // Placeholder — wire to auth backend later.
+    setAccountPasswordFormOpen(false);
+    showToast("✓ \u00A0 Password updated");
+  });
+  els.accountManageSubscription?.addEventListener("click", () => {
+    // Placeholder — route to Stripe customer billing portal later.
+    showToast("Opening billing portal…");
   });
 }
 
