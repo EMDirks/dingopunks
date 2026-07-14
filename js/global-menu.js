@@ -96,8 +96,17 @@ function getPlayHomeHref() {
       return 'free-play.html';
     }
   } catch (e) { /* ignore */ }
-  // answer-key and default play both return to index.html
+  // answer-key "Play an Escape Room" and default play both go to index.html
   return 'index.html';
+}
+
+// Mid-session quit: stay on the current entry page (answer-key reloads itself).
+function getQuitHomeHref() {
+  const pathname = window.location.pathname;
+  if (pathname.endsWith('answer-key.html') || pathname.endsWith('/answer-key')) {
+    return 'answer-key.html';
+  }
+  return getPlayHomeHref();
 }
 
 function isEnterTheUndermurkPage() {
@@ -151,6 +160,7 @@ function buildGlobalMenuHTML(state) {
   `;
 
   const playHomeHref = getPlayHomeHref();
+  const quitHomeHref = getQuitHomeHref();
 
   const kidsLinksByState = {
     unfinished: buildKidsLinksHTML([
@@ -159,7 +169,7 @@ function buildGlobalMenuHTML(state) {
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     active: buildKidsLinksHTML([
-      { href: playHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
+      { href: quitHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
