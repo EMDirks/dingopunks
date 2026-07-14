@@ -369,7 +369,7 @@ button, input[type="submit"], input[type="reset"] {
     height: 100vh;
     background-color: rgba(var(--off-black), 1);
     position: absolute;
-    top: 0;
+    top: -10%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
