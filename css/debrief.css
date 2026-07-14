@@ -115,6 +115,7 @@ button,input {
         max-width: 180vh;
         left: 50%;
 	    transform: translateX(-50%);
+        background-color: blue;
     }
 
     .page-wrapper {
