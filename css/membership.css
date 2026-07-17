@@ -1211,10 +1211,37 @@ a.dpaam-topbar-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--dpaam-pad-md);
+  gap: var(--dpaam-pad-xs);
   padding: var(--dpaam-pad-xl) var(--dpaam-pad-xl) 0 var(--dpaam-pad-xl);
   background: var(--dpaam-white);
   position: relative;
+}
+
+.dpaam-modal-header--with-back {
+  justify-content: flex-start;
+}
+
+.dpaam-modal-header--with-back .dpaam-modal-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.dpaam-modal-back {
+  background: none;
+  border: none;
+  padding: 10px 11px 4px 11px;
+  margin-left: -14px;
+  margin-top: -4px;
+  font-size: var(--dpaam-text-lg);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--dpaam-black);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dpaam-modal-back:hover {
+  filter: brightness(0.92);
 }
 
 .dpaam-modal-title {
@@ -1299,6 +1326,107 @@ a.dpaam-topbar-btn {
   margin: 0;
 }
 
+.dpaam-modal-theme-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--dpaam-blue);
+  cursor: pointer;
+}
+
+.dpaam-modal-theme-link:hover {
+  filter: brightness(0.92);
+}
+
+.dpaam-modal-body--theme {
+  flex-direction: column;
+  gap: var(--dpaam-pad-xl);
+}
+
+.dpaam-theme-modal-hero {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: var(--dpaam-radius-xl);
+  overflow: hidden;
+  background-color: var(--dpaam-black);
+}
+
+.dpaam-theme-modal-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  opacity: 0.2;
+  animation: dpaam-theme-modal-main-fade-in 0.2s ease-out both;
+}
+
+@keyframes dpaam-theme-modal-main-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.2;
+  }
+}
+
+.dpaam-theme-modal-badguy-wrap {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dpaam-theme-modal-badguy {
+  display: block;
+  height: 450px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  animation: dpaam-theme-modal-badguy-enter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes dpaam-theme-modal-badguy-enter {
+  from {
+    transform: translateY(350px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* CRT static overlay (mirrors .splash-tv-overlay from splash-new.css) */
+.dpaam-theme-modal-hero > .splash-tv-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background-size: 100%;
+  background-image: url('../assets/interface/scene/overlay/static.gif');
+}
+
+.dpaam-theme-modal-hero > .splash-tv-overlay.splash-tv-overlay--visible {
+  opacity: 0.1;
+}
+
+.dpaam-theme-modal-body {
+  margin: 0;
+  line-height: 1.5;
+  margin-top: -4px;
+}
+
 .dpaam-modal-intro {
   grid-column: 1 / -1;
   margin: 0 0 -2px 0;
@@ -1327,7 +1455,7 @@ a.dpaam-topbar-btn {
   display: flex;
   justify-content: flex-end;
   gap: var(--dpaam-pad-sm);
-  padding: var(--dpaam-pad-lg) var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+  padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
 }
 
 .dpaam-modal-share-classroom {

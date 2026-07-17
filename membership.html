@@ -266,6 +266,18 @@
       </form>
     </dialog>
 
+    <!-- Theme modal -->
+    <dialog class="dpaam-modal" id="dpaam-theme-modal" aria-labelledby="dpaam-theme-modal-title">
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header dpaam-modal-header--with-back">
+          <button type="button" class="dpaam-modal-back" id="dpaam-theme-modal-back" aria-label="Back" hidden>←</button>
+          <h3 class="dpaam-modal-title" id="dpaam-theme-modal-title"></h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body dpaam-modal-body--theme" id="dpaam-theme-modal-body"></div>
+      </form>
+    </dialog>
+
     <!-- Active code limit modal -->
     <dialog
       class="dpaam-modal dpaam-modal--compact"
@@ -306,15 +318,6 @@
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-share-modal-body"></div>
-        <footer class="dpaam-modal-footer">
-          <button
-            type="button"
-            class="dpaam-btn dpaam-btn-secondary"
-            id="dpaam-share-modal-close"
-          >
-            Close
-          </button>
-        </footer>
       </form>
     </dialog>
 

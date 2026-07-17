@@ -4,7 +4,7 @@
 // `state`; mutations go through the named action functions below — those
 // are the seams a real backend will plug into later.
 
-import { games } from "./games.js";
+import { games, themes } from "./games.js";
 import { thumbHtml } from "./thumbnails.js";
 
 // ---------- constants ----------
@@ -58,9 +58,12 @@ const els = {
   modalBody: document.getElementById("dpaam-modal-body"),
   modalAdd: document.getElementById("dpaam-modal-add"),
   modalPreview: document.getElementById("dpaam-modal-preview"),
+  themeModal: document.getElementById("dpaam-theme-modal"),
+  themeModalTitle: document.getElementById("dpaam-theme-modal-title"),
+  themeModalBody: document.getElementById("dpaam-theme-modal-body"),
+  themeModalBack: document.getElementById("dpaam-theme-modal-back"),
   shareModal: document.getElementById("dpaam-share-modal"),
   shareModalBody: document.getElementById("dpaam-share-modal-body"),
-  shareModalClose: document.getElementById("dpaam-share-modal-close"),
   limitModal: document.getElementById("dpaam-limit-modal"),
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   accountBtn: document.getElementById("dpaam-account-btn"),
@@ -84,6 +87,10 @@ const els = {
 
 function gameById(id) {
   return games.find((g) => g.id === id);
+}
+
+function themeByTitle(title) {
+  return themes.find((t) => t.title === title);
 }
 
 function isFavorite(id) {
@@ -588,6 +595,9 @@ const SHOW_STANDARD_IN_MODAL = false;
 
 let modalGameId = null;
 let modalContext = "library"; // "library" | "favorites"
+let pendingThemeOpen = null;
+let themeModalReturn = null;
+let pendingInfoReopen = null;
 
 function openLimitModal() {
   if (typeof els.limitModal.showModal === "function") {
@@ -622,7 +632,7 @@ function openModal(gameId, context = "library") {
   const dlHtml = `
       ${game.topic ? `<dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>` : ""}
       <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
-      <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
+      <dt>Theme</dt><dd><button type="button" class="dpaam-modal-theme-link" data-action="open-theme" data-theme-title="${escapeHtml(game.title)}"><span class="dpaam-modal-theme-link-text">${escapeHtml(game.title)}</span><span class="dpaam-modal-theme-link-arrow" aria-hidden="true">→</span></button></dd>
       <dt>Grade</dt><dd class="dpaam-modal-grades">${libTagsHtml(game)}</dd>
       ${skillsHtml}
       ${standardHtml}`;
@@ -635,6 +645,46 @@ function openModal(gameId, context = "library") {
   } else {
     els.modal.setAttribute("open", "");
   }
+}
+
+function showThemeModal(theme) {
+  els.themeModalTitle.textContent = theme.title;
+  els.themeModalBody.innerHTML = `
+    ${theme.body ? `<p class="dpaam-theme-modal-body">${escapeHtml(theme.body)}</p>` : ""}
+    <div class="dpaam-theme-modal-hero">
+      <img class="dpaam-theme-modal-image" src="${escapeHtml(theme.main)}" alt="" loading="lazy" decoding="async" />
+      ${theme.badguy ? `<div class="dpaam-theme-modal-badguy-wrap"><img class="dpaam-theme-modal-badguy" src="${escapeHtml(theme.badguy)}" alt="" loading="lazy" decoding="async" /></div>` : ""}
+      <div class="splash-tv-overlay splash-tv-overlay--visible" aria-hidden="true"></div>
+    </div>`;
+  els.themeModalBack.hidden = !themeModalReturn?.gameId;
+
+  if (typeof els.themeModal.showModal === "function") {
+    els.themeModal.showModal();
+  } else {
+    els.themeModal.setAttribute("open", "");
+  }
+}
+
+function returnFromThemeModal() {
+  if (!themeModalReturn?.gameId) return;
+  pendingInfoReopen = { gameId: themeModalReturn.gameId, context: themeModalReturn.context };
+  themeModalReturn = null;
+  closeAnimatedModal(els.themeModal);
+}
+
+function openThemeModal(title) {
+  const theme = themeByTitle(title);
+  if (!theme) return;
+
+  if (els.modal.open) {
+    themeModalReturn = { gameId: modalGameId, context: modalContext };
+    pendingThemeOpen = theme;
+    closeAnimatedModal(els.modal);
+    return;
+  }
+
+  themeModalReturn = null;
+  showThemeModal(theme);
 }
 
 function refreshModalActionButton() {
@@ -1050,6 +1100,13 @@ function wireEvents() {
     openModal(row.dataset.gameId);
   });
 
+  // Modal theme link
+  els.modalBody.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action='open-theme']");
+    if (!btn) return;
+    openThemeModal(btn.dataset.themeTitle);
+  });
+
   // Modal "View Preview"
   els.modalPreview.addEventListener("click", () => {
     if (!modalGameId) return;
@@ -1083,8 +1140,25 @@ function wireEvents() {
   });
 
   wireAnimatedModal(els.modal, () => {
+    if (pendingThemeOpen) {
+      showThemeModal(pendingThemeOpen);
+      pendingThemeOpen = null;
+    }
     modalGameId = null;
     modalContext = "library";
+  });
+
+  wireAnimatedModal(els.themeModal, () => {
+    if (pendingInfoReopen) {
+      const { gameId, context } = pendingInfoReopen;
+      pendingInfoReopen = null;
+      openModal(gameId, context);
+      return;
+    }
+    themeModalReturn = null;
+  });
+  els.themeModalBack.addEventListener("click", () => {
+    returnFromThemeModal();
   });
 
   wireAnimatedModal(els.limitModal);
@@ -1095,9 +1169,6 @@ function wireEvents() {
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
     shareCode = null;
-  });
-  els.shareModalClose.addEventListener("click", () => {
-    closeAnimatedModal(els.shareModal);
   });
 
   els.shareModal.addEventListener("click", (e) => {

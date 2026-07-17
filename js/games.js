@@ -1,3 +1,104 @@
+export const themes = [
+  {
+    title: "Escape the Midnight Mall",
+    season: "all-year",
+    body: "Something lurks beneath the Midnight Mall! Can your kids crack the codes and help the shopkeepers close up before the clock strikes 12?",
+    badguy: "resource/escape-the-midnight-mall/assets/cutscene/badguy.png",
+    main: "resource/escape-the-midnight-mall/assets/cutscene/main.png",
+  },
+  {
+    title: "Escape From Pickle's Playground",
+    season: "all-year",
+    body: "A creepy pickle has trapped you in his twisted playground! Can your kids crack his puzzles and break free before time runs out?",
+    badguy: "resource/pickles-playground/assets/cutscene/badguy.png",
+    main: "resource/pickles-playground/assets/cutscene/main.png",
+  },
+  {
+    title: "Beehive Blitz",
+    season: "spring",
+    body: "Bumbleburg Hive is in trouble! A massive storm is coming, but the bees aren't ready. Can your kids crack the codes before spring is ruined?",
+    badguy: "resource/beehive-blitz/assets/cutscene/badguy.png",
+    main: "resource/beehive-blitz/assets/cutscene/main.png",
+  },
+  {
+    title: "Camp Calamari",
+    season: "summer",
+    body: "Pirates are coming for Camp Calamari's buried treasure! Can your kids help the counselors prepare the defenses before it's too late?",
+    badguy: "resource/camp-calamari/assets/cutscene/badguy.png",
+    main: "resource/camp-calamari/assets/cutscene/main.png",
+  },
+  {
+    title: "The Hasty Harvest",
+    season: "fall",
+    body: "The harvest is underway at Candlewick's Farm, and the sun is going down fast! Can your kids help the workers finish before it's too late?",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
+    title: "The Yeti and the Yams",
+    season: "winter",
+    body: "A hungry yeti has you trapped — but the beast has one weakness: candied yams. Can your kids cook up an escape before breakfast time?",
+    badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
+    main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
+  },
+  {
+    title: "Cupid's Countdown",
+    season: "valentines-day",
+    body: "Welcome to Cupid's hottest new game show! Can your kids help each contestant find their secret admirer before time runs out?",
+    badguy: "resource/cupids-countdown/assets/cutscene/badguy.png",
+    main: "resource/cupids-countdown/assets/cutscene/main.png",
+  },
+  {
+    title: "Rainbow Rescue",
+    season: "st-patricks-day",
+    body: "The rainbow is gone — stolen by the evil witch Noctis! Can your kids bring the colors back before the world goes gray forever?",
+    badguy: "resource/rainbow-rescue/assets/cutscene/badguy.png",
+    main: "resource/rainbow-rescue/assets/cutscene/main.png",
+  },
+  {
+    title: "Eggworld Emergency",
+    season: "easter",
+    body: "Eggworld is in trouble — a massive frying pan is falling from the sky! Can your kids help the citizens evacuate before it's too late?",
+    badguy: "resource/eggworld-emergency/assets/cutscene/badguy.png",
+    main: "resource/eggworld-emergency/assets/cutscene/main.png",
+  },
+  {
+    title: "Final Bell Breakout",
+    season: "end-of-year",
+    body: "It's the last day of school, but the Headmaster of Snobsley Academy won't let your kids leave! Do they have what it takes to escape?",
+    badguy: "resource/final-bell-breakout/assets/cutscene/badguy.png",
+    main: "resource/final-bell-breakout/assets/cutscene/main.png",
+  },
+  {
+    title: "Paradise Panic",
+    season: "back-to-school",
+    body: "Summer vacation is over, and the ferry is leaving soon! Just one problem: the captain won't let you board until you've helped every villager in town.",
+    badguy: "resource/paradise-panic/assets/cutscene/badguy.png",
+    main: "resource/paradise-panic/assets/cutscene/main.png",
+  },
+  {
+    title: "Funhouse Fright",
+    season: "halloween",
+    body: "Enter if you dare; escape if you can! This Halloween, Frederick has invited you to his freaky funhouse. Can your kids break out before it's too late?",
+    badguy: "resource/funhouse-fright/assets/cutscene/badguy.png",
+    main: "resource/funhouse-fright/assets/cutscene/main.png",
+  },
+  {
+    title: "Turkey Takedown",
+    season: "thanksgiving",
+    body: "The CEO of ThanksCorp wants to turn your turkey friends into turkey pies! Can your kids break them out of the factory before it's too late?",
+    badguy: "resource/turkey-takedown/assets/cutscene/badguy.png",
+    main: "resource/turkey-takedown/assets/cutscene/main.png",
+  },
+  {
+    title: "Wacky Workshop",
+    season: "christmas",
+    body: "Deep in Santa's workshop, a group of misfit toys waits in worry! Can your kids find each toy's perfect match before his sleigh takes flight?",
+    badguy: "resource/wacky-workshop/assets/cutscene/badguy.png",
+    main: "resource/wacky-workshop/assets/cutscene/main.png",
+  },
+];
+
 export const games = [
 
   // ─────────────────────────────────────────────
