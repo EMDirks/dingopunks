@@ -119,6 +119,7 @@ body {
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
   --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
   --dpaam-code-btn-w:        104px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
+  --dpaam-pair-btn-h:         38px;  /* paired height for add/saved-mark and activate/code-generated */
   --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.62);
   --dpaam-mobile-menu-backdrop-blur: 4px;
 
@@ -896,12 +897,38 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-btn-primary,
-.dpaam-btn-add {
+.dpaam-btn-add,
+.dpaam-btn-activate {
   background: var(--dpaam-gold);
 }
 
-.dpaam-btn-add {
+/* Paired action buttons (Add / Activate) and their done-state marks
+   (Added / Activated) share ONE layout. Only width differs — see the two
+   width pairs below. Edit here to change all four at once. */
+.dpaam-btn-add,
+.dpaam-btn-activate,
+.dpaam-saved-mark,
+.dpaam-code-generated-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--dpaam-pair-btn-h);
+  padding-top: 2px;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+/* Width pair A — favorites "Add" ↔ "Added" mark */
+.dpaam-btn-add,
+.dpaam-saved-mark {
   width: var(--dpaam-add-btn-w);
+}
+
+/* Width pair B — "Activate" ↔ "Activated" mark */
+.dpaam-btn-activate,
+.dpaam-code-generated-mark {
+  width: var(--dpaam-code-btn-w);
 }
 
 .dpaam-btn-secondary {
@@ -915,15 +942,10 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-btn.dpaam-btn-done {
-  display: inline-flex;
-  align-items: center;
   background: var(--dpaam-light-gray);
   cursor: default;
-  text-align: center;
-  justify-content: center;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
-  height: 38px;
 }
 
 .dpaam-btn.dpaam-btn-done:hover,
@@ -931,12 +953,6 @@ a.dpaam-topbar-btn {
   filter: none;
   opacity: 1;
   color: var(--dpaam-black-muted);
-}
-
-.dpaam-btn[data-action="generate-code"],
-.dpaam-btn[data-action="cancel-code"] {
-  width: var(--dpaam-code-btn-w);
-  text-align: center;
 }
 
 .dpaam-btn[data-action="copy-share-link"],
@@ -968,14 +984,6 @@ a.dpaam-topbar-btn {
   color: var(--dpaam-black);
   text-decoration-color: var(--dpaam-black);
   background: none;
-}
-
-.dpaam-saved-mark {
-  width: var(--dpaam-add-btn-w);
-}
-
-.dpaam-code-generated-mark {
-  width: var(--dpaam-code-btn-w);
 }
 
 /* Done-state buttons that are still clickable to revert. */
@@ -1209,11 +1217,6 @@ a.dpaam-topbar-btn {
   padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
 }
 
-.dpaam-modal-footer #dpaam-modal-add.dpaam-btn-primary {
-  width: var(--dpaam-code-btn-w);
-  text-align: center;
-}
-
 .dpaam-modal-share-classroom {
   display: flex;
   align-items: center;
@@ -1425,6 +1428,7 @@ dd a {
     --dpaam-text-display: 30px;
     --dpaam-add-btn-w:    79px;
     --dpaam-code-btn-w:   97px;
+    --dpaam-pair-btn-h:   32px;
   }
 
   .dpaam-topbar {
@@ -1639,7 +1643,7 @@ dd a {
 
   .dpaam-lib-actions .dpaam-btn-add,
   .dpaam-lib-actions .dpaam-saved-mark,
-  .dpaam-fav-code-actions .dpaam-btn[data-action="generate-code"],
+  .dpaam-fav-code-actions .dpaam-btn-activate,
   .dpaam-fav-code-actions .dpaam-code-generated-mark {
     flex: none;
   }

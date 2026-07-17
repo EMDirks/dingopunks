@@ -406,7 +406,7 @@ function renderFavorites() {
 
       const codeOrGenerate = active
         ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">✓ &nbsp;Activated</button>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-primary" data-action="generate-code">Activate</button>`;
+        : `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="generate-code">Activate</button>`;
 
       const actionBlock = `
         <div class="dpaam-fav-code-actions">
@@ -586,7 +586,7 @@ function refreshModalActionButton() {
       btn.disabled = false;
       btn.setAttribute("aria-label", "Cancel game code");
     } else {
-      btn.className = "dpaam-btn dpaam-btn-primary";
+      btn.className = "dpaam-btn dpaam-btn-activate";
       btn.textContent = "Activate";
       btn.disabled = false;
       btn.removeAttribute("aria-label");
@@ -601,7 +601,7 @@ function refreshModalActionButton() {
     btn.setAttribute("aria-label", "Remove from favorites");
   } else {
     btn.className = "dpaam-btn dpaam-btn-add";
-    btn.textContent = "+ Add";
+    btn.textContent = "Add";
     btn.disabled = false;
     btn.removeAttribute("aria-label");
   }
