@@ -157,7 +157,7 @@ body {
 .dpaam-guide {
   background: var(--dpaam-white);
   border-radius: var(--dpaam-radius-lg);
-  border-bottom: 4px solid var(--dpaam-gold);
+  border-bottom: 4px solid var(--dpaam-blue);
 }
 
 .dpaam-guide-inner {
@@ -210,7 +210,7 @@ body {
 
 .dpaam-guide-step-subtitle strong {
   font-weight: 600;
-  background-color: var(--dpaam-gold-light);
+  background-color: var(--dpaam-blue-light);
   padding: 3px 6px 0px 6px;
   border-radius: var(--dpaam-radius-sm);
   margin: 0 1px;
