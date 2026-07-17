@@ -1468,7 +1468,7 @@ dd a {
   }
 
   .dpaam-logo {
-    height: 48px;
+    height: 40px;
   }
 
   .dpaam-pill {
@@ -1590,6 +1590,15 @@ dd a {
 
   .dpaam-lib-meta {
     grid-area: meta;
+  }
+
+  .dpaam-lib-meta-theme,
+  .dpaam-lib-meta-sep {
+    display: none;
+  }
+
+  .dpaam-lib-meta:not(:has(.dpaam-lib-meta-season)) {
+    display: none;
   }
 
   .dpaam-lib-main > .dpaam-tags {
@@ -1735,34 +1744,5 @@ dd a {
     max-width: calc(100vw - 32px);
     white-space: normal;
     text-align: center;
-  }
-}
-
-/* ---------- Mobile (phone) ---------- */
-
-
-
-/* ---------- Mobile (very small phone) ---------- */
-
-@media (max-width: 360px) {
-  .dpaam {
-    --dpaam-text-xs:      10px;
-    --dpaam-text-sm:      11px;
-    --dpaam-text-md:      15px;
-    --dpaam-text-lg:      17px;
-    --dpaam-text-xl:      20px;
-    --dpaam-text-ui:      13px;
-    --dpaam-text-display: 26px;
-    --dpaam-add-btn-w:    69px;
-    --dpaam-code-btn-w:   84px;
-  }
-
-  .dpaam-pill {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .dpaam-active-card-code {
-    letter-spacing: 0.04em;
   }
 }
