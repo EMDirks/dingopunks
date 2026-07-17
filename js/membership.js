@@ -153,14 +153,6 @@ function gradeLabel(grades) {
   return `Grades ${grades.join(", ")}`;
 }
 
-function modalGradeLabel(grades) {
-  if (!grades || grades.length === 0) return "";
-  const nums = grades.map(String);
-  if (nums.length === 1) return `Grade ${nums[0]}`;
-  if (nums.length === 2) return `Grades ${nums[0]} and ${nums[1]}`;
-  return `Grades ${nums.slice(0, -1).join(", ")}, and ${nums[nums.length - 1]}`;
-}
-
 function tagsHtml(game) {
   const tags = [];
   if (game.topic) tags.push(formatLabel(game.topic));
@@ -298,13 +290,14 @@ function favCodeDisplayHtml(code) {
 
 // ---------- action functions (the seams a backend plugs into) ----------
 
-function addFavorite(gameId) {
+function addFavorite(gameId, { toast = true } = {}) {
   if (!gameById(gameId)) return;
   if (isFavorite(gameId)) return;
   state.favorites.push(gameId);
   renderFavorites();
   renderLibrary();
   pulseTabCount("favorites");
+  if (toast) showToast("✓ \u00A0 Favorited");
 }
 
 function removeFavorite(gameId) {
@@ -333,7 +326,7 @@ function generateCode(gameId) {
     openLimitModal();
     return;
   }
-  if (!isFavorite(gameId)) addFavorite(gameId);
+  if (!isFavorite(gameId)) addFavorite(gameId, { toast: false });
   state.activeCodes.push({
     gameId,
     code: generateCodeString(),
@@ -342,6 +335,7 @@ function generateCode(gameId) {
   renderActiveCodes();
   renderFavorites();
   pulseTabCount("active");
+  showToast("✓ \u00A0 Activated");
 }
 
 function cancelCode(gameId) {
@@ -532,8 +526,8 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">Added</button>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">Add</button>`;
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">Favorited</button>`
+        : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">Favorite</button>`;
       // const topic = game.topic ? formatLabel(game.topic) : game.title;
       // const libMainHtml = `
       //   <div class="dpaam-lib-main">
@@ -611,10 +605,10 @@ function openModal(gameId, context = "library") {
   els.modalTitle.textContent = "Escape Room Info";
   const skillsHtml =
     game.skills && game.skills.filter((s) => s).length
-      ? `<dt>Skills</dt><dd class="dpaam-modal-skills"><ul class="dpaam-modal-skills-list">${game.skills
+      ? `<dt>Skills</dt><dd class="dpaam-modal-skills"><div class="dpaam-tags">${game.skills
           .filter((s) => s)
-          .map((s) => `<li>${escapeHtml(s)}</li>`)
-          .join("")}</ul></dd>`
+          .map((s) => `<span class="dpaam-tag">${escapeHtml(s)}</span>`)
+          .join("")}</div></dd>`
       : "";
 
   const standardHtml = SHOW_STANDARD_IN_MODAL
@@ -627,11 +621,10 @@ function openModal(gameId, context = "library") {
 
   const dlHtml = `
       ${game.topic ? `<dt>Topic</dt><dd>${escapeHtml(formatLabel(game.topic))}</dd>` : ""}
-      <dt>Grade</dt><dd>${escapeHtml(modalGradeLabel(game.grades))}</dd>
-      ${skillsHtml}
-      <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dt>Season</dt><dd>${escapeHtml(formatLabel(game.season))}</dd>
       <dt>Theme</dt><dd>${escapeHtml(game.title)}</dd>
+      <dt>Grade</dt><dd class="dpaam-modal-grades">${libTagsHtml(game)}</dd>
+      ${skillsHtml}
       ${standardHtml}`;
   els.modalBody.innerHTML = modalBodyHtml(game, dlHtml);
 
@@ -665,12 +658,12 @@ function refreshModalActionButton() {
 
   if (isFavorite(modalGameId)) {
     btn.className = "dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert";
-    btn.textContent = "Added";
+    btn.textContent = "Favorited";
     btn.disabled = false;
     btn.setAttribute("aria-label", "Remove from favorites");
   } else {
     btn.className = "dpaam-btn dpaam-btn-add";
-    btn.textContent = "Add";
+    btn.textContent = "Favorite";
     btn.disabled = false;
     btn.removeAttribute("aria-label");
   }
@@ -745,12 +738,41 @@ let toastTimer = null;
 function showToast(message) {
   const toast = document.getElementById("dpaam-toast");
   if (!toast) return;
-  toast.textContent = message;
-  toast.classList.add("dpaam-toast--visible");
   clearTimeout(toastTimer);
+  toast.textContent = message;
+
+  const isOpen = toast.classList.contains("dpaam-toast--visible");
+
+  if (isOpen) {
+    toast.classList.remove("dpaam-toast--pulse");
+    void toast.offsetWidth;
+    toast.classList.add("dpaam-toast--pulse");
+    toast.addEventListener(
+      "animationend",
+      (e) => {
+        if (e.animationName === "dpaam-toast-pulse") {
+          toast.classList.remove("dpaam-toast--pulse");
+        }
+      },
+      { once: true }
+    );
+  } else {
+    toast.classList.remove("dpaam-toast--entering", "dpaam-toast--pulse");
+    toast.classList.add("dpaam-toast--visible", "dpaam-toast--entering");
+    toast.addEventListener(
+      "animationend",
+      (e) => {
+        if (e.animationName === "dpaam-toast-in") {
+          toast.classList.remove("dpaam-toast--entering");
+        }
+      },
+      { once: true }
+    );
+  }
+
   toastTimer = setTimeout(() => {
-    toast.classList.remove("dpaam-toast--visible");
-  }, 2500);
+    toast.classList.remove("dpaam-toast--visible", "dpaam-toast--entering", "dpaam-toast--pulse");
+  }, 1000);
 }
 
 function classroomShareTitle(game) {
@@ -998,7 +1020,7 @@ function wireEvents() {
     });
   });
 
-  // Library — row click opens modal; + Add button adds to favorites only.
+  // Library — row click opens modal; Favorite button adds to favorites only.
   els.libraryList.addEventListener("click", (e) => {
     const actionBtn = e.target.closest("button[data-action]");
     if (actionBtn) {
@@ -1038,7 +1060,7 @@ function wireEvents() {
     );
   });
 
-  // Modal footer action — + Add / × Remove from library; Activate / × Cancel from favorites
+  // Modal footer action — Favorite / × Remove from library; Activate / × Cancel from favorites
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
 

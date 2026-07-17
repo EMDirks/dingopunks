@@ -118,7 +118,7 @@ body {
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
-  --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
+  --dpaam-add-btn-w:         104px; /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
   --dpaam-code-btn-w:        104px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
   --dpaam-favorites-activate-btn-px: var(--dpaam-pad); /* Activate / Activated in favorites cards only */
   --dpaam-pair-btn-h:         38px;  /* paired height for add/saved-mark and activate/code-generated; 32px on mobile */
@@ -378,13 +378,13 @@ html.dpaam-mobile-menu-open body {
 .dpaam-brand {
   display: flex;
   align-items: center;
-  gap: var(--dpaam-pad-md);
+  gap: var(--dpaam-pad-lg);
 }
 
 .dpaam-topbar-buttons {
   display: flex;
   align-items: center;
-  gap: var(--dpaam-pad-sm);
+  gap: 0;
 }
 
 .dpaam-logo-link {
@@ -394,17 +394,21 @@ html.dpaam-mobile-menu-open body {
 
 .dpaam-logo {
   display: block;
-  height: 56px;
+  height: 64px;
   width: auto;
 }
 
 .dpaam-pill {
   display: inline-block;
-  padding: 10px var(--dpaam-pad) 6px var(--dpaam-pad);
-  font-size: var(--dpaam-text-lg);
-  font-weight: 600;
+  padding: 6px var(--dpaam-pad-md) var(--dpaam-pad-xs) var(--dpaam-pad-md);
+  line-height: 1;
+  font-size: var(--dpaam-text-sm);
+  font-weight: 400;
+  letter-spacing: 1px;
   color: var(--dpaam-white);
   border-radius: var(--dpaam-radius);
+  border: 1px solid var(--dpaam-white);
+  border-radius: var(--dpaam-radius-pill);
 }
 
 .dpaam-pill-check {
@@ -416,7 +420,8 @@ html.dpaam-mobile-menu-open body {
 
 .dpaam-topbar-btn {
   flex-shrink: 0;
-  background: var(--dpaam-white);
+  background: var(--dpaam-blue);
+  color: var(--dpaam-white) !important;
 }
 
 a.dpaam-topbar-btn {
@@ -793,6 +798,7 @@ a.dpaam-topbar-btn {
 .dpaam-filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--dpaam-pad-md);
   margin-bottom: var(--dpaam-pad-xl);
 }
@@ -800,7 +806,7 @@ a.dpaam-topbar-btn {
 .dpaam-filter select {
   appearance: none;
   -webkit-appearance: none;
-  padding: var(--dpaam-pad-md) var(--dpaam-pad-lg);
+  padding: 14px var(--dpaam-pad-lg) var(--dpaam-pad-md) var(--dpaam-pad-lg);
   font-family: inherit;
   font-size: var(--dpaam-text-sm);
   color: var(--dpaam-black);
@@ -813,6 +819,7 @@ a.dpaam-topbar-btn {
   border-radius: var(--dpaam-radius-pill);
   cursor: pointer;
   width: 180px;
+  line-height: 1;
 }
 
 .dpaam-filter select:focus {
@@ -906,7 +913,7 @@ a.dpaam-topbar-btn {
 
 .dpaam-tag {
   display: inline-block;
-  padding: var(--dpaam-pad-xs) 9px 2px 9px;
+  padding: var(--dpaam-pad-xs) var(--dpaam-pad-md) 2px var(--dpaam-pad-md);
   font-size: var(--dpaam-text-xs);
   font-weight: 500;
   color: var(--dpaam-black-muted);
@@ -948,8 +955,8 @@ a.dpaam-topbar-btn {
   color: var(--dpaam-white);
 }
 
-/* Paired action buttons (Add / Activate) and their done-state marks
-   (Added / Activated) share ONE layout. Only width differs — see the two
+/* Paired action buttons (Favorite / Activate) and their done-state marks
+   (Favorited / Activated) share ONE layout. Only width differs — see the two
    width pairs below. Edit here to change all four at once. */
 .dpaam-btn-add,
 .dpaam-btn-activate,
@@ -965,7 +972,7 @@ a.dpaam-topbar-btn {
   text-align: center;
 }
 
-/* Width pair A — favorites "Add" ↔ "Added" mark */
+/* Width pair A — favorites "Favorite" ↔ "Favorited" mark */
 .dpaam-btn-add,
 .dpaam-saved-mark {
   width: var(--dpaam-add-btn-w);
@@ -990,8 +997,8 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-btn-tertiary {
-  background: var(--dpaam-gold);
-  color: var(--dpaam-black);
+  background: var(--dpaam-blue);
+  color: var(--dpaam-white);
   font-size: var(--dpaam-text-xs);
 }
 
@@ -1096,22 +1103,50 @@ a.dpaam-topbar-btn {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(12px);
-  background: var(--dpaam-teal);
-  color: var(--dpaam-white);
+  background: var(--dpaam-white);
+  color: var(--dpaam-black-muted);
   font-size: var(--dpaam-text-ui);
   font-weight: 600;
   padding: 8px 18px 6px;
   border-radius: var(--dpaam-radius-sm);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 9999;
   white-space: nowrap;
+  box-shadow: var(--dpaam-shadow-md);
+}
+
+@keyframes dpaam-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes dpaam-toast-pulse {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  45% {
+    transform: translateX(-50%) translateY(0) scale(1.08);
+  }
 }
 
 #dpaam-toast.dpaam-toast--visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+#dpaam-toast.dpaam-toast--entering {
+  animation: dpaam-toast-in 0.2s ease forwards;
+}
+
+#dpaam-toast.dpaam-toast--pulse {
+  animation: dpaam-toast-pulse 0.3s ease;
 }
 
 /* ---------- Modal ---------- */
@@ -1137,10 +1172,10 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-modal {
-  width: min(900px, calc(100vw - 32px));
+  width: min(800px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
   padding: 0;
-  border-radius: var(--dpaam-radius);
+  border-radius: var(--dpaam-radius-xxl);
   background: var(--dpaam-white);
   border: none;
   box-shadow: var(--dpaam-shadow-lg);
@@ -1177,14 +1212,17 @@ a.dpaam-topbar-btn {
   align-items: center;
   justify-content: space-between;
   gap: var(--dpaam-pad-md);
-  padding: 26px var(--dpaam-pad-xl) var(--dpaam-pad-lg) var(--dpaam-pad-xl);
-  background: var(--dpaam-light-gray);
+  padding: var(--dpaam-pad-xl) var(--dpaam-pad-xl) 0 var(--dpaam-pad-xl);
+  background: var(--dpaam-white);
+  position: relative;
 }
 
 .dpaam-modal-title {
   margin: 0;
   font-size: var(--dpaam-text-lg);
   font-weight: 600;
+  color: var(--dpaam-black);
+  line-height: 1;
 }
 
 .dpaam-modal-close {
@@ -1192,14 +1230,17 @@ a.dpaam-topbar-btn {
   border: 0;
   font-weight: 500;
   line-height: 1;
-  color: var(--dpaam-black);
+  color: var(--dpaam-black-muted);
   border-radius: var(--dpaam-radius-sm);
   font-size: var(--dpaam-text-lg);
-  padding: 10px 11px 5px 11px;
+  padding: 10px 11px 4px 11px;
+  position: absolute;
+  right: 0;
+  top: -4px;
 }
 
 .dpaam-modal-close:hover {
-  background: var(--dpaam-salmon-light);
+  filter: brightness(0.92);
 }
 
 .dpaam-modal-close {
@@ -1210,7 +1251,7 @@ a.dpaam-topbar-btn {
 
 .dpaam-modal-body {
   margin: 0;
-  padding: var(--dpaam-pad-xl);
+  padding: 26px var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
   display: flex;
   flex-direction: row;
   gap: var(--dpaam-pad-xl);
@@ -1235,7 +1276,7 @@ a.dpaam-topbar-btn {
   flex-shrink: 0;
   width: 240px;
   height: 240px;
-  border-radius: var(--dpaam-radius-sm);
+  border-radius: var(--dpaam-radius-xl);
   object-fit: cover;
   display: block;
 }
@@ -1246,8 +1287,7 @@ a.dpaam-topbar-btn {
   grid-template-columns: max-content 1fr;
   gap: var(--dpaam-pad-md) var(--dpaam-pad-xl);
   margin: 0;
-  padding: var(--dpaam-pad-xl);
-  background: var(--dpaam-light-gray);
+  background: var(--dpaam-white);
   border-radius: var(--dpaam-radius);
 }
 
@@ -1270,38 +1310,24 @@ a.dpaam-topbar-btn {
   height: 1px;
   margin: var(--dpaam-pad) 0;
   border: none;
-  border-top: 1px dashed var(--dpaam-border-strong);
+  border-top: 1px solid var(--dpaam-border);
 }
 
-.dpaam-modal-dl dt:has(+ .dpaam-modal-skills) {
+.dpaam-modal-dl dt:has(+ .dpaam-modal-skills),
+.dpaam-modal-dl dt:has(+ .dpaam-modal-grades) {
   padding-top: 2px;
 }
 
-.dpaam-modal-skills-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--dpaam-pad-xs);
-}
-
-.dpaam-modal-skills-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--dpaam-pad-sm);
-}
-
-.dpaam-modal-skills-list li::before {
-  content: "•";
-  flex-shrink: 0;
+.dpaam-modal-skills .dpaam-tags,
+.dpaam-modal-grades .dpaam-tags {
+  margin-top: 0;
 }
 
 .dpaam-modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: var(--dpaam-pad);
-  padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+  gap: var(--dpaam-pad-sm);
+  padding: var(--dpaam-pad-lg) var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
 }
 
 .dpaam-modal-share-classroom {
@@ -1513,7 +1539,7 @@ dd a {
     --dpaam-text-xl:      24px;
     --dpaam-text-ui:      15px;
     --dpaam-text-display: 30px;
-    --dpaam-add-btn-w:    79px;
+    --dpaam-add-btn-w:    97px;
     --dpaam-code-btn-w:   97px;
     --dpaam-pair-btn-h:   32px;
   }
