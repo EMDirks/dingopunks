@@ -200,48 +200,56 @@ function activeCardTimerHtml(expiresAt) {
   return `<div class="dpaam-active-card-expiry">Expires in: <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
-// During a live drag-reorder, decide which sibling row the dragged element
-// should land *before*. Returns null to mean "append to the end". The
-// currently-dragged element is skipped so it can never displace itself.
-function rowAfterPointer(listEl, clientY, dragEl) {
+// During a live drag-reorder, decide which sibling card the dragged element
+// should land *before*, walking the grid in reading order (left-to-right,
+// then top-to-bottom row by row). Returns null to mean "append to the end".
+// The currently-dragged element is skipped so it can never displace itself.
+function rowAfterPointer(listEl, clientX, clientY, dragEl) {
   const rows = Array.from(listEl.querySelectorAll(".dpaam-fav-row")).filter(
     (el) => el !== dragEl,
   );
   for (const row of rows) {
     const rect = row.getBoundingClientRect();
-    if (clientY < rect.top + rect.height / 2) return row;
+    if (clientY >= rect.bottom) continue; // pointer is below this card's row entirely
+    const aboveRow = clientY < rect.top;
+    const beforeMidpoint = clientX < rect.left + rect.width / 2;
+    if (aboveRow || beforeMidpoint) return row;
   }
   return null;
 }
 
-// FLIP reorder: record each non-dragged row's pre-mutation top, run the
-// DOM mutation, then animate each row from its old position to its new
-// position via the Web Animations API. Any in-flight animation on a row
-// is cancelled so rapid dragover events don't queue up.
+// FLIP reorder: record each non-dragged card's pre-mutation position, run
+// the DOM mutation, then animate each card from its old position to its
+// new position (both axes, since cards wrap in a grid) via the Web
+// Animations API. Any in-flight animation on a card is cancelled so rapid
+// dragover events don't queue up.
 const flipAnims = new WeakMap();
 function flipReorder(listEl, dragEl, mutate) {
   const rows = Array.from(listEl.querySelectorAll(".dpaam-fav-row"));
-  const firstTops = new Map();
+  const firstRects = new Map();
   for (const r of rows) {
     if (r === dragEl) continue;
-    firstTops.set(r, r.getBoundingClientRect().top);
+    const rect = r.getBoundingClientRect();
+    firstRects.set(r, { top: rect.top, left: rect.left });
   }
 
   mutate();
 
   for (const r of rows) {
     if (r === dragEl) continue;
-    const newTop = r.getBoundingClientRect().top;
-    const delta = firstTops.get(r) - newTop;
-    if (!delta) continue;
+    const newRect = r.getBoundingClientRect();
+    const first = firstRects.get(r);
+    const dx = first.left - newRect.left;
+    const dy = first.top - newRect.top;
+    if (!dx && !dy) continue;
 
     const prev = flipAnims.get(r);
     if (prev) prev.cancel();
 
     const anim = r.animate(
       [
-        { transform: `translateY(${delta}px)` },
-        { transform: "translateY(0)" },
+        { transform: `translate(${dx}px, ${dy}px)` },
+        { transform: "translate(0, 0)" },
       ],
       { duration: 180, easing: "ease" },
     );
@@ -408,29 +416,19 @@ function renderFavorites() {
         ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">Activated</button>`
         : `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="generate-code">Activate</button>`;
 
-      const actionBlock = `
-        <div class="dpaam-fav-code-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">Details</button>
-          ${codeOrGenerate}
-        </div>`;
-
-      const topic = game.topic ? formatLabel(game.topic) : game.title;
       return `
         <li
           class="dpaam-fav-row"
           data-game-id="${escapeHtml(game.id)}"
         >
-          <span class="dpaam-fav-handle" draggable="true" aria-hidden="true">⋮⋮</span>
-          ${thumbHtml(game)}
-          <div class="dpaam-fav-row-body">
-            <div class="dpaam-lib-main">
-              <div class="dpaam-lib-topic-row">
-                <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-              </div>
-              ${libThemeHtml(game)}
-            </div>
-            <div class="dpaam-fav-actions">
-              ${actionBlock}
+          <div class="dpaam-fav-thumb-wrap">
+            <span class="dpaam-fav-handle" draggable="true" aria-hidden="true">⋮⋮</span>
+            ${thumbHtml(game)}
+          </div>
+          <div class="dpaam-lib-row-body">
+            <div class="dpaam-lib-actions">
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Details</button>
+              ${codeOrGenerate}
               <button
                 type="button"
                 class="dpaam-fav-remove"
@@ -903,7 +901,7 @@ function wireEvents() {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
 
-    const after = rowAfterPointer(els.favoritesList, e.clientY, dragEl);
+    const after = rowAfterPointer(els.favoritesList, e.clientX, e.clientY, dragEl);
     if (after == null) {
       if (els.favoritesList.lastElementChild !== dragEl) {
         flipReorder(els.favoritesList, dragEl, () => {
