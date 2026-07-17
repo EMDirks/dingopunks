@@ -198,9 +198,9 @@ function removeIconSvg() {
 function activeCardTimerHtml(expiresAt) {
   const expiresLabel = formatExpiresLabel(expiresAt);
   if (expiresLabel === "Expired") {
-    return `<div class="dpaam-active-card-expiry"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+    return `<div class="dpaam-card__label"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
   }
-  return `<div class="dpaam-active-card-expiry">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+  return `<div class="dpaam-card__label">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
 // During a live drag-reorder, decide which sibling card the dragged element
@@ -208,7 +208,7 @@ function activeCardTimerHtml(expiresAt) {
 // then top-to-bottom row by row). Returns null to mean "append to the end".
 // The currently-dragged element is skipped so it can never displace itself.
 function rowAfterPointer(listEl, clientX, clientY, dragEl) {
-  const rows = Array.from(listEl.querySelectorAll(".dpaam-fav-row")).filter(
+  const rows = Array.from(listEl.querySelectorAll(".dpaam-card--favorite")).filter(
     (el) => el !== dragEl,
   );
   for (const row of rows) {
@@ -228,7 +228,7 @@ function rowAfterPointer(listEl, clientX, clientY, dragEl) {
 // dragover events don't queue up.
 const flipAnims = new WeakMap();
 function flipReorder(listEl, dragEl, mutate) {
-  const rows = Array.from(listEl.querySelectorAll(".dpaam-fav-row"));
+  const rows = Array.from(listEl.querySelectorAll(".dpaam-card--favorite"));
   const firstRects = new Map();
   for (const r of rows) {
     if (r === dragEl) continue;
@@ -353,12 +353,12 @@ function renderActiveCodes() {
       const game = gameById(entry.gameId);
       if (!game) return "";
       return `
-        <article class="dpaam-fav-row dpaam-active-row" role="listitem" data-game-id="${escapeHtml(game.id)}">
-          <div class="dpaam-fav-thumb-wrap">
+        <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
+          <div class="dpaam-card__thumb-wrap">
             ${thumbHtml(game)}
           </div>
-          <div class="dpaam-lib-row-body">
-            <div class="dpaam-lib-actions">
+          <div class="dpaam-card__body">
+            <div class="dpaam-card__actions">
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
@@ -412,15 +412,15 @@ function renderFavorites() {
 
       return `
         <li
-          class="dpaam-fav-row"
+          class="dpaam-card dpaam-card--favorite"
           data-game-id="${escapeHtml(game.id)}"
           draggable="true"
         >
-          <div class="dpaam-fav-thumb-wrap">
+          <div class="dpaam-card__thumb-wrap">
             ${thumbHtml(game)}
           </div>
-          <div class="dpaam-lib-row-body">
-            <div class="dpaam-lib-actions">
+          <div class="dpaam-card__body">
+            <div class="dpaam-card__actions">
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
@@ -470,14 +470,16 @@ function renderLibrary() {
       //   </div>`;
       return `
         <li
-          class="dpaam-lib-row"
+          class="dpaam-card dpaam-card--library"
           data-game-id="${escapeHtml(game.id)}"
           tabindex="0"
           aria-label="${escapeHtml(game.title)}"
         >
-          ${thumbHtml(game)}
-          <div class="dpaam-lib-row-body">
-            <div class="dpaam-lib-actions">
+          <div class="dpaam-card__thumb-wrap">
+            ${thumbHtml(game)}
+          </div>
+          <div class="dpaam-card__body">
+            <div class="dpaam-card__actions">
               <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
               ${addAction}
             </div>
@@ -858,7 +860,7 @@ function wireEvents() {
       e.preventDefault();
       return;
     }
-    const row = e.target.closest(".dpaam-fav-row");
+    const row = e.target.closest(".dpaam-card--favorite");
     if (!row) return;
     dragEl = row;
 
@@ -880,7 +882,7 @@ function wireEvents() {
     dragEl.classList.remove("is-dragging");
     dragEl = null;
     const newOrder = Array.from(
-      els.favoritesList.querySelectorAll(".dpaam-fav-row"),
+      els.favoritesList.querySelectorAll(".dpaam-card--favorite"),
     ).map((el) => el.dataset.gameId);
     setFavoritesOrder(newOrder);
   });
@@ -920,7 +922,7 @@ function wireEvents() {
   els.libraryList.addEventListener("click", (e) => {
     const actionBtn = e.target.closest("button[data-action]");
     if (actionBtn) {
-      const row = actionBtn.closest(".dpaam-lib-row");
+      const row = actionBtn.closest(".dpaam-card--library");
       if (!row) return;
       const gameId = row.dataset.gameId;
       switch (actionBtn.dataset.action) {
@@ -932,7 +934,7 @@ function wireEvents() {
       }
       return;
     }
-    const row = e.target.closest(".dpaam-lib-row");
+    const row = e.target.closest(".dpaam-card--library");
     if (!row) return;
     openModal(row.dataset.gameId);
   });
@@ -940,7 +942,7 @@ function wireEvents() {
   els.libraryList.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     if (e.target.closest("button[data-action]")) return;
-    const row = e.target.closest(".dpaam-lib-row");
+    const row = e.target.closest(".dpaam-card--library");
     if (!row || e.target !== row) return;
     e.preventDefault();
     openModal(row.dataset.gameId);
