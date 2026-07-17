@@ -858,6 +858,9 @@ function addSetup(){
     function updatePlayerCount() {
       activityCount = resource.challengeArray.length-1;
       setup.playerCount = setup.playerCount.slice(0, activityCount);
+      if (typeof WHOLE_CLASS !== 'undefined' && WHOLE_CLASS) {
+        setup.playerCount.push('Whole class');
+      }
       createTabs(setup.playerCount,"Number of players","tab-button-player-count-");
     }
     createTabs(generateArray(resource.challengeArray.length-1),"Number of challenges","tab-button-activity-count-");
@@ -870,6 +873,9 @@ function addSetup(){
     function updatePlayerCount() {
       activityCount = resource.activityArray.length-1;
       setup.playerCount = setup.playerCount.slice(0, activityCount);
+      if (typeof WHOLE_CLASS !== 'undefined' && WHOLE_CLASS) {
+        setup.playerCount.push('Whole class');
+      }
       createTabs(setup.playerCount,"Number of players","tab-button-player-count-");
     }
     createTabs(generateArray(resource.activityArray.length-1),"Number of challenges","tab-button-activity-count-");
@@ -930,6 +936,17 @@ function addSetup(){
             switch (idWithoutLastTwo) {
               case 'tab-button-player-count':
                 toggleTabButtons('.tab-button-player-count-', 'playerCount');
+                if (settings.playerCount === 'Whole class') {
+                  createModal(
+                    'How to play as a whole class',
+                    'Whole Class Mode uses <span class="p--highlight">one device for the entire class,</span> displayed somewhere everyone can see it (such as a smart TV or projector). You\'ll lead the game and call on students to answer as needed.',
+                    'Close'
+                  );
+                  settings.playerCount = 1;
+                  settings.wholeClass = true;
+                } else {
+                  settings.wholeClass = false;
+                }
                 break;
               case 'tab-button-activity-count':
                   toggleTabButtons('.tab-button-activity-count-', 'activityCount');
@@ -1044,6 +1061,8 @@ function addCharacter(){
   let playerNum = 1;
   if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
     splashTitle.innerHTML = 'Same players?';
+  } else if (settings.wholeClass) {
+    splashTitle.innerHTML = '<span class="character-select-text-player">Teacher,</span> choose your character.';
   } else {
     splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
   }
@@ -1153,7 +1172,11 @@ function addCharacter(){
       else {
         enterReadyState();
       }
-      splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character`;
+      if (settings.wholeClass) {
+        splashTitle.innerHTML = '<span class="character-select-text-player">Teacher,</span> choose your character.';
+      } else {
+        splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character`;
+      }
     });
   }
 

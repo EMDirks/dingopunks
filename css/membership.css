@@ -275,6 +275,69 @@ body {
   background: var(--dpaam-blue);
 }
 
+.dpaam-mobile-menu-toggle,
+.dpaam-mobile-menu {
+  display: none;
+}
+
+.dpaam-mobile-menu-toggle {
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dpaam-radius-sm);
+  background: transparent;
+  color: var(--dpaam-white);
+}
+
+.dpaam-mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dpaam-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 22px;
+}
+
+.dpaam-hamburger span {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform var(--dpaam-transition), opacity var(--dpaam-transition);
+}
+
+.dpaam-mobile-menu-toggle[aria-expanded="true"] .dpaam-hamburger span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.dpaam-mobile-menu-toggle[aria-expanded="true"] .dpaam-hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.dpaam-mobile-menu-toggle[aria-expanded="true"] .dpaam-hamburger span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.dpaam-mobile-menu {
+  flex-direction: column;
+  gap: var(--dpaam-pad-sm);
+  padding: var(--dpaam-pad-sm);
+  background: var(--dpaam-blue-dark);
+  box-shadow: var(--dpaam-shadow-md);
+}
+
+.dpaam-mobile-menu .dpaam-btn {
+  width: 100%;
+  text-align: center;
+}
+
 .dpaam-brand {
   display: flex;
   align-items: center;
@@ -711,6 +774,7 @@ a.dpaam-topbar-btn {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow-wrap: break-word;
 }
 
 .dpaam-lib-topic-row {
@@ -773,6 +837,10 @@ a.dpaam-topbar-btn {
 .dpaam-tag--grade-3 { background: var(--dpaam-teal-light);   color: var(--dpaam-teal-dark);}
 .dpaam-tag--grade-4 { background: var(--dpaam-salmon-light); color: var(--dpaam-salmon-dark);}
 .dpaam-tag--grade-5 { background: var(--dpaam-gold-light);   color: var(--dpaam-gold-dark);}
+
+.dpaam-tag-label--short {
+  display: none;
+}
 
 /* ---------- Buttons ---------- */
 
@@ -980,12 +1048,21 @@ a.dpaam-topbar-btn {
 .dpaam-fav-remove {
   background: var(--dpaam-white);
   border: 0;
-  font-size: var(--dpaam-text-lg);
   font-weight: 500;
   line-height: 1;
   color: var(--dpaam-black);
-  padding: 10px 11px 5px 11px;
   border-radius: var(--dpaam-radius-sm);
+}
+
+.dpaam-modal-close {
+  font-size: var(--dpaam-text-lg);
+  padding: 10px 11px 5px 11px;
+}
+
+.dpaam-fav-remove {
+  font-size: var(--dpaam-text-ui);
+  font-weight: 600;
+  padding: 6px 10px 4px;
 }
 
 .dpaam-modal-close:hover,
@@ -1297,11 +1374,63 @@ dd a {
   background-color: red;
 }
 
-/* ---------- Mobile fallback (desktop-first, but not broken) ---------- */
+/* ---------- Mobile (tablet / large phone) ----------
+   Type scale scales down proportionally via --dpaam-text-* tokens. ---------- */
 
 @media (max-width: 720px) {
+  .dpaam {
+    --dpaam-text-xs:      11px;
+    --dpaam-text-sm:      13px;
+    --dpaam-text-md:      17px;
+    --dpaam-text-lg:      20px;
+    --dpaam-text-xl:      24px;
+    --dpaam-text-ui:      15px;
+    --dpaam-text-display: 30px;
+    --dpaam-add-btn-w:    79px;
+    --dpaam-code-btn-w:   97px;
+  }
+
   .dpaam-topbar {
+    position: relative;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--dpaam-pad-sm);
     padding: var(--dpaam-pad-md) var(--dpaam-pad);
+  }
+
+  .dpaam-mobile-menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .dpaam-topbar-buttons {
+    display: none;
+  }
+
+  .dpaam-mobile-menu:not([hidden]) {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+  }
+
+  .dpaam-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    gap: var(--dpaam-pad-md);
+  }
+
+  .dpaam-logo {
+    height: 48px;
+  }
+
+  .dpaam-pill {
+    padding: 8px var(--dpaam-pad-sm) 6px;
+    line-height: 1.2;
   }
 
   .dpaam-main {
@@ -1313,29 +1442,212 @@ dd a {
     padding: var(--dpaam-pad);
   }
 
+  .dpaam-section-header {
+    flex-wrap: wrap;
+    gap: var(--dpaam-pad-sm);
+  }
+
   .dpaam-guide-inner {
     padding: var(--dpaam-pad);
   }
 
+  .dpaam-guide-steps {
+    flex-direction: column;
+    gap: var(--dpaam-pad-lg);
+  }
+
   .dpaam-active-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-active-card {
+    padding: var(--dpaam-pad-sm);
+    gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-active-card-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: var(--dpaam-pad-sm);
+    gap: var(--dpaam-pad-xs);
+  }
+
+  .dpaam-active-card-actions .dpaam-btn-primary {
+    flex: 1 1 100%;
+    width: 100%;
+    padding: 6px var(--dpaam-pad-sm) 4px;
+    text-align: center;
+  }
+
+  .dpaam-active-card-actions .dpaam-btn-secondary {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    padding: 6px var(--dpaam-pad-sm) 4px;
+    text-align: center;
+  }
+
+  .dpaam-active-card-actions .dpaam-fav-remove {
+    flex: 0 0 auto;
+    align-self: center;
+    padding: 6px var(--dpaam-pad-sm) 4px;
   }
 
   .dpaam-filters {
     grid-template-columns: 1fr 1fr;
+    margin-bottom: var(--dpaam-pad-xl);
   }
 
   .dpaam-filters .dpaam-filter:last-child {
     grid-column: 1 / -1;
   }
 
+  .dpaam-thumb {
+    width: 80px;
+    height: 80px;
+  }
+
+  .dpaam-fav-handle {
+    display: none;
+  }
+
   .dpaam-fav-row,
   .dpaam-lib-row {
-    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .dpaam-lib-row-body,
+  .dpaam-fav-row-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "topic topic"
+      "meta meta"
+      "grade actions";
+    align-items: center;
+    column-gap: var(--dpaam-pad-sm);
+    row-gap: 2px;
+    padding: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-lib-main,
+  .dpaam-fav-row-body .dpaam-lib-main {
+    display: contents;
+  }
+
+  .dpaam-lib-topic-row {
+    grid-area: topic;
+    height: auto;
+    min-height: 0;
+  }
+
+  .dpaam-lib-meta {
+    grid-area: meta;
+  }
+
+  .dpaam-lib-main > .dpaam-tags {
+    grid-area: grade;
+    margin-top: 0;
+    gap: 4px;
+  }
+
+  .dpaam-tag-label--full {
+    display: none;
+  }
+
+  .dpaam-tag-label--short {
+    display: inline;
+  }
+
+  .dpaam-lib-actions,
+  .dpaam-fav-actions {
+    grid-area: actions;
+    width: auto;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-fav-code-actions {
+    width: auto;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-lib-actions .dpaam-btn-details,
+  .dpaam-fav-actions .dpaam-btn-details {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .dpaam-lib-actions .dpaam-btn-add,
+  .dpaam-lib-actions .dpaam-saved-mark,
+  .dpaam-fav-code-actions .dpaam-btn[data-action="generate-code"],
+  .dpaam-fav-code-actions .dpaam-code-generated-mark {
+    flex: none;
+  }
+
+  .dpaam-btn-details,
+  .dpaam-modal-close {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dpaam-fav-remove {
+    min-height: 0;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dpaam-modal-close {
+    margin-right: 0;
+    margin-top: 0;
+  }
+
+  .dpaam-guide-header .dpaam-modal-close {
+    margin-right: 0;
+    margin-top: 0;
+  }
+
+  .dpaam-modal {
+    width: min(900px, calc(100vw - 24px));
+    max-height: calc(100vh - 32px);
+  }
+
+  .dpaam-modal-form {
+    max-height: calc(100vh - 32px);
+  }
+
+  .dpaam-modal-header {
+    padding: var(--dpaam-pad-lg) var(--dpaam-pad) var(--dpaam-pad-md);
   }
 
   .dpaam-modal-body {
     flex-direction: column;
+    padding: var(--dpaam-pad);
+    gap: var(--dpaam-pad);
+  }
+
+  .dpaam-modal-footer {
+    flex-wrap: wrap;
+    justify-content: stretch;
+    gap: var(--dpaam-pad-sm);
+    padding: 0 var(--dpaam-pad) var(--dpaam-pad);
+  }
+
+  .dpaam-modal-footer .dpaam-btn {
+    flex: 1 1 calc(50% - var(--dpaam-pad-sm));
+    min-width: 0;
+    text-align: center;
   }
 
   .dpaam-modal-thumb {
@@ -1350,9 +1662,128 @@ dd a {
     grid-template-columns: 1fr;
     gap: var(--dpaam-pad-xs) 0;
     width: 100%;
+    padding: var(--dpaam-pad);
   }
 
   .dpaam-modal-dl dt {
     margin-top: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-account-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dpaam-account-row > .dpaam-btn {
+    align-self: flex-start;
+  }
+
+  .dpaam-share-copy-actions {
+    flex-wrap: wrap;
+  }
+
+  .dpaam-share-copy-actions .dpaam-btn {
+    flex: 1 1 auto;
+    min-width: min(100%, 140px);
+  }
+
+  #dpaam-toast {
+    max-width: calc(100vw - 32px);
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ---------- Mobile (phone) ---------- */
+
+@media (max-width: 480px) {
+  .dpaam {
+    --dpaam-text-xs:      10px;
+    --dpaam-text-sm:      12px;
+    --dpaam-text-md:      15px;
+    --dpaam-text-lg:      18px;
+    --dpaam-text-xl:      21px;
+    --dpaam-text-ui:      14px;
+    --dpaam-text-display: 27px;
+    --dpaam-add-btn-w:    73px;
+    --dpaam-code-btn-w:   89px;
+  }
+
+  .dpaam-topbar {
+    align-items: center;
+  }
+
+  .dpaam-brand {
+    flex-wrap: wrap;
+    row-gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-logo {
+    height: 40px;
+  }
+
+  .dpaam-pill {
+    padding: 7px var(--dpaam-pad-sm) 5px;
+  }
+
+  .dpaam-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .dpaam-filters .dpaam-filter:last-child {
+    grid-column: auto;
+  }
+
+  .dpaam-thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .dpaam-active-card-code {
+    padding: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-active-card-actions .dpaam-btn-primary {
+    flex: none;
+    width: 100%;
+  }
+
+  .dpaam-modal-footer .dpaam-btn {
+    flex: 1 1 100%;
+  }
+
+  .dpaam-account-password-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dpaam-account-password-actions .dpaam-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ---------- Mobile (very small phone) ---------- */
+
+@media (max-width: 360px) {
+  .dpaam {
+    --dpaam-text-xs:      10px;
+    --dpaam-text-sm:      11px;
+    --dpaam-text-md:      15px;
+    --dpaam-text-lg:      17px;
+    --dpaam-text-xl:      20px;
+    --dpaam-text-ui:      13px;
+    --dpaam-text-display: 26px;
+    --dpaam-add-btn-w:    69px;
+    --dpaam-code-btn-w:   84px;
+  }
+
+  .dpaam-pill {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .dpaam-active-card-code {
+    letter-spacing: 0.04em;
   }
 }

@@ -55,6 +55,9 @@ const els = {
   limitModal: document.getElementById("dpaam-limit-modal"),
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   accountBtn: document.getElementById("dpaam-account-btn"),
+  accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
+  mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
+  mobileMenu: document.getElementById("dpaam-mobile-menu"),
   accountModal: document.getElementById("dpaam-account-modal"),
   accountChangePassword: document.getElementById("dpaam-account-change-password"),
   accountPasswordForm: document.getElementById("dpaam-account-password-form"),
@@ -65,7 +68,6 @@ const els = {
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
   guideFaqToggle: document.getElementById("dpaam-guide-faq-toggle"),
   guideFaqList: document.getElementById("dpaam-guide-faq-list"),
-  helpBtn: document.getElementById("dpaam-help-btn"),
 };
 
 // ---------- helpers ----------
@@ -157,15 +159,15 @@ function tagsHtml(game) {
     .join("")}</div>`;
 }
 
+function gradeTagHtml(g) {
+  const grade = escapeHtml(String(g));
+  return `<span class="dpaam-tag dpaam-tag--grade-${grade}" aria-label="Grade ${grade}"><span class="dpaam-tag-label dpaam-tag-label--full">Grade ${grade}</span><span class="dpaam-tag-label dpaam-tag-label--short" aria-hidden="true">${grade}</span></span>`;
+}
+
 function libThemeHtml(game) {
   const gradeHtml =
     game.grades && game.grades.length
-      ? `<div class="dpaam-tags">${game.grades
-          .map(
-            (g) =>
-              `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`,
-          )
-          .join("")}</div>`
+      ? `<div class="dpaam-tags">${game.grades.map((g) => gradeTagHtml(g)).join("")}</div>`
       : "";
   const season = game.season
     ? `<span class="dpaam-lib-meta-season">${escapeHtml(formatLabel(game.season))}</span>`
@@ -186,9 +188,7 @@ function libThemeHtml(game) {
 
 function libTagsHtml(game) {
   if (!game.grades || game.grades.length === 0) return "";
-  return `<div class="dpaam-tags">${game.grades
-    .map((g) => `<span class="dpaam-tag dpaam-tag--grade-${escapeHtml(String(g))}">Grade ${escapeHtml(String(g))}</span>`)
-    .join("")}</div>`;
+  return `<div class="dpaam-tags">${game.grades.map((g) => gradeTagHtml(g)).join("")}</div>`;
 }
 
 function activeCardTimerHtml(expiresAt) {
@@ -655,14 +655,14 @@ function shareModalHtml(game, code) {
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dd>
-        <strong>Option 2:</strong>&nbsp; Have students visit the link <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>
+        <strong>Option 2:</strong>&nbsp; Have students visit the link <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>. This will launch the game automatically.
         <div class="dpaam-share-copy-actions">
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy Link</button>
         </div>
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dd>
-        <strong>Option 3:</strong>&nbsp; Share to Google Classroom
+        <strong>Option 3:</strong>&nbsp; Share to Google Classroom.
         <div class="dpaam-share-copy-actions">
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="share-google-classroom">Share to Google Classroom</button>
         </div>
@@ -1025,6 +1025,10 @@ function wireEvents() {
   els.accountBtn?.addEventListener("click", () => {
     openAccountModal();
   });
+  els.accountBtnMobile?.addEventListener("click", () => {
+    setMobileMenuOpen(false);
+    openAccountModal();
+  });
   els.accountChangePassword?.addEventListener("click", () => {
     const open = els.accountPasswordForm?.hidden !== false;
     setAccountPasswordFormOpen(open);
@@ -1059,13 +1063,43 @@ function setQuickStartVisible(visible) {
 }
 
 function applyQuickStartVisible(visible) {
-  if (!els.quickStart || !els.helpBtn) return;
+  if (!els.quickStart) return;
   els.quickStart.hidden = !visible;
-  els.helpBtn.hidden = visible;
+}
+
+function setMobileMenuOpen(open) {
+  if (!els.mobileMenuToggle || !els.mobileMenu) return;
+  els.mobileMenuToggle.setAttribute("aria-expanded", String(open));
+  els.mobileMenuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  els.mobileMenu.hidden = !open;
+}
+
+function initMobileMenu() {
+  if (!els.mobileMenuToggle || !els.mobileMenu) return;
+
+  els.mobileMenuToggle.addEventListener("click", () => {
+    const open = els.mobileMenuToggle.getAttribute("aria-expanded") !== "true";
+    setMobileMenuOpen(open);
+  });
+
+  els.mobileMenu.querySelectorAll(".dpaam-btn").forEach((btn) => {
+    if (btn === els.accountBtnMobile) return;
+    btn.addEventListener("click", () => setMobileMenuOpen(false));
+  });
+
+  document.addEventListener("click", (e) => {
+    if (els.mobileMenu.hidden) return;
+    if (e.target.closest(".dpaam-mobile-menu-toggle") || e.target.closest(".dpaam-mobile-menu")) return;
+    setMobileMenuOpen(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !els.mobileMenu.hidden) setMobileMenuOpen(false);
+  });
 }
 
 function initQuickStartGuide() {
-  if (!els.quickStart || !els.quickStartClose || !els.helpBtn) return;
+  if (!els.quickStart || !els.quickStartClose) return;
   let visible = readQuickStartVisible();
   applyQuickStartVisible(visible);
   els.quickStartClose.addEventListener("click", () => {
@@ -1073,14 +1107,10 @@ function initQuickStartGuide() {
     applyQuickStartVisible(visible);
     setQuickStartVisible(visible);
   });
-  els.helpBtn.addEventListener("click", () => {
-    visible = true;
-    applyQuickStartVisible(visible);
-    setQuickStartVisible(visible);
-  });
 }
 
 function init() {
+  initMobileMenu();
   initQuickStartGuide();
   populateFilters();
   wireEvents();

@@ -148,8 +148,8 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - ✅ JUN 28 - **Google:** Ensure dingopunks is linked on my Shopify Google reviews widget
 - ✅ JUN 28 — **Google:** Confirm product feed URLs are pulling from dingopunks.com (check if Shopify Google channel updated automatically first)
 - ✅ JUN 28 — **Google:** Update website URL on GBP
-- [ ] JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- ✅ JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- ✅ JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 18 – State: Set up DBA
 - [ ] JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops

@@ -30,12 +30,34 @@
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
+          onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
+        >Play</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn"
-          aria-label="Show Quick Start Guide"
-          hidden
-        >
-          ?
-        </button>
+        >Help</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-account-btn"
+        >Account</button>
+      </div>
+      <button
+        type="button"
+        class="dpaam-mobile-menu-toggle"
+        id="dpaam-mobile-menu-toggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="dpaam-mobile-menu"
+      >
+        <span class="dpaam-hamburger" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+      <nav class="dpaam-mobile-menu" id="dpaam-mobile-menu" hidden>
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
@@ -44,9 +66,14 @@
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-account-btn"
-        >My Account</button>
-      </div>
+          id="dpaam-help-btn-mobile"
+        >Help</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-account-btn-mobile"
+        >Account</button>
+      </nav>
     </header>
 
     <main class="dpaam-main">

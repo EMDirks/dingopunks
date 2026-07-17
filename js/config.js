@@ -7,3 +7,6 @@ const UNDERMURK_BUTTON = false;
 
 // Controls the floating global-menu button
 const SHOW_GLOBAL_MENU_BUTTON = true;
+
+// Shows a "Whole Class" option in the Number of Players setup tabs.
+const WHOLE_CLASS = true;
