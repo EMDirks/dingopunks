@@ -119,6 +119,8 @@ body {
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
   --dpaam-add-btn-w:         85px;  /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
   --dpaam-code-btn-w:        104px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
+  --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.62);
+  --dpaam-mobile-menu-backdrop-blur: 4px;
 
 
   font-family: var(--dpaam-sans);
@@ -270,13 +272,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--dpaam-pad);
   padding: var(--dpaam-pad-lg) var(--dpaam-pad-xl);
   background: var(--dpaam-blue);
 }
 
 .dpaam-mobile-menu-toggle,
-.dpaam-mobile-menu {
+.dpaam-mobile-menu,
+.dpaam-mobile-menu-backdrop {
   display: none;
 }
 
@@ -329,25 +331,53 @@ body {
   flex-direction: column;
   gap: var(--dpaam-pad-sm);
   padding: var(--dpaam-pad-sm);
-  background: var(--dpaam-blue-dark);
+  background: var(--dpaam-blue);
   box-shadow: var(--dpaam-shadow-md);
+  margin-top: var(--dpaam-pad-md);
+  margin-left: var(--dpaam-pad-md);
+  width: calc(100% - var(--dpaam-pad-md) * 2);
+  border-radius: var(--dpaam-radius-lg);
 }
 
 .dpaam-mobile-menu .dpaam-btn {
   width: 100%;
+  padding: var(--dpaam-pad-md) var(--dpaam-pad);
   text-align: center;
+}
+
+.dpaam-mobile-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--dpaam-mobile-menu-backdrop);
+  backdrop-filter: blur(var(--dpaam-mobile-menu-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--dpaam-mobile-menu-backdrop-blur));
+  cursor: pointer;
+  touch-action: none;
+}
+
+.dpaam-mobile-menu-backdrop[hidden] {
+  display: none;
+}
+
+html.dpaam-mobile-menu-open,
+html.dpaam-mobile-menu-open body {
+  overflow: hidden;
 }
 
 .dpaam-brand {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: var(--dpaam-pad-md);
 }
 
 .dpaam-topbar-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--dpaam-pad-sm);
 }
 
 .dpaam-logo-link {
@@ -357,7 +387,7 @@ body {
 
 .dpaam-logo {
   display: block;
-  height: 64px;
+  height: 56px;
   width: auto;
 }
 
@@ -368,6 +398,13 @@ body {
   font-weight: 600;
   color: var(--dpaam-white);
   border-radius: var(--dpaam-radius);
+}
+
+.dpaam-pill-check {
+  font-size: 0.78em;
+  line-height: 1;
+  position: relative;
+  top: -0.04em;
 }
 
 .dpaam-topbar-btn {
@@ -1377,7 +1414,7 @@ dd a {
 /* ---------- Mobile (tablet / large phone) ----------
    Type scale scales down proportionally via --dpaam-text-* tokens. ---------- */
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .dpaam {
     --dpaam-text-xs:      11px;
     --dpaam-text-sm:      13px;
@@ -1392,6 +1429,7 @@ dd a {
 
   .dpaam-topbar {
     position: relative;
+    z-index: 25;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
@@ -1414,13 +1452,18 @@ dd a {
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 20;
+    z-index: 26;
+  }
+
+  .dpaam-mobile-menu-backdrop:not([hidden]) {
+    display: block;
+    animation: dpaam-backdrop-in 0.15s ease both;
   }
 
   .dpaam-brand {
     flex: 1 1 auto;
     min-width: 0;
-    justify-content: center;
+    justify-content: flex-start;
     gap: var(--dpaam-pad-md);
   }
 
@@ -1430,6 +1473,7 @@ dd a {
 
   .dpaam-pill {
     padding: 8px var(--dpaam-pad-sm) 6px;
+    font-size: var(--dpaam-text-md);
     line-height: 1.2;
   }
 
@@ -1696,72 +1740,7 @@ dd a {
 
 /* ---------- Mobile (phone) ---------- */
 
-@media (max-width: 480px) {
-  .dpaam {
-    --dpaam-text-xs:      10px;
-    --dpaam-text-sm:      12px;
-    --dpaam-text-md:      15px;
-    --dpaam-text-lg:      18px;
-    --dpaam-text-xl:      21px;
-    --dpaam-text-ui:      14px;
-    --dpaam-text-display: 27px;
-    --dpaam-add-btn-w:    73px;
-    --dpaam-code-btn-w:   89px;
-  }
 
-  .dpaam-topbar {
-    align-items: center;
-  }
-
-  .dpaam-brand {
-    flex-wrap: wrap;
-    row-gap: var(--dpaam-pad-sm);
-  }
-
-  .dpaam-logo {
-    height: 40px;
-  }
-
-  .dpaam-pill {
-    padding: 7px var(--dpaam-pad-sm) 5px;
-  }
-
-  .dpaam-filters {
-    grid-template-columns: 1fr;
-  }
-
-  .dpaam-filters .dpaam-filter:last-child {
-    grid-column: auto;
-  }
-
-  .dpaam-thumb {
-    width: 72px;
-    height: 72px;
-  }
-
-  .dpaam-active-card-code {
-    padding: var(--dpaam-pad-sm);
-  }
-
-  .dpaam-active-card-actions .dpaam-btn-primary {
-    flex: none;
-    width: 100%;
-  }
-
-  .dpaam-modal-footer .dpaam-btn {
-    flex: 1 1 100%;
-  }
-
-  .dpaam-account-password-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .dpaam-account-password-actions .dpaam-btn {
-    width: 100%;
-    text-align: center;
-  }
-}
 
 /* ---------- Mobile (very small phone) ---------- */
 

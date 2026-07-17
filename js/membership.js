@@ -58,6 +58,7 @@ const els = {
   accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
   mobileMenu: document.getElementById("dpaam-mobile-menu"),
+  mobileMenuBackdrop: document.getElementById("dpaam-mobile-menu-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
   accountChangePassword: document.getElementById("dpaam-account-change-password"),
   accountPasswordForm: document.getElementById("dpaam-account-password-form"),
@@ -1067,11 +1068,15 @@ function applyQuickStartVisible(visible) {
   els.quickStart.hidden = !visible;
 }
 
+const MOBILE_MENU_MQL = window.matchMedia("(max-width: 720px)");
+
 function setMobileMenuOpen(open) {
   if (!els.mobileMenuToggle || !els.mobileMenu) return;
   els.mobileMenuToggle.setAttribute("aria-expanded", String(open));
   els.mobileMenuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   els.mobileMenu.hidden = !open;
+  if (els.mobileMenuBackdrop) els.mobileMenuBackdrop.hidden = !open;
+  document.documentElement.classList.toggle("dpaam-mobile-menu-open", open);
 }
 
 function initMobileMenu() {
@@ -1082,19 +1087,21 @@ function initMobileMenu() {
     setMobileMenuOpen(open);
   });
 
+  els.mobileMenuBackdrop?.addEventListener("click", () => {
+    setMobileMenuOpen(false);
+  });
+
   els.mobileMenu.querySelectorAll(".dpaam-btn").forEach((btn) => {
     if (btn === els.accountBtnMobile) return;
     btn.addEventListener("click", () => setMobileMenuOpen(false));
   });
 
-  document.addEventListener("click", (e) => {
-    if (els.mobileMenu.hidden) return;
-    if (e.target.closest(".dpaam-mobile-menu-toggle") || e.target.closest(".dpaam-mobile-menu")) return;
-    setMobileMenuOpen(false);
-  });
-
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !els.mobileMenu.hidden) setMobileMenuOpen(false);
+  });
+
+  MOBILE_MENU_MQL.addEventListener("change", () => {
+    if (!MOBILE_MENU_MQL.matches) setMobileMenuOpen(false);
   });
 }
 
