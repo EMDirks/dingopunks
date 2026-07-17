@@ -22,7 +22,6 @@ const state = {
   favorites: [],            // ordered array of game ids
   activeCodes: [],          // [{ gameId, code, expiresAt }]
   filters: { season: "all", grade: "all", subject: "all" },
-  favoritesOpen: true,
   guideFaqOpen: false,
 };
 
@@ -33,7 +32,6 @@ const els = {
   activeCount: document.getElementById("dpaam-active-count"),
   activeList: document.getElementById("dpaam-active-list"),
   favoritesSection: document.getElementById("dpaam-favorites-section"),
-  favoritesToggle: document.getElementById("dpaam-favorites-toggle"),
   favoritesList: document.getElementById("dpaam-favorites-list"),
   favoritesCount: document.getElementById("dpaam-favorites-count"),
   filters: {
@@ -122,6 +120,7 @@ const LABEL_OVERRIDES = {
   "end-of-year": "End of Year",
   "back-to-school": "Back to School",
   "authors-purpose": "Author's Purpose",
+  "social-emotional-learning": "SEL",
 };
 
 function formatLabel(value) {
@@ -192,12 +191,16 @@ function libTagsHtml(game) {
   return `<div class="dpaam-tags">${game.grades.map((g) => gradeTagHtml(g)).join("")}</div>`;
 }
 
+function removeIconSvg() {
+  return `<svg class="dpaam-fav-remove-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="dpaam-fav-remove-x" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M6 6l12 12M18 6l-12 12"/></svg>`;
+}
+
 function activeCardTimerHtml(expiresAt) {
   const expiresLabel = formatExpiresLabel(expiresAt);
   if (expiresLabel === "Expired") {
     return `<div class="dpaam-active-card-expiry"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
   }
-  return `<div class="dpaam-active-card-expiry">Expires in: <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+  return `<div class="dpaam-active-card-expiry">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
 // During a live drag-reorder, decide which sibling card the dragged element
@@ -350,21 +353,23 @@ function renderActiveCodes() {
       const game = gameById(entry.gameId);
       if (!game) return "";
       return `
-        <article class="dpaam-active-card" role="listitem" data-game-id="${escapeHtml(game.id)}">
-          ${thumbHtml(game)}
-          <div class="dpaam-active-card-footer">
-            ${activeCardTimerHtml(entry.expiresAt)}
-            <div class="dpaam-active-card-actions">
-              <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="share-code">Share</button>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-preview">Answers</button>
+        <article class="dpaam-fav-row dpaam-active-row" role="listitem" data-game-id="${escapeHtml(game.id)}">
+          <div class="dpaam-fav-thumb-wrap">
+            ${thumbHtml(game)}
+          </div>
+          <div class="dpaam-lib-row-body">
+            <div class="dpaam-lib-actions">
               <button
                 type="button"
-                class="dpaam-fav-remove"
+                class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
                 data-action="cancel-code"
                 aria-label="Cancel code"
-              >×</button>
+              >${removeIconSvg()}</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-preview">Answers</button>
+              <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>
             </div>
           </div>
+          ${activeCardTimerHtml(entry.expiresAt)}
         </article>`;
     })
     .join("");
@@ -378,22 +383,11 @@ function renderFavorites() {
 
   // No favorites → section hidden; keep list state ready for first add
   if (!hasFavorites) {
-    state.favoritesOpen = true;
     els.favoritesList.innerHTML = "";
     return;
   }
 
-  els.favoritesToggle.disabled = false;
-
   els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
-  // Active count in header — removed for now; restore when needed.
-  // const activeCount = state.activeCodes.length;
-  // els.activeCount.hidden = activeCount === 0;
-  // if (activeCount > 0) {
-  //   els.activeCount.textContent = `${activeCount} / ${MAX_ACTIVE_CODES} game codes`;
-  // }
-  els.favoritesToggle.setAttribute("aria-expanded", String(state.favoritesOpen));
-  els.favoritesList.hidden = !state.favoritesOpen;
 
   els.favoritesList.innerHTML = state.favorites
     .map((id) => {
@@ -420,21 +414,21 @@ function renderFavorites() {
         <li
           class="dpaam-fav-row"
           data-game-id="${escapeHtml(game.id)}"
+          draggable="true"
         >
           <div class="dpaam-fav-thumb-wrap">
-            <span class="dpaam-fav-handle" draggable="true" aria-hidden="true">⋮⋮</span>
             ${thumbHtml(game)}
           </div>
           <div class="dpaam-lib-row-body">
             <div class="dpaam-lib-actions">
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Details</button>
-              ${codeOrGenerate}
               <button
                 type="button"
-                class="dpaam-fav-remove"
+                class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
                 data-action="remove-favorite"
                 aria-label="Remove from favorites"
-              >×</button>
+              >${removeIconSvg()}</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
+              ${codeOrGenerate}
             </div>
           </div>
         </li>`;
@@ -484,7 +478,7 @@ function renderLibrary() {
           ${thumbHtml(game)}
           <div class="dpaam-lib-row-body">
             <div class="dpaam-lib-actions">
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Details</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
               ${addAction}
             </div>
           </div>
@@ -538,7 +532,7 @@ function openModal(gameId, context = "library") {
   if (!game) return;
   modalGameId = gameId;
   modalContext = context;
-  els.modalTitle.textContent = "Escape Room Details";
+  els.modalTitle.textContent = "Escape Room Info";
   const skillsHtml =
     game.skills && game.skills.filter((s) => s).length
       ? `<dt>Skills</dt><dd class="dpaam-modal-skills"><ul class="dpaam-modal-skills-list">${game.skills
@@ -813,12 +807,6 @@ function wireEvents() {
     renderGuideFaq();
   });
 
-  // Favorites toggle (open/close)
-  els.favoritesToggle.addEventListener("click", () => {
-    state.favoritesOpen = !state.favoritesOpen;
-    renderFavorites();
-  });
-
   // Active codes — delegated
   els.activeList.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
@@ -866,13 +854,14 @@ function wireEvents() {
   let dragEl = null;
 
   els.favoritesList.addEventListener("dragstart", (e) => {
-    if (!e.target.closest(".dpaam-fav-handle")) return;
+    if (e.target.closest("button, a, input, select, textarea")) {
+      e.preventDefault();
+      return;
+    }
     const row = e.target.closest(".dpaam-fav-row");
     if (!row) return;
     dragEl = row;
 
-    // Drag starts on the handle, so the default ghost is only the grip icon.
-    // Use the in-list row (still under .dpaam) so tokens and styles match exactly.
     const rect = row.getBoundingClientRect();
     e.dataTransfer.setDragImage(
       row,
