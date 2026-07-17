@@ -405,7 +405,7 @@ function renderFavorites() {
       // </div>`
 
       const codeOrGenerate = active
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">✓ &nbsp;Activated</button>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">Activated</button>`
         : `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="generate-code">Activate</button>`;
 
       const actionBlock = `
@@ -466,26 +466,27 @@ function renderLibrary() {
     .map((game) => {
       const saved = isFavorite(game.id);
       const addAction = saved
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">✓ &nbsp;Added</button>`
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert" data-action="remove-favorite" aria-label="Remove from favorites">Added</button>`
         : `<button type="button" class="dpaam-btn dpaam-btn-add" data-action="save-favorite">Add</button>`;
-      const topic = game.topic ? formatLabel(game.topic) : game.title;
+      // const topic = game.topic ? formatLabel(game.topic) : game.title;
+      // const libMainHtml = `
+      //   <div class="dpaam-lib-main">
+      //     <div class="dpaam-lib-topic-row">
+      //       <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
+      //     </div>
+      //     ${libThemeHtml(game)}
+      //   </div>`;
       return `
         <li
           class="dpaam-lib-row"
           data-game-id="${escapeHtml(game.id)}"
           tabindex="0"
-          aria-label="${escapeHtml(game.title)} — ${escapeHtml(topic)}"
+          aria-label="${escapeHtml(game.title)}"
         >
           ${thumbHtml(game)}
           <div class="dpaam-lib-row-body">
-            <div class="dpaam-lib-main">
-              <div class="dpaam-lib-topic-row">
-                <h3 class="dpaam-lib-topic">${escapeHtml(topic)}</h3>
-              </div>
-              ${libThemeHtml(game)}
-            </div>
             <div class="dpaam-lib-actions">
-              <button type="button" class="dpaam-btn dpaam-btn-details" data-action="open-details">Details</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Details</button>
               ${addAction}
             </div>
           </div>
@@ -582,7 +583,7 @@ function refreshModalActionButton() {
   if (modalContext === "favorites") {
     if (activeCodeFor(modalGameId)) {
       btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert";
-      btn.textContent = "✓ \u00A0Activated";
+      btn.textContent = "Activated";
       btn.disabled = false;
       btn.setAttribute("aria-label", "Cancel game code");
     } else {
@@ -596,7 +597,7 @@ function refreshModalActionButton() {
 
   if (isFavorite(modalGameId)) {
     btn.className = "dpaam-btn dpaam-btn-done dpaam-saved-mark dpaam-btn-revert";
-    btn.textContent = "✓ \u00A0Added";
+    btn.textContent = "Added";
     btn.disabled = false;
     btn.setAttribute("aria-label", "Remove from favorites");
   } else {

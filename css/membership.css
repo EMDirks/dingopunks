@@ -41,8 +41,7 @@ body {
 
 .dpaam {
   /* --- palette --- */
-  --dpaam-light-gray: #F7F6F6;
-  --dpaam-page-gray: #EEEDEC;
+  --dpaam-light-gray: #F7F5F2;
   --dpaam-white: #ffffff;
   --dpaam-border: #e3e3df;
   --dpaam-border-strong: #c9c9c4;
@@ -80,6 +79,7 @@ body {
   --dpaam-radius: 4px;
   --dpaam-radius-sm: 4px;
   --dpaam-radius-lg: 8px;
+  --dpaam-radius-xl: 12px;
   --dpaam-radius-pill: 999px;
 
   /* --- spacing scale --- */
@@ -126,7 +126,7 @@ body {
 
   font-family: var(--dpaam-sans);
   color: var(--dpaam-black);
-  background: var(--dpaam-page-gray);
+  background: var(--dpaam-light-gray);
   min-height: 100vh;
   font-size: var(--dpaam-text-sm);
   line-height: 1.45;
@@ -422,16 +422,18 @@ a.dpaam-topbar-btn {
 .dpaam-main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--dpaam-pad-xl);
   display: flex;
   flex-direction: column;
   gap: var(--dpaam-pad-xl);
+  padding-top: var(--dpaam-pad-xl);
+  padding-bottom: var(--dpaam-pad-xl);
 }
 
 .dpaam-section {
-  background: var(--dpaam-light-gray);
+  background: var(--dpaam-white);
   border-radius: var(--dpaam-radius-lg);
-  padding: 18px var(--dpaam-pad-lg) var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-lg);
+  border: 1px solid var(--dpaam-border);
 }
 
 .dpaam-section-header {
@@ -766,8 +768,8 @@ a.dpaam-topbar-btn {
 
 .dpaam-library-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--dpaam-pad-md);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--dpaam-pad-lg);
 }
 
 .dpaam-lib-row {
@@ -777,9 +779,8 @@ a.dpaam-topbar-btn {
   gap: var(--dpaam-pad-md);
   cursor: pointer;
   overflow: hidden;
-  padding: var(--dpaam-pad-sm);
-  border-radius: var(--dpaam-radius);
-  box-shadow: var(--dpaam-shadow-sm);
+  border-radius: var(--dpaam-radius-xl);
+  border: 1px solid var(--dpaam-border);
   background: var(--dpaam-white);
 }
 
@@ -800,7 +801,6 @@ a.dpaam-topbar-btn {
   background-repeat: no-repeat;
   background-position: 50% 15%;
   object-fit: cover;
-  border-radius: var(--dpaam-radius-sm);
 }
 
 .dpaam-lib-row-body {
@@ -810,7 +810,7 @@ a.dpaam-topbar-btn {
   flex-direction: column;
   align-items: stretch;
   gap: var(--dpaam-pad-sm);
-  padding: 0 var(--dpaam-pad-xs) var(--dpaam-pad-xs);
+  padding: var(--dpaam-pad-xs) var(--dpaam-pad-lg) var(--dpaam-pad-lg) var(--dpaam-pad-lg);
 }
 
 .dpaam-lib-main {
@@ -895,8 +895,9 @@ a.dpaam-topbar-btn {
   font-weight: 600;
   color: var(--dpaam-black);
   border: 0;
-  border-radius: var(--dpaam-radius-sm);
+  border-radius: var(--dpaam-radius-lg);
   white-space: nowrap;
+  font-size: var(--dpaam-text-sm);
 }
 
 .dpaam-btn:hover {
@@ -939,7 +940,8 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-btn-secondary {
-  background: var(--dpaam-light-gray);
+  background: var(--dpaam-white);
+  border: 1px solid var(--dpaam-border);
 }
 
 .dpaam-btn-tertiary {
@@ -951,7 +953,7 @@ a.dpaam-topbar-btn {
 .dpaam-btn.dpaam-btn-done {
   background: var(--dpaam-light-gray);
   cursor: default;
-  font-size: var(--dpaam-text-xs);
+  font-size: var(--dpaam-text-sm);
   color: var(--dpaam-black-muted);
 }
 
@@ -969,12 +971,33 @@ a.dpaam-topbar-btn {
 
 .dpaam-lib-actions {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  align-items: stretch;
   gap: var(--dpaam-pad-sm);
+  width: 100%;
   flex-shrink: 0;
   margin-top: auto;
   padding-top: var(--dpaam-pad-xs);
+}
+
+.dpaam-lib-actions .dpaam-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+}
+
+.dpaam-lib-actions .dpaam-btn-add,
+.dpaam-lib-actions .dpaam-saved-mark {
+  width: auto;
+}
+
+.dpaam-lib-actions .dpaam-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--dpaam-pair-btn-h);
+  padding-top: 2px;
+  padding-bottom: 0;
 }
 
 .dpaam-btn-details {
@@ -1410,7 +1433,7 @@ dd a {
   padding: 2px 6px 0px 6px;
   border-radius: var(--dpaam-radius-sm);
   pointer-events: none;
-  background: var(--dpaam-page-gray);
+  background: var(--dpaam-light-gray);
   color: var(--dpaam-black);
   border: 1px solid var(--dpaam-border-strong);
 }
@@ -1675,7 +1698,11 @@ dd a {
   }
 
   .dpaam-lib-actions .dpaam-btn-add,
-  .dpaam-lib-actions .dpaam-saved-mark,
+  .dpaam-lib-actions .dpaam-saved-mark {
+    flex: 1 1 0;
+    width: auto;
+  }
+
   .dpaam-fav-code-actions .dpaam-btn-activate,
   .dpaam-fav-code-actions .dpaam-code-generated-mark {
     flex: none;
