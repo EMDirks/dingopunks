@@ -83,6 +83,42 @@
       aria-label="Close menu"
     ></button>
 
+    <nav class="dpaam-tabbar" id="dpaam-tabbar" role="tablist" aria-label="Dashboard sections">
+      <button
+        type="button"
+        class="dpaam-tab"
+        id="dpaam-tab-library"
+        role="tab"
+        data-tab="library"
+        aria-selected="false"
+        aria-controls="dpaam-library-section"
+      >Library</button>
+      <button
+        type="button"
+        class="dpaam-tab"
+        id="dpaam-tab-favorites"
+        role="tab"
+        data-tab="favorites"
+        aria-selected="false"
+        aria-controls="dpaam-favorites-section"
+      >
+        <span class="dpaam-tab-label">Favorites</span>
+        <span class="dpaam-tab-count" id="dpaam-tab-favorites-count" aria-hidden="true">0</span>
+      </button>
+      <button
+        type="button"
+        class="dpaam-tab"
+        id="dpaam-tab-active"
+        role="tab"
+        data-tab="active"
+        aria-selected="false"
+        aria-controls="dpaam-active-section"
+      >
+        <span class="dpaam-tab-label">Active</span>
+        <span class="dpaam-tab-count" id="dpaam-tab-active-count" aria-hidden="true">0</span>
+      </button>
+    </nav>
+
     <main class="dpaam-main">
       <aside
         class="dpaam-guide"
@@ -138,18 +174,28 @@
         </div>
       </aside>
       <!-- Section 1: Active Codes -->
-      <section class="dpaam-section" id="dpaam-active-section" aria-labelledby="dpaam-active-heading">
+      <section
+        class="dpaam-section"
+        id="dpaam-active-section"
+        role="tabpanel"
+        aria-labelledby="dpaam-active-heading"
+        hidden
+      >
         <div class="dpaam-section-header">
           <h2 id="dpaam-active-heading" class="dpaam-section-title">Active</h2>
           <span class="dpaam-active-count" id="dpaam-active-count">0 / 20 active</span>
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
+        <p class="dpaam-empty" id="dpaam-active-empty" hidden>
+          No active escape rooms yet — activate one from Favorites.
+        </p>
       </section>
 
       <!-- Section 2: My Favorites -->
       <section
         class="dpaam-section"
         id="dpaam-favorites-section"
+        role="tabpanel"
         aria-labelledby="dpaam-favorites-heading"
         hidden
       >
@@ -164,10 +210,19 @@
           -->
         </div>
         <ul class="dpaam-favorites-list" id="dpaam-favorites-list"></ul>
+        <p class="dpaam-empty" id="dpaam-favorites-empty" hidden>
+          No favorites yet — browse the Library to add some.
+        </p>
       </section>
 
       <!-- Section 3: Library -->
-      <section class="dpaam-section" aria-labelledby="dpaam-library-heading">
+      <section
+        class="dpaam-section"
+        id="dpaam-library-section"
+        role="tabpanel"
+        aria-labelledby="dpaam-library-heading"
+        hidden
+      >
         <div class="dpaam-section-header">
           <h2 id="dpaam-library-heading" class="dpaam-section-title">Library</h2>
           <span class="dpaam-section-count" id="dpaam-library-count"></span>

@@ -15,6 +15,7 @@ const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
 const CODE_TTL_MS = 168 * 60 * 60 * 1000; // 7 days
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
+const DASHBOARD_TABS = ["library", "favorites", "active"];
 
 // ---------- state ----------
 
@@ -23,17 +24,27 @@ const state = {
   activeCodes: [],          // [{ gameId, code, expiresAt }]
   filters: { season: "all", grade: "all", subject: "all" },
   guideFaqOpen: false,
+  activeTab: null,
 };
 
 // ---------- DOM refs ----------
 
 const els = {
+  tabbar: document.getElementById("dpaam-tabbar"),
+  tabButtons: Array.from(document.querySelectorAll(".dpaam-tab[data-tab]")),
+  tabFavorites: document.getElementById("dpaam-tab-favorites"),
+  tabFavoritesCount: document.getElementById("dpaam-tab-favorites-count"),
+  tabActive: document.getElementById("dpaam-tab-active"),
+  tabActiveCount: document.getElementById("dpaam-tab-active-count"),
   activeSection: document.getElementById("dpaam-active-section"),
   activeCount: document.getElementById("dpaam-active-count"),
   activeList: document.getElementById("dpaam-active-list"),
+  activeEmpty: document.getElementById("dpaam-active-empty"),
   favoritesSection: document.getElementById("dpaam-favorites-section"),
   favoritesList: document.getElementById("dpaam-favorites-list"),
   favoritesCount: document.getElementById("dpaam-favorites-count"),
+  favoritesEmpty: document.getElementById("dpaam-favorites-empty"),
+  librarySection: document.getElementById("dpaam-library-section"),
   filters: {
     season: document.getElementById("dpaam-filter-season"),
     grade: document.getElementById("dpaam-filter-grade"),
@@ -293,15 +304,19 @@ function addFavorite(gameId) {
   state.favorites.push(gameId);
   renderFavorites();
   renderLibrary();
+  pulseTabCount("favorites");
 }
 
 function removeFavorite(gameId) {
+  const hadActive = !!activeCodeFor(gameId);
   state.favorites = state.favorites.filter((id) => id !== gameId);
   // Removing a favorite also cancels any active code for that game.
   state.activeCodes = state.activeCodes.filter((c) => c.gameId !== gameId);
   renderFavorites();
   renderActiveCodes();
   renderLibrary();
+  pulseTabCount("favorites", "remove");
+  if (hadActive) pulseTabCount("active", "remove");
 }
 
 function setFavoritesOrder(orderedIds) {
@@ -326,27 +341,85 @@ function generateCode(gameId) {
   });
   renderActiveCodes();
   renderFavorites();
+  pulseTabCount("active");
 }
 
 function cancelCode(gameId) {
   state.activeCodes = state.activeCodes.filter((c) => c.gameId !== gameId);
   renderActiveCodes();
   renderFavorites();
+  pulseTabCount("active", "remove");
+}
+
+function pulseTabCount(tab, variant = "add") {
+  const el = tab === "favorites" ? els.tabFavoritesCount : tab === "active" ? els.tabActiveCount : null;
+  if (!el) return;
+  const cls = variant === "remove" ? "dpaam-tab-count--pulse-remove" : "dpaam-tab-count--pulse";
+  el.classList.remove("dpaam-tab-count--pulse", "dpaam-tab-count--pulse-remove");
+  void el.offsetWidth;
+  el.classList.add(cls);
+  el.addEventListener("animationend", () => el.classList.remove(cls), { once: true });
+}
+
+function pickDefaultTab() {
+  if (state.activeCodes.length > 0) return "active";
+  if (state.favorites.length > 0) return "favorites";
+  return "library";
+}
+
+function setActiveTab(tab) {
+  if (!DASHBOARD_TABS.includes(tab)) return;
+  state.activeTab = tab;
+
+  els.tabButtons.forEach((btn) => {
+    const selected = btn.dataset.tab === tab;
+    btn.setAttribute("aria-selected", String(selected));
+  });
+
+  els.librarySection.hidden = tab !== "library";
+  els.favoritesSection.hidden = tab !== "favorites";
+  els.activeSection.hidden = tab !== "active";
+}
+
+function renderTabCounts() {
+  const favoritesCount = state.favorites.length;
+  const activeCount = state.activeCodes.length;
+
+  if (els.tabFavoritesCount) {
+    els.tabFavoritesCount.textContent = String(favoritesCount);
+  }
+  if (els.tabActiveCount) {
+    els.tabActiveCount.textContent = String(activeCount);
+  }
+  if (els.tabFavorites) {
+    els.tabFavorites.setAttribute(
+      "aria-label",
+      `Favorites, ${favoritesCount} ${favoritesCount === 1 ? "item" : "items"}`
+    );
+  }
+  if (els.tabActive) {
+    els.tabActive.setAttribute(
+      "aria-label",
+      `Active, ${activeCount} ${activeCount === 1 ? "item" : "items"}`
+    );
+  }
 }
 
 // ---------- renderers ----------
 
 function renderActiveCodes() {
   const expiredRemoved = pruneExpiredCodes();
-  els.activeSection.hidden = state.activeCodes.length === 0;
-
-  if (state.activeCodes.length === 0) {
-    els.activeList.innerHTML = "";
-    if (expiredRemoved) renderFavorites();
-    return;
-  }
+  const isEmpty = state.activeCodes.length === 0;
 
   els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
+  els.activeEmpty.hidden = !isEmpty;
+
+  if (isEmpty) {
+    els.activeList.innerHTML = "";
+    if (expiredRemoved) renderFavorites();
+    renderTabCounts();
+    return;
+  }
 
   els.activeList.innerHTML = state.activeCodes
     .map((entry) => {
@@ -373,21 +446,21 @@ function renderActiveCodes() {
         </article>`;
     })
     .join("");
+  renderTabCounts();
 }
 
 function renderFavorites() {
   const expiredRemoved = pruneExpiredCodes();
   const hasFavorites = state.favorites.length > 0;
 
-  els.favoritesSection.hidden = !hasFavorites;
+  els.favoritesEmpty.hidden = hasFavorites;
+  els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
 
-  // No favorites → section hidden; keep list state ready for first add
   if (!hasFavorites) {
     els.favoritesList.innerHTML = "";
+    renderTabCounts();
     return;
   }
-
-  els.favoritesCount.textContent = `${state.favorites.length} ${state.favorites.length === 1 ? "favorite" : "favorites"}`;
 
   els.favoritesList.innerHTML = state.favorites
     .map((id) => {
@@ -407,8 +480,8 @@ function renderFavorites() {
       // </div>`
 
       const codeOrGenerate = active
-        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">Activated</button>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="generate-code">Activate</button>`;
+        ? `<button type="button" class="dpaam-btn dpaam-btn-done dpaam-btn-activate dpaam-code-generated-mark dpaam-btn-favorite-activated dpaam-btn-revert" data-action="cancel-code" aria-label="Cancel game code">Activated</button>`
+        : `<button type="button" class="dpaam-btn dpaam-btn-activate dpaam-btn-favorite-activate" data-action="generate-code">Activate</button>`;
 
       return `
         <li
@@ -436,6 +509,7 @@ function renderFavorites() {
     .join("");
 
   if (expiredRemoved) renderActiveCodes();
+  else renderTabCounts();
 }
 
 function renderLibrary() {
@@ -576,12 +650,12 @@ function refreshModalActionButton() {
 
   if (modalContext === "favorites") {
     if (activeCodeFor(modalGameId)) {
-      btn.className = "dpaam-btn dpaam-btn-done dpaam-code-generated-mark dpaam-btn-revert";
+      btn.className = "dpaam-btn dpaam-btn-done dpaam-btn-activate dpaam-code-generated-mark dpaam-btn-favorite-activated dpaam-btn-revert";
       btn.textContent = "Activated";
       btn.disabled = false;
       btn.setAttribute("aria-label", "Cancel game code");
     } else {
-      btn.className = "dpaam-btn dpaam-btn-activate";
+      btn.className = "dpaam-btn dpaam-btn-activate dpaam-btn-favorite-activate";
       btn.textContent = "Activate";
       btn.disabled = false;
       btn.removeAttribute("aria-label");
@@ -803,6 +877,12 @@ function renderGuideFaq() {
 }
 
 function wireEvents() {
+  els.tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setActiveTab(btn.dataset.tab);
+    });
+  });
+
   // Guide FAQ toggle (open/close)
   els.guideFaqToggle?.addEventListener("click", () => {
     state.guideFaqOpen = !state.guideFaqOpen;
@@ -1115,6 +1195,7 @@ function init() {
   renderActiveCodes();
   renderFavorites();
   renderLibrary();
+  setActiveTab(pickDefaultTab());
   setInterval(() => {
     if (state.activeCodes.length === 0) return;
     const expiredRemoved = pruneExpiredCodes();

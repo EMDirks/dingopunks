@@ -425,6 +425,101 @@ a.dpaam-topbar-btn {
   text-decoration: none;
 }
 
+/* ---------- Tab bar ---------- */
+
+.dpaam-tabbar {
+  display: flex;
+  gap: var(--dpaam-pad-sm);
+  max-width: 1200px;
+  margin: var(--dpaam-pad-xl) auto 0;
+}
+
+.dpaam-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dpaam-pad-sm);
+  padding: var(--dpaam-pad-md) var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-pill);
+  border: none;
+  background: none;
+  font-size: var(--dpaam-text-sm);
+  font-weight: 600;
+  color: var(--dpaam-black-muted);
+  transition: background var(--dpaam-transition), color var(--dpaam-transition), border-color var(--dpaam-transition);
+  line-height: 1;
+  padding-top: 14px;
+  background-color: var(--dpaam-light-gray);
+}
+
+.dpaam-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 2px 5px 0px 5px;
+  border-radius: var(--dpaam-radius-pill);
+  font-size: var(--dpaam-text-xs);
+  font-weight: 700;
+  line-height: 1;
+  background: var(--dpaam-border);
+  color: var(--dpaam-black-muted);
+  margin-top: -3px;
+}
+
+.dpaam-tab[aria-selected="true"] .dpaam-tab-count {
+  background: var(--dpaam-blue-light);
+  color: var(--dpaam-blue-dark);
+}
+
+@keyframes dpaam-tab-count-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.28);
+    background-color: var(--dpaam-blue-light);
+    color: var(--dpaam-blue-dark);
+  }
+}
+
+.dpaam-tab-count--pulse {
+  animation: dpaam-tab-count-pulse 0.3s ease;
+}
+
+@keyframes dpaam-tab-count-pulse-remove {
+  0%, 100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.28);
+    background-color: var(--dpaam-salmon-light);
+    color: var(--dpaam-salmon-dark);
+  }
+}
+
+.dpaam-tab-count--pulse-remove {
+  animation: dpaam-tab-count-pulse-remove 0.3s ease;
+}
+
+.dpaam-tab:hover {
+  border-color: var(--dpaam-border-strong);
+  color: var(--dpaam-black);
+  filter: brightness(0.92);
+}
+
+.dpaam-tab[aria-selected="true"] {
+  background: var(--dpaam-white);
+  color: var(--dpaam-black);
+  box-shadow: var(--dpaam-shadow-sm);
+}
+
+.dpaam-tab[aria-selected="true"]:hover {
+  background: var(--dpaam-white) !important;
+  filter: none !important;
+}
+
 /* ---------- Main layout ---------- */
 
 .dpaam-main {
@@ -576,14 +671,6 @@ a.dpaam-topbar-btn {
   box-sizing: border-box;
   padding-top: 10px;
   font-weight: 400;
-}
-
-/* --- Favorites: min padding on Activate / Activated button --- */
-
-.dpaam-card--favorite .dpaam-card__actions .dpaam-btn-activate,
-.dpaam-card--favorite .dpaam-card__actions .dpaam-code-generated-mark {
-  padding-left: var(--dpaam-favorites-activate-btn-px);
-  padding-right: var(--dpaam-favorites-activate-btn-px);
 }
 
 /* --- Drag state (favorites only) --- */
@@ -857,7 +944,8 @@ a.dpaam-topbar-btn {
 .dpaam-btn-primary,
 .dpaam-btn-add,
 .dpaam-btn-activate {
-  background: var(--dpaam-gold);
+  background: var(--dpaam-blue);
+  color: var(--dpaam-white);
 }
 
 /* Paired action buttons (Add / Activate) and their done-state marks
@@ -887,6 +975,13 @@ a.dpaam-topbar-btn {
 .dpaam-btn-activate,
 .dpaam-code-generated-mark {
   width: var(--dpaam-code-btn-w);
+}
+
+/* Favorites card — Activate ↔ Activated (not used on active-card Share) */
+.dpaam-btn-favorite-activate,
+.dpaam-btn-favorite-activated {
+  padding-left: var(--dpaam-pad-lg);
+  padding-right: var(--dpaam-pad-lg);
 }
 
 .dpaam-btn-secondary {
@@ -1471,6 +1566,17 @@ dd a {
     padding: 8px var(--dpaam-pad-sm) 6px;
     font-size: var(--dpaam-text-md);
     line-height: 1.2;
+  }
+
+  .dpaam-tabbar {
+    margin-top: var(--dpaam-pad);
+    gap: var(--dpaam-pad-xs);
+  }
+
+  .dpaam-tab {
+    flex: 1;
+    padding: var(--dpaam-pad-sm) var(--dpaam-pad-md);
+    text-align: center;
   }
 
   .dpaam-main {
