@@ -155,13 +155,13 @@ body {
 /* ---------- Quick Start Guide ---------- */
 
 .dpaam-guide {
-  background: var(--dpaam-white);
+  background: var(--dpaam-blue-dark);
   border-radius: var(--dpaam-radius-lg);
-  border-bottom: 4px solid var(--dpaam-blue);
+  padding: var(--dpaam-pad-lg);
+
 }
 
 .dpaam-guide-inner {
-  padding: 18px var(--dpaam-pad-lg) var(--dpaam-pad-lg);
 }
 
 .dpaam-guide-header {
@@ -173,15 +173,17 @@ body {
 
 .dpaam-guide-title {
   margin: 0;
-  font-size: var(--dpaam-text-lg);
-  font-weight: 600;
+  font-size: var(--dpaam-text-md);
+  font-weight: 500;
   margin-bottom: var(--dpaam-pad-xs);
+  color: var(--dpaam-blue-light);
 }
 
 .dpaam-guide-header .dpaam-modal-close {
-  flex-shrink: 0;
-  margin-top: -12px;
-  margin-right: -9px;
+  margin-top: 4px;
+  margin-right: 0px;
+  background-color: var(--dpaam-blue-dark);
+  color: var(--dpaam-white);
 }
 
 .dpaam-guide-body {
@@ -199,13 +201,39 @@ body {
 .dpaam-guide-step {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dpaam-pad-md);
   border-radius: var(--dpaam-radius);
+}
+
+.dpaam-guide-step-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--dpaam-blue);
+}
+
+.dpaam-guide-step-icon-img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.dpaam-guide-step-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .dpaam-guide-step-subtitle {
   margin: 0 0 var(--dpaam-pad-sm);
   font-size: var(--dpaam-text-md);
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--dpaam-white);
 }
 
 .dpaam-guide-step-subtitle strong {
@@ -220,7 +248,7 @@ body {
 .dpaam-guide-step-body {
   margin: 0;
   line-height: 1.5;
-  color: var(--dpaam-black-muted);
+  color: var(--dpaam-blue-light);
 }
 
 .dpaam-guide-step-body strong {
@@ -1103,8 +1131,8 @@ a.dpaam-topbar-btn {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(12px);
-  background: var(--dpaam-white);
-  color: var(--dpaam-black-muted);
+  background: var(--dpaam-blue);
+  color: var(--dpaam-white);
   font-size: var(--dpaam-text-ui);
   font-weight: 600;
   padding: 8px 18px 6px;
