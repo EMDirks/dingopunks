@@ -768,7 +768,7 @@ function shareModalHtml(game, code) {
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dd>
-        <strong>Option 2:</strong>&nbsp; Have students visit the link <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>. This will launch the game automatically.
+        <strong>Option 2:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game directly.
         <div class="dpaam-share-copy-actions">
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy Link</button>
         </div>
@@ -1242,6 +1242,24 @@ function setMobileMenuOpen(open) {
   document.documentElement.classList.toggle("dpaam-mobile-menu-open", open);
 }
 
+function initStickyTabbar() {
+  const tabbar = els.tabbar;
+  if (!tabbar) return;
+
+  const sentinel = document.createElement("div");
+  sentinel.className = "dpaam-tabbar-sentinel";
+  sentinel.setAttribute("aria-hidden", "true");
+  tabbar.before(sentinel);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      tabbar.classList.toggle("is-stuck", !entry.isIntersecting);
+    },
+    { threshold: [1] },
+  );
+  observer.observe(sentinel);
+}
+
 function initMobileMenu() {
   if (!els.mobileMenuToggle || !els.mobileMenu) return;
 
@@ -1281,6 +1299,7 @@ function initQuickStartGuide() {
 
 function init() {
   initMobileMenu();
+  initStickyTabbar();
   initQuickStartGuide();
   populateFilters();
   wireEvents();

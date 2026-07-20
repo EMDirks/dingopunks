@@ -92,7 +92,10 @@
         data-tab="library"
         aria-selected="false"
         aria-controls="dpaam-library-section"
-      >Library</button>
+      >
+        <img class="dpaam-tab-icon" src="assets/dpaam/tab-library.png" alt="" aria-hidden="true" />
+        <span class="dpaam-tab-label">Library</span>
+      </button>
       <button
         type="button"
         class="dpaam-tab"
@@ -102,6 +105,7 @@
         aria-selected="false"
         aria-controls="dpaam-favorites-section"
       >
+        <img class="dpaam-tab-icon" src="assets/dpaam/tab-favorites.png" alt="" aria-hidden="true" />
         <span class="dpaam-tab-label">Favorites</span>
         <span class="dpaam-tab-count" id="dpaam-tab-favorites-count" aria-hidden="true">0</span>
       </button>
@@ -114,6 +118,7 @@
         aria-selected="false"
         aria-controls="dpaam-active-section"
       >
+        <img class="dpaam-tab-icon" src="assets/dpaam/tab-active.png" alt="" aria-hidden="true" />
         <span class="dpaam-tab-label">Active</span>
         <span class="dpaam-tab-count" id="dpaam-tab-active-count" aria-hidden="true">0</span>
       </button>
@@ -137,6 +142,7 @@
               ×
             </button>
           </header>
+          <!--
           <div class="dpaam-guide-body" id="dpaam-quick-start-body">
             <div class="dpaam-guide-steps">
               <div class="dpaam-guide-step">
@@ -155,7 +161,7 @@
                 </div>
                 <div class="dpaam-guide-step-content">
                   <h3 class="dpaam-guide-step-subtitle">Activate</h3>
-                  <p class="dpaam-guide-step-body">Activate an escape room to make it playable for your kids. It will remain active for 7 days.</p>
+                  <p class="dpaam-guide-step-body">Activate a favorited escape room to make it playable for your students.</p>
                 </div>
               </div>
               <div class="dpaam-guide-step">
@@ -165,6 +171,56 @@
                 <div class="dpaam-guide-step-content">
                   <h3 class="dpaam-guide-step-subtitle">Share</h3>
                   <p class="dpaam-guide-step-body">Share the escape room with your class! Several sharing options are available to choose from.</p>
+                </div>
+              </div>
+            </div>
+            <div class="dpaam-guide-faq">
+              <button
+                type="button"
+                class="dpaam-guide-faq-toggle"
+                id="dpaam-guide-faq-toggle"
+                aria-expanded="false"
+                aria-controls="dpaam-guide-faq-list"
+              >
+                <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
+                <span class="dpaam-guide-faq-title">FAQ</span>
+              </button>
+              <ul class="dpaam-guide-faq-list" id="dpaam-guide-faq-list" hidden>
+                <li>• Placeholder question one</li>
+                <li>• Placeholder question two</li>
+                <li>• Placeholder question three</li>
+              </ul>
+            </div>
+          </div>
+          -->
+          <div class="dpaam-guide-body" id="dpaam-quick-start-body">
+            <div class="dpaam-guide-steps">
+              <div class="dpaam-guide-step">
+                <div class="dpaam-guide-step-icon" aria-hidden="true">
+                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-library.png" alt="" />
+                </div>
+                <div class="dpaam-guide-step-content">
+                  <h3 class="dpaam-guide-step-subtitle">Library</h3>
+                  <p class="dpaam-guide-step-body">From the Library, click the <em>Favorite</em> button to add an escape room to your Favorites tab.
+                  </p>
+                </div>
+              </div>
+              <div class="dpaam-guide-step">
+                <div class="dpaam-guide-step-icon" aria-hidden="true">
+                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-favorites.png" alt="" />
+                </div>
+                <div class="dpaam-guide-step-content">
+                  <h3 class="dpaam-guide-step-subtitle">Favorites</h3>
+                  <p class="dpaam-guide-step-body">From your Favorites tab, click the <em>Activate</em> button to make the escape room playable.</p>
+                </div>
+              </div>
+              <div class="dpaam-guide-step">
+                <div class="dpaam-guide-step-icon" aria-hidden="true">
+                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-active.png" alt="" />
+                </div>
+                <div class="dpaam-guide-step-content">
+                  <h3 class="dpaam-guide-step-subtitle">Active</h3>
+                  <p class="dpaam-guide-step-body">From your Active tab, click the <em>Share</em> button to share the escape room with your students.</p>
                 </div>
               </div>
             </div>
