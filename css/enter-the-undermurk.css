@@ -107,7 +107,7 @@
     height: 100%;
     width: 100%;
     background-color: rgba(var(--salmon), 1);
-    transition: width 0.25s linear;
+    transition: width linear;
 }
 
 .undermurk-timer__text {

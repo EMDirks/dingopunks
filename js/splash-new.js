@@ -1247,6 +1247,7 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],splashContainer);
   let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],splashContainer);
   let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],splashContainer);
+  let cutsceneStaticOverlay = createElement('div',['cutscene-static-overlay','cutscene-static-overlay--hidden'],splashContainer);
 
   updateLineThickness();
 
@@ -1410,6 +1411,7 @@ function addCutscene(cutsceneIndex,section){
     sc_backgroundImage1 = cutsceneSection[index].backgroundImage1;
     sc_backgroundImage2 = cutsceneSection[index].backgroundImage2;
     sc_backgroundColor = cutsceneSection[index].backgroundColor;
+    sc_static = cutsceneSection[index].static;
    
     // set initial delays
     if (cutsceneIndex !==0){
@@ -1430,6 +1432,31 @@ function addCutscene(cutsceneIndex,section){
     // remove old styles
     function removeStyles(element){
       element.style.cssText = '';
+    }
+
+    function getCutsceneStaticPath(scene) {
+      const imageObject = scene.backgroundImage1 || scene.characterSprite;
+      const scope = imageObject && imageObject.scope;
+
+      if (scope === 'undermurk') {
+        return 'assets/enter-the-undermurk/cutscene/static.png';
+      }
+      if (scope === 'global') {
+        return 'assets/cutscene/static.png';
+      }
+      return 'resource/' + resourceTheme + '/assets/cutscene/static.png';
+    }
+
+    function flashCutsceneStatic(scene) {
+      cutsceneStaticOverlay.style.backgroundImage = 'url(' + getCutsceneStaticPath(scene) + ')';
+      toggleClass(cutsceneStaticOverlay, 'cutscene-static-overlay--hidden', 'cutscene-static-overlay--visible');
+      setTimeout(function () {
+        toggleClass(cutsceneStaticOverlay, 'cutscene-static-overlay--visible', 'cutscene-static-overlay--hidden');
+      }, 200);
+    }
+
+    if (sc_static) {
+      flashCutsceneStatic(cutsceneSection[index]);
     }
 
     // add image
@@ -1483,6 +1510,11 @@ function addCutscene(cutsceneIndex,section){
                   setTimeout(() => addBackgroundImage(imageElement,imageObject), delay);
               }
             }
+            else if (cutsceneSection[cutsceneIndex-1][spriteLabel] !== cutsceneSection[cutsceneIndex][spriteLabel]) {
+              setTimeout(function () {
+                imageElement.style.backgroundImage = '';
+              }, delay);
+            }
 
             // if there is a transform-start
             if (imageObject.animation){
@@ -1514,6 +1546,9 @@ function addCutscene(cutsceneIndex,section){
         }
         if (imageObject.path && imageObject.scope === 'global'){
           imageElement.style.backgroundImage = "url(assets/cutscene/" + imageObject.path + ")";
+        }
+        if (imageObject.path && imageObject.scope === 'undermurk'){
+          imageElement.style.backgroundImage = "url(assets/enter-the-undermurk/cutscene/" + imageObject.path + ")";
         }
       }
 
@@ -1551,7 +1586,18 @@ function addCutscene(cutsceneIndex,section){
     }
 
     // add text
-    if (cutsceneIndex !== 0 && cutsceneSection[cutsceneIndex-1].textStyle){
+    if (cutsceneSection[index].textStyle === 'flyIn') {
+      if (cutsceneIndex !== 0) {
+        toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--bottom');
+        setTimeout(function () {
+          toggleClass(cutsceneTextBox, 'cutscene-text-box--hidden--bottom', 'cutscene-text-box--hidden--new');
+          setTimeout(function () { addText(200); }, sc_textDelay);
+        }, 300);
+      } else {
+        setTimeout(function () { addText(200); }, sc_textDelay + initialSceneDelay);
+      }
+    }
+    else if (cutsceneIndex !== 0 && cutsceneSection[cutsceneIndex-1].textStyle){
       if (cutsceneSection[cutsceneIndex-1].textStyle === 'badguy' && cutsceneSection[cutsceneIndex].textStyle !== 'badguy' || cutsceneSection[cutsceneIndex-1].textStyle === 'alert' && cutsceneSection[cutsceneIndex].textStyle !== 'alert'){
         toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new','cutscene-text-box--hidden--bottom');
         setTimeout(() => toggleClass(cutsceneTextBox, 'cutscene-text-box--hidden--bottom', 'cutscene-text-box--hidden--new'), 300);
@@ -1579,15 +1625,13 @@ function addCutscene(cutsceneIndex,section){
       cutsceneCharacterName.classList.remove('cutscene-character-name--badguy');
       cutsceneCharacterName.classList.remove('cutscene-character-name--default');
       cutsceneCharacterName.classList.remove('cutscene-character-name--alert');
-      if (cutsceneSection[index].textStyle){
-        if (cutsceneSection[index].textStyle === 'badguy'){
-          cutsceneTextBox.classList.add('cutscene-text-box--badguy');
-          cutsceneCharacterName.classList.add('cutscene-character-name--badguy');
-        }
-        if (cutsceneSection[index].textStyle === 'alert'){
-          cutsceneTextBox.classList.add('cutscene-text-box--alert');
-          cutsceneCharacterName.classList.add('cutscene-character-name--alert');
-        }
+      if (cutsceneSection[index].textStyle === 'badguy'){
+        cutsceneTextBox.classList.add('cutscene-text-box--badguy');
+        cutsceneCharacterName.classList.add('cutscene-character-name--badguy');
+      }
+      else if (cutsceneSection[index].textStyle === 'alert'){
+        cutsceneTextBox.classList.add('cutscene-text-box--alert');
+        cutsceneCharacterName.classList.add('cutscene-character-name--alert');
       }
       else {
         cutsceneTextBox.classList.add('cutscene-text-box--default');
@@ -1595,7 +1639,7 @@ function addCutscene(cutsceneIndex,section){
       }
 
       // name
-      cutsceneCharacterName.textContent = sc_characterSprite.name;
+      cutsceneCharacterName.textContent = sc_characterSprite && sc_characterSprite.name ? sc_characterSprite.name : '';
 
      // text
      setTimeout(() => addTextByTypewriter(cutsceneText, sc_text, typewriterDelay), initialTextDelay);

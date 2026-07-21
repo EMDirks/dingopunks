@@ -67,26 +67,133 @@ function resetUndermurkSelection() {
   }, splashTransitionDuration);
 }
 
-// Placeholder intro cutscene — text-only scenes until art is ready.
 let cutscene = {
   undermurkIntro: [
     {
-      text: "This is it, Dingo Punks. The blimp can't go any lower — you'll have to jump into the Undermurk yourself.",
-      characterSprite: { name: 'J.J. DINGO' },
+      text: "The blimp can't go lower. You'll have to jump!",
+      textDelay: 500,
+      characterSprite: {
+        name: 'J.J. DINGO',
+        path: 'sprite4.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-translate_-100_0',
+          end: 'transform-translate_0_0',
+          duration: 'transition-transform-300ms',
+        },
+      },
+      backgroundImage1: {
+        path: 'main1.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-scale_1_1__opacity_0',
+          end: 'transform-scale_1__opacity_1',
+          duration: 'transition-transform-500ms__opacity-500ms',
+        },
+      },
       backgroundColor: 'background-color-black',
     },
     {
-      text: "Down you go — through the clouds, past the crackling static, falling faster than you've ever fallen...",
-      characterSprite: { name: '' },
+      text: "On my count! Three... Two... One... Go!",
+      characterSprite: {
+        name: 'J.J. DINGO',
+        path: 'sprite1.png',
+        scope: 'undermurk',
+      },
+      backgroundImage1: {
+        path: 'main1.png',
+        scope: 'undermurk',
+      },
       backgroundColor: 'background-color-black',
     },
     {
-      text: '...until the murk swallows you whole. Welcome to the Undermurk. Answer well, or sink forever.',
-      characterSprite: { name: 'THE UNDERMURK' },
+      text: "Goodbye and good luck!",
+      textDelay: 300,
+      textStyle: 'flyIn',
+      characterSprite: {
+        name: 'J.J. DINGO',
+        path: 'sprite2.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-translate_0_100',
+          end: 'transform-translate_0_0',
+          duration: 'transition-transform-500ms',
+        },
+      },
+      backgroundImage1: {
+        path: 'main2.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-scale_2',
+          end: 'transform-scale_1',
+          duration: 'transition-transform-500ms',
+        },
+      },
+      backgroundColor: 'background-color-black',
+    },
+    {
+      text: "I hope you're ready...",
+      textDelay: 300,
+      textStyle: 'flyIn',
+      characterSprite: {
+        name: 'J.J. DINGO',
+        path: 'sprite3.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-translate_0_-100',
+          end: 'transform-translate_0_0',
+          duration: 'transition-transform-500ms',
+        },
+      },
+      backgroundImage1: {
+        path: 'main3.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-scale_2',
+          end: 'transform-scale_1',
+          duration: 'transition-transform-500ms',
+        },
+      },
+      backgroundColor: 'background-color-black',
+    },
+    {
+      text: '...to enter the Undermurk!',
+      characterSprite: {
+        name: 'J.J. DINGO',
+      },
+      backgroundImage1: {
+        path: 'main3.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'opacity-1',
+          end: 'opacity-0',
+          duration: 'transition-opacity-1000ms',
+        },
+      },
       backgroundColor: 'background-color-black',
     },
   ],
 };
+
+function umCutsceneAssetPath(path) {
+  return 'assets/enter-the-undermurk/cutscene/' + path;
+}
+
+function umPreloadCutsceneAssets() {
+  const paths = new Set();
+  Object.keys(cutscene).forEach(function (sectionKey) {
+    cutscene[sectionKey].forEach(function (scene) {
+      ['characterSprite', 'backgroundImage1', 'backgroundImage2'].forEach(function (key) {
+        const imageObject = scene[key];
+        if (imageObject && imageObject.path) {
+          paths.add(umCutsceneAssetPath(imageObject.path));
+        }
+      });
+    });
+  });
+  paths.add(umCutsceneAssetPath('sprite4.png'));
+  preloadImages(Array.from(paths), 'low');
+}
 
 // Hand-off after "Enter the Undermurk!" — intro cutscene, then the minigame.
 function enterUndermurk() {
@@ -167,8 +274,15 @@ function umCurrentPlayer() {
 
 function umStopTimer() {
   if (umState && umState.timerId) {
-    clearInterval(umState.timerId);
+    clearTimeout(umState.timerId);
     umState.timerId = null;
+  }
+  if (umState && umState.timerTickId) {
+    clearInterval(umState.timerTickId);
+    umState.timerTickId = null;
+  }
+  if (umEls.timerFill) {
+    umEls.timerFill.style.transition = 'none';
   }
 }
 
@@ -198,12 +312,9 @@ function umUpdateHUD() {
 
   const player = umCurrentPlayer();
   const bossLabel = player.cleared >= 5 && !player.isBossRoundComplete ? ' — BOSS' : '';
-  umEls.tierLabel.textContent = 'Tier ' + player.tier + ' — Grade ' + player.tier + bossLabel;
+  umEls.tierLabel.textContent = 'Undermurk Level ' + player.tier + bossLabel;
   umEls.teamScore.textContent = 'Team: ' + umState.teamScore;
   umEls.timerText.textContent = umState.timeLeft + 's';
-
-  const progress = umState.timeLeft / umState.timeTotal;
-  umEls.timerFill.style.width = Math.max(0, Math.min(100, progress * 100)) + '%';
 
   umEls.playerStrip.innerHTML = '';
   umState.players.forEach(function (p, index) {
@@ -348,8 +459,7 @@ function umAdvanceTier(callback) {
 }
 
 function umShowTierBanner(tier, callback) {
-  umEls.tierBannerTitle.textContent = 'Tier ' + tier;
-  umEls.tierBannerSubtitle.textContent = 'Grade ' + tier;
+  umEls.tierBannerTitle.textContent = 'Undermurk Level ' + tier;
   umShowOverlay('tierBanner');
   umUpdateHUD();
 
@@ -392,15 +502,21 @@ function umStartTimer() {
   umState.timeLeft = umState.timeTotal;
   umUpdateHUD();
 
-  umState.timerId = setInterval(function () {
-    umState.timeLeft -= 1;
-    umUpdateHUD();
+  umEls.timerFill.style.transition = 'none';
+  umEls.timerFill.style.width = '100%';
+  void umEls.timerFill.offsetWidth;
+  umEls.timerFill.style.transition = 'width ' + umState.timeTotal + 's linear';
+  umEls.timerFill.style.width = '0%';
 
-    if (umState.timeLeft <= 0) {
-      umStopTimer();
-      umHandleTimeout();
-    }
+  umState.timerTickId = setInterval(function () {
+    umState.timeLeft -= 1;
+    umEls.timerText.textContent = Math.max(0, umState.timeLeft) + 's';
   }, 1000);
+
+  umState.timerId = setTimeout(function () {
+    umStopTimer();
+    umHandleTimeout();
+  }, umState.timeTotal * 1000);
 }
 
 function umRenderQuestion() {
@@ -590,7 +706,6 @@ function umBuildDOM() {
   umEls.tierBanner = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
   const tierBannerPanel = createElement('div', ['undermurk-overlay__panel'], umEls.tierBanner);
   umEls.tierBannerTitle = createElement('p', ['undermurk-overlay__title'], tierBannerPanel);
-  umEls.tierBannerSubtitle = createElement('p', ['undermurk-overlay__subtitle'], tierBannerPanel);
 
   umEls.end = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
   const endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
@@ -667,3 +782,7 @@ function initUndermurkGame(characters) {
     });
   });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  umPreloadCutsceneAssets();
+});
