@@ -109,7 +109,7 @@ body {
   --dpaam-transition: 0.15s ease;
 
   /* --- effects --- */
-  --dpaam-overlay:     rgba(51, 41, 37, 0.5);
+  --dpaam-overlay:     rgba(51, 41, 37, 0.9);
   --dpaam-shadow-sm:   0 1px 3px rgba(51, 41, 37, 0.2);
   --dpaam-shadow-md:   0 2px 6px rgba(51, 41, 37, 0.3);
   --dpaam-shadow-lg:   0 4px 12px rgba(51, 41, 37, 0.5);
@@ -118,11 +118,11 @@ body {
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
-  --dpaam-add-btn-w:         104px; /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
-  --dpaam-code-btn-w:        104px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
+  --dpaam-add-btn-w:         90px; /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
+  --dpaam-code-btn-w:        90px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
   --dpaam-favorites-activate-btn-px: var(--dpaam-pad); /* Activate / Activated in favorites cards only */
   --dpaam-pair-btn-h:         38px;  /* paired height for add/saved-mark and activate/code-generated; 32px on mobile */
-  --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.62);
+  --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.6);
   --dpaam-mobile-menu-backdrop-blur: 4px;
 
 
@@ -857,7 +857,8 @@ a.dpaam-topbar-btn {
   user-select: none;
 }
 
-.dpaam-fav-remove-icon {
+.dpaam-fav-remove-icon,
+.dpaam-fav-heart-icon {
   display: block;
   flex-shrink: 0;
 }
@@ -871,12 +872,32 @@ a.dpaam-topbar-btn {
   transition: stroke var(--dpaam-transition);
 }
 
+.dpaam-btn-favorite .dpaam-fav-heart {
+  stroke: var(--dpaam-black);
+  fill: none;
+  transition: stroke var(--dpaam-transition), fill var(--dpaam-transition);
+}
+
+.dpaam-btn-favorite .dpaam-fav-heart--filled {
+  fill: var(--dpaam-salmon);
+  stroke: var(--dpaam-salmon);
+}
+
 .dpaam-btn-favorite:hover {
   color: var(--dpaam-salmon);
   filter: none;
 }
 
 .dpaam-btn-favorite:hover .dpaam-fav-remove-x {
+  stroke: var(--dpaam-salmon);
+}
+
+.dpaam-btn-favorite:hover .dpaam-fav-heart {
+  stroke: var(--dpaam-salmon);
+}
+
+.dpaam-btn-favorite:hover .dpaam-fav-heart--filled {
+  fill: var(--dpaam-salmon);
   stroke: var(--dpaam-salmon);
 }
 

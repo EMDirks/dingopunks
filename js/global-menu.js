@@ -183,7 +183,7 @@ function buildGlobalMenuHTML(state) {
     undermurkFromDebrief: buildKidsLinksHTML([
       { href: getPlayHomeHref(), label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
       { href: appendLocationSearch('debrief.html'), label: 'View Your<br>Score', imageKey: 'score' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', refresh: true },
+      { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
     ]),
   };
 
@@ -204,7 +204,7 @@ function getGlobalMenuState() {
   if (isDebriefPage()) {
     return 'finished';
   }
-  if (isEnterTheUndermurkPage() && hasDebriefSlug()) {
+  if (isEnterTheUndermurkPage()) {
     return 'undermurkFromDebrief';
   }
   // 'active' once the user has advanced past step 1 (code entry) — set by

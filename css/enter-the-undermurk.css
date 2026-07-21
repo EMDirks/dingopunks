@@ -43,3 +43,307 @@
         color: rgba(var(--off-black), 1);
     }
 }
+
+/* ---- Minigame (container-query layout inside .splash-container-wrapper) ---- */
+
+.undermurk-game {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    container-type: size;
+    background-color: rgba(var(--off-black), 1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border-radius: 2vmin;
+}
+
+.undermurk-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 22cqh;
+    box-sizing: border-box;
+    padding: 1.5cqi 2cqi;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1cqi 2cqi;
+    background: linear-gradient(to bottom, rgba(var(--off-black), 0.92), rgba(var(--off-black), 0.55));
+    z-index: 2;
+}
+
+.undermurk-hud__tier,
+.undermurk-hud__team-score {
+    margin: 0;
+    font-family: inherit;
+    color: rgba(var(--gold), 1);
+    font-size: 2.4cqi;
+    line-height: 1.2;
+}
+
+.undermurk-hud__team-score {
+    color: rgba(var(--off-white), 1);
+}
+
+.undermurk-timer {
+    position: relative;
+    flex: 1 1 18cqi;
+    min-width: 14cqi;
+    height: 3cqi;
+    border: 0.25cqi solid rgba(var(--gold), 1);
+    border-radius: 999cqi;
+    overflow: hidden;
+    background-color: rgba(var(--off-black), 0.6);
+}
+
+.undermurk-timer__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(var(--salmon), 1);
+    transition: width 0.25s linear;
+}
+
+.undermurk-timer__text {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8cqi;
+    color: rgba(var(--off-white), 1);
+    z-index: 1;
+}
+
+.undermurk-player-strip {
+    width: 100%;
+    display: flex;
+    gap: 1cqi;
+    overflow-x: auto;
+    padding-bottom: 0.5cqi;
+}
+
+.undermurk-player-card {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.8cqi;
+    padding: 0.6cqi 1cqi;
+    border: 0.2cqi solid rgba(var(--off-white), 0.35);
+    border-radius: 1cqi;
+    background-color: rgba(var(--off-black), 0.45);
+}
+
+.undermurk-player-card--active {
+    border-color: rgba(var(--gold), 1);
+    box-shadow: 0 0 0 0.2cqi rgba(var(--gold), 0.35);
+}
+
+.undermurk-player-card--eliminated {
+    opacity: 0.45;
+}
+
+.undermurk-player-card__avatar {
+    width: 4cqi;
+    height: 4cqi;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(var(--off-white), 0.2);
+    flex-shrink: 0;
+}
+
+.undermurk-player-card__info {
+    min-width: 0;
+}
+
+.undermurk-player-card__name,
+.undermurk-player-card__meta {
+    margin: 0;
+    line-height: 1.15;
+}
+
+.undermurk-player-card__name {
+    font-size: 1.8cqi;
+    color: rgba(var(--off-white), 1);
+}
+
+.undermurk-player-card__meta {
+    font-size: 1.4cqi;
+    color: rgba(var(--gold-light), 1);
+}
+
+.undermurk-question {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 22cqh;
+    box-sizing: border-box;
+    padding: 2cqi 3cqi 3cqi;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5cqi;
+    z-index: 1;
+}
+
+.undermurk-question--hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.undermurk-question__label {
+    margin: 0;
+    font-size: 2cqi;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(var(--gold), 1);
+}
+
+.undermurk-question__prompt {
+    margin: 0;
+    font-size: 3.2cqi;
+    line-height: 1.25;
+    color: rgba(var(--off-white), 1);
+    flex: 0 0 auto;
+}
+
+.undermurk-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2cqi;
+    flex: 1 1 auto;
+    align-content: start;
+}
+
+.undermurk-options--boss {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.undermurk-option {
+    margin: 0;
+    padding: 1.4cqi 1.2cqi;
+    border: 0.25cqi solid rgba(var(--gold), 1);
+    border-radius: 1cqi;
+    background-color: rgba(var(--off-black), 0.72);
+    color: rgba(var(--off-white), 1);
+    font-size: 2.6cqi;
+    line-height: 1.15;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@media (hover: hover) {
+    .undermurk-option:hover {
+        background-color: rgba(var(--gold), 1);
+        color: rgba(var(--off-black), 1);
+    }
+}
+
+.undermurk-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--off-black), 0.82);
+    z-index: 5;
+}
+
+.undermurk-overlay--hidden {
+    display: none;
+}
+
+.undermurk-overlay__panel {
+    width: 72cqi;
+    max-width: 90%;
+    padding: 3cqi;
+    border: 0.3cqi solid rgba(var(--gold), 1);
+    border-radius: 1.5cqi;
+    background-color: rgba(var(--off-black), 0.95);
+    text-align: center;
+}
+
+.undermurk-overlay__panel--end {
+    width: 78cqi;
+}
+
+.undermurk-overlay__heading {
+    margin: 0 0 0.8cqi;
+    font-size: 2.2cqi;
+    color: rgba(var(--gold-light), 1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.undermurk-overlay__title {
+    margin: 0 0 1cqi;
+    font-size: 4cqi;
+    color: rgba(var(--gold), 1);
+    line-height: 1.15;
+}
+
+.undermurk-overlay__subtitle {
+    margin: 0 0 1.5cqi;
+    font-size: 2.4cqi;
+    color: rgba(var(--off-white), 1);
+    line-height: 1.25;
+}
+
+.undermurk-overlay__button {
+    margin: 0.5cqi;
+    padding: 1.2cqi 2.4cqi;
+    border: 0.25cqi solid rgba(var(--gold), 1);
+    border-radius: 999cqi;
+    background-color: rgba(var(--gold), 1);
+    color: rgba(var(--off-black), 1);
+    font-size: 2.4cqi;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.undermurk-overlay__button--secondary {
+    background-color: transparent;
+    color: rgba(var(--gold), 1);
+}
+
+@media (hover: hover) {
+    .undermurk-overlay__button--secondary:hover {
+        background-color: rgba(var(--gold), 1);
+        color: rgba(var(--off-black), 1);
+    }
+}
+
+.undermurk-end__team-score {
+    margin: 0 0 1.2cqi;
+    font-size: 2.6cqi;
+    color: rgba(var(--off-white), 1);
+}
+
+.undermurk-end__players {
+    margin-bottom: 1.5cqi;
+}
+
+.undermurk-end__player-row {
+    margin: 0.4cqi 0;
+    font-size: 2.2cqi;
+    color: rgba(var(--off-white), 1);
+}
+
+.undermurk-end__player-row--eliminated {
+    opacity: 0.5;
+}
+
+.undermurk-end__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1cqi;
+}

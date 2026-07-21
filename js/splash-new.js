@@ -1250,7 +1250,7 @@ function addCutscene(cutsceneIndex,section){
 
   updateLineThickness();
 
-  if (section === 'intro' || section === 'introNoLimit'){
+  if (section === 'intro' || section === 'introNoLimit' || section === 'undermurkIntro'){
     let splashTVOverlay = createElement('div',['splash-tv-overlay','splash-tv-overlay--hidden'],splashContainer);
     setTimeout(fadeInSplash,sceneDelay + initialTextDelay + initialSceneDelay);
     function fadeInSplash(){
@@ -1323,7 +1323,15 @@ function addCutscene(cutsceneIndex,section){
         createActivityNodes("noLimit");
         createCodeBox();
       }
-    }  
+    }
+    else if (section === 'undermurkIntro') {
+      toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
+      toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--fade');
+      setTimeout(function () {
+        splashContainerWrapper.querySelectorAll('*').forEach(function (c) { c.remove(); });
+        initUndermurkGame(playerCharacters.slice());
+      }, 400);
+    }
     else if (section === "outro" || section === "fail") {
       document.querySelector(".activity").style.display = "none";
       document.querySelector(".activity-node-container").style.display = "none";
@@ -1356,7 +1364,7 @@ function addCutscene(cutsceneIndex,section){
 
   // skip button
   let cutsceneSkipText;
-  if (cutsceneSection == cutscene.intro){
+  if (cutsceneSection == cutscene.intro || section === 'undermurkIntro'){
     cutsceneSkipText = createElement('p',['cutscene-skip-text', 'cutscene-skip-text--hidden'],splashContainer);
     cutsceneSkipText.textContent = "SKIP INTRO";
     cutsceneSkipText.addEventListener('click', function(event) {
@@ -1379,6 +1387,14 @@ function addCutscene(cutsceneIndex,section){
         setTimeout(clearSplashContainer,2100);
         createActivityNodes("noLimit");
         createCodeBox();
+      }
+      else if (section === 'undermurkIntro') {
+        toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
+        toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--fade');
+        setTimeout(function () {
+          splashContainerWrapper.querySelectorAll('*').forEach(function (c) { c.remove(); });
+          initUndermurkGame(playerCharacters.slice());
+        }, 400);
       }
     });
   }

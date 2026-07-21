@@ -150,9 +150,9 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - ✅ JUN 28 — **Google:** Update website URL on GBP
 - ✅ JUL 01 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - ✅ JUL 14 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 18 – State: Set up DBA
-- [ ] JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- ✅ JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- ✅ JUL 21 – State: Set up DBA
+- ✅ JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - [ ] JUL 31 — Mailerlite: New BTS escape rooms completed and uploaded
 - [ ] JUL 31 — Shopify: Make code DINGO72 functional

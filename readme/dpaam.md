@@ -136,8 +136,8 @@ Each room tagged with:
 - Hosted on same device; no networking required
 
 ### Setup
-- Characters are carried over via URL slug from the game at index.html (players have already selected them)
-- J.J. Dingo introduces the drop into the Undermurk via the Dingo Spirit
+- Characters are re-selected from a splash sequence
+- J.J. Dingo introduces the drop into the Undermurk via the Dingo Spirit, using our already-build cutscene system.
 
 ### Structure
 - 10 tiers, each representing one grade level (Tier 1 = Grade 1 → Tier 10 = Grade 10)
@@ -178,6 +178,19 @@ Each room tagged with:
 - Decreases by 1 second per tier
 - 11 seconds at Tier 10
 - Timer is consistent across all players at a given tier
+
+### Tiers
+
+1. Cupid (Cutesy Palace)
+2. The Red Tide (Pirate Cove)
+3. Gustav (Stormy Vortex)
+4. The Yeti (Ice Cave)
+5. Headmaster Slippy (Gothic Tower)
+6. Wendell Bradford, CEO (Boring Office)
+7. Noctis (Dark Forest)
+8. Frederick (Insane Funhouse)
+9. The Mallcrawlers (Backrooms)
+10. The Mask-Giver (Pitch Black)
 
 ---
 
