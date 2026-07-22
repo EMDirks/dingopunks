@@ -2,6 +2,22 @@
    Reuses the main game's splash scaffolding (.site-container / .splash). These rules
    only cover what is unique to the minigame entry: the player-count step centering
    and the two-button "ready" row (Select New Characters + Enter the Undermurk!). */
+
+@font-face {
+    font-family: 'Primer Print Bold';
+    src: url('../assets/fonts/primerPrint/primer_print_bold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --undermurk-font: 'Primer Print Bold', sans-serif;
+}
+
+body {
+    font-family: var(--undermurk-font);
+}
    
 /* Center the lone player-count row within the setup area. */
 .splash-setup-input-container--undermurk {
@@ -65,45 +81,63 @@
     background-repeat: no-repeat;
     overflow: hidden;
     border-radius: 2vmin;
+    font-family: var(--undermurk-font);
 }
 
 #undermurk-hud {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    height: 22cqh;
+    height: 100%;
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
     z-index: 2;
 }
 
-#undermurk-hud-stats {
+.undermurk-tier-block {
+    position: absolute;
+    left: 50%;
+    bottom: 1cqi;
+    transform: translateX(-50%);
+    background-image: url('../assets/enter-the-undermurk/ui/tier.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 39cqi;
+    height: 18.6cqi;
+}
+
+.undermurk-tier-block__content {
     display: flex;
     flex-direction: column;
-    gap: 0.4cqi;
-    padding: 1.5cqi 2cqi;
+    gap: 0.3cqi;
+    text-align: center;
+    margin: 2.3cqi auto 0;
+    background-color: rgba(var(--metal-gray-medium), 1);
+    border: 0.3cqi solid rgba(var(--off-black), 1);
+    box-shadow: 0 0.3cqi 0 rgba(var(--off-black), 1);
+    padding: 1cqi 1cqi;
+    border-radius: 1cqi;
+    width: 20cqi;
 }
 
-#undermurk-hud-stats .undermurk-hud__tier,
-#undermurk-hud-stats .undermurk-hud__team-score {
+.undermurk-tier-block__content .undermurk-hud__tier,
+.undermurk-tier-block__content .undermurk-hud__tier-name {
     margin: 0;
-    font-family: inherit;
-    font-size: 2.4cqi;
-    line-height: 1.2;
+    font-family: var(--undermurk-font);
+    line-height: 1;
 }
 
-#undermurk-hud-stats .undermurk-hud__tier {
-    color: rgba(var(--gold), 1);
-    position: absolute;
-    left: 10cqi;
-    top: 20cqi;
+.undermurk-tier-block__content .undermurk-hud__tier {
+    color: rgba(var(--off-black), 1);
+    font-size: 1.5cqi;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
-#undermurk-hud-stats .undermurk-hud__team-score {
-    color: rgba(var(--off-white), 1);
+.undermurk-tier-block__content .undermurk-hud__tier-name {
+    color: rgba(var(--off-black), 1);
+    font-size: 3cqi;
 }
 
 .undermurk-timer {
@@ -142,6 +176,7 @@
 .undermurk-player-strip {
     width: 100%;
     height: 15.5cqi;
+    top: 0;
     display: flex;
     gap: 1.2cqi;
     overflow-x: auto;
@@ -173,6 +208,16 @@
     }
 }
 
+@keyframes undermurk-tier-block-in {
+    from {
+        transform: translateX(-50%) translateY(100%);
+    }
+
+    to {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
 .undermurk-frame--enter {
     animation-name: undermurk-frame-in;
     animation-timing-function: ease-out;
@@ -182,6 +227,13 @@
 .undermurk-player-strip--enter {
     transform: translateY(-100%);
     animation-name: undermurk-player-strip-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-tier-block--enter {
+    transform: translateX(-50%) translateY(100%);
+    animation-name: undermurk-tier-block-in;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
@@ -327,7 +379,7 @@
     font-size: 2.6cqi;
     line-height: 1.15;
     cursor: pointer;
-    font-family: inherit;
+    font-family: var(--undermurk-font);
 }
 
 @media (hover: hover) {
@@ -407,7 +459,7 @@
     background-color: rgba(var(--gold), 1);
     color: rgba(var(--off-black), 1);
     font-size: 2.4cqi;
-    font-family: inherit;
+    font-family: var(--undermurk-font);
     cursor: pointer;
 }
 

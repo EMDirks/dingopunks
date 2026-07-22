@@ -201,6 +201,7 @@ const umEls = {};
 
 // Entrance animation timing (ms). Applied in umAnimateEntrance().
 // Player cards begin at stripDelay + stripDuration, then offset by cardStagger per index.
+// Tier block starts at stripDelay + stripDuration + tierBlockDelay.
 const umEntranceTiming = {
   frameDelay: 0,       // wait before the frame scales in from 2× to 1×
   frameDuration: 500,  // how long the frame scale-in takes
@@ -208,7 +209,26 @@ const umEntranceTiming = {
   stripDuration: 300,  // how long the player-strip slide takes
   cardStagger: 200,    // extra wait between each player card (card 0, then +200ms, +400ms, …)
   cardDuration: 200,   // how long each player card slide-in takes
+  tierBlockDelay: 1000,   // extra wait after the strip finishes before the tier badge slides up
+  tierBlockDuration: 300, // how long the tier badge slide-up takes
 };
+
+const umTierNames = [
+  "Cupid's Castle",
+  'Red Tide Reef',
+  'The Maelstrom',
+  'Frostbite Depths',
+  "Slippy's Spire",
+  'The Break Room',
+  'Dark Forest',
+  "Barrel o' Laffs",
+  'The Crawlspace',
+  'The Mask-Giver',
+];
+
+function umTierName(tier) {
+  return umTierNames[tier - 1] || '';
+}
 
 function tierTime(tier) {
   return 21 - tier;
@@ -304,7 +324,7 @@ function umUpdateHUD() {
   const player = umCurrentPlayer();
   const bossLabel = player.cleared >= 5 && !player.isBossRoundComplete ? ' — BOSS' : '';
   umEls.tierLabel.textContent = 'Undermurk Level ' + player.tier + bossLabel;
-  umEls.teamScore.textContent = 'Team: ' + umState.teamScore;
+  umEls.tierName.textContent = umTierName(player.tier);
   umEls.timerText.textContent = umState.timeLeft + 's';
 
   umEls.playerStrip.innerHTML = '';
@@ -675,9 +695,10 @@ function umBuildDOM() {
 
   umEls.hud = createElement('div', ['undermurk-hud'], umRoot, 'undermurk-hud');
 
-  umEls.hudStats = createElement('div', ['undermurk-hud-stats'], umEls.hud, 'undermurk-hud-stats');
-  umEls.tierLabel = createElement('p', ['undermurk-hud__tier'], umEls.hudStats);
-  umEls.teamScore = createElement('p', ['undermurk-hud__team-score'], umEls.hudStats);
+  umEls.tierBlock = createElement('div', ['undermurk-tier-block'], umEls.hud);
+  umEls.tierContent = createElement('div', ['undermurk-tier-block__content'], umEls.tierBlock);
+  umEls.tierLabel = createElement('p', ['undermurk-hud__tier'], umEls.tierContent);
+  umEls.tierName = createElement('p', ['undermurk-hud__tier-name'], umEls.tierContent);
 
   umEls.timerWrap = createElement('div', ['undermurk-timer'], umEls.hud);
   umEls.timerFill = createElement('div', ['undermurk-timer__fill'], umEls.timerWrap);
@@ -756,7 +777,7 @@ function umResetState(characters) {
 }
 
 function umAnimateEntrance() {
-  if (!umEls.frame || !umEls.playerStrip) {
+  if (!umEls.frame || !umEls.playerStrip || !umEls.tierBlock) {
     return;
   }
 
@@ -768,6 +789,12 @@ function umAnimateEntrance() {
     umEls.playerStrip.classList.add('undermurk-player-strip--enter');
     umEls.playerStrip.style.animationDelay = umEntranceTiming.stripDelay + 'ms';
     umEls.playerStrip.style.animationDuration = umEntranceTiming.stripDuration + 'ms';
+
+    const tierBlockDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration + umEntranceTiming.tierBlockDelay;
+
+    umEls.tierBlock.classList.add('undermurk-tier-block--enter');
+    umEls.tierBlock.style.animationDelay = tierBlockDelay + 'ms';
+    umEls.tierBlock.style.animationDuration = umEntranceTiming.tierBlockDuration + 'ms';
 
     const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
     const cards = umEls.playerStrip.querySelectorAll('.undermurk-player-card');
