@@ -922,6 +922,11 @@
     opacity: 0;
 }
 
+.transform-translate_0_50__opacity_0 {
+    transform: translate(0%, 50%);
+    opacity: 0;
+}
+
 .transform-translate_0_-100__opacity_0 {
     transform: translate(0%, -100%);
     opacity: 0;
@@ -994,7 +999,7 @@
 }
 
 .transition-transform-1000ms__opacity-1000ms {
-    transition: transform 2000ms, opacity 2000ms;
+    transition: transform 1000ms, opacity 1000ms;
 }
 
 

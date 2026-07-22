@@ -2,7 +2,7 @@
    Reuses the main game's splash scaffolding (.site-container / .splash). These rules
    only cover what is unique to the minigame entry: the player-count step centering
    and the two-button "ready" row (Select New Characters + Enter the Undermurk!). */
-
+   
 /* Center the lone player-count row within the setup area. */
 .splash-setup-input-container--undermurk {
     justify-content: center;
@@ -44,6 +44,13 @@
     }
 }
 
+/* ---- Intro cutscene ---- */
+
+/* Step 1 sprite entrance: half the default -100% → 0% X travel. */
+.transform-translate_-50_0--undermurk-intro {
+    transform: translate(-50%, 0%);
+}
+
 /* ---- Minigame (container-query layout inside .splash-container-wrapper) ---- */
 
 .undermurk-game {
@@ -60,32 +67,42 @@
     border-radius: 2vmin;
 }
 
-.undermurk-hud {
+#undermurk-hud {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 22cqh;
     box-sizing: border-box;
-    padding: 1.5cqi 2cqi;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 1cqi 2cqi;
-    background: linear-gradient(to bottom, rgba(var(--off-black), 0.92), rgba(var(--off-black), 0.55));
     z-index: 2;
 }
 
-.undermurk-hud__tier,
-.undermurk-hud__team-score {
+#undermurk-hud-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4cqi;
+    padding: 1.5cqi 2cqi;
+}
+
+#undermurk-hud-stats .undermurk-hud__tier,
+#undermurk-hud-stats .undermurk-hud__team-score {
     margin: 0;
     font-family: inherit;
-    color: rgba(var(--gold), 1);
     font-size: 2.4cqi;
     line-height: 1.2;
 }
 
-.undermurk-hud__team-score {
+#undermurk-hud-stats .undermurk-hud__tier {
+    color: rgba(var(--gold), 1);
+    position: absolute;
+    left: 10cqi;
+    top: 20cqi;
+}
+
+#undermurk-hud-stats .undermurk-hud__team-score {
     color: rgba(var(--off-white), 1);
 }
 
@@ -124,60 +141,133 @@
 
 .undermurk-player-strip {
     width: 100%;
+    height: 15.5cqi;
     display: flex;
-    gap: 1cqi;
+    gap: 1.2cqi;
     overflow-x: auto;
-    padding-bottom: 0.5cqi;
+    justify-content: center;
+    background-image: url('../assets/enter-the-undermurk/ui/player-strip.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+}
+
+@keyframes undermurk-frame-in {
+    from {
+        transform: scale(2);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes undermurk-player-strip-in {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.undermurk-frame--enter {
+    animation-name: undermurk-frame-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-player-strip--enter {
+    transform: translateY(-100%);
+    animation-name: undermurk-player-strip-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes undermurk-player-card-in {
+    from {
+        transform: translateY(-200%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.undermurk-player-card--enter {
+    transform: translateY(-200%);
+    animation-name: undermurk-player-card-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 .undermurk-player-card {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.8cqi;
-    padding: 0.6cqi 1cqi;
-    border: 0.2cqi solid rgba(var(--off-white), 0.35);
     border-radius: 1cqi;
-    background-color: rgba(var(--off-black), 0.45);
-}
-
-.undermurk-player-card--active {
-    border-color: rgba(var(--gold), 1);
-    box-shadow: 0 0 0 0.2cqi rgba(var(--gold), 0.35);
-}
-
-.undermurk-player-card--eliminated {
-    opacity: 0.45;
+    background-color: rgba(var(--metal-gray-medium), 1);
+    height: 6cqi;
+    margin-top: 6.85cqi;
+    border: 0.3cqi solid rgba(var(--off-black), 1);
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 0.3cqi 0 rgba(var(--off-black), 1);
+    width: 13cqi;
 }
 
 .undermurk-player-card__avatar {
-    width: 4cqi;
-    height: 4cqi;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-color: rgba(var(--off-white), 0.2);
+    width: 6cqi;
+    height: 6cqi;
+    background-size: 150%;
+    background-position: 35% 40%;
+    background-color: rgba(var(--off-black), 1);
     flex-shrink: 0;
+    box-sizing: border-box;
+    border-left: 0.3cqi solid rgba(var(--off-black), 1);
 }
 
 .undermurk-player-card__info {
+    flex: 1 1 auto;
     min-width: 0;
-}
-
-.undermurk-player-card__name,
-.undermurk-player-card__meta {
-    margin: 0;
-    line-height: 1.15;
+    padding: 0.6cqi 1.4cqi 0.6cqi 1cqi;
 }
 
 .undermurk-player-card__name {
+    margin: 0;
+    line-height: 1.15;
     font-size: 1.8cqi;
-    color: rgba(var(--off-white), 1);
+    color: rgba(var(--gold), 1);
+    background-color: rgba(var(--off-black), 1);
+    border-radius: 0.3cqi;
+    padding: 0.2cqi 0.6cqi;
+    display: inline-block;
+    margin-bottom: 0.4cqi;
+    width: 100%;
+    text-align: center;
 }
 
-.undermurk-player-card__meta {
-    font-size: 1.4cqi;
-    color: rgba(var(--gold-light), 1);
+.undermurk-player-card__lives {
+    display: flex;
+    gap: 0.25cqi;
+    align-items: center;
+}
+
+.undermurk-player-card__heart {
+    display: flex;
+    width: 1.3cqi;
+    height: 1.3cqi;
+    flex-shrink: 0;
+}
+
+.undermurk-player-card__heart svg {
+    width: 100%;
+    height: 100%;
+    fill: rgba(var(--off-black), 1);
 }
 
 .undermurk-question {
@@ -247,13 +337,25 @@
     }
 }
 
+.undermurk-frame {
+    position: absolute;
+    inset: 0;
+    background-image: url('../assets/enter-the-undermurk/ui/frame.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 10;
+    transform-origin: center center;
+}
+
 .undermurk-overlay {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(var(--off-black), 0.82);
+    background-color: rgba(var(--off-black), 0);
     z-index: 5;
 }
 

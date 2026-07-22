@@ -70,7 +70,7 @@ function resetUndermurkSelection() {
 let cutscene = {
   undermurkIntro: [
     {
-      text: "The blimp can't go lower. You'll have to jump!",
+      text: "We can't fly any lower! You'll have to jump!",
       textDelay: 500,
       characterSprite: {
         name: 'J.J. DINGO',
@@ -160,6 +160,14 @@ let cutscene = {
       text: '...to enter the Undermurk!',
       characterSprite: {
         name: 'J.J. DINGO',
+        path: 'sprite3.png',
+        scope: 'undermurk',
+        animation: {
+          start: 'transform-translate_0_0__opacity_1',
+          end: 'transform-translate_0_50__opacity_0',
+          duration: 'transition-transform-1000ms__opacity-1000ms',
+        },
+   
       },
       backgroundImage1: {
         path: 'main3.png',
@@ -174,26 +182,6 @@ let cutscene = {
     },
   ],
 };
-
-function umCutsceneAssetPath(path) {
-  return 'assets/enter-the-undermurk/cutscene/' + path;
-}
-
-function umPreloadCutsceneAssets() {
-  const paths = new Set();
-  Object.keys(cutscene).forEach(function (sectionKey) {
-    cutscene[sectionKey].forEach(function (scene) {
-      ['characterSprite', 'backgroundImage1', 'backgroundImage2'].forEach(function (key) {
-        const imageObject = scene[key];
-        if (imageObject && imageObject.path) {
-          paths.add(umCutsceneAssetPath(imageObject.path));
-        }
-      });
-    });
-  });
-  paths.add(umCutsceneAssetPath('sprite4.png'));
-  preloadImages(Array.from(paths), 'low');
-}
 
 // Hand-off after "Enter the Undermurk!" — intro cutscene, then the minigame.
 function enterUndermurk() {
@@ -210,6 +198,17 @@ let umNeedsInterstitial = false;
 let umIsFirstTurn = true;
 
 const umEls = {};
+
+// Entrance animation timing (ms). Applied in umAnimateEntrance().
+// Player cards begin at stripDelay + stripDuration, then offset by cardStagger per index.
+const umEntranceTiming = {
+  frameDelay: 0,       // wait before the frame scales in from 2× to 1×
+  frameDuration: 500,  // how long the frame scale-in takes
+  stripDelay: 500,    // wait before the player-strip bar slides down into place
+  stripDuration: 300,  // how long the player-strip slide takes
+  cardStagger: 200,    // extra wait between each player card (card 0, then +200ms, +400ms, …)
+  cardDuration: 200,   // how long each player card slide-in takes
+};
 
 function tierTime(tier) {
   return 21 - tier;
@@ -290,14 +289,6 @@ function umTierBackgroundPath(tier) {
   return 'assets/enter-the-undermurk/background/tier-' + tier + '.png';
 }
 
-function umPreloadTierBackgrounds() {
-  const paths = [];
-  for (let tier = 1; tier <= 10; tier++) {
-    paths.push(umTierBackgroundPath(tier));
-  }
-  preloadImages(paths, 'low');
-}
-
 function umSetTierBackground(tier) {
   if (!umRoot) {
     return;
@@ -326,17 +317,21 @@ function umUpdateHUD() {
       card.classList.add('undermurk-player-card--eliminated');
     }
 
+    const info = createElement('div', ['undermurk-player-card__info'], card);
+    const scoreEl = createElement('p', ['undermurk-player-card__name'], info);
+    scoreEl.textContent = String(p.score);
+
+    const livesEl = createElement('div', ['undermurk-player-card__lives'], info);
+    livesEl.setAttribute('aria-label', p.lives + ' lives');
+    for (let i = 0; i < p.lives; i++) {
+      const heart = createElement('span', ['undermurk-player-card__heart'], livesEl);
+      heart.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+    }
+
     const avatar = createElement('div', ['undermurk-player-card__avatar'], card);
     if (p.asset) {
       avatar.style.backgroundImage = 'url(assets/player/' + p.asset + ')';
     }
-
-    const info = createElement('div', ['undermurk-player-card__info'], card);
-    const nameEl = createElement('p', ['undermurk-player-card__name'], info);
-    nameEl.textContent = p.name;
-
-    const meta = createElement('p', ['undermurk-player-card__meta'], info);
-    meta.textContent = p.score + ' pts · ' + p.lives + ' lives';
   });
 }
 
@@ -678,10 +673,11 @@ function umBuildDOM() {
   umRoot = createElement('div', ['undermurk-game'], splashContainerWrapper);
   umSetTierBackground(1);
 
-  umEls.hud = createElement('div', ['undermurk-hud'], umRoot);
+  umEls.hud = createElement('div', ['undermurk-hud'], umRoot, 'undermurk-hud');
 
-  umEls.tierLabel = createElement('p', ['undermurk-hud__tier'], umEls.hud);
-  umEls.teamScore = createElement('p', ['undermurk-hud__team-score'], umEls.hud);
+  umEls.hudStats = createElement('div', ['undermurk-hud-stats'], umEls.hud, 'undermurk-hud-stats');
+  umEls.tierLabel = createElement('p', ['undermurk-hud__tier'], umEls.hudStats);
+  umEls.teamScore = createElement('p', ['undermurk-hud__team-score'], umEls.hudStats);
 
   umEls.timerWrap = createElement('div', ['undermurk-timer'], umEls.hud);
   umEls.timerFill = createElement('div', ['undermurk-timer__fill'], umEls.timerWrap);
@@ -723,6 +719,8 @@ function umBuildDOM() {
   umEls.exit.textContent = 'Exit';
   setIpadActiveState(umEls.exit);
 
+  umEls.frame = createElement('div', ['undermurk-frame'], umRoot);
+
   umEls.playAgain.addEventListener('click', function () {
     initUndermurkGame(umCharacters.slice());
   });
@@ -757,13 +755,36 @@ function umResetState(characters) {
   }
 }
 
+function umAnimateEntrance() {
+  if (!umEls.frame || !umEls.playerStrip) {
+    return;
+  }
+
+  requestAnimationFrame(function () {
+    umEls.frame.classList.add('undermurk-frame--enter');
+    umEls.frame.style.animationDelay = umEntranceTiming.frameDelay + 'ms';
+    umEls.frame.style.animationDuration = umEntranceTiming.frameDuration + 'ms';
+
+    umEls.playerStrip.classList.add('undermurk-player-strip--enter');
+    umEls.playerStrip.style.animationDelay = umEntranceTiming.stripDelay + 'ms';
+    umEls.playerStrip.style.animationDuration = umEntranceTiming.stripDuration + 'ms';
+
+    const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
+    const cards = umEls.playerStrip.querySelectorAll('.undermurk-player-card');
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].classList.add('undermurk-player-card--enter');
+      cards[i].style.animationDelay = (cardBaseDelay + i * umEntranceTiming.cardStagger) + 'ms';
+      cards[i].style.animationDuration = umEntranceTiming.cardDuration + 'ms';
+    }
+  });
+}
+
 function initUndermurkGame(characters) {
   if (!characters || !characters.length) {
     return;
   }
 
   umStopTimer();
-  umPreloadTierBackgrounds();
   umResetState(characters);
 
   splashContainerWrapper.querySelectorAll('*').forEach(function (child) {
@@ -775,6 +796,7 @@ function initUndermurkGame(characters) {
   umUpdateHUD();
   updateElementSize();
   updateLineThickness();
+  umAnimateEntrance();
 
   umShowFirstUp(umCurrentPlayer(), function () {
     umShowTierBanner(umCurrentPlayer().tier, function () {
@@ -782,7 +804,3 @@ function initUndermurkGame(characters) {
     });
   });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  umPreloadCutsceneAssets();
-});

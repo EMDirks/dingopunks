@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ) {
     gameMode = 'undermurk';
     isUndermurkPage = true;
+    handlePreloading('onUndermurkPage');
   }
   else {
     // gameMode = 'default';
@@ -1827,6 +1828,28 @@ let globalAssetArrays = {
       ]
     },
     low: {
+      onUndermurkPage: {
+        asset: [
+          'assets/enter-the-undermurk/cutscene/main1.png',
+          'assets/enter-the-undermurk/cutscene/main2.png',
+          'assets/enter-the-undermurk/cutscene/main3.png',
+          'assets/enter-the-undermurk/cutscene/sprite1.png',
+          'assets/enter-the-undermurk/cutscene/sprite2.png',
+          'assets/enter-the-undermurk/cutscene/sprite3.png',
+          'assets/enter-the-undermurk/cutscene/sprite4.png',
+          'assets/enter-the-undermurk/background/tier-1.png',
+          'assets/enter-the-undermurk/background/tier-2.png',
+          'assets/enter-the-undermurk/background/tier-3.png',
+          'assets/enter-the-undermurk/background/tier-4.png',
+          'assets/enter-the-undermurk/background/tier-5.png',
+          'assets/enter-the-undermurk/background/tier-6.png',
+          'assets/enter-the-undermurk/background/tier-7.png',
+          'assets/enter-the-undermurk/background/tier-8.png',
+          'assets/enter-the-undermurk/background/tier-9.png',
+          'assets/enter-the-undermurk/background/tier-10.png',
+        ],
+        delay: 0,
+      },
       onDebrief: {
         asset: [
           'assets/debrief/medal/dpaam-medal-1.png',
@@ -1973,7 +1996,7 @@ function handlePreloading(eventName) {
   }
 
   // Check if event assets are defined in localAssetArrays
-  if (localAssetArrays && localAssetArrays.priority.low[eventName]) {
+  if (typeof localAssetArrays !== 'undefined' && localAssetArrays.priority.low[eventName]) {
     preloadAssetsWithDelay(localAssetArrays.priority.low[eventName], 'low');
   }
 }
