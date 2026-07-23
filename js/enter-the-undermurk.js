@@ -196,6 +196,11 @@ let umCharacters = [];
 let umLocked = false;
 let umNeedsInterstitial = false;
 let umIsFirstTurn = true;
+let umIndicatorPositioned = false;
+let umIndicatorEntrancePending = false;
+let umIndicatorEntranceTimeoutId = null;
+let umResizeBound = false;
+let umSlideInPending = false;
 
 const umEls = {};
 
@@ -209,8 +214,15 @@ const umEntranceTiming = {
   stripDuration: 300,  // how long the player-strip slide takes
   cardStagger: 200,    // extra wait between each player card (card 0, then +200ms, +400ms, …)
   cardDuration: 200,   // how long each player card slide-in takes
+  indicatorDelay: 1000, // extra wait after the last player card finishes before the indicator slides in
+  indicatorDuration: 200, // how long the player-indicator slide-in takes
   tierBlockDelay: 1000,   // extra wait after the strip finishes before the tier badge slides up
   tierBlockDuration: 300, // how long the tier badge slide-up takes
+};
+
+const umQuestionTiming = {
+  enterDuration: 400,
+  wrongOutDuration: 700,
 };
 
 const umTierNames = [
@@ -303,6 +315,9 @@ function umStopTimer() {
   if (umEls.timerFill) {
     umEls.timerFill.style.transition = 'none';
   }
+  if (umEls.questionArea) {
+    umEls.questionArea.classList.remove('undermurk-question--low-time');
+  }
 }
 
 function umTierBackgroundPath(tier) {
@@ -316,6 +331,82 @@ function umSetTierBackground(tier) {
   umRoot.style.backgroundImage = 'url(' + umTierBackgroundPath(tier) + ')';
 }
 
+function umBindIndicatorResize() {
+  if (umResizeBound) {
+    return;
+  }
+  umResizeBound = true;
+  window.addEventListener('resize', function () {
+    if (umState && (umIndicatorPositioned || umIndicatorEntrancePending)) {
+      umPositionPlayerIndicator(true);
+    }
+  });
+}
+
+function umLastCardEntranceEndMs(playerCount) {
+  const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
+  const lastCardIndex = Math.max(0, playerCount - 1);
+  return cardBaseDelay + lastCardIndex * umEntranceTiming.cardStagger + umEntranceTiming.cardDuration;
+}
+
+function umRevealPlayerIndicator() {
+  if (!umEls.playerIndicator) {
+    return;
+  }
+
+  umIndicatorEntrancePending = false;
+  umPositionPlayerIndicator(true);
+  umEls.playerIndicator.classList.remove('undermurk-player-indicator--hidden');
+  umEls.playerIndicator.classList.add('undermurk-player-indicator--enter');
+  umEls.playerIndicator.style.animationDelay = '0ms';
+  umEls.playerIndicator.style.animationDuration = umEntranceTiming.indicatorDuration + 'ms';
+  umIndicatorPositioned = true;
+
+  function onEnterEnd() {
+    umEls.playerIndicator.removeEventListener('animationend', onEnterEnd);
+    umEls.playerIndicator.classList.remove('undermurk-player-indicator--enter');
+  }
+
+  umEls.playerIndicator.addEventListener('animationend', onEnterEnd);
+}
+
+function umPositionPlayerIndicator(instant) {
+  if (!umEls.playerIndicator || !umEls.playerStripCards || !umState) {
+    return;
+  }
+
+  const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
+  const activeCard = cards[umState.currentIndex];
+  const activePlayer = umState.players[umState.currentIndex];
+
+  if (!activeCard || activePlayer.eliminated) {
+    umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+    return;
+  }
+
+  const stripRect = umEls.playerStrip.getBoundingClientRect();
+  const cardRect = activeCard.getBoundingClientRect();
+  const centerX = cardRect.left + cardRect.width / 2 - stripRect.left;
+  umEls.playerIndicator.style.left = centerX + 'px';
+
+  if (umIndicatorEntrancePending) {
+    umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+    return;
+  }
+
+  if (instant) {
+    umEls.playerIndicator.classList.add('undermurk-player-indicator--instant');
+  }
+
+  umEls.playerIndicator.classList.remove('undermurk-player-indicator--hidden');
+
+  if (instant) {
+    void umEls.playerIndicator.offsetWidth;
+    umEls.playerIndicator.classList.remove('undermurk-player-indicator--instant');
+    umIndicatorPositioned = true;
+  }
+}
+
 function umUpdateHUD() {
   if (!umState || !umEls.tierLabel) {
     return;
@@ -325,11 +416,10 @@ function umUpdateHUD() {
   const bossLabel = player.cleared >= 5 && !player.isBossRoundComplete ? ' — BOSS' : '';
   umEls.tierLabel.textContent = 'Undermurk Level ' + player.tier + bossLabel;
   umEls.tierName.textContent = umTierName(player.tier);
-  umEls.timerText.textContent = umState.timeLeft + 's';
 
-  umEls.playerStrip.innerHTML = '';
+  umEls.playerStripCards.innerHTML = '';
   umState.players.forEach(function (p, index) {
-    const card = createElement('div', ['undermurk-player-card'], umEls.playerStrip);
+    const card = createElement('div', ['undermurk-player-card'], umEls.playerStripCards);
     if (index === umState.currentIndex && !p.eliminated) {
       card.classList.add('undermurk-player-card--active');
     }
@@ -343,8 +433,11 @@ function umUpdateHUD() {
 
     const livesEl = createElement('div', ['undermurk-player-card__lives'], info);
     livesEl.setAttribute('aria-label', p.lives + ' lives');
-    for (let i = 0; i < p.lives; i++) {
+    for (let i = 0; i < 3; i++) {
       const heart = createElement('span', ['undermurk-player-card__heart'], livesEl);
+      if (i >= p.lives) {
+        heart.classList.add('undermurk-player-card__heart--lost');
+      }
       heart.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
     }
 
@@ -352,6 +445,10 @@ function umUpdateHUD() {
     if (p.asset) {
       avatar.style.backgroundImage = 'url(assets/player/' + p.asset + ')';
     }
+  });
+
+  requestAnimationFrame(function () {
+    umPositionPlayerIndicator(!umIndicatorPositioned);
   });
 }
 
@@ -495,6 +592,7 @@ function umShowInterstitialPanel(heading, player, callback) {
   function onStart() {
     umEls.interstitialStart.removeEventListener('click', onStart);
     umHideOverlay('interstitial');
+    umSlideInPending = true;
     if (callback) {
       callback();
     }
@@ -511,11 +609,21 @@ function umShowInterstitial(player, callback) {
   umShowInterstitialPanel('Next Up', player, callback);
 }
 
+function umUpdateTimerAppearance() {
+  if (!umState || !umEls.questionArea || !umState.timeTotal) {
+    return;
+  }
+
+  const ratio = umState.timeLeft / umState.timeTotal;
+  umEls.questionArea.classList.toggle('undermurk-question--low-time', ratio <= 0.25);
+}
+
 function umStartTimer() {
   umStopTimer();
   umState.timeTotal = tierTime(umCurrentPlayer().tier);
   umState.timeLeft = umState.timeTotal;
   umUpdateHUD();
+  umUpdateTimerAppearance();
 
   umEls.timerFill.style.transition = 'none';
   umEls.timerFill.style.width = '100%';
@@ -525,7 +633,7 @@ function umStartTimer() {
 
   umState.timerTickId = setInterval(function () {
     umState.timeLeft -= 1;
-    umEls.timerText.textContent = Math.max(0, umState.timeLeft) + 's';
+    umUpdateTimerAppearance();
   }, 1000);
 
   umState.timerId = setTimeout(function () {
@@ -534,7 +642,7 @@ function umStartTimer() {
   }, umState.timeTotal * 1000);
 }
 
-function umRenderQuestion() {
+function umRenderQuestion(prepareHidden) {
   const player = umCurrentPlayer();
   const isBoss = player.cleared >= 5;
   umState.currentEntry = umPickQuestionEntry();
@@ -559,11 +667,89 @@ function umRenderQuestion() {
     });
   });
 
-  umEls.questionArea.classList.remove('undermurk-question--hidden');
+  umEls.questionArea.classList.remove('undermurk-question--enter', 'undermurk-question--wrong-out', 'undermurk-question--low-time');
+  if (prepareHidden) {
+    umEls.questionArea.classList.add('undermurk-question--hidden');
+  } else {
+    umEls.questionArea.classList.remove('undermurk-question--hidden');
+  }
   umHideOverlay('end');
   umUpdateHUD();
   updateElementSize();
   updateLineThickness();
+}
+
+function umSlideInQuestion(callback) {
+  if (!umEls.questionArea) {
+    if (callback) {
+      callback();
+    }
+    return;
+  }
+
+  umEls.questionArea.classList.remove('undermurk-question--hidden');
+  umEls.questionArea.classList.add('undermurk-question--enter');
+  umEls.questionArea.style.animationDuration = umQuestionTiming.enterDuration + 'ms';
+
+  function onEnterEnd(event) {
+    if (event.target !== umEls.questionArea || event.animationName !== 'undermurk-question-in') {
+      return;
+    }
+
+    umEls.questionArea.removeEventListener('animationend', onEnterEnd);
+    umEls.questionArea.classList.remove('undermurk-question--enter');
+    if (callback) {
+      callback();
+    }
+  }
+
+  umEls.questionArea.addEventListener('animationend', onEnterEnd);
+}
+
+function umAnimateQuestionWrong(callback) {
+  if (!umEls.questionArea || umEls.questionArea.classList.contains('undermurk-question--hidden')) {
+    if (callback) {
+      callback();
+    }
+    return;
+  }
+
+  umEls.questionArea.classList.remove('undermurk-question--enter');
+  umEls.questionArea.classList.add('undermurk-question--wrong-out');
+  umEls.questionArea.style.animationDuration = umQuestionTiming.wrongOutDuration + 'ms';
+
+  function onWrongOutEnd(event) {
+    if (event.target !== umEls.questionArea || event.animationName !== 'undermurk-question-wrong-out') {
+      return;
+    }
+
+    umEls.questionArea.removeEventListener('animationend', onWrongOutEnd);
+    umEls.questionArea.classList.remove('undermurk-question--wrong-out');
+    umEls.questionArea.classList.add('undermurk-question--hidden');
+    if (callback) {
+      callback();
+    }
+  }
+
+  umEls.questionArea.addEventListener('animationend', onWrongOutEnd);
+}
+
+function umAfterWrongAnswer() {
+  umUpdateHUD();
+
+  umAnimateQuestionWrong(function () {
+    if (umCheckGameOver()) {
+      umShowEndScreen(false);
+      return;
+    }
+
+    if (umCheckVictory()) {
+      umShowEndScreen(true);
+      return;
+    }
+
+    umBeginTurn();
+  });
 }
 
 function umAfterTurnChange(callback) {
@@ -595,7 +781,18 @@ function umBeginTurn() {
   umClearTierAdvanceFlag();
 
   umAfterTurnChange(function () {
-    umRenderQuestion();
+    const shouldSlideIn = umSlideInPending;
+    umSlideInPending = false;
+
+    if (shouldSlideIn) {
+      umRenderQuestion(true);
+      umSlideInQuestion(function () {
+        umStartTimer();
+      });
+      return;
+    }
+
+    umRenderQuestion(false);
     umStartTimer();
   });
 }
@@ -644,18 +841,7 @@ function umHandleAnswer(selectedWord) {
   umNeedsInterstitial = settings.playerCount > 1;
   umAdvancePlayerIndex();
   umIsFirstTurn = false;
-
-  if (umCheckGameOver()) {
-    umShowEndScreen(false);
-    return;
-  }
-
-  if (umCheckVictory()) {
-    umShowEndScreen(true);
-    return;
-  }
-
-  umBeginTurn();
+  umAfterWrongAnswer();
 }
 
 function umHandleTimeout() {
@@ -675,18 +861,7 @@ function umHandleTimeout() {
   umNeedsInterstitial = settings.playerCount > 1;
   umAdvancePlayerIndex();
   umIsFirstTurn = false;
-
-  if (umCheckGameOver()) {
-    umShowEndScreen(false);
-    return;
-  }
-
-  if (umCheckVictory()) {
-    umShowEndScreen(true);
-    return;
-  }
-
-  umBeginTurn();
+  umAfterWrongAnswer();
 }
 
 function umBuildDOM() {
@@ -700,16 +875,22 @@ function umBuildDOM() {
   umEls.tierLabel = createElement('p', ['undermurk-hud__tier'], umEls.tierContent);
   umEls.tierName = createElement('p', ['undermurk-hud__tier-name'], umEls.tierContent);
 
-  umEls.timerWrap = createElement('div', ['undermurk-timer'], umEls.hud);
-  umEls.timerFill = createElement('div', ['undermurk-timer__fill'], umEls.timerWrap);
-  umEls.timerText = createElement('p', ['undermurk-timer__text'], umEls.timerWrap);
-
   umEls.playerStrip = createElement('div', ['undermurk-player-strip'], umEls.hud);
+  umEls.playerStripCards = createElement('div', ['undermurk-player-strip__cards'], umEls.playerStrip);
+  umEls.playerIndicator = createElement('img', ['undermurk-player-indicator'], umEls.playerStrip);
+  umEls.playerIndicator.src = 'assets/enter-the-undermurk/ui/player-indicator.png';
+  umEls.playerIndicator.alt = '';
+  umEls.playerIndicator.setAttribute('aria-hidden', 'true');
+  umBindIndicatorResize();
 
-  umEls.questionArea = createElement('div', ['undermurk-question'], umRoot);
+  umEls.questionArea = createElement('div', ['undermurk-question', 'undermurk-question--hidden'], umRoot);
   umEls.promptLabel = createElement('p', ['undermurk-question__label'], umEls.questionArea);
-  umEls.promptText = createElement('p', ['undermurk-question__prompt'], umEls.questionArea);
-  umEls.options = createElement('div', ['undermurk-options'], umEls.questionArea);
+  umEls.questionBody = createElement('div', ['undermurk-question__body'], umEls.questionArea);
+  umEls.promptText = createElement('p', ['undermurk-question__prompt'], umEls.questionBody);
+  umEls.options = createElement('div', ['undermurk-options'], umEls.questionBody);
+
+  umEls.timerWrap = createElement('div', ['undermurk-timer'], umEls.questionArea);
+  umEls.timerFill = createElement('div', ['undermurk-timer__fill'], umEls.timerWrap);
 
   umEls.interstitial = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
   const interstitialPanel = createElement('div', ['undermurk-overlay__panel'], umEls.interstitial);
@@ -756,6 +937,14 @@ function umResetState(characters) {
   umLocked = false;
   umNeedsInterstitial = false;
   umIsFirstTurn = true;
+  umIndicatorPositioned = false;
+  umIndicatorEntrancePending = false;
+  umSlideInPending = false;
+
+  if (umIndicatorEntranceTimeoutId) {
+    clearTimeout(umIndicatorEntranceTimeoutId);
+    umIndicatorEntranceTimeoutId = null;
+  }
 
   umState = {
     players: umBuildPlayers(characters),
@@ -797,12 +986,27 @@ function umAnimateEntrance() {
     umEls.tierBlock.style.animationDuration = umEntranceTiming.tierBlockDuration + 'ms';
 
     const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
-    const cards = umEls.playerStrip.querySelectorAll('.undermurk-player-card');
+    const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
     for (let i = 0; i < cards.length; i++) {
       cards[i].classList.add('undermurk-player-card--enter');
       cards[i].style.animationDelay = (cardBaseDelay + i * umEntranceTiming.cardStagger) + 'ms';
       cards[i].style.animationDuration = umEntranceTiming.cardDuration + 'ms';
     }
+
+    if (umIndicatorEntranceTimeoutId) {
+      clearTimeout(umIndicatorEntranceTimeoutId);
+    }
+    umIndicatorEntrancePending = true;
+    if (umEls.playerIndicator) {
+      umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+      umEls.playerIndicator.classList.remove('undermurk-player-indicator--enter');
+    }
+
+    const indicatorStart = umLastCardEntranceEndMs(cards.length) + umEntranceTiming.indicatorDelay;
+    umIndicatorEntranceTimeoutId = setTimeout(function () {
+      umIndicatorEntranceTimeoutId = null;
+      umRevealPlayerIndicator();
+    }, indicatorStart);
   });
 }
 

@@ -92,6 +92,7 @@ body {
     height: 100%;
     box-sizing: border-box;
     z-index: 2;
+    pointer-events: none;
 }
 
 .undermurk-tier-block {
@@ -142,13 +143,15 @@ body {
 
 .undermurk-timer {
     position: relative;
-    flex: 1 1 18cqi;
-    min-width: 14cqi;
-    height: 3cqi;
-    border: 0.25cqi solid rgba(var(--gold), 1);
-    border-radius: 999cqi;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    height: 1cqi;
+    border: none;
+    border-radius: 0;
     overflow: hidden;
     background-color: rgba(var(--off-black), 0.6);
+    box-sizing: border-box;
 }
 
 .undermurk-timer__fill {
@@ -157,35 +160,68 @@ body {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba(var(--salmon), 1);
-    transition: width linear;
-}
-
-.undermurk-timer__text {
-    position: absolute;
-    inset: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8cqi;
-    color: rgba(var(--off-white), 1);
-    z-index: 1;
+    background-color: rgba(var(--gold), 1);
+    transition: width linear, background-color 0.3s ease;
 }
 
 .undermurk-player-strip {
     width: 100%;
     height: 15.5cqi;
     top: 0;
-    display: flex;
-    gap: 1.2cqi;
-    overflow-x: auto;
-    justify-content: center;
     background-image: url('../assets/enter-the-undermurk/ui/player-strip.png');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
+}
+
+.undermurk-player-strip__cards {
+    display: flex;
+    gap: 1.2cqi;
+    overflow-x: auto;
+    justify-content: flex-start;
+    width: 70cqi;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.undermurk-player-indicator {
+    position: absolute;
+    top: 13.3cqi;
+    left: 0;
+    width: 4cqi;
+    height: auto;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 3;
+    transition: left 0.35s ease-out, opacity 0.2s ease;
+}
+
+.undermurk-player-indicator--instant {
+    transition: none;
+}
+
+.undermurk-player-indicator--hidden {
+    opacity: 0;
+}
+
+@keyframes undermurk-player-indicator-in {
+    from {
+        transform: translateX(calc(-50% - 300%));
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-50%);
+        opacity: 1;
+    }
+}
+
+.undermurk-player-indicator--enter {
+    transform: translateX(calc(-50% - 200%));
+    animation-name: undermurk-player-indicator-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 @keyframes undermurk-frame-in {
@@ -270,6 +306,22 @@ body {
     overflow: hidden;
     box-shadow: 0 0.3cqi 0 rgba(var(--off-black), 1);
     width: 13cqi;
+    transition: background-color 0.2s ease;
+}
+
+.undermurk-player-card--active {
+    background-color: rgba(var(--gold), 1);
+}
+
+.undermurk-player-card--eliminated {
+    background-color: rgba(var(--metal-gray-dark), 1);
+}
+
+.undermurk-player-card--eliminated .undermurk-player-card__name {
+    color: rgba(var(--metal-gray-dark), 1);
+}
+
+.undermurk-player-card--eliminated .undermurk-player-card__avatar {
 }
 
 .undermurk-player-card__avatar {
@@ -281,6 +333,7 @@ body {
     flex-shrink: 0;
     box-sizing: border-box;
     border-left: 0.3cqi solid rgba(var(--off-black), 1);
+    transition: filter 0.2s ease;
 }
 
 .undermurk-player-card__info {
@@ -301,6 +354,7 @@ body {
     margin-bottom: 0.4cqi;
     width: 100%;
     text-align: center;
+    transition: color 0.2s ease;
 }
 
 .undermurk-player-card__lives {
@@ -314,6 +368,12 @@ body {
     width: 1.3cqi;
     height: 1.3cqi;
     flex-shrink: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.undermurk-player-card__heart--lost {
+    opacity: 0;
 }
 
 .undermurk-player-card__heart svg {
@@ -324,16 +384,20 @@ body {
 
 .undermurk-question {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 22cqh;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
     box-sizing: border-box;
-    padding: 2cqi 3cqi 3cqi;
     display: flex;
     flex-direction: column;
-    gap: 1.5cqi;
     z-index: 1;
+    width: 60cqi;
+    height: fit-content;
+    background-color: rgba(var(--off-black), 1);
+    border: 0.25cqi solid rgba(var(--gold), 1);
+    border-radius: 2cqi;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
 }
 
 .undermurk-question--hidden {
@@ -341,12 +405,111 @@ body {
     pointer-events: none;
 }
 
+@keyframes undermurk-question-in {
+    from {
+        transform: translate(-50%, calc(-50% - 80%));
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+@keyframes undermurk-question-wrong-out {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 1;
+    }
+
+    12% {
+        transform: translate(-50%, -50%) rotate(-5deg);
+    }
+
+    24% {
+        transform: translate(-50%, -50%) rotate(5deg);
+    }
+
+    36% {
+        transform: translate(-50%, -50%) rotate(-4deg);
+    }
+
+    48% {
+        transform: translate(-50%, -50%) rotate(4deg);
+    }
+
+    60% {
+        transform: translate(-50%, -50%) rotate(-2deg);
+    }
+
+    72% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, calc(-50% + 120%)) rotate(8deg);
+        opacity: 0;
+    }
+}
+
+.undermurk-question--enter {
+    transform: translate(-50%, calc(-50% - 80%));
+    opacity: 0;
+    animation-name: undermurk-question-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-question--wrong-out {
+    animation-name: undermurk-question-wrong-out;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
 .undermurk-question__label {
     margin: 0;
-    font-size: 2cqi;
-    letter-spacing: 0.08em;
+    font-size: 2.2cqi;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: rgba(var(--gold), 1);
+    background-color: rgba(var(--gold), 1);
+    color: rgba(var(--off-black), 1);
+    border-radius: 0.3cqi;
+    padding: 0.5cqi 2cqi 0.7cqi 2cqi;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.undermurk-question--low-time,
+.undermurk-question--wrong-out {
+    border-color: rgba(var(--salmon), 1);
+}
+
+.undermurk-question--low-time .undermurk-question__label,
+.undermurk-question--wrong-out .undermurk-question__label {
+    background-color: rgba(var(--salmon), 1);
+}
+
+.undermurk-question--low-time .undermurk-option,
+.undermurk-question--wrong-out .undermurk-option {
+    background-color: rgba(var(--salmon), 1);
+}
+
+.undermurk-question--low-time .undermurk-timer__fill,
+.undermurk-question--wrong-out .undermurk-timer__fill {
+    background-color: rgba(var(--salmon), 1);
+}
+
+.undermurk-question__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2cqi;
+    flex: 1 1 auto;
+    padding: 2cqi 3cqi 3cqi 3cqi;
+    box-sizing: border-box;
 }
 
 .undermurk-question__prompt {
@@ -355,6 +518,7 @@ body {
     line-height: 1.25;
     color: rgba(var(--off-white), 1);
     flex: 0 0 auto;
+    text-align: center;
 }
 
 .undermurk-options {
@@ -371,21 +535,24 @@ body {
 
 .undermurk-option {
     margin: 0;
-    padding: 1.4cqi 1.2cqi;
-    border: 0.25cqi solid rgba(var(--gold), 1);
+    padding: 1cqi 1.2cqi 1.3cqi 1.2cqi;
     border-radius: 1cqi;
-    background-color: rgba(var(--off-black), 0.72);
-    color: rgba(var(--off-white), 1);
+    background-color: rgba(var(--gold), 1);
+    color: rgba(var(--off-black), 1);
     font-size: 2.6cqi;
     line-height: 1.15;
     cursor: pointer;
     font-family: var(--undermurk-font);
+    transition: background-color 0.3s ease;
 }
 
 @media (hover: hover) {
     .undermurk-option:hover {
-        background-color: rgba(var(--gold), 1);
-        color: rgba(var(--off-black), 1);
+        background-color: rgba(var(--off-white), 1);
+    }
+
+    .undermurk-question--wrong-out .undermurk-option:hover {
+        background-color: rgba(var(--salmon), 1);
     }
 }
 
