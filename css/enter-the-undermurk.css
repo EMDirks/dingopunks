@@ -67,6 +67,12 @@ body {
     transform: translate(-50%, 0%);
 }
 
+.splash-container.undermurk-cutscene--fade-out {
+    transition: opacity 500ms ease-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* ---- Minigame (container-query layout inside .splash-container-wrapper) ---- */
 
 .undermurk-game {
@@ -76,12 +82,28 @@ body {
     height: 100%;
     container-type: size;
     background-color: rgba(var(--off-black), 1);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
     border-radius: 2vmin;
     font-family: var(--undermurk-font);
+}
+
+.undermurk-tier-background {
+    position: absolute;
+    inset: 0;
+    background-size: 90%;
+    background-position: center 68%;
+    background-repeat: no-repeat;
+    transform-origin: center 68%;
+    opacity: 0;
+    transform: scale(2);
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.undermurk-tier-background--dimmed {
+    opacity: 0.2;
+    transform: scale(1);
 }
 
 #undermurk-hud {
@@ -193,8 +215,8 @@ body {
     height: auto;
     transform: translateX(-50%);
     pointer-events: none;
-    z-index: 3;
-    transition: left 0.35s ease-out, opacity 0.2s ease;
+    z-index: 0;
+    transition: left 0.35s ease-out, opacity 0s ease;
 }
 
 .undermurk-player-indicator--instant {
@@ -236,7 +258,7 @@ body {
 
 @keyframes undermurk-player-strip-in {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-105%);
     }
 
     to {
@@ -254,7 +276,20 @@ body {
     }
 }
 
+@keyframes undermurk-tier-background-in {
+    from {
+        opacity: 0;
+        transform: scale(2);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .undermurk-frame--enter {
+    transform: scale(2);
     animation-name: undermurk-frame-in;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
@@ -268,8 +303,14 @@ body {
 }
 
 .undermurk-tier-block--enter {
-    transform: translateX(-50%) translateY(100%);
+    transform: translateX(-50%) translateY(110%);
     animation-name: undermurk-tier-block-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-tier-background--enter {
+    animation-name: undermurk-tier-background-in;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
@@ -566,6 +607,7 @@ body {
     pointer-events: none;
     z-index: 10;
     transform-origin: center center;
+    transform: scale(2);
 }
 
 .undermurk-overlay {
@@ -583,31 +625,87 @@ body {
 }
 
 .undermurk-overlay__panel {
-    width: 72cqi;
-    max-width: 90%;
-    padding: 3cqi;
-    border: 0.3cqi solid rgba(var(--gold), 1);
-    border-radius: 1.5cqi;
-    background-color: rgba(var(--off-black), 0.95);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border-radius: 2cqi;
+    margin-top: -4cqi;
+    position: relative;
+    box-sizing: border-box;
+    padding:  0;
+    border: 0.3cqi solid rgba(var(--off-black), 1);
+    background-color: rgba(var(--off-black), 0.7);
+    gap: 1cqi;
+    overflow: hidden;
 }
 
-.undermurk-overlay__panel--end {
-    width: 78cqi;
+.undermurk-overlay__avatar {
+    width: 20cqi;
+    height: 20cqi;
+    flex-shrink: 0;
+    background-size: 100%;
+    background-position: 35% 40%;
+    border-radius: 1cqi;
+    box-sizing: border-box;
+}
+
+.undermurk-overlay__panel-content {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    padding: 2cqi 0cqi 3cqi 4cqi;
+    box-sizing: border-box;
+    gap: 0cqi;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes undermurk-overlay-panel-in {
+    from {
+        transform: translateY(-80%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+.undermurk-overlay__panel--enter {
+    transform: translateY(-80%);
+    opacity: 0;
+    animation-name: undermurk-overlay-panel-in;
+    animation-duration: 200ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 .undermurk-overlay__heading {
     margin: 0 0 0.8cqi;
-    font-size: 2.2cqi;
-    color: rgba(var(--gold-light), 1);
+    font-size: 2cqi;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    position: absolute;
+    top: -2.5cqi;
+    left: -2cqi;
+    padding: 0.5cqi 1.5cqi;
+    border-radius: 5cqi;
+    box-sizing: border-box;
+    transform: rotate(-7deg);
+    border: 0.2cqi solid rgba(var(--off-black), 1);
+    background-color: rgba(var(--off-white), 1);
+    color: rgba(var(--off-black), 1);
+    display: none;
 }
 
 .undermurk-overlay__title {
     margin: 0 0 1cqi;
-    font-size: 4cqi;
-    color: rgba(var(--gold), 1);
+    font-size: 3.5cqi;
+    color: rgba(var(--off-white), 1);
     line-height: 1.15;
 }
 
@@ -619,15 +717,20 @@ body {
 }
 
 .undermurk-overlay__button {
-    margin: 0.5cqi;
-    padding: 1.2cqi 2.4cqi;
+    display: block;
+    margin: 0.5cqi 0 0;
+    padding: 1cqi 2.4cqi;
     border: 0.25cqi solid rgba(var(--gold), 1);
-    border-radius: 999cqi;
+    border-radius: 1cqi;
     background-color: rgba(var(--gold), 1);
     color: rgba(var(--off-black), 1);
-    font-size: 2.4cqi;
+    font-size: 3cqi;
     font-family: var(--undermurk-font);
     cursor: pointer;
+    text-transform: uppercase;
+    width: 18cqi;
+    box-sizing: border-box;
+    border: 0.3cqi solid rgba(var(--off-black), 1);
 }
 
 .undermurk-overlay__button--secondary {

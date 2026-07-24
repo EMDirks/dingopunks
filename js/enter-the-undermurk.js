@@ -188,6 +188,36 @@ function enterUndermurk() {
   addCutscene(0, 'undermurkIntro');
 }
 
+const umCutsceneFadeDuration = 500;
+let umCutsceneFinishing = false;
+
+// Fade out the intro cutscene, then build the minigame (final Next or Skip).
+function finishUndermurkIntroCutscene(cutsceneUi) {
+  if (umCutsceneFinishing) {
+    return;
+  }
+  umCutsceneFinishing = true;
+
+  if (cutsceneUi.nextButton) {
+    toggleClass(cutsceneUi.nextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
+  }
+  if (cutsceneUi.textBox) {
+    toggleClass(cutsceneUi.textBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--fade');
+  }
+  if (cutsceneUi.skipText) {
+    cutsceneUi.skipText.style.transition = 'opacity 0.1s';
+    toggleClass(cutsceneUi.skipText, 'cutscene-skip-text--visible', 'cutscene-skip-text--hidden');
+  }
+
+  if (splashContainer) {
+    splashContainer.classList.add('undermurk-cutscene--fade-out');
+  }
+
+  setTimeout(function () {
+    initUndermurkGame(playerCharacters.slice());
+  }, umCutsceneFadeDuration);
+}
+
 // ---- Minigame engine ----
 
 let umState = null;
@@ -199,25 +229,36 @@ let umIsFirstTurn = true;
 let umIndicatorPositioned = false;
 let umIndicatorEntrancePending = false;
 let umIndicatorEntranceTimeoutId = null;
+let umIndicatorSwitchTimeoutId = null;
+let umLastIndicatorPlayerIndex = null;
 let umResizeBound = false;
 let umSlideInPending = false;
+let umTierBackgroundTier = null;
+let umTierBackgroundDimmed = false;
+let umTierBackgroundRevealed = false;
 
 const umEls = {};
 
 // Entrance animation timing (ms). Applied in umAnimateEntrance().
-// Player cards begin at stripDelay + stripDuration, then offset by cardStagger per index.
-// Tier block starts at stripDelay + stripDuration + tierBlockDelay.
+// Daisy chain: each step starts after the previous step finishes, plus its *Delay value.
+// Order: frame → player strip → player cards → tier background → tier block → player indicator → First Up.
 const umEntranceTiming = {
-  frameDelay: 0,       // wait before the frame scales in from 2× to 1×
-  frameDuration: 500,  // how long the frame scale-in takes
-  stripDelay: 500,    // wait before the player-strip bar slides down into place
-  stripDuration: 300,  // how long the player-strip slide takes
+  frameDelay: 500,       // initial wait before the frame scales in from 2× to 1×
+  frameDuration: 200,  // how long the frame scale-in takes
+  stripDelay: 200,    // extra wait after the frame finishes before the player-strip slides down
+  stripDuration: 200,  // how long the player-strip slide takes
+  cardDelay: 100,        // extra wait after the strip finishes before the first player card
   cardStagger: 200,    // extra wait between each player card (card 0, then +200ms, +400ms, …)
   cardDuration: 200,   // how long each player card slide-in takes
-  indicatorDelay: 1000, // extra wait after the last player card finishes before the indicator slides in
+  tierBackgroundDelay: 200, // extra wait after the last player card finishes before the tier background animates in
+  tierBackgroundDuration: 200, // how long the tier background fade/zoom takes
+  tierBlockDelay: 200,   // extra wait after the tier background finishes before the tier badge slides up
+  tierBlockDuration: 200, // how long the tier badge slide-up takes
+  indicatorDelay: 500, // extra wait after the tier badge finishes before the indicator slides in
   indicatorDuration: 200, // how long the player-indicator slide-in takes
-  tierBlockDelay: 1000,   // extra wait after the strip finishes before the tier badge slides up
-  tierBlockDuration: 300, // how long the tier badge slide-up takes
+  indicatorSwitchDelay: 600, // wait before the indicator slides to the next player during play
+  firstUpDelay: 0,     // extra wait after the indicator finishes before First Up slides in
+  firstUpLeadIn: 500,    // start First Up this many ms earlier (subtracted from indicatorDuration + firstUpDelay)
 };
 
 const umQuestionTiming = {
@@ -303,6 +344,14 @@ function umCurrentPlayer() {
   return umState.players[umState.currentIndex];
 }
 
+function umResetTimerFill() {
+  if (!umEls.timerFill) {
+    return;
+  }
+  umEls.timerFill.style.transition = 'none';
+  umEls.timerFill.style.width = '100%';
+}
+
 function umStopTimer() {
   if (umState && umState.timerId) {
     clearTimeout(umState.timerId);
@@ -312,9 +361,7 @@ function umStopTimer() {
     clearInterval(umState.timerTickId);
     umState.timerTickId = null;
   }
-  if (umEls.timerFill) {
-    umEls.timerFill.style.transition = 'none';
-  }
+  umResetTimerFill();
   if (umEls.questionArea) {
     umEls.questionArea.classList.remove('undermurk-question--low-time');
   }
@@ -325,10 +372,63 @@ function umTierBackgroundPath(tier) {
 }
 
 function umSetTierBackground(tier) {
-  if (!umRoot) {
+  if (!umEls.tierBackground) {
     return;
   }
-  umRoot.style.backgroundImage = 'url(' + umTierBackgroundPath(tier) + ')';
+
+  const tierChanged = umTierBackgroundTier !== tier;
+  umEls.tierBackground.style.backgroundImage = 'url(' + umTierBackgroundPath(tier) + ')';
+
+  if (tierChanged) {
+    umTierBackgroundTier = tier;
+    umTierBackgroundDimmed = false;
+    umApplyTierBackgroundDimState();
+  }
+}
+
+function umApplyTierBackgroundDimState() {
+  if (!umEls.tierBackground) {
+    return;
+  }
+
+  umEls.tierBackground.classList.toggle('undermurk-tier-background--dimmed', umTierBackgroundDimmed);
+  if (umTierBackgroundDimmed) {
+    umEls.tierBackground.style.opacity = '';
+  } else if (umTierBackgroundRevealed) {
+    umEls.tierBackground.style.opacity = '1';
+  } else {
+    umEls.tierBackground.style.opacity = '';
+  }
+}
+
+function umShowTierBackgroundInstantly() {
+  if (!umEls.tierBackground) {
+    return;
+  }
+
+  umEls.tierBackground.classList.remove('undermurk-tier-background--enter');
+  umEls.tierBackground.style.animationDelay = '';
+  umEls.tierBackground.style.animationDuration = '';
+  umEls.tierBackground.style.transform = 'scale(1)';
+  umTierBackgroundRevealed = true;
+  umApplyTierBackgroundDimState();
+}
+
+function umDimTierBackground() {
+  if (umTierBackgroundDimmed) {
+    return;
+  }
+
+  umTierBackgroundDimmed = true;
+
+  if (!umEls.tierBackground) {
+    return;
+  }
+
+  umEls.tierBackground.classList.remove('undermurk-tier-background--enter');
+  umEls.tierBackground.style.animationDelay = '';
+  umEls.tierBackground.style.animationDuration = '';
+  umApplyTierBackgroundDimState();
 }
 
 function umBindIndicatorResize() {
@@ -343,10 +443,53 @@ function umBindIndicatorResize() {
   });
 }
 
+function umFrameEntranceStartMs() {
+  return umEntranceTiming.frameDelay;
+}
+
+function umFrameEntranceEndMs() {
+  return umFrameEntranceStartMs() + umEntranceTiming.frameDuration;
+}
+
+function umStripEntranceStartMs() {
+  return umFrameEntranceEndMs() + umEntranceTiming.stripDelay;
+}
+
+function umStripEntranceEndMs() {
+  return umStripEntranceStartMs() + umEntranceTiming.stripDuration;
+}
+
+function umCardEntranceStartMs(cardIndex) {
+  return umStripEntranceEndMs() + umEntranceTiming.cardDelay + cardIndex * umEntranceTiming.cardStagger;
+}
+
 function umLastCardEntranceEndMs(playerCount) {
-  const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
   const lastCardIndex = Math.max(0, playerCount - 1);
-  return cardBaseDelay + lastCardIndex * umEntranceTiming.cardStagger + umEntranceTiming.cardDuration;
+  return umCardEntranceStartMs(lastCardIndex) + umEntranceTiming.cardDuration;
+}
+
+function umTierBackgroundEntranceStartMs(playerCount) {
+  return umLastCardEntranceEndMs(playerCount) + umEntranceTiming.tierBackgroundDelay;
+}
+
+function umTierBackgroundEntranceEndMs(playerCount) {
+  return umTierBackgroundEntranceStartMs(playerCount) + umEntranceTiming.tierBackgroundDuration;
+}
+
+function umTierBlockEntranceStartMs(playerCount) {
+  return umTierBackgroundEntranceEndMs(playerCount) + umEntranceTiming.tierBlockDelay;
+}
+
+function umTierBlockEntranceEndMs(playerCount) {
+  return umTierBlockEntranceStartMs(playerCount) + umEntranceTiming.tierBlockDuration;
+}
+
+function umIndicatorEntranceStartMs(playerCount) {
+  return umTierBlockEntranceEndMs(playerCount) + umEntranceTiming.indicatorDelay;
+}
+
+function umFirstUpEntranceDelayMs() {
+  return Math.max(0, umEntranceTiming.indicatorDuration + umEntranceTiming.firstUpDelay - umEntranceTiming.firstUpLeadIn);
 }
 
 function umRevealPlayerIndicator() {
@@ -370,24 +513,47 @@ function umRevealPlayerIndicator() {
   umEls.playerIndicator.addEventListener('animationend', onEnterEnd);
 }
 
-function umPositionPlayerIndicator(instant) {
-  if (!umEls.playerIndicator || !umEls.playerStripCards || !umState) {
+function umClearIndicatorSwitchTimeout() {
+  if (umIndicatorSwitchTimeoutId) {
+    clearTimeout(umIndicatorSwitchTimeoutId);
+    umIndicatorSwitchTimeoutId = null;
+  }
+}
+
+function umPlayerSwitchDelayPending() {
+  return umIndicatorPositioned
+    && umLastIndicatorPlayerIndex !== null
+    && umLastIndicatorPlayerIndex !== umState.currentIndex
+    && umEntranceTiming.indicatorSwitchDelay > 0
+    && !umIndicatorEntrancePending;
+}
+
+function umHighlightedPlayerIndex() {
+  if (umPlayerSwitchDelayPending()) {
+    return umLastIndicatorPlayerIndex;
+  }
+
+  return umState.currentIndex;
+}
+
+function umSyncActivePlayerCard() {
+  if (!umEls.playerStripCards || !umState) {
     return;
   }
 
   const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
-  const activeCard = cards[umState.currentIndex];
-  const activePlayer = umState.players[umState.currentIndex];
+  const activeIndex = umHighlightedPlayerIndex();
 
-  if (!activeCard || activePlayer.eliminated) {
-    umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
-    return;
+  for (let i = 0; i < cards.length; i++) {
+    const player = umState.players[i];
+    cards[i].classList.toggle('undermurk-player-card--active', i === activeIndex && player && !player.eliminated);
   }
+}
 
-  const stripRect = umEls.playerStrip.getBoundingClientRect();
-  const cardRect = activeCard.getBoundingClientRect();
-  const centerX = cardRect.left + cardRect.width / 2 - stripRect.left;
+function umApplyPlayerIndicatorPosition(centerX, instant) {
   umEls.playerIndicator.style.left = centerX + 'px';
+  umLastIndicatorPlayerIndex = umState.currentIndex;
+  umSyncActivePlayerCard();
 
   if (umIndicatorEntrancePending) {
     umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
@@ -407,6 +573,45 @@ function umPositionPlayerIndicator(instant) {
   }
 }
 
+function umPositionPlayerIndicator(instant) {
+  if (!umEls.playerIndicator || !umEls.playerStripCards || !umState) {
+    return;
+  }
+
+  const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
+  const activeCard = cards[umState.currentIndex];
+  const activePlayer = umState.players[umState.currentIndex];
+
+  if (!activeCard || activePlayer.eliminated) {
+    umClearIndicatorSwitchTimeout();
+    umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+    return;
+  }
+
+  const stripRect = umEls.playerStrip.getBoundingClientRect();
+  const cardRect = activeCard.getBoundingClientRect();
+  const centerX = cardRect.left + cardRect.width / 2 - stripRect.left;
+
+  const playerChanged = umIndicatorPositioned
+    && umLastIndicatorPlayerIndex !== null
+    && umLastIndicatorPlayerIndex !== umState.currentIndex;
+  const switchDelay = playerChanged && !instant && !umIndicatorEntrancePending
+    ? umEntranceTiming.indicatorSwitchDelay
+    : 0;
+
+  umClearIndicatorSwitchTimeout();
+
+  if (switchDelay > 0) {
+    umIndicatorSwitchTimeoutId = setTimeout(function () {
+      umIndicatorSwitchTimeoutId = null;
+      umApplyPlayerIndicatorPosition(centerX, false);
+    }, switchDelay);
+    return;
+  }
+
+  umApplyPlayerIndicatorPosition(centerX, instant);
+}
+
 function umUpdateHUD() {
   if (!umState || !umEls.tierLabel) {
     return;
@@ -417,10 +622,11 @@ function umUpdateHUD() {
   umEls.tierLabel.textContent = 'Undermurk Level ' + player.tier + bossLabel;
   umEls.tierName.textContent = umTierName(player.tier);
 
+  const highlightedIndex = umHighlightedPlayerIndex();
   umEls.playerStripCards.innerHTML = '';
   umState.players.forEach(function (p, index) {
     const card = createElement('div', ['undermurk-player-card'], umEls.playerStripCards);
-    if (index === umState.currentIndex && !p.eliminated) {
+    if (index === highlightedIndex && !p.eliminated) {
       card.classList.add('undermurk-player-card--active');
     }
     if (p.eliminated) {
@@ -455,6 +661,10 @@ function umUpdateHUD() {
 function umHideOverlay(name) {
   if (umEls[name]) {
     umEls[name].classList.add('undermurk-overlay--hidden');
+  }
+
+  if (name === 'interstitial' && umEls.interstitialPanel) {
+    umEls.interstitialPanel.classList.remove('undermurk-overlay__panel--enter');
   }
 }
 
@@ -520,7 +730,6 @@ function umShowEndScreen(victory) {
   umStopTimer();
   umLocked = true;
   umHideOverlay('interstitial');
-  umHideOverlay('tierBanner');
   umEls.questionArea.classList.add('undermurk-question--hidden');
 
   umEls.endTitle.textContent = victory ? 'Victory!' : 'Game Over';
@@ -567,27 +776,51 @@ function umAdvanceTier(callback) {
   player.cleared = 0;
   player.isBossRoundComplete = false;
   umSetTierBackground(player.tier);
-  umShowTierBanner(player.tier, callback);
+  umShowTierBackgroundInstantly();
+  umUpdateHUD();
+  umSlideInPending = true;
+  if (callback) {
+    callback();
+  }
 }
 
-function umShowTierBanner(tier, callback) {
-  umEls.tierBannerTitle.textContent = 'Undermurk Level ' + tier;
-  umShowOverlay('tierBanner');
-  umUpdateHUD();
+function umSlideInInterstitialPanel() {
+  if (!umEls.interstitialPanel) {
+    umShowOverlay('interstitial');
+    return;
+  }
 
-  setTimeout(function () {
-    umHideOverlay('tierBanner');
-    if (callback) {
-      callback();
+  umEls.interstitialPanel.classList.remove('undermurk-overlay__panel--enter');
+  umShowOverlay('interstitial');
+
+  requestAnimationFrame(function () {
+    umEls.interstitialPanel.classList.add('undermurk-overlay__panel--enter');
+
+    function onEnterEnd(event) {
+      if (event.target !== umEls.interstitialPanel || event.animationName !== 'undermurk-overlay-panel-in') {
+        return;
+      }
+
+      umEls.interstitialPanel.removeEventListener('animationend', onEnterEnd);
+      umEls.interstitialPanel.classList.remove('undermurk-overlay__panel--enter');
     }
-  }, 1800);
+
+    umEls.interstitialPanel.addEventListener('animationend', onEnterEnd);
+  });
 }
 
 function umShowInterstitialPanel(heading, player, callback) {
   umEls.interstitialHeading.textContent = heading;
   umEls.interstitialName.textContent = player.name;
-  umShowOverlay('interstitial');
+  if (umEls.interstitialAvatar) {
+    if (player.asset) {
+      umEls.interstitialAvatar.style.backgroundImage = 'url(assets/player/' + player.asset + ')';
+    } else {
+      umEls.interstitialAvatar.style.backgroundImage = '';
+    }
+  }
   umUpdateHUD();
+  umDimTierBackground();
 
   function onStart() {
     umEls.interstitialStart.removeEventListener('click', onStart);
@@ -599,6 +832,7 @@ function umShowInterstitialPanel(heading, player, callback) {
   }
 
   umEls.interstitialStart.addEventListener('click', onStart);
+  umSlideInInterstitialPanel();
 }
 
 function umShowFirstUp(player, callback) {
@@ -625,8 +859,7 @@ function umStartTimer() {
   umUpdateHUD();
   umUpdateTimerAppearance();
 
-  umEls.timerFill.style.transition = 'none';
-  umEls.timerFill.style.width = '100%';
+  umResetTimerFill();
   void umEls.timerFill.offsetWidth;
   umEls.timerFill.style.transition = 'width ' + umState.timeTotal + 's linear';
   umEls.timerFill.style.width = '0%';
@@ -668,6 +901,7 @@ function umRenderQuestion(prepareHidden) {
   });
 
   umEls.questionArea.classList.remove('undermurk-question--enter', 'undermurk-question--wrong-out', 'undermurk-question--low-time');
+  umResetTimerFill();
   if (prepareHidden) {
     umEls.questionArea.classList.add('undermurk-question--hidden');
   } else {
@@ -686,6 +920,8 @@ function umSlideInQuestion(callback) {
     }
     return;
   }
+
+  umDimTierBackground();
 
   umEls.questionArea.classList.remove('undermurk-question--hidden');
   umEls.questionArea.classList.add('undermurk-question--enter');
@@ -754,6 +990,7 @@ function umAfterWrongAnswer() {
 
 function umAfterTurnChange(callback) {
   umSetTierBackground(umCurrentPlayer().tier);
+  umShowTierBackgroundInstantly();
 
   if (settings.playerCount > 1 && umNeedsInterstitial) {
     umNeedsInterstitial = false;
@@ -866,6 +1103,7 @@ function umHandleTimeout() {
 
 function umBuildDOM() {
   umRoot = createElement('div', ['undermurk-game'], splashContainerWrapper);
+  umEls.tierBackground = createElement('div', ['undermurk-tier-background'], umRoot);
   umSetTierBackground(1);
 
   umEls.hud = createElement('div', ['undermurk-hud'], umRoot, 'undermurk-hud');
@@ -893,17 +1131,16 @@ function umBuildDOM() {
   umEls.timerFill = createElement('div', ['undermurk-timer__fill'], umEls.timerWrap);
 
   umEls.interstitial = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
-  const interstitialPanel = createElement('div', ['undermurk-overlay__panel'], umEls.interstitial);
-  umEls.interstitialHeading = createElement('p', ['undermurk-overlay__heading'], interstitialPanel);
+  umEls.interstitialPanel = createElement('div', ['undermurk-overlay__panel'], umEls.interstitial);
+  const interstitialPanel = umEls.interstitialPanel;
+  umEls.interstitialContent = createElement('div', ['undermurk-overlay__panel-content'], interstitialPanel);
+  umEls.interstitialAvatar = createElement('div', ['undermurk-overlay__avatar'], interstitialPanel);
+  umEls.interstitialHeading = createElement('p', ['undermurk-overlay__heading'], umEls.interstitialContent);
   umEls.interstitialHeading.textContent = 'Next Up';
-  umEls.interstitialName = createElement('p', ['undermurk-overlay__title'], interstitialPanel);
-  umEls.interstitialStart = createElement('button', ['undermurk-overlay__button'], interstitialPanel);
+  umEls.interstitialName = createElement('p', ['undermurk-overlay__title'], umEls.interstitialContent);
+  umEls.interstitialStart = createElement('button', ['undermurk-overlay__button'], umEls.interstitialContent);
   umEls.interstitialStart.textContent = 'Start';
   setIpadActiveState(umEls.interstitialStart);
-
-  umEls.tierBanner = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
-  const tierBannerPanel = createElement('div', ['undermurk-overlay__panel'], umEls.tierBanner);
-  umEls.tierBannerTitle = createElement('p', ['undermurk-overlay__title'], tierBannerPanel);
 
   umEls.end = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
   const endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
@@ -939,12 +1176,18 @@ function umResetState(characters) {
   umIsFirstTurn = true;
   umIndicatorPositioned = false;
   umIndicatorEntrancePending = false;
+  umLastIndicatorPlayerIndex = null;
   umSlideInPending = false;
+  umTierBackgroundTier = null;
+  umTierBackgroundDimmed = false;
+  umTierBackgroundRevealed = false;
 
   if (umIndicatorEntranceTimeoutId) {
     clearTimeout(umIndicatorEntranceTimeoutId);
     umIndicatorEntranceTimeoutId = null;
   }
+
+  umClearIndicatorSwitchTimeout();
 
   umState = {
     players: umBuildPlayers(characters),
@@ -965,33 +1208,50 @@ function umResetState(characters) {
   }
 }
 
-function umAnimateEntrance() {
+function umAnimateEntrance(onComplete) {
   if (!umEls.frame || !umEls.playerStrip || !umEls.tierBlock) {
+    if (onComplete) {
+      onComplete();
+    }
     return;
   }
 
   requestAnimationFrame(function () {
     umEls.frame.classList.add('undermurk-frame--enter');
-    umEls.frame.style.animationDelay = umEntranceTiming.frameDelay + 'ms';
+    umEls.frame.style.animationDelay = umFrameEntranceStartMs() + 'ms';
     umEls.frame.style.animationDuration = umEntranceTiming.frameDuration + 'ms';
 
     umEls.playerStrip.classList.add('undermurk-player-strip--enter');
-    umEls.playerStrip.style.animationDelay = umEntranceTiming.stripDelay + 'ms';
+    umEls.playerStrip.style.animationDelay = umStripEntranceStartMs() + 'ms';
     umEls.playerStrip.style.animationDuration = umEntranceTiming.stripDuration + 'ms';
 
-    const tierBlockDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration + umEntranceTiming.tierBlockDelay;
-
-    umEls.tierBlock.classList.add('undermurk-tier-block--enter');
-    umEls.tierBlock.style.animationDelay = tierBlockDelay + 'ms';
-    umEls.tierBlock.style.animationDuration = umEntranceTiming.tierBlockDuration + 'ms';
-
-    const cardBaseDelay = umEntranceTiming.stripDelay + umEntranceTiming.stripDuration;
     const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
     for (let i = 0; i < cards.length; i++) {
       cards[i].classList.add('undermurk-player-card--enter');
-      cards[i].style.animationDelay = (cardBaseDelay + i * umEntranceTiming.cardStagger) + 'ms';
+      cards[i].style.animationDelay = umCardEntranceStartMs(i) + 'ms';
       cards[i].style.animationDuration = umEntranceTiming.cardDuration + 'ms';
     }
+
+    if (umEls.tierBackground) {
+      umEls.tierBackground.classList.add('undermurk-tier-background--enter');
+      umEls.tierBackground.style.animationDelay = umTierBackgroundEntranceStartMs(cards.length) + 'ms';
+      umEls.tierBackground.style.animationDuration = umEntranceTiming.tierBackgroundDuration + 'ms';
+
+      function onTierBackgroundEnterEnd(event) {
+        if (event.target !== umEls.tierBackground || event.animationName !== 'undermurk-tier-background-in') {
+          return;
+        }
+
+        umEls.tierBackground.removeEventListener('animationend', onTierBackgroundEnterEnd);
+        umTierBackgroundRevealed = true;
+      }
+
+      umEls.tierBackground.addEventListener('animationend', onTierBackgroundEnterEnd);
+    }
+
+    umEls.tierBlock.classList.add('undermurk-tier-block--enter');
+    umEls.tierBlock.style.animationDelay = umTierBlockEntranceStartMs(cards.length) + 'ms';
+    umEls.tierBlock.style.animationDuration = umEntranceTiming.tierBlockDuration + 'ms';
 
     if (umIndicatorEntranceTimeoutId) {
       clearTimeout(umIndicatorEntranceTimeoutId);
@@ -1002,10 +1262,13 @@ function umAnimateEntrance() {
       umEls.playerIndicator.classList.remove('undermurk-player-indicator--enter');
     }
 
-    const indicatorStart = umLastCardEntranceEndMs(cards.length) + umEntranceTiming.indicatorDelay;
+    const indicatorStart = umIndicatorEntranceStartMs(cards.length);
     umIndicatorEntranceTimeoutId = setTimeout(function () {
       umIndicatorEntranceTimeoutId = null;
       umRevealPlayerIndicator();
+      if (onComplete) {
+        setTimeout(onComplete, umFirstUpEntranceDelayMs());
+      }
     }, indicatorStart);
   });
 }
@@ -1027,10 +1290,8 @@ function initUndermurkGame(characters) {
   umUpdateHUD();
   updateElementSize();
   updateLineThickness();
-  umAnimateEntrance();
-
-  umShowFirstUp(umCurrentPlayer(), function () {
-    umShowTierBanner(umCurrentPlayer().tier, function () {
+  umAnimateEntrance(function () {
+    umShowFirstUp(umCurrentPlayer(), function () {
       umBeginTurn();
     });
   });

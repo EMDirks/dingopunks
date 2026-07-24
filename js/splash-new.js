@@ -1326,12 +1326,11 @@ function addCutscene(cutsceneIndex,section){
       }
     }
     else if (section === 'undermurkIntro') {
-      toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
-      toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--fade');
-      setTimeout(function () {
-        splashContainerWrapper.querySelectorAll('*').forEach(function (c) { c.remove(); });
-        initUndermurkGame(playerCharacters.slice());
-      }, 400);
+      finishUndermurkIntroCutscene({
+        nextButton: cutsceneNextButton,
+        textBox: cutsceneTextBox,
+        skipText: cutsceneSkipText,
+      });
     }
     else if (section === "outro" || section === "fail") {
       document.querySelector(".activity").style.display = "none";
@@ -1390,12 +1389,11 @@ function addCutscene(cutsceneIndex,section){
         createCodeBox();
       }
       else if (section === 'undermurkIntro') {
-        toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
-        toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new', 'cutscene-text-box--hidden--fade');
-        setTimeout(function () {
-          splashContainerWrapper.querySelectorAll('*').forEach(function (c) { c.remove(); });
-          initUndermurkGame(playerCharacters.slice());
-        }, 400);
+        finishUndermurkIntroCutscene({
+          nextButton: cutsceneNextButton,
+          textBox: cutsceneTextBox,
+          skipText: cutsceneSkipText,
+        });
       }
     });
   }
