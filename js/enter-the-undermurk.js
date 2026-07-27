@@ -236,6 +236,7 @@ let umSlideInPending = false;
 let umTierBackgroundTier = null;
 let umTierBackgroundDimmed = false;
 let umTierBackgroundRevealed = false;
+let umTierTransitionTimeoutId = null;
 
 const umEls = {};
 
@@ -264,6 +265,15 @@ const umEntranceTiming = {
 const umQuestionTiming = {
   enterDuration: 400,
   wrongOutDuration: 700,
+};
+
+// Tier-change reveal timing (ms). Applied in umPlayTierTransition().
+const umTierTransitionTiming = {
+  questionOutDuration: 250,
+  oldArtFadeDuration: 250,
+  blankHoldDuration: 150,
+  artInDuration: 400,
+  artHoldDuration: 500,
 };
 
 const umTierNames = [
@@ -429,6 +439,122 @@ function umDimTierBackground() {
   umEls.tierBackground.style.animationDelay = '';
   umEls.tierBackground.style.animationDuration = '';
   umApplyTierBackgroundDimState();
+}
+
+function umClearTierTransitionTimeout() {
+  if (umTierTransitionTimeoutId) {
+    clearTimeout(umTierTransitionTimeoutId);
+    umTierTransitionTimeoutId = null;
+  }
+}
+
+function umPlayTierTransition(tier, done) {
+  umClearTierTransitionTimeout();
+
+  const bg = umEls.tierBackground;
+  const question = umEls.questionArea;
+  const t = umTierTransitionTiming;
+
+  function fadeOutOldArt(next) {
+    if (!bg) {
+      next();
+      return;
+    }
+
+    bg.classList.remove('undermurk-tier-background--enter');
+    bg.style.animationDelay = '';
+    bg.style.animationDuration = '';
+    bg.style.transform = 'scale(1)';
+    bg.style.opacity = umTierBackgroundDimmed ? '0.2' : '1';
+    bg.classList.remove('undermurk-tier-background--dimmed');
+    umTierBackgroundDimmed = false;
+
+    void bg.offsetWidth;
+
+    bg.style.transition = 'opacity ' + t.oldArtFadeDuration + 'ms ease';
+    bg.style.opacity = '0';
+
+    umTierTransitionTimeoutId = setTimeout(function () {
+      umTierTransitionTimeoutId = null;
+      next();
+    }, t.oldArtFadeDuration + t.blankHoldDuration);
+  }
+
+  function revealNewArt() {
+    if (!bg) {
+      umSlideInPending = true;
+      if (done) {
+        done();
+      }
+      return;
+    }
+
+    bg.style.transition = 'none';
+    bg.style.opacity = '0';
+    bg.style.transform = 'scale(2)';
+    bg.style.backgroundImage = 'url(' + umTierBackgroundPath(tier) + ')';
+    umTierBackgroundTier = tier;
+    umTierBackgroundDimmed = false;
+    umTierBackgroundRevealed = false;
+
+    void bg.offsetWidth;
+
+    bg.style.transition = '';
+    bg.style.opacity = '';
+    bg.style.transform = '';
+    bg.classList.add('undermurk-tier-background--enter');
+    bg.style.animationDuration = t.artInDuration + 'ms';
+    bg.style.animationDelay = '0ms';
+
+    umUpdateHUD();
+
+    function onArtInEnd(event) {
+      if (event.target !== bg || event.animationName !== 'undermurk-tier-background-in') {
+        return;
+      }
+
+      bg.removeEventListener('animationend', onArtInEnd);
+      bg.style.transform = 'scale(1)';
+      bg.classList.remove('undermurk-tier-background--enter');
+      bg.style.animationDuration = '';
+      bg.style.animationDelay = '';
+      umTierBackgroundRevealed = true;
+      umApplyTierBackgroundDimState();
+
+      umTierTransitionTimeoutId = setTimeout(function () {
+        umTierTransitionTimeoutId = null;
+        umSlideInPending = true;
+        if (done) {
+          done();
+        }
+      }, t.artHoldDuration);
+    }
+
+    bg.addEventListener('animationend', onArtInEnd);
+  }
+
+  function afterQuestionOut(next) {
+    if (!question || question.classList.contains('undermurk-question--hidden')) {
+      next();
+      return;
+    }
+
+    question.classList.remove('undermurk-question--enter', 'undermurk-question--wrong-out');
+    question.style.transition = 'opacity ' + t.questionOutDuration + 'ms ease';
+    question.classList.add('undermurk-question--fade-out');
+
+    umTierTransitionTimeoutId = setTimeout(function () {
+      umTierTransitionTimeoutId = null;
+      question.classList.remove('undermurk-question--fade-out');
+      question.style.transition = '';
+      question.classList.add('undermurk-question--hidden');
+      next();
+    }, t.questionOutDuration);
+  }
+
+  afterQuestionOut(function () {
+    fadeOutOldArt(revealNewArt);
+  });
 }
 
 function umBindIndicatorResize() {
@@ -618,9 +744,9 @@ function umUpdateHUD() {
   }
 
   const player = umCurrentPlayer();
-  const bossLabel = player.cleared >= 5 && !player.isBossRoundComplete ? ' — BOSS' : '';
-  umEls.tierLabel.textContent = 'Undermurk Level ' + player.tier + bossLabel;
-  umEls.tierName.textContent = umTierName(player.tier);
+  const displayTier = umTierBackgroundTier || player.tier;
+  umEls.tierLabel.textContent = 'Undermurk Level ' + displayTier;
+  umEls.tierName.textContent = umTierName(displayTier);
 
   const highlightedIndex = umHighlightedPlayerIndex();
   umEls.playerStripCards.innerHTML = '';
@@ -775,8 +901,6 @@ function umAdvanceTier(callback) {
   player.tier += 1;
   player.cleared = 0;
   player.isBossRoundComplete = false;
-  umSetTierBackground(player.tier);
-  umShowTierBackgroundInstantly();
   umUpdateHUD();
   umSlideInPending = true;
   if (callback) {
@@ -989,18 +1113,29 @@ function umAfterWrongAnswer() {
 }
 
 function umAfterTurnChange(callback) {
-  umSetTierBackground(umCurrentPlayer().tier);
-  umShowTierBackgroundInstantly();
+  const player = umCurrentPlayer();
+  const targetTier = player.tier;
 
-  if (settings.playerCount > 1 && umNeedsInterstitial) {
-    umNeedsInterstitial = false;
-    umShowInterstitial(umCurrentPlayer(), callback);
+  function proceed() {
+    if (settings.playerCount > 1 && umNeedsInterstitial) {
+      umNeedsInterstitial = false;
+      umShowInterstitial(player, callback);
+      return;
+    }
+
+    if (callback) {
+      callback();
+    }
+  }
+
+  if (umTierBackgroundTier !== targetTier) {
+    umPlayTierTransition(targetTier, proceed);
     return;
   }
 
-  if (callback) {
-    callback();
-  }
+  umSetTierBackground(targetTier);
+  umShowTierBackgroundInstantly();
+  proceed();
 }
 
 function umBeginTurn() {
@@ -1188,6 +1323,7 @@ function umResetState(characters) {
   }
 
   umClearIndicatorSwitchTimeout();
+  umClearTierTransitionTimeout();
 
   umState = {
     players: umBuildPlayers(characters),
