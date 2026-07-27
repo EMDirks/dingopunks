@@ -85,6 +85,7 @@ body {
     overflow: hidden;
     border-radius: 2vmin;
     font-family: var(--undermurk-font);
+    z-index: 1;
 }
 
 .undermurk-tier-background {
@@ -104,6 +105,49 @@ body {
 .undermurk-tier-background--dimmed {
     opacity: 0.2;
     transform: scale(1);
+}
+
+.undermurk-tier-background--revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes undermurk-tier-background-out {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
+@keyframes undermurk-tier-background-out-dimmed {
+    from {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
+.undermurk-tier-background--exit {
+    opacity: 1;
+    transform: scale(1);
+    animation-name: undermurk-tier-background-out;
+    animation-duration: var(--um-tier-exit-duration, 500ms);
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-tier-background--exit.undermurk-tier-background--exit-from-dimmed {
+    opacity: 0.2;
+    animation-name: undermurk-tier-background-out-dimmed;
 }
 
 #undermurk-hud {
@@ -142,6 +186,46 @@ body {
     padding: 1cqi 1cqi;
     border-radius: 1cqi;
     width: 20cqi;
+}
+
+@keyframes undermurk-tier-text-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+}
+
+@keyframes undermurk-tier-text-in {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.undermurk-tier-block__content--exit {
+    animation-name: undermurk-tier-text-out;
+    animation-duration: var(--um-tier-text-out-duration, 500ms);
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-tier-block__content--enter {
+    opacity: 0;
+    transform: translateY(100%);
+    animation-name: undermurk-tier-text-in;
+    animation-duration: var(--um-tier-text-in-duration, 500ms);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 .undermurk-tier-block__content .undermurk-hud__tier,
@@ -195,6 +279,8 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
+    z-index: 6;
+    pointer-events: none;
 }
 
 .undermurk-player-strip__cards {
@@ -604,12 +690,14 @@ body {
 .undermurk-frame {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     background-image: url('../assets/enter-the-undermurk/ui/frame.png');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     pointer-events: none;
-    z-index: 10;
+    z-index: 2;
     transform-origin: center center;
     transform: scale(2);
 }
@@ -682,7 +770,7 @@ body {
     transform: translateY(-80%);
     opacity: 0;
     animation-name: undermurk-overlay-panel-in;
-    animation-duration: 200ms;
+    animation-duration: 300ms;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
