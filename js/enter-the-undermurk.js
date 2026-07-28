@@ -795,8 +795,16 @@ function umPlayerSwitchDelayPending() {
 }
 
 function umHighlightedPlayerIndex() {
+  if (umIndicatorEntrancePending) {
+    return null;
+  }
+
   if (umPlayerSwitchDelayPending()) {
     return umLastIndicatorPlayerIndex;
+  }
+
+  if (umLastIndicatorPlayerIndex === null) {
+    return null;
   }
 
   return umState.currentIndex;
@@ -1577,6 +1585,7 @@ function initUndermurkGame(characters) {
 
   umBuildDOM();
   umSetTierBackground(umCurrentPlayer().tier);
+  umIndicatorEntrancePending = true;
   umUpdateHUD();
   updateElementSize();
   updateLineThickness();
