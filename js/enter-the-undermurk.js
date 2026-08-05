@@ -2,69 +2,69 @@
 //
 // Reuses the main game's splash scaffolding (global.js + splash-new.js). This file
 // adds the bits unique to the minigame:
-//   1. A player-count setup step (How many players?).
+//   1. A setup step (players, lives, speed).
 //   2. The "Play now" ready state and hand-off to the minigame.
 //   3. The full minigame engine (initUndermurkGame and helpers).
 
-// Always null — Undermurk always starts at the player-count settings step.
-// The debrief URL slug is preserved in the address bar for View Score navigation
-// but is not used to preselect characters or skip setup.
-let undermurkPreselectedCharacters = null;
+const umSpeedMultipliers = {
+  Slow: 1.5,
+  Normal: 1,
+  Fast: 0.5,
+  Reckless: 0.25,
+};
 
-// Player-count-only setup step (no slug path). Mirrors the main game's tab styling.
-function addUndermurkSetup() {
-  splashTitle.innerHTML = 'How many players?';
+function umUndermurkSetupComplete() {
+  return settings.playerCount && settings.lives && settings.speed;
+}
 
-  const inputContainer = createElement('div', ['splash-setup-input-container', 'splash-setup-input-container--undermurk'], splashContent);
-  const tabRow = createElement('div', ['tab-row'], inputContainer);
-  const tabText = createElement('p', ['tab-text', 'splash-p'], tabRow);
-  tabText.innerHTML = 'Players';
-  const tabContainer = createElement('div', ['tab-container'], tabRow);
-
-  const counts = [1, 2, 3, 4, 5];
-
-  for (let i = 0; i < counts.length; i++) {
-    const tabButton = createElement('button', ['tab-button', 'tab-button-player-count-', 'tab-button--unselected'], tabContainer, 'tab-button-player-count-' + i);
-    setIpadActiveState(tabButton);
-    tabButton.textContent = counts[i];
-    tabButton.addEventListener('click', function () {
-      const tabButtons = document.querySelectorAll('.tab-button-player-count-');
-      tabButtons.forEach(function (button) {
-        toggleClass(button, 'tab-button--selected', 'tab-button--unselected');
-      });
-      toggleClass(tabButton, 'tab-button--unselected', 'tab-button--selected');
-      settings.playerCount = counts[i];
-      debriefStats.teamSize = counts[i];
-      splashButton.textContent = 'Next';
-      setTimeout(toggleClass, 200, splashButton, 'splash-button--hidden', 'splash-button--visible');
-    });
+function umMaybeShowSetupNext() {
+  if (umUndermurkSetupComplete()) {
+    splashButton.textContent = 'Next';
+    setTimeout(toggleClass, 200, splashButton, 'splash-button--hidden', 'splash-button--visible');
   }
+}
+
+// Setup step: players, lives, and speed. Mirrors the main game's tab styling.
+function addUndermurkSetup() {
+  splashTitle.innerHTML = 'Set up your game.';
+
+  settings.playerCount = null;
+  settings.lives = null;
+  settings.speed = null;
+
+  const inputContainer = createElement('div', ['splash-setup-input-container'], splashContent);
+
+  function createUndermurkTabs(options, label, classPrefix, settingKey) {
+    const tabRow = createElement('div', ['tab-row'], inputContainer);
+    const tabText = createElement('p', ['tab-text', 'splash-p'], tabRow);
+    tabText.innerHTML = label;
+    const tabContainer = createElement('div', ['tab-container'], tabRow);
+
+    for (let i = 0; i < options.length; i++) {
+      const tabButton = createElement('button', ['tab-button', classPrefix, 'tab-button--unselected'], tabContainer, classPrefix + i);
+      setIpadActiveState(tabButton);
+      tabButton.textContent = options[i];
+      tabButton.addEventListener('click', function () {
+        const tabButtons = document.querySelectorAll('.' + classPrefix);
+        tabButtons.forEach(function (button) {
+          toggleClass(button, 'tab-button--selected', 'tab-button--unselected');
+        });
+        toggleClass(tabButton, 'tab-button--unselected', 'tab-button--selected');
+        settings[settingKey] = options[i];
+        if (settingKey === 'playerCount') {
+          debriefStats.teamSize = options[i];
+        }
+        umMaybeShowSetupNext();
+      });
+    }
+  }
+
+  createUndermurkTabs([1, 2, 3, 4, 5], 'Players', 'tab-button-undermurk-players-', 'playerCount');
+  createUndermurkTabs([1, 2, 3], 'Lives', 'tab-button-undermurk-lives-', 'lives');
+  createUndermurkTabs(['Slow', 'Normal', 'Fast', 'Reckless'], 'Speed', 'tab-button-undermurk-speed-', 'speed');
 
   updateElementSize();
   updateLineThickness();
-}
-
-// "Select New Characters": clear the team and return to the player-count step.
-function resetUndermurkSelection() {
-  undermurkPreselectedCharacters = null;
-  playerCharacters.length = 0;
-  characterArray.forEach(function (character) {
-    character.selected = false;
-  });
-  settings.playerCount = null;
-  debriefStats.teamSize = 0;
-
-  toggleClass(splashContainer, 'splash-container--center', 'splash-container--off-left');
-
-  setTimeout(function () {
-    const childrenToRemove = splashContainerWrapper.querySelectorAll('*');
-    childrenToRemove.forEach(function (child) {
-      child.remove();
-    });
-    splashIndex = 0;
-    setContainerSize();
-    setTimeout(drawSplash, 200);
-  }, splashTransitionDuration);
 }
 
 let cutscene = {
@@ -304,7 +304,9 @@ function umTierName(tier) {
 }
 
 function tierTime(tier) {
-  return 21 - tier;
+  const base = 21 - tier;
+  const multiplier = umSpeedMultipliers[settings.speed] || 1;
+  return base * multiplier;
 }
 
 function umShuffle(list) {
@@ -332,7 +334,7 @@ function umBuildPlayers(characters) {
     return {
       name: name,
       asset: umGetCharacterAsset(name),
-      lives: 3,
+      lives: settings.lives,
       score: 0,
       eliminated: false,
       tier: 1,
@@ -372,6 +374,18 @@ function umResetTimerFill() {
   umEls.timerFill.style.width = '100%';
 }
 
+function umPauseTimerFill() {
+  if (!umEls.timerFill || !umEls.timerWrap) {
+    return;
+  }
+
+  const fillRect = umEls.timerFill.getBoundingClientRect();
+  const wrapRect = umEls.timerWrap.getBoundingClientRect();
+  const percent = wrapRect.width > 0 ? (fillRect.width / wrapRect.width * 100) : 100;
+  umEls.timerFill.style.transition = 'none';
+  umEls.timerFill.style.width = percent + '%';
+}
+
 function umStopTimer() {
   if (umState && umState.timerId) {
     clearTimeout(umState.timerId);
@@ -381,7 +395,6 @@ function umStopTimer() {
     clearInterval(umState.timerTickId);
     umState.timerTickId = null;
   }
-  umResetTimerFill();
   if (umEls.questionArea) {
     umEls.questionArea.classList.remove('undermurk-question--low-time');
   }
@@ -919,7 +932,7 @@ function umUpdateHUD() {
 
     const livesEl = createElement('div', ['undermurk-player-card__lives'], info);
     livesEl.setAttribute('aria-label', p.lives + ' lives');
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < settings.lives; i++) {
       const heart = createElement('span', ['undermurk-player-card__heart'], livesEl);
       if (i >= p.lives) {
         heart.classList.add('undermurk-player-card__heart--lost');
@@ -1416,6 +1429,7 @@ function umHandleAnswer(selectedWord) {
 
   umLocked = true;
   umStopTimer();
+  umPauseTimerFill();
 
   const player = umCurrentPlayer();
   const isBoss = player.cleared >= 5;
@@ -1464,6 +1478,7 @@ function umHandleTimeout() {
 
   umLocked = true;
   umStopTimer();
+  umPauseTimerFill();
 
   const player = umCurrentPlayer();
   player.lives -= 1;

@@ -1,4 +1,4 @@
-const theme = "summer";
+const theme = "back_to_school";
 /** Theme key → background + optional character img (root-relative paths) */
 const themeAssets = {
   all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
@@ -18,6 +18,14 @@ const themeAssets = {
   st_patricks: { background: 'resource/rainbow-rescue/assets/cutscene/main.png' },
   easter: { background: 'resource/eggworld-emergency/assets/cutscene/main.png' },
   end_of_year: { background: 'resource/final-bell-breakout/assets/cutscene/main.png' },
+  back_to_school: {
+    background: 'resource/paradise-panic/assets/cutscene/main.png',
+    character: 'resource/paradise-panic/assets/cutscene/badguy.png',
+    text: 'The ferry is leaving soon!',
+    button: 'Back to School Escape Rooms →',
+    link: 'https://dingopunks.com/collections/back-to-school-escape-rooms',
+    alert: 'News',
+  },
   halloween: { background: 'resource/funhouse-fright/assets/cutscene/main.png' },
   thanksgiving: { background: 'resource/turkey-takedown/assets/cutscene/main.png' },
   christmas: { background: 'resource/wacky-workshop/assets/cutscene/main.png' },

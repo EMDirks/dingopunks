@@ -96,12 +96,7 @@ function drawSplash(){
   }
 
   if (isUndermurkPage){
-    // Enter the Undermurk! reuses the character-select step. When characters are
-    // carried over via the ?characters URL slug we jump straight to it; otherwise
-    // players pick a team size first.
-    splashOrder = undermurkPreselectedCharacters
-      ? [addCharacter]
-      : [addUndermurkSetup, addCharacter];
+    splashOrder = [addUndermurkSetup, addCharacter];
   }
 
   // create html
@@ -1059,9 +1054,7 @@ function addCharacter(){
   // create elements
   const characterSelectContainer = createElement("div", ["character-select-container","state-pointer-events-none"],splashContent);
   let playerNum = 1;
-  if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
-    splashTitle.innerHTML = 'Same players?';
-  } else if (settings.wholeClass) {
+  if (settings.wholeClass) {
     splashTitle.innerHTML = '<span class="character-select-text-player">Teacher,</span> choose your character.';
   } else {
     splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
@@ -1082,11 +1075,7 @@ function addCharacter(){
     }
   }
   function changeText(){
-    if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
-      splashTitle.textContent = 'Same players?';
-    } else {
-      splashTitle.textContent = "All punks ready!";
-    }
+    splashTitle.textContent = "All punks ready!";
   }
 
   function enterReadyState(){
@@ -1103,31 +1092,7 @@ function addCharacter(){
     }
   }
 
-  // Enter the Undermurk! ready buttons.
-  // Preselected (slug) path: single "Start Game" button.
-  // Manual pick path: No/Yes row with reselect option.
   function addUndermurkReadyButtons(){
-    if (undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
-      const buttonRow = createElement('div', ['splash-button-row'], splashContainer);
-      splashButton.classList.add('splash-button--in-row');
-      buttonRow.appendChild(splashButton);
-      splashButton.textContent = 'Yes';
-
-      const reselectButton = createElement('button', ['splash-button','splash-button--secondary','splash-button--in-row','splash-button--hidden'], buttonRow);
-      buttonRow.insertBefore(reselectButton, splashButton);
-      reselectButton.textContent = 'No';
-      setIpadActiveState(reselectButton);
-      reselectButton.addEventListener('click', function(){
-        resetUndermurkSelection();
-      });
-
-      updateElementSize();
-      updateLineThickness();
-      setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
-      setTimeout(toggleClass,200,reselectButton,'splash-button--hidden','splash-button--visible');
-      return;
-    }
-
     splashButton.textContent = 'Start Game';
     setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
   }
@@ -1180,28 +1145,6 @@ function addCharacter(){
     });
   }
 
-  // Enter the Undermurk!: characters carried over via the URL slug are auto-selected,
-  // dropping players straight into the ready state once the buttons have animated in.
-  if (isUndermurkPage && undermurkPreselectedCharacters && undermurkPreselectedCharacters.length){
-    const preselectDelay = 300 + (characterArray.length * 40) + 500;
-    setTimeout(function applyPreselection(){
-      undermurkPreselectedCharacters.forEach(function(name){
-        const index = characterArray.findIndex(function(character){
-          return character.name === name && !character.selected;
-        });
-        if (index === -1) return;
-        const button = document.getElementById('character-select-button-' + index);
-        if (!button) return;
-        const image = button.querySelector('.character-select-button-image');
-        toggleClass(button, 'character-select-button--unselected', 'character-select-button--selected');
-        toggleClass(image, 'character-select-button-image--unselected', 'character-select-button-image--selected');
-        characterArray[index].selected = true;
-        playerCharacters.push(characterArray[index].name);
-      });
-      playerNum = settings.playerCount;
-      enterReadyState();
-    }, preselectDelay);
-  }
 }
 
 /////////

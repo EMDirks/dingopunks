@@ -77,7 +77,9 @@ let settings = {
   activityCount: null,
   timeLimit: null,
   hints: null,
-  rewards: null
+  rewards: null,
+  lives: null,
+  speed: null,
 }
 let debriefStats = {
   teamSize: 0,

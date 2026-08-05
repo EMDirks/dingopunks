@@ -1,7 +1,6 @@
 /* Enter the Undermurk! — entry screen.
    Reuses the main game's splash scaffolding (.site-container / .splash). These rules
-   only cover what is unique to the minigame entry: the player-count step centering
-   and the two-button "ready" row (Select New Characters + Enter the Undermurk!). */
+   only cover what is unique to the minigame entry setup step. */
 
 @font-face {
     font-family: 'Primer Print Bold';
@@ -19,47 +18,6 @@ body {
     font-family: var(--undermurk-font);
 }
    
-/* Center the lone player-count row within the setup area. */
-.splash-setup-input-container--undermurk {
-    justify-content: center;
-}
-
-/* Right-aligned button row. Full width so the splash font-scaling (which reads the
-   parent width) stays consistent with the single-button layout. */
-.splash-button-row {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    gap: 2%;
-    pointer-events: none;
-}
-
-/* Buttons sit in the flex row instead of being individually anchored bottom-right. */
-.splash-button--in-row {
-    position: static;
-    right: auto;
-    bottom: auto;
-}
-
-/* Secondary "Select New Characters" button: outlined gold rather than filled. */
-.splash-button--secondary {
-    background-color: transparent;
-    color: rgba(var(--gold), 1);
-    border: 0.4vmin solid rgba(var(--gold), 1);
-    padding: 0.3% 2.5% 0.7% 2.5%;
-}
-
-@media (hover: hover) {
-    .splash-button--secondary:hover {
-        background-color: rgba(var(--gold), 1);
-        color: rgba(var(--off-black), 1);
-    }
-}
-
 /* ---- Intro cutscene ---- */
 
 /* Step 1 sprite entrance: half the default -100% → 0% X travel. */
