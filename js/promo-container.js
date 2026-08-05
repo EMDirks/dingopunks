@@ -1,5 +1,5 @@
 const theme = "back_to_school";
-/** Theme key → background + optional character img (root-relative paths) */
+/** Theme key → background + optional character img + optional characterStyle (root-relative paths) */
 const themeAssets = {
   all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
   more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
@@ -21,9 +21,15 @@ const themeAssets = {
   back_to_school: {
     background: 'resource/paradise-panic/assets/cutscene/main.png',
     character: 'resource/paradise-panic/assets/cutscene/badguy.png',
-    text: 'The ferry is leaving soon!',
+    characterStyle: {
+      transform: 'scaleX(1)',
+      left: 'auto',
+      right: '-20%',
+      top: '-50%',
+    },
+    text: 'Can you escape paradise?',
     button: 'Back to School Escape Rooms →',
-    link: 'https://dingopunks.com/collections/back-to-school-escape-rooms',
+    link: 'https://dingopunks.com/collections/digital-back-to-school-escape-rooms',
     alert: 'News',
   },
   halloween: { background: 'resource/funhouse-fright/assets/cutscene/main.png' },
@@ -67,6 +73,9 @@ function renderPromoContainer(promoContainer, themeKey = theme, assetsMap = them
     const character = createElement('img', ['promo-container__character'], content);
     character.src = assets.character;
     character.alt = '';
+    if (assets.characterStyle) {
+      Object.assign(character.style, assets.characterStyle);
+    }
   }
 
   if (copy || assets.button) {
