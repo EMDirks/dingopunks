@@ -153,20 +153,20 @@ CONTINUED WORK (JUN 16 - JUL 31)
 - ✅ JUL 17 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
 - ✅ JUL 21 – State: Set up DBA
 - ✅ JUL 21 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
-- [ ] JUL 31 — Mailerlite: New BTS escape rooms completed and uploaded
-- [ ] JUL 31 — Shopify: Make code DINGO72 functional
+- ✅ JUL 28 – Google: Check Search Console weekly for crawl errors, redirect failures, ranking drops
+- ✅ JUL 31 — Mailerlite: New BTS escape rooms completed and uploaded
+- ✅ JUL 31 — Shopify: Make code DINGO72 functional
 
 CELEBRATION (AUG 01)
 
-- [ ] AUG 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
-- [ ] AUG 01 — All: Audit old references and citations
-- [ ] AUG 01 — Mailerlite: Celebration email goes out
-- [ ] AUG 01 — TPT: Celebration TPT note goes out
+- ✅ AUG 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
+- ✅ AUG 01 — All: Audit old references and citations
+- ✅ AUG 01 — Mailerlite: Celebration email goes out
+- ✅ AUG 01 — TPT: Celebration TPT note goes out
 
 MONITORING (AUG 02 — OCT 01)
 
-- [ ] AUG 02 — Google: Review ads performance and adjust strategy
+- ✅ AUG 02 — Google: Review ads performance and adjust strategy
 - [ ] AUG 14 — Google: Review ads performance and adjust strategy
 - [ ] SEP 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
 - [ ] SEP 01 — All: Audit old references and citations

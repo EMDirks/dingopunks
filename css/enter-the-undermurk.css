@@ -538,13 +538,25 @@ body {
 
 @keyframes undermurk-question-in {
     from {
-        transform: translate(-50%, calc(-50% - 80%));
+        transform: translate(calc(-50% + 80cqi), -50%);
         opacity: 0;
     }
 
     to {
         transform: translate(-50%, -50%);
         opacity: 1;
+    }
+}
+
+@keyframes undermurk-question-out {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    to {
+        transform: translate(calc(-50% - 80cqi), -50%);
+        opacity: 0;
     }
 }
 
@@ -585,10 +597,16 @@ body {
 }
 
 .undermurk-question--enter {
-    transform: translate(-50%, calc(-50% - 80%));
+    transform: translate(calc(-50% + 80cqi), -50%);
     opacity: 0;
     animation-name: undermurk-question-in;
     animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-question--out {
+    animation-name: undermurk-question-out;
+    animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
 
@@ -674,12 +692,15 @@ body {
     line-height: 1.15;
     cursor: pointer;
     font-family: var(--undermurk-font);
-    transition: background-color 0.3s ease;
 }
 
 @media (hover: hover) {
     .undermurk-option:hover {
         background-color: rgba(var(--off-white), 1);
+    }
+
+    .undermurk-option:active {
+        transform: scale(0.95);
     }
 
     .undermurk-question--wrong-out .undermurk-option:hover {
@@ -721,13 +742,25 @@ body {
     align-items: center;
     width: fit-content;
     border-radius: 2cqi;
-    margin-top: -4cqi;
     position: relative;
     box-sizing: border-box;
     padding:  0;
     border: 0.3cqi solid rgba(var(--off-black), 1);
     background-color: rgba(var(--off-black), 0.7);
     gap: 1cqi;
+}
+
+.undermurk-overlay__panel--interstitial {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.undermurk-overlay__panel--interstitial.undermurk-overlay__panel--hidden {
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .undermurk-overlay__avatar {
@@ -756,22 +789,41 @@ body {
 
 @keyframes undermurk-overlay-panel-in {
     from {
-        transform: translateY(-80%);
+        transform: translate(-50%, calc(-50% - 80%));
         opacity: 0;
     }
 
     to {
-        transform: translateY(0%);
+        transform: translate(-50%, -50%);
         opacity: 1;
     }
 }
 
 .undermurk-overlay__panel--enter {
-    transform: translateY(-80%);
+    transform: translate(-50%, calc(-50% - 80%));
     opacity: 0;
     animation-name: undermurk-overlay-panel-in;
     animation-duration: 300ms;
     animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes undermurk-overlay-panel-out {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    to {
+        transform: translate(-50%, calc(-50% + 80%));
+        opacity: 0;
+    }
+}
+
+.undermurk-overlay__panel--exit {
+    animation-name: undermurk-overlay-panel-out;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
 
@@ -821,6 +873,14 @@ body {
     width: 18cqi;
     box-sizing: border-box;
     border: 0.3cqi solid rgba(var(--off-black), 1);
+}
+
+.undermurk-overlay__button:hover {
+    background-color: rgba(var(--off-white), 1);
+}
+
+.undermurk-overlay__button:active {
+    transform: scale(0.95);
 }
 
 .undermurk-overlay__button--secondary {
