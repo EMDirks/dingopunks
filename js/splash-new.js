@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.66';
+const version = '3.4.67';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -442,19 +442,14 @@ function addAccess(){
   function addPromo() {
     const promoContainer = createElement('a', ['promo-container', 'promo-container--hidden'], splashContainer);
 
+    if (typeof renderPromoContainer === 'function') {
+      renderPromoContainer(promoContainer);
+    }
+
     setTimeout(function bringInPromo() {
-      const promoScript = document.createElement('script');
-      promoScript.type = 'text/javascript';
-      promoScript.src = 'js/promo-container.js?version=' + version;
-      promoScript.onload = function() {
-        if (typeof renderPromoContainer === 'function') {
-          renderPromoContainer(promoContainer);
-        }
-        toggleClass(promoContainer, 'promo-container--hidden', 'promo-container--visible');
-        updateElementHeight();
-        updateElementSize();
-      };
-      document.body.appendChild(promoScript);
+      toggleClass(promoContainer, 'promo-container--hidden', 'promo-container--visible');
+      updateElementHeight();
+      updateElementSize();
     }, promoDelay);
   }
 
