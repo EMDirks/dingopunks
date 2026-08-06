@@ -1046,6 +1046,14 @@ function addCharacter(){
   if (!isUndermurkPage){
     handlePreloading('onCharacterSelect');
   }
+
+  // clear any roster left over from a previous run (Undermurk's "Play Again" re-enters this step)
+  playerCharacters = [];
+  playerCharacterIndex = 0;
+  for (let i = 0; i < characterArray.length; i++) {
+    characterArray[i].selected = false;
+  }
+
   // create elements
   const characterSelectContainer = createElement("div", ["character-select-container","state-pointer-events-none"],splashContent);
   let playerNum = 1;
@@ -1122,6 +1130,10 @@ function addCharacter(){
     }
 
     characterSelectButton.addEventListener('click', function() {
+      // guard against double taps landing before the roster is locked
+      if (characterArray[i].selected || playerCharacters.length >= settings.playerCount) {
+        return;
+      }
       toggleClass(characterSelectButton, 'character-select-button--unselected', 'character-select-button--selected');
       toggleClass(characterSelectButtonImage, 'character-select-button-image--unselected', 'character-select-button-image--selected');
       characterArray[i].selected = true;

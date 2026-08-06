@@ -13,6 +13,18 @@ const umSpeedMultipliers = {
   Reckless: 0.25,
 };
 
+const umHeartSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+
+function umFillLivesTab(button, count) {
+  button.classList.add('tab-button--lives');
+  button.setAttribute('aria-label', count + ' lives');
+  const heartsWrap = createElement('span', ['tab-button__hearts'], button);
+  for (let h = 0; h < count; h++) {
+    const heart = createElement('span', ['tab-button__heart'], heartsWrap);
+    heart.innerHTML = umHeartSvg;
+  }
+}
+
 function umUndermurkSetupComplete() {
   return settings.playerCount && settings.lives && settings.speed;
 }
@@ -34,7 +46,7 @@ function addUndermurkSetup() {
 
   const inputContainer = createElement('div', ['splash-setup-input-container'], splashContent);
 
-  function createUndermurkTabs(options, label, classPrefix, settingKey) {
+  function createUndermurkTabs(options, label, classPrefix, settingKey, renderButtonContent) {
     const tabRow = createElement('div', ['tab-row'], inputContainer);
     const tabText = createElement('p', ['tab-text', 'splash-p'], tabRow);
     tabText.innerHTML = label;
@@ -43,7 +55,11 @@ function addUndermurkSetup() {
     for (let i = 0; i < options.length; i++) {
       const tabButton = createElement('button', ['tab-button', classPrefix, 'tab-button--unselected'], tabContainer, classPrefix + i);
       setIpadActiveState(tabButton);
-      tabButton.textContent = options[i];
+      if (renderButtonContent) {
+        renderButtonContent(tabButton, options[i]);
+      } else {
+        tabButton.textContent = options[i];
+      }
       tabButton.addEventListener('click', function () {
         const tabButtons = document.querySelectorAll('.' + classPrefix);
         tabButtons.forEach(function (button) {
@@ -60,7 +76,7 @@ function addUndermurkSetup() {
   }
 
   createUndermurkTabs([1, 2, 3, 4, 5], 'Players', 'tab-button-undermurk-players-', 'playerCount');
-  createUndermurkTabs([1, 2, 3], 'Lives', 'tab-button-undermurk-lives-', 'lives');
+  createUndermurkTabs([1, 2, 3], 'Lives', 'tab-button-undermurk-lives-', 'lives', umFillLivesTab);
   createUndermurkTabs(['Slow', 'Normal', 'Fast', 'Reckless'], 'Speed', 'tab-button-undermurk-speed-', 'speed');
 
   updateElementSize();
@@ -238,8 +254,10 @@ let umTierBackgroundTier = null;
 let umTierBackgroundDimmed = false;
 let umTierBackgroundRevealed = false;
 let umTierTransitionTimeoutId = null;
+let umTierTransitionRunId = 0;
 let umTierTransitionHudDelayPending = false;
 let umTierTransitionHudDelayTimeoutId = null;
+let umTierTransitionHudWatchdogTimeoutId = null;
 let umTierTransitionIndicatorSlide = false;
 
 const umEls = {};
@@ -473,6 +491,34 @@ function umClearTierTransitionHudDelayTimeout() {
   }
 }
 
+function umClearTierTransitionHudWatchdogTimeout() {
+  if (umTierTransitionHudWatchdogTimeoutId) {
+    clearTimeout(umTierTransitionHudWatchdogTimeoutId);
+    umTierTransitionHudWatchdogTimeoutId = null;
+  }
+}
+
+function umTierTransitionHudWatchdogDelayMs() {
+  const t = umTierTransitionTiming;
+  return umQuestionTiming.outDuration
+    + t.oldArtFadeDuration
+    + t.blankHoldDuration
+    + t.indicatorDelay
+    + 500;
+}
+
+function umArmTierTransitionHudWatchdog() {
+  umClearTierTransitionHudWatchdogTimeout();
+  umTierTransitionHudWatchdogTimeoutId = setTimeout(function () {
+    umTierTransitionHudWatchdogTimeoutId = null;
+    if (!umTierTransitionHudDelayPending) {
+      return;
+    }
+
+    umCompleteTierTransitionHudUpdate();
+  }, umTierTransitionHudWatchdogDelayMs());
+}
+
 function umClearStartDelayTimeout() {
   if (umStartDelayTimeoutId) {
     clearTimeout(umStartDelayTimeoutId);
@@ -496,6 +542,7 @@ function umBeginTierTransitionHudDelay(targetTier) {
     umTierTransitionHudDelayPending = true;
   }
 
+  umArmTierTransitionHudWatchdog();
   return true;
 }
 
@@ -560,6 +607,7 @@ function umFadeInTierBlockText(tier, durationMs) {
 }
 
 function umCompleteTierTransitionHudUpdate() {
+  umClearTierTransitionHudWatchdogTimeout();
   umTierTransitionHudDelayPending = false;
   umTierTransitionIndicatorSlide = true;
   umUpdateHUD();
@@ -582,6 +630,11 @@ function umScheduleTierTransitionHudUpdate() {
 function umPlayTierTransition(tier, done) {
   umClearTierTransitionTimeout();
   umBeginTierTransitionHudDelay(tier);
+  const runId = ++umTierTransitionRunId;
+
+  function isCurrentRun() {
+    return runId === umTierTransitionRunId;
+  }
 
   const bg = umEls.tierBackground;
   const t = umTierTransitionTiming;
@@ -614,6 +667,11 @@ function umPlayTierTransition(tier, done) {
     }
 
     function onExitEnd(event) {
+      if (!isCurrentRun()) {
+        bg.removeEventListener('animationend', onExitEnd);
+        return;
+      }
+
       if (event.target !== bg) {
         return;
       }
@@ -636,6 +694,10 @@ function umPlayTierTransition(tier, done) {
 
       umTierTransitionTimeoutId = setTimeout(function () {
         umTierTransitionTimeoutId = null;
+        if (!isCurrentRun()) {
+          return;
+        }
+
         next();
       }, t.blankHoldDuration);
     }
@@ -644,6 +706,10 @@ function umPlayTierTransition(tier, done) {
   }
 
   function revealNewArt() {
+    if (!isCurrentRun()) {
+      return;
+    }
+
     if (!bg) {
       umScheduleTierTransitionHudUpdate();
       if (done) {
@@ -673,6 +739,11 @@ function umPlayTierTransition(tier, done) {
     umScheduleTierTransitionHudUpdate();
 
     function onArtInEnd(event) {
+      if (!isCurrentRun()) {
+        bg.removeEventListener('animationend', onArtInEnd);
+        return;
+      }
+
       if (event.target !== bg || event.animationName !== 'undermurk-tier-background-in') {
         return;
       }
@@ -687,6 +758,10 @@ function umPlayTierTransition(tier, done) {
 
       umTierTransitionTimeoutId = setTimeout(function () {
         umTierTransitionTimeoutId = null;
+        if (!isCurrentRun()) {
+          return;
+        }
+
         if (done) {
           done();
         }
@@ -701,6 +776,10 @@ function umPlayTierTransition(tier, done) {
   }
 
   afterQuestionOut(function () {
+    if (!isCurrentRun()) {
+      return;
+    }
+
     fadeOutOldArt(revealNewArt);
   });
 }
@@ -837,6 +916,22 @@ function umSyncActivePlayerCard() {
   }
 }
 
+function umPlayerIndicatorCenterX(playerIndex) {
+  if (!umEls.playerStrip || !umEls.playerStripCards || !umState) {
+    return null;
+  }
+
+  const cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
+  const card = cards[playerIndex];
+  if (!card) {
+    return null;
+  }
+
+  const stripRect = umEls.playerStrip.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+  return cardRect.left + cardRect.width / 2 - stripRect.left;
+}
+
 function umApplyPlayerIndicatorPosition(centerX, instant) {
   umEls.playerIndicator.style.left = centerX + 'px';
   if (!umTierTransitionHudDelayPending) {
@@ -895,8 +990,26 @@ function umPositionPlayerIndicator(instant) {
   umClearIndicatorSwitchTimeout();
 
   if (switchDelay > 0) {
+    const targetIndex = umState.currentIndex;
     umIndicatorSwitchTimeoutId = setTimeout(function () {
       umIndicatorSwitchTimeoutId = null;
+      if (!umState || umState.currentIndex !== targetIndex) {
+        umPositionPlayerIndicator(false);
+        return;
+      }
+
+      const activePlayer = umState.players[targetIndex];
+      if (activePlayer.eliminated) {
+        umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+        umSyncActivePlayerCard();
+        return;
+      }
+
+      const centerX = umPlayerIndicatorCenterX(targetIndex);
+      if (centerX === null) {
+        return;
+      }
+
       umApplyPlayerIndicatorPosition(centerX, false);
     }, switchDelay);
     return;
@@ -937,7 +1050,7 @@ function umUpdateHUD() {
       if (i >= p.lives) {
         heart.classList.add('undermurk-player-card__heart--lost');
       }
-      heart.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+      heart.innerHTML = umHeartSvg;
     }
 
     const avatar = createElement('div', ['undermurk-player-card__avatar'], card);
@@ -1004,54 +1117,177 @@ function umBuildOptions(entry, isBoss) {
 }
 
 function umCheckVictory() {
-  if (umState.tierJustCleared) {
-    return true;
-  }
-
-  if (umState.players.length > 1 && umActivePlayers().length === 1) {
-    return true;
-  }
-
-  return false;
+  return umState.tierJustCleared;
 }
 
 function umCheckGameOver() {
   return umActivePlayers().length === 0;
 }
 
-function umWinnerName() {
-  if (umState.tierJustCleared) {
-    return umCurrentPlayer().name;
+function umOrdinalSuffix(n) {
+  const mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 13) {
+    return 'th';
   }
 
-  const active = umActivePlayers();
-  return active.length === 1 ? active[0].name : '';
+  switch (n % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
+function umSetEndRank(rankEl, place) {
+  const suffix = umOrdinalSuffix(place);
+  rankEl.innerHTML = '<span class="undermurk-end__rank-num">' + place + '</span>'
+    + '<span class="undermurk-end__rank-suffix">' + suffix + '</span>';
+}
+
+function umFormatPoints(score) {
+  return score + (score === 1 ? ' point' : ' points');
+}
+
+function umTeamReachedTier() {
+  let maxTier = 1;
+  umState.players.forEach(function (player) {
+    if (player.tier > maxTier) {
+      maxTier = player.tier;
+    }
+  });
+  return maxTier;
+}
+
+function umEndSubtitle(victory) {
+  if (victory) {
+    return 'Your team defeated the Undermurk.';
+  }
+
+  return 'Your team reached ' + umTierName(umTeamReachedTier()) + '.';
+}
+
+function umFadeOutTierBackgroundForEnd() {
+  if (!umEls.tierBackground) {
+    return;
+  }
+
+  const bg = umEls.tierBackground;
+  const fromDimmed = umTierBackgroundDimmed;
+  const fadeDuration = umTierTransitionTiming.oldArtFadeDuration;
+
+  bg.classList.remove(
+    'undermurk-tier-background--enter',
+    'undermurk-tier-background--dimmed',
+    'undermurk-tier-background--revealed'
+  );
+  bg.style.animationDelay = '';
+  bg.style.animationDuration = '';
+  bg.style.transform = '';
+  bg.style.opacity = '';
+  bg.style.transition = '';
+  umTierBackgroundDimmed = false;
+
+  bg.classList.add('undermurk-tier-background--exit');
+  bg.style.setProperty('--um-tier-exit-duration', fadeDuration + 'ms');
+  if (fromDimmed) {
+    bg.classList.add('undermurk-tier-background--exit-from-dimmed');
+  }
+
+  function onExitEnd(event) {
+    if (event.target !== bg) {
+      return;
+    }
+
+    if (event.animationName !== 'undermurk-tier-background-out'
+      && event.animationName !== 'undermurk-tier-background-out-dimmed') {
+      return;
+    }
+
+    bg.removeEventListener('animationend', onExitEnd);
+    bg.classList.remove('undermurk-tier-background--exit', 'undermurk-tier-background--exit-from-dimmed');
+    bg.style.removeProperty('--um-tier-exit-duration');
+    bg.style.backgroundImage = 'none';
+    bg.style.opacity = '0';
+  }
+
+  bg.addEventListener('animationend', onExitEnd);
+}
+
+function umAnimateHudExitForEnd() {
+  const duration = umTierTransitionTiming.oldArtFadeDuration;
+
+  if (umEls.playerIndicator) {
+    umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
+  }
+
+  if (umEls.playerStrip) {
+    umEls.playerStrip.classList.remove('undermurk-player-strip--enter');
+    umEls.playerStrip.style.animationDelay = '';
+    umEls.playerStrip.style.animationDuration = '';
+    umEls.playerStrip.classList.add('undermurk-player-strip--exit');
+    umEls.playerStrip.style.setProperty('--um-end-hud-exit-duration', duration + 'ms');
+  }
+
+  if (umEls.tierBlock) {
+    umEls.tierBlock.classList.remove('undermurk-tier-block--enter');
+    umEls.tierBlock.style.animationDelay = '';
+    umEls.tierBlock.style.animationDuration = '';
+    umEls.tierBlock.classList.add('undermurk-tier-block--exit');
+    umEls.tierBlock.style.setProperty('--um-end-hud-exit-duration', duration + 'ms');
+  }
 }
 
 function umShowEndScreen(victory) {
   umStopTimer();
   umLocked = true;
+  umClearIndicatorSwitchTimeout();
+  umClearTierTransitionHudDelayTimeout();
+  umClearTierTransitionHudWatchdogTimeout();
+  umTierTransitionHudDelayPending = false;
   umHideOverlay('interstitial');
   umEls.questionArea.classList.add('undermurk-question--hidden');
 
-  umEls.endTitle.textContent = victory ? 'Victory!' : 'Game Over';
-  umEls.endMessage.textContent = victory
-    ? (umState.tierJustCleared
-      ? umWinnerName() + ' conquered the Undermurk!'
-      : umWinnerName() + ' is the last Dingo Punk standing!')
-    : 'The Undermurk claimed your team.';
+  umEls.endTitle.textContent = victory ? 'Victory' : 'Game Over';
+  umEls.endMessage.textContent = umEndSubtitle(victory);
 
-  umEls.endTeamScore.textContent = 'Team score: ' + umState.teamScore;
+  umFadeOutTierBackgroundForEnd();
+  umAnimateHudExitForEnd();
+
+  umEls.endTeamScore.textContent = umFormatPoints(umState.teamScore);
 
   umEls.endPlayers.innerHTML = '';
+  let previousScore = null;
+  let place = 0;
   umState.players.slice().sort(function (a, b) {
     return b.score - a.score;
   }).forEach(function (player) {
-    const row = createElement('p', ['undermurk-end__player-row'], umEls.endPlayers);
-    row.textContent = player.name + ' — ' + player.score + ' pts';
-    if (player.eliminated) {
-      row.classList.add('undermurk-end__player-row--eliminated');
+    if (player.score !== previousScore) {
+      place += 1;
+      previousScore = player.score;
     }
+
+    const entry = createElement('div', ['undermurk-end__player'], umEls.endPlayers);
+    if (place === 1) {
+      entry.classList.add('undermurk-end__player--first');
+    }
+    if (player.eliminated) {
+      entry.classList.add('undermurk-end__player--eliminated');
+    }
+
+    const rank = createElement('p', ['undermurk-end__rank'], entry);
+    umSetEndRank(rank, place);
+
+    const avatar = createElement('div', ['undermurk-end__avatar'], entry);
+    if (player.asset) {
+      avatar.style.backgroundImage = 'url(assets/player/' + player.asset + ')';
+    }
+
+    const score = createElement('p', ['undermurk-end__score'], entry);
+    score.textContent = umFormatPoints(player.score);
   });
 
   umShowOverlay('end');
@@ -1398,6 +1634,9 @@ function umAfterTurnChange(callback) {
 
   umSetTierBackground(targetTier);
   umShowTierBackgroundInstantly();
+  if (umTierTransitionHudDelayPending) {
+    umCompleteTierTransitionHudUpdate();
+  }
   proceed();
 }
 
@@ -1537,26 +1776,26 @@ function umBuildDOM() {
   const endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
   umEls.endTitle = createElement('p', ['undermurk-overlay__title'], endPanel);
   umEls.endMessage = createElement('p', ['undermurk-overlay__subtitle'], endPanel);
-  umEls.endTeamScore = createElement('p', ['undermurk-end__team-score'], endPanel);
-  umEls.endPlayers = createElement('div', ['undermurk-end__players'], endPanel);
+  umEls.endStandings = createElement('div', ['undermurk-end__standings'], endPanel);
+  umEls.endPlayers = createElement('div', ['undermurk-end__players'], umEls.endStandings);
+  umEls.endEquals = createElement('p', ['undermurk-end__equals'], umEls.endStandings);
+  umEls.endEquals.textContent = '=';
+  umEls.endEquals.setAttribute('aria-hidden', 'true');
+  umEls.endTeamTotal = createElement('div', ['undermurk-end__player', 'undermurk-end__player--first', 'undermurk-end__team-total'], umEls.endStandings);
+  umEls.endTeamLabel = createElement('p', ['undermurk-end__rank'], umEls.endTeamTotal);
+  umEls.endTeamLabel.textContent = 'Team Total';
+  createElement('div', ['undermurk-end__avatar'], umEls.endTeamTotal);
+  umEls.endTeamScore = createElement('p', ['undermurk-end__score'], umEls.endTeamTotal);
 
   const endActions = createElement('div', ['undermurk-end__actions'], endPanel);
   umEls.playAgain = createElement('button', ['undermurk-overlay__button'], endActions);
   umEls.playAgain.textContent = 'Play Again';
   setIpadActiveState(umEls.playAgain);
 
-  umEls.exit = createElement('button', ['undermurk-overlay__button', 'undermurk-overlay__button--secondary'], endActions);
-  umEls.exit.textContent = 'Exit';
-  setIpadActiveState(umEls.exit);
-
   umEls.frame = createElement('div', ['undermurk-frame'], splashContainerWrapper);
 
   umEls.playAgain.addEventListener('click', function () {
-    initUndermurkGame(umCharacters.slice());
-  });
-
-  umEls.exit.addEventListener('click', function () {
-    window.location.href = 'debrief.html' + window.location.search;
+    umReturnToSetup();
   });
 }
 
@@ -1585,6 +1824,7 @@ function umResetState(characters) {
   umClearWrongInterstitialDelayTimeout();
   umClearTierTransitionTimeout();
   umClearTierTransitionHudDelayTimeout();
+  umClearTierTransitionHudWatchdogTimeout();
 
   umState = {
     players: umBuildPlayers(characters),
@@ -1668,6 +1908,31 @@ function umAnimateEntrance(onComplete) {
       }
     }, indicatorStart);
   });
+}
+
+function umReturnToSetup() {
+  umStopTimer();
+  umClearIndicatorSwitchTimeout();
+  umClearStartDelayTimeout();
+  umClearWrongInterstitialDelayTimeout();
+  umClearTierTransitionTimeout();
+  umClearTierTransitionHudDelayTimeout();
+  umClearTierTransitionHudWatchdogTimeout();
+
+  if (umIndicatorEntranceTimeoutId) {
+    clearTimeout(umIndicatorEntranceTimeoutId);
+    umIndicatorEntranceTimeoutId = null;
+  }
+
+  umLocked = false;
+  umCutsceneFinishing = false;
+
+  splashContainerWrapper.querySelectorAll('*').forEach(function (child) {
+    child.remove();
+  });
+
+  splashIndex = 0;
+  drawSplash();
 }
 
 function initUndermurkGame(characters) {
