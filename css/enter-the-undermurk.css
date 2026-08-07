@@ -876,6 +876,10 @@ body {
     line-height: 1.25;
 }
 
+.undermurk-overlay__subtitle-tier {
+    color: rgba(var(--gold), 1);
+}
+
 .undermurk-overlay__button {
     display: block;
     margin: 0.5cqi 0 0;
@@ -915,6 +919,16 @@ body {
 
 .undermurk-overlay__panel--end {
     flex-direction: column;
+    margin-top: -4cqi;
+}
+
+.undermurk-overlay__panel--end.undermurk-overlay__panel--fade-in {
+    opacity: 0;
+    transition: opacity var(--um-end-results-fade-duration, 500ms) ease;
+}
+
+.undermurk-overlay__panel--end.undermurk-overlay__panel--fade-in.undermurk-overlay__panel--visible {
+    opacity: 1;
 }
 
 .undermurk-end__standings {
@@ -939,21 +953,22 @@ body {
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 1.5cqi;
+    height: 22cqi;
 }
 
 .undermurk-end__equals {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 21cqi;
     margin: 0;
     font-size: 4cqi;
     line-height: 1;
     color: rgba(var(--off-white), 1);
     margin-left: 1cqi;
     margin-right: -1.5cqi;
-    top: 0.7cqi;
+    top: 1.2cqi;
     position: relative;
+    height: 22cqi;
 }
 
 .undermurk-end__player {
@@ -1026,4 +1041,64 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1cqi;
+}
+
+.undermurk-outcome {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.1s ease-in, opacity 0.1s ease-in;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    will-change: transform;
+    pointer-events: none;
+}
+
+@keyframes undermurk-outcome-smash {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    20% {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    40% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(0.975);
+    }
+
+    80% {
+        transform: translate(-50%, -50%) scale(1.01);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.undermurk-outcome--in {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    animation: 0.4s undermurk-outcome-smash ease-out;
+    animation-delay: 0.1s;
+}
+
+.undermurk-outcome--exit {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition:
+        transform var(--um-outcome-exit-duration, 500ms) ease-in,
+        opacity var(--um-outcome-exit-duration, 500ms) ease-in;
+}
+
+.undermurk-outcome--out {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
 }

@@ -259,6 +259,7 @@ let umTierTransitionHudDelayPending = false;
 let umTierTransitionHudDelayTimeoutId = null;
 let umTierTransitionHudWatchdogTimeoutId = null;
 let umTierTransitionIndicatorSlide = false;
+let umEndOutcomeTimeoutIds = [];
 
 const umEls = {};
 
@@ -302,6 +303,15 @@ const umTierTransitionTiming = {
   textOutDuration: 200,
   textInDuration: 500,
   indicatorDelay: 1000, // wait after new tier art begins before tier badge, player indicator, and active card update
+};
+
+// End-of-game outcome image timing.
+const umEndOutcomeTiming = {
+  slamDelay: 500,
+  outcomeExitDelay: 2300,
+  resultsFadeInDelay: 300,
+  outcomeExitDuration: 500,
+  resultsFadeInDuration: 500,
 };
 
 const umTierNames = [
@@ -793,6 +803,10 @@ function umBindIndicatorResize() {
     if (umState && (umIndicatorPositioned || umIndicatorEntrancePending)) {
       umPositionPlayerIndicator(true);
     }
+
+    if (umEls.outcome && umEls.outcome.classList.contains('undermurk-outcome--in')) {
+      umSizeOutcomeImage();
+    }
   });
 }
 
@@ -1073,6 +1087,11 @@ function umHideOverlay(name) {
     return;
   }
 
+  if (name === 'end' && umEls.endPanel) {
+    umEls.endPanel.classList.remove('undermurk-overlay__panel--fade-in', 'undermurk-overlay__panel--visible');
+    umEls.endPanel.style.removeProperty('--um-end-results-fade-duration');
+  }
+
   if (umEls[name]) {
     umEls[name].classList.add('undermurk-overlay--hidden');
   }
@@ -1164,10 +1183,11 @@ function umTeamReachedTier() {
 
 function umEndSubtitle(victory) {
   if (victory) {
-    return 'Your team defeated the Undermurk.';
+    return 'Victory! Your team defeated the Undermurk.';
   }
 
-  return 'Your team reached ' + umTierName(umTeamReachedTier()) + '.';
+  const tierName = umTierName(umTeamReachedTier());
+  return 'Your team only reached <span class="undermurk-overlay__subtitle-tier">' + tierName + '</span>.';
 }
 
 function umFadeOutTierBackgroundForEnd() {
@@ -1217,6 +1237,135 @@ function umFadeOutTierBackgroundForEnd() {
   bg.addEventListener('animationend', onExitEnd);
 }
 
+function umClearEndOutcomeTimeouts() {
+  umEndOutcomeTimeoutIds.forEach(function (timeoutId) {
+    clearTimeout(timeoutId);
+  });
+  umEndOutcomeTimeoutIds = [];
+}
+
+function umScheduleEndOutcomeTimeout(callback, delayMs) {
+  const timeoutId = setTimeout(callback, delayMs);
+  umEndOutcomeTimeoutIds.push(timeoutId);
+  return timeoutId;
+}
+
+function umSizeOutcomeImage() {
+  if (!umEls.outcome || !umRoot) {
+    return;
+  }
+
+  const size = umRoot.offsetWidth * 0.8;
+  umEls.outcome.style.width = size + 'px';
+  umEls.outcome.style.height = size + 'px';
+}
+
+function umResetOutcomeImage() {
+  if (!umEls.outcome) {
+    return;
+  }
+
+  umEls.outcome.classList.remove('undermurk-outcome--in', 'undermurk-outcome--exit');
+  umEls.outcome.classList.add('undermurk-outcome--out');
+  umEls.outcome.style.backgroundImage = '';
+  umEls.outcome.style.width = '';
+  umEls.outcome.style.height = '';
+  umEls.outcome.style.removeProperty('--um-outcome-exit-duration');
+}
+
+function umPrepareEndOverlay() {
+  umEls.end.classList.remove('undermurk-overlay--hidden');
+  umEls.endPanel.classList.add('undermurk-overlay__panel--fade-in');
+  umEls.endPanel.classList.remove('undermurk-overlay__panel--visible');
+  umEls.endPanel.style.setProperty('--um-end-results-fade-duration', umEndOutcomeTiming.resultsFadeInDuration + 'ms');
+}
+
+function umFadeInEndResults() {
+  if (!umEls.endPanel) {
+    umShowOverlay('end');
+    updateElementSize();
+    updateLineThickness();
+    return;
+  }
+
+  umEls.endPanel.classList.add('undermurk-overlay__panel--visible');
+  updateElementSize();
+  updateLineThickness();
+}
+
+function umPopulateEndResults(victory) {
+  umEls.endMessage.innerHTML = umEndSubtitle(victory);
+  umEls.endTeamScore.textContent = umFormatPoints(umState.teamScore);
+
+  umEls.endPlayers.innerHTML = '';
+  let previousScore = null;
+  let place = 0;
+  umState.players.slice().sort(function (a, b) {
+    return b.score - a.score;
+  }).forEach(function (player) {
+    if (player.score !== previousScore) {
+      place += 1;
+      previousScore = player.score;
+    }
+
+    const entry = createElement('div', ['undermurk-end__player'], umEls.endPlayers);
+    if (place === 1) {
+      entry.classList.add('undermurk-end__player--first');
+    }
+    if (player.eliminated) {
+      entry.classList.add('undermurk-end__player--eliminated');
+    }
+
+    const rank = createElement('p', ['undermurk-end__rank'], entry);
+    umSetEndRank(rank, place);
+
+    const avatar = createElement('div', ['undermurk-end__avatar'], entry);
+    if (player.asset) {
+      avatar.style.backgroundImage = 'url(assets/player/' + player.asset + ')';
+    }
+
+    const score = createElement('p', ['undermurk-end__score'], entry);
+    score.textContent = umFormatPoints(player.score);
+  });
+}
+
+function umPlayEndOutcome(victory) {
+  umClearEndOutcomeTimeouts();
+
+  if (!umEls.outcome) {
+    umShowOverlay('end');
+    if (umEls.endPanel) {
+      umEls.endPanel.classList.add('undermurk-overlay__panel--visible');
+    }
+    updateElementSize();
+    updateLineThickness();
+    return;
+  }
+
+  umEls.outcome.style.backgroundImage = victory
+    ? 'url(assets/debrief/outcome/victory.png)'
+    : 'url(assets/debrief/outcome/fail.png)';
+  umEls.outcome.classList.remove('undermurk-outcome--in', 'undermurk-outcome--exit');
+  umEls.outcome.classList.add('undermurk-outcome--out');
+  umSizeOutcomeImage();
+
+  umScheduleEndOutcomeTimeout(function () {
+    umSizeOutcomeImage();
+    toggleClass(umEls.outcome, 'undermurk-outcome--out', 'undermurk-outcome--in');
+  }, umEndOutcomeTiming.slamDelay);
+
+  umScheduleEndOutcomeTimeout(function () {
+    umEls.outcome.classList.remove('undermurk-outcome--in');
+    umEls.outcome.classList.add('undermurk-outcome--exit');
+    umEls.outcome.style.setProperty('--um-outcome-exit-duration', umEndOutcomeTiming.outcomeExitDuration + 'ms');
+    umPrepareEndOverlay();
+  }, umEndOutcomeTiming.outcomeExitDelay);
+
+  umScheduleEndOutcomeTimeout(function () {
+    umFadeInEndResults();
+  }, umEndOutcomeTiming.outcomeExitDelay + umEndOutcomeTiming.resultsFadeInDelay);
+}
+
 function umAnimateHudExitForEnd() {
   const duration = umTierTransitionTiming.oldArtFadeDuration;
 
@@ -1251,48 +1400,10 @@ function umShowEndScreen(victory) {
   umHideOverlay('interstitial');
   umEls.questionArea.classList.add('undermurk-question--hidden');
 
-  umEls.endTitle.textContent = victory ? 'Victory' : 'Game Over';
-  umEls.endMessage.textContent = umEndSubtitle(victory);
-
   umFadeOutTierBackgroundForEnd();
   umAnimateHudExitForEnd();
-
-  umEls.endTeamScore.textContent = umFormatPoints(umState.teamScore);
-
-  umEls.endPlayers.innerHTML = '';
-  let previousScore = null;
-  let place = 0;
-  umState.players.slice().sort(function (a, b) {
-    return b.score - a.score;
-  }).forEach(function (player) {
-    if (player.score !== previousScore) {
-      place += 1;
-      previousScore = player.score;
-    }
-
-    const entry = createElement('div', ['undermurk-end__player'], umEls.endPlayers);
-    if (place === 1) {
-      entry.classList.add('undermurk-end__player--first');
-    }
-    if (player.eliminated) {
-      entry.classList.add('undermurk-end__player--eliminated');
-    }
-
-    const rank = createElement('p', ['undermurk-end__rank'], entry);
-    umSetEndRank(rank, place);
-
-    const avatar = createElement('div', ['undermurk-end__avatar'], entry);
-    if (player.asset) {
-      avatar.style.backgroundImage = 'url(assets/player/' + player.asset + ')';
-    }
-
-    const score = createElement('p', ['undermurk-end__score'], entry);
-    score.textContent = umFormatPoints(player.score);
-  });
-
-  umShowOverlay('end');
-  updateElementSize();
-  updateLineThickness();
+  umPopulateEndResults(victory);
+  umPlayEndOutcome(victory);
 }
 
 function umClearTierAdvanceFlag() {
@@ -1772,11 +1883,13 @@ function umBuildDOM() {
   umEls.interstitialStart.textContent = 'Start';
   setIpadActiveState(umEls.interstitialStart);
 
+  umEls.outcome = createElement('div', ['undermurk-outcome', 'undermurk-outcome--out'], umRoot);
+
   umEls.end = createElement('div', ['undermurk-overlay', 'undermurk-overlay--hidden'], umRoot);
-  const endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
-  umEls.endTitle = createElement('p', ['undermurk-overlay__title'], endPanel);
-  umEls.endMessage = createElement('p', ['undermurk-overlay__subtitle'], endPanel);
-  umEls.endStandings = createElement('div', ['undermurk-end__standings'], endPanel);
+  umEls.endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
+  const endHeader = createElement('div', ['undermurk-end__header'], umEls.endPanel);
+  umEls.endMessage = createElement('p', ['undermurk-overlay__title'], endHeader);
+  umEls.endStandings = createElement('div', ['undermurk-end__standings'], umEls.endPanel);
   umEls.endPlayers = createElement('div', ['undermurk-end__players'], umEls.endStandings);
   umEls.endEquals = createElement('p', ['undermurk-end__equals'], umEls.endStandings);
   umEls.endEquals.textContent = '=';
@@ -1787,7 +1900,7 @@ function umBuildDOM() {
   createElement('div', ['undermurk-end__avatar'], umEls.endTeamTotal);
   umEls.endTeamScore = createElement('p', ['undermurk-end__score'], umEls.endTeamTotal);
 
-  const endActions = createElement('div', ['undermurk-end__actions'], endPanel);
+  const endActions = createElement('div', ['undermurk-end__actions'], umEls.endPanel);
   umEls.playAgain = createElement('button', ['undermurk-overlay__button'], endActions);
   umEls.playAgain.textContent = 'Play Again';
   setIpadActiveState(umEls.playAgain);
@@ -1825,6 +1938,7 @@ function umResetState(characters) {
   umClearTierTransitionTimeout();
   umClearTierTransitionHudDelayTimeout();
   umClearTierTransitionHudWatchdogTimeout();
+  umClearEndOutcomeTimeouts();
 
   umState = {
     players: umBuildPlayers(characters),
@@ -1918,6 +2032,8 @@ function umReturnToSetup() {
   umClearTierTransitionTimeout();
   umClearTierTransitionHudDelayTimeout();
   umClearTierTransitionHudWatchdogTimeout();
+  umClearEndOutcomeTimeouts();
+  umResetOutcomeImage();
 
   if (umIndicatorEntranceTimeoutId) {
     clearTimeout(umIndicatorEntranceTimeoutId);
