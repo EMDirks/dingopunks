@@ -445,6 +445,12 @@ const analyticsArray = [
 
             // Story Elements
             {
+                level: ['2nd', '3rd'],
+                topic: 'Story Elements',
+                resourceJS: 'topic/reading/story-elements/storyElements_2nd3rdGrade.js',
+                googleAnalyticsID: '12345'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Story Elements',
                 resourceJS: 'topic/reading/story-elements/storyElements_4th5thGrade.js',

@@ -943,7 +943,8 @@ body {
 
 .undermurk-end__team-total .undermurk-end__avatar {
     background-color: rgba(var(--teal), 1);
-    border: 0.25cqi solid rgba(var(--gold), 1);
+    background-size: contain;
+    background-position: center;
 }
 
 .undermurk-end__players {

@@ -1042,35 +1042,41 @@ function umUpdateHUD() {
     umSetTierBlockText(umTierBackgroundTier || player.tier);
   }
 
-  const highlightedIndex = umHighlightedPlayerIndex();
-  umEls.playerStripCards.innerHTML = '';
-  umState.players.forEach(function (p, index) {
-    const card = createElement('div', ['undermurk-player-card'], umEls.playerStripCards);
-    if (index === highlightedIndex && !p.eliminated) {
-      card.classList.add('undermurk-player-card--active');
-    }
-    if (p.eliminated) {
-      card.classList.add('undermurk-player-card--eliminated');
-    }
+  let cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
+  if (cards.length !== umState.players.length) {
+    umEls.playerStripCards.innerHTML = '';
+    umState.players.forEach(function (p) {
+      const card = createElement('div', ['undermurk-player-card'], umEls.playerStripCards);
+      const info = createElement('div', ['undermurk-player-card__info'], card);
+      createElement('p', ['undermurk-player-card__name'], info);
 
-    const info = createElement('div', ['undermurk-player-card__info'], card);
-    const scoreEl = createElement('p', ['undermurk-player-card__name'], info);
-    scoreEl.textContent = String(p.score);
-
-    const livesEl = createElement('div', ['undermurk-player-card__lives'], info);
-    livesEl.setAttribute('aria-label', p.lives + ' lives');
-    for (let i = 0; i < settings.lives; i++) {
-      const heart = createElement('span', ['undermurk-player-card__heart'], livesEl);
-      if (i >= p.lives) {
-        heart.classList.add('undermurk-player-card__heart--lost');
+      const livesEl = createElement('div', ['undermurk-player-card__lives'], info);
+      for (let i = 0; i < settings.lives; i++) {
+        const heart = createElement('span', ['undermurk-player-card__heart'], livesEl);
+        heart.innerHTML = umHeartSvg;
       }
-      heart.innerHTML = umHeartSvg;
-    }
 
-    const avatar = createElement('div', ['undermurk-player-card__avatar'], card);
-    if (p.asset) {
-      avatar.style.backgroundImage = 'url(assets/player/' + p.asset + ')';
-    }
+      const avatar = createElement('div', ['undermurk-player-card__avatar'], card);
+      if (p.asset) {
+        avatar.style.backgroundImage = 'url(assets/player/' + p.asset + ')';
+      }
+    });
+    cards = umEls.playerStripCards.querySelectorAll('.undermurk-player-card');
+  }
+
+  const highlightedIndex = umHighlightedPlayerIndex();
+  cards.forEach(function (card, index) {
+    const player = umState.players[index];
+    const lives = card.querySelector('.undermurk-player-card__lives');
+    const hearts = card.querySelectorAll('.undermurk-player-card__heart');
+
+    card.classList.toggle('undermurk-player-card--active', index === highlightedIndex && !player.eliminated);
+    card.classList.toggle('undermurk-player-card--eliminated', player.eliminated);
+    card.querySelector('.undermurk-player-card__name').textContent = String(player.score);
+    lives.setAttribute('aria-label', player.lives + ' lives');
+    hearts.forEach(function (heart, heartIndex) {
+      heart.classList.toggle('undermurk-player-card__heart--lost', heartIndex >= player.lives);
+    });
   });
 
   requestAnimationFrame(function () {
@@ -1187,7 +1193,7 @@ function umEndSubtitle(victory) {
   }
 
   const tierName = umTierName(umTeamReachedTier());
-  return 'Your team only reached <span class="undermurk-overlay__subtitle-tier">' + tierName + '</span>.';
+  return 'Your team reached <span class="undermurk-overlay__subtitle-tier">' + tierName + '</span>.';
 }
 
 function umFadeOutTierBackgroundForEnd() {
@@ -1897,7 +1903,8 @@ function umBuildDOM() {
   umEls.endTeamTotal = createElement('div', ['undermurk-end__player', 'undermurk-end__player--first', 'undermurk-end__team-total'], umEls.endStandings);
   umEls.endTeamLabel = createElement('p', ['undermurk-end__rank'], umEls.endTeamTotal);
   umEls.endTeamLabel.textContent = 'Team Total';
-  createElement('div', ['undermurk-end__avatar'], umEls.endTeamTotal);
+  umEls.endTeamAvatar = createElement('div', ['undermurk-end__avatar'], umEls.endTeamTotal);
+  umEls.endTeamAvatar.style.backgroundImage = 'url(assets/enter-the-undermurk/misc/team.png)';
   umEls.endTeamScore = createElement('p', ['undermurk-end__score'], umEls.endTeamTotal);
 
   const endActions = createElement('div', ['undermurk-end__actions'], umEls.endPanel);
@@ -1995,6 +2002,10 @@ function umAnimateEntrance(onComplete) {
 
         umEls.tierBackground.removeEventListener('animationend', onTierBackgroundEnterEnd);
         umTierBackgroundRevealed = true;
+      umApplyTierBackgroundDimState();
+      umEls.tierBackground.classList.remove('undermurk-tier-background--enter');
+      umEls.tierBackground.style.animationDelay = '';
+      umEls.tierBackground.style.animationDuration = '';
       }
 
       umEls.tierBackground.addEventListener('animationend', onTierBackgroundEnterEnd);
