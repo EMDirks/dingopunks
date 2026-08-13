@@ -915,27 +915,45 @@ function shareModalHtml(game, code) {
   const directLinkLabel = "play.dingopunks.com/?" + code;
   const optionsHtml = `
     <div class="dpaam-share-options">
-      <section class="dpaam-share-option dpaam-share-option--recommended" aria-labelledby="dpaam-share-option-1-title">
-        <span class="dpaam-share-option-badge">Recommended</span>
-        <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a link</h4>
-        <p class="dpaam-share-option-desc">Students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> and the game launches automatically.</p>
-        <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="copy-direct-link">Copy link</button>
-      </section>
+      <div class="dpaam-share-option-recommended-wrap">
+        <span class="dpaam-share-option-badge dpaam-share-capsule">Recommended</span>
+        <section class="dpaam-share-option dpaam-share-option--recommended" aria-labelledby="dpaam-share-option-1-title">
+          <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
+          <p class="dpaam-share-option-desc">Students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> and the game launches automatically.</p>
+          <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="copy-direct-link">Copy direct link</button>
+        </section>
+      </div>
 
-      <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-2-title">
-        <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
-        <p class="dpaam-share-option-desc">Students enter <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.</p>
-        <div class="dpaam-share-option-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
-          <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
+      <div class="dpaam-share-more">
+        <button
+          type="button"
+          class="dpaam-share-more-toggle dpaam-share-capsule"
+          data-action="toggle-share-more"
+          aria-expanded="false"
+          aria-controls="dpaam-share-more-panel"
+        >
+          <span class="dpaam-share-more-toggle-label">More options</span>
+          <span class="dpaam-share-more-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="dpaam-share-more-panel" id="dpaam-share-more-panel" inert>
+          <div class="dpaam-share-more-panel-inner">
+            <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-2-title">
+              <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
+              <p class="dpaam-share-option-desc">Students enter <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.</p>
+              <div class="dpaam-share-option-actions">
+                <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
+                <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
+              </div>
+            </section>
+
+            <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-3-title">
+              <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
+              <p class="dpaam-share-option-desc">Post the game directly to one of your classes.</p>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
+            </section>
+          </div>
         </div>
-      </section>
-
-      <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-3-title">
-        <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
-        <p class="dpaam-share-option-desc">Post the game directly to one of your classes.</p>
-        <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
-      </section>
+      </div>
     </div>`;
   return `${modalThumbHtml(game)}${optionsHtml}`;
 }
@@ -952,6 +970,7 @@ function hideToast() {
 
   const finish = () => {
     toast.classList.remove("dpaam-toast--visible", "dpaam-toast--exiting");
+    toast.hidePopover?.();
   };
 
   toast.addEventListener(
@@ -987,6 +1006,7 @@ function showToast(message) {
       { once: true }
     );
   } else {
+    toast.showPopover?.();
     toast.classList.remove("dpaam-toast--entering", "dpaam-toast--pulse");
     toast.classList.add("dpaam-toast--visible", "dpaam-toast--entering");
     toast.addEventListener(
@@ -1009,6 +1029,16 @@ function classroomShareTitle(game) {
 }
 
 const CLASSROOM_SHARE_BODY = "Click the link to play your escape room!";
+
+function toggleShareMore(btn) {
+  const panel = document.getElementById("dpaam-share-more-panel");
+  if (!panel) return;
+  const open = btn.getAttribute("aria-expanded") === "true";
+  const nextOpen = !open;
+  btn.setAttribute("aria-expanded", String(nextOpen));
+  panel.classList.toggle("dpaam-share-more-panel--open", nextOpen);
+  panel.inert = !nextOpen;
+}
 
 function showShareModal(gameId) {
   const game = gameById(gameId);
@@ -1360,6 +1390,7 @@ function wireEvents() {
       case "copy-share-code": copyShareCode(); break;
       case "copy-direct-link": copyDirectLink(); break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
+      case "toggle-share-more": toggleShareMore(btn); break;
     }
   });
 
