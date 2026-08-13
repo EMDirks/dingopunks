@@ -125,6 +125,11 @@ body {
   --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.6);
   --dpaam-mobile-menu-backdrop-blur: 4px;
 
+  /* --- fluid layout --- */
+  /* Horizontal gutter for shell elements (topbar, tabbar, main). Scales from
+     16px on narrow phones to 32px at 1200px+ so all shell elements align. */
+  --dpaam-gutter: clamp(var(--dpaam-pad), 2.5vw, var(--dpaam-pad-xl));
+
 
   font-family: var(--dpaam-sans);
   color: var(--dpaam-black);
@@ -159,9 +164,7 @@ body {
   border-radius: var(--dpaam-radius-lg);
   padding: var(--dpaam-pad-lg);
   margin-top: -8px;
-}
-
-.dpaam-guide-inner {
+  container-type: inline-size;
 }
 
 .dpaam-guide-header {
@@ -389,13 +392,34 @@ body {
   display: none;
 }
 
+@container (max-width: 700px) {
+  .dpaam-guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dpaam-pad-lg);
+  }
+
+  .dpaam-guide-steps::before,
+  .dpaam-guide-steps::after {
+    display: none;
+  }
+
+  .dpaam-guide-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dpaam-pad-sm);
+  }
+}
+
 /* ---------- Top bar ---------- */
 
 .dpaam-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--dpaam-pad-lg) var(--dpaam-pad-xl);
+  padding: var(--dpaam-pad-lg) var(--dpaam-gutter);
+  padding-left: max(var(--dpaam-gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--dpaam-gutter), env(safe-area-inset-right, 0px));
   background: var(--dpaam-blue);
   margin-bottom: var(--dpaam-pad-lg);
 }
@@ -419,8 +443,10 @@ body {
   color: var(--dpaam-white);
 }
 
-.dpaam-mobile-menu-toggle:hover {
-  background: rgba(255, 255, 255, 0.12);
+@media (hover: hover) {
+  .dpaam-mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
 }
 
 .dpaam-hamburger {
@@ -555,31 +581,24 @@ a.dpaam-topbar-btn {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: var(--dpaam-pad-md) 0;
-}
-
-.dpaam-tabbar::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 100vw;
-  margin-left: -50vw;
+  padding: var(--dpaam-pad-md) var(--dpaam-gutter);
+  padding-left: max(var(--dpaam-gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--dpaam-gutter), env(safe-area-inset-right, 0px));
   background: var(--dpaam-light-gray);
-  z-index: -1;
-  pointer-events: none;
+  box-shadow: 0 0 0 100vmax var(--dpaam-light-gray);
+  clip-path: inset(0 -100vmax);
 }
 
 .dpaam-tabbar::after {
   content: "";
   position: absolute;
-  left: 50%;
+  right: 0;
   bottom: 0;
-  width: 100vw;
-  margin-left: -50vw;
+  left: 0;
   height: 1px;
   background: var(--dpaam-border);
+  box-shadow: 0 0 0 100vmax var(--dpaam-border);
+  clip-path: inset(0 -100vmax);
   opacity: 0;
   transition: opacity var(--dpaam-transition);
   pointer-events: none;
@@ -681,21 +700,23 @@ a.dpaam-topbar-btn {
   animation: dpaam-tab-count-pulse-remove 0.3s ease;
 }
 
-.dpaam-tab:hover {
-  border-color: var(--dpaam-border-strong);
-  color: var(--dpaam-black);
-  filter: brightness(0.92);
-}
-
 .dpaam-tab[aria-selected="true"] {
   background: var(--dpaam-white);
   color: var(--dpaam-black);
   box-shadow: var(--dpaam-shadow-sm);
 }
 
-.dpaam-tab[aria-selected="true"]:hover {
-  background: var(--dpaam-white) !important;
-  filter: none !important;
+@media (hover: hover) {
+  .dpaam-tab:hover {
+    border-color: var(--dpaam-border-strong);
+    color: var(--dpaam-black);
+    filter: brightness(0.92);
+  }
+
+  .dpaam-tab[aria-selected="true"]:hover {
+    background: var(--dpaam-white) !important;
+    filter: none !important;
+  }
 }
 
 /* ---------- Main layout ---------- */
@@ -705,15 +726,17 @@ a.dpaam-topbar-btn {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad-xl);
+  gap: clamp(var(--dpaam-pad-lg), 2.7vw, var(--dpaam-pad-xl));
   padding-top: var(--dpaam-pad-lg);
   padding-bottom: var(--dpaam-pad-xl);
+  padding-left: max(var(--dpaam-gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--dpaam-gutter), env(safe-area-inset-right, 0px));
 }
 
 .dpaam-section {
   background: var(--dpaam-white);
   border-radius: var(--dpaam-radius-xxl);
-  padding: var(--dpaam-pad-xl);
+  padding: clamp(var(--dpaam-pad), 2.7vw, var(--dpaam-pad-xl));
   border: 1px solid var(--dpaam-border);
 }
 
@@ -751,8 +774,8 @@ a.dpaam-topbar-btn {
 .dpaam-active-list {
   margin-top: var(--dpaam-pad);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--dpaam-pad-lg);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: clamp(var(--dpaam-pad-md), 1.7vw, var(--dpaam-pad-lg));
 }
 
 /* Active count in header — removed for now; restore when needed.
@@ -778,8 +801,8 @@ a.dpaam-topbar-btn {
 .dpaam-favorites-list {
   margin-top: var(--dpaam-pad);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--dpaam-pad-lg);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: clamp(var(--dpaam-pad-md), 1.7vw, var(--dpaam-pad-lg));
 }
 
 .dpaam-favorites-list[hidden] {
@@ -894,22 +917,24 @@ a.dpaam-topbar-btn {
   stroke: var(--dpaam-salmon);
 }
 
-.dpaam-btn-favorite:hover {
-  color: var(--dpaam-salmon);
-  filter: none;
-}
+@media (hover: hover) {
+  .dpaam-btn-favorite:hover {
+    color: var(--dpaam-salmon);
+    filter: none;
+  }
 
-.dpaam-btn-favorite:hover .dpaam-fav-remove-x {
-  stroke: var(--dpaam-salmon);
-}
+  .dpaam-btn-favorite:hover .dpaam-fav-remove-x {
+    stroke: var(--dpaam-salmon);
+  }
 
-.dpaam-btn-favorite:hover .dpaam-fav-heart {
-  stroke: var(--dpaam-salmon);
-}
+  .dpaam-btn-favorite:hover .dpaam-fav-heart {
+    stroke: var(--dpaam-salmon);
+  }
 
-.dpaam-btn-favorite:hover .dpaam-fav-heart--filled {
-  fill: var(--dpaam-salmon);
-  stroke: var(--dpaam-salmon);
+  .dpaam-btn-favorite:hover .dpaam-fav-heart--filled {
+    fill: var(--dpaam-salmon);
+    stroke: var(--dpaam-salmon);
+  }
 }
 
 .dpaam-fav-active {
@@ -982,18 +1007,24 @@ a.dpaam-topbar-btn {
   flex-shrink: 0;
 }
 
-.dpaam-fav-cancel-code:hover {
-  color: var(--dpaam-gold);
+@media (hover: hover) {
+  .dpaam-fav-cancel-code:hover {
+    color: var(--dpaam-gold);
+  }
 }
 
 /* ---------- Section 3: Library ---------- */
 
 .dpaam-filters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
   align-items: center;
   gap: var(--dpaam-pad-md);
   margin-bottom: var(--dpaam-pad-xl);
+}
+
+.dpaam-filter {
+  min-width: 0;
 }
 
 .dpaam-filter select {
@@ -1011,7 +1042,8 @@ a.dpaam-topbar-btn {
   border: 1px solid var(--dpaam-border);
   border-radius: var(--dpaam-radius-pill);
   cursor: pointer;
-  width: 180px;
+  width: 100%;
+  min-width: 0;
   line-height: 1;
 }
 
@@ -1022,8 +1054,8 @@ a.dpaam-topbar-btn {
 
 .dpaam-library-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--dpaam-pad-lg);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: clamp(var(--dpaam-pad-md), 1.7vw, var(--dpaam-pad-lg));
 }
 
 
@@ -1137,8 +1169,10 @@ a.dpaam-topbar-btn {
   font-size: var(--dpaam-text-sm);
 }
 
-.dpaam-btn:hover {
-  filter: brightness(0.92);
+@media (hover: hover) {
+  .dpaam-btn:hover {
+    filter: brightness(0.92);
+  }
 }
 
 .dpaam-btn-primary,
@@ -1234,11 +1268,13 @@ a.dpaam-topbar-btn {
   color: var(--dpaam-black);
 }
 
-.dpaam-card__actions .dpaam-btn.dpaam-btn-favorite:hover {
-  background: var(--dpaam-salmon-light);
-  border-color: var(--dpaam-salmon);
-  color: var(--dpaam-salmon);
-  filter: none;
+@media (hover: hover) {
+  .dpaam-card__actions .dpaam-btn.dpaam-btn-favorite:hover {
+    background: var(--dpaam-salmon-light);
+    border-color: var(--dpaam-salmon);
+    color: var(--dpaam-salmon);
+    filter: none;
+  }
 }
 
 .dpaam-card__actions .dpaam-btn-add,
@@ -1270,11 +1306,13 @@ a.dpaam-topbar-btn {
   text-decoration-style: solid;
 }
 
-.dpaam-btn-details:hover {
-  filter: none;
-  color: var(--dpaam-black);
-  text-decoration-color: var(--dpaam-black);
-  background: none;
+@media (hover: hover) {
+  .dpaam-btn-details:hover {
+    filter: none;
+    color: var(--dpaam-black);
+    text-decoration-color: var(--dpaam-black);
+    background: none;
+  }
 }
 
 /* Done-state buttons that are still clickable to revert. */
@@ -1384,6 +1422,7 @@ a.dpaam-topbar-btn {
 .dpaam-modal {
   width: min(800px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
+  max-height: calc(100dvh - 64px);
   padding: 0;
   border-radius: var(--dpaam-radius-xxl);
   background: var(--dpaam-white);
@@ -1450,6 +1489,7 @@ a.dpaam-topbar-btn {
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 64px);
+  max-height: calc(100dvh - 64px);
 }
 
 .dpaam-modal-header {
@@ -1485,8 +1525,10 @@ a.dpaam-topbar-btn {
   flex-shrink: 0;
 }
 
-.dpaam-modal-back:hover {
-  filter: brightness(0.92);
+@media (hover: hover) {
+  .dpaam-modal-back:hover {
+    filter: brightness(0.92);
+  }
 }
 
 .dpaam-modal-title {
@@ -1511,8 +1553,10 @@ a.dpaam-topbar-btn {
   position: relative;
 }
 
-.dpaam-modal-close:hover {
-  filter: brightness(0.92);
+@media (hover: hover) {
+  .dpaam-modal-close:hover {
+    filter: brightness(0.92);
+  }
 }
 
 
@@ -1578,8 +1622,10 @@ a.dpaam-topbar-btn {
   cursor: pointer;
 }
 
-.dpaam-modal-theme-link:hover {
-  filter: brightness(0.92);
+@media (hover: hover) {
+  .dpaam-modal-theme-link:hover {
+    filter: brightness(0.92);
+  }
 }
 
 .dpaam-modal-header--with-back .dpaam-theme-modal-header-main {
@@ -1796,8 +1842,10 @@ a.dpaam-topbar-btn {
   text-decoration: none;
 }
 
-.dpaam-share-option-desc a:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .dpaam-share-option-desc a:hover {
+    text-decoration: underline;
+  }
 }
 
 .dpaam-share-code-inline {
@@ -1843,8 +1891,10 @@ a.dpaam-topbar-btn {
   font-family: inherit;
 }
 
-.dpaam-share-more-toggle:hover {
-  filter: brightness(0.96);
+@media (hover: hover) {
+  .dpaam-share-more-toggle:hover {
+    filter: brightness(0.96);
+  }
 }
 
 .dpaam-share-more-chevron {
@@ -2090,15 +2140,18 @@ dd a {
   position: relative;
   top: 2px;
 }
-
 #classroom-share-btn {
   background-color: red;
 }
 
-/* ---------- Mobile (tablet / large phone) ----------
-   Type scale scales down proportionally via --dpaam-text-* tokens. ---------- */
+/* ---------- Mobile (≤768px) ----------
+   Type scale scales down proportionally via --dpaam-text-* tokens.
+   All layout overrides are scoped here; desktop defaults are set above. ---------- */
 
 @media (max-width: 768px) {
+
+  /* --- Tokens --- */
+
   .dpaam {
     --dpaam-text-xs:      11px;
     --dpaam-text-sm:      13px;
@@ -2109,8 +2162,12 @@ dd a {
     --dpaam-text-display: 30px;
     --dpaam-add-btn-w:    97px;
     --dpaam-code-btn-w:   97px;
-    --dpaam-pair-btn-h:   32px;
+    --dpaam-pair-btn-h:   44px;
+    /* Tighter gutter on narrow phones */
+    --dpaam-gutter: var(--dpaam-pad);
   }
+
+  /* --- Top bar: switch to hamburger layout --- */
 
   .dpaam-topbar {
     position: relative;
@@ -2119,7 +2176,9 @@ dd a {
     align-items: center;
     justify-content: flex-start;
     gap: var(--dpaam-pad-sm);
-    padding: var(--dpaam-pad-md) var(--dpaam-pad);
+    /* padding uses --dpaam-gutter token set above */
+    padding-top: var(--dpaam-pad-md);
+    padding-bottom: var(--dpaam-pad-md);
   }
 
   .dpaam-mobile-menu-toggle {
@@ -2162,29 +2221,48 @@ dd a {
     line-height: 1.2;
   }
 
+  /* --- Tab bar: equal-width tabs, tighter gutter --- */
+
   .dpaam-tabbar {
     gap: var(--dpaam-pad-xs);
+    /* padding-left/right stay via --dpaam-gutter token */
+    padding-top: var(--dpaam-pad-sm);
+    padding-bottom: var(--dpaam-pad-sm);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .dpaam-tabbar::-webkit-scrollbar {
+    display: none;
   }
 
   .dpaam-tab {
     flex: 1;
-    padding: var(--dpaam-pad-sm) var(--dpaam-pad-md);
+    min-width: 80px;
+    padding: var(--dpaam-pad-sm) var(--dpaam-pad-sm);
+    gap: var(--dpaam-pad-xs);
     text-align: center;
+    justify-content: center;
   }
 
+  /* --- Main layout --- */
+
   .dpaam-main {
-    padding: var(--dpaam-pad-sm);
+    padding-top: var(--dpaam-pad-sm);
+    padding-bottom: max(var(--dpaam-pad-xl), env(safe-area-inset-bottom, 0px));
     gap: var(--dpaam-pad-lg);
   }
 
   .dpaam-section {
-    padding: var(--dpaam-pad-sm);
+    padding: clamp(var(--dpaam-pad-sm), 2vw, var(--dpaam-pad));
   }
 
   .dpaam-section-header {
     flex-wrap: wrap;
     gap: var(--dpaam-pad-sm);
   }
+
+  /* --- Quick Start guide --- */
 
   .dpaam-guide-inner {
     padding: var(--dpaam-pad);
@@ -2207,28 +2285,32 @@ dd a {
     gap: var(--dpaam-pad-sm);
   }
 
-  .dpaam-active-list {
-    grid-template-columns: 1fr;
-    gap: var(--dpaam-pad-sm);
+  /* --- Card grids: always retain at least two columns --- */
+
+  .dpaam-active-list,
+  .dpaam-favorites-list,
+  .dpaam-library-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(var(--dpaam-pad-sm), 1.6vw, var(--dpaam-pad-md));
   }
+
+  /* --- Filters --- */
 
   .dpaam-filters {
     grid-template-columns: 1fr 1fr;
-    margin-bottom: var(--dpaam-pad-xl);
+    gap: var(--dpaam-pad-sm);
+    margin-bottom: var(--dpaam-pad-lg);
   }
 
   .dpaam-filters .dpaam-filter:last-child {
     grid-column: 1 / -1;
   }
 
+  /* --- Card thumbnails --- */
+
   .dpaam-thumb {
     width: 80px;
     height: 80px;
-  }
-
-  .dpaam-favorites-list {
-    grid-template-columns: 1fr;
-    gap: var(--dpaam-pad-sm);
   }
 
   .dpaam-card__thumb-wrap .dpaam-thumb {
@@ -2237,20 +2319,9 @@ dd a {
     aspect-ratio: 1;
   }
 
-  .dpaam-library-list {
-    grid-template-columns: 1fr;
-    gap: var(--dpaam-pad-sm);
-  }
-
-  .dpaam-lib-topic-row {
-    grid-area: topic;
-    height: auto;
-    min-height: 0;
-  }
-
-  .dpaam-lib-meta {
-    grid-area: meta;
-  }
+  /* --- Library card copy ---
+     The orphan grid-area rules (.dpaam-lib-topic-row, .dpaam-lib-meta etc.)
+     that targeted removed markup are removed. Remaining content-relevant rules: */
 
   .dpaam-lib-meta-theme,
   .dpaam-lib-meta-sep {
@@ -2262,10 +2333,11 @@ dd a {
   }
 
   .dpaam-lib-main > .dpaam-tags {
-    grid-area: grade;
     margin-top: 0;
     gap: 4px;
   }
+
+  /* --- Tag label: short form on mobile --- */
 
   .dpaam-tag-label--full {
     display: none;
@@ -2275,8 +2347,9 @@ dd a {
     display: inline;
   }
 
+  /* --- Card action bar --- */
+
   .dpaam-card__actions {
-    grid-area: actions;
     width: auto;
     justify-content: flex-end;
     flex-wrap: nowrap;
@@ -2309,10 +2382,15 @@ dd a {
   .dpaam-card__actions .dpaam-btn.dpaam-btn-favorite {
     flex: 0 0 auto;
     width: auto;
+    min-width: 44px;
   }
 
+  /* --- Touch targets: 44×44 minimum --- */
+
   .dpaam-btn-details,
-  .dpaam-modal-close {
+  .dpaam-modal-close,
+  .dpaam-mobile-menu-toggle,
+  .dpaam-tab {
     min-height: 44px;
     min-width: 44px;
     display: inline-flex;
@@ -2330,13 +2408,17 @@ dd a {
     margin-top: 0;
   }
 
+  /* --- Modals: full viewport-aware sizing with dvh --- */
+
   .dpaam-modal {
     width: min(900px, calc(100vw - 24px));
     max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
   }
 
   .dpaam-modal-form {
     max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
   }
 
   .dpaam-modal-header {
@@ -2381,6 +2463,23 @@ dd a {
     margin-top: var(--dpaam-pad-sm);
   }
 
+  /* --- Theme modal: scale hero and artwork --- */
+
+  .dpaam-theme-modal-hero {
+    height: 200px;
+  }
+
+  .dpaam-theme-modal-badguy {
+    height: 280px;
+  }
+
+  .dpaam-theme-modal-header-main {
+    flex-wrap: wrap;
+    gap: var(--dpaam-pad-sm);
+  }
+
+  /* --- Account modal --- */
+
   .dpaam-account-row {
     flex-direction: column;
     align-items: stretch;
@@ -2389,6 +2488,8 @@ dd a {
   .dpaam-account-row > .dpaam-btn {
     align-self: flex-start;
   }
+
+  /* --- Share modal --- */
 
   .dpaam-share-option-actions {
     flex-wrap: wrap;
@@ -2403,9 +2504,45 @@ dd a {
     flex-wrap: wrap;
   }
 
+  /* --- Toast: wrap long messages, respect safe area --- */
+
   #dpaam-toast {
     max-width: calc(100vw - 32px);
     white-space: normal;
     text-align: center;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+  }
+}
+
+@media (max-width: 360px) {
+  .dpaam-tab {
+    gap: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 12px;
+  }
+
+  .dpaam-tab-icon {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dpaam-card__body {
+    padding: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-card__actions {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .dpaam-card__actions .dpaam-btn {
+    width: 100%;
+  }
+
+  .dpaam-card__actions [data-action="share-code"] {
+    grid-column: 1 / -1;
   }
 }

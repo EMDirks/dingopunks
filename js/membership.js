@@ -1443,7 +1443,7 @@ function applyQuickStartVisible(visible) {
   els.quickStart.hidden = !visible;
 }
 
-const MOBILE_MENU_MQL = window.matchMedia("(max-width: 720px)");
+const MOBILE_MENU_MQL = window.matchMedia("(max-width: 768px)");
 
 function setMobileMenuOpen(open) {
   if (!els.mobileMenuToggle || !els.mobileMenu) return;
