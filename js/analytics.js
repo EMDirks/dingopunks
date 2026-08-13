@@ -448,7 +448,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Story Elements',
                 resourceJS: 'topic/reading/story-elements/storyElements_2nd3rdGrade.js',
-                googleAnalyticsID: '12345'
+                googleAnalyticsID: 'Ks8d23Sids5rr-S6NNJer'
             },
             {
                 level: ['4th', '5th'],
@@ -459,6 +459,12 @@ const analyticsArray = [
 
             // Poetry
             {
+                level: ['2nd', '3rd'],
+                topic: 'Poetry',
+                resourceJS: 'topic/reading/poetry/poetry_2nd3rdGrade.js',
+                googleAnalyticsID: '19JdkoP-2Ds1ruD-umKlad4'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Poetry',
                 resourceJS: 'topic/reading/poetry/poetry_4th5thGrade.js',
@@ -466,6 +472,12 @@ const analyticsArray = [
             },
 
             // Making Inferences
+            {
+                level: ['2nd', '3rd'],
+                topic: 'Making Inferences',
+                resourceJS: 'topic/reading/making-inferences/makingInferences_2nd3rdGrade.js',
+                googleAnalyticsID: 'PlagsyH-J4dm3s4-1JMgg1s'
+            },
             {
                 level: ['4th', '5th'],
                 topic: 'Making Inferences',

@@ -306,17 +306,26 @@ function favCodeDisplayHtml(code) {
 function addFavorite(gameId, { toast = true } = {}) {
   if (!gameById(gameId)) return;
   if (isFavorite(gameId)) return;
+  const wasEmpty = state.favorites.length === 0;
   state.favorites.push(gameId);
-  renderFavorites();
-  renderLibrary();
+  updateLibraryFavoriteButton(gameId);
+  if (wasEmpty) {
+    renderFavorites();
+  } else {
+    appendFavoriteCard(gameId);
+  }
   pulseTabCount("favorites");
   if (toast) showToast("✓ \u00A0 Favorited");
 }
 
 function removeFavorite(gameId) {
   state.favorites = state.favorites.filter((id) => id !== gameId);
-  renderFavorites();
-  renderLibrary();
+  updateLibraryFavoriteButton(gameId);
+  if (state.favorites.length === 0) {
+    renderFavorites();
+  } else {
+    removeFavoriteCard(gameId);
+  }
   pulseTabCount("favorites", "remove");
 }
 
@@ -453,6 +462,74 @@ function renderActiveCodes() {
   renderTabCounts();
 }
 
+function favoriteCardHtml(game) {
+  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate dpaam-btn-favorite-activate" data-action="share-code">Share</button>`;
+  return `
+    <li
+      class="dpaam-card dpaam-card--favorite"
+      data-game-id="${escapeHtml(game.id)}"
+      draggable="true"
+    >
+      <div class="dpaam-card__thumb-wrap">
+        ${thumbHtml(game)}
+      </div>
+      <div class="dpaam-card__body">
+        <div class="dpaam-card__actions">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
+            data-action="remove-favorite"
+            aria-label="Remove from favorites"
+          >${removeIconSvg()}</button>
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
+          ${shareAction}
+        </div>
+      </div>
+    </li>`;
+}
+
+function libraryFavoriteButtonHtml(saved) {
+  return saved
+    ? `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="remove-favorite" aria-label="Remove from favorites">${heartIconSvg({ filled: true })}</button>`
+    : `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="save-favorite" aria-label="Add to favorites">${heartIconSvg()}</button>`;
+}
+
+function updateFavoritesChrome() {
+  const count = state.favorites.length;
+  const hasFavorites = count > 0;
+  els.favoritesEmpty.hidden = hasFavorites;
+  els.favoritesCount.textContent = `${count} ${count === 1 ? "favorite" : "favorites"}`;
+  renderTabCounts();
+}
+
+function updateLibraryFavoriteButton(gameId) {
+  const row = els.libraryList.querySelector(
+    `.dpaam-card--library[data-game-id="${CSS.escape(gameId)}"]`,
+  );
+  if (!row) return;
+  const btn = row.querySelector(".dpaam-btn-favorite");
+  if (!btn) return;
+  const saved = isFavorite(gameId);
+  btn.dataset.action = saved ? "remove-favorite" : "save-favorite";
+  btn.setAttribute("aria-label", saved ? "Remove from favorites" : "Add to favorites");
+  btn.innerHTML = heartIconSvg({ filled: saved });
+}
+
+function appendFavoriteCard(gameId) {
+  const game = gameById(gameId);
+  if (!game) return;
+  els.favoritesList.insertAdjacentHTML("beforeend", favoriteCardHtml(game));
+  updateFavoritesChrome();
+}
+
+function removeFavoriteCard(gameId) {
+  const row = els.favoritesList.querySelector(
+    `.dpaam-card--favorite[data-game-id="${CSS.escape(gameId)}"]`,
+  );
+  row?.remove();
+  updateFavoritesChrome();
+}
+
 function renderFavorites() {
   const expiredRemoved = pruneExpiredCodes();
   const hasFavorites = state.favorites.length > 0;
@@ -470,30 +547,7 @@ function renderFavorites() {
     .map((id) => {
       const game = gameById(id);
       if (!game) return "";
-      const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate dpaam-btn-favorite-activate" data-action="share-code">Share</button>`;
-
-      return `
-        <li
-          class="dpaam-card dpaam-card--favorite"
-          data-game-id="${escapeHtml(game.id)}"
-          draggable="true"
-        >
-          <div class="dpaam-card__thumb-wrap">
-            ${thumbHtml(game)}
-          </div>
-          <div class="dpaam-card__body">
-            <div class="dpaam-card__actions">
-              <button
-                type="button"
-                class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
-                data-action="remove-favorite"
-                aria-label="Remove from favorites"
-              >${removeIconSvg()}</button>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
-              ${shareAction}
-            </div>
-          </div>
-        </li>`;
+      return favoriteCardHtml(game);
     })
     .join("");
 
@@ -519,10 +573,7 @@ function renderLibrary() {
 
   els.libraryList.innerHTML = filtered
     .map((game) => {
-      const saved = isFavorite(game.id);
-      const favoriteAction = saved
-        ? `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="remove-favorite" aria-label="Remove from favorites">${heartIconSvg({ filled: true })}</button>`
-        : `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="save-favorite" aria-label="Add to favorites">${heartIconSvg()}</button>`;
+      const favoriteAction = libraryFavoriteButtonHtml(isFavorite(game.id));
       const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>`;
       // const topic = game.topic ? formatLabel(game.topic) : game.title;
       // const libMainHtml = `
@@ -589,12 +640,36 @@ let pendingThemeOpen = null;
 let themeModalReturn = null;
 let pendingInfoReopen = null;
 
-function openLimitModal() {
-  if (typeof els.limitModal.showModal === "function") {
-    els.limitModal.showModal();
-  } else {
-    els.limitModal.setAttribute("open", "");
+const DPAAM_MODALS = [
+  els.modal,
+  els.themeModal,
+  els.shareModal,
+  els.limitModal,
+  els.accountModal,
+];
+
+function closeOtherModals(keep) {
+  pendingThemeOpen = null;
+  pendingInfoReopen = null;
+
+  for (const m of DPAAM_MODALS) {
+    if (!m || m === keep || !m.open) continue;
+    if (m === els.themeModal) themeModalReturn = null;
+    m.classList.remove("is-closing");
+    if (typeof m.close === "function") m.close();
+    else m.removeAttribute("open");
   }
+}
+
+function showExclusiveModal(modal) {
+  if (!modal) return;
+  closeOtherModals(modal);
+  if (typeof modal.showModal === "function") modal.showModal();
+  else modal.setAttribute("open", "");
+}
+
+function openLimitModal() {
+  showExclusiveModal(els.limitModal);
 }
 
 function openModal(gameId, context = "library") {
@@ -630,11 +705,7 @@ function openModal(gameId, context = "library") {
 
   refreshModalActionButton();
 
-  if (typeof els.modal.showModal === "function") {
-    els.modal.showModal();
-  } else {
-    els.modal.setAttribute("open", "");
-  }
+  showExclusiveModal(els.modal);
 }
 
 function showThemeModal(theme) {
@@ -648,11 +719,7 @@ function showThemeModal(theme) {
     </div>`;
   els.themeModalBack.hidden = !themeModalReturn?.gameId;
 
-  if (typeof els.themeModal.showModal === "function") {
-    els.themeModal.showModal();
-  } else {
-    els.themeModal.setAttribute("open", "");
-  }
+  showExclusiveModal(els.themeModal);
 }
 
 function returnFromThemeModal() {
@@ -808,11 +875,7 @@ function openShareModal(gameId) {
   shareCode = active.code;
   els.shareModalBody.innerHTML = shareModalHtml(game, active.code);
 
-  if (typeof els.shareModal.showModal === "function") {
-    els.shareModal.showModal();
-  } else {
-    els.shareModal.setAttribute("open", "");
-  }
+  showExclusiveModal(els.shareModal);
 }
 
 function activateAndShare(gameId) {
@@ -835,11 +898,7 @@ function setAccountPasswordFormOpen(open) {
 
 function openAccountModal() {
   setAccountPasswordFormOpen(false);
-  if (typeof els.accountModal.showModal === "function") {
-    els.accountModal.showModal();
-  } else {
-    els.accountModal.setAttribute("open", "");
-  }
+  showExclusiveModal(els.accountModal);
 }
 
 async function copyToClipboard(text) {
