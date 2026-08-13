@@ -555,8 +555,20 @@ a.dpaam-topbar-btn {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--dpaam-light-gray);
   padding: var(--dpaam-pad-md) 0;
+}
+
+.dpaam-tabbar::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  margin-left: -50vw;
+  background: var(--dpaam-light-gray);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .dpaam-tabbar::after {
@@ -694,7 +706,7 @@ a.dpaam-topbar-btn {
   display: flex;
   flex-direction: column;
   gap: var(--dpaam-pad-xl);
-  padding-top: var(--dpaam-pad-xl);
+  padding-top: var(--dpaam-pad-lg);
   padding-bottom: var(--dpaam-pad-xl);
 }
 
@@ -1371,16 +1383,45 @@ a.dpaam-topbar-btn {
   animation: dpaam-modal-out 0.15s ease-in both;
 }
 
-.dpaam-modal::backdrop {
+.dpaam-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  border: 0;
   background: var(--dpaam-overlay);
+  pointer-events: none;
 }
 
-.dpaam-modal[open]::backdrop {
+.dpaam-modal-backdrop[hidden] {
+  display: none;
+}
+
+.dpaam-modal-backdrop.is-entering {
   animation: dpaam-backdrop-in 0.15s ease both;
 }
 
-.dpaam-modal.is-closing::backdrop {
+.dpaam-modal-backdrop.is-exiting {
   animation: dpaam-backdrop-out 0.15s ease-in both;
+}
+
+.dpaam-modal::backdrop {
+  background: transparent;
+}
+
+.dpaam-modal[open]::backdrop,
+.dpaam-modal.is-closing::backdrop {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dpaam-modal-backdrop.is-entering,
+  .dpaam-modal-backdrop.is-exiting,
+  .dpaam-modal[open],
+  .dpaam-modal.is-closing {
+    animation: none;
+  }
 }
 
 .dpaam-modal-form {

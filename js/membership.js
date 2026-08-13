@@ -71,6 +71,7 @@ const els = {
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
   mobileMenu: document.getElementById("dpaam-mobile-menu"),
   mobileMenuBackdrop: document.getElementById("dpaam-mobile-menu-backdrop"),
+  modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
   accountChangePassword: document.getElementById("dpaam-account-change-password"),
   accountPasswordForm: document.getElementById("dpaam-account-password-form"),
@@ -648,6 +649,90 @@ const DPAAM_MODALS = [
   els.accountModal,
 ];
 
+let modalBackdropVisible = false;
+let modalBackdropHideTimer = null;
+let modalSwapInProgress = false;
+
+function isAnyModalOpen() {
+  return DPAAM_MODALS.some((m) => m?.open);
+}
+
+function isModalTransitionPending() {
+  return Boolean(pendingThemeOpen || pendingInfoReopen);
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function showModalBackdrop({ animate = true } = {}) {
+  const backdrop = els.modalBackdrop;
+  if (!backdrop) return;
+
+  clearTimeout(modalBackdropHideTimer);
+  backdrop.classList.remove("is-exiting");
+
+  if (modalBackdropVisible) {
+    backdrop.hidden = false;
+    return;
+  }
+
+  modalBackdropVisible = true;
+  backdrop.hidden = false;
+  backdrop.setAttribute("aria-hidden", "false");
+
+  if (animate && !prefersReducedMotion()) {
+    backdrop.classList.add("is-entering");
+    backdrop.addEventListener(
+      "animationend",
+      (e) => {
+        if (e.animationName === "dpaam-backdrop-in") backdrop.classList.remove("is-entering");
+      },
+      { once: true },
+    );
+  } else {
+    backdrop.classList.remove("is-entering");
+  }
+}
+
+function hideModalBackdrop({ animate = true } = {}) {
+  const backdrop = els.modalBackdrop;
+  if (!backdrop || !modalBackdropVisible) return;
+
+  backdrop.classList.remove("is-entering");
+
+  const finish = () => {
+    clearTimeout(modalBackdropHideTimer);
+    backdrop.classList.remove("is-exiting");
+    backdrop.hidden = true;
+    backdrop.setAttribute("aria-hidden", "true");
+    modalBackdropVisible = false;
+  };
+
+  if (!animate || prefersReducedMotion()) {
+    finish();
+    return;
+  }
+
+  backdrop.classList.add("is-exiting");
+  backdrop.addEventListener(
+    "animationend",
+    (e) => {
+      if (e.animationName === "dpaam-backdrop-out") finish();
+    },
+    { once: true },
+  );
+  modalBackdropHideTimer = setTimeout(finish, 200);
+}
+
+function syncModalBackdrop() {
+  if (modalSwapInProgress || isAnyModalOpen() || isModalTransitionPending()) {
+    showModalBackdrop({ animate: false });
+    return;
+  }
+  hideModalBackdrop({ animate: true });
+}
+
 function closeOtherModals(keep) {
   pendingThemeOpen = null;
   pendingInfoReopen = null;
@@ -663,9 +748,14 @@ function closeOtherModals(keep) {
 
 function showExclusiveModal(modal) {
   if (!modal) return;
+  modalSwapInProgress = true;
+  const animateBackdrop = !modalBackdropVisible;
   closeOtherModals(modal);
+  showModalBackdrop({ animate: animateBackdrop });
   if (typeof modal.showModal === "function") modal.showModal();
   else modal.setAttribute("open", "");
+  modalSwapInProgress = false;
+  syncModalBackdrop();
 }
 
 function openLimitModal() {
@@ -968,6 +1058,7 @@ function wireAnimatedModal(modal, onClose) {
 
   modal.addEventListener("close", () => {
     onClose?.();
+    syncModalBackdrop();
   });
 }
 
