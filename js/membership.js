@@ -894,17 +894,17 @@ function shareModalHtml(game, code) {
   const directLinkLabel = "play.dingopunks.com/?" + code;
   const dlHtml = `
       <dd>
-        <strong>Option 1:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
+          <strong>Option 1:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game automatically.
         <div class="dpaam-share-copy-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy link</button>
         </div>
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dd>
-        <strong>Option 2:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game automatically.
+          <strong>Option 2:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
         <div class="dpaam-share-copy-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy link</button>
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
+          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
         </div>
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>

@@ -745,7 +745,6 @@ a.dpaam-topbar-btn {
 
 .dpaam-active-count {
   font-size: var(--dpaam-text-sm);
-  font-weight: 500;
   color: var(--dpaam-black-muted);
 }
 
@@ -1394,7 +1393,7 @@ a.dpaam-topbar-btn {
 .dpaam-modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 30;
   margin: 0;
   padding: 0;
   border: 0;
@@ -1949,7 +1948,6 @@ dd a {
   }
 
   .dpaam-tabbar {
-    margin-top: var(--dpaam-pad);
     gap: var(--dpaam-pad-xs);
   }
 
