@@ -1809,10 +1809,9 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-share-code-inline .dpaam-share-code-char {
-  height: 18px;
-  width: 18px;
+  width: 19px;
   font-weight: 600;
-  padding: 1px 0 0 0;
+  padding: 0px 0 0px 0;
   background: var(--dpaam-border);
   color: var(--dpaam-black-muted);
   border: none;
