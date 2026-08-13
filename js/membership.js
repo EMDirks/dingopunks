@@ -353,7 +353,6 @@ function generateCode(gameId) {
   renderFavorites();
   renderLibrary();
   pulseTabCount("active");
-  showToast("✓ \u00A0 Ready to share");
   return true;
 }
 
@@ -452,7 +451,7 @@ function renderActiveCodes() {
                 data-action="cancel-code"
                 aria-label="Cancel code"
               >${removeIconSvg()}</button>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-preview">Answers</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
               <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>
             </div>
           </div>
@@ -464,7 +463,7 @@ function renderActiveCodes() {
 }
 
 function favoriteCardHtml(game) {
-  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate dpaam-btn-favorite-activate" data-action="share-code">Share</button>`;
+  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>`;
   return `
     <li
       class="dpaam-card dpaam-card--favorite"
@@ -636,7 +635,7 @@ function fillSelect(selectEl, values, labelFn, allLabel = "All") {
 const SHOW_STANDARD_IN_MODAL = false;
 
 let modalGameId = null;
-let modalContext = "library"; // "library" | "favorites"
+let modalContext = "library"; // "library" | "favorites" | "active"
 let pendingThemeOpen = null;
 let themeModalReturn = null;
 let pendingInfoReopen = null;
@@ -794,6 +793,7 @@ function openModal(gameId, context = "library") {
   els.modalBody.innerHTML = modalBodyHtml(game, dlHtml);
 
   refreshModalActionButton();
+  refreshModalPreviewButton();
 
   showExclusiveModal(els.modal);
 }
@@ -843,6 +843,16 @@ function refreshModalActionButton() {
   btn.removeAttribute("aria-label");
 }
 
+function refreshModalPreviewButton() {
+  if (!modalGameId) return;
+  const btn = els.modalPreview;
+  if (modalContext === "active") {
+    btn.textContent = "Answer Key";
+  } else {
+    btn.textContent = "Preview";
+  }
+}
+
 function closeAnimatedModal(modal) {
   if (!modal.open) return;
   if (modal.classList.contains("is-closing")) return;
@@ -884,7 +894,7 @@ function shareModalHtml(game, code) {
   const directLinkLabel = "play.dingopunks.com/?" + code;
   const dlHtml = `
       <dd>
-        <strong>Option 1:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>
+        <strong>Option 1:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
         <div class="dpaam-share-copy-actions">
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
@@ -892,7 +902,7 @@ function shareModalHtml(game, code) {
       </dd>
       <div class="dpaam-modal-dl-divider" role="separator"></div>
       <dd>
-        <strong>Option 2:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game directly.
+        <strong>Option 2:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game automatically.
         <div class="dpaam-share-copy-actions">
           <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy link</button>
         </div>
@@ -909,10 +919,33 @@ function shareModalHtml(game, code) {
 
 let toastTimer = null;
 
+function hideToast() {
+  const toast = document.getElementById("dpaam-toast");
+  if (!toast || !toast.classList.contains("dpaam-toast--visible")) return;
+
+  clearTimeout(toastTimer);
+  toast.classList.remove("dpaam-toast--entering", "dpaam-toast--pulse");
+  toast.classList.add("dpaam-toast--exiting");
+
+  const finish = () => {
+    toast.classList.remove("dpaam-toast--visible", "dpaam-toast--exiting");
+  };
+
+  toast.addEventListener(
+    "animationend",
+    (e) => {
+      if (e.animationName === "dpaam-toast-out") finish();
+    },
+    { once: true },
+  );
+  toastTimer = setTimeout(finish, 250);
+}
+
 function showToast(message) {
   const toast = document.getElementById("dpaam-toast");
   if (!toast) return;
   clearTimeout(toastTimer);
+  toast.classList.remove("dpaam-toast--exiting");
   toast.textContent = message;
 
   const isOpen = toast.classList.contains("dpaam-toast--visible");
@@ -944,9 +977,7 @@ function showToast(message) {
     );
   }
 
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("dpaam-toast--visible", "dpaam-toast--entering", "dpaam-toast--pulse");
-  }, 1000);
+  toastTimer = setTimeout(() => hideToast(), 1000);
 }
 
 function classroomShareTitle(game) {
@@ -1093,13 +1124,7 @@ function wireEvents() {
     switch (btn.dataset.action) {
       case "cancel-code": cancelCode(gameId); break;
       case "share-code": openShareModal(gameId); break;
-      case "open-preview":
-        window.open(
-          window.location.origin + "/preview.html?game=" + encodeURIComponent(gameId) + "&answers=1",
-          "_blank",
-          "noopener"
-        );
-        break;
+      case "open-details": openModal(gameId, "active"); break;
     }
   });
 
@@ -1226,11 +1251,12 @@ function wireEvents() {
     openThemeModal(btn.dataset.themeTitle);
   });
 
-  // Modal "View Preview"
+  // Modal Preview / Answer Key
   els.modalPreview.addEventListener("click", () => {
     if (!modalGameId) return;
+    const answers = modalContext === "active" ? "&answers=1" : "";
     window.open(
-      window.location.origin + "/preview.html?game=" + encodeURIComponent(modalGameId),
+      window.location.origin + "/preview.html?game=" + encodeURIComponent(modalGameId) + answers,
       "_blank",
       "noopener"
     );

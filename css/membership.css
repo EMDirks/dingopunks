@@ -1178,13 +1178,6 @@ a.dpaam-topbar-btn {
   width: var(--dpaam-code-btn-w);
 }
 
-/* Favorites card — Activate ↔ Activated (not used on active-card Share) */
-.dpaam-btn-favorite-activate,
-.dpaam-btn-favorite-activated {
-  padding-left: var(--dpaam-pad-lg);
-  padding-right: var(--dpaam-pad-lg);
-}
-
 .dpaam-btn-secondary {
   background: var(--dpaam-white);
   border: 1px solid var(--dpaam-border);
@@ -1330,6 +1323,17 @@ a.dpaam-topbar-btn {
   }
 }
 
+@keyframes dpaam-toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+}
+
 #dpaam-toast.dpaam-toast--visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
@@ -1337,6 +1341,10 @@ a.dpaam-topbar-btn {
 
 #dpaam-toast.dpaam-toast--entering {
   animation: dpaam-toast-in 0.2s ease forwards;
+}
+
+#dpaam-toast.dpaam-toast--exiting {
+  animation: dpaam-toast-out 0.2s ease forwards;
 }
 
 #dpaam-toast.dpaam-toast--pulse {
