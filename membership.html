@@ -343,9 +343,12 @@
     <!-- Theme modal -->
     <dialog class="dpaam-modal" id="dpaam-theme-modal" aria-labelledby="dpaam-theme-modal-title">
       <form method="dialog" class="dpaam-modal-form">
-        <header class="dpaam-modal-header dpaam-modal-header--with-back">
+        <header class="dpaam-modal-header dpaam-modal-header--with-back dpaam-theme-modal-header">
           <button type="button" class="dpaam-modal-back" id="dpaam-theme-modal-back" aria-label="Back" hidden>←</button>
-          <h3 class="dpaam-modal-title" id="dpaam-theme-modal-title"></h3>
+          <div class="dpaam-theme-modal-header-main">
+            <h3 class="dpaam-modal-title" id="dpaam-theme-modal-title"></h3>
+            <span class="dpaam-tag dpaam-theme-modal-season" id="dpaam-theme-modal-season" hidden></span>
+          </div>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body dpaam-modal-body--theme" id="dpaam-theme-modal-body"></div>

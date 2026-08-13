@@ -60,6 +60,7 @@ const els = {
   modalPreview: document.getElementById("dpaam-modal-preview"),
   themeModal: document.getElementById("dpaam-theme-modal"),
   themeModalTitle: document.getElementById("dpaam-theme-modal-title"),
+  themeModalSeason: document.getElementById("dpaam-theme-modal-season"),
   themeModalBody: document.getElementById("dpaam-theme-modal-body"),
   themeModalBack: document.getElementById("dpaam-theme-modal-back"),
   shareModal: document.getElementById("dpaam-share-modal"),
@@ -807,6 +808,11 @@ function openModal(gameId, context = "library") {
 
 function showThemeModal(theme) {
   els.themeModalTitle.textContent = theme.title;
+  if (els.themeModalSeason) {
+    const seasonText = theme.season ? formatLabel(theme.season) : "";
+    els.themeModalSeason.textContent = seasonText;
+    els.themeModalSeason.hidden = !seasonText;
+  }
   els.themeModalBody.innerHTML = `
     ${theme.body ? `<p class="dpaam-theme-modal-body">${escapeHtml(theme.body)}</p>` : ""}
     <div class="dpaam-theme-modal-hero">
@@ -896,32 +902,47 @@ function modalBodyHtml(game, dlInner) {
   return `${modalThumbHtml(game)}<dl class="dpaam-modal-dl">${dlInner}</dl>`;
 }
 
+function shareCodeCharsHtml(code) {
+  return [...code]
+    .map((ch) => `<span class="dpaam-share-code-char">${escapeHtml(ch)}</span>`)
+    .join("");
+}
+
+const SHARE_CLASSROOM_ICON = `<svg class="dpaam-share-classroom-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="8" height="6" rx="1" fill="#0F9D58"/><rect x="13" y="5" width="8" height="6" rx="1" fill="#F4B400"/><rect x="3" y="13" width="8" height="6" rx="1" fill="#4285F4"/><rect x="13" y="13" width="8" height="6" rx="1" fill="#DB4437"/></svg>`;
+
 function shareModalHtml(game, code) {
   const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(code);
   const directLinkLabel = "play.dingopunks.com/?" + code;
-  const dlHtml = `
-      <dd>
-          <strong>Option 1:</strong>&nbsp; Have students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>.<br>This link will launch the game automatically.
-        <div class="dpaam-share-copy-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="copy-direct-link">Copy link</button>
+  const optionsHtml = `
+    <div class="dpaam-share-options">
+      <section class="dpaam-share-option dpaam-share-option--recommended" aria-labelledby="dpaam-share-option-1-title">
+        <span class="dpaam-share-option-badge">Recommended</span>
+        <p class="dpaam-share-option-label">Option 1</p>
+        <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
+        <p class="dpaam-share-option-desc">Students visit the link below and the game launches automatically — no code to type in.</p>
+        <a class="dpaam-share-option-link" href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>
+        <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="copy-direct-link">Copy link</button>
+      </section>
+
+      <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-2-title">
+        <p class="dpaam-share-option-label">Option 2</p>
+        <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
+        <p class="dpaam-share-option-desc">Students go to <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and type in this code:</p>
+        <div class="dpaam-share-code-display" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</div>
+        <div class="dpaam-share-option-actions">
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
         </div>
-      </dd>
-      <div class="dpaam-modal-dl-divider" role="separator"></div>
-      <dd>
-          <strong>Option 2:</strong>&nbsp; Have students enter the game code <strong class="dpaam-share-code" aria-label="${escapeHtml(code)}">${escapeHtml(code).split("").map(ch => `<span class="dpaam-share-code-char">${ch}</span>`).join("")}</strong><br> at the website <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.
-        <div class="dpaam-share-copy-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
-        </div>
-      </dd>
-      <div class="dpaam-modal-dl-divider" role="separator"></div>
-      <dd>
-        <strong>Option 3:</strong>&nbsp; Share to Google Classroom.
-        <div class="dpaam-share-copy-actions">
-          <button type="button" class="dpaam-btn dpaam-btn-tertiary" data-action="share-google-classroom">Share to Google Classroom</button>
-        </div>
-      </dd>`;
-  return modalBodyHtml(game, dlHtml);
+      </section>
+
+      <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-3-title">
+        <p class="dpaam-share-option-label">Option 3</p>
+        <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
+        <p class="dpaam-share-option-desc">Post the game directly to one of your classes.</p>
+        <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
+      </section>
+    </div>`;
+  return `${modalThumbHtml(game)}${optionsHtml}`;
 }
 
 let toastTimer = null;
