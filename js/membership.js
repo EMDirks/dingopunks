@@ -639,6 +639,8 @@ let modalContext = "library"; // "library" | "favorites" | "active"
 let pendingThemeOpen = null;
 let themeModalReturn = null;
 let pendingInfoReopen = null;
+let pendingShareOpen = null;
+let pendingLimitOpen = false;
 
 const DPAAM_MODALS = [
   els.modal,
@@ -657,7 +659,7 @@ function isAnyModalOpen() {
 }
 
 function isModalTransitionPending() {
-  return Boolean(pendingThemeOpen || pendingInfoReopen);
+  return Boolean(pendingThemeOpen || pendingInfoReopen || pendingShareOpen || pendingLimitOpen);
 }
 
 function prefersReducedMotion() {
@@ -758,6 +760,11 @@ function showExclusiveModal(modal) {
 }
 
 function openLimitModal() {
+  if (els.modal.open) {
+    pendingLimitOpen = true;
+    closeAnimatedModal(els.modal);
+    return;
+  }
   showExclusiveModal(els.limitModal);
 }
 
@@ -987,7 +994,7 @@ function classroomShareTitle(game) {
 
 const CLASSROOM_SHARE_BODY = "Click the link to play your escape room!";
 
-function openShareModal(gameId) {
+function showShareModal(gameId) {
   const game = gameById(gameId);
   const active = activeCodeFor(gameId);
   if (!game || !active) return;
@@ -995,8 +1002,21 @@ function openShareModal(gameId) {
   shareGameId = gameId;
   shareCode = active.code;
   els.shareModalBody.innerHTML = shareModalHtml(game, active.code);
-
   showExclusiveModal(els.shareModal);
+}
+
+function openShareModal(gameId) {
+  const game = gameById(gameId);
+  const active = activeCodeFor(gameId);
+  if (!game || !active) return;
+
+  if (els.modal.open) {
+    pendingShareOpen = gameId;
+    closeAnimatedModal(els.modal);
+    return;
+  }
+
+  showShareModal(gameId);
 }
 
 function activateAndShare(gameId) {
@@ -1272,6 +1292,22 @@ function wireEvents() {
     if (pendingThemeOpen) {
       showThemeModal(pendingThemeOpen);
       pendingThemeOpen = null;
+      return;
+    }
+    if (pendingShareOpen) {
+      const gameId = pendingShareOpen;
+      pendingShareOpen = null;
+      modalGameId = null;
+      modalContext = "library";
+      showShareModal(gameId);
+      return;
+    }
+    if (pendingLimitOpen) {
+      pendingLimitOpen = false;
+      modalGameId = null;
+      modalContext = "library";
+      showExclusiveModal(els.limitModal);
+      return;
     }
     modalGameId = null;
     modalContext = "library";
