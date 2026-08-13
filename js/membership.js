@@ -917,18 +917,14 @@ function shareModalHtml(game, code) {
     <div class="dpaam-share-options">
       <section class="dpaam-share-option dpaam-share-option--recommended" aria-labelledby="dpaam-share-option-1-title">
         <span class="dpaam-share-option-badge">Recommended</span>
-        <p class="dpaam-share-option-label">Option 1</p>
-        <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
-        <p class="dpaam-share-option-desc">Students visit the link below and the game launches automatically — no code to type in.</p>
-        <a class="dpaam-share-option-link" href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a>
+        <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a link</h4>
+        <p class="dpaam-share-option-desc">Students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> and the game launches automatically.</p>
         <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="copy-direct-link">Copy link</button>
       </section>
 
       <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-2-title">
-        <p class="dpaam-share-option-label">Option 2</p>
         <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
-        <p class="dpaam-share-option-desc">Students go to <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and type in this code:</p>
-        <div class="dpaam-share-code-display" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</div>
+        <p class="dpaam-share-option-desc">Students enter <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.</p>
         <div class="dpaam-share-option-actions">
           <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
           <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
@@ -936,7 +932,6 @@ function shareModalHtml(game, code) {
       </section>
 
       <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-3-title">
-        <p class="dpaam-share-option-label">Option 3</p>
         <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
         <p class="dpaam-share-option-desc">Post the game directly to one of your classes.</p>
         <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>

@@ -1726,52 +1726,43 @@ a.dpaam-topbar-btn {
 
 .dpaam-share-option {
   position: relative;
-  padding: var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-xl);
   border-radius: var(--dpaam-radius-xl);
   background: var(--dpaam-light-gray);
 }
 
 .dpaam-share-option--recommended {
-  padding-top: calc(var(--dpaam-pad-lg) + var(--dpaam-pad-sm));
+  padding-top: calc(var(--dpaam-pad-lg) + var(--dpaam-pad-md));
   background: var(--dpaam-white);
-  border: 2px solid var(--dpaam-gold-light);
+  border: 2px solid var(--dpaam-blue-light);
 }
 
 .dpaam-share-option-badge {
   position: absolute;
   top: 0;
-  left: var(--dpaam-pad-lg);
+  left: var(--dpaam-pad-xl);
   transform: translateY(-50%);
   padding: 3px var(--dpaam-pad-sm) 1px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--dpaam-gold);
-  color: var(--dpaam-black);
+  background: var(--dpaam-blue-light);
+  color: var(--dpaam-blue-dark);
   border-radius: var(--dpaam-radius-pill);
 }
 
-.dpaam-share-option-label {
-  margin: 0 0 var(--dpaam-pad-xs);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--dpaam-black-muted);
-}
-
 .dpaam-share-option-title {
-  margin: 0 0 var(--dpaam-pad-sm);
+  margin: 0 0 var(--dpaam-pad-md);
   font-size: var(--dpaam-text-md);
   font-weight: 600;
   line-height: 1.3;
 }
 
 .dpaam-share-option-desc {
-  margin: 0 0 var(--dpaam-pad-md);
+  margin: 0 0 var(--dpaam-pad-lg);
   font-size: var(--dpaam-text-sm);
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--dpaam-black-muted);
 }
 
@@ -1785,33 +1776,23 @@ a.dpaam-topbar-btn {
   text-decoration: underline;
 }
 
-.dpaam-share-option-link {
-  display: block;
-  margin-bottom: var(--dpaam-pad-md);
-  font-size: var(--dpaam-text-sm);
-  font-weight: 600;
-  color: var(--dpaam-blue);
-  text-decoration: none;
-}
-
-.dpaam-share-option-link:hover {
-  text-decoration: underline;
-}
-
-.dpaam-share-code-display {
-  display: flex;
+.dpaam-share-code-inline {
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: var(--dpaam-pad-md);
+  vertical-align: middle;
+  gap: 2px;
+  margin: -4px 2px 0px 2px;
 }
 
-.dpaam-share-code-display .dpaam-share-code-char {
-  min-width: 36px;
-  height: 40px;
-  padding: 0;
-  font-size: var(--dpaam-text-md);
+.dpaam-share-code-inline .dpaam-share-code-char {
+  height: 18px;
+  width: 18px;
   font-weight: 600;
-  background: var(--dpaam-white);
+  padding: 1px 0 0 0;
+  background: var(--dpaam-border);
+  color: var(--dpaam-black-muted);
+  border: none;
+  font-family: sans-serif;
 }
 
 .dpaam-share-option-actions {
@@ -1823,6 +1804,17 @@ a.dpaam-topbar-btn {
   width: 100%;
 }
 
+.dpaam-share-option .dpaam-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--dpaam-pair-btn-h);
+  padding-top: 2px;
+  padding-bottom: 0;
+  text-align: center;
+}
+
 .dpaam-share-option-actions .dpaam-btn {
   flex: 1;
   min-width: 0;
@@ -1830,9 +1822,6 @@ a.dpaam-topbar-btn {
 
 .dpaam-share-classroom-btn {
   width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: var(--dpaam-pad-sm);
 }
 
