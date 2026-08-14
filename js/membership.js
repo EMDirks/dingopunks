@@ -1072,7 +1072,8 @@ function activateAndShare(gameId) {
 
 function setAccountPasswordFormOpen(open) {
   if (!els.accountPasswordForm || !els.accountChangePassword) return;
-  els.accountPasswordForm.hidden = !open;
+  els.accountPasswordForm.classList.toggle("dpaam-account-password-panel--open", open);
+  els.accountPasswordForm.inert = !open;
   els.accountChangePassword.setAttribute("aria-expanded", String(open));
   if (!open) {
     els.accountPasswordForm
@@ -1406,7 +1407,7 @@ function wireEvents() {
     openAccountModal();
   });
   els.accountChangePassword?.addEventListener("click", () => {
-    const open = els.accountPasswordForm?.hidden !== false;
+    const open = els.accountChangePassword.getAttribute("aria-expanded") !== "true";
     setAccountPasswordFormOpen(open);
   });
   els.accountPasswordCancel?.addEventListener("click", () => {
@@ -1444,14 +1445,72 @@ function applyQuickStartVisible(visible) {
 }
 
 const MOBILE_MENU_MQL = window.matchMedia("(max-width: 768px)");
+const MOBILE_MENU_TRANSITION_MS = 200;
+let mobileMenuCloseTimer = null;
+
+function finishMobileMenuClose() {
+  if (!els.mobileMenu) return;
+  clearTimeout(mobileMenuCloseTimer);
+  mobileMenuCloseTimer = null;
+  els.mobileMenu.hidden = true;
+  els.mobileMenu.classList.remove("is-closing");
+  if (els.mobileMenuBackdrop) {
+    els.mobileMenuBackdrop.hidden = true;
+    els.mobileMenuBackdrop.classList.remove("is-open");
+  }
+}
 
 function setMobileMenuOpen(open) {
   if (!els.mobileMenuToggle || !els.mobileMenu) return;
-  els.mobileMenuToggle.setAttribute("aria-expanded", String(open));
-  els.mobileMenuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  els.mobileMenu.hidden = !open;
-  if (els.mobileMenuBackdrop) els.mobileMenuBackdrop.hidden = !open;
-  document.documentElement.classList.toggle("dpaam-mobile-menu-open", open);
+
+  const menu = els.mobileMenu;
+  const backdrop = els.mobileMenuBackdrop;
+  const animate = !prefersReducedMotion();
+
+  clearTimeout(mobileMenuCloseTimer);
+
+  if (open) {
+    els.mobileMenuToggle.setAttribute("aria-expanded", "true");
+    els.mobileMenuToggle.setAttribute("aria-label", "Close menu");
+    menu.hidden = false;
+    menu.classList.remove("is-closing");
+    if (backdrop) backdrop.hidden = false;
+    document.documentElement.classList.add("dpaam-mobile-menu-open");
+
+    if (animate) {
+      requestAnimationFrame(() => {
+        menu.classList.add("is-open");
+        backdrop?.classList.add("is-open");
+      });
+    } else {
+      menu.classList.add("is-open");
+      backdrop?.classList.add("is-open");
+    }
+    return;
+  }
+
+  els.mobileMenuToggle.setAttribute("aria-expanded", "false");
+  els.mobileMenuToggle.setAttribute("aria-label", "Open menu");
+  menu.classList.remove("is-open");
+  backdrop?.classList.remove("is-open");
+  document.documentElement.classList.remove("dpaam-mobile-menu-open");
+
+  if (!animate || menu.hidden) {
+    finishMobileMenuClose();
+    return;
+  }
+
+  menu.classList.add("is-closing");
+  const onTransitionEnd = (e) => {
+    if (e.target !== menu || e.propertyName !== "transform") return;
+    menu.removeEventListener("transitionend", onTransitionEnd);
+    if (menu.classList.contains("is-closing")) finishMobileMenuClose();
+  };
+  menu.addEventListener("transitionend", onTransitionEnd);
+  mobileMenuCloseTimer = setTimeout(() => {
+    menu.removeEventListener("transitionend", onTransitionEnd);
+    if (menu.classList.contains("is-closing")) finishMobileMenuClose();
+  }, MOBILE_MENU_TRANSITION_MS + 50);
 }
 
 function initStickyTabbar() {
@@ -1490,7 +1549,9 @@ function initMobileMenu() {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !els.mobileMenu.hidden) setMobileMenuOpen(false);
+    if (e.key === "Escape" && els.mobileMenuToggle.getAttribute("aria-expanded") === "true") {
+      setMobileMenuOpen(false);
+    }
   });
 
   MOBILE_MENU_MQL.addEventListener("change", () => {

@@ -34,8 +34,8 @@ const resource =  {
                 character: "Candlewick",
                 asset: "candlewick.png",
                 dialogue : {
-                    incomplete: "Welcome to my farm! A box just arrived for me with a note inside, but I have no time to read it. Please tell me what it says, and hurry!",
-                    complete: "Thank you kindly! Now, whatever you do, stay out of the Frantic Factory after dark. Got it?"
+                    incomplete: "Welcome to my farm! I got a box with a note inside, but I have no time to read it. Please tell me what it says, and hurry!",
+                    complete: "Thank you kindly! Now, whatever you do, stay away from the Frantic Factory after dark. Got it?"
                 },
             },
 
@@ -57,7 +57,7 @@ const resource =  {
                                 passage: {
                                     text:   "I\'m Farmer Jeremy, and last year, my pumpkin patch was in big trouble. Halloween was one day away, but my pumpkins were still small and green! Then, I set this magic candle down in the patch. It glowed all night long. By morning, the pumpkins were big, orange, and ready to pick! \
                                     <br>\
-                                    This candle has helped my patch many times. But its magic is running low, so use it wisely."
+                                    This candle has helped my patch many times. Now, I want you to have it."
                                 }
                             }
                         ],
@@ -81,7 +81,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-2%",
-                                translateY: "10%",
+                                translateY: "9%",
                                 rotate: "-5deg",
                             }
                         }
@@ -184,8 +184,8 @@ const resource =  {
                 character: "The Gnomads",
                 asset: "the-gnomads.png",
                 dialogue : {
-                    incomplete: "We need help with the harvest! Two goblins want the job, but we don\'t know who to pick. Read about both, then tell us who works the hardest!",
-                    complete: "I can\'t believe we have to trust a goblin, but Jo earned it fair and square. Let\'s get going!"
+                    incomplete: "We need help with the harvest! Two goblins want the job, but we don\'t know who to pick. Read about both, then tell us who works the hardest.",
+                    complete: "Arya it is! Thanks for the help, Dingo Punks. See ya on the road!"
                 },
             },
 
@@ -204,7 +204,7 @@ const resource =  {
                                 passage: {
                                     text:   "Goblin Arya wanted to grow a big radish. So every day, she woke up early and got to work. She watered it, gave it food, and even pulled weeds that grew too close.\
                                     <br>\
-                                    On harvest day, Goblin Arya\'s radish was the biggest she\'d ever seen! \"Hard work pays off,\" she said with a grin."
+                                    On harvest day, Goblin Arya\'s radish was the biggest she\'d ever seen. \"Hard work pays off!\" she said with a grin."
                                 }
                             }
                         ],
@@ -223,7 +223,7 @@ const resource =  {
                                     text: 'Back to Bed',
                                 },
                                 passage: {
-                                    text:   "Goblin Dave loved his bed more than anything. He slept all day, every day. He was too lazy to even lift a finger, let alone a shovel.\
+                                    text:   "Goblin Dave loved his bed more than anything. He slept all day, every day. He was too lazy to lift a finger, let alone a shovel.\
                                     <br>\
                                     On harvest day, Goblin Dave woke up and saw Arya's giant radish. \"That\'s not fair!\" he said. But he never planted a single seed."
                                 }
@@ -233,7 +233,7 @@ const resource =  {
                             transform: {
                                 translateX: "15%",
                                 translateY: "-2%",
-                                rotate: "3deg",
+                                rotate: "4deg",
                             }
                         }
                     }
@@ -245,7 +245,7 @@ const resource =  {
                             padding: "default"
                         },
                         dimension: {
-                            width: "percent65",
+                            width: "percent70",
                             height: "auto",
                         },
                         flexbox: {
@@ -282,16 +282,16 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] Which character grew a big radish?",
-                        correctIndex: 0,
+                        title: "[<g>1.] Which character grows a big onion?",
+                        correctIndex: 2,
                         paragraph: [
-                            "Goblin {A}rya",
+                            "Goblin Ar{y}a",
                             "{G}oblin Dave",
-                            "None of {t}he above",
+                            "Neither char{a}cter grew a big onion",
                         ],
                     },
                     {
-                        title: "[<g>2.] True or false: Goblin Arya is someone who works hard every day.",
+                        title: "[<g>2.] True or false: Goblin Arya is someone who works very hard.",
                         columns: 2,
                         correctIndex: 0,
                         paragraph: [
@@ -309,12 +309,12 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] Which character loves to sleep?",
+                        title: "[<g>4.] Who loves to sleep?",
                         correctIndex: 1,
                         paragraph: [
                             "Go{b}lin Arya",
                             "Goblin D{a}ve",
-                            "Neither character love{s} to sleep",
+                            "Neither goblin love{s} to sleep",
                         ],
                     },
                 ],  
@@ -351,7 +351,7 @@ const resource =  {
                 character: "Mabel Mallow",
                 asset: "mabel-mallow.png",
                 dialogue : {
-                    incomplete: "I have a new drink to deliver to the farm. I heard it might boost your mood! But I have no idea what it actually is. Can you read the label for me?",
+                    incomplete: "I have a drink to deliver to the farm. It can help everyone feel happy and full of energy! But I don\'t know what it actually is. Will you read the label?",
                     complete: "Thanks so much! Now let\'s get out of here \u2014 I don\'t want the Fallcrawlers to eat me!"
                 },
             },
@@ -372,13 +372,14 @@ const resource =  {
                                     text: "By Mabel Mallow",
                                 },
                                 passage: {
-                                    text: "Everyone loved Ms. Clove's apple cider. But one year, an early frost killed all her apple trees. She had no apples left! Now, Ms. Clove had a big problem. How could she make cider with no apples?\
+                                    text: "Everyone loved Ms. Clove's apple cider. But one year, frost killed all her apple trees. She had no apples left! Ms. Clove had a big problem. How could she make cider with no apples?\
                                     <br>\
-                                    Ms. Clove did not give up. She tried making cider with pears, plums, and peaches. She tried until she found the perfect mix. On festival day, everyone came to taste it. Ms. Clove gave the mayor the first cup. He took a sip and stopped...\
+                                    Ms. Clove didn\'t give up. She tried making cider with pears, plums, and peaches. She tried until she found the perfect mix. On festival day, everyone came to taste it. Ms. Clove gave the mayor the first cup. He took a sip and stopped...\
                                     <br>\
-                                    Then his face lit up with a huge smile! Everyone cheered. Ms. Clove\'s \"no-apple\" cider was a huge hit! They all lined up for a cup. What started as a big problem turned into her best cider yet.\
+                                    His face lit up with a huge smile! Everyone cheered. Ms. Clove\'s \"no-apple\" cider was a huge hit! They all lined up for a cup. What started as a big problem turned into her best cider yet.\
                                     <br>\
-                                    [<tal>200 calories per serving | 4 servings per bottle]"
+                                    <br>\
+                                    [<tcs>200 calories per serving | 4 servings per bottle]"
                                 }
                             }
                         ],
@@ -445,7 +446,7 @@ const resource =  {
                         paragraph: [
                             "\"Ms. Clove\'s No-Ap{p}le Cider\"",
                             "\"By Ma{b}el Mallow\"",
-                            "\"Everyone loved Ms. Clove's apple c{i}der.\"",
+                            "\"200 calories per serv{i}ng\"",
                         ],
                     },
                     {
@@ -454,14 +455,14 @@ const resource =  {
                         paragraph: [
                             "The t{o}wn hated her cider",
                             "Sh{e} had no apples to make her cider",
-                            "The mayor tried to shut dow{n} her orchard",
+                            "The {m}ayor tried to close her orchard",
                         ],
                     },
                     {
                         title: "[<g>3.] What happened at the beginning of the story?",
                         correctIndex: 0,
                         paragraph: [
-                            "An early frost killed Ms. Clove\'s {a}pple trees",
+                            "Frost killed Ms. Clove\'s {a}pple trees",
                             "The mayor tasted Ms. Clove\'s cid{e}r",
                             "Ms. Clove ga{v}e up and quit",
                         ],
@@ -471,7 +472,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "Ms. C{l}ove cried and went to bed",
-                            "Ms. Clove\'s \"no-apple\" cide{r} became a huge hit",
+                            "Ms. Clove\'s \"no-apple\" cide{r} was a huge hit",
                             "E{v}eryone hated the taste of Ms. Clove\'s cider",
                         ],
                     },
@@ -530,11 +531,11 @@ const resource =  {
                                     text: "By Candlewick",
                                 },
                                 passage: {
-                                    text: "Mia loved her garden. But one day, her favorite gourd looked sad and droopy! Mia asked her neighbor, Lena, for help. Together, they gave it extra water and covered it with blankets on cold nights. Soon, the gourd was happy again!\
+                                    text: "Mia loved her garden. But one day, her best gourd looked sad and droopy! Mia asked her neighbor, Lena, for help. Together, they gave it extra water and covered it with blankets on cold nights. Soon, the gourd was happy again!\
                                     <br>\
-                                    Later, Mia's friend Jack was building a catapult for the science fair, but he could never get it to work. It made him feel sad. Mia remembered how extra help saved her gourd, so she decided to help Jack too. Mia even let Jack launch her best gourd as a test. It flew through the sky and smashed through a window way over in Goblin Greg\'s cave!\
+                                    Later, Mia's friend Jack was building a catapult, but he could never get it to work. It made him feel sad. Mia remembered how extra help saved her gourd, so she decided to help Jack too. Mia even let Jack use her best goard to test it. It flew through the sky and smashed right through a window in Goblin Ezra\'s house!\
                                     <br>\
-                                    From that day on, Mia knew that a little extra help from a friend can fix almost any problem."
+                                    From that day on, Mia learned that a little help from a friend can make a problem easier to solve."
                                 }
                             }
                         ],
@@ -599,8 +600,8 @@ const resource =  {
                     paragraph: [
                         'A. [<u>Right] or [<u>wrong]: Jack needs help building a catapult.',
                         'B. How does Jack feel when his catapult doesn\'t work?',
-                        'C. Who helped Mia when her favorite gourd looked sad and droopy: [<u>Lena] or [<u>Greg]?',     
-                        'D. In this story, Mia learned that \"a little extra help from a friend can fix almost any ___ .\"',                    
+                        'C. Who helped Mia when her favorite gourd looked sad and droopy: [<u>Lena] or [<u>Ezra]?',     
+                        'D. Mia learned that \"a little help from a friend can make a ___ easier to solve.\"',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","0","(C)L","0"],

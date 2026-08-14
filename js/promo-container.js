@@ -57,6 +57,10 @@ function renderPromoContainer(promoContainer, themeKey = theme, assetsMap = them
 
   createElement('div', ['splash-tv-overlay', 'splash-tv-overlay--visible'], promoContainer);
 
+  const logo = createElement('img', ['promo-container__logo'], promoContainer);
+  logo.src = 'assets/branding/logo/logo-main.png';
+  logo.alt = '';
+
   if (assets.alert) {
     const alert = createElement('p', ['promo-container__alert'], promoContainer);
     alert.textContent = assets.alert;

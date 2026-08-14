@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow">
   <title>All-Access | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
   <link rel="stylesheet" href="css/membership.css" />
@@ -62,17 +63,35 @@
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
           onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
-        >Play</button>
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-play.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Play</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-account-btn-mobile"
-        >Account</button>
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-account.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Account</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn-mobile"
-        >Help</button>
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-help.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Help</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
       </nav>
     </header>
     <button
@@ -410,17 +429,16 @@
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body dpaam-account-body">
+          <div class="dpaam-account-credentials">
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-email-label">
             <div class="dpaam-account-row">
               <div class="dpaam-account-row-main">
                 <h4 class="dpaam-account-label" id="dpaam-account-email-label">Email</h4>
                 <p class="dpaam-account-value" id="dpaam-account-email">teacher@example.com</p>
-                <p class="dpaam-account-helper">Contact support to change your email</p>
+                <!-- <p class="dpaam-account-helper"><a href="https://dingopunks.com/pages/contact">Contact us</a> to change your email.</p> -->
               </div>
             </div>
           </section>
-
-          <hr class="dpaam-account-divider" />
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-password-label">
             <div class="dpaam-account-row">
@@ -438,73 +456,76 @@
                 Change Password
               </button>
             </div>
-            <div class="dpaam-account-password-form" id="dpaam-account-password-form" hidden>
-              <label class="dpaam-account-field">
-                <span class="dpaam-account-field-label">Current password</span>
-                <input
-                  type="password"
-                  class="dpaam-account-input"
-                  id="dpaam-account-password-current"
-                  name="current-password"
-                  autocomplete="current-password"
-                  placeholder="••••••••"
-                />
-              </label>
-              <label class="dpaam-account-field">
-                <span class="dpaam-account-field-label">New password</span>
-                <input
-                  type="password"
-                  class="dpaam-account-input"
-                  id="dpaam-account-password-new"
-                  name="new-password"
-                  autocomplete="new-password"
-                  placeholder="••••••••"
-                />
-              </label>
-              <label class="dpaam-account-field">
-                <span class="dpaam-account-field-label">Confirm new password</span>
-                <input
-                  type="password"
-                  class="dpaam-account-input"
-                  id="dpaam-account-password-confirm"
-                  name="confirm-password"
-                  autocomplete="new-password"
-                  placeholder="••••••••"
-                />
-              </label>
-              <div class="dpaam-account-password-actions">
-                <button
-                  type="button"
-                  class="dpaam-btn dpaam-btn-secondary"
-                  id="dpaam-account-password-cancel"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  class="dpaam-btn dpaam-btn-primary"
-                  id="dpaam-account-password-save"
-                >
-                  Update Password
-                </button>
+            <div class="dpaam-account-password-panel" id="dpaam-account-password-form" inert>
+              <div class="dpaam-account-password-form">
+                <label class="dpaam-account-field">
+                  <span class="dpaam-account-field-label">Current password</span>
+                  <input
+                    type="password"
+                    class="dpaam-account-input"
+                    id="dpaam-account-password-current"
+                    name="current-password"
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                  />
+                </label>
+                <label class="dpaam-account-field">
+                  <span class="dpaam-account-field-label">New password</span>
+                  <input
+                    type="password"
+                    class="dpaam-account-input"
+                    id="dpaam-account-password-new"
+                    name="new-password"
+                    autocomplete="new-password"
+                    placeholder="••••••••"
+                  />
+                </label>
+                <label class="dpaam-account-field">
+                  <span class="dpaam-account-field-label">Confirm new password</span>
+                  <input
+                    type="password"
+                    class="dpaam-account-input"
+                    id="dpaam-account-password-confirm"
+                    name="confirm-password"
+                    autocomplete="new-password"
+                    placeholder="••••••••"
+                  />
+                </label>
+                <div class="dpaam-account-password-actions">
+                  <button
+                    type="button"
+                    class="dpaam-btn dpaam-btn-secondary"
+                    id="dpaam-account-password-cancel"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="dpaam-btn dpaam-btn-primary"
+                    id="dpaam-account-password-save"
+                  >
+                    Update Password
+                  </button>
+                </div>
               </div>
             </div>
           </section>
-
-          <hr class="dpaam-account-divider" />
+          </div>
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
             <div class="dpaam-account-subscription">
               <h4 class="dpaam-account-plan-name" id="dpaam-account-plan-name">
-                All-Access Membership
+                <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
               </h4>
-              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$4.08/mo</p>
-              <p class="dpaam-account-plan-billing" id="dpaam-account-plan-billing">
-                billed annually at $49/yr
-              </p>
-              <p class="dpaam-account-plan-renewal" id="dpaam-account-plan-renewal">
-                Renews Jul 12, 2027
-              </p>
+              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$3.99/mo</p>
+              <div class="dpaam-account-plan-meta">
+                <p class="dpaam-account-plan-billing" id="dpaam-account-plan-billing">
+                  Billed annually at $47.88/yr
+                </p>
+                <p class="dpaam-account-plan-renewal" id="dpaam-account-plan-renewal">
+                  Renews Jul 12, 2027
+                </p>
+              </div>
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-primary dpaam-account-manage-btn"

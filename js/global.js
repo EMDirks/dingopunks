@@ -1640,6 +1640,7 @@ function styleText(input) {
     'blu': 'style-text--blue',
     'fsms': 'style-font--size__mediumSmall',
     'fss': 'style-font--size__small',
+    'tcs': ['style-text--align--center', 'style-font--size__small'],
     'tal': ['style-text--align--center'],
     'taj': ['style-text--align--justify'],
     'bgl': ['style-text--background--gray-light'],

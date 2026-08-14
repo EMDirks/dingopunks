@@ -1098,6 +1098,17 @@
     opacity: 0.2;
 }
 
+.promo-container__logo {
+    position: absolute;
+    right: 1.8cqi;
+    bottom: 1.5cqi;
+    height: 9cqi;
+    width: auto;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 2;
+}
+
 .promo-container__alert {
     position: absolute;
     z-index: 3;

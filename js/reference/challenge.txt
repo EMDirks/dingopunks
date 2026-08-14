@@ -915,7 +915,7 @@ challengeArray: [
 
     intro: {
         character: "Mabel Mallow",
-        asset: "mallow-maze.png",
+        asset: "mabel-mallow.png",
         dialogue : {
             incomplete: "Lorem ipsum",
             complete: "Lorem ipsum"

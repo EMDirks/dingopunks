@@ -34,8 +34,8 @@ const resource =  {
                 character: "Stefan Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "I have a secret, real and true. But I can\'t keep it in \u2014 I must tell you! Will you listen to me? Oh please, say yes! Your help could save us from this mess.",
-                    complete: "Thank you, thank you, my dear friend! Please stay safe when the daylight ends."
+                    incomplete: "I have a secret, real and true. But I think I must tell you! Will you listen? Please, say yes! Your help could save us from this mess.",
+                    complete: "Thank you, thank you, my dear friend! Please stay safe when daylight ends."
                 },
             },
 
@@ -59,7 +59,7 @@ const resource =  {
                                     <br>\
                                     a chest of gold can still be found.\
                                     <br>\
-                                    It\'s buried deep, all tucked away\
+                                    It\'s buried deep, all tucked away,\
                                     <br>\
                                     and so my secret stays that way."
                                 }
@@ -122,7 +122,7 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Are there [<u>one], [<u>four], or [<u>six] lines in Stefan Sage\'s poem?',
+                        'A. Are there [<u>four], [<u>six], or [<u>nine] lines in Stefan Sage\'s poem?',
                         'B. [<u>Right] or [<u>wrong]: every line of this poem has seven syllables.',
                         'C. In this poem, which word rhymes with \"found\" ?',     
                         'D. \"Secrets of the ___\" is the title of this poem.',                    
@@ -169,7 +169,7 @@ const resource =  {
                 character: "Mabel Mallow",
                 asset: "mabel-mallow.png",
                 dialogue : {
-                    incomplete: "Well hey there! I have some important letters to deliver to the farm. Can you help me figure out what they\'re all about?",
+                    incomplete: "Well, hey there! I have some important letters to deliver to the farm. Can you help me figure out what they\'re all about?",
                     complete: "Thanks a bunch! Now let's get out of this corn maze before those Fallcrawlers show up."
                 },
             },
@@ -190,7 +190,7 @@ const resource =  {
                                     text: 'To: Scarecrow Sam',
                                 },
                                 passage: {
-                                    text:   "Watch the yams all night\
+                                    text:   "<br>Watch the yams all night\
                                     <br>\
                                     Wave your arms to scare things off\
                                     <br>\
@@ -201,7 +201,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "10%",
-                                translateY: "-60%",
+                                translateY: "-45%",
                                 rotate: "-3deg",
                             }
                         }
@@ -216,7 +216,7 @@ const resource =  {
                                     text: 'To: Hollow Jack',
                                 },
                                 passage: {
-                                    text:   "Hide the silver key\
+                                    text:   "<br>Hide the silver key\
                                     <br>\
                                     In the old wooden stable\
                                     <br>\
@@ -227,7 +227,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "-10%",
-                                translateY: "60%",
+                                translateY: "62%",
                                 rotate: "1deg",
                             }
                         }
@@ -246,7 +246,7 @@ const resource =  {
                             padding: "default"
                         },
                         dimension: {
-                            width: "percent45",
+                            width: "percent40",
                             height: "auto",
                         },
                         flexbox: {
@@ -299,7 +299,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] When can Scarecrow Sam stop watching?",
+                        title: "[<g>3.] When can Scarecrow Sam stop working?",
                         correctIndex: 1,
                         paragraph: [
                             "At nigh{t}",
@@ -350,7 +350,7 @@ const resource =  {
                 character: "Candlewick",
                 asset: "candlewick.png",
                 dialogue : {
-                    incomplete: "Howdy, welcome to the farm! I just got a brand new candle, and something about it feels... different. Can you help me figure out what\'s so special about it?",
+                    incomplete: "Howdy! I just got a brand new candle, and something about it feels... different. Can you help me figure out what\'s so special about it?",
                     complete: "Thanks, sweetie! Just stay away from the factory after dark. Trust me on this one."
                 },
             },
@@ -369,7 +369,7 @@ const resource =  {
                                 },
                                 passage: {
                                     text:   "<br>\
-                                    The [<sal>candlelight] flickers\
+                                    The [<hi>candlelight] flickers\
                                     <br>\
                                     It glows in the night\
                                     <br>\
@@ -380,20 +380,20 @@ const resource =  {
                                     <br>\
                                     Causing you to sneeze\
                                     <br>\
-                                    [<blu>Unable] to stop it!\
+                                    [<u>Unable] to stop!\
                                     <br>\
                                     <br>\
                                     You\'ll giggle and chuckle\
                                     <br>\
                                     Until the candle burns out\
                                     <br>\
-                                    Then back to [<blu>silence]."
+                                    Then back to [<u>silence]."
                                 }
                             }
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
+                                translateX: "3%",
                                 translateY: "0%",
                                 rotate: "-3deg",
                             }
@@ -442,7 +442,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] In this poem, what does the red word mean?",
+                        title: "[<g>1.] In this poem, the highlighted word means ___ .",
                         correctIndex: 2,
                         paragraph: [
                             "Darkne{s}s",
@@ -469,7 +469,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] The blue word in stanza two means ___ .",
+                        title: "[<g>4.] The underlined word in stanza two means ___ .",
                         correctIndex: 1,
                         paragraph: [
                             "Tic{k}lish",
@@ -533,25 +533,22 @@ const resource =  {
                                 },
                                 passage: {
                                     text:   "<br>\
-                                    The [<sal>candlelight] flickers\
+                                    Jack the robot \u2014 don't hide your clank!\
                                     <br>\
-                                    It glows in the night\
+                                    Your wobbly walk is just so YOU.\
                                     <br>\
-                                    Not dim, but as bright as the sun!\
+                                    No need to copy, no need to change,\
                                     <br>\
-                                    <br>\
-                                    Its glow tickles your nose\
-                                    <br>\
-                                    Causing you to sneeze\
-                                    <br>\
-                                    [<blu>Unable] to stop it!\
+                                    your silly beeps are special too.\
                                     <br>\
                                     <br>\
-                                    You\'ll giggle and chuckle\
+                                    So clank on, dude, and beep with pride.\
                                     <br>\
-                                    Until the candle burns out\
+                                    Your gears and wires? A beautiful sight.\
                                     <br>\
-                                    Then back to [<blu>silence]."
+                                    My good friend Jack, please listen to me.\
+                                    <br>\
+                                    Just be yourself. Yep, that\'s the key!"
                                 }
                             }
                         ],
@@ -559,7 +556,7 @@ const resource =  {
                             transform: {
                                 translateX: "0%",
                                 translateY: "0%",
-                                rotate: "1deg",
+                                rotate: "2deg",
                             }
                         }
                     }
