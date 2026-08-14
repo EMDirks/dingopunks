@@ -530,8 +530,8 @@ body {
 
 .dpaam-mobile-menu-btn-icon-img {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .dpaam-mobile-menu-btn-label {
@@ -543,7 +543,7 @@ body {
 .dpaam-mobile-menu-btn-caret {
   display: block;
   flex-shrink: 0;
-  width: 20px;
+  width: 18px;
   margin-left: auto;
 }
 
@@ -822,10 +822,6 @@ a.dpaam-topbar-btn {
   width: 100%;
   margin: 0;
   color: var(--dpaam-black-muted);
-}
-
-.dpaam-active-list > .dpaam-empty {
-  grid-column: 1 / -1;
 }
 
 /* ---------- Section 1: Active codes ---------- */
@@ -1324,7 +1320,7 @@ a.dpaam-topbar-btn {
 
 .dpaam-card__actions .dpaam-btn.dpaam-btn-favorite {
   flex: 0 0 auto;
-  width: auto;
+  width: 40px;
   min-width: auto;
   padding-left: var(--dpaam-pad-md);
   padding-right: var(--dpaam-pad-md);
@@ -1674,18 +1670,27 @@ a.dpaam-topbar-btn {
 
 .dpaam-modal-dl dd {
   margin: 0;
+  text-align: left;
 }
 
 .dpaam-modal-theme-link {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.35em;
+  width: auto;
+  max-width: 100%;
   background: none;
   border: none;
   padding: 0;
   font: inherit;
   color: var(--dpaam-blue);
+  text-align: left;
   cursor: pointer;
+}
+
+.dpaam-modal-theme-link-text {
+  text-align: left;
 }
 
 @media (hover: hover) {
@@ -2196,9 +2201,14 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-account-manage-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--dpaam-pair-btn-h);
+  padding: 6px 14px 4px 14px;
   width: 100%;
   margin-top: var(--dpaam-pad-lg);
-  box-sizing: border-box;
   text-align: center;
 }
 
@@ -2232,10 +2242,6 @@ dd a {
   position: relative;
   top: 2px;
 }
-#classroom-share-btn {
-  background-color: red;
-}
-
 /* ---------- Mobile (≤768px) ----------
    Type scale scales down proportionally via --dpaam-text-* tokens.
    All layout overrides are scoped here; desktop defaults are set above. ---------- */
@@ -2245,7 +2251,7 @@ dd a {
   /* --- Tokens --- */
 
   .dpaam {
-    --dpaam-text-xs:      11px;
+    --dpaam-text-xs:      10px;
     --dpaam-text-sm:      13px;
     --dpaam-text-md:      17px;
     --dpaam-text-lg:      20px;
@@ -2262,6 +2268,11 @@ dd a {
   .dpaam-btn-primary,
   .dpaam-btn-secondary {
     padding: 4px 12px 2px 12px;
+  }
+
+  .dpaam-btn-primary.dpaam-account-manage-btn {
+    min-height: 38px;
+    padding: 6px 14px 4px 14px;
   }
 
   /* --- Top bar: switch to hamburger layout --- */
@@ -2355,7 +2366,6 @@ dd a {
 
   .dpaam-tabbar {
     gap: var(--dpaam-pad-xs);
-    /* padding-left/right stay via --dpaam-gutter token */
     padding-top: var(--dpaam-pad-sm);
     padding-bottom: var(--dpaam-pad-xs);
     overflow-x: auto;
@@ -2392,9 +2402,26 @@ dd a {
     border-radius: var(--dpaam-radius-lg);
   }
 
+  .dpaam-section:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dpaam-pad-md);
+  }
+
   .dpaam-section-header {
     flex-wrap: wrap;
     gap: var(--dpaam-pad-sm);
+    margin-bottom: 0;
+  }
+
+  .dpaam-active-list,
+  .dpaam-favorites-list {
+    margin-top: 0;
+  }
+
+  .dpaam-active-list:empty,
+  .dpaam-favorites-list:empty {
+    display: none;
   }
 
   /* --- Quick Start guide --- */
@@ -2434,11 +2461,18 @@ dd a {
   .dpaam-filters {
     grid-template-columns: 1fr 1fr;
     gap: var(--dpaam-pad-sm);
-    margin-bottom: var(--dpaam-pad-lg);
+    margin-bottom: 0;
   }
 
   .dpaam-filters .dpaam-filter:last-child {
     grid-column: 1 / -1;
+  }
+
+  .dpaam-filter select {
+    height: var(--dpaam-pair-btn-h);
+    padding: 2px calc(12px + 16px) 0 12px;
+    background-position: right 12px center;
+    box-sizing: border-box;
   }
 
   /* --- Card thumbnails --- */
@@ -2472,14 +2506,22 @@ dd a {
     gap: 4px;
   }
 
-  /* --- Tag label: short form on mobile --- */
+  /* --- Tag label: short form on mobile (cards only) --- */
 
-  .dpaam-tag-label--full {
+  .dpaam-card .dpaam-tag-label--full {
     display: none;
   }
 
-  .dpaam-tag-label--short {
+  .dpaam-card .dpaam-tag-label--short {
     display: inline;
+  }
+
+  .dpaam-modal .dpaam-tag-label--full {
+    display: inline;
+  }
+
+  .dpaam-modal .dpaam-tag-label--short {
+    display: none;
   }
 
   /* --- Card action bar: like + info row, share beneath --- */
@@ -2539,16 +2581,17 @@ dd a {
   .dpaam-btn-details,
   .dpaam-modal-close,
   .dpaam-mobile-menu-toggle {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: 32px;
+    min-width: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
   .dpaam-modal-close {
-    margin-right: 0;
-    margin-top: 0;
+    margin-right: -16px;
+    margin-top: -20px;
+    border-radius: var(--dpaam-radius-lg);
   }
 
   .dpaam-guide-header .dpaam-modal-close {
@@ -2562,6 +2605,7 @@ dd a {
     width: min(900px, calc(100vw - 24px));
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
+    padding: var(--dpaam-pad-md);
   }
 
   .dpaam-modal-form {
@@ -2570,12 +2614,12 @@ dd a {
   }
 
   .dpaam-modal-header {
-    padding: var(--dpaam-pad-lg) var(--dpaam-pad) var(--dpaam-pad-md);
+    padding: var(--dpaam-pad-md) var(--dpaam-pad) var(--dpaam-pad-lg);
   }
 
   .dpaam-modal-body {
     flex-direction: column;
-    padding: var(--dpaam-pad);
+    padding: 0 var(--dpaam-pad) var(--dpaam-pad);
     gap: var(--dpaam-pad);
   }
 
@@ -2586,6 +2630,14 @@ dd a {
     padding: 0 var(--dpaam-pad) var(--dpaam-pad);
   }
 
+  #dpaam-modal .dpaam-modal-footer {
+    padding-top: var(--dpaam-pad-md);
+  }
+
+  #dpaam-modal .dpaam-modal-body {
+    gap: calc(var(--dpaam-pad) + var(--dpaam-pad-md));
+  }
+
   .dpaam-modal-footer .dpaam-btn {
     flex: 1 1 calc(50% - var(--dpaam-pad-sm));
     min-width: 0;
@@ -2593,22 +2645,33 @@ dd a {
   }
 
   .dpaam-modal-thumb {
-    width: 100%;
+    width: 150px;
     height: auto;
     aspect-ratio: 1;
-    max-width: 200px;
-    align-self: center;
+    align-self: flex-start;
+    display: none;
   }
 
   .dpaam-modal-dl {
-    grid-template-columns: 1fr;
-    gap: var(--dpaam-pad-xs) 0;
+    grid-template-columns: max-content 1fr;
+    gap: var(--dpaam-pad-md) var(--dpaam-pad-lg);
     width: 100%;
-    padding: var(--dpaam-pad);
+    padding: 0;
   }
 
   .dpaam-modal-dl dt {
-    margin-top: var(--dpaam-pad-sm);
+    margin-top: 0;
+    line-height: 1.15;
+  }
+
+  .dpaam-modal-dl dd {
+    min-width: 0;
+    line-height: 1.15;
+  }
+
+  .dpaam-modal-dl .dpaam-modal-theme-link,
+  .dpaam-modal-dl .dpaam-tag {
+    line-height: 1.3;
   }
 
   /* --- Theme modal: scale hero and artwork --- */
@@ -2624,6 +2687,10 @@ dd a {
   .dpaam-theme-modal-header-main {
     flex-wrap: wrap;
     gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-theme-modal-season {
+    display: none;
   }
 
   /* --- Account modal --- */
