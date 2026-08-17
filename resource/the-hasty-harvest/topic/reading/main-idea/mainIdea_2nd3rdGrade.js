@@ -215,7 +215,7 @@ const resource =  {
                 asset: "applegrim-orchard.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read \"Advice for Fall\" and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Read the passage and answer the multiple-choice questions. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -357,7 +357,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] How many key details are in \"Advice for Fall\" ?",
+                        title: "[<g>4.] How many key details are in \"The Truth About Fall\" ?",
                         correctIndex: 2,
                         paragraph: [
                             "One key de{t}ail",

@@ -33,6 +33,7 @@ Do **not** treat these as review findings unless the user explicitly asks for st
 - **Optional style** — debatable commas (e.g. comma before *or* in compound predicates), "sounds smoother if…" rewrites when the original is already acceptable English.
 - **Informal or dialect voice** — contractions, playful tone, "arch enemy" vs hyphenated forms, character grammar that matches voice.
 - **Punctuation inside styled/markup tokens** — colons, question marks, or periods inside `[<i>…]` (or similar) wrappers are fine if the product supports them.
+- **Red vs salmon highlights** — `[<sal>]` is dev-facing markup (salmon in CSS); student-facing copy correctly says **"red"** ("red text," "red sentence," etc.). Do **not** flag a mismatch between `[<sal>]` in source and "red" in question stems or hints.
 - **Space before end punctuation after `\"`** — in question stems and similar strings, a space between a closing escaped quote and terminal punctuation is a deliberate visual separator so the mark renders cleanly apart from the quoted text (e.g. `"Magic Pumpkin\" ?`, `"fortress\" ?`, `"Advice for Fall\" ?`). Do **not** suggest removing it.
 - **Empty placeholders** — `education.topic: ""`, `commonCore: ["XXX"]`, or other metadata left blank during production; do not nag unless the user asked to fill curriculum fields.
 - **No reassurance** — if nothing meets the bar above, output nothing (no "all clear"); see project `editorial-content-review` skill for the same "issues only" habit.
