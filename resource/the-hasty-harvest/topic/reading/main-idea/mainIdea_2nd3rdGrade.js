@@ -357,7 +357,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] How many key details are in \"The Truth About Fall\" ?",
+                        title: "[<g>4.] How many key details are in this passage?",
                         correctIndex: 2,
                         paragraph: [
                             "One key de{t}ail",
