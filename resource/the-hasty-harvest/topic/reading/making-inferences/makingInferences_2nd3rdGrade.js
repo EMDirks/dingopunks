@@ -25,7 +25,22 @@ const resource =  {
                 education: {
                     topic: "Making Inferences About Fiction",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -52,11 +67,11 @@ const resource =  {
                                     text: 'The Turnip that Kept Growing',
                                 },
                                 passage: {
-                                    text:   "<br>Craig always had a big harvest. He grew pumpkins, corn, carrots, and turnips. But one turnip gave him trouble. No matter what Craig did, it would not come out of the ground. He even tied his donkey to it, but the turnip stayed put.\
+                                    text:   "<br>Craig always had a big harvest. He grew pumpkins, carrots, and turnips. But one turnip gave him trouble. No matter what he did, it would not come out of the ground.\
                                     <br>\
-                                    So, Craig just left it there. Time went by, and the turnip got bigger. At night, the ground made a deep sound, like a stomach rumbling.\
+                                    So, Craig just left it there. Time went by, and the turnip got bigger and bigger. At night, the ground made a deep sound, like a stomach rumbling.\
                                     <br>\
-                                    Years later, the turnip was still there. Children slid down its sides, and a scarecrow stood nearby. But one morning, the scarecrow was gone! Bits of straw were all over the ground, leading to a dark hole under the turnip."
+                                    Years later, the turnip was still there. Children slid down its sides, and a scarecrow stood nearby. But one morning, the scarecrow was gone! Only a few bits of straw were left, leading to a dark hole under the turnip."
                                 }
                             }
                         ],
@@ -126,7 +141,7 @@ const resource =  {
                         correctIndex: 0,
                         columns: 2,
                         paragraph: [
-                            "Gr{o}wn very big",
+                            "Gr{o}wn huge",
                             "B{e}come mushy",
                         ],
                     },
@@ -140,7 +155,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] True or false: the scarecrow was most likely stolen by a family of goblins.",
+                        title: "[<g>4.] True or false: at the end of the story,the scarecrow was most likely stolen by a family of goblins.",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [
@@ -173,7 +188,27 @@ const resource =  {
                 education: {
                     topic: "Making Inferences About Nonfiction",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.1",
+                        "RI.2.3",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.9",
+                        "RI.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.1",
+                        "RI.3.3",
+                        "RI.3.8",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -207,7 +242,7 @@ const resource =  {
                         style: {
                             transform: {
                                 translateX: "8%",
-                                translateY: "-543%",
+                                translateY: "-3%",
                                 rotate: "-4deg",
                             }
                         }
@@ -219,7 +254,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "First, wash and peel full-size carrots. Then, cut them into small pieces. After that, use a machine to make them smooth and round. Finally, pack them into bags. ",
+                                    text: "First, wash and peel full-size carrots. Then, cut them into small pieces. After that, use a machine to make them smooth and round. Finally, pack them into bags.",
                                 },
                             },
                         ],
@@ -279,10 +314,10 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. Does \"Task One\" describe how to make [<u>pickles], [<u>oatmeal], or [<u>custard]? ',
+                        'A. Does \"Task One\" describe how to make [<u>pickles], [<u>oatmeal], or [<u>custard]?',
                         'B. [<u>True] or [<u>false]: \"Task Two\" shows how to make baby carrots.',
                         'C. Which task probably takes longer to finish: \"Task [<u>One]\" or \"Task [<u>Two]\"?',     
-                        'D. [<u>Right] or [<u>wrong]: Both texts give instructions.',                    
+                        'D. [<u>Right] or [<u>wrong]: Both texts give step-by-step instructions.',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","0","(C)O","0"],
@@ -317,7 +352,27 @@ const resource =  {
                 education: {
                     topic: "Making Inferences About a Visual",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.9",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.7",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.7",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RI.3.7",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.7",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -476,7 +531,24 @@ const resource =  {
                 education: {
                     topic: "Solving Riddles",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RI.2.2",
+                        "RI.2.6",
+                        "RI.2.8",
+                        "RI.2.10",
+                        "RL.2.1",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RI.3.2",
+                        "RI.3.10"
                     ],
                 }
             },
@@ -485,8 +557,8 @@ const resource =  {
                 character: "Stefan Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "Four new riddles came my way. I\'ve been stuck on them all day! My roots are tired, my branches too. Now let\'s see what YOU can do.",
-                    complete: "Thanks for knowing what to do. Come back again; I\'ll chat with you!"
+                    incomplete: "Four new riddles came my way... I\'ve been stuck on them all day. My roots are tired, my branches too. Now let\'s see what YOU can do.",
+                    complete: "Thanks for knowing what to do. Come back again, I\'ll chat with you!"
                 },
             },
 
@@ -659,7 +731,7 @@ const resource =  {
                     paragraph: [
                         'A. Is the answer to \"Riddle Three\" [<u>squash], [<u>napkin], or [<u>turkey]?',
                         'B. Read \"Riddle Four.\" Is [<u>leaf], [<u>dead], or [<u>wood] the answer?',
-                        'C. Is [<i>owl] the answer to \"Riddle [<u>One]\" or \"Riddle[ <u>Two]\" ?',     
+                        'C. Is [<i>owl] the answer to \"Riddle [<u>One]\" or \"Riddle [<u>Two]\" ?',     
                         'D. What is the answer to \"Riddle Two\" ?',                    
                     ],
                     puzzle: [

@@ -25,7 +25,24 @@ const resource =  {
                 education: {
                     topic: "Elements and Structure",
                     commonCore: [
-                        "XXX"
+                        "CCRA.L.3",
+                        "CCRA.L.5",
+                        "CCRA.R.4",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.3",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.4",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "L.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -34,7 +51,7 @@ const resource =  {
                 character: "Stefan Sage",
                 asset: "crispin-the-cider-sage.png",
                 dialogue : {
-                    incomplete: "I have a secret, real and true. But I think I must tell you! Will you listen? Please, say yes! Your help could save us from this mess.",
+                    incomplete: "I have a secret, real and true... I just hope I can trust you. Will you listen? Please, say yes! Your help can save us from this mess.",
                     complete: "Thank you, thank you, my dear friend! Please stay safe when daylight ends."
                 },
             },
@@ -61,7 +78,7 @@ const resource =  {
                                     <br>\
                                     It\'s buried deep, all tucked away,\
                                     <br>\
-                                    and so my secret stays that way."
+                                    but should my secret stay that way?"
                                 }
                             }
                         ],
@@ -125,7 +142,7 @@ const resource =  {
                         'A. Are there [<u>four], [<u>six], or [<u>nine] lines in Stefan Sage\'s poem?',
                         'B. [<u>Right] or [<u>wrong]: every line of this poem has seven syllables.',
                         'C. In this poem, which word rhymes with \"found\" ?',     
-                        'D. \"Secrets of the ___\" is the title of this poem.',                    
+                        'D. \"Secrets in the ___\" is the title of this poem.',                    
                     ],
                     puzzle: [
                         ["0","0","0","(A)F","0","0","0"],
@@ -160,7 +177,25 @@ const resource =  {
                 education: {
                     topic: "Comprehension",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -341,7 +376,41 @@ const resource =  {
                 education: {
                     topic: "Language and Vocabulary",
                     commonCore: [
-                        "XXX"
+                        "CCRA.L.3",
+                        "CCRA.L.4",
+                        "CCRA.L.5",
+                        "CCRA.L.6",
+                        "CCRA.R.1",
+                        "CCRA.R.4",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "L.2.3",
+                        "L.2.4",
+                        "L.2.4a",
+                        "L.2.4b",
+                        "L.2.5",
+                        "L.2.5b",
+                        "L.2.6",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RF.2.4c",
+                        "RI.2.4",
+                        "RL.2.4",
+                        "RL.2.10",
+                        "L.3.3",
+                        "L.3.4",
+                        "L.3.4a",
+                        "L.3.5",
+                        "L.3.5c",
+                        "L.3.6",
+                        "RF.3.3",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RF.3.4c",
+                        "RL.3.4",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -387,7 +456,7 @@ const resource =  {
                                     <br>\
                                     Until the candle burns out\
                                     <br>\
-                                    Then back to [<u>silence]."
+                                    Then back to silence."
                                 }
                             }
                         ],
@@ -502,7 +571,28 @@ const resource =  {
                 education: {
                     topic: "Central Message or Lesson",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -533,7 +623,7 @@ const resource =  {
                                 },
                                 passage: {
                                     text:   "<br>\
-                                    Jack the robot \u2014 don't hide your clank!\
+                                    Jack the robot, don't hide your clank!\
                                     <br>\
                                     Your wobbly walk is just so YOU.\
                                     <br>\

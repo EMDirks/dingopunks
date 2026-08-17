@@ -43,9 +43,9 @@ Propose a standard **only if all** of these are true:
 Do **not** recommend a standard merely because:
 
 - A CCRA anchor in the same family is already present (e.g. don't push `CCRA.R.1` when `RI.2.1` exists, or vice versa, unless the project's sibling challenges consistently include **both** and this one doesn't).
-- The fit is tangential or requires strict item-level proof.
-- It's a distant cousin in the strand (e.g. `RL.2.9` on a single poem with no comparison).
-- The list already looks complete for the topic compared to **sibling challenges** in the same repo (e.g. matching `escape-the-midnight-mall` ↔ `the-hasty-harvest` parity).
+- The fit is tangential or requires stretching past what the activity and questions actually do.
+- It's a distant cousin in the strand (e.g. `RL.2.9` on a **single** poem with no second text and no which/who/both item).
+- The list already looks complete for the topic compared to **sibling challenges** in the same repo (e.g. matching `escape-the-midnight-mall` ↔ `the-hasty-harvest` parity) — but still add codes the sibling omitted when **this** challenge clearly does the skill (see conventions below).
 
 **Placeholder arrays** (`["XXX"]`): treat as empty; suggest a full reasonable set guided by topic and sibling files, but keep it concise.
 
@@ -62,6 +62,28 @@ Use as hints, not checklists. Only surface standards that match **this** challen
 | Story Elements | `RL.2.1`, `RL.2.2`, `RL.2.3`, `RL.2.5`, `CCRA.R.2`, `CCRA.R.3`, `RL.2.10`, `RF.2.4*` |
 
 `*` — suggest `RF.2.4` / `RF.2.4a` / `RF.2.4b` (and `RF.2.4c` where siblings use it) when students read substantial text and none are tagged.
+
+## Dingo Punks conventions (do not under-tag)
+
+These came out of a tagging review. Prefer **suggesting** in these cases rather than parking them as “maybe / manual review.”
+
+**Word meaning → informational vocab tags too.** If items ask what a word or phrase means, suggest `RI.2.4` / `RI.3.4` even when the passage is a poem or story and `RL.2.4` / `RL.3.4` are already listed. Defining words *is* `RI.2.4`. Do not withhold it because the text type is literary.
+
+**Language knowledge on word-choice items.** Asking students to pick a specific word (rhyme, synonym, “which word ___”) is `CCRA.L.3` and grade-level `L.*.3`. Do not call that too thin for craft/effect.
+
+**Do not lump `RF.2.3` and `RF.3.3`.**
+- `RF.2.3` — decoding and syllables (count syllables, decode printed words).
+- `RF.3.3` / `RF.3.3a` — identify and know the **meaning** of common prefixes and suffixes. A question that defines a prefixed word (e.g. *unable* → not able) **is** `RF.3.3`. Suggest it even if there is no oral-decoding or syllable-count item. Do not skip `RF.3.3` just because `RF.2.3` does not fit.
+
+**A light compare still counts.** Two texts plus any item that uses both (which task takes longer, both are instructions, which character, who) → `CCRA.R.9` and the matching `RI.2.9` / `RL.2.9` (and grade-3 siblings when the file spans 2–3). Do **not** require an explicit “compare and contrast” stem or identical stories. Two accounts of the same event from different characters (e.g. harvest day) is enough for `RL.2.9`. Do not flag these as uncertain.
+
+**Image + questions about it → informational visual tags.** If the activity includes an image and items ask what it shows or whether it matches the text, suggest `RI.2.7` / `RI.3.7` even when `RL.*.7` is already tagged and even when the prose is a letter or story. A product photo still counts. Do not treat “literary letter vs product photo” as a reason to skip `RI.*.7`.
+
+**Riddles.** Author’s purpose (`RI.2.6`) is core — a riddle describes something so the reader can identify it. Who/what/where stems also get `RL.2.1` / `RI.2.1` as the text type warrants. Mixed RI + RL on riddles is expected.
+
+**Who/what/where/when/why/how stems** are `RL.2.1` / `RI.2.1` (match text type). A single “What is the answer to Riddle Two?” is enough.
+
+**Structure.** A stem that locates an event “at the beginning/end of the story” is `RL.2.5` (and `RL.3.5` when the file spans grade 3).
 
 ## Workflow
 
@@ -101,12 +123,19 @@ Keep the whole review concise. Prefer a short bullet list over per-standard essa
 Avoid **exhaustive enumeration**:
 
 - ❌ Listing every RF.2.4 sub-bullet when any one fluency tag would do
-- ❌ Suggesting both RI and RL for every challenge "just in case"
+- ❌ Suggesting both RI and RL for every challenge "just in case" (but **do** mix strands when items actually do both — word meaning on a poem, image + literary letter, riddles)
 - ❌ Demanding standards for puzzle UI mechanics unrelated to literacy
 
 Avoid **over-strict gating**:
 
 - ❌ "Can't suggest RI.2.7 because the question doesn't quote the diagram"
-- ✅ "Diagram + passage agreement question → `RI.2.7` / `CCRA.R.7` if absent"
+- ✅ Image + what-it-shows or image-vs-text item → `RI.2.7` / `RI.3.7` (and `RL.*.7` if the prose is literary)
+- ❌ "Can't suggest RI.2.4 because this is a poem"
+- ✅ Word-meaning items → `RI.2.4` even on poems
+- ❌ "Light compare isn't CCRA.R.9 / RI.2.9"
+- ✅ Two texts + any cross-text item → suggest the compare family
+- ❌ "RF.3.3 is decoding, skip if there's no phonics item"
+- ✅ Prefixed/suffixed word defined in an item → `RF.3.3`
+- ❌ Parking obvious fits as "manual review / unsure" to stay conservative
 
 Pair with **check-standards** when the user wants a full pass: suggest-standards for gaps, check-standards for wrong tags.

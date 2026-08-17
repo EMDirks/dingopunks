@@ -25,7 +25,27 @@ const resource =  {
                 education: {
                     topic: "Details",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.8",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.7",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.5",
+                        "RL.3.7",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -35,7 +55,7 @@ const resource =  {
                 asset: "candlewick.png",
                 dialogue : {
                     incomplete: "Welcome to my farm! I got a box with a note inside, but I have no time to read it. Please tell me what it says, and hurry!",
-                    complete: "Thank you kindly! Now, whatever you do, stay away from the Frantic Factory after dark. Got it?"
+                    complete: "Thank you kindly! Just stay away from the Frantic Factory after dark. Got it?"
                 },
             },
 
@@ -49,15 +69,15 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: 'A Magic Candle',
+                                    text: 'Magic Candles',
                                 },
                                 subtitle: {
                                     text: 'By Farmer Jeremy',
                                 },
                                 passage: {
-                                    text:   "I\'m Farmer Jeremy, and last year, my pumpkin patch was in big trouble. Halloween was one day away, but my pumpkins were still small and green! Then, I set this magic candle down in the patch. It glowed all night long. By morning, the pumpkins were big, orange, and ready to pick! \
+                                    text:   "I\'m Farmer Jeremy, and last year, my pumpkin patch was in big trouble. Halloween was one day away, but my pumpkins were still small and green! So, I set these magic candles down in the patch. They glowed all night long. By morning, the pumpkins were big, orange, and ready to pick! Then I gathered the candles, and put them in a box for next year.\
                                     <br>\
-                                    This candle has helped my patch many times. Now, I want you to have it."
+                                    These candles have helped me many times since then. Now, I want you to have them."
                                 }
                             }
                         ],
@@ -137,10 +157,10 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. [<u>True] or [<u>false]: Farmer Jeremy has only used the magic candle once.',
+                        'A. [<u>True] or [<u>false]: Farmer Jeremy has only used the magic candles once.',
                         'B. Was Farmer Jeremy in trouble because his pumpkins were small and [<u>green], or because they were big and [<u>orange]?',
                         'C. This story takes place in a pumpkin ___ .',     
-                        'D. Does this picture show what the pumpkin patch looked like [<u>before] or [<u>after] the magic candle?',                    
+                        'D. Does this picture show what the pumpkin patch looked like [<u>before] or [<u>after] the magic candles?',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","(B)G","0","0"],
@@ -175,7 +195,23 @@ const resource =  {
                 education: {
                     topic: "Characters",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.9",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.3",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -342,7 +378,24 @@ const resource =  {
                 education: {
                     topic: "Structure",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.3",
+                        "CCRA.R.5",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.3",
+                        "RL.2.5",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.5",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -352,7 +405,7 @@ const resource =  {
                 asset: "mabel-mallow.png",
                 dialogue : {
                     incomplete: "I have a drink to deliver to the farm. It can help everyone feel happy and full of energy! But I don\'t know what it actually is. Will you read the label?",
-                    complete: "Thanks so much! Now let\'s get out of here \u2014 I don\'t want the Fallcrawlers to eat me!"
+                    complete: "Thanks so much! Now let\'s get out of here... I don\'t want the Fallcrawlers to eat me!"
                 },
             },
 
@@ -376,7 +429,7 @@ const resource =  {
                                     <br>\
                                     Ms. Clove didn\'t give up. She tried making cider with pears, plums, and peaches. She tried until she found the perfect mix. On festival day, everyone came to taste it. Ms. Clove gave the mayor the first cup. He took a sip and stopped...\
                                     <br>\
-                                    His face lit up with a huge smile! Everyone cheered. Ms. Clove\'s \"no-apple\" cider was a huge hit! They all lined up for a cup. What started as a big problem turned into her best cider yet.\
+                                    His face lit up with a huge smile! Everyone cheered. Ms. Clove\'s \"no-apple\" cider was a big hit! They all lined up for a cup. What started as a big problem turned into her best cider yet.\
                                     <br>\
                                     <br>\
                                     [<tcs>200 calories per serving | 4 servings per bottle]"
@@ -472,7 +525,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "Ms. C{l}ove cried and went to bed",
-                            "Ms. Clove\'s \"no-apple\" cide{r} was a huge hit",
+                            "Ms. Clove\'s \"no-apple\" cide{r} was a big hit",
                             "E{v}eryone hated the taste of Ms. Clove\'s cider",
                         ],
                     },
@@ -501,7 +554,25 @@ const resource =  {
                 education: {
                     topic: "Theme",
                     commonCore: [
-                        "XXX"
+                        "CCRA.R.1",
+                        "CCRA.R.2",
+                        "CCRA.R.3",
+                        "CCRA.R.7",
+                        "CCRA.R.10",
+                        "RF.2.4",
+                        "RF.2.4a",
+                        "RF.2.4b",
+                        "RL.2.1",
+                        "RL.2.2",
+                        "RL.2.3",
+                        "RL.2.10",
+                        "RF.3.4",
+                        "RF.3.4a",
+                        "RF.3.4b",
+                        "RL.3.1",
+                        "RL.3.2",
+                        "RL.3.3",
+                        "RL.3.10"
                     ],
                 }
             },
@@ -533,9 +604,9 @@ const resource =  {
                                 passage: {
                                     text: "Mia loved her garden. But one day, her best gourd looked sad and droopy! Mia asked her neighbor, Lena, for help. Together, they gave it extra water and covered it with blankets on cold nights. Soon, the gourd was happy again!\
                                     <br>\
-                                    Later, Mia's friend Jack was building a catapult, but he could never get it to work. It made him feel sad. Mia remembered how extra help saved her gourd, so she decided to help Jack too. Mia even let Jack use her best goard to test it. It flew through the sky and smashed right through a window in Goblin Ezra\'s house!\
+                                    Later, Mia's friend Jack was building a catapult, but he could never get it to work. It made him feel sad. Mia remembered how Lena\'s help saved her gourd, so she decided to help Jack too. Mia even let Jack use her best gourd to test it. It flew through the sky and smashed right through a window in Goblin Ezra\'s house!\
                                     <br>\
-                                    From that day on, Mia learned that a little help from a friend can make a problem easier to solve."
+                                    From that day on, Mia learned that help from a friend can make a hard problem easier to solve."
                                 }
                             }
                         ],
@@ -601,7 +672,7 @@ const resource =  {
                         'A. [<u>Right] or [<u>wrong]: Jack needs help building a catapult.',
                         'B. How does Jack feel when his catapult doesn\'t work?',
                         'C. Who helped Mia when her favorite gourd looked sad and droopy: [<u>Lena] or [<u>Ezra]?',     
-                        'D. Mia learned that \"a little help from a friend can make a ___ easier to solve.\"',                    
+                        'D. Mia learned that \"help from a friend can make a hard ___ easier to solve.\"',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","0","(C)L","0"],

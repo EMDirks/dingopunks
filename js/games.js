@@ -113,7 +113,6 @@ export const games = [
     grades: [2],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Key Details",
       "Story Elements",
@@ -134,7 +133,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -155,7 +153,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -176,7 +173,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -197,7 +193,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Idea",
       "Main Idea and Details of a One-Paragraph Text",
@@ -217,7 +212,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Ideas and Details of Short Passages",
       "Main Idea and Details of a Poem",
@@ -237,7 +231,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes",
       "Metaphors",
@@ -257,7 +250,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "context-clues-and-vocabulary",
-    standards: [],
     skills: [
       "Context Clues as Definitions",
       "Roots, Prefixes, and Suffixes",
@@ -277,7 +269,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Examples",
       "Context Clues as Definitions",
@@ -297,7 +288,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Key Details",
       "Structure",
@@ -317,7 +307,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Theme and Supporting Details",
       "Setting",
@@ -337,7 +326,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Elements and Structure",
       "Comprehension",
@@ -357,7 +345,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Reading Comprehension",
       "Figurative Language",
@@ -377,7 +364,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Parts of Speech",
       "Capitalization and Punctuation",
@@ -397,7 +383,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Parts of Speech",
       "Punctuation and Capitalization",
@@ -417,7 +402,6 @@ export const games = [
     grades: [2, 3],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences From a Visual",
       "Making Inferences From Fiction",
@@ -437,7 +421,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About a Fictional Story",
       "Making Inferences About a Nonfiction Text",
@@ -457,7 +440,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "text-features",
-    standards: [],
     skills: [
       "Print Features",
       "Image Features",
@@ -477,7 +459,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "text-structures",
-    standards: [],
     skills: [
       "Compare and Contrast",
       "Cause and Effect",
@@ -497,7 +478,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "authors-purpose",
-    standards: [],
     skills: [
       "PIE: Persuade, Inform, and Entertain",
       "ED: Explain and Describe",
@@ -517,7 +497,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "character-traits",
-    standards: [],
     skills: [
       "Identify Character Traits",
       "Infer Character Traits",
@@ -537,7 +516,6 @@ export const games = [
     grades: [2],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Add and Subtract Within 20",
       "Add and Subtract Within 100",
@@ -558,7 +536,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems: Add and Subtract",
       "Multiplication and Division Facts",
@@ -579,7 +556,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems: Add, Subtract, Multiply",
       "Area and Perimeter",
@@ -600,7 +576,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems with All Operations",
       "Calculate Volume",
@@ -621,7 +596,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Facts",
       "Unknown Numbers in Multiplication Equations",
@@ -641,7 +615,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplicative Comparison Word Problems",
       "Factors and Multiples",
@@ -661,7 +634,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fractions on a Number Line",
       "Equivalent Fractions",
@@ -681,7 +653,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Compare Fractions",
@@ -701,7 +672,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions and Mixed Numbers",
       "Multiply Fractions, Mixed Numbers, Whole Numbers",
@@ -721,7 +691,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "order-of-operations",
-    standards: [],
     skills: [
       "Equations With All Operations",
       "Word Problems",
@@ -741,7 +710,6 @@ export const games = [
     grades: [4, 5],
     subject: "social-emotional-learning",
     topic: "growth-mindset",
-    standards: [],
     skills: [
       "Growth Mindset vs. Fixed Mindset",
       "The Power of \"Yet\"",
@@ -766,7 +734,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -787,7 +754,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -808,7 +774,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Ideas: Compare and Contrast",
       "Figurative Language",
@@ -829,7 +794,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Compare and Contrast Two Main Ideas",
       "Main Idea and Details of an Informational Text",
@@ -849,7 +813,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes and Metaphors",
       "Hyperbole and Personification",
@@ -869,7 +832,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Definitions and Examples",
       "Context Clues as Synonyms and Antonyms",
@@ -889,7 +851,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Theme and Key Details",
       "Characters and Point of View",
@@ -909,7 +870,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Elements and Structure",
       "Topic, Theme, and Key Details",
@@ -929,7 +889,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About a Fictional Story",
       "Making Inferences About a Nonfiction Text",
@@ -949,7 +908,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Parts of Speech",
       "Punctuation and Capitalization",
@@ -969,7 +927,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "authors-purpose",
-    standards: [],
     skills: [
       "PIE: Persuade, Inform, and Entertain",
       "ED: Explain and Describe",
@@ -989,7 +946,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "character-traits",
-    standards: [],
     skills: [
       "Identify Character Traits",
       "Infer Character Traits",
@@ -1009,7 +965,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "text-structures",
-    standards: [],
     skills: [
       "Cause and Effect",
       "Compare and Contrast",
@@ -1029,7 +984,6 @@ export const games = [
     grades: [4, 5],
     subject: "social-emotional-learning",
     topic: "growth-mindset",
-    standards: [],
     skills: [
       "Growth Mindset vs. Fixed Mindset",
       "The Power of Yet",
@@ -1054,7 +1008,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1075,7 +1028,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1096,7 +1048,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1117,7 +1068,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Definitions and Examples",
       "Context Clues as Synonyms and Antonyms",
@@ -1137,7 +1087,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes and Metaphors",
       "Hyperbole and Personification",
@@ -1157,7 +1106,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Ideas and Details of Short Stories",
       "Main Idea and Details of an Informational Text",
@@ -1177,7 +1125,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Poetic Elements and Structure",
       "Theme and Key Details",
@@ -1197,7 +1144,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Setting",
       "Theme and Key Details",
@@ -1217,7 +1163,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About an Informational Text",
       "Making Inferences About a Fictional Text",
@@ -1237,7 +1182,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Punctuation and Capitalization",
       "Parts of Speech",
@@ -1257,7 +1201,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multiplication and Division Facts",
       "Two Step Word Problems: Add and Subtract",
@@ -1278,7 +1221,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Place Value and Rounding",
       "Area and Perimeter",
@@ -1299,7 +1241,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Decimals",
@@ -1320,7 +1261,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fractions on a Number Line",
       "Equivalent Fractions",
@@ -1340,7 +1280,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Add and Subtract Mixed Numbers",
@@ -1360,7 +1299,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Multiply Fractions and Whole Numbers",
@@ -1380,7 +1318,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Facts",
       "Find the Unknown Number in an Equation",
@@ -1400,7 +1337,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Word Problems",
       "Base Ten Multiplication",
@@ -1420,7 +1356,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "order-of-operations",
-    standards: [],
     skills: [
       "Equations With All Operations",
       "Word Problems",
@@ -1445,7 +1380,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1466,7 +1400,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1487,7 +1420,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Poetry",
@@ -1508,7 +1440,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Definitions and Examples",
       "Context Clues as Synonyms and Antonyms",
@@ -1528,7 +1459,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes and Metaphors",
       "Hyperbole and Personification",
@@ -1548,7 +1478,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Idea and Details of a Narrative Text",
       "Main Idea and Details of an Informational Text",
@@ -1568,7 +1497,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Elements and Structure",
       "Theme and Key Details",
@@ -1588,7 +1516,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Theme and Key Details",
       "Setting",
@@ -1608,7 +1535,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About an Informational Text",
       "Making Inferences About a Fictional Text",
@@ -1628,7 +1554,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Punctuation and Capitalization",
       "Sentence Structure",
@@ -1648,7 +1573,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Two-Step Word Problems: Add and Subtract",
       "Multiplication and Division Facts",
@@ -1669,7 +1593,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Place Value and Rounding",
       "Multi-Step Word Problems With All Operations",
@@ -1690,7 +1613,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Volume",
@@ -1711,7 +1633,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fractions on Number Lines",
       "Equivalent Fractions",
@@ -1731,7 +1652,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fraction Word Problems",
       "Add and Subtract Mixed Numbers",
@@ -1751,7 +1671,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Multiply Fractions and Whole Numbers",
@@ -1771,7 +1690,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Facts",
       "Determine the Unknown Number in an Equation",
@@ -1791,7 +1709,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Word Problems",
       "Base Ten Multiplication",
@@ -1811,7 +1728,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "order-of-operations",
-    standards: [],
     skills: [
       "Computation With All Operations",
       "Equations With Exponents",
@@ -1829,6 +1745,26 @@ export const games = [
   // ─────────────────────────────────────────────
 
   {
+    id: "the-hasty-harvest-mixed-reading-skills-2",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2],
+    subject: "reading",
+    topic: "mixed-reading-skills",
+    skills: [
+      "Main Idea and Supporting Details",
+      "Poetry",
+      "Context Clues and Vocabulary",
+      "Text Features",
+      "Story Elements",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/all/thumbnail-2nd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/all/reading_2ndGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-mixed-reading-skills-3",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1836,7 +1772,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -1857,7 +1792,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -1878,7 +1812,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -1892,6 +1825,25 @@ export const games = [
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
   {
+    id: "the-hasty-harvest-main-idea-and-supporting-details-2-3",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "main-idea-and-supporting-details",
+    skills: [
+      "Main Idea",
+      "Main Idea and Supporting Details",
+      "Main Idea and Details of Multiple Texts",
+      "Main Idea and Details of a Story",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/main-idea/thumbnail-2nd-3rd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/main-idea/mainIdea_2nd3rdGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-main-idea-and-supporting-details-4-5",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1899,7 +1851,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Ideas and Details of Paragraphs",
       "Main Idea and Details of a Poem",
@@ -1919,7 +1870,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes",
       "Metaphors",
@@ -1932,6 +1882,25 @@ export const games = [
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
   {
+    id: "the-hasty-harvest-context-clues-2-3",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "context-clues",
+    skills: [
+      "Context Clues as Definition",
+      "Compound Words and Shades of Meaning",
+      "Context Clues as Examples",
+      "Roots, Prefixes, and Suffixes",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/context-clues/thumbnail-2nd-3rd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/context-clues/contextClues_2nd3rdGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-context-clues-4-5",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1939,7 +1908,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Examples",
       "Context Clues as Definitions",
@@ -1952,6 +1920,25 @@ export const games = [
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
   {
+    id: "the-hasty-harvest-story-elements-2-3",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "story-elements",
+    skills: [
+      "Details",
+      "Characters",
+      "Structure",
+      "Theme",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/story-elements/thumbnail-2nd-3rd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/story-elements/storyElements_2nd3rdGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-story-elements-4-5",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1959,7 +1946,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Setting",
       "Characters",
@@ -1972,6 +1958,25 @@ export const games = [
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
   {
+    id: "the-hasty-harvest-poetry-2-3",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "poetry",
+    skills: [
+      "Elements and Structure",
+      "Comprehension",
+      "Language and Vocabulary",
+      "Central Message or Lesson",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/poetry/thumbnail-2nd-3rd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/poetry/poetry_2nd3rdGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-poetry-4-5",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1979,7 +1984,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Poetic Elements",
       "Reading Comprehension",
@@ -1992,6 +1996,25 @@ export const games = [
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
   {
+    id: "the-hasty-harvest-making-inferences-2-3",
+    title: "The Hasty Harvest",
+    color: "gold",
+    season: "fall",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "making-inferences",
+    skills: [
+      "Making Inferences About Fiction",
+      "Making Inferences About Nonfiction",
+      "Making Inferences About a Visual",
+      "Solving Riddles",
+    ],
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/making-inferences/thumbnail-2nd-3rd-grade.png",
+    path: "resource/the-hasty-harvest/topic/reading/making-inferences/makingInferences_2nd3rdGrade.js",
+    badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
+    main: "resource/the-hasty-harvest/assets/cutscene/main.png",
+  },
+  {
     id: "the-hasty-harvest-making-inferences-4-5",
     title: "The Hasty Harvest",
     color: "gold",
@@ -1999,7 +2022,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About a Fictional Story",
       "Making Inferences About a Nonfiction Text",
@@ -2019,7 +2041,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Parts of Speech",
       "Punctuation and Capitalization",
@@ -2039,7 +2060,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems: Add and Subtract",
       "Multiplication and Division Facts",
@@ -2060,7 +2080,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Area and Perimeter",
@@ -2081,7 +2100,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Calculate Volume",
@@ -2102,7 +2120,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Facts",
       "Determine the Unknown Number in a Multiplication Equation",
@@ -2122,7 +2139,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplicative Comparison Word Problems",
       "Base Ten and Place Value",
@@ -2142,7 +2158,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fractions on Number Lines",
       "Compare Fractions",
@@ -2162,7 +2177,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Compare Fractions",
@@ -2182,7 +2196,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions and Mixed Numbers",
       "Multiply Fractions, Mixed Numbers, Whole Numbers",
@@ -2202,7 +2215,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "order-of-operations",
-    standards: [],
     skills: [
       "Equations With All Operations",
       "Order of Operations Word Problems",
@@ -2227,7 +2239,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -2248,7 +2259,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -2269,7 +2279,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea",
       "Poetry",
@@ -2290,7 +2299,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "main-idea-and-supporting-details",
-    standards: [],
     skills: [
       "Main Idea of a Short Story",
       "Main Idea of a Poem",
@@ -2310,7 +2318,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "figurative-language",
-    standards: [],
     skills: [
       "Similes and Metaphors",
       "Hyperbole and Onomatopoeia",
@@ -2330,7 +2337,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "context-clues",
-    standards: [],
     skills: [
       "Context Clues as Definitions",
       "Context Clues as Synonyms and Antonyms",
@@ -2350,7 +2356,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "story-elements",
-    standards: [],
     skills: [
       "Theme and Supporting Details",
       "Setting",
@@ -2370,7 +2375,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "poetry",
-    standards: [],
     skills: [
       "Poetic Elements",
       "Figurative Language",
@@ -2390,7 +2394,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "making-inferences",
-    standards: [],
     skills: [
       "Making Inferences About a Fictional Story",
       "Making Inferences About a Nonfiction Text",
@@ -2410,7 +2413,6 @@ export const games = [
     grades: [4, 5],
     subject: "reading",
     topic: "grammar",
-    standards: [],
     skills: [
       "Parts of Speech",
       "Punctuation and Capitalization",
@@ -2430,7 +2432,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Two-Step Word Problems: Add and Subtract",
       "Multiplication and Division Facts",
@@ -2451,7 +2452,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Area and Perimeter of Rectangular Figures",
@@ -2472,7 +2472,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "mixed-math-skills",
-    standards: [],
     skills: [
       "Multi-Step Word Problems With All Operations",
       "Calculate Volume",
@@ -2493,7 +2492,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Multiplication Facts",
       "Determine the Unknown Number in an Equation",
@@ -2513,7 +2511,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "multiplication",
-    standards: [],
     skills: [
       "Factors and Multiples",
       "Base Ten Multiplication",
@@ -2533,7 +2530,6 @@ export const games = [
     grades: [3],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Fractions on Number Lines",
       "Equivalent Fractions",
@@ -2553,7 +2549,6 @@ export const games = [
     grades: [4],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Add and Subtract Mixed Numbers",
@@ -2573,7 +2568,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "fractions",
-    standards: [],
     skills: [
       "Add and Subtract Fractions",
       "Multiply Fractions and Mixed Numbers",
@@ -2593,7 +2587,6 @@ export const games = [
     grades: [5],
     subject: "math",
     topic: "order-of-operations",
-    standards: [],
     skills: [
       "Computation With All Operations",
       "Word Problems",
@@ -2618,7 +2611,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea, Theme, and Supporting Details",
       "Figurative Language",
@@ -2639,7 +2631,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea, Theme, and Supporting Details",
       "Figurative Language",
@@ -2660,7 +2651,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Two Main Ideas and Supporting Details",
       "Figurative Language",
@@ -2686,7 +2676,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Similes and Metaphors",
@@ -2707,7 +2696,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -2728,7 +2716,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -2754,7 +2741,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Similes and Metaphors",
@@ -2775,7 +2761,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -2796,7 +2781,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -2822,7 +2806,6 @@ export const games = [
     grades: [2],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues and Vocabulary",
@@ -2843,7 +2826,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues and Vocabulary",
@@ -2864,7 +2846,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -2885,7 +2866,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -2911,7 +2891,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Key Details",
       "Story Elements",
@@ -2932,7 +2911,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Story Elements",
@@ -2953,7 +2931,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Story Elements",
@@ -2979,7 +2956,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -3000,7 +2976,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -3021,7 +2996,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Figurative Language",
@@ -3047,7 +3021,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -3068,7 +3041,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -3089,7 +3061,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -3115,7 +3086,6 @@ export const games = [
     grades: [3],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -3136,7 +3106,6 @@ export const games = [
     grades: [4],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
@@ -3157,7 +3126,6 @@ export const games = [
     grades: [5],
     subject: "reading",
     topic: "mixed-reading-skills",
-    standards: [],
     skills: [
       "Main Idea and Supporting Details",
       "Context Clues",
