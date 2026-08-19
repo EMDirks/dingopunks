@@ -824,6 +824,7 @@ a.dpaam-topbar-btn {
   width: 100%;
   margin: 0;
   color: var(--dpaam-black-muted);
+  max-height: 175px;
 }
 
 .dpaam-favorites-empty,
@@ -858,14 +859,17 @@ a.dpaam-topbar-btn {
 @keyframes dpaam-active-empty-share-press {
   0%, 12% {
     transform: scale(1) translateY(0);
+    background: var(--dpaam-blue);
     animation-timing-function: cubic-bezier(0.25, 0, 0.5, 1);
   }
   24%, 38% {
     transform: scale(0.86) translateY(1px);
+    background: color-mix(in srgb, var(--dpaam-blue) 86%, #000);
     animation-timing-function: cubic-bezier(0.2, 0, 0.15, 1);
   }
   52%, 100% {
     transform: scale(1) translateY(0);
+    background: var(--dpaam-blue);
   }
 }
 
