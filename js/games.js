@@ -1746,6 +1746,7 @@ export const games = [
 
   {
     id: "the-hasty-harvest-mixed-reading-skills-2",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1826,6 +1827,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-main-idea-and-supporting-details-2-3",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1883,6 +1885,7 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-context-clues-2-3",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",

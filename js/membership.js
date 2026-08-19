@@ -22,7 +22,7 @@ const DASHBOARD_TABS = ["library", "favorites", "active"];
 const state = {
   favorites: [],            // ordered array of game ids
   activeCodes: [],          // [{ gameId, code, expiresAt }]
-  filters: { season: "all", grade: "all", subject: "all" },
+  filters: { season: "all", grade: "all", subject: "all", newThisMonth: false },
   guideFaqOpen: false,
   activeTab: null,
 };
@@ -52,6 +52,7 @@ const els = {
   },
   libraryList: document.getElementById("dpaam-library-list"),
   libraryCount: document.getElementById("dpaam-library-count"),
+  libraryNewFilter: document.getElementById("dpaam-library-new-filter"),
   libraryEmpty: document.getElementById("dpaam-library-empty"),
   modal: document.getElementById("dpaam-modal"),
   modalTitle: document.getElementById("dpaam-modal-title"),
@@ -305,12 +306,30 @@ function favCodeDisplayHtml(code) {
 
 // ---------- action functions (the seams a backend plugs into) ----------
 
+function pulseFavoriteHeart(btn) {
+  if (!btn || prefersReducedMotion()) return;
+  const icon = btn.querySelector(".dpaam-fav-heart-icon");
+  if (!icon) return;
+  icon.classList.remove("dpaam-fav-heart-icon--pop");
+  void icon.offsetWidth;
+  icon.classList.add("dpaam-fav-heart-icon--pop");
+  icon.addEventListener(
+    "animationend",
+    () => icon.classList.remove("dpaam-fav-heart-icon--pop"),
+    { once: true },
+  );
+}
+
 function addFavorite(gameId, { toast = true } = {}) {
   if (!gameById(gameId)) return;
   if (isFavorite(gameId)) return;
   const wasEmpty = state.favorites.length === 0;
   state.favorites.push(gameId);
   updateLibraryFavoriteButton(gameId);
+  const libraryBtn = els.libraryList.querySelector(
+    `.dpaam-card--library[data-game-id="${CSS.escape(gameId)}"] .dpaam-btn-favorite`,
+  );
+  pulseFavoriteHeart(libraryBtn);
   if (wasEmpty) {
     renderFavorites();
   } else {
@@ -425,7 +444,7 @@ function renderActiveCodes() {
   const expiredRemoved = pruneExpiredCodes();
   const isEmpty = state.activeCodes.length === 0;
 
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} active`;
+  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} shared`;
   els.activeEmpty.hidden = !isEmpty;
 
   if (isEmpty) {
@@ -441,6 +460,7 @@ function renderActiveCodes() {
       if (!game) return "";
       return `
         <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
+          ${cardNewBadgeHtml(game)}
           <div class="dpaam-card__thumb-wrap">
             ${thumbHtml(game)}
           </div>
@@ -471,6 +491,7 @@ function favoriteCardHtml(game) {
       data-game-id="${escapeHtml(game.id)}"
       draggable="true"
     >
+      ${cardNewBadgeHtml(game)}
       <div class="dpaam-card__thumb-wrap">
         ${thumbHtml(game)}
       </div>
@@ -487,6 +508,10 @@ function favoriteCardHtml(game) {
         </div>
       </div>
     </li>`;
+}
+
+function cardNewBadgeHtml(game) {
+  return game.isNew ? '<span class="dpaam-card-new-badge">New</span>' : "";
 }
 
 function libraryFavoriteButtonHtml(saved) {
@@ -556,10 +581,42 @@ function renderFavorites() {
   else renderTabCounts();
 }
 
+function newGamesCount() {
+  return games.filter((g) => g.isNew).length;
+}
+
+function updateLibraryNewFilter() {
+  const btn = els.libraryNewFilter;
+  if (!btn) return;
+  const count = newGamesCount();
+  if (count === 0) {
+    btn.hidden = true;
+    state.filters.newThisMonth = false;
+    return;
+  }
+  btn.hidden = false;
+  btn.textContent = `${count} new this month →`;
+  btn.setAttribute("aria-pressed", String(state.filters.newThisMonth));
+  btn.setAttribute(
+    "aria-label",
+    `Show ${count} new escape room${count === 1 ? "" : "s"} this month`,
+  );
+}
+
+function resetLibraryDropdownFilters() {
+  state.filters.season = "all";
+  state.filters.grade = "all";
+  state.filters.subject = "all";
+  els.filters.season.value = "all";
+  els.filters.grade.value = "all";
+  els.filters.subject.value = "all";
+}
+
 function renderLibrary() {
   const f = state.filters;
 
   const filtered = games.filter((g) => {
+    if (f.newThisMonth) return Boolean(g.isNew);
     if (f.season !== "all" && g.season !== f.season) return false;
     if (f.subject !== "all" && g.subject !== f.subject) return false;
     if (f.grade !== "all") {
@@ -571,6 +628,7 @@ function renderLibrary() {
 
   els.libraryCount.textContent = `${filtered.length} escape room${filtered.length === 1 ? "" : "s"}`;
   els.libraryEmpty.hidden = filtered.length !== 0;
+  updateLibraryNewFilter();
 
   els.libraryList.innerHTML = filtered
     .map((game) => {
@@ -591,6 +649,7 @@ function renderLibrary() {
           tabindex="0"
           aria-label="${escapeHtml(game.title)}"
         >
+          ${cardNewBadgeHtml(game)}
           <div class="dpaam-card__thumb-wrap">
             ${thumbHtml(game)}
           </div>
@@ -851,7 +910,7 @@ function refreshModalPreviewButton() {
   if (!modalGameId) return;
   const btn = els.modalPreview;
   if (modalContext === "active") {
-    btn.textContent = "Answer Key";
+    btn.textContent = "Answer key";
   } else {
     btn.textContent = "Preview";
   }
@@ -884,9 +943,10 @@ let shareGameId = null;
 let shareCode = null;
 
 function modalThumbHtml(game) {
-  return game.thumbnail
+  const thumb = game.thumbnail
     ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
     : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
+  return `<div class="dpaam-modal-thumb-wrap">${cardNewBadgeHtml(game)}${thumb}</div>`;
 }
 
 function modalBodyHtml(game, metaInner, tagsInner) {
@@ -1090,16 +1150,70 @@ function loadStandardsForPath(path) {
 
 let modalStandardsGroups = [];
 
-function setModalStandardsPanelOpen(wrap, open) {
+function setModalStandardsPanelOpen(wrap, open, { animate = true } = {}) {
   const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
   if (!panel) return;
+  if (!animate) panel.classList.add("dpaam-modal-standards-panel--instant");
   panel.classList.toggle("dpaam-modal-standards-panel--open", open);
   panel.inert = !open;
+  if (!animate) {
+    void panel.offsetHeight;
+    panel.classList.remove("dpaam-modal-standards-panel--instant");
+  }
 }
 
-function selectModalStandardsGroup(btn) {
+function standardsBodyHeightForInner(body, inner) {
+  const style = getComputedStyle(body);
+  const frame =
+    parseFloat(style.paddingTop) +
+    parseFloat(style.paddingBottom) +
+    parseFloat(style.borderTopWidth) +
+    parseFloat(style.borderBottomWidth);
+  return inner.offsetHeight + frame;
+}
+
+function animateStandardsBodyResize(body, inner, updateFn, { targetHeight, onComplete } = {}) {
+  const finish = () => {
+    if (body) body.style.height = "";
+    onComplete?.();
+  };
+
+  if (!body || !inner) {
+    updateFn?.();
+    finish();
+    return;
+  }
+  if (prefersReducedMotion()) {
+    updateFn?.();
+    finish();
+    return;
+  }
+
+  const startHeight = body.offsetHeight;
+  body.style.height = `${startHeight}px`;
+  updateFn?.();
+  const endHeight = targetHeight ?? standardsBodyHeightForInner(body, inner);
+  if (startHeight === endHeight) {
+    finish();
+    return;
+  }
+  void body.offsetHeight;
+  body.style.height = `${endHeight}px`;
+  body.addEventListener(
+    "transitionend",
+    function onEnd(e) {
+      if (e.target !== body || e.propertyName !== "height") return;
+      body.removeEventListener("transitionend", onEnd);
+      finish();
+    }
+  );
+}
+
+function selectModalStandardsGroup(btn, { instant = false } = {}) {
   const wrap = btn.closest(".dpaam-modal-standards");
   const inner = wrap?.querySelector(".dpaam-modal-standards-inner");
+  const body = wrap?.querySelector(".dpaam-modal-standards-body");
+  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
   if (!wrap || !inner) return;
 
   const already = btn.getAttribute("aria-pressed") === "true";
@@ -1108,16 +1222,33 @@ function selectModalStandardsGroup(btn) {
   });
 
   if (already) {
-    inner.innerHTML = "";
-    setModalStandardsPanelOpen(wrap, false);
+    animateStandardsBodyResize(
+      body,
+      inner,
+      () => {
+        inner.innerHTML = "";
+      },
+      {
+        targetHeight: 0,
+        onComplete: () => setModalStandardsPanelOpen(wrap, false),
+      }
+    );
     return;
   }
 
   const group = modalStandardsGroups.find((g) => g.key === btn.dataset.groupKey);
   if (!group) return;
   btn.setAttribute("aria-pressed", "true");
-  inner.innerHTML = standardsGroupHtml(group);
-  setModalStandardsPanelOpen(wrap, true);
+
+  const isOpen = panel?.classList.contains("dpaam-modal-standards-panel--open");
+  if (isOpen) {
+    animateStandardsBodyResize(body, inner, () => {
+      inner.innerHTML = standardsGroupHtml(group);
+    });
+  } else {
+    inner.innerHTML = standardsGroupHtml(group);
+    setModalStandardsPanelOpen(wrap, true, { animate: !instant });
+  }
 }
 
 function populateModalStandards(game) {
@@ -1143,7 +1274,7 @@ function populateModalStandards(game) {
       chips.innerHTML = standardsChipsHtml(modalStandardsGroups);
       details.hidden = false;
       const firstChip = chips.querySelector(".dpaam-modal-standards-chip");
-      if (firstChip) selectModalStandardsGroup(firstChip);
+      if (firstChip) selectModalStandardsGroup(firstChip, { instant: true });
     })
     .catch(() => {
       if (modalGameId !== gameId) return;
@@ -1162,47 +1293,36 @@ function shareCodeCharsHtml(code) {
 
 const SHARE_CLASSROOM_ICON = `<svg class="dpaam-share-classroom-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="8" height="6" rx="1" fill="#0F9D58"/><rect x="13" y="5" width="8" height="6" rx="1" fill="#F4B400"/><rect x="3" y="13" width="8" height="6" rx="1" fill="#4285F4"/><rect x="13" y="13" width="8" height="6" rx="1" fill="#DB4437"/></svg>`;
 
-function shareModalHtml(game, code) {
-  const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(code);
-  const directLinkLabel = "play.dingopunks.com/?" + code;
+function shareModalHtml(game) {
   const optionsHtml = `
     <div class="dpaam-share-options">
-      <div class="dpaam-share-option-recommended-wrap">
-        <span class="dpaam-share-option-badge dpaam-share-capsule">Recommended</span>
-        <section class="dpaam-share-option dpaam-share-option--recommended" aria-labelledby="dpaam-share-option-1-title">
-          <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
-          <p class="dpaam-share-option-desc">Students visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> and the game launches automatically.</p>
-          <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="copy-direct-link">Copy direct link</button>
-        </section>
-      </div>
-
       <div class="dpaam-share-more">
-        <button
-          type="button"
-          class="dpaam-share-more-toggle dpaam-share-capsule"
-          data-action="toggle-share-more"
-          aria-expanded="false"
-          aria-controls="dpaam-share-more-panel"
-        >
-          <span class="dpaam-share-more-toggle-label">More options</span>
-          <span class="dpaam-share-more-chevron" aria-hidden="true">▼</span>
-        </button>
+        <div class="dpaam-tags dpaam-share-more-chips" role="group" aria-label="Sharing options">
+          <button
+            type="button"
+            class="dpaam-tag dpaam-share-more-chip"
+            data-action="select-share-more"
+            data-share-more="direct"
+            aria-pressed="false"
+          >Direct Link</button>
+          <button
+            type="button"
+            class="dpaam-tag dpaam-share-more-chip"
+            data-action="select-share-more"
+            data-share-more="code"
+            aria-pressed="false"
+          >Game Code</button>
+          <button
+            type="button"
+            class="dpaam-tag dpaam-share-more-chip"
+            data-action="select-share-more"
+            data-share-more="classroom"
+            aria-pressed="false"
+          >Google Classroom</button>
+        </div>
         <div class="dpaam-share-more-panel" id="dpaam-share-more-panel" inert>
-          <div class="dpaam-share-more-panel-inner">
-            <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-2-title">
-              <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
-              <p class="dpaam-share-option-desc">Students enter <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> at <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a>.</p>
-              <div class="dpaam-share-option-actions">
-                <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
-                <button type="button" class="dpaam-btn dpaam-btn-secondary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
-              </div>
-            </section>
-
-            <section class="dpaam-share-option" aria-labelledby="dpaam-share-option-3-title">
-              <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
-              <p class="dpaam-share-option-desc">Post the game directly to one of your classes.</p>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
-            </section>
+          <div class="dpaam-share-more-body">
+            <div class="dpaam-share-more-inner"></div>
           </div>
         </div>
       </div>
@@ -1282,14 +1402,93 @@ function classroomShareTitle(game) {
 
 const CLASSROOM_SHARE_BODY = "Click the link to play your escape room!";
 
-function toggleShareMore(btn) {
-  const panel = document.getElementById("dpaam-share-more-panel");
+function shareMoreGroupHtml(key) {
+  const code = shareCode || "";
+  if (key === "direct") {
+    const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(code);
+    const directLinkLabel = "play.dingopunks.com/?" + code;
+    return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-1-title">
+      <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
+      <p class="dpaam-share-option-desc">Students can visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> to start the escape room automatically.</p>
+      <div class="dpaam-share-option-actions dpaam-share-option-actions--stack">
+        <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="copy-direct-link">Copy direct link</button>
+      </div>
+    </section>`;
+  }
+  if (key === "code") {
+    return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-2-title">
+      <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
+      <p class="dpaam-share-option-desc">Students can visit <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the game code <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> to start the escape room.</p>
+      <div class="dpaam-share-option-actions">
+        <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
+        <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
+      </div>
+    </section>`;
+  }
+  if (key === "classroom") {
+    return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-3-title">
+      <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
+      <p class="dpaam-share-option-desc">Students can start the escape room from a Google Classroom assignment.</p>
+      <div class="dpaam-share-option-actions dpaam-share-option-actions--stack">
+        <button type="button" class="dpaam-btn dpaam-btn-primary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
+      </div>
+    </section>`;
+  }
+  return "";
+}
+
+function setShareMorePanelOpen(wrap, open, { animate = true } = {}) {
+  const panel = wrap?.querySelector(".dpaam-share-more-panel");
   if (!panel) return;
-  const open = btn.getAttribute("aria-expanded") === "true";
-  const nextOpen = !open;
-  btn.setAttribute("aria-expanded", String(nextOpen));
-  panel.classList.toggle("dpaam-share-more-panel--open", nextOpen);
-  panel.inert = !nextOpen;
+  if (!animate) panel.classList.add("dpaam-share-more-panel--instant");
+  panel.classList.toggle("dpaam-share-more-panel--open", open);
+  panel.inert = !open;
+  if (!animate) {
+    void panel.offsetHeight;
+    panel.classList.remove("dpaam-share-more-panel--instant");
+  }
+}
+
+function selectShareMoreGroup(btn, { instant = false } = {}) {
+  const wrap = btn.closest(".dpaam-share-more");
+  const inner = wrap?.querySelector(".dpaam-share-more-inner");
+  const body = wrap?.querySelector(".dpaam-share-more-body");
+  const panel = wrap?.querySelector(".dpaam-share-more-panel");
+  if (!wrap || !inner) return;
+
+  const already = btn.getAttribute("aria-pressed") === "true";
+  wrap.querySelectorAll(".dpaam-share-more-chip").forEach((chip) => {
+    chip.setAttribute("aria-pressed", "false");
+  });
+
+  if (already) {
+    animateStandardsBodyResize(
+      body,
+      inner,
+      () => {
+        inner.innerHTML = "";
+      },
+      {
+        targetHeight: 0,
+        onComplete: () => setShareMorePanelOpen(wrap, false),
+      }
+    );
+    return;
+  }
+
+  const html = shareMoreGroupHtml(btn.dataset.shareMore);
+  if (!html) return;
+  btn.setAttribute("aria-pressed", "true");
+
+  const isOpen = panel?.classList.contains("dpaam-share-more-panel--open");
+  if (isOpen) {
+    animateStandardsBodyResize(body, inner, () => {
+      inner.innerHTML = html;
+    });
+  } else {
+    inner.innerHTML = html;
+    setShareMorePanelOpen(wrap, true, { animate: !instant });
+  }
 }
 
 function showShareModal(gameId) {
@@ -1299,7 +1498,9 @@ function showShareModal(gameId) {
 
   shareGameId = gameId;
   shareCode = active.code;
-  els.shareModalBody.innerHTML = shareModalHtml(game, active.code);
+  els.shareModalBody.innerHTML = shareModalHtml(game);
+  const firstChip = els.shareModalBody.querySelector(".dpaam-share-more-chip");
+  if (firstChip) selectShareMoreGroup(firstChip, { instant: true });
   showExclusiveModal(els.shareModal);
 }
 
@@ -1525,8 +1726,16 @@ function wireEvents() {
   });
 
   // Filters
+  els.libraryNewFilter?.addEventListener("click", () => {
+    const nextActive = !state.filters.newThisMonth;
+    state.filters.newThisMonth = nextActive;
+    if (nextActive) resetLibraryDropdownFilters();
+    renderLibrary();
+  });
+
   Object.entries(els.filters).forEach(([key, sel]) => {
     sel.addEventListener("change", () => {
+      state.filters.newThisMonth = false;
       state.filters[key] = sel.value;
       renderLibrary();
     });
@@ -1577,15 +1786,19 @@ function wireEvents() {
     }
   });
 
-  // Modal Preview / Answer Key
-  els.modalPreview.addEventListener("click", () => {
-    if (!modalGameId) return;
-    const answers = modalContext === "active" ? "&answers=1" : "";
+  function openPreview(gameId, { answers = false } = {}) {
+    if (!gameId) return;
+    const answersQuery = answers ? "&answers=1" : "";
     window.open(
-      window.location.origin + "/preview.html?game=" + encodeURIComponent(modalGameId) + answers,
+      window.location.origin + "/preview.html?game=" + encodeURIComponent(gameId) + answersQuery,
       "_blank",
       "noopener"
     );
+  }
+
+  // Modal Preview / Answer Key
+  els.modalPreview.addEventListener("click", () => {
+    openPreview(modalGameId, { answers: modalContext === "active" });
   });
 
   // Modal footer action — Share activates (if needed) and opens sharing options.
@@ -1649,8 +1862,9 @@ function wireEvents() {
       case "copy-share-link": copyShareLink(); break;
       case "copy-share-code": copyShareCode(); break;
       case "copy-direct-link": copyDirectLink(); break;
+      case "open-answer-key": openPreview(shareGameId, { answers: true }); break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
-      case "toggle-share-more": toggleShareMore(btn); break;
+      case "select-share-more": selectShareMoreGroup(btn); break;
     }
   });
 
