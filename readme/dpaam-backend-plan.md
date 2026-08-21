@@ -172,7 +172,7 @@ Each phase ships independently and is testable on its own.
 Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that just looks wrong when broken gets `[LOW]`.
 
 ### Phase 1 — Firebase + Auth
-- [ ] `[YOU]` Create Firebase project (Blaze), enable Auth (email/password + Google), Firestore, Functions; add play + membership domains to Auth authorized domains.
+- [X] `[YOU]` Create Firebase project (Blaze), enable Auth (email/password + Google), Firestore, Functions; add play + membership domains to Auth authorized domains.
 - [ ] `[LOW]` Auth gate view markup + CSS in `membership.html` (login / signup / Google / forgot password).
 - [ ] `[MID]` `js/firebase-init.js` + auth flow wiring (sign-in/up, Google popup, reset email, `onAuthStateChanged` gate, error states).
 - [ ] `[LOW]` Account modal: real email, logout, password-reset button.

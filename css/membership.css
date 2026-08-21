@@ -2364,19 +2364,19 @@ a.dpaam-topbar-btn {
   padding-top: var(--dpaam-pad);
 }
 
-.dpaam-account-field {
+.dpaam-account-password-form .dpaam-account-field {
   display: flex;
   flex-direction: column;
   gap: var(--dpaam-pad-xs);
 }
 
-.dpaam-account-field-label {
+.dpaam-account-password-form .dpaam-account-field-label {
   font-size: var(--dpaam-text-sm);
   font-weight: 500;
   color: var(--dpaam-black-muted);
 }
 
-.dpaam-account-input {
+.dpaam-account-password-form .dpaam-account-input {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 12px;
@@ -2388,7 +2388,7 @@ a.dpaam-topbar-btn {
   border-radius: var(--dpaam-radius);
 }
 
-.dpaam-account-input:focus {
+.dpaam-account-password-form .dpaam-account-input:focus {
   outline: 2px solid var(--dpaam-blue);
   outline-offset: 1px;
 }

@@ -6,6 +6,7 @@
 
 import { games, themes } from "./games.js";
 import { thumbHtml } from "./thumbnails.js";
+import { initAuth } from "./membership-auth.js";
 
 // ---------- constants ----------
 
@@ -1876,7 +1877,7 @@ function wireEvents() {
     openAccountModal();
   });
   els.accountBtnMobile?.addEventListener("click", () => {
-    setMobileMenuOpen(false);
+    dashboardMobileMenu?.setOpen(false);
     openAccountModal();
   });
   els.accountChangePassword?.addEventListener("click", () => {
@@ -1919,71 +1920,127 @@ function applyQuickStartVisible(visible) {
 
 const MOBILE_MENU_MQL = window.matchMedia("(max-width: 768px)");
 const MOBILE_MENU_TRANSITION_MS = 200;
-let mobileMenuCloseTimer = null;
+const mobileMenuControllers = [];
+let dashboardMobileMenu = null;
 
-function finishMobileMenuClose() {
-  if (!els.mobileMenu) return;
-  clearTimeout(mobileMenuCloseTimer);
-  mobileMenuCloseTimer = null;
-  els.mobileMenu.hidden = true;
-  els.mobileMenu.classList.remove("is-closing");
-  if (els.mobileMenuBackdrop) {
-    els.mobileMenuBackdrop.hidden = true;
-    els.mobileMenuBackdrop.classList.remove("is-open");
-  }
-}
+function wireMobileMenu({ toggle, menu, backdrop, skipCloseOn = [] }) {
+  if (!toggle || !menu) return null;
 
-function setMobileMenuOpen(open) {
-  if (!els.mobileMenuToggle || !els.mobileMenu) return;
+  const state = { closeTimer: null };
 
-  const menu = els.mobileMenu;
-  const backdrop = els.mobileMenuBackdrop;
-  const animate = !prefersReducedMotion();
-
-  clearTimeout(mobileMenuCloseTimer);
-
-  if (open) {
-    els.mobileMenuToggle.setAttribute("aria-expanded", "true");
-    els.mobileMenuToggle.setAttribute("aria-label", "Close menu");
-    menu.hidden = false;
+  function finishClose() {
+    clearTimeout(state.closeTimer);
+    state.closeTimer = null;
+    menu.hidden = true;
     menu.classList.remove("is-closing");
-    if (backdrop) backdrop.hidden = false;
-    document.documentElement.classList.add("dpaam-mobile-menu-open");
+    if (backdrop) {
+      backdrop.hidden = true;
+      backdrop.classList.remove("is-open");
+    }
+    if (!mobileMenuControllers.some((controller) => controller.isOpen())) {
+      document.documentElement.classList.remove("dpaam-mobile-menu-open");
+    }
+  }
 
-    if (animate) {
-      requestAnimationFrame(() => {
+  function isOpen() {
+    return toggle.getAttribute("aria-expanded") === "true";
+  }
+
+  function setOpen(open) {
+    const animate = !prefersReducedMotion();
+    clearTimeout(state.closeTimer);
+
+    if (open) {
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close menu");
+      menu.hidden = false;
+      menu.classList.remove("is-closing");
+      if (backdrop) backdrop.hidden = false;
+      document.documentElement.classList.add("dpaam-mobile-menu-open");
+
+      if (animate) {
+        requestAnimationFrame(() => {
+          menu.classList.add("is-open");
+          backdrop?.classList.add("is-open");
+        });
+      } else {
         menu.classList.add("is-open");
         backdrop?.classList.add("is-open");
-      });
-    } else {
-      menu.classList.add("is-open");
-      backdrop?.classList.add("is-open");
+      }
+      return;
     }
-    return;
+
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+    menu.classList.remove("is-open");
+    backdrop?.classList.remove("is-open");
+
+    if (!animate || menu.hidden) {
+      finishClose();
+      return;
+    }
+
+    menu.classList.add("is-closing");
+    const onTransitionEnd = (e) => {
+      if (e.target !== menu || e.propertyName !== "transform") return;
+      menu.removeEventListener("transitionend", onTransitionEnd);
+      if (menu.classList.contains("is-closing")) finishClose();
+    };
+    menu.addEventListener("transitionend", onTransitionEnd);
+    state.closeTimer = setTimeout(() => {
+      menu.removeEventListener("transitionend", onTransitionEnd);
+      if (menu.classList.contains("is-closing")) finishClose();
+    }, MOBILE_MENU_TRANSITION_MS + 50);
   }
 
-  els.mobileMenuToggle.setAttribute("aria-expanded", "false");
-  els.mobileMenuToggle.setAttribute("aria-label", "Open menu");
-  menu.classList.remove("is-open");
-  backdrop?.classList.remove("is-open");
-  document.documentElement.classList.remove("dpaam-mobile-menu-open");
+  toggle.addEventListener("click", () => {
+    setOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
 
-  if (!animate || menu.hidden) {
-    finishMobileMenuClose();
-    return;
-  }
+  backdrop?.addEventListener("click", () => {
+    setOpen(false);
+  });
 
-  menu.classList.add("is-closing");
-  const onTransitionEnd = (e) => {
-    if (e.target !== menu || e.propertyName !== "transform") return;
-    menu.removeEventListener("transitionend", onTransitionEnd);
-    if (menu.classList.contains("is-closing")) finishMobileMenuClose();
-  };
-  menu.addEventListener("transitionend", onTransitionEnd);
-  mobileMenuCloseTimer = setTimeout(() => {
-    menu.removeEventListener("transitionend", onTransitionEnd);
-    if (menu.classList.contains("is-closing")) finishMobileMenuClose();
-  }, MOBILE_MENU_TRANSITION_MS + 50);
+  menu.querySelectorAll(".dpaam-btn").forEach((btn) => {
+    if (skipCloseOn.includes(btn)) return;
+    btn.addEventListener("click", () => setOpen(false));
+  });
+
+  const controller = { setOpen, isOpen };
+  mobileMenuControllers.push(controller);
+  return controller;
+}
+
+function initMobileMenus() {
+  dashboardMobileMenu = wireMobileMenu({
+    toggle: els.mobileMenuToggle,
+    menu: els.mobileMenu,
+    backdrop: els.mobileMenuBackdrop,
+    skipCloseOn: els.accountBtnMobile ? [els.accountBtnMobile] : [],
+  });
+
+  wireMobileMenu({
+    toggle: document.getElementById("dpaam-auth-mobile-menu-toggle"),
+    menu: document.getElementById("dpaam-auth-mobile-menu"),
+    backdrop: document.getElementById("dpaam-auth-mobile-menu-backdrop"),
+  });
+
+  if (mobileMenuControllers.length === 0) return;
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    mobileMenuControllers.forEach((controller) => {
+      if (controller.isOpen()) controller.setOpen(false);
+    });
+  });
+
+  MOBILE_MENU_MQL.addEventListener("change", () => {
+    if (!MOBILE_MENU_MQL.matches) {
+      mobileMenuControllers.forEach((controller) => {
+        if (controller.isOpen()) controller.setOpen(false);
+      });
+    }
+  });
 }
 
 function initStickyTabbar() {
@@ -2004,34 +2061,6 @@ function initStickyTabbar() {
   observer.observe(sentinel);
 }
 
-function initMobileMenu() {
-  if (!els.mobileMenuToggle || !els.mobileMenu) return;
-
-  els.mobileMenuToggle.addEventListener("click", () => {
-    const open = els.mobileMenuToggle.getAttribute("aria-expanded") !== "true";
-    setMobileMenuOpen(open);
-  });
-
-  els.mobileMenuBackdrop?.addEventListener("click", () => {
-    setMobileMenuOpen(false);
-  });
-
-  els.mobileMenu.querySelectorAll(".dpaam-btn").forEach((btn) => {
-    if (btn === els.accountBtnMobile) return;
-    btn.addEventListener("click", () => setMobileMenuOpen(false));
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && els.mobileMenuToggle.getAttribute("aria-expanded") === "true") {
-      setMobileMenuOpen(false);
-    }
-  });
-
-  MOBILE_MENU_MQL.addEventListener("change", () => {
-    if (!MOBILE_MENU_MQL.matches) setMobileMenuOpen(false);
-  });
-}
-
 function initQuickStartGuide() {
   if (!els.quickStart || !els.quickStartClose) return;
   let visible = readQuickStartVisible();
@@ -2044,7 +2073,8 @@ function initQuickStartGuide() {
 }
 
 function init() {
-  initMobileMenu();
+  initAuth();
+  initMobileMenus();
   initStickyTabbar();
   initQuickStartGuide();
   populateFilters();
