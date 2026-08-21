@@ -155,7 +155,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] True or false: at the end of the story,the scarecrow was most likely stolen by a family of goblins.",
+                        title: "[<g>4.] True or false: in the end, the scarecrow was most likely stolen by a family of goblins.",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [

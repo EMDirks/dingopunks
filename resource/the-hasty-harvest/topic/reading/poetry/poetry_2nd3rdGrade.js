@@ -419,7 +419,7 @@ const resource =  {
                 character: "Candlewick",
                 asset: "candlewick.png",
                 dialogue : {
-                    incomplete: "Howdy! I just got a brand new candle, and something about it feels... different. Can you help me figure out what\'s so special about it?",
+                    incomplete: "Howdy! I just got a brand new candle, and something about it feels... different. Can you help me find out what\'s so special about it?",
                     complete: "Thanks, sweetie! Just stay away from the factory after dark. Trust me on this one."
                 },
             },

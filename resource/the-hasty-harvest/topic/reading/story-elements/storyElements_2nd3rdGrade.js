@@ -75,9 +75,9 @@ const resource =  {
                                     text: 'By Farmer Jeremy',
                                 },
                                 passage: {
-                                    text:   "I\'m Farmer Jeremy, and last year, my pumpkin patch was in big trouble. Halloween was one day away, but my pumpkins were still small and green! So, I set these magic candles down in the patch. They glowed all night long. By morning, the pumpkins were big, orange, and ready to pick! Then I gathered the candles, and put them in a box for next year.\
+                                    text:   "I\'m Farmer Jeremy, and last year, my pumpkin patch was in big trouble. Halloween was one day away, but my pumpkins were still small and green! So, I set these magic candles down in the patch. They glowed all night long. By morning, the pumpkins were big, orange, and ready to pick!\
                                     <br>\
-                                    These candles have helped me many times since then. Now, I want you to have them."
+                                    I gathered the candles and put them in a box. They have helped me many times since then. Now, I want you to have them."
                                 }
                             }
                         ],
@@ -160,7 +160,7 @@ const resource =  {
                         'A. [<u>True] or [<u>false]: Farmer Jeremy has only used the magic candles once.',
                         'B. Was Farmer Jeremy in trouble because his pumpkins were small and [<u>green], or because they were big and [<u>orange]?',
                         'C. This story takes place in a pumpkin ___ .',     
-                        'D. Does this picture show what the pumpkin patch looked like [<u>before] or [<u>after] the magic candles?',                    
+                        'D. Does the picture show what the pumpkin patch looked like [<u>before] or [<u>after] the magic candles?',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","(B)G","0","0"],
@@ -221,7 +221,7 @@ const resource =  {
                 asset: "the-gnomads.png",
                 dialogue : {
                     incomplete: "We need help with the harvest! Two goblins want the job, but we don\'t know who to pick. Read about both, then tell us who works the hardest.",
-                    complete: "Arya it is! Thanks for the help, Dingo Punks. See ya on the road!"
+                    complete: "Arya it is! Thanks for the help, Dingo Punks. See ya on the road."
                 },
             },
 
@@ -508,7 +508,7 @@ const resource =  {
                         paragraph: [
                             "The t{o}wn hated her cider",
                             "Sh{e} had no apples to make her cider",
-                            "The {m}ayor tried to close her orchard",
+                            "The {m}ayor tried to shut down her orchard",
                         ],
                     },
                     {
@@ -602,9 +602,9 @@ const resource =  {
                                     text: "By Candlewick",
                                 },
                                 passage: {
-                                    text: "Mia loved her garden. But one day, her best gourd looked sad and droopy! Mia asked her neighbor, Lena, for help. Together, they gave it extra water and covered it with blankets on cold nights. Soon, the gourd was happy again!\
+                                    text: "Mia loved her garden. But one day, her best gourd looked sad and droopy. Mia asked her neighbor, Lena, for help. Together, they gave it extra water and covered it with blankets on cold nights. Soon, the gourd was happy again!\
                                     <br>\
-                                    Later, Mia's friend Jack was building a catapult, but he could never get it to work. It made him feel sad. Mia remembered how Lena\'s help saved her gourd, so she decided to help Jack too. Mia even let Jack use her best gourd to test it. It flew through the sky and smashed right through a window in Goblin Ezra\'s house!\
+                                    Later, Mia's friend Jack was building a catapult, but he could never get it to work. It made him feel sad. Mia remembered how Lena helped save her gourd, so she decided to help Jack too. Mia even let Jack use her best gourd to test it. It flew through the sky and smashed right through a window in Goblin Ezra\'s house!\
                                     <br>\
                                     From that day on, Mia learned that help from a friend can make a hard problem easier to solve."
                                 }
