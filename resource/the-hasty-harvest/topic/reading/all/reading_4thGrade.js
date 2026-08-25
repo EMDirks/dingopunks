@@ -371,7 +371,7 @@ const resource =  {
                         word: "T[A]STY",
                     },
                     {
-                        title: "{4.} sing context clues, 'delectable' means:",
+                        title: "{4.} Using context clues, 'cumbersome' means:",
                         word: "AWKWA[R]D",
                     },
 

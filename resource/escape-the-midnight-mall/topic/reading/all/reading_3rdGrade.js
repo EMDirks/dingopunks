@@ -13,6 +13,21 @@ const resource =  {
             title: "Critterwerks",
             characterName: "Terrible Topsy",
             topic: "Main Idea",
+            education: {
+                commonCore: [
+                    "CCRA.R.2",
+                    "CCRA.R.5",
+                    "CCRA.R.6",
+                    "CCRA.R.7",
+                    "CCRA.R.10",
+                    "RF.3.4",
+                    "RF.3.4a",
+                    "RF.3.4b",
+                    "RI.3.2",
+                    "RI.3.6",
+                    "RI.3.10",
+                ]
+            },
             assets: {
                 nodeBackground: "critterwerks.png",
                 characterShopkeeper: "topsy.png",
@@ -123,6 +138,23 @@ const resource =  {
             title: "The Candy Cave",
             characterName: "Martin Shortnose",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                    "CCRA.L.3",
+                    "CCRA.L.5",
+                    "CCRA.R.5",
+                    "CCRA.R.6",
+                    "CCRA.R.7",
+                    "CCRA.R.10",
+                    "RF.3.4",
+                    "RF.3.4a",
+                    "RF.3.4b",
+                    "RL.3.1",
+                    "RL.3.5",
+                    "RL.3.6",
+                    "RL.3.10",
+                ]
+            },
             assets: {
                 nodeBackground: "the-candy-cave.png",
                 characterShopkeeper: "noah-shortnose.png",
@@ -196,6 +228,21 @@ const resource =  {
             title: "ZeebPlex",
             characterName: "Zeeb",
             topic: "Similes and Metaphors",
+            education: {
+                commonCore: [
+                    "CCRA.L.3",
+                    "CCRA.L.5",
+                    "CCRA.L.6",
+                    "CCRA.R.4",
+                    "CCRA.R.7",
+                    "CCRA.R.10",
+                    "RF.3.4",
+                    "RF.3.4a",
+                    "RL.3.1",
+                    "RL.3.4",
+                    "RL.3.10",
+                ]
+            },
             assets: {
                 nodeBackground: "zeeb-plex.png",
                 characterShopkeeper: "zeeb.png",
@@ -275,6 +322,25 @@ const resource =  {
             type: "cryptogram",
             title: "Prismatica",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                    "CCRA.L.3",
+                    "CCRA.L.4",
+                    "CCRA.L.6",
+                    "CCRA.R.4",
+                    "CCRA.R.7",
+                    "CCRA.R.10",
+                    "L.3.4",
+                    "L.3.4a",
+                    "RF.3.3",
+                    "RF.3.4",
+                    "RF.3.4a",
+                    "RF.3.4b",
+                    "RF.3.4c",
+                    "RI.3.10",
+                    "RL.3.4",
+                ]
+            },
             characterName: "Prisma",
             assets: {
                 nodeBackground: "holographia.png",
@@ -386,6 +452,24 @@ const resource =  {
             title: "Helio Athletics",
             characterName: "Robustus the Great",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                    "CCRA.R.2",
+                    "CCRA.R.3",
+                    "CCRA.R.5",
+                    "CCRA.R.6",
+                    "CCRA.R.7",
+                    "CCRA.R.10",
+                    "RF.3.4",
+                    "RF.3.4a",
+                    "RF.3.4b",
+                    "RL.3.1",
+                    "RL.3.3",
+                    "RL.3.5",
+                    "RL.3.6",
+                    "RL.3.10",
+                ]
+            },
             assets: {
                 nodeBackground: "underworld-athletics.png",
                 characterShopkeeper: "robustus-the-great.png",
