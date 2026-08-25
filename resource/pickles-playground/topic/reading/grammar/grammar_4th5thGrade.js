@@ -553,7 +553,7 @@ const resource = {
                             ],
                         },
                         {
-                            title: "[<g>3.] In \"Note C,\" how may periods are needed to fix the run-on sentence?",
+                            title: "[<g>3.] In \"Note C,\" how many periods are needed to fix the run-on sentence?",
                             correctIndex: 1,
                             columns: 2,
                             paragraph: [
@@ -799,7 +799,7 @@ const resource = {
                             word: "R[I]GHT",
                         },
                         {
-                            title: "[<g>4.] The underlined word is \"Smells\" should be:",
+                            title: "[<g>4.] The underlined word in \"Smells\" should be:",
                             word: "SCEN[T]",
                         },
                     ],

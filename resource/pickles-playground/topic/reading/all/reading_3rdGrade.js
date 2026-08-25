@@ -849,7 +849,7 @@ const resource =  {
                                     text: "By Pickle",
                                 },
                                 passage: {
-                                    text:   "Kevin used to be the friendliest goose on the playground. He played hide-and-seek in the ball pit, shared jokes on the swing set, and was always the first to help when someone got stuck in the  slide. He was happy, loud, and silly. He was my friend.\
+                                    text:   "Kevin used to be the friendliest goose on the playground. He played hide-and-seek in the ball pit, shared jokes on the swing set, and was always the first to help when someone got stuck in the slide. He was happy, loud, and silly. He was my friend.\
                                     <br>\
                                     One day, Kevin found a secret room behind a wall in the jungle gym. Inside was a shiny golden throne and a huge pile of corn chips. Right away, everything changed. The lights turned off. The slides twisted into weird shapes. The doors locked. I called Kevin\'s name, but he didn\'t answer. He just kept eating his chips, smiling like nothing was wrong.\
                                     <br>\

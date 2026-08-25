@@ -1,14 +1,14 @@
 ---
-name: deploy-cloudflare-pages
+name: deploy
 description: >-
   Deploys this static site to Cloudflare Pages using Wrangler CLI (direct upload).
   ALWAYS bumps the cache-bust version, git-adds all, and commits before deploy.
   Supports projects with more than 1,000 files (Wrangler allows up to 20,000).
-  Use when the user asks to deploy to Cloudflare, publish to Pages, run wrangler
+  Use when the user asks to deploy, publish to Cloudflare Pages, run wrangler
   pages deploy, mentions Cloudflare Pages deployment, or simply says "publish".
 ---
 
-# Deploy to Cloudflare Pages (Wrangler)
+# Deploy (Cloudflare Pages / Wrangler)
 
 ## Context
 

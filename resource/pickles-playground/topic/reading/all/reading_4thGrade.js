@@ -72,7 +72,7 @@ const resource =  {
                                     <br>\
                                     I\'ve accidentally dropped toys in the ball pit: a spinning top, a stuffed bear, even a hula hoop. I never saw them again. Good thing I didn\'t drop my favorite action figure. [<u>It\'s really expensive.] Or my trading cards. I keep those in a sock, for safety.\
                                     <br>\
-                                    Once, I heard something breathing way down deep. The sound was low and calm, like it was coming from something having a sad dream. I would know; I dream about sad things all the time. Like moldy corn dogs.\
+                                    Once, I heard something breathing way down deep. The sound was low and calm, like it was coming from a sad dream. I would know; I dream about sad things all the time. Like moldy corn dogs.\
                                     <br>\
                                     Anyway, I don\'t think it\'s dangerous. I think it\'s just lonely."
                                     }
@@ -167,7 +167,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "\"I keep those in a sock, for {s}afety.\"",
-                            "\"...it was {d}reaming about something sad.\"",
+                            "\"...like it was coming from a sad {d}ream\"",
                             "\"Like m{o}ldy corn dogs.\"",
                         ],
                     },

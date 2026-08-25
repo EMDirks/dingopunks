@@ -320,7 +320,7 @@ let cutscene = {
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "FERRYWOMAN",
+                name: "CAPTAIN DRAKA",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -335,7 +335,7 @@ let cutscene = {
             text: 'Hope you like urchin. You\'re going to be eating a lot of it.',
             textStyle: 'badguy',
             characterSprite: {
-                name: "FERRYWOMAN",
+                name: "CAPTAIN DRAKA",
                 path: 'badguy.png',
                 scope: 'local',
             },

@@ -208,7 +208,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "\"A Sile{n}t Pond\"",
-                            "\"A Pet{a}l Worth Your Time”\"",
+                            "\"A Pet{a}l Worth Your Time\"",
                             "Both poems have the same numbe{r} of stanzas",
                         ],
                     },
@@ -910,7 +910,7 @@ const resource =  {
                         word: "TW[O]",
                     },
                     {
-                        title: "[<g>3.] \"A Warning\" has a negative, judgemental ___ .",
+                        title: "[<g>3.] \"A Warning\" has a negative, judgmental ___ .",
                         word: "TO[N]E",
                     },
                     {

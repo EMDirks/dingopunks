@@ -248,7 +248,7 @@ const resource =  {
                                     <br>\
                                     Anyway, that animal was pure trouble. No fence could contain her. She devoured tomato plants, flowers, and even a birthday cake left out to cool. More evenings than I can count, I chased Princess with a broom, hollering till my voice gave out.\
                                     <br>\
-                                    But then one evening, a quiet little girl named Eleni did something that baffled me. Instead of scaring Princess away, she fed the goat and spoke to her kindly. Before long, Princess followed Eleni everywhere. She even fastened little baskets to the goat's sides and trained her to carry bread, olives, and letters between homes.\
+                                    But then one evening, a quiet little girl named Eleni did something that baffled me. Instead of scaring Princess away, she fed the goat and spoke to her kindly. Before long, Princess followed Eleni everywhere. Eleni even fastened little baskets to the goat's sides and trained her to carry bread, olives, and letters between homes.\
                                     <br>\
                                     From that day forward, Princess never caused another moment of trouble."
                                 }

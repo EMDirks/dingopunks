@@ -168,7 +168,7 @@ const resource =  {
                         paragraph: [
                             "The p{l}ayground isn\'t normal",
                             "The playground\'s slide{s} twist in endless circles",
-                            "Sometimes the playground has a monke{y} bars",
+                            "Sometimes the playground has monke{y} bars",
                         ],
                     },
                     {
@@ -269,7 +269,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<s>A] &nbspThe seesaws on Pickle\'s Playground are in bad shape. They\'re always falling apart, so here are three steps you can take to keep them working.",
+                                    text: "[<s>A] &nbspThe seesaws on Pickle\'s Playground are in bad shape. They\'re always falling apart, so here\'s how to keep them working!",
                                 }, 
                             }
                         ],
@@ -298,7 +298,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<s>E]  &nbspFinally, give each seesaw little test bounce. Then step back and watch. If it moves freely, without snapping in half \u2014 you did it! Now go celebrate with some cupcakes.",
+                                    text: "[<s>E]  &nbspFinally, give each seesaw a little test bounce. Then step back and watch. If it moves freely, without snapping in half \u2014 you did it! Now go celebrate with some cupcakes.",
                                 }, 
                             }
                         ],
@@ -512,7 +512,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "He looked at the lonely  boy and started to dance,",
+                                    text: "He looked at the lonely boy and started to dance,",
                                 }, 
                                 backgroundImage: {
                                     file: "15.png"
@@ -613,7 +613,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "Middle right puz{z}le piece",
-                            "Top left puzzle piece pi{e}ce",
+                            "Top left puzzle pi{e}ce",
                             "Bott{o}m right puzzle piece",
                         ],
                     },

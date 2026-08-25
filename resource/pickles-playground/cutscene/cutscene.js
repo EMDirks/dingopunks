@@ -79,7 +79,7 @@ let cutscene = {
             backgroundColor: 'background-color-black'
         },
         {
-            text: 'It\s huge! And none of us can remember how we got inside.',
+            text: 'It\'s huge! And none of us can remember how we got inside.',
             characterSprite: {
                 name: "J.J. DINGO",
                 path: 'jjcrispy-1.png',

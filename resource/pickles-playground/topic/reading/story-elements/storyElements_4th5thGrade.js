@@ -301,7 +301,7 @@ const resource =  {
                         'A. Which character is gruff and cranky on the outside, but secretly kind and helpful?',
                         'B. [<u>Right] or [<u>wrong]: the last sentence of \"Old and Cold\" shows Griba\'s character traits.',
                         'C. King Kevin looks nice on the outside, but is ___ on the inside.',     
-                        '4. Which character does Pickle think [<i>less] highly of: [<u>Griba] or [<u>Kevin]?',                    
+                        'D. Which character does Pickle think [<i>less] highly of: [<u>Griba] or [<u>Kevin]?',                    
                     ],
                     puzzle: [
                         ["0","0","0","0","0","0","(D)1K"],
