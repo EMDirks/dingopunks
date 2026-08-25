@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,21 @@ const resource =  {
             title: "Critterwerks",
             characterName: "Terrible Topsy",
             topic: "Main Idea",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RI.5.2",
+                "RI.5.6",
+                "RI.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "critterwerks.png",
                 characterShopkeeper: "topsy.png",
@@ -43,7 +60,7 @@ const resource =  {
                             paragraph:  "The Squix-1000 is soooo easy to take care of! I like to think of it as the perfect pet for people who don't like pets. \n\
                                         You really just have to do one thing for your robot squid: keep it in a tank filled with oil, not water. \n\
                                         That will keep all of its gears turning smoothly for years and years and years! \n\
-                                        You don't have to feed it, you don't have give it medicine, you don't even have to look at it. \n\
+                                        You don't have to feed it, you don't have to give it medicine, you don't even have to look at it. \n\
                                         The Squix-1000 is perfectly happy just swimming around, doing its own thing.",
                             transform: {
                                 translateX: "6%",
@@ -113,6 +130,23 @@ const resource =  {
             title: "The Candy Cave",
             characterName: "Martin Shortnose",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "the-candy-cave.png",
                 characterShopkeeper: "noah-shortnose.png",
@@ -186,6 +220,25 @@ const resource =  {
             title: "ZeebPlex",
             characterName: "Zeeb",
             topic: "Figurative Language",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.5",
+                "L.5.5a",
+                "RF.5.4",
+                "RF.5.4a",
+                "RL.5.1",
+                "RL.5.4",
+                "RL.5.5",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "zeeb-plex.png",
                 characterShopkeeper: "zeeb.png",
@@ -265,6 +318,24 @@ const resource =  {
             type: "cryptogram",
             title: "Prismatica",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.4",
+                "L.5.4a",
+                "RF.5.3",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RF.5.4c",
+                "RI.5.10",
+                ]
+            },
             characterName: "Prisma",
             assets: {
                 nodeBackground: "holographia.png",
@@ -330,7 +401,7 @@ const resource =  {
                         },
                         {
                             text: {
-                                paragraph: "4. To see the [diminuative] gems in this delicate ring, you must look closely."
+                                paragraph: "4. To see the [diminutive] gems in this delicate ring, you must look closely."
                             },
                             style: {
                                 material: "style-material--paper",
@@ -358,7 +429,7 @@ const resource =  {
                         word: "R[A]RELY",
                     },       
                     {
-                        title: "{4.} Using context clues, 'diminuative' means:",
+                        title: "{4.} Using context clues, 'diminutive' means:",
                         word: "S[M]ALL",
                     },
                 ]
@@ -376,6 +447,25 @@ const resource =  {
             title: "Helio Athletics",
             characterName: "Robustus the Great",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "underworld-athletics.png",
                 characterShopkeeper: "robustus-the-great.png",

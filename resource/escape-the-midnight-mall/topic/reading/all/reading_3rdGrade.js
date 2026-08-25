@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -69,7 +71,7 @@ const resource =  {
                             title:      "Squix-1000",
                             paragraph:  "Your new Squix-1000 requires a little more care than a real squid.\n\
                                         First off, it must live in a special tank, but not any old fish tank will do.\n\
-                                        No, no, NO! Normal fish tanks are no good. Your Squix-1000 must live in tank filled with oil \n\
+                                        No, no, NO! Normal fish tanks are no good. Your Squix-1000 must live in a tank filled with oil \n\
                                         to prevent its tiny metal parts from rusting.",
                             transform: {
                                 translateX: "10%",

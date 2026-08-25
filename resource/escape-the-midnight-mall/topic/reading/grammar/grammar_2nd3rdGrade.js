@@ -419,7 +419,7 @@ const resource =  {
                 asset: "noah-shortnose.png",
                 dialogue : {
                     incomplete: "Oh no... the frogs are back! I wrote two notes. One is for the frogs, and one is for my friend Robustus. Can you make sure they\'re written well?",
-                    complete: "Oh my, thank you so much. I feel a just a bit better already."
+                    complete: "Oh my, thank you so much. I feel just a bit better already."
                 },
             },
 

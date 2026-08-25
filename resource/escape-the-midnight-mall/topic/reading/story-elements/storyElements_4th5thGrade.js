@@ -270,7 +270,7 @@ const resource =  {
                         paragraph: [
                             '\"Let me t{e}ll you about my latest invention...\"',
                             '\"It wobbled, stumbled, and fell over consta{n}tly...\"',
-                            '\"But every time i{t} stumbled, it sprang back up...\"',  
+                            '\"But every time i{t} tumbled, it sprang back up...\"',  
                         ]
                     },
 
@@ -912,7 +912,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<s>E] &nbsp After defeated the guardian in battle, Robustus claimed the amulet for himself.",
+                                    text: "[<s>E] &nbsp After defeating the guardian in battle, Robustus claimed the amulet for himself.",
                                 }, 
                             },
                         ],

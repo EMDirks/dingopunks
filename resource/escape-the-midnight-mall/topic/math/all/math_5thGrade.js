@@ -113,7 +113,7 @@ const resource =  {
                                     text: "[<u>Pollytron]",
                                 },
                                 passage: {
-                                    text: "The Mallcrawlers have been scaring away guests lately, so Critterworks didn't do very well last month. In fact, we only sold 48 products! [<f>2/6] of those products were robot parrots called Pollytrons, each priced at $47.",
+                                    text: "The Mallcrawlers have been scaring away guests lately, so Critterwerks didn't do very well last month. In fact, we only sold 48 products! [<f>2/6] of those products were robot parrots called Pollytrons, each priced at $47.",
                                 }, 
                             }
                         ],
@@ -268,7 +268,7 @@ const resource =  {
                     },
 
                     {
-                        title: "[<g>4.] If Critterwerks sells 4 Banantrons every day, how many days will it take to sell them all?",
+                        title: "[<g>4.] If Critterwerks sells 4 Bananatrons every day, how many days will it take to sell them all?",
                         columns: 2,
                         correctIndex: 1,
                         paragraph: [
@@ -692,7 +692,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "46.18 - 16.35",
+                                    text: "46.18 - 16.05",
                                 }, 
                                 backgroundImage: {
                                     file: "9.png"
@@ -763,11 +763,11 @@ const resource =  {
 
                     {
                         title: "[<g>2.] All four corner pieces have answers that are:",
-                        correctIndex: 2,
+                        correctIndex: 0,
                         paragraph: [
-                            "Greater tha{n} 30",
+                            "Greater th{a}n 30",
                             "Le{s}s than 30",
-                            "Both of the {a}bove",
+                            "Both of the abov{e}",
                         ],
                     },
 

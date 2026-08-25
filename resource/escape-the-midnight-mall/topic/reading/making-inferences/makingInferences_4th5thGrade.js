@@ -153,7 +153,7 @@ const resource =  {
                         paragraph: [
                             "\"{H}e stacked coats into a throne...\"",
                             "\"His chest felt t{i}ght.\"",
-                            "\"It was still his favori{t}e place.\"",
+                            "\"Leo wasn\'t sur{p}rised.\"",
                         ],
                     },
                     {
@@ -170,7 +170,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "He thi{n}ks recess is boring",
-                            "He doesn\'t care a{b}out other peoples\' feelings",
+                            "He doesn\'t care a{b}out other people\'s feelings",
                             "He has a kind heart and a cr{e}ative mind",
                         ],
                     },
@@ -440,7 +440,7 @@ const resource =  {
                 asset: "holographia.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read both leters, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
+                    text: "Read both letters, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

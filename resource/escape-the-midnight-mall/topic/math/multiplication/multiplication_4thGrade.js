@@ -531,7 +531,7 @@ const resource =  {
                     isUsed: false
                 },
                 education: {
-                    topic: "Mutiplication in Base Ten",
+                    topic: "Multiplication in Base Ten",
                     
                     commonCore: [
                         {

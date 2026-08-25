@@ -404,7 +404,7 @@ const resource =  {
                 asset: "noah-shortnose.png",
                 dialogue : {
                     incomplete: "I'm trying to measure out a new order of candy, but I'm really struggling. It's almost midnight! Can you help me find the equivalent fractions so I can get this order filled?",
-                    complete: "I don't trust Zeeb. I don't think you should either... She's acting weird, right?"
+                    complete: "I don't trust Zeeb. I don't think you should either... He's acting weird, right?"
                 },
             },
 

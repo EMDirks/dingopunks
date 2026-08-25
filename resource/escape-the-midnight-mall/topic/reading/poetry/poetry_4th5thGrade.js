@@ -256,7 +256,7 @@ const resource =  {
                         'A. Which candy\'s sweetness is lost in tangled strands?',
                         'B. What kind of mess resulted from the failed gumdrops?',
                         'C. What kind of dreams collapse in \"Chocolate Crisis?\"',     
-                        'D. All three poems have a pattern of 5, 7, and 5 syllables. What is this types of poem called?',
+                        'D. All three poems have a pattern of 5, 7, and 5 syllables. What is this type of poem called?',
                         
                     ],
                     puzzle: [

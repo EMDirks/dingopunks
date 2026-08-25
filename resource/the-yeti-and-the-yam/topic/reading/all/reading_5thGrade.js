@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,21 @@ const resource =  {
             title: "Dr. Seraphina's Cell",
             characterName: "Dr. Seraphina",
             topic: "Main Idea",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RI.5.2",
+                "RI.5.6",
+                "RI.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "dr-seraphina.png",
                 characterShopkeeper: "dr-seraphina.png",
@@ -122,6 +139,23 @@ const resource =  {
             title: "Tater Durant's Cell",
             characterName: "Tater Durant",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "tater-drift.png",
                 characterShopkeeper: "tater-drift.png",
@@ -195,6 +229,25 @@ const resource =  {
             title: "Fishbeard's Cell",
             characterName: "Fishbeard",
             topic: "Figurative Language",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.5",
+                "L.5.5a",
+                "RF.5.4",
+                "RF.5.4a",
+                "RL.5.1",
+                "RL.5.4",
+                "RL.5.5",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "fishbeard.png",
                 characterShopkeeper: "fishbeard.png",
@@ -275,6 +328,24 @@ const resource =  {
             type: "cryptogram",
             title: "Pippo's Cell",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.4",
+                "L.5.4a",
+                "RF.5.3",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RF.5.4c",
+                "RI.5.10",
+                ]
+            },
             characterName: "Pippo Fizzlepop",
             assets: {
                 nodeBackground: "pippo-fizzlepop.png",
@@ -388,6 +459,25 @@ const resource =  {
             title: "The Knight's Cell",
             characterName: "The Frozen Knight",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "the-frozen-knight.png",
                 characterShopkeeper: "the-frozen-knight.png",

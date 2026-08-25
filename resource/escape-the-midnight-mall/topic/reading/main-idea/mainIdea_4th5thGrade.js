@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -14,6 +16,27 @@ const resource =  {
             title: "Critterwerks",
             characterName: "Terrible Topsy",
             topic: "Main Ideas and Supporting Details of Short Passages",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RI.4.1",
+                "RI.4.2",
+                "RI.4.3",
+                "RL.4.1",
+                "RL.4.2",
+                "RL.4.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RI.5.7",
+                "RL.5.1",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "critterwerks.png",
                 characterShopkeeper: "topsy.png",
@@ -55,7 +78,7 @@ const resource =  {
                             title:      "Squix-1000",
                             paragraph:  "Your new Squix-1000 requires a little more care than a real squid.\n\
                                         First off, it must live in a special tank, but not any old fish tank will do.\n\
-                                        No, no, NO! Regular fish tanks are no good. Your Squix-1000 must live in tank filled with oil \n\
+                                        No, no, NO! Regular fish tanks are no good. Your Squix-1000 must live in a tank filled with oil \n\
                                         to prevent its tiny, fragile motors from rusting.",
                             transform: {
                                 translateX: "10%",
@@ -124,6 +147,27 @@ const resource =  {
             title: "The Candy Cave",
             characterName: "Martin Shortnose",
             topic: "Main Idea and Supporting Details of a Poem",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RI.4.1",
+                "RI.4.2",
+                "RI.4.3",
+                "RL.4.1",
+                "RL.4.2",
+                "RL.4.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RI.5.7",
+                "RL.5.1",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "the-candy-cave.png",
                 characterShopkeeper: "noah-shortnose.png",
@@ -218,6 +262,28 @@ const resource =  {
             title: "ZeebPlex",
             characterName: "Zeeb",
             topic: "Main Ideas and Supporting Details of Informational Texts; Topic",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RI.4.1",
+                "RI.4.2",
+                "RI.4.3",
+                "RI.4.5",
+                "RI.4.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RI.5.1",
+                "RI.5.3",
+                "RI.5.8",
+                "RI.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "zeeb-plex.png",
                 characterShopkeeper: "zeeb.png",
@@ -298,6 +364,32 @@ const resource =  {
             title: "Helio Athletics",
             characterName: "Robustus the Great",
             topic: "Main Idea and Supporting Details of a Short Story",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.9",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RL.4.1",
+                "RL.4.2",
+                "RL.4.5",
+                "RL.4.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.9",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "underworld-athletics.png",
                 characterShopkeeper: "robustus-the-great.png",

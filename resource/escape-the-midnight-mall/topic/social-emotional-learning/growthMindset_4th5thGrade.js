@@ -122,7 +122,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "Making a mistake is not a big deal. Learn from it, grab your tools, and get to back work!",
+                                    text: "Making a mistake is not a big deal. Learn from it, grab your tools, and get back to work!",
                                 }, 
                             }
                         ],
@@ -384,9 +384,9 @@ const resource =  {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
                         'A. Which recruit is using the [<i>power of yet] the most: [<u>Glort], [<u>Odmar], or [<u>Ferni]? ',
-                        'B. Who didn\'t used the [<i>power of yet] at all?',
+                        'B. Who didn\'t use the [<i>power of yet] at all?',
                         'C. Which sentence in Odmar\'s log could use a \"yet\" at the end to show a growth mindset: the [<u>first], [<u>second], or [<u>third]?',     
-                        'D. [<u>Right] or [<u>wrong]: When Fernie says she will keep trying to make a helmet that fits her huge head, she is showing a fixed mindset.',                    
+                        'D. [<u>Right] or [<u>wrong]: When Ferni says she will keep trying to make a helmet that fits her huge head, she is showing a fixed mindset.',                    
                     ],
                     puzzle: [
                         ["0","0","(D)W","0","0","0","(C)1F"],

@@ -18,7 +18,7 @@ const resource =  {
                 asset: "critterwerks.png",
                 state: "incomplete",
                 hint: {
-                    text: "And or subtract each set of fractions, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
+                    text: "Add or subtract each set of fractions, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

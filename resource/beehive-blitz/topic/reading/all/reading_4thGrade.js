@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,25 @@ const resource =  {
             title: "Honey Vats",
             characterName: "Basil Rabbit",
             topic: "Main Idea and Supporting Details",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RI.4.1",
+                "RI.4.2",
+                "RI.4.6",
+                "RI.4.8",
+                "RI.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "basil-rabbit.png",
                 characterShopkeeper: "basil-rabbit.png",
@@ -122,6 +143,23 @@ const resource =  {
             title: "Riff's Study",
             characterName: "Riff Wingman",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RL.4.1",
+                "RL.4.5",
+                "RL.4.6",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "riff-wingman.png",
                 characterShopkeeper: "riff-wingman.png",
@@ -195,6 +233,21 @@ const resource =  {
             title: "Accounting Dept.",
             characterName: "Sunny Snap",
             topic: "Similes and Metaphors",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RL.4.1",
+                "RL.4.4",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "sunny-snap.png",
                 characterShopkeeper: "sunny-snap.png",
@@ -273,6 +326,24 @@ const resource =  {
             type: "cryptogram",
             title: "The Warehouse",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.4.4",
+                "L.4.4a",
+                "RF.4.3",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RF.4.4c",
+                "RI.4.10",
+                ]
+            },
             characterName: "Grumblegrub",
             assets: {
                 nodeBackground: "grumblegrub.png",
@@ -384,6 +455,25 @@ const resource =  {
             title: "Throne Room",
             characterName: "Queen Bella",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RL.4.1",
+                "RL.4.2",
+                "RL.4.3",
+                "RL.4.5",
+                "RL.4.6",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "queen-bella.png",
                 characterShopkeeper: "queen-bella.png",

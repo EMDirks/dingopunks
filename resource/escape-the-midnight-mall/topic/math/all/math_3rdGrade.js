@@ -220,7 +220,7 @@ const resource =  {
                     },
 
                     {
-                        title: "[<g>4.] After subtracting the 175 returns, how many more squidlies than banantrons did Topsy sell this month?",
+                        title: "[<g>4.] After subtracting the 175 returns, how many more Squidlies than Bananatrons did Topsy sell this month?",
                         columns: 2,
                         correctIndex: 3,
                         paragraph: [

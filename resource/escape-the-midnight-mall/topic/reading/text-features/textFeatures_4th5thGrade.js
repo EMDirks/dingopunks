@@ -371,7 +371,7 @@ const resource =  {
                 asset: "holographia.png",
                 state: "incomplete",
                 hint: {
-                    text: "Look at the table of contents, glossary, and index, then answer the questions to fill in the crossword. The yellow letters, order, are the answer.",
+                    text: "Look at the table of contents, glossary, and index, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {
@@ -688,7 +688,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "Lifting a wag{o}n to rescue a cat",
-                            "Sneaking intro the Fort{r}ess of Fog",
+                            "Sneaking into the Fort{r}ess of Fog",
                             "Pulling a whole tree from the groun{d}",
                         ],
                     },

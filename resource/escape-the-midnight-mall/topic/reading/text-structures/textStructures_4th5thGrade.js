@@ -137,7 +137,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "{R}andom facts about the ZipFrog [<i>only]",
-                            "The Flypig\'s most annoyin{g} traits",
+                            "The FlyPig\'s most annoyin{g} traits",
                             "Things the FlyPig and ZipFrog have in com{m}on",
                         ],
                     },

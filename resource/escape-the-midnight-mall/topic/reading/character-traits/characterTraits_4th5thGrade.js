@@ -76,7 +76,7 @@ const resource =  {
                                 passage: {
                                     text:   "Last night, the Midnight Mall lost power for two hours, leaving customers in the dark. The outage began near Critterwerks, a shop run by local inventor Topsy.\
                                     <br>\
-                                    Witnesses say sparks flew after the careless inventor jammed a corn dog into an electrical panel “just to see what would happen.” When the lights went out, she sprinted to the electrical panel with some jumper cables.\
+                                    Witnesses say sparks flew after the careless inventor jammed a corn dog into an electrical panel \"just to see what would happen.\" When the lights went out, she sprinted to the electrical panel with some jumper cables.\
                                     <br>\
                                     \"This is exactly the kind of emergency I trained for,\" said Topsy, clearly overconfident as she tied the cables to the burned panel and flipped a switch.\
                                     <br>\
@@ -176,7 +176,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "\"The out{a}ge began near Critterwerks...\"",
-                            "\"...she sprinted back to he{r} workshop...\"",
+                            "\"...she sp{r}inted to the electrical panel...\"",
                             "\"...clearly overconfiden{t} as she tied the cables...\"",
                         ],
                     },

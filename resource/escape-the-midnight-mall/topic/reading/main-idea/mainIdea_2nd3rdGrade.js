@@ -685,7 +685,7 @@ const resource =  {
                         title: "[<g>2.] Paragraph one is about how:",
                         correctIndex: 0,
                         paragraph: [
-                            "R{o}butus is good at keeping watch",
+                            "R{o}bustus is good at keeping watch",
                             "Robustus is ver{y} strong",
                             "Robustus needs lots of hel{p}",
                         ],

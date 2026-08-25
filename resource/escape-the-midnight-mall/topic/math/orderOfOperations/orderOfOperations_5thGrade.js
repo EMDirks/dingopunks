@@ -671,7 +671,7 @@ const resource =  {
                                 },  
                             }
                         ],
-                        correctIndex: 1
+                        correctIndex: 0
                     },
     
                 ],  

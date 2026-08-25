@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,21 @@ const resource =  {
             title: "Candlewick's Cart",
             characterName: "Candlewick",
             topic: "Main Idea",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RI.5.2",
+                "RI.5.6",
+                "RI.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "candlewicks-cart.png",
                 characterShopkeeper: "candlewick.png",
@@ -112,6 +129,23 @@ const resource =  {
             title: "Applegrim Orchard",
             characterName: "Stefan Sage",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "applegrim-orchard.png",
                 characterShopkeeper: "crispin-the-cider-sage.png",
@@ -187,6 +221,25 @@ const resource =  {
             title: "Camp Gnomad",
             characterName: "The Gnomads",
             topic: "Figurative Language",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.5",
+                "L.5.5a",
+                "RF.5.4",
+                "RF.5.4a",
+                "RL.5.1",
+                "RL.5.4",
+                "RL.5.5",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "camp-gnomad.png",
                 characterShopkeeper: "the-gnomads.png",
@@ -267,6 +320,24 @@ const resource =  {
             type: "cryptogram",
             title: "Frantic Factory",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.4",
+                "L.5.4a",
+                "RF.5.3",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RF.5.4c",
+                "RI.5.10",
+                ]
+            },
             characterName: "Hollow Jack",
             assets: {
                 nodeBackground: "frantic-factory.png",
@@ -379,6 +450,25 @@ const resource =  {
             title: "Mallow Maze",
             characterName: "Mabel the Messenger",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RL.5.1",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "mallow-maze.png",
                 characterShopkeeper: "mabel-mallow.png",
