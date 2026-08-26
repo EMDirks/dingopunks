@@ -38,6 +38,7 @@ Do **not** treat these as review findings unless the user explicitly asks for st
 - **The Frozen Knight** — this character is a **woman**; use **she/her** pronouns in all student-facing copy. Flag he/him or other mismatches.
 - **Space before end punctuation after `\"`** — in question stems and similar strings, a space between a closing escaped quote and terminal punctuation is a deliberate visual separator so the mark renders cleanly apart from the quoted text (e.g. `"Magic Pumpkin\" ?`, `"fortress\" ?`, `"Advice for Fall\" ?`). Do **not** suggest removing it.
 - **Empty placeholders** — `education.topic: ""`, `commonCore: ["XXX"]`, or other metadata left blank during production; do not nag unless the user asked to fill curriculum fields.
+- **Syllable count** — do **not** flag, verify, or comment on how many syllables a word or line has (e.g. haiku meter, "this line has N syllables," rhyme-scheme syllable matching). Automated syllable counting is unreliable; only flag meter or rhyme issues when the **spelling or wording** is clearly wrong on its own.
 - **No reassurance** — if nothing meets the bar above, output nothing (no "all clear"); see project `editorial-content-review` skill for the same "issues only" habit.
 
 ## How to deliver results
@@ -50,6 +51,6 @@ Do **not** treat these as review findings unless the user explicitly asks for st
 ## Quick self-check before sending
 
 - Is this a **concrete** error a careful reader would agree is wrong?
-- Am I avoiding **tone**, **optional polish**, and **workflow placeholders**?
+- Am I avoiding **tone**, **optional polish**, **syllable-count claims**, and **workflow placeholders**?
 - If I change assessment text, did I **re-verify** codes / `correctIndex` / crossword grids still match?
 - Did I include **any statement confirming something is correct or error-free**? If so, delete it before sending.

@@ -309,7 +309,7 @@ let cutscene = {
             textStyle: 'badguy',
             textDelay: 550,
             characterSprite: {
-                name: "MALLCRAWLERS",
+                name: "CUPID",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -324,7 +324,7 @@ let cutscene = {
             text: 'Now get outta my studio!',
             textStyle: 'badguy',
             characterSprite: {
-                name: "MALLCRAWLERS",
+                name: "CUPID",
                 path: 'badguy.png',
                 scope: 'local',
             },

@@ -137,7 +137,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "A cree{p}y puppet lives in Frederick\'s Funhouse",
-                            "Candy corn is har{d} to make ",
+                            "Candy corn is har{d} to make",
                             "Fred{e}rick\'s Funhouse makes tasty candy corn",
                         ],
                     },

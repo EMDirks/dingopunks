@@ -18,7 +18,7 @@ const resource = {
                 asset: "madame-mystica.png",
                 state: "incomplete",
                 hint: {
-                    text: "Put togther the puzzle pieces, then answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
+                    text: "Put together the puzzle pieces, then answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

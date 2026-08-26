@@ -322,7 +322,7 @@ const resource = {
                 character: "Grumblegrub",
                 asset: "grumblegrub.png",
                 dialogue: {
-                    incomplete: "I'm Grumblegrub, the manager here. I like it dark and quiet, and the Queen's new orders are making that impossible. Just help me a sort few things out, okay? And don't expect any thanks.",
+                    incomplete: "I'm Grumblegrub, the manager here. I like it dark and quiet, and the Queen's new orders are making that impossible. Just help me a few things out, okay? And don't expect any thanks.",
                     complete: "Huh... you actually did it. Just don't confuse my surprise for gratitude."
                 },
             },
@@ -382,7 +382,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Instruction #82: Conveyer Belt",
+                            text: "Instruction #82: Conveyor Belt",
                         },
                         contentArray: [
                             {
@@ -628,7 +628,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The flower's purple petals peeked out. ",
+                                    text: "The flower's purple petals peeked out.",
                                 }, 
                                 backgroundImage: {
                                     file: "4.png"
@@ -772,7 +772,7 @@ const resource = {
                         paragraph: [
                             "Create {a} sense of harshness for the reader",
                             "Use rhythm to highlight honey's vi{s}ual appeal",
-                            "{D}escribe on the sweet smell of fresh honey",
+                            "{D}escribe the sweet smell of fresh honey",
                         ],
                     },
                 ],  

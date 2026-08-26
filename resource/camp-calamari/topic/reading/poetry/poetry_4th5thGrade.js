@@ -393,7 +393,7 @@ const resource = {
                 asset: "madame-mystica.png",
                 state: "incomplete",
                 hint: {
-                    text: "Sort each vision into the correct column, the answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
+                    text: "Sort each vision into the correct column, then answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {
@@ -482,7 +482,7 @@ const resource = {
                             {
                                 passage: {
                                     text: "Their ships are near.<br> \
-                                    Their sales are black.<br> \
+                                    Their sails are black.<br> \
                                     The pirates jeer,<br> \
                                     ready to attack.",
                                 }, 

@@ -811,7 +811,7 @@ const resource =  {
                         paragraph: [
                             "A school classroom in t{h}e morning",
                             "A sock sh{o}p in the afternoon",
-                            "A {m}agic castle at night ",
+                            "A {m}agic castle at night",
                         ],
                     },
                     {

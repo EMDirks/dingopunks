@@ -106,7 +106,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "If the numbers don't match, that's a [<u>discrepency].",
+                                    text: "If the numbers don't match, that's a [<u>discrepancy].",
                                 }, 
                                 backgroundImage: {
                                     file: "3.png"

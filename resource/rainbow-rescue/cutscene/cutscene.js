@@ -186,7 +186,7 @@ let cutscene = {
             backgroundColor: 'background-color-salmon'
         },
         {
-            text: 'If the they want it back, they must solve my challenges first.',
+            text: 'If they want it back, they must solve my challenges first.',
             textStyle: 'badguy',
             characterSprite: {
                 name: "NOCTIS",

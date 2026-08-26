@@ -475,7 +475,7 @@ const resource = {
                                     <br> \
                                     Chef Gumbo, however, had a plan. He announced with a golden-toothed grin, \"I'll cook up me stew at sea!\" Despite the crashing waves and shark-infested waters, he loaded the pot of stew into a tiny boat. Bracing himself, he paddled out into the waves. \
                                     <br> \
-                                    As Gumbo sailed farther from shore, a miracle happened. The horrible smell began to disappear, drifting away with the salty ocean breeze. Back at Camp Calamari, the air became safe to breath again. And one by one, the counselors began to return. \
+                                    As Gumbo sailed farther from shore, a miracle happened. The horrible smell began to disappear, drifting away with the salty ocean breeze. Back at Camp Calamari, the air became safe to breathe again. And one by one, the counselors began to return. \
                                     <br> \
                                     In the end, the camp pulled back together just in time. They were able to rebuild their defenses, lungs full of fresh air."
                                 }

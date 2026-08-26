@@ -210,7 +210,7 @@ const resource =  {
             hint: "Put together the puzzle, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Oh, my stars! A vistor... how unexpected. Well, while you're here, perhaps you can fix my broken crystal mirror? We can use it to look into the future; to see the pirates' plan of attack!",
+                incomplete: "Oh, my stars! A visitor... how unexpected. Well, while you're here, perhaps you can fix my broken crystal mirror? We can use it to look into the future; to see the pirates' plan of attack!",
                 complete: "Return any time, young one, and I'll read your fortune. Your destiny may stir your soul..."
             }, 
             content: {
@@ -400,7 +400,7 @@ const resource =  {
             hint: "Read the short story, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Arr! Yes, I'm pirate... but I'm on your side now. I need you to read a tale from my own life; a look inside the mind of pirates. Use this knowledge to fend off those Red Tide scallywags!",
+                incomplete: "Arr! Yes, I'm a pirate... but I'm on your side now. I need you to read a tale from my own life; a look inside the mind of pirates. Use this knowledge to fend off those Red Tide scallywags!",
                 complete: "Keep up that sharp mind, and perhaps you will sail with my crew one day."
             }, 
             content: {
@@ -431,7 +431,7 @@ const resource =  {
                                 It was then that I, Captain Fishbeard, yelled, "Arrr! What good is a chest full of shrimp if we have no ship to sail?"',
 
                                 'My words, simple and true, cooled our anger. Though we were friends, greed had nearly torn the entire crew apart!\n\
-                                So from that moment on, instead of plotting against eachother, we decided to share the wiggly treasure. We traded shrimp at every port we visited, spreading food and wealth across the Seven Seas.',
+                                So from that moment on, instead of plotting against each other, we decided to share the wiggly treasure. We traded shrimp at every port we visited, spreading food and wealth across the Seven Seas.',
 
                                 'Thus, we came to understand the power of greed, and the even greater power of working together.\n\
                                 Through sharing and teamwork, our friendship grew stronger than ever before.',                

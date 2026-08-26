@@ -491,7 +491,7 @@ const resource = {
                     paragraph: [
                         'A. Which weighs 216 pounds: [<u>salt], [<u>fish], or [<u>eggs]?',
                         'B. Is there less [<u>grease] or [<u>sludge]?',
-                        'C. Which ingredients weighs 13 pounds?',     
+                        'C. Which ingredient weighs 13 pounds?',     
                         'D. Which ingredient weighs the most?',                    
                     ],
                     puzzle: [
@@ -520,7 +520,7 @@ const resource = {
                 asset: "madame-mystica.png",
                 state: "incomplete",
                 hint: {
-                    text: "Put togther the puzzle pieces, then answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
+                    text: "Put together the puzzle pieces, then answer the multiple-choice questions below. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

@@ -112,7 +112,7 @@ const resource = {
                                     text: "[<u>Progress Report #3]",
                                 },
                                 passage: {
-                                    text: "I helped the bees collect 7,500 drops of nectar! Unfortunately, I spelled [<f>1/5] of these drops during transport. Now, I have to convert all the remaining drops into cups. One cup equals 250 drops.",
+                                    text: "I helped the bees collect 7,500 drops of nectar! Unfortunately, I spilled [<f>1/5] of these drops during transport. Now, I have to convert all the remaining drops into cups. One cup equals 250 drops.",
                                 }, 
                             }
                         ],
@@ -719,7 +719,7 @@ const resource = {
                 character: "Sunny Snap",
                 asset: "sunny-snap.png",
                 dialogue : {
-                    incomplete: "Just my luck... I accidentally broke Queen Bella's golden tablet \u2014 again! She's going to be SO upset. Think you can you help me fix this thing?",
+                    incomplete: "Just my luck... I accidentally broke Queen Bella's golden tablet \u2014 again! She's going to be SO upset. Think you can help me fix this thing?",
                     complete: "For a leprechaun, I'm pretty unlucky. You really saved me!"
                 },
             },

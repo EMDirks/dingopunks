@@ -70,7 +70,7 @@ const resource =  {
                                     text: 'By Soldier Oggo',
                                 },
                                 passage: {
-                                    text:   "Let me tell you a story about my king. His name is Grob, and he\'s the worst! He led us goblins to fight the leprechauns on Clover Hill. \"We\'ll be rich!\" he said. But when the leprechauns started firing their cannons (which smelled like burnt cupcakes) guess what Grob did? He ran away like his pants were on fire! \
+                                    text:   "Let me tell you a story about my king. His name is Grob, and he\'s the worst! He led us goblins to fight the leprechauns on Clover Hill. \"We\'ll be rich!\" he said. But when the leprechauns started firing their cannons (which smelled like burnt cupcakes), guess what Grob did? He ran away like his pants were on fire! \
                                     <br> \
                                     [<u>The rest of us were left behind.] Gibby got smacked by a log, Skree fell into a muddy hole, and poor Old Bork... he got zapped by rainbow magic and ended up with sparkly eyebrows. It was the worst thing I ever saw. \
                                     <br> \
@@ -147,7 +147,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] Which details supports this main idea?",
+                        title: "[<g>2.] Which detail supports this main idea?",
                         correctIndex: 2,
                         paragraph: [
                             "\"\'We\'ll be ric{h}!\' he said.\"",
@@ -987,7 +987,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "Kind, {p}atient, and brave",
-                            "Play{f}ull, silly, and loud",
+                            "Play{f}ul, silly, and loud",
                             "Greedy, ca{r}eless, and lazy",
                         ],
                     },

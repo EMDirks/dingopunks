@@ -17,7 +17,7 @@ const resource = {
                 asset: "sunny-snap.png",
                 state: "incomplete",
                 hint: {
-                    text: "Reach each word problem, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
+                    text: "Read each word problem, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

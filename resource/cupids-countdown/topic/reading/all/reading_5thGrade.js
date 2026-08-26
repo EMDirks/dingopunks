@@ -66,7 +66,7 @@ const resource =  {
                                     <br> \
                                     &nbsp &nbsp That's when you said \"Nice moves,\" as you wiped a tear from my face. It was then that I knew: I belonged with the animatronics, especially you. \
                                     <br> \
-                                    &nbsp &nbsp Melodina. You were the band's lead singer before your voice box cracked. You filled the room with music that melted away every worry. When the band shut down for the last time, I cried beside your motionless frame. Even then, you weren't just a broken animatronic. You were Melodina, just waiting to sing again. \
+                                    &nbsp &nbsp Melodina. You were the band's lead singer before your voice box cracked. You filled the room with music that melted away every worry. When the band was shut off for the last time, I cried beside your motionless frame. Even then, you weren't just a broken animatronic. You were Melodina, just waiting to sing again. \
                                     <br> \
                                     <br> \
                                     <br> \
@@ -284,7 +284,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "There are a billion things I want to to say to you!",
+                                    text: "There are a billion things I want to say to you!",
                                 }, 
                             }
                         ],

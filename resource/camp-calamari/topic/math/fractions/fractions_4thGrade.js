@@ -18,7 +18,7 @@ const resource = {
                 asset: "driftwood-dan.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read each word problem, the answer the multiple-choice questions. The yellow letters, in order, are the answer.",
+                    text: "Read each word problem, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

@@ -140,7 +140,7 @@ const resource =  {
                         title: "[<g>1.] This letter's main idea is that the chef feels:",
                         correctIndex: 1,
                         paragraph: [
-                            "Embarassed {t}hat the other chefs laughed",
+                            "Embarrassed {t}hat the other chefs laughed",
                             "That he belongs with animatronics, {n}ot humans",
                             "That his costume wa{s} actually pretty good"
                         ],

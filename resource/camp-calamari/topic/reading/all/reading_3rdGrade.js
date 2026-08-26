@@ -397,7 +397,7 @@ const resource =  {
             hint: "Read the short story, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Arr! Yes, I'm pirate, but I'm on your side now. I think you should read a tale from my own life; a look inside the mind of pirates. Use it to prepare for the Red Tide's arrival.",
+                incomplete: "Arr! Yes, I'm a pirate, but I'm on your side now. I think you should read a tale from my own life; a look inside the mind of pirates. Use it to prepare for the Red Tide's arrival.",
                 complete: "Keep up that sharp mind, and perhaps you will sail with my crew one day."
             }, 
             content: {

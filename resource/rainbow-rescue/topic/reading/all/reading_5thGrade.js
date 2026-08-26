@@ -320,7 +320,7 @@ const resource =  {
                             },
                             {
                                 passage: {
-                                    text: "[<u>Victory]<br><br>Last year, Madame Mystica claimed, \"Make no mistake. The goblins will conquer, capture, and claim victory at Clover Hill!”\" But the reality was different \u2014 boulders from the leprechauns\' catapults sent the goblins scrambling in defeat. They had bitten off more than they could chew.",
+                                    text: "[<u>Victory]<br><br>Last year, Madame Mystica claimed, \"Make no mistake. The goblins will conquer, capture, and claim victory at Clover Hill!\" But the reality was different \u2014 boulders from the leprechauns\' catapults sent the goblins scrambling in defeat. They had bitten off more than they could chew.",
                                 },  
                             }
                         ],

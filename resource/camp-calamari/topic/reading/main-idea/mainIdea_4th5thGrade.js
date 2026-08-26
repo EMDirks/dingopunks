@@ -798,7 +798,7 @@ const resource = {
                         paragraph: [
                             "A group of sailo{r}s decided to battle a ghost ship",
                             "Salty {S}am haunts the waters off Camp Calamari",
-                            "Camp Calmari is surrounde{d} by darkness",
+                            "Camp Calamari is surrounde{d} by darkness",
                         ],
                     },
                     {

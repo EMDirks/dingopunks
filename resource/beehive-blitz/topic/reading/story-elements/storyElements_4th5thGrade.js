@@ -526,7 +526,7 @@ const resource = {
                                     <br> \
                                     Determined to reclaim them, Grumblegrub chased after the thief through clover fields and mushroom groves. After a long pursuit, Grumblegrub cornered him. It was a &nbsp[<p>LEPRECHAUN]! And with a swift toss of honey, Grumblegrub trapped him in a sticky mess. Defeated, the creature reluctantly handed over what he had stolen. Curious &nbsp[<p>BEES] buzzed with delight, mocking his shameful fate. \
                                     <br> \
-                                    As Grumblegrub prepared to leave, something shiny caught his eye. A pot of &nbsp[<p>GOLD] sat nearby! With a sly grin, he hauled it back to the warehouse, hiding it behind barrels of honey. With the the hive back in action, Grumblegrub chuckled \u2014 while the &nbsp[<p>LEPRECHAUN] plotted revenge."
+                                    As Grumblegrub prepared to leave, something shiny caught his eye. A pot of &nbsp[<p>GOLD] sat nearby! With a sly grin, he hauled it back to the warehouse, hiding it behind barrels of honey. With the hive back in action, Grumblegrub chuckled \u2014 while the &nbsp[<p>LEPRECHAUN] plotted revenge."
                                 }
                             }
                         ],

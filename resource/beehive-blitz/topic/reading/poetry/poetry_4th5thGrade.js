@@ -648,7 +648,7 @@ const resource = {
                         correctIndex: 0,
                         paragraph: [
                             "It's {a} metaphor to show the laughter's strength",
-                            "It's a simile to show {t}he laughter's stregth",
+                            "It's a simile to show {t}he laughter's strength",
                             "It's a metaphor to show t{h}e hall's dustiness",
                         ],
                     },
@@ -853,7 +853,7 @@ const resource = {
                         paragraph: [
                             "Ins{p}ire the bees in times of trouble",
                             "Instruct the {b}ees on what work must be done",
-                            "Insult the bees for sla{c}king off ",
+                            "Insult the bees for sla{c}king off",
                         ],
                     },
                     {

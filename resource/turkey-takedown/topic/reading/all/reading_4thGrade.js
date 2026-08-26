@@ -507,7 +507,7 @@ const resource =  {
                         paragraph: [
                             "Paragrap{h} one",
                             "Para{g}raph two",
-                            "Neither pa{r}agraphs have any similes",
+                            "Neither pa{r}agraph has any similes",
                         ],
                     },
                 ],  

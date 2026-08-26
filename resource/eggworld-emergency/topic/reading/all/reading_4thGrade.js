@@ -161,7 +161,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "{A} few pieces of jewelry should be left behind",
-                            "The Whispering Bracel{e}t should packed up",
+                            "The Whispering Bracel{e}t should be packed up",
                             "Jake Jun{i}or thinks Melodina\'s Locket is pretty",
                         ],
                     },
@@ -593,7 +593,7 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: 'Fued',
+                                    text: 'Feud',
                                 },
                                 subtitle: {
                                     text: "By Eggerton, President of Eggworld",
@@ -727,7 +727,7 @@ const resource =  {
                         word: "FOO[L]",
                     },
                     {
-                        title: "[<g>2.] [<u>True] or [<u>false]: line 4 of \"Fued\" has eight syllables.",
+                        title: "[<g>2.] [<u>True] or [<u>false]: line 4 of \"Feud\" has eight syllables.",
                         word: "F[A]LSE",
                     },
                     {

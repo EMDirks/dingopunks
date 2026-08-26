@@ -210,7 +210,7 @@ const resource =  {
             hint: "Put together the puzzle, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Oh, my stars! A vistor... how unexpected. Well, while you're here, perhaps you can fix my shattered crystal mirror? We can use it to peer into the future; to see the pirates' plan of attack!",
+                incomplete: "Oh, my stars! A visitor... how unexpected. Well, while you're here, perhaps you can fix my shattered crystal mirror? We can use it to peer into the future; to see the pirates' plan of attack!",
                 complete: "Return any time, young one, and I'll read your fortune. Your destiny may stir your soul..."
             }, 
             content: {
@@ -238,7 +238,7 @@ const resource =  {
                         title: "{1.} What is the puzzle piece with the sun?",
                         correctIndex: 0,
                         paragraph: [
-                            "[S]imilie",
+                            "[S]imile",
                             "Metaph[o]r",
                             "Hype[r]bole",
                         ],
@@ -402,7 +402,7 @@ const resource =  {
             hint: "Read the short story, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Arr! Yes, I'm pirate... but I'm on yer side. I need ye to read a tale from me own life; a look inside the mind of pirates. Use its knowledge to fend off those Red Tide scallywags once and for all!",
+                incomplete: "Arr! Yes, I'm a pirate... but I'm on yer side. I need ye to read a tale from me own life; a look inside the mind of pirates. Use its knowledge to fend off those Red Tide scallywags once and for all!",
                 complete: "Keep up that sharp mind, and perhaps ye will sail with me crew one day."
             }, 
             content: {
@@ -421,7 +421,7 @@ const resource =  {
                         paragraph: [
                             
                                 'One sunny morn, after setting sail from Camp Calamari, I led my crew of pirates to a small island in the middle of the sea. \n\
-                                There, upon the beach, lied an old chest half-buried in the sand.',
+                                There, upon the beach, was an old chest half-buried in the sand.',
 
                                 'With dreams of gold and silver twinkling in our eyes, we hauled the chest aboard our ship. \n\
                                 I instructed First Mate Topsy to crack it open, as he was an expert in breaking locks. \n\
@@ -433,7 +433,7 @@ const resource =  {
                                 It was then that I, Captain Fishbeard, hollered, "Arrr! What good is a chest full o\' shrimp if we have no ship to sail?"',
 
                                 'My words, simple and true, rang loud across the beach. Though we were friends, greed had nearly ripped us apart!\n\
-                                So from that moment on, instead of plotting against eachother, I devised a plan for my crew to share the wiggly treasure with everyone. We traded shrimp at every port we visited, spreading food and wealth across the Seven Seas.',
+                                So from that moment on, instead of plotting against each other, I devised a plan for my crew to share the wiggly treasure with everyone. We traded shrimp at every port we visited, spreading food and wealth across the Seven Seas.',
 
                                 'Thus, we came to understand the terrible power of greed, and the even greater power of working together.\n\
                                 Through sharing and teamwork, our friendship grew stronger than ever before.',                
@@ -479,7 +479,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "Firs[t] Person",
-                            "S[e[cond Person",
+                            "S[e]cond Person",
                             "Third Pers[o]n",
                         ],
                     }, 

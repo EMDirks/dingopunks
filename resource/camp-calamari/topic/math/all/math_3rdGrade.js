@@ -84,7 +84,7 @@ const resource = {
                                     text: "#2. Build a Fence",
                                 },
                                 passage: {
-                                    text: "Then, it's time build a sturdy fence. To do this, I need a total of 50 pieces of driftwood. I already have 22 pieces in the barn, and 10 pieces in the shed.",
+                                    text: "Then, it's time to build a sturdy fence. To do this, I need a total of 50 pieces of driftwood. I already have 22 pieces in the barn, and 10 pieces in the shed.",
                                 },  
                             }
                         ],
@@ -182,7 +182,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>2.] How many [<i>more] pieces of driftwood does Driftwood Dan needs to build the fence?",
+                        title: "[<g>2.] How many [<i>more] pieces of driftwood does Driftwood Dan need to build the fence?",
                         correctIndex: 1,
                         columns: 2,
                         paragraph: [

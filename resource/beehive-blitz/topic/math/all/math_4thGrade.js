@@ -276,7 +276,7 @@ const resource = {
                 character: "Riff Wingman",
                 asset: "riff-wingman.png",
                 dialogue : {
-                    incomplete: "I'm sure you're heard of me \u2014 Riff Wingman, famous poet. Looks like we've got a storm blowing in, and the hive could use some encouragement. Want to help me set up a show?",
+                    incomplete: "I'm sure you've heard of me \u2014 Riff Wingman, famous poet. Looks like we've got a storm blowing in, and the hive could use some encouragement. Want to help me set up a show?",
                     complete: "You've got the rhythm to keep this hive alive! Just don't let Gustav throw you off your groove."
                 },
             },
@@ -497,7 +497,7 @@ const resource = {
                 character: "Grumblegrub",
                 asset: "grumblegrub.png",
                 dialogue: {
-                    incomplete: "I ain't here to chitchat. I've got a whole warehouse to manage. Just help me figure out some out these lines and angles, alright? And don't go pokin' around any boxes.",
+                    incomplete: "I ain't here to chitchat. I've got a whole warehouse to manage. Just help me figure out some of these lines and angles, alright? And don't go pokin' around any boxes.",
                     complete: "Yeah, yeah, thanks for the help. And again \u2014 don't go snoopin' around those boxes."
                 },
             },
@@ -960,7 +960,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>3.] Which problem has answer of 1 [<f>2/3] ?",
+                        title: "[<g>3.] Which problem has an answer of 1 [<f>2/3] ?",
                         correctIndex: 0,
                         paragraph: [
                             "Rema{i}ning fields",
@@ -993,7 +993,7 @@ const resource = {
                 asset: "queen-bella.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read each word problems, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
+                    text: "Read each word problem, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

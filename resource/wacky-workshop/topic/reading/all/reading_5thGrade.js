@@ -124,7 +124,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "Some toys judge Sir {B}obble\'s spring neck",
-                            "Sir Bobble\'s w{a}nts a new neck",
+                            "Sir Bobble w{a}nts a new neck",
                             "Sir Bobble doesn\'t like bein{g} a toy",
                         ],
                     },

@@ -9,7 +9,7 @@ Proofread pass on all 4 resource files under `resource/rainbow-rescue/` (cutscen
 ### `cutscene/cutscene.js`
 
 **Intro**
-- **Grammar** — Noctis dialogue: "If the they want it back…" → "If **they** want it back…"
+✅ - **Grammar** — Noctis dialogue: "If the they want it back…" → "If **they** want it back…"
 
 ---
 
@@ -18,21 +18,21 @@ Proofread pass on all 4 resource files under `resource/rainbow-rescue/` (cutscen
 ### `topic/reading/all/reading_3rdGrade.js`
 
 **Eggbert's Hall**
-- **Grammar** — Q2 stem: "Which details supports this main idea?" → "Which detail supports…" or "Which details support…"
-- **Punctuation** — passage: after *(which smelled like burnt cupcakes)* the next word *guess* needs a comma → "…cupcakes), guess what Grob did?"
+✅ - **Grammar** — Q2 stem: "Which details supports this main idea?" → "Which detail supports…" or "Which details support…"
+✅ - **Punctuation** — passage: after *(which smelled like burnt cupcakes)* the next word *guess* needs a comma → "…cupcakes), guess what Grob did?"
 
 **Secret Workshop**
-- **Spelling** — Q4 option: "Play{f}ull, silly, and loud" → "**Playful**"
+✅ - **Spelling** — Q4 option: "Play{f}ull, silly, and loud" → "**Playful**"
 
 ### `topic/reading/all/reading_4thGrade.js`
 
 **Eggbert's Hall**
-- **Grammar** — Q2 stem: "Which details supports Grob's claim?" → "Which detail supports…" or "Which details support…"
+✅ - **Grammar** — Q2 stem: "Which details supports Grob's claim?" → "Which detail supports…" or "Which details support…"
 
 ### `topic/reading/all/reading_5thGrade.js`
 
 **Mystic Hideaway**
-- **Punctuation** — "Victory" passage: stray closing quote after *Clover Hill!"* → remove extra `\\\"` so the sentence ends cleanly
+✅ - **Punctuation** — "Victory" passage: stray closing quote after *Clover Hill!"* → remove extra `\\\"` so the sentence ends cleanly
 
 ---
 

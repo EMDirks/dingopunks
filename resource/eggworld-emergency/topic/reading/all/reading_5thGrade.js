@@ -596,7 +596,7 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: 'Fued',
+                                    text: 'Feud',
                                 },
                                 subtitle: {
                                     text: "By Eggerton, President of Eggworld",
@@ -726,7 +726,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the rhyme scheme of \"Fued?\"",
+                        title: "[<g>1.] What is the rhyme scheme of \"Feud?\"",
                         word: "AAB[B]",
                     },
                     {

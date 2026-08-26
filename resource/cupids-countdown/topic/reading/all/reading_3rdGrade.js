@@ -1013,7 +1013,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>4.] What do both story's plots have in common?",
+                        title: "[<g>4.] What do both stories\' plots have in common?",
                         correctIndex: 2,
                         paragraph: [
                             "Both were written by the same autho{r}",

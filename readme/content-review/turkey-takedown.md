@@ -9,12 +9,12 @@ Proofread pass on all 4 resource files under `resource/turkey-takedown/` (cutsce
 ### `topic/reading/all/reading_3rdGrade.js`
 
 **Gift Shop**
-- **Copy hygiene** — Q2 option: "A {m}agic castle at night " → remove trailing space before closing quote
+✅ - **Copy hygiene** — Q2 option: "A {m}agic castle at night " → remove trailing space before closing quote
 
 ### `topic/reading/all/reading_4thGrade.js`
 
 **Dumpster**
-- **Grammar** — Q4 option: "Neither pa{r}agraphs have any similes" → "Neither paragraph **has** any similes"
+✅ - **Grammar** — Q4 option: "Neither pa{r}agraphs have any similes" → "Neither paragraph **has** any similes"
 
 ---
 

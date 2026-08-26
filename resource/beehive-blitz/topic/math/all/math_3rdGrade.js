@@ -229,7 +229,7 @@ const resource = {
                     isUsed: false
                 },
                 education: {
-                    topic: "Two Step Word Problems With Addition and Subtration",
+                    topic: "Two Step Word Problems With Addition and Subtraction",
                     commonCore: [
                         "2.NBT.B.7",
                         "3.NBT.A.2",
@@ -449,7 +449,7 @@ const resource = {
                 character: "Sunny Snap",
                 asset: "sunny-snap.png",
                 dialogue : {
-                    incomplete: "Oh no… I accidentally broke Queen Bella's golden tablet! She's going to be SO upset with me. Think you can you help me fix this thing?",
+                    incomplete: "Oh no… I accidentally broke Queen Bella's golden tablet! She's going to be SO upset with me. Think you can help me fix this thing?",
                     complete: "Maybe my luck's starting to turn around after all. Thanks a million!"
                 },
             },

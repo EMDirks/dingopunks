@@ -288,7 +288,7 @@ const resource = {
                         paragraph: [
                             "Silverwood {a}nd charwood",
                             "{I}ronwood and charwood",
-                            "Charwood and {w}avewood",
+                            "Ch{a}rwood and stormwood",
                         ],
                     },
                     {
@@ -296,7 +296,7 @@ const resource = {
                         correctIndex: 2,
                         paragraph: [
                             "{T}hornwood and stormwood",
-                            "Wav{e}wood and ironwood",
+                            "Ripp{l}ewood and ironwood",
                             "Thor{n}wood and twigwood",
                         ],
                     },
@@ -654,7 +654,7 @@ const resource = {
                 asset: "chef-gumbo.png",
                 dialogue : {
                     incomplete: "I need to make some sticky seaweed slime to trap the pirates, but my cutting board's all broken. I can't chop the seaweed without it, so hurry up and help me fix this mess!",
-                    complete: "Yes... perfect! This slime's gonna be even sticker than I planned. I guess I owe you a thank you."
+                    complete: "Yes... perfect! This slime's gonna be even stickier than I planned. I guess I owe you a thank you."
                 },
             },
 
@@ -1143,7 +1143,7 @@ const resource = {
                     paragraph: [
                         'A. Which metal has a larger fraction: [<u>cobalt] or [<u>steel]?',
                         'B. Which metal has a smaller fraction: [<u>lead] or [<u>iron]?',
-                        'D. [<u>True] or [<u>false]: bronze > nickel.',     
+                        'C. [<u>True] or [<u>false]: bronze > nickel.',     
                         'D. Does [<u>silver] or [<u>cobalt] have the same numerator as copper?',                    
                     ],
                     puzzle: [

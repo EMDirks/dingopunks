@@ -9,7 +9,7 @@ Proofread pass on all 4 resource files under `resource/funhouse-fright/` (cutsce
 ### `topic/reading/all/reading_5thGrade.js`
 
 **Ticket Booth**
-- **Copy hygiene** — Q2 option 3: trailing space in `"Candy corn is har{d} to make "` → remove trailing space before closing quote
+✅ - **Copy hygiene** — Q2 option 3: trailing space in `"Candy corn is har{d} to make "` → remove trailing space before closing quote
 
 ---
 

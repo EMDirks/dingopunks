@@ -174,7 +174,7 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>2.] Which details supports Grob\'s claim?",
+                        title: "[<g>2.] Which detail supports Grob\'s claim?",
                         correctIndex: 1,
                         paragraph: [
                             "\"Ah, the Battle of Clover {H}ill.\"",

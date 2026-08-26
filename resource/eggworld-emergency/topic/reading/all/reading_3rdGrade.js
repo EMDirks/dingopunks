@@ -416,7 +416,7 @@ const resource =  {
                                     text: "Sunny\'s Note",
                                 },
                                 passage: {
-                                    text: "Okay, the tunnel is DEFINITELY behind Eggbert\'s statue in the park. Just pour some water at its feet, and POOF! A secret door will open. It\'s a little dark and scary down there, but don\'t worry, it\'s not [<u>terrifying]. It\'s just a old tunnel, not a monster\'s lair!",
+                                    text: "Okay, the tunnel is DEFINITELY behind Eggbert\'s statue in the park. Just pour some water at its feet, and POOF! A secret door will open. It\'s a little dark and scary down there, but don\'t worry, it\'s not [<u>terrifying]. It\'s just an old tunnel, not a monster\'s lair!",
                                 },  
                             }
                         ],
@@ -513,7 +513,7 @@ const resource =  {
                         paragraph: [
                             "Looking {f}or clues and solving mysteries",
                             "Taking care of bab{y} birds",
-                            "{S}leeping the park",
+                            "{S}leeping in the park",
                         ],
                     },
                     {

@@ -802,7 +802,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text:   "The cabin fence is already is great shape, it just needs a little reinforcement.<br><br>Driftwood Dan plans to use [<f>2/3] of a plank to reinforce the eastern part of the fence, and [<f>3/4] of a plank to reinforce the western part of the fence."
+                                    text:   "The cabin fence is already in great shape, it just needs a little reinforcement.<br><br>Driftwood Dan plans to use [<f>2/3] of a plank to reinforce the eastern part of the fence, and [<f>3/4] of a plank to reinforce the western part of the fence."
                                 }
                             }
                         ],
@@ -816,7 +816,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Planks Needed for the Inpirational Sculpture",
+                            text: "Planks Needed for the Inspirational Sculpture",
                         },
                         contentArray: [
                             {
@@ -902,7 +902,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>3.] What fraction a full plank will Driftwood Dan use to build his inspirational sculpture?",
+                        title: "[<g>3.] What fraction of a full plank will Driftwood Dan use to build his inspirational sculpture?",
                         answerType: "numerals",
                         columns: 2,
                         correctIndex: 3,

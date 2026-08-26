@@ -36,7 +36,7 @@ const resource = {
                 character: "Basil Rabbit",
                 asset: "basil-rabbit.png",
                 dialogue : {
-                    incomplete: "Hey there, I'm Basil. I finished collecting all these jars of nectar, but I'm just too scatterbrained to add everything up. I don't want to bees to think I'm a total disaster! Think you can help?",
+                    incomplete: "Hey there, I'm Basil. I finished collecting all these jars of nectar, but I'm just too scatterbrained to add everything up. I don't want the bees to think I'm a total disaster! Think you can help?",
                     complete: "Thanks for the help! Maybe now everyone will forget about the \"carrot incident.\""
                 },
             },

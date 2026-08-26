@@ -283,7 +283,7 @@ const resource =  {
                         { text: "This coat is very soft.", image: "6.png" },   
                         { text: "This field of flowers is like a painting.", image: "7.png" },                  
                         { text: "These antique books are royal advisors.", image: "8.png" },
-                        { text: "These new robes are as vibrant as as rainbow.", image: "9.png" },          
+                        { text: "These new robes are as vibrant as a rainbow.", image: "9.png" },          
                     ],
                 },
                 multipleChoice: [
@@ -517,7 +517,7 @@ const resource =  {
                                 She certainly wasn\'t the strongest or fastest bee in the hive, but she had a heart full of courage and a mind packed with ideas.',
 
                                 'One day, disaster struck. A fierce storm destroyed most of Bumbleberg Hive, scattering the bees in fear.\n\
-                                But Bella didn\'t hesistate; she knew it was up to her to save the day. With her wings beating rapidly, she gathered up as many of her friends as she could, guiding them to safety.',
+                                But Bella didn\'t hesitate; she knew it was up to her to save the day. With her wings beating rapidly, she gathered up as many of her friends as she could, guiding them to safety.',
 
                                 'This bravery did not go unnoticed. The older bees saw Bella\'s potential and strength of character.\n\
                                 And so, when the old Queen Bee retired, they elected Bella the new queen of the hive.',                
@@ -537,7 +537,7 @@ const resource =  {
                         title: "{1.} Which character traits best describe Bella?",
                         correctIndex: 2,
                         paragraph: [
-                            "Terrified [a]nd hesistant",
+                            "Terrified [a]nd hesitant",
                             "Clever and artist[i]c",
                             "Confident and b[r]ave",
                         ],
