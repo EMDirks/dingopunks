@@ -145,7 +145,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>3.] True or false: \"a little light dancing in the storm\" refers to the Lantern of Frostbite Island.",
+                        title: "[<g>3.] True or false: \"a little light dancing in the woods\" refers to the Lantern of Frostbite Island.",
                         correctIndex: 0,
                         columns: 2,
                         paragraph: [

@@ -879,7 +879,7 @@ const resource =  {
                 asset: "frantic-factory.png",
                 state: "incomplete",
                 hint: {
-                    text: "Look at the the shapes and number lines, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
+                    text: "Look at the shapes and number lines, then answer the questions to fill in the crossword. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

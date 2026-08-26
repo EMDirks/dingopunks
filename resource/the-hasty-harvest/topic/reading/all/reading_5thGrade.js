@@ -42,7 +42,7 @@ const resource =  {
             isHintUsed: false,
             dialogue : {
                 incomplete: "Howdy, welcome to the farm. It's getting dark fast! Luckily, I just got a new shipment of candles. I need you to read the labels and answer some questions... think ya can handle that?",
-                complete: "Enjoy your stay here! Just don't spend too much time inside the Frantic Factory.. that place freaks me out after dark."
+                complete: "Enjoy your stay here! Just don't spend too much time inside the Frantic Factory... that place freaks me out after dark."
             },
             content: {
                 passage: {

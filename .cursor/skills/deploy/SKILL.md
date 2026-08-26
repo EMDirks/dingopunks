@@ -155,7 +155,7 @@ When the user asks to deploy / publish (e.g. “deploy to Cloudflare”, “publ
 6. Report the new version and both URLs (`https://<id>.dingopunks.pages.dev` and `https://dingopunks.pages.dev`).
 7. If deploy fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
 
-Pushing to GitHub (`dingopunks` remote) is **not** part of this skill unless the user also asks to push / back up; use the `push-github` skill for that.
+Pushing to GitHub (`dingopunks` remote) is **not** part of this skill unless the user also asks to push / back up; use the `push` skill for that.
 
 ## What not to do
 

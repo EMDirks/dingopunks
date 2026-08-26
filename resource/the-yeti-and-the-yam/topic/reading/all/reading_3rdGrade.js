@@ -255,7 +255,7 @@ const resource =  {
             hint: "Put together the puzzle, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Arg! You're lucky I have whole box of butter on my ship. It's all yours... if you can put together the pieces of my map.",
+                incomplete: "Arg! You're lucky I have a whole box of butter on my ship. It's all yours... if you can put together the pieces of my map.",
                 complete: "If you're ever looking to join a pirate crew, come find me."
             }, 
             content: {

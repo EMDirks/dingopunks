@@ -74,7 +74,7 @@ const resource = {
                                     text: "--------  $100,000 BOUNTY  --------",
                                 },
                                 passage: {
-                                    text:   "Pippo Fizzlepop's name is tangled in mystery. After his sister Topsy's invention \"accidentally\" sunk the floating city of Port Mechana, the survivors demanded justice. But Topsy vanished, and Pippo was last seen flying a homemade plane in search of her. His only trace was a tattered wing found on a snowy island.<br>\ No one knew what happened to Pippo after his plane went down. Some believed he survived, determined to protect his sister. Adventurers spoke of eerie lights and strange sounds on the island, but those who searched returned only with shivers and unbelievable stories \u2014 if they returned at all.<br>\ Rumors spread quickly. Some claimed Pippo built an underground lair filled with traps, while others swore they saw shadowy figures moving in the fog, powered by gears and steam. As the tales grew, the truth became hidden. But one thing was certain: if Pippo was still out there, he'd do anything to protect his sister.<br>\ What was real? What was rumor? The truth remained buried in fear and misunderstanding. But perhaps Pippo wasn't the villain the world made him out to be. After all, people fear what they don't understand, and Pippo Fizzlepop had become the perfect mystery. Either way, he must be found \u2014 not just to end the rumors, but to finally uncover the truth of what happened to our beloved city."                                    
+                                    text:   "Pippo Fizzlepop's name is tangled in mystery. After his sister Topsy's invention \"accidentally\" sank the floating city of Port Mechana, the survivors demanded justice. But Topsy vanished, and Pippo was last seen flying a homemade plane in search of her. His only trace was a tattered wing found on a snowy island.<br>\ No one knew what happened to Pippo after his plane went down. Some believed he survived, determined to protect his sister. Adventurers spoke of eerie lights and strange sounds on the island, but those who searched returned only with shivers and unbelievable stories \u2014 if they returned at all.<br>\ Rumors spread quickly. Some claimed Pippo built an underground lair filled with traps, while others swore they saw shadowy figures moving in the fog, powered by gears and steam. As the tales grew, the truth became hidden. But one thing was certain: if Pippo was still out there, he'd do anything to protect his sister.<br>\ What was real? What was rumor? The truth remained buried in fear and misunderstanding. But perhaps Pippo wasn't the villain the world made him out to be. After all, people fear what they don't understand, and Pippo Fizzlepop had become the perfect mystery. Either way, he must be found \u2014 not just to end the rumors, but to finally uncover the truth of what happened to our beloved city."                                    
                                 }
                             },
                             {
@@ -180,7 +180,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>4.] How did fear shape peoples' view of Pippo?",
+                        title: "[<g>4.] How did fear shape people's view of Pippo?",
                         correctIndex: 1,
                         paragraph: [
                             "It ma{d}e them feel sympathy for him",
@@ -528,7 +528,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<bwb>F] ...a beam of  sunlight, melting the castle walls!",
+                                    text: "[<bwb>F] ...a beam of sunlight, melting the castle walls!",
                                 }, 
                                 backgroundImage: {
                                     file: "6.png"

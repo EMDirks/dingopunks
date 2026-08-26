@@ -1308,7 +1308,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The [<u>luminescence] from this flashlight is quite a contrast to the the dark sky.",
+                                    text: "The [<u>luminescence] from this flashlight is quite a contrast to the dark sky.",
                                 }, 
                             }
                         ],

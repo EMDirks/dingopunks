@@ -412,7 +412,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "Tator Durant stores raw potatoes in a large alcove at the back of his cell. The alcove has a volume of 126 feet<sup>3</sup>. Its length is 6 feet and its height is 7 feet.",
+                                    text: "Tater Durant stores raw potatoes in a large alcove at the back of his cell. The alcove has a volume of 126 feet<sup>3</sup>. Its length is 6 feet and its height is 7 feet.",
                                 }, 
                             }
                         ],

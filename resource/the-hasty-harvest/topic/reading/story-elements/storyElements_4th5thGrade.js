@@ -488,7 +488,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             '"But one dark night, a t{r}oll stomped in..."',
-                            '"Goblin {J}oe faced trouble again."',
+                            '"Goblin {J}o faced trouble again."',
                             '"Yet, with some cheer and spir{i}t bright..."',
                         ],
                     },
@@ -636,7 +636,7 @@ const resource =  {
                                      <br> \
                                     Immediately, Ms. Clove began experimenting with different fruits: pears, plums, peaches, guavas, and more. After hours of taste-testing, she finally settled on a secret blend. On the day of the festival, the villagers gathered, whispering and wondering about the cider. With a deep breath, Ms. Clove served the first cup to the mayor. He took a sip, paused, and then... \
                                     <br> \
-                                    His face broke into a wide grin! The crowd cheered, and everyone eagerly lined up to try the new drink. Ms. Clove was extremely relieved, and festival ended on a high note, with everyone agreeing it was her best cider yet. What began as a disaster turned into a new tradition for the village, starting a yearly celebration of this unique \"Apple-Free\" apple cider.<br>"
+                                    His face broke into a wide grin! The crowd cheered, and everyone eagerly lined up to try the new drink. Ms. Clove was extremely relieved, and the festival ended on a high note, with everyone agreeing it was her best cider yet. What began as a disaster turned into a new tradition for the village, starting a yearly celebration of this unique \"Apple-Free\" apple cider.<br>"
                                 },
                                 
                             },

@@ -19,7 +19,7 @@ const resource =  {
                 asset: "candlewicks-cart.png",
                 state: "incomplete",
                 hint: {
-                    text: "Look at the the number lines, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
+                    text: "Look at the number lines, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

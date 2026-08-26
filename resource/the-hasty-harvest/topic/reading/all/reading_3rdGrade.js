@@ -410,7 +410,7 @@ const resource =  {
                         },
                         {
                             text: {
-                                paragraph: "4. These potatos are [grimy] and need to be cleaned."
+                                paragraph: "4. These potatoes are [grimy] and need to be cleaned."
                             },
                             style: {
                                 material: "style-material--metal",
@@ -515,7 +515,7 @@ const resource =  {
                             She picked a nice lumpy one, with a long stem that looked just like a nose. \n\
                             After finding a big stick to hold the scarecrow together, Sadie headed out into the cornfield.'
                             ,
-                            'Sadie had never built a scarecrow before, but she didn\'t gave up. \n\
+                            'Sadie had never built a scarecrow before, but she didn\'t give up. \n\
                             Even after the sun set, she worked under the light of the moon. \n\
                             She heard strange sounds in the fields, and dark shadows danced all around her. \n\
                             Sadie was scared, but she knew she had to build the scarecrow before morning. \n\

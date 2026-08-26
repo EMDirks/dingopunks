@@ -173,7 +173,7 @@ const resource = {
                                 passage: {
                                     text: "Two winters ago, Captain Fishbeard led his crew of misfits on an epic journey through the frigid North Sea. But the mission took a dire turn when their ship, <em>Storm Breaker</em>, blew off course into a snowy island. The situation was desperate. Within minutes, a prowling yeti ambushed the crew and dragged Captain Fishbeard away into its secret lair.\
                                     <br>\
-                                    Devastated but not defeated, the crew vowed to rescue their old captain. So, after returning home, they immediately began preparing to invade the snowy island. First, they chartered an entire fleet of ships. Each was packed to the brim with fur-lined clothing to withstand the cold. High-calorie foods — dried meats, nuts, and biscuits — were generously stockpiled.\
+                                    Devastated but not defeated, the crew vowed to rescue Fishbeard. So, after returning home, they immediately began preparing to invade the snowy island. First, they chartered an entire fleet of ships. Each was packed to the brim with fur-lined clothing to withstand the cold. High-calorie foods — dried meats, nuts, and biscuits — were generously stockpiled.\
                                     <br>\
                                     When it came to recruiting more pirates, the crew hired only the finest navigators, experienced in sailing dangerous, ice-filled waters. The most trustworthy among them were handpicked to lead raiding parties during the attack, ensuring no yeti would take them by surprise. \
                                     <br>\
@@ -260,7 +260,7 @@ const resource = {
                         paragraph: [
                             "\"...led his crew {o}f misfits on an epic journey...\"",
                             "\"...a pro{w}ling yeti ambushed the crew...\"",
-                            "\"...the crew vowed to rescue old Fishbe{a}rd.\"",
+                            "\"...the crew vowed to rescue Fishbe{a}rd.\"",
                         ],
                     },
                     {

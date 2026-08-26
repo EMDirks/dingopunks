@@ -1294,7 +1294,7 @@ const resource = {
                         correctIndex: 1,
                         paragraph: [
                             "Extremely {h}appy",
-                            "{N}ot satisfied ",
+                            "{N}ot satisfied",
                             "So{m}ewhat scared",
                         ],
                     },

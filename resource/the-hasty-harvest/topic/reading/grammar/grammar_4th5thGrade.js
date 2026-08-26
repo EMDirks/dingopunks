@@ -390,7 +390,7 @@ const resource =  {
                         'A. [<u>True] or [<u>false]: the top left piece is missing one or more commas.',
                         'B. Which word in the center piece should be capitalized?',
                         'C. One puzzle piece is missing quotation marks. Is this piece [<u>blue] or [<u>gray]?',     
-                        'D. How many puzzles pieces have no errors?',                    
+                        'D. How many puzzle pieces have no errors?',                    
                     ],
                     puzzle: [
                         ["0","(A)T","0","0","0","0","0"],

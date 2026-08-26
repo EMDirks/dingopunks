@@ -1,12 +1,12 @@
 ---
-name: push-github
+name: push
 description: >-
   Commits local changes and pushes branch main to the dingopunks GitHub repo
   (remote dingopunks). Use when the user asks to push to GitHub, back up the
-  repo, sync dingopunks, publish commits, or mentions push-github.
+  repo, sync dingopunks, publish commits, or mentions push.
 ---
 
-# Push to GitHub (dingopunks)
+# Push (dingopunks GitHub)
 
 ## Context
 

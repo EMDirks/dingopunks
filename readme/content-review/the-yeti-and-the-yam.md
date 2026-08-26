@@ -9,26 +9,23 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/all/reading_3rdGrade.js`
 
 **Fishbeard's Cell**
-- **Grammar** — `intro.dialogue.incomplete`: "I have whole box of butter" → "I have **a** whole box of butter"
-
-**The Knight's Cell**
-- **Answer fairness** — Q2 options use "He[r] laziness" / "Her [p]ride" for the male Frozen Knight (`correctIndex: 1` keys pride); change to **His** pride (and align the distractors)
+✅ - **Grammar** — `intro.dialogue.incomplete`: "I have whole box of butter" → "I have **a** whole box of butter"
 
 ### `topic/reading/all/reading_4thGrade.js`
 
 **Fishbeard's Cell**
-- **Grammar** — `intro.dialogue.incomplete`: "I have whole barrel o' butter" → "I have **a** whole barrel o' butter"
+✅ - **Grammar** — `intro.dialogue.incomplete`: "I have whole barrel o' butter" → "I have **a** whole barrel o' butter"
 
 ### `topic/reading/all/reading_5thGrade.js`
 
 **Fishbeard's Cell**
-- **Grammar** — `intro.dialogue.incomplete`: "I have whole barrel o' butter" → "I have **a** whole barrel o' butter"
+✅ - **Grammar** — `intro.dialogue.incomplete`: "I have whole barrel o' butter" → "I have **a** whole barrel o' butter"
 
 **Pippo's Cell**
-- **Spelling** — `intro.dialogue.complete`: "Every since she was banished" → "**Ever** since she was banished"
+✅ - **Spelling** — `intro.dialogue.complete`: "Every since she was banished" → "**Ever** since she was banished"
 
 **The Knight's Cell**
-- **Spelling** — story paragraph 3: "nonethelesss" → "**nonetheless**"
+✅ - **Spelling** — story paragraph 3: "nonethelesss" → "**nonetheless**"
 
 ---
 
@@ -37,7 +34,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/context-clues/contextClues_4th5thGrade.js`
 
 **Dr. Seraphina's Cell**
-- **Copy hygiene** — MC Q3 option 2: trailing space in `"{N}ot satisfied "` → remove space before closing quote
+✅ - **Copy hygiene** — MC Q3 option 2: trailing space in `"{N}ot satisfied "` → remove space before closing quote
 
 ---
 
@@ -46,7 +43,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/main-idea/mainIdea_4th5thGrade.js`
 
 **Fishbeard's Cell**
-- **Answer fairness** — Q2 option 3 quotes `"...the crew vowed to rescue old Fishbeard."` but the passage says they vowed to rescue **their old captain**; replace with a real passage line or reword the option
+✅ - **Answer fairness** — Q2 option 3 quotes `"...the crew vowed to rescue old Fishbeard."` but the passage says they vowed to rescue **their old captain**; replace with a real passage line or reword the option
 
 ---
 
@@ -55,7 +52,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/making-inferences/makingInferences_4th5thGrade.js`
 
 **Tater Durant's Cell**
-- **Answer fairness** — Q3 stem quotes `"a little light dancing in the storm"` but the passage says dancing **in the woods**; align stem with passage text
+✅ - **Answer fairness** — Q3 stem quotes `"a little light dancing in the storm"` but the passage says dancing **in the woods**; align stem with passage text
 
 ---
 
@@ -64,7 +61,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/poetry/poetry_4th5thGrade.js`
 
 **Fishbeard's Cell**
-- **Spelling** — `intro.dialogue.complete`: "much abliged" → "**obliged**"
+✅ - **Spelling** — `intro.dialogue.complete`: "much abliged" → "**obliged**"
 
 ---
 
@@ -73,37 +70,20 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/reading/story-elements/storyElements_4th5thGrade.js`
 
 **Pippo's Cell**
-- **Grammar** — wanted-poster passage: `"accidentally" sunk` → **sank** (simple past)
-- **Grammar** — Q4 stem: "peoples' view" → "**people's** view"
+✅ - **Grammar** — wanted-poster passage: `"accidentally" sunk` → **sank** (simple past)
+✅ - **Grammar** — Q4 stem: "peoples' view" → "**people's** view"
 
 **Fishbeard's Cell**
-- **Copy hygiene** — puzzle piece F: double space in `"...a beam of  sunlight..."` → single space
-
-**The Knight's Cell**
-- **Grammar** — crossword clues A, B, and C refer to the Frozen Knight as **her** / **She**; character is male throughout the resource → use **his** / **He**
+✅ - **Copy hygiene** — puzzle piece F: double space in `"...a beam of  sunlight..."` → single space
 
 ---
 
 ## Math — All Grades
 
-### `topic/math/all/math_4thGrade.js`
-
-**Tater Durant's Cell**
-- **Answer fairness** — Curried Potatoes box: figure grid is 5×5 but side labels read **17 in.**; decoder Q1 keys CURRIED for perimeter **68 in.** (17×4). Align grid dimensions with labels or revise Q1/key
-
 ### `topic/math/all/math_5thGrade.js`
 
 **Tater Durant's Cell**
-- **Spelling** — storage-alcove word problem names **Tator** Durant → **Tater** Durant
-
----
-
-## Math — Multiplication
-
-### `topic/math/multiplication/multiplication_4thGrade.js`
-
-**The Knight's Cell**
-- **Grammar** — Q2 stem: "How many snow cones did **she** collect this week?" → **he** (Frozen Knight)
+✅ - **Spelling** — storage-alcove word problem names **Tator** Durant → **Tater** Durant
 
 ---
 
@@ -112,7 +92,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/math/fractions/fractions_4thGrade.js`
 
 **Tater Durant's Cell**
-- **Grammar** — decoder Q1: "Which type of fry **weigh** more" → "**weighs**"
+✅ - **Grammar** — decoder Q1: "Which type of fry **weigh** more" → "**weighs**"
 
 ---
 
@@ -121,7 +101,7 @@ Proofread pass on all 20 resource files under `resource/the-yeti-and-the-yam/` (
 ### `topic/math/order-of-operations/orderOfOperations_5thGrade.js`
 
 **Tater Durant's Cell**
-- **Spelling** — hint text: "enter the **anwers**" → "**answers**"
+✅ - **Spelling** — hint text: "enter the **anwers**" → "**answers**"
 
 ---
 

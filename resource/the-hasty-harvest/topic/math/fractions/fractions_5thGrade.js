@@ -938,7 +938,7 @@ const resource =  {
                                     text: "[<bwb>LETTERS]"
                                 },
                                 passage: {
-                                    text: "<br>Mable was given 95 letters this week, but was only able to deliver [<f>3/5] of them. [<u>Find how many letters were delivered.]"
+                                    text: "<br>Mabel was given 95 letters this week, but was only able to deliver [<f>3/5] of them. [<u>Find how many letters were delivered.]"
                                 }
                             },
                         ],

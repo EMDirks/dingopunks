@@ -508,7 +508,7 @@ const resource = {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] Which type of fry weigh more: curly or wedge?",
+                        title: "[<g>1.] Which type of fry weighs more: curly or wedge?",
                         word: "CURL[Y]",
                     },
                     {

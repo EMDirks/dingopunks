@@ -438,7 +438,7 @@ const resource = {
                 asset: "fishbeard.png",
                 dialogue : {
                     incomplete: "Fishbeard needs yer eyes! I salvaged some scraps from me shipwreck, but I can't read 'em. Help an old captain out, and I'll trade ye a barrel o' butter I fished from the sea. What say ye?",
-                    complete: "Arrr, traitors aboard me own ship?! Ye saved me, matey \u2014 much abliged. This butter be all yers!"
+                    complete: "Arrr, traitors aboard me own ship?! Ye saved me, matey \u2014 much obliged. This butter be all yers!"
                 },
             },
 

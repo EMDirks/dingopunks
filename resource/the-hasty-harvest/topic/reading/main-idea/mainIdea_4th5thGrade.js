@@ -1081,7 +1081,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             'To show their than{k}s for its protection',
-                            'Because its torn clothing wa{s} unnatractive',
+                            'Because its torn clothing wa{s} unattractive',
                             'Because t{h}ey had nothing better to do',  
                         ]
                     },

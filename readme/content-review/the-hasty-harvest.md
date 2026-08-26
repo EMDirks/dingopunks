@@ -9,29 +9,24 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/reading/all/reading_3rdGrade.js`
 
 **Frantic Factory**
-- Spelling — cryptogram passage 4: "potatos" → "**potatoes**"
+✅ - Spelling — cryptogram passage 4: "potatos" → "**potatoes**"
 
 **Mallow Maze**
-- Grammar — Sadie story: "she didn't **gave** up" → "she didn't **give** up"
+✅ - Grammar — Sadie story: "she didn't **gave** up" → "she didn't **give** up"
 
 ### `topic/reading/all/reading_5thGrade.js`
 
 **Candlewick's Cart**
-- Punctuation — complete dialogue: "Frantic Factory**..**" → single period after "Factory"
+✅ - Punctuation — complete dialogue: "Frantic Factory**..**" → three periods after "Factory" for ellipses
 
 ---
 
 ## Reading — Context Clues
 
-### `topic/reading/context-clues/contextClues_2nd3rdGrade.js`
-
-**Candlewick's Cart**
-- Markup — Ever Ember passage: underlined word opens `[<u>eternal]` but never closes before the period (`[<u>eternal].`) → add closing `]` so the tag matches other passages
-
 ### `topic/reading/context-clues/contextClues_4th5thGrade.js`
 
 **Frantic Factory**
-- Duplicate word — Label 1: "contrast to **the the** dark sky" → "contrast to **the** dark sky"
+✅ - Duplicate word — Label 1: "contrast to **the the** dark sky" → "contrast to **the** dark sky"
 
 ---
 
@@ -40,7 +35,7 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/reading/grammar/grammar_4th5thGrade.js`
 
 **Camp Gnomad**
-- Typo — crossword clue D: "How many **puzzles** pieces" → "**puzzle** pieces"
+✅ - Typo — crossword clue D: "How many **puzzles** pieces" → "**puzzle** pieces"
 
 ---
 
@@ -49,7 +44,7 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/reading/main-idea/mainIdea_4th5thGrade.js`
 
 **Mallow Maze**
-- Spelling — Q4 option: "unnatractive" → "**unattractive**"
+✅ - Spelling — Q4 option: "unnatractive" → "**unattractive**"
 
 ---
 
@@ -58,7 +53,7 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/reading/poetry/poetry_4th5thGrade.js`
 
 **Frantic Factory**
-- Subject–verb agreement — Label #192: "they just **makes** sense" → "they just **make** sense"
+✅ - Subject–verb agreement — Label #192: "they just **makes** sense" → "they just **make** sense"
 
 ---
 
@@ -66,14 +61,11 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 
 ### `topic/reading/story-elements/storyElements_4th5thGrade.js`
 
-**Candlewick's Cart**
-- Word choice — Eternal Ember passage: "ruins **laid** the Eternal Ember" → "ruins **lay** the Eternal Ember" (no direct object; "laid" needs one)
-
 **Applegrim Orchard**
-- Answer fairness — Q3 option 2 quotes `"Goblin **Joe** faced trouble again."` but the poem names the character **Goblin Jo** → align the option quote with the passage
+✅ - Answer fairness — Q3 option 2 quotes `"Goblin **Joe** faced trouble again."` but the poem names the character **Goblin Jo** → align the option quote with the passage
 
 **Frantic Factory**
-- Missing article — Ms. Clove story: "**and festival** ended on a high note" → "**and the festival** ended on a high note"
+✅ - Missing article — Ms. Clove story: "**and festival** ended on a high note" → "**and the festival** ended on a high note"
 
 ---
 
@@ -82,12 +74,12 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/math/all/math_4thGrade.js`
 
 **Camp Gnomad**
-- Duplicate word — hint: "Look at **the the** shapes and number lines" → "Look at **the** shapes and number lines"
+✅ - Duplicate word — hint: "Look at **the the** shapes and number lines" → "Look at **the** shapes and number lines"
 
 ### `topic/math/all/math_5thGrade.js`
 
 **Candlewick's Cart**
-- Subject–verb agreement — Pumpkin Storage word problem: "Each of Candlewick's 3 pumpkin fields **produce**" → "**produces**"
+✅ - Subject–verb agreement — Pumpkin Storage word problem: "Each of Candlewick's 3 pumpkin fields **produce**" → "**produces**"
 
 ---
 
@@ -96,12 +88,12 @@ Proofread pass on all 26 resource files under `resource/the-hasty-harvest/` (`cu
 ### `topic/math/fractions/fractions_3rdGrade.js`
 
 **Applegrim Orchard**
-- Duplicate word — hint: "Look at **the the** number lines" → "Look at **the** number lines"
+✅ - Duplicate word — hint: "Look at **the the** number lines" → "Look at **the** number lines"
 
 ### `topic/math/fractions/fractions_5thGrade.js`
 
 **Mallow Maze**
-- Spelling — word problem: "**Mable** was given 95 letters" → "**Mabel**" (matches the farm messenger elsewhere)
+✅ - Spelling — word problem: "**Mable** was given 95 letters" → "**Mabel**" (matches the farm messenger elsewhere)
 
 ---
 

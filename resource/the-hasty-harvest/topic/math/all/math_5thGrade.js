@@ -133,7 +133,7 @@ const resource =  {
                                     text: "[<u>Pumpkin Storage]",
                                 },
                                 passage: {
-                                    text: "Each of Candlewick's 3 pumpkin fields produce 50 pounds of pumpkins per week. The harvested pumpkins are then stored inside wooden compartments, each holding 5 pounds.",
+                                    text: "Each of Candlewick's 3 pumpkin fields produces 50 pounds of pumpkins per week. The harvested pumpkins are then stored inside wooden compartments, each holding 5 pounds.",
                                 }, 
                             }
                         ],

@@ -541,7 +541,7 @@ const resource = {
                 asset: "tater-drift.png",
                 state: "incomplete",
                 hint: {
-                    text: "Solve each equation, then enter the anwers to the questions below. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
+                    text: "Solve each equation, then enter the answers to the questions below. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {

@@ -259,7 +259,7 @@ const resource =  {
             hint: "Put together the puzzle, then answer the multiple choice questions. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Arg! You're lucky I have whole barrel o' butter on my ship. And it's not even rancid yet! It's all yours... if you can put together the pieces of my map.",
+                incomplete: "Arg! You're lucky I have a whole barrel o' butter on my ship. And it's not even rancid yet! It's all yours... if you can put together the pieces of my map.",
                 complete: "If yer ever lookin' to join a pirate crew, come find me."
             }, 
             content: {
@@ -450,7 +450,7 @@ const resource =  {
             hint: "Read each passage, then find the meaning of each word by looking at context clues. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
             dialogue : {
                 incomplete: "Hee hee, I'm Pippo Fizzlepop! I can build anything, even an oven to bake those yams. I have all these boxes of parts, I just can't read the labels... some of the words are way too hard. Help me!",
-                complete: "If you ever see my sister Topsy around, let me know! Every since she was banished, I've been worried about her. Hee hee!"
+                complete: "If you ever see my sister Topsy around, let me know! Ever since she was banished, I've been worried about her. Hee hee!"
             }, 
             symbol: ["AA","BB","CC","DD","EE","FF","GG","HH","II","JJ","KK","LL","MM","NN","OO","PP","QQ","RR","SS","TT","UU","VV","WW","XX","YY","ZZ"]
         },
@@ -518,7 +518,7 @@ const resource =  {
                             I found myself surrounded by all sorts of strange creatures \u2014 desperate prisoners of the yeti too.'
                             ,
                             'These creatures were certainly beneath me: a mad scientist, a lazy musician, a fishy pirate, and a creepy little elf. \n\
-                            So I kept my distance. I was a knight, after all... on a mission from the King, nonethelesss!\n\
+                            So I kept my distance. I was a knight, after all... on a mission from the King, nonetheless!\n\
                             But as the days grew colder and more lonesome, I realized I had no choice. I swallowed my pride and reluctantly joined the crew of misfits.'
                             ,
                             'Turns out, they knew all the good survival tricks: scavenging food, staying warm, and keeping busy. \n\

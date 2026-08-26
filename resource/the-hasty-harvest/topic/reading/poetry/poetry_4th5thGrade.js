@@ -1131,7 +1131,7 @@ const resource =  {
                                             Of my harvest, one fruit shines bright.<br> \
                                             Creamy in texture, with a taste to delight.<br> \
                                             Antioxidants to boost your body's defense.<br> \
-                                            Delicious and green, they just makes sense.<br> \
+                                            Delicious and green, they just make sense.<br> \
                                             Omega-3s for a balanced meal.<br> \
                                             Supporting wellness, they're the real deal."
                                 }
