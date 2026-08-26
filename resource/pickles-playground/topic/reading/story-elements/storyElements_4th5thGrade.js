@@ -369,7 +369,7 @@ const resource =  {
                 asset: "merriwig.png",
                 dialogue : {
                     incomplete: "Two mysterious scraps of paper floated into my lap while I was swinging. You know what? I bet they\'re from Pickle! Will you read them to me?",
-                    complete: "You\'ve been kind to me.  If the wind ever comes back, I\'ll try to follow it. Will you?"
+                    complete: "You\'ve been kind to me. If the wind ever comes back, I\'ll try to follow it. Will you?"
                 },
             },
 

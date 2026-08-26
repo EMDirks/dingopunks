@@ -237,9 +237,9 @@ const resource = {
                         correctIndex: 1,
                         paragraph: [
                             "161 ho{u}rs",
-                            "230 h{o}urs ",
+                            "230 h{o}urs",
                             "13,835 {m}inutes",
-                            "23 hou{r}s ",
+                            "23 hou{r}s",
                         ],
                     },
                     {

@@ -774,7 +774,7 @@ const resource = {
                     paragraph: [
                         'A. How many of these visions are about pirates?',
                         'B. Do the pirates plan to fire their cannons at [<u>dawn], [<u>noon], or [<u>dusk]?',
-                        'C. [<u>Right] or [<u>wrong]: in \"Paths,\" the quote \"boots and peg legs\" show that this fortune is about the camp counselors.',     
+                        'C. [<u>Right] or [<u>wrong]: in \"Paths,\" the quote \"boots and peg legs\" shows that this fortune is about the camp counselors.',     
                         'D. Does \"Ocean\" allow us to infer that Driftwood Dan is easy-going and [<u>chill], or anxious and [<u>tense]?',                    
                     ],
                     puzzle: [

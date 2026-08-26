@@ -632,7 +632,7 @@ const resource = {
                     paragraph: [
                         'A. Does line [<u>seven] or [<u>eight] of \"Vision Two\" contain a verb in the present progressive tense?',
                         'B. In \"Vision One,\" which word belongs on the blank space in the second stanza: [<u>whom] or [<u>that]?',
-                        'C. Find the blank space in the first stanza of \"Vision One.\" What conjunction belong here?',     
+                        'C. Find the blank space in the first stanza of \"Vision One.\" What conjunction belongs here?',     
                         'D. If the blank space in \"Vision Two\" is meant to show [<i>permission] instead of [<i>ability], should it be filled with [<u>may] or [<u>can]?',                    
                     ],
                     puzzle: [

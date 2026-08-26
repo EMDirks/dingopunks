@@ -795,7 +795,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] The first main idea is about revealing a secret ___. ",
+                        title: "[<g>1.] The first main idea is about revealing a secret ___.",
                         word: "[D]OOR",
                     },
                     {

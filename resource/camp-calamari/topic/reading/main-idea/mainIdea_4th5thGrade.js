@@ -431,7 +431,7 @@ const resource = {
                         title: "[<g>3.] What other pieces show the stew's sleepy effect?",
                         correctIndex: 2,
                         paragraph: [
-                            "The middle ri{g}ht, and the top right ",
+                            "The middle ri{g}ht, and the top right",
                             "The bottom left, and the to{p} left",
                             "The m{i}ddle top, and the center",
                         ],

@@ -676,7 +676,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>2.] How many types of ship supplies should be sorted into the \"Odd Numbers\" column? ",
+                        title: "[<g>2.] How many types of ship supplies should be sorted into the \"Odd Numbers\" column?",
                         columns: 2,
                         correctIndex: 2,
                         paragraph: [

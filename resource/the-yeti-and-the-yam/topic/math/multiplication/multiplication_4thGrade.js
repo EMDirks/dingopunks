@@ -18,7 +18,7 @@ const resource = {
                 asset: "pippo-fizzlepop.png",
                 state: "incomplete",
                 hint: {
-                    text: "Put together the puzzles pieces, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
+                    text: "Put together the puzzle pieces, then answer the multiple-choice questions. The yellow letters, in order, are the answer.",
                     isUsed: false
                 },
                 education: {
@@ -227,7 +227,7 @@ const resource = {
                         paragraph: [
                             "{M}ultiples of 6",
                             "Facto{r}s of 24",
-                            "Prime {n}umbers ",
+                            "Prime {n}umbers",
                         ],
                     },
                     {

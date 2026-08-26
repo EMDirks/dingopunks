@@ -1050,7 +1050,7 @@ const resource =  {
                         correctIndex: 0,
                         paragraph: [
                             "Kindness and hard work {c}an lead to greatness",
-                            "Hollow jack {g}ot a much-deserved upgrade",
+                            "Hollow Jack {g}ot a much-deserved upgrade",
                             "Hollow {J}ack saved the farm from some slugs",
                         ],
                     },

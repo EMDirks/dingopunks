@@ -644,7 +644,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Pounds of [<u>Barbecue] Potatoes ",
+                            text: "Pounds of [<u>Barbecue] Potatoes",
                         },
                         contentArray: [
                             {

@@ -516,7 +516,7 @@ const resource =  {
                                 She became known among her fellow bees for her kindness, bravery, and determination. \n\
                                 She certainly wasn\'t the strongest or fastest bee in the hive, but she had a heart full of courage and a mind packed with ideas.',
 
-                                'One day, disaster struck. A fierce storm destroyed most of Bumbleberg Hive, scattering the bees in fear.\n\
+                                'One day, disaster struck. A fierce storm destroyed most of Bumbleburg Hive, scattering the bees in fear.\n\
                                 But Bella didn\'t hesitate; she knew it was up to her to save the day. With her wings beating rapidly, she gathered up as many of her friends as she could, guiding them to safety.',
 
                                 'This bravery did not go unnoticed. The older bees saw Bella\'s potential and strength of character.\n\

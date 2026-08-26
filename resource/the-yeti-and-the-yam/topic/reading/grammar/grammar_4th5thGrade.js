@@ -422,7 +422,7 @@ const resource = {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue : {
-                    incomplete: "So... I kinda crashed my plane right into this yeti\'s cave! Luckily, I\'ve got some instructions that might get it flying again. If you help me figure \'em out, I\'ll bake your candied yams in my jet engine! ",
+                    incomplete: "So... I kinda crashed my plane right into this yeti\'s cave! Luckily, I\'ve got some instructions that might get it flying again. If you help me figure \'em out, I\'ll bake your candied yams in my jet engine!",
                     complete: "With your help, this old plane might actually fly again. Thanks a bunch, pal!"
                 },
             },

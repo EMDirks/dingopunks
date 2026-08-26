@@ -286,7 +286,7 @@ const resource =  {
                         correctIndex: 1,
                         paragraph: [
                             "The {H}arvest Pip must be planted in autumn",
-                            "The Harvest Pip is a magi{c}al apple seed ",
+                            "The Harvest Pip is a magi{c}al apple seed",
                             "The Harvest Pip sparkle{s} during fall",
                         ],
                     },
@@ -297,7 +297,7 @@ const resource =  {
                         paragraph: [
                             "The Summe{r} Pumpkin protects crops",
                             "The air g{e}ts cold in the fall",
-                            "The Summer Pumpkin can gl{o}w in the dark ",
+                            "The Summer Pumpkin can gl{o}w in the dark",
                         ]
                     },
 

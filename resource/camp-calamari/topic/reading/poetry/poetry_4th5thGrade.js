@@ -873,7 +873,7 @@ const resource = {
                         correctIndex: 2,
                         paragraph: [
                             "To clearl{y} describe historical events",
-                            "To share their o{w}n personal experience ",
+                            "To share their o{w}n personal experience",
                             "To speak directly t{o} the reader",
                         ],
                     },

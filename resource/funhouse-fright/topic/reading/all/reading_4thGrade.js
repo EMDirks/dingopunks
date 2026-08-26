@@ -619,7 +619,7 @@ const resource =  {
                                     <br>\
                                     dark red drapes and spooky shapes.\
                                     <br>\
-                                    People gasp when I appear, \
+                                    People gasp when I appear,\
                                     <br>\
                                     but I just like things grand, my dear.\
                                     <br>\

@@ -718,7 +718,7 @@ const resource = {
                 asset: "pippo-fizzlepop.png",
                 dialogue : {
                     incomplete: "Oh no! I'm trying to build an airplane to fly out of this place, but my plans got all jumbled. How about this \u2014 if you sort through these notes, I'll bake your yams in my oven! Deal?",
-                    complete: "Good luck with those yams! And thanks a bunch, I couldn't have done it without you. "
+                    complete: "Good luck with those yams! And thanks a bunch, I couldn't have done it without you."
                 },
             },
 

@@ -774,7 +774,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>4.] Round the left column to the underlined values. ",
+                        title: "[<g>4.] Round the left column to the underlined values.",
                         correctIndex: 2,
                         paragraph: [
                             "Top to botto{m}: &nbsp600 &nbsp/&nbsp 1,900,000 &nbsp/&nbsp 59,000",

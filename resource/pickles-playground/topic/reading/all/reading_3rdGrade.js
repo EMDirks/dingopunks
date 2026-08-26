@@ -146,7 +146,7 @@ const resource =  {
                         title: "[<g>2.] Which of these details supports the main idea?",
                         correctIndex: 0,
                         paragraph: [
-                            "\"...I felt something t{o}uch my leg.\"",
+                            "\"...I felt it t{o}uch my leg.\"",
                             "\"I have a pet {f}ish...\"",
                             "\"H{e} likes to hide behind rocks.\"",
                         ],

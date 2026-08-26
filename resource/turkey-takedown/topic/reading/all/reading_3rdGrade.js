@@ -211,7 +211,7 @@ const resource =  {
                 asset: "dale.png",
                 dialogue : {
                     incomplete: "I snuck into the main office and found two notes about the factory\'s weak spots. They use some tricky words, and I have no time to explain. It\'s your job now.",
-                    complete: "Well, you figured out the clues and didn\'t mess it up. Nice job. "
+                    complete: "Well, you figured out the clues and didn\'t mess it up. Nice job."
                 },
             },
 

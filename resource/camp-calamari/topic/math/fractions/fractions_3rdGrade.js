@@ -849,7 +849,7 @@ const resource = {
                         title: "[<g>4.] Which two pieces are missing the number 3?",
                         correctIndex: 0,
                         paragraph: [
-                            "The center and t{h}e bottom left ",
+                            "The center and t{h}e bottom left",
                             "The cente{r} and top left",
                             "The bottom left and the bottom righ{t}",
                         ],

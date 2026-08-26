@@ -319,7 +319,7 @@ const resource = {
                                     text: "[<bwb>Stage Length]",
                                 },
                                 passage: {
-                                    text: "The current stage is only 4 feet long. First, I'll add 6 more feet Then, I'll double the entire thing! And just to be certain it's long enough, I'll add another 5 feet to the very end. [<u>How long will the stage be]?",
+                                    text: "The current stage is only 4 feet long. First, I'll add 6 more feet. Then, I'll double the entire thing! And just to be certain it's long enough, I'll add another 5 feet to the very end. [<u>How long will the stage be]?",
                                 },  
                             }
                         ],

@@ -1,8 +1,8 @@
 const resource =  {
 
     info: {
-        title: "Escape the Midnight Mall",
-        path: "escape-the-midnight-mall",
+        title: "The Hasty Harvest",
+        path: "the-hasty-harvest",
         logo: "resource/the-hasty-harvest/assets/branding/math/multiplication/preview-3rd-grade.png",
         timerLabel: "TIME TO SUNSET"
     },

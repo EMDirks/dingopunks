@@ -206,7 +206,7 @@ const resource = {
                 asset: "pippo-fizzlepop.png",
                 dialogue : {
                     incomplete: "Need an oven to bake those yams? No sweat. I can build anything! But you gotta help me sort through some old parts first. Reading these labels? Not my thing. I'd rather tinker than squint at tiny text!",
-                    complete: "Let me know if you see my sister Topsy around \u2014 I miss her... Anyway, thanks for the help! "
+                    complete: "Let me know if you see my sister Topsy around \u2014 I miss her... Anyway, thanks for the help!"
                 },
             },
 

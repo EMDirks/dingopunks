@@ -1245,7 +1245,7 @@ const resource = {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] The scrap 1 adage means that other people's lives... ",
+                        title: "[<g>1.] The scrap 1 adage means that other people's lives...",
                         correctIndex: 2,
                         paragraph: [
                             "...are wo{r}th comparing to your own",

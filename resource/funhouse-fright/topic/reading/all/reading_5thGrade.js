@@ -881,8 +881,8 @@ const resource =  {
                         title: "[<g>3.] What did Frederick do when things went wrong?",
                         correctIndex: 1,
                         paragraph: [
-                            "He as{k}ed Belle for help ",
-                            "He panicked and g{o}t angry ",
+                            "He as{k}ed Belle for help",
+                            "He panicked and g{o}t angry",
                             "He ran away and hi{d}",
                         ],
                     },

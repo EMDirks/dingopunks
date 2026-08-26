@@ -411,9 +411,9 @@ const resource = {
                         title: "[<g>4.] What is the answer to #3?",
                         correctIndex: 1,
                         paragraph: [
-                            "35 drops of ne{c}tar ",
+                            "35 drops of ne{c}tar",
                             "5 {d}rops of nectar",
-                            "16 drop{s} of nectar ",
+                            "16 drop{s} of nectar",
                         ],
                     },
                 ],  

@@ -53,7 +53,7 @@ const resource =  {
                 character: "Terrible Topsy",
                 asset: "topsy.png",
                 dialogue : {
-                    incomplete: "I\'m hosting Topsy\'s Big Robot Battle tomorrow! I typed up the official entry rules myself, and that was DEFINITELY a mistake. I just can\'t seem to choose the rights words! Can you help me fix it?",
+                    incomplete: "I\'m hosting Topsy\'s Big Robot Battle tomorrow! I typed up the official entry rules myself, and that was DEFINITELY a mistake. I just can\'t seem to choose the right words! Can you help me fix it?",
                     complete: "Hee hee! Thanks for helping me clean that up. See you tomorrow \u2014 try not to get zapped!"
                 },
             },

@@ -322,7 +322,7 @@ const resource = {
                 character: "Grumblegrub",
                 asset: "grumblegrub.png",
                 dialogue: {
-                    incomplete: "I'm Grumblegrub, the manager here. I like it dark and quiet, and the Queen's new orders are making that impossible. Just help me a few things out, okay? And don't expect any thanks.",
+                    incomplete: "I'm Grumblegrub, the manager here. I like it dark and quiet, and the Queen's new orders are making that impossible. Just help me sort a few things out, okay? And don't expect any thanks.",
                     complete: "Huh... you actually did it. Just don't confuse my surprise for gratitude."
                 },
             },

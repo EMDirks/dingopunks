@@ -66,7 +66,7 @@ const resource =  {
                                     <br>\
                                     &nbsp &nbsp &nbsp It\'s time to pack up our massive collection of rare treasures! Just be extra careful, we\'ve got lots of priceless stuff to haul out. Every item is worth a fortune, especially Duke Dino\'s Scrambled Scepter, the Goblin Queen\'s Topaz Bracelet, and my personal favorite: the Singing Sapphire. It only knows two songs, but wow — they're catchy! That one about corn dogs is stuck in my head. So please, make sure to use tons of bubble wrap when boxing that thing up.<br>\
                                     <br>\
-                                    &nbsp &nbsp &nbsp Now, a few items should be left behind. The Whispering Bracelet won\'t stop telling secrets, and honestly, I\'m tired of the drama. Melodina\'s Locket was crafted beautifully, but it leaves fingerprints on the glass... on the inside. Seriously, whose fingers are those? But whatever you do, Ziggy, leave behind the Crimson Pendant. After what happened to the last person who touched it, I still can\'t look at scrambled eggs without screaming.<br> \
+                                    &nbsp &nbsp &nbsp Now, a few items should be left behind. The Whispering Bracelet won\'t stop telling secrets, and honestly, I\'m tired of the drama. Melodina\'s Locket was crafted beautifully, but it leaves fingerprints on the glass... on the inside. Seriously, whose fingers are those? But whatever you do, Ziggy, leave behind the Crimson Pendant. After what happened to the last person who touched it, I still can\'t look at scrambled eggs without screaming.<br>\
                                     <br>\
                                     Good luck,<br>\
                                     Sheila Barazo"
@@ -896,7 +896,7 @@ const resource =  {
                         correctIndex: 2,
                         paragraph: [
                             "Her mess{y} workshop",
-                            "The cr{o}wd at Eggworld\'s town hall ",
+                            "The cr{o}wd at Eggworld\'s town hall",
                             "Her fear a{n}d self-doubt",
                         ],
                     },

@@ -815,7 +815,7 @@ const resource =  {
                         word: "FALS[E]",
                     },
                     {
-                        title: "[<g>3.] Uncomfortable means \"___ comfortable.\" ",
+                        title: "[<g>3.] Uncomfortable means \"___ comfortable.\"",
                         word: "[N]OT",
                     },
                     {

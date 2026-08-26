@@ -798,7 +798,7 @@ const resource = {
                 asset: "queen-bella.png",
                 dialogue : {
                     incomplete: "Greetings, friend. The hive is busier than ever as we prepare for the storm! I need your help reviewing my plans. What say you?",
-                    complete: "Just as thought \u2014 everything checks out. Now, back to work!"
+                    complete: "Just as I thought \u2014 everything checks out. Now, back to work!"
                 },
             },
 

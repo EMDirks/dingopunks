@@ -656,7 +656,7 @@ const resource =  {
                 asset: "hollow-jack.png",
                 dialogue : {
                     incomplete: "Greetings. I am Hollow Jack. Too many tasks to complete. Overworked. Out of time. Must check food labels! Immediate help requested!",
-                    complete: "Task complete. All labels prepared. Gratitude uploaded. "
+                    complete: "Task complete. All labels prepared. Gratitude uploaded."
                 },
             },
 
@@ -692,7 +692,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "This crate contains twelve  pumpkins. They\'re still [<u>to] green to eat, so let them ripen in the sun until they\'re a beautiful orange color."
+                                    text: "This crate contains twelve pumpkins. They\'re still [<u>to] green to eat, so let them ripen in the sun until they\'re a beautiful orange color."
                                 },
                             },
                         ],

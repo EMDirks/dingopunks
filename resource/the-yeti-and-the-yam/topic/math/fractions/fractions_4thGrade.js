@@ -516,11 +516,11 @@ const resource = {
                         word: "B[A]KED",
                     },
                     {
-                        title: "[<g>3.] Which group of potatoes equals 2 [<f>1/2] ? ",
+                        title: "[<g>3.] Which group of potatoes equals 2 [<f>1/2] ?",
                         word: "[M]ASHED",
                     },
                     {
-                        title: "[<g>4.] Which group of potatoes equals 6 [<f>2/5] ? ",
+                        title: "[<g>4.] Which group of potatoes equals 6 [<f>2/5] ?",
                         word: "RUS[S]ET",
                     },
                 ],

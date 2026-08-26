@@ -637,7 +637,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>3.] How many songs are [<f>1/3] finished? ",
+                        title: "[<g>3.] How many songs are [<f>1/3] finished?",
                         answerType: "numerals",
                         correctIndex: 0,
                         paragraph: [

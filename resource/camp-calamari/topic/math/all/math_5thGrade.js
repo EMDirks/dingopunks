@@ -918,7 +918,7 @@ const resource = {
                         correctIndex: 2,
                         paragraph: [
                             "1 [<f>2/3] plan{k}s",
-                            "1 [<f>1/4]  pl{a}nks",
+                            "1 [<f>1/4] pl{a}nks",
                             "1 [<f>5/12] plank{s}",
                         ],
                     },

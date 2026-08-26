@@ -261,7 +261,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text:   "Escape Plan #2<br>By Sir Flip<br><br>No more hiding in the forest; that prison will only bring us doom! No, we need to run right  through the town square. It\'ll be wild, with eggs cracking left and right, but speed is what matters most. The faster we go, the sooner we'll be safe, even if it\'s [<u>as risky as flipping a hot pancake with our bare hands.]<br><br>So let\'s move \u2014 and hey, break a leg!"
+                                    text:   "Escape Plan #2<br>By Sir Flip<br><br>No more hiding in the forest; that prison will only bring us doom! No, we need to run right through the town square. It\'ll be wild, with eggs cracking left and right, but speed is what matters most. The faster we go, the sooner we'll be safe, even if it\'s [<u>as risky as flipping a hot pancake with our bare hands.]<br><br>So let\'s move \u2014 and hey, break a leg!"
                                 }
                             }
                         ],

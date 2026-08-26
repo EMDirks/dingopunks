@@ -673,7 +673,7 @@ const resource = {
                         'A. [<u>Yes] or [<u>no]: can the storage bin fit inside one of the honey crates?',
                         'B. All together, the warehouse\'s five honey crates take up one-hundred _____ cubic feet.',
                         'C. To store his \"mystery packages,\" Grumblegrub needs two _____ forty ft[<e>3].',     
-                        'D. The beeswax container has an area of one hundred _____ cubic feet.',                    
+                        'D. The beeswax container has a volume of one hundred _____ cubic feet.',                    
                     ],
                     puzzle: [
                         ["(C)H","U","(A)N","D","R","(D)E","3D"],

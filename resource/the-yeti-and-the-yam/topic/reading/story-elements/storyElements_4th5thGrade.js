@@ -504,7 +504,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<bwb>D] She fought her way deep into the troll's icy fortress.",
+                                    text: "[<bwb>D] She fought her way deep into the trolls' icy fortress.",
                                 }, 
                                 backgroundImage: {
                                     file: "4.png"
@@ -564,7 +564,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "[<bwb>I] ...promised to respect the sun &  never fight again.",
+                                    text: "[<bwb>I] ...promised to respect the sun & never fight again.",
                                 }, 
                                 backgroundImage: {
                                     file: "9.png"

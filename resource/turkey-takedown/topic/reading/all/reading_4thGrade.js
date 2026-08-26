@@ -73,7 +73,7 @@ const resource =  {
                                     So keep up the good work. Don\'t forget to clock in on time. Happy Thanksgiving!\
                                     <br>\
                                     <br>\
-                                    [<i>--- END RADIO MESSAGE --- ]"
+                                    [<i>--- END RADIO MESSAGE ---]"
                                 }
                             }
                         ],

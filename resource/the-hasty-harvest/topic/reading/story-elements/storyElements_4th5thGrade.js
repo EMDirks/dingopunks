@@ -1008,7 +1008,7 @@ const resource =  {
                         title: "[<g>4.] Why did Mia help Jack?",
                         correctIndex: 1,
                         paragraph: [
-                            'She want{e}d him to win the science fair ',
+                            'She want{e}d him to win the science fair',
                             'She remembered how Mrs. {M}eadows helped her',
                             'S{h}e wanted revenge on Applegrim Orchard',  
                         ]

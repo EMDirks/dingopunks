@@ -440,7 +440,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "The stew bubbled,  plotting its escape from the pot.",
+                                    text: "The stew bubbled, plotting its escape from the pot.",
                                 }, 
                                 backgroundImage: {
                                     file: "18.png"

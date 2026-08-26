@@ -265,7 +265,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "Your stitches may be loose, but that makes you flexible! You\'re not broken \u2014 just [<u>divisible] into lots of strong little pieces working together.",
+                                    text: "Your stitches may be loose, but that makes you flexible! You\'re not broken \u2014 you\'re just [<u>divisible] into lots of little pieces that work together.",
                                 },
                             },
                         ],
@@ -345,7 +345,7 @@ const resource =  {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
                         'A. If [<i>rupt] means [<i>break], then \"disrupt\" means [<i>to break apart.] [<u>Right] or [<u>wrong]?',
-                        'B. Which of the following is an example of something \"luxurious\": a [<u>soft] couch or a [<u>hard] chair? ',
+                        'B. Which of the following is an example of something \"luxurious\": a [<u>soft] couch or a [<u>hard] chair?',
                         'C. Which word from \"Striped Fabric\" is an antonym of \"captivating\"?',     
                         'D. \"Divisible\" means ____ [<i>to be divided].',                    
                     ],
@@ -851,7 +851,7 @@ const resource =  {
                                     <br>\
                                     One chilly afternoon, Gary sat in his cave, hunched over a crumpled piece of paper. He had just started drawing a castle, when CRACK! His purple crayon snapped in two, leaving a jagged streak across the page. Felix winced and said, \"Ugh. That\'s a disaster.\"\
                                     <br>\
-                                    Gary stared at the mess. Then, very slowly, he smiled. He grabbed the broken crayon and scribbled harder than ever. He widened the streak, curved it, and gave it teeth. Out came wings, smoke, claws, and a tail. \"It\'s not a disaster,” Gary said. \"It\'s a dragon.\"\
+                                    Gary stared at the mess. Then, very slowly, he smiled. He grabbed the broken crayon and scribbled harder than ever. He widened the streak, curved it, and gave it teeth. Out came wings, smoke, claws, and a tail. \"It\'s not a disaster,\" Gary said. \"It\'s a dragon.\"\
                                     <br>\
                                     By the time he had finished, the page was covered with purple flames and scales. He pinned it to the cave wall next to his other drawings and leaned back, wax on his nose, grinning wide. Felix blinked. \"Huh,\" he said. \"Actually... that\'s kind of awesome.\"\
                                     <br>\

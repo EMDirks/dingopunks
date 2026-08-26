@@ -298,7 +298,7 @@ const resource =  {
                 character: "Merriwig Fenn",
                 asset: "merriwig.png",
                 dialogue : {
-                    incomplete: "Oh no, another note from Pickle... I haven\'t peeked, but I\'m guessing it\'s about friendship troubles. It usually is. I can\'t handle drama today, though. Would you read it for me? ",
+                    incomplete: "Oh no, another note from Pickle... I haven\'t peeked, but I\'m guessing it\'s about friendship troubles. It usually is. I can\'t handle drama today, though. Would you read it for me?",
                     complete: "Lovely. Heartbreak and mulch \u2014 the classics. Thank you, darling."
                 },
             },
@@ -638,7 +638,7 @@ const resource =  {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] Which piece has a word meaning [<i>to install again?] ",
+                        title: "[<g>1.] Which piece has a word meaning [<i>to install again?]",
                         correctIndex: 2,
                         paragraph: [
                             "T{h}e top right piece",

@@ -518,7 +518,7 @@ const resource =  {
                             I found myself surrounded by all sorts of strange creatures \u2014 desperate prisoners of the yeti too.'
                             ,
                             'These creatures were certainly beneath me: a mad scientist, a lazy musician, a fishy pirate, and a creepy little elf. \n\
-                            So I kept my distance. I was a knight, after all... on a mission from the King, nonetheless!\n\
+                            So I kept my distance. I was a knight, after all... on a mission from the King!\n\
                             But as the days grew colder and more lonesome, I realized I had no choice. I swallowed my pride and reluctantly joined the crew of misfits.'
                             ,
                             'Turns out, they knew all the good survival tricks: scavenging food, staying warm, and keeping busy. \n\

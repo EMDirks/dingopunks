@@ -140,7 +140,7 @@ const resource = {
                         paragraph: [
                             "{H}e\'s foolish and has a big imagination",
                             "He hates {b}eing a worm",
-                            "He\'s jealous of people with short{e}r names ",
+                            "He\'s jealous of people with short{e}r names",
                         ],
                     },
                     {
@@ -357,7 +357,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>4.] What might happen if \"Step [<s>L]\" is skipped? ",
+                        title: "[<g>4.] What might happen if \"Step [<s>L]\" is skipped?",
                         correctIndex: 2,
                         paragraph: [
                             "You might tota{l}ly fall apart",
@@ -641,7 +641,7 @@ const resource = {
                 character: "King Kevin",
                 asset: "king-kevin.png",
                 dialogue : {
-                    incomplete: "That pesky Pickle has cluttered my royal halls with riddles again! I am far too important to waste my time on such foolish scribbles. You there, read them for me at once! Honk! ",
+                    incomplete: "That pesky Pickle has cluttered my royal halls with riddles again! I am far too important to waste my time on such foolish scribbles. You there, read them for me at once! Honk!",
                     complete: "At last, some peace and quiet. Now be gone before you get mud on my marble floors!"
                 },
             },

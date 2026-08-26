@@ -932,7 +932,7 @@ const resource = {
                         title: "[<g>2.] What does \"persistent\" tell us about Gustav?",
                         correctIndex: 2,
                         paragraph: [
-                            "He tries to be cal{m}, with a forgiving attitude ",
+                            "He tries to be cal{m}, with a forgiving attitude",
                             "He moves {s}lowly and carefully",
                             "He continues for a long time, nev{e}r giving up",
                         ],
@@ -941,7 +941,7 @@ const resource = {
                         title: "[<g>3.] In Warehouse Woes, a \"plentiful\" harvest means:",
                         correctIndex: 0,
                         paragraph: [
-                            "The {w}orkers harvested plenty of nectar ",
+                            "The {w}orkers harvested plenty of nectar",
                             "The nectar supply is smal{l} or limited",
                             "The nect{a}r is difficult to gather",
                         ],

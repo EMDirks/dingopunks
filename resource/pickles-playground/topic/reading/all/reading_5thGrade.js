@@ -451,7 +451,7 @@ const resource =  {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "When properly cared for, your electronics are safe, not [<u>hazardous]. ",
+                                    text: "When properly cared for, your electronics are safe, not [<u>hazardous].",
                                 }, 
                                 backgroundImage: {
                                     file: "2.png"

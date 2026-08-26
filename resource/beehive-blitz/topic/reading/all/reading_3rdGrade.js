@@ -61,7 +61,7 @@ const resource =  {
                         {
                             image:      "1.png",
                             title:      "Glitterbloom",
-                            paragraph:  "You must start finding Glitterblooms right now! These important flowers give the bees in   our hive lots of energy. \n\
+                            paragraph:  "You must start finding Glitterblooms right now! These important flowers give the bees in our hive lots of energy. \n\
                                         We use their nectar to make a special honey that fills every bee with power and life. \n\
                                         Plus, they grow in the sunlight and sparkle like glitter.",
                             transform: {
@@ -445,7 +445,7 @@ const resource =  {
             isHintUsed: false,
             hint: "Read each passage, then find the meaning of each word by looking at context clues. Use the secret code if you get stuck. The yellow letters, in order, are the answer.",
             dialogue : {
-                incomplete: "My name is Grumblegrub. I'm in charge of the warehouse here, but I  can't understand the fancy words on these labels... Want to help?",
+                incomplete: "My name is Grumblegrub. I'm in charge of the warehouse here, but I can't understand the fancy words on these labels... Want to help?",
                 complete: "You're still here? Can't you go bother some other bee?"
             }, 
             symbol: ["AA","BB","CC","DD","EE","FF","GG","HH","II","JJ","KK","LL","MM","NN","OO","PP","QQ","RR","SS","TT","UU","VV","WW","XX","YY","ZZ"]

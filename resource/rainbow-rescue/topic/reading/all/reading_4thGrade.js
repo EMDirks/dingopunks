@@ -252,7 +252,7 @@ const resource =  {
                 asset: "madame-mystica.png",
                 dialogue : {
                     incomplete: "To bring back orange to the rainbow, Noctis is making me face my past mistakes. I can't do this alone; I need you by my side. Will you stay?",
-                    complete: "Thank you, young one \u2014 I'm grateful for your help. Now, I know the truth. "
+                    complete: "Thank you, young one \u2014 I'm grateful for your help. Now, I know the truth."
                 },
             },
 
