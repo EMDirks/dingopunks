@@ -89,6 +89,11 @@
   line-height: 1.5;
 }
 
+.dpaam-auth-verify-email {
+  color: var(--dpaam-black);
+  word-break: break-word;
+}
+
 .dpaam-auth-message {
   margin: 0 0 var(--dpaam-pad);
   padding: var(--dpaam-pad-sm) var(--dpaam-pad);

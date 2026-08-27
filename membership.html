@@ -329,6 +329,66 @@
               </button>
             </p>
           </div>
+
+          <div
+            class="dpaam-auth-card"
+            id="dpaam-auth-modal-verify"
+            data-auth-view="verify"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-verify">Verify your email</h1>
+            <p class="dpaam-auth-lead">
+              We sent a verification link to
+              <strong class="dpaam-auth-verify-email" id="dpaam-auth-verify-email"></strong>.
+              Click the link in that email, then return here and press Continue.
+            </p>
+            <button
+              type="button"
+              class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
+              id="dpaam-auth-verify-continue"
+            >
+              Continue
+            </button>
+            <button
+              type="button"
+              class="dpaam-btn dpaam-btn-secondary dpaam-auth-google-btn"
+              id="dpaam-auth-verify-resend"
+            >
+              Resend verification email
+            </button>
+            <p class="dpaam-auth-switch-text">
+              <button type="button" class="dpaam-auth-link" id="dpaam-auth-verify-signout">
+                Use a different account
+              </button>
+            </p>
+          </div>
+
+          <div
+            class="dpaam-auth-card"
+            id="dpaam-auth-modal-setup"
+            data-auth-view="setup"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-setup">
+              Getting things ready
+            </h1>
+            <p class="dpaam-auth-lead">
+              We&rsquo;re setting up your account. This should only take a moment.
+            </p>
+            <button
+              type="button"
+              class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
+              id="dpaam-auth-setup-retry"
+              hidden
+            >
+              Try again
+            </button>
+            <p class="dpaam-auth-switch-text">
+              <button type="button" class="dpaam-auth-link" id="dpaam-auth-setup-signout">
+                Use a different account
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -795,19 +855,15 @@
           <section
             class="dpaam-account-section"
             id="dpaam-account-password-section"
-            aria-labelledby="dpaam-account-password-label"
+            aria-label="Password reset"
           >
-            <div class="dpaam-account-row">
-              <div class="dpaam-account-row-main">
-                <h4 class="dpaam-account-label" id="dpaam-account-password-label">Password</h4>
-                <p class="dpaam-account-value dpaam-account-password-mask" aria-hidden="true">••••••••</p>
-              </div>
+            <div class="dpaam-account-row dpaam-account-row--action">
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-secondary"
                 id="dpaam-account-send-reset"
               >
-                Send reset email
+                Send password reset email
               </button>
             </div>
           </section>

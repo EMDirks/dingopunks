@@ -8,6 +8,8 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  reload,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -20,6 +22,7 @@ import {
 import {
   connectFunctionsEmulator,
   getFunctions,
+  httpsCallable,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js";
 
 const firebaseConfig = {
@@ -36,6 +39,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const firebaseFunctions = getFunctions(app);
+const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
@@ -57,9 +61,12 @@ export {
   auth,
   createUserWithEmailAndPassword,
   db,
+  ensureUserProfile,
   firebaseFunctions,
   googleProvider,
   onAuthStateChanged,
+  reload,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,

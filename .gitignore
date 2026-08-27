@@ -18,3 +18,8 @@
 
 # Cloudflare Wrangler (local cache)
 .wrangler/
+
+# Firebase
+functions/node_modules/
+firebase-debug.log
+firebase-debug.*.log

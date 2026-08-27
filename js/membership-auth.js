@@ -3,17 +3,23 @@
 import {
   auth,
   createUserWithEmailAndPassword,
+  ensureUserProfile,
   googleProvider,
   onAuthStateChanged,
+  reload,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "./firebase-init.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
+  verify: "dpaam-auth-heading-verify",
+  setup: "dpaam-auth-heading-setup",
 };
 
 export function clearAuthMessages() {
@@ -97,6 +103,20 @@ function formIsValid(form) {
   if (form.checkValidity()) return true;
   form.reportValidity();
   return false;
+}
+
+function userNeedsEmailVerification(user) {
+  if (!user?.email || user.emailVerified) return false;
+  return user.providerData.some((provider) => provider.providerId === "password");
+}
+
+function userCanAccessDashboard(user) {
+  return Boolean(user) && !userNeedsEmailVerification(user);
+}
+
+function updateVerifyView(user) {
+  const emailEl = document.getElementById("dpaam-auth-verify-email");
+  if (emailEl) emailEl.textContent = user?.email || "";
 }
 
 function setPasswordVisible(toggle, visible) {
@@ -215,7 +235,14 @@ export function initAuth() {
     clearAuthMessages();
     setButtonLoading(submit, true, "Creating account…");
     try {
-      await createUserWithEmailAndPassword(auth, email, passwordInput.value);
+      const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
+      await sendEmailVerification(credential.user);
+      updateVerifyView(credential.user);
+      setAuthView("verify");
+      showAuthMessage(
+        "success",
+        "Check your inbox for a verification link before continuing.",
+      );
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
@@ -267,24 +294,146 @@ export function initAuth() {
     button?.addEventListener("click", () => signInWithGoogle(button));
   });
 
+  const verifyContinue = document.getElementById("dpaam-auth-verify-continue");
+  verifyContinue?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      setAuthView("signin", { focus: true });
+      return;
+    }
+
+    clearAuthMessages();
+    setButtonLoading(verifyContinue, true, "Checking…");
+    try {
+      await reload(user);
+      if (userCanAccessDashboard(auth.currentUser)) {
+        await applyAuthState(auth.currentUser);
+        return;
+      }
+      showAuthMessage(
+        "error",
+        "Your email is not verified yet. Check your inbox, then try again.",
+      );
+    } catch (error) {
+      showAuthMessage("error", authErrorMessage(error));
+    } finally {
+      setButtonLoading(verifyContinue, false, "Checking…");
+    }
+  });
+
+  const verifyResend = document.getElementById("dpaam-auth-verify-resend");
+  verifyResend?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    clearAuthMessages();
+    setButtonLoading(verifyResend, true, "Sending…");
+    try {
+      await sendEmailVerification(user);
+      showAuthMessage("success", "Verification email sent. Check your inbox.");
+    } catch (error) {
+      showAuthMessage("error", authErrorMessage(error));
+    } finally {
+      setButtonLoading(verifyResend, false, "Sending…");
+    }
+  });
+
+  document.getElementById("dpaam-auth-verify-signout")?.addEventListener("click", async () => {
+    clearAuthMessages();
+    try {
+      await signOut(auth);
+      setAuthView("signin", { focus: true });
+    } catch (error) {
+      showAuthMessage("error", authErrorMessage(error));
+    }
+  });
+
+  document.getElementById("dpaam-auth-setup-retry")?.addEventListener("click", () => {
+    applyAuthState(auth.currentUser);
+  });
+
+  document.getElementById("dpaam-auth-setup-signout")?.addEventListener("click", async () => {
+    clearAuthMessages();
+    try {
+      await signOut(auth);
+      setAuthView("signin", { focus: true });
+    } catch (error) {
+      showAuthMessage("error", authErrorMessage(error));
+    }
+  });
+
+  let authStateRevision = 0;
+  let provisionedUid = null;
+
+  async function applyAuthState(user) {
+    const revision = ++authStateRevision;
+    const signedIn = userCanAccessDashboard(user);
+
+    section.hidden = false;
+    if (dashboard) dashboard.hidden = true;
+
+    if (user && userNeedsEmailVerification(user)) {
+      provisionedUid = null;
+      section.setAttribute("aria-busy", "false");
+      updateVerifyView(user);
+      const onVerify = modals.find(
+        (modal) => modal.dataset.authView === "verify" && !modal.hidden,
+      );
+      if (!onVerify) setAuthView("verify");
+      return;
+    }
+
+    if (!signedIn) {
+      provisionedUid = null;
+      section.setAttribute("aria-busy", "false");
+      setAuthView("signin");
+      return;
+    }
+
+    if (provisionedUid !== user.uid) {
+      const retry = document.getElementById("dpaam-auth-setup-retry");
+      if (retry) retry.hidden = true;
+      setAuthView("setup");
+      section.setAttribute("aria-busy", "true");
+
+      try {
+        await ensureUserProfile();
+        provisionedUid = user.uid;
+      } catch (error) {
+        if (revision !== authStateRevision) return;
+        console.error("Failed to provision user profile", error);
+        section.setAttribute("aria-busy", "false");
+        if (retry) retry.hidden = false;
+        showAuthMessage(
+          "error",
+          "We couldn't finish setting up your account. Check your connection and try again.",
+        );
+        return;
+      }
+    }
+
+    if (revision !== authStateRevision) return;
+
+    clearAuthMessages();
+    signInForm?.reset();
+    signUpForm?.reset();
+    resetForm?.reset();
+    section.setAttribute("aria-busy", "false");
+    section.hidden = true;
+    if (dashboard) dashboard.hidden = false;
+  }
+
   section.setAttribute("aria-busy", "true");
   onAuthStateChanged(
     auth,
     (user) => {
-      section.hidden = Boolean(user);
-      if (dashboard) dashboard.hidden = !user;
-      section.setAttribute("aria-busy", "false");
-      if (user) {
-        clearAuthMessages();
-        signInForm?.reset();
-        signUpForm?.reset();
-        resetForm?.reset();
-      }
+      applyAuthState(user);
     },
     () => {
       if (dashboard) dashboard.hidden = true;
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
+      setAuthView("signin");
       showAuthMessage(
         "error",
         "We couldn't verify your sign-in. Refresh the page and try again.",

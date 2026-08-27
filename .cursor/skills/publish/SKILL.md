@@ -1,14 +1,14 @@
 ---
-name: deploy
+name: publish
 description: >-
-  Deploys this static site to Cloudflare Pages using Wrangler CLI (direct upload).
-  ALWAYS bumps the cache-bust version, git-adds all, and commits before deploy.
+  Publishes this static site to Cloudflare Pages using Wrangler CLI (direct upload).
+  ALWAYS bumps the cache-bust version, git-adds all, and commits before publish.
   Supports projects with more than 1,000 files (Wrangler allows up to 20,000).
-  Use when the user asks to deploy, publish to Cloudflare Pages, run wrangler
+  Use when the user asks to publish, deploy to Cloudflare Pages, run wrangler
   pages deploy, mentions Cloudflare Pages deployment, or simply says "publish".
 ---
 
-# Deploy (Cloudflare Pages / Wrangler)
+# Publish (Cloudflare Pages / Wrangler)
 
 ## Context
 
@@ -22,16 +22,16 @@ This repo is a static site (HTML/CSS/JS/assets). The Cloudflare **dashboard drag
 
 ## CRITICAL: every publish must bump version + commit
 
-**Never deploy without this sequence.** Cache-bust query strings and the in-app version label only update if the patch is incremented and committed into the tree you upload.
+**Never publish without this sequence.** Cache-bust query strings and the in-app version label only update if the patch is incremented and committed into the tree you upload.
 
-On **every** user ask to publish / deploy (including a bare “publish”):
+On **every** user ask to publish (including a bare “publish”):
 
 1. **Bump the patch version** (see [Version bump](#version-bump))
 2. **`git add -A`** (stage everything intended to ship)
 3. **Commit** (message must mention the new version, e.g. `… for 3.4.48.`)
-4. **Deploy** with Wrangler (see [Deploy](#deploy-from-this-repo))
+4. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
 
-Do **not** skip the bump because “nothing CSS-related changed,” “we just deployed,” or “files are already dirty.” Publish = bump → add all → commit → deploy.
+Do **not** skip the bump because “nothing CSS-related changed,” “we just published,” or “files are already dirty.” Publish = bump → add all → commit → wrangler upload.
 
 Skipping the version bump is a hard failure of this skill.
 
@@ -89,7 +89,7 @@ grep -n "const version" js/debrief.js js/splash-new.js
 grep -o 'version=[0-9.]*' index.html debrief.html | sort -u
 ```
 
-Both consts and the HTML `?version=` values must equal `NEW`. Fix any leftover old version before deploy.
+Both consts and the HTML `?version=` values must equal `NEW`. Fix any leftover old version before publish.
 
 ### Commit after bump
 
@@ -107,9 +107,9 @@ EOF
 
 Follow recent commit style (complete sentence; end with `for X.Y.Z.`). Prefer `all` / `git_write` permissions for the commit.
 
-## Deploy from this repo
+## Publish from this repo
 
-0. **Authenticate first (always).** Before running any deploy command, remind the user to run `npx wrangler login` in their own terminal (it opens a browser for OAuth, which cannot be completed from the agent shell). Wait for them to confirm they're logged in before proceeding — **except** when they already confirmed login earlier in the same conversation. If deploy fails with `Failed to fetch auth token` or a `CLOUDFLARE_API_TOKEN` error, stop and prompt them to run `npx wrangler login` (or set `CLOUDFLARE_API_TOKEN`).
+0. **Authenticate first (always).** Before running any publish command, remind the user to run `npx wrangler login` in their own terminal (it opens a browser for OAuth, which cannot be completed from the agent shell). Wait for them to confirm they're logged in before proceeding — **except** when they already confirmed login earlier in the same conversation. If publish fails with `Failed to fetch auth token` or a `CLOUDFLARE_API_TOKEN` error, stop and prompt them to run `npx wrangler login` (or set `CLOUDFLARE_API_TOKEN`).
 
 1. **Working directory**: repository root (the folder that contains `index.html`), not a subfolder.
 
@@ -125,7 +125,7 @@ Use `npx wrangler` instead of `wrangler` if Wrangler is not installed globally. 
 
 **Account:** This project lives on **Hello@dingopunks.com's Account** (`f5fc67b8754cc1f8f81bc6f734ace844`). Pages doesn't allow `account_id` inside `wrangler.toml`, so Wrangler picks it up from the logged-in user. If Wrangler ever complains about multiple accounts, prepend `CLOUDFLARE_ACCOUNT_ID=f5fc67b8754cc1f8f81bc6f734ace844` to the command.
 
-**Legacy note:** The site previously lived on `Ethanthedirks@gmail.com`'s account as project `puzzle-punks-game` (account ID `81473d4fbffcfe0e5865888d35278f8c`). After the May 2026 rebrand to Dingo Punks, all deploys go to the `dingopunks` project on the `hello@dingopunks.com` account — do not deploy to the old project.
+**Legacy note:** The site previously lived on `Ethanthedirks@gmail.com`'s account as project `puzzle-punks-game` (account ID `81473d4fbffcfe0e5865888d35278f8c`). After the May 2026 rebrand to Dingo Punks, all publishes go to the `dingopunks` project on the `hello@dingopunks.com` account — do not publish to the old project.
 
 4. **Optional flags** (when useful):
    - `--commit-message "short description"` — label the deployment in the dashboard (include the new version)
@@ -145,21 +145,21 @@ See [Wrangler `pages` commands](https://developers.cloudflare.com/workers/wrangl
 
 ## Agent behavior
 
-When the user asks to deploy / publish (e.g. “deploy to Cloudflare”, “publish”):
+When the user asks to publish (e.g. “publish”, “deploy to Cloudflare”):
 
-1. **First (if not already confirmed this conversation):** remind the user to run `npx wrangler login` in their own terminal. Do not attempt the deploy until they confirm they're logged in (or have set `CLOUDFLARE_API_TOKEN`).
+1. **First (if not already confirmed this conversation):** remind the user to run `npx wrangler login` in their own terminal. Do not attempt the publish until they confirm they're logged in (or have set `CLOUDFLARE_API_TOKEN`).
 2. **Always** bump patch version in the files listed above; sync both `const version` declarations.
 3. **Always** `git add -A` and commit with the new version in the message.
-4. Use the workspace root for this game as the deploy directory.
+4. Use the workspace root for this game as the publish directory.
 5. Run `npx wrangler pages deploy . --project-name dingopunks --commit-dirty=true` with network access; include the new version in `--commit-message`.
 6. Report the new version and both URLs (`https://<id>.dingopunks.pages.dev` and `https://dingopunks.pages.dev`).
-7. If deploy fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
+7. If publish fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
 
 Pushing to GitHub (`dingopunks` remote) is **not** part of this skill unless the user also asks to push / back up; use the `push` skill for that.
 
 ## What not to do
 
-- **Do not deploy without incrementing the version and committing first.**
+- **Do not publish without incrementing the version and committing first.**
 - Do not leave `js/debrief.js` on an older `const version` than `js/splash-new.js`.
 - Do not suggest zipping the folder for dashboard upload when file count exceeds 1,000.
-- Do not deploy from `resource/` or other subfolders unless the user explicitly wants only that subtree published.
+- Do not publish from `resource/` or other subfolders unless the user explicitly wants only that subtree published.

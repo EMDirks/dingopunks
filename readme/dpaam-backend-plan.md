@@ -47,7 +47,9 @@ Three top-level collections. Billing/entitlement data is **server-written only**
 }
 ```
 
-Created by an `onUserCreated` auth trigger (or lazily on first function call). `plan` starts as `"free"`.
+Created by the authenticated `ensureUserProfile` callable after sign-in. The shared
+server helper is idempotent and can also be called by later functions. `plan` starts
+as `"free"`.
 
 ### `userPrefs/{uid}` — client read/write (own doc only)
 
@@ -89,10 +91,11 @@ Students never touch Firestore directly — code resolution goes through a funct
 
 ## 3. Cloud Functions
 
-Six functions. All callables verify `context.auth` except `resolveGameCode` and the webhook.
+Seven functions. All callables verify authentication except `resolveGameCode`; the webhook verifies Stripe's signature.
 
 | Function | Type | Purpose |
 |---|---|---|
+| `ensureUserProfile()` | callable | Idempotently creates the signed-in user's complete `users/{uid}` document with `plan: "free"` if it does not exist. The client never supplies the UID. |
 | `createShareCode({gameId})` | callable | Entitlement check (free plan → gameId must be in FREE_GAME_IDS; paid → any valid gameId). Count active codes `< 20` else error → front end shows the existing limit modal. Generate code (retry on collision), create `codes/{CODE}` in a transaction (fail if doc exists). Returns `{code, expiresAt}`. |
 | `cancelShareCode({code})` | callable | Verify `codes/{code}.uid == auth.uid`, delete. |
 | `resolveGameCode({code})` | callable, **unauthenticated** | Uppercase + validate format. Rate limit by IP (below). Look up `codes/{code}`; if found and unexpired, return `{gameId}`. Else a generic not-found error. |
@@ -176,7 +179,8 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[LOW]` Auth gate view markup + CSS in `membership.html` (login / signup / Google / forgot password).
 - [X] `[MID]` `js/firebase-init.js` + auth flow wiring (sign-in/up, Google popup, reset email, `onAuthStateChanged` gate, error states).
 - [X] `[LOW]` Account modal: real email, logout, password-reset button.
-- [ ] `[LOW]` `onUserCreated` → `users/{uid}` with `plan: "free"`.
+- [X] `[YOU]` Upgrade Auth to **Identity Platform** (Authentication → Settings).
+- [X] `[LOW]` Gen 2 `ensureUserProfile` callable → idempotent `users/{uid}` provisioning with `plan: "free"`.
 
 ### Phase 2 — Persistence (favorites + shared codes)
 - [ ] `[HIGH]` Firestore security rules (all collections) — the wall between users and each other's data.

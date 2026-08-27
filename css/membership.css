@@ -2303,6 +2303,10 @@ a.dpaam-topbar-btn {
   gap: var(--dpaam-pad);
 }
 
+.dpaam-account-row--action {
+  justify-content: flex-end;
+}
+
 .dpaam-account-row-main {
   min-width: 0;
   flex: 1;
