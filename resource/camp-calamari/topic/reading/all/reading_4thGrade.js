@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,25 @@ const resource =  {
             title: "Driftwood Beach",
             characterName: "Driftwood Dan",
             topic: "Main Idea and Supporting Details",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RI.4.1",
+                "RI.4.2",
+                "RI.4.7",
+                "RI.4.8",
+                "RI.4.10",
+                "RL.4.1",
+                ]
+            },
             assets: {
                 nodeBackground: "driftwood-dan.png",
                 characterShopkeeper: "driftwood-dan.png",
@@ -121,6 +142,26 @@ const resource =  {
             title: "Dining Hall",
             characterName: "Chef Gumbo",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.4",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RF.4.4c",
+                "L.4.5",
+                "RL.4.1",
+                "RL.4.4",
+                "RL.4.5",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "chef-gumbo.png",
                 characterShopkeeper: "chef-gumbo.png",
@@ -199,6 +240,22 @@ const resource =  {
             title: "Mystic Hideaway",
             characterName: "Madame Mystica",
             topic: "Similes and Metaphors",
+            education: {
+                commonCore: [
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.1",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.9",
+                "CCRA.R.10",
+                "L.4.5a",
+                "RL.4.2",
+                "RL.4.3",
+                "RL.4.4",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "madame-mystica.png",
                 characterShopkeeper: "madame-mystica.png",
@@ -277,6 +334,26 @@ const resource =  {
             type: "cryptogram",
             title: "Junk Pile",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.3",
+                "CCRA.R.4",
+                "CCRA.R.8",
+                "L.4.3",
+                "L.4.4",
+                "L.4.4a",
+                "RF.4.3",
+                "RF.4.3a",
+                "RF.4.4",
+                "RF.4.4a",
+                "RF.4.4b",
+                "RF.4.4c",
+                "RI.4.10",
+                ]
+            },
             characterName: "Broken Animatronic",
             assets: {
                 nodeBackground: "melodina.png",
@@ -389,6 +466,24 @@ const resource =  {
             title: "Fishbeard's Ship",
             characterName: "Captain Fishbeard",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.9",
+                "CCRA.R.10",
+                "RF.4.4a",
+                "RI.4.3",
+                "RL.4.1",
+                "RL.4.2",
+                "RL.4.3",
+                "RL.4.10",
+                ]
+            },
             assets: {
                 nodeBackground: "fishbeard.png",
                 characterShopkeeper: "fishbeard.png",

@@ -1,3 +1,5 @@
+// NOTE: education.commonCore standards in this file were auto-distributed by AI and might need manual review at some future point.
+
 const resource =  {
 
     info: {
@@ -13,6 +15,25 @@ const resource =  {
             title: "Driftwood Beach",
             characterName: "Driftwood Dan",
             topic: "Main Idea and Supporting Details",
+            education: {
+                commonCore: [
+                "CCRA.R.1",
+                "CCRA.R.2",
+                "CCRA.R.5",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.10",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RI.5.1",
+                "RI.5.2",
+                "RI.5.5",
+                "RI.5.8",
+                "RI.5.9",
+                "RI.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "driftwood-dan.png",
                 characterShopkeeper: "driftwood-dan.png",
@@ -121,6 +142,24 @@ const resource =  {
             title: "Dining Hall",
             characterName: "Chef Gumbo",
             topic: "Poetry",
+            education: {
+                commonCore: [
+                "CCRA.L.3",
+                "CCRA.L.5",
+                "CCRA.R.4",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.10",
+                "L.5.5",
+                "L.5.5a",
+                "RL.5.1",
+                "RL.5.4",
+                "RL.5.5",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "chef-gumbo.png",
                 characterShopkeeper: "chef-gumbo.png",
@@ -199,6 +238,24 @@ const resource =  {
             title: "Mystic Hideaway",
             characterName: "Madame Mystica",
             topic: "Similes and Metaphors",
+            education: {
+                commonCore: [
+                "CCRA.L.5",
+                "CCRA.L.6",
+                "CCRA.R.1",
+                "CCRA.R.3",
+                "CCRA.R.4",
+                "CCRA.R.7",
+                "CCRA.R.9",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.4",
+                "RL.5.7",
+                "RL.5.10",
+                "L.5.4",
+                "L.5.4a",
+                ]
+            },
             assets: {
                 nodeBackground: "madame-mystica.png",
                 characterShopkeeper: "madame-mystica.png",
@@ -279,6 +336,20 @@ const resource =  {
             type: "cryptogram",
             title: "Junk Pile",
             topic: "Context Clues",
+            education: {
+                commonCore: [
+                "CCRA.L.4",
+                "CCRA.L.6",
+                "CCRA.R.4",
+                "CCRA.R.8",
+                "RF.5.3",
+                "RF.5.4",
+                "RF.5.4a",
+                "RF.5.4b",
+                "RF.5.4c",
+                "RI.5.10",
+                ]
+            },
             characterName: "Broken Animatronic",
             assets: {
                 nodeBackground: "melodina.png",
@@ -391,6 +462,25 @@ const resource =  {
             title: "Fishbeard's Ship",
             characterName: "Captain Fishbeard",
             topic: "Elements of a Story",
+            education: {
+                commonCore: [
+                "CCRA.R.2",
+                "CCRA.R.3",
+                "CCRA.R.5",
+                "CCRA.R.6",
+                "CCRA.R.7",
+                "CCRA.R.8",
+                "CCRA.R.9",
+                "CCRA.R.10",
+                "RF.5.4a",
+                "RI.5.3",
+                "RL.5.1",
+                "RL.5.2",
+                "RL.5.3",
+                "RL.5.6",
+                "RL.5.10",
+                ]
+            },
             assets: {
                 nodeBackground: "fishbeard.png",
                 characterShopkeeper: "fishbeard.png",

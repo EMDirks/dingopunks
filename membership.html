@@ -112,6 +112,17 @@
 
       <div class="dpaam-auth-main">
         <div class="dpaam-auth-inner">
+          <div class="dpaam-auth-modal-wrap">
+            <img
+              class="dpaam-auth-deco dpaam-auth-deco--head"
+              src="assets/dpaam/auth-modal-head.webp"
+              alt=""
+              width="900"
+              height="510"
+              aria-hidden="true"
+              decoding="async"
+            />
+            <div class="dpaam-auth-cards">
           <div class="dpaam-auth-card" id="dpaam-auth-modal-signin" data-auth-view="signin">
             <div class="dpaam-auth-messages">
               <p
@@ -388,6 +399,17 @@
                 Use a different account
               </button>
             </p>
+          </div>
+            </div>
+            <img
+              class="dpaam-auth-deco dpaam-auth-deco--hands"
+              src="assets/dpaam/auth-modal-hands.webp"
+              alt=""
+              width="900"
+              height="510"
+              aria-hidden="true"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -909,6 +931,49 @@
   </div>
 
   <div id="dpaam-toast" class="dpaam" popover="manual" role="status" aria-live="polite"></div>
+
+  <div class="dpaam-debug-view" id="dpaam-debug-view" hidden>
+    <label class="dpaam-debug-view-control" for="dpaam-debug-view-toggle">
+      <span class="dpaam-debug-view-tag">Debug</span>
+      <span class="dpaam-debug-view-state" id="dpaam-debug-view-state">Auth</span>
+      <input
+        type="checkbox"
+        class="dpaam-debug-view-input"
+        id="dpaam-debug-view-toggle"
+        role="switch"
+        aria-checked="false"
+        aria-label="Toggle between auth and dashboard view"
+      />
+      <span class="dpaam-debug-view-switch" aria-hidden="true"></span>
+    </label>
+  </div>
+
+  <script>
+    (function () {
+      const host = location.hostname;
+      if (host !== "localhost" && host !== "127.0.0.1") return;
+
+      const debug = document.getElementById("dpaam-debug-view");
+      const toggle = document.getElementById("dpaam-debug-view-toggle");
+      const stateLabel = document.getElementById("dpaam-debug-view-state");
+      const auth = document.getElementById("dpaam-auth");
+      const dashboard = document.getElementById("dpaam-dashboard");
+      if (!debug || !toggle || !auth || !dashboard) return;
+
+      debug.hidden = false;
+
+      function showDashboard(show) {
+        auth.hidden = show;
+        dashboard.hidden = !show;
+        toggle.setAttribute("aria-checked", String(show));
+        if (stateLabel) stateLabel.textContent = show ? "Dashboard" : "Auth";
+      }
+
+      toggle.addEventListener("change", () => {
+        showDashboard(toggle.checked);
+      });
+    })();
+  </script>
 
   <script type="module" src="js/membership.js"></script>
 </body>

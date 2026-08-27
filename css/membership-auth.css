@@ -24,11 +24,51 @@
 }
 
 .dpaam-auth-inner {
+  --dpaam-auth-enter-delay: 200ms;
+  --dpaam-auth-enter-duration: 0.2s;
+  --dpaam-auth-climb-hands-duration: 0.3s;
+  --dpaam-auth-climb-head-duration: 0.4s;
+  --dpaam-auth-climb-start: calc(var(--dpaam-auth-enter-delay) + var(--dpaam-auth-enter-duration));
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  animation: dpaam-auth-main-enter 0.3s both;
-  animation-delay: 200ms;
+  animation: dpaam-auth-main-enter var(--dpaam-auth-enter-duration) both;
+  animation-delay: var(--dpaam-auth-enter-delay);
+}
+
+.dpaam-auth-modal-wrap {
+  position: relative;
+}
+
+.dpaam-auth-deco {
+  position: absolute;
+  left: 50%;
+  width: 40%;
+  height: auto;
+  display: block;
+  top: -86px;
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%);
+}
+
+.dpaam-auth-deco--head {
+  z-index: 0;
+  transform-origin: 50% 100%;
+  animation: dpaam-auth-head-enter var(--dpaam-auth-climb-head-duration) both;
+  animation-delay: calc(var(--dpaam-auth-climb-start) + var(--dpaam-auth-climb-hands-duration));
+}
+
+.dpaam-auth-deco--hands {
+  z-index: 2;
+  transform-origin: 50% 90%;
+  animation: dpaam-auth-hands-enter var(--dpaam-auth-climb-hands-duration) both;
+  animation-delay: var(--dpaam-auth-climb-start);
+}
+
+.dpaam-auth-cards {
+  position: relative;
+  z-index: 1;
 }
 
 .dpaam-auth-messages:not(:has(.dpaam-auth-message:not([hidden]))) {
@@ -44,25 +84,39 @@
 }
 
 @keyframes dpaam-auth-main-enter {
-  0% {
-    transform: translateY(20vh);
+  from {
     opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dpaam-auth-hands-enter {
+  from {
+    transform: translateX(-50%) scale(0);
+    animation-timing-function: cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  to {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes dpaam-auth-head-enter {
+  0% {
+    transform: translateX(-50%) translateY(90px);
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  20% {
-    opacity: 0;
-  }
-
-  85% {
-    transform: translateY(-14px);
-    opacity: 1;
+  70% {
+    transform: translateX(-50%) translateY(-8px);
     animation-timing-function: cubic-bezier(0.45, 0, 1, 1);
   }
 
   100% {
-    transform: translateY(0);
-    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 }
 
@@ -141,16 +195,11 @@
   min-height: 41px;
   box-sizing: border-box;
   padding: 8px 12px;
-  font-family: var(--dpaam-sans);
-  font-size: 16px;
-  line-height: 1.45;
-  color: var(--dpaam-black);
-  -webkit-text-fill-color: var(--dpaam-black);
+  font: revert;
+  color: revert;
+  -webkit-text-fill-color: revert;
   border: 1px solid var(--dpaam-border);
   border-radius: var(--dpaam-radius);
-  /* Chromium renders saved credentials with this protected system font until
-     the first user gesture. Matching it here prevents the typography jump. */
-  font: -webkit-small-control;
 }
 
 .dpaam-auth-input:-webkit-autofill,
@@ -159,15 +208,11 @@
 .dpaam-auth-input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
   box-shadow: 0 0 0 1000px #fff inset !important;
-  -webkit-text-fill-color: var(--dpaam-black) !important;
-  caret-color: var(--dpaam-black);
-  font: -webkit-small-control !important;
   transition: background-color 99999s ease-out 0s;
 }
 
 .dpaam-auth-input:autofill {
   background-color: #fff !important;
-  color: var(--dpaam-black) !important;
 }
 
 .dpaam-auth-input:focus {
@@ -318,8 +363,112 @@
   display: none;
 }
 
+.dpaam-debug-view {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 10000;
+  width: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  pointer-events: none;
+  font-family: "poppins", sans-serif;
+  font-size: 12px;
+}
+
+.dpaam-debug-view-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px dashed #c9c9c4;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #6b6b66;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(51, 41, 37, 0.2);
+  pointer-events: auto;
+}
+
+.dpaam-debug-view-tag {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b74a6e;
+}
+
+.dpaam-debug-view-state {
+  min-width: 4.5rem;
+  font-weight: 600;
+  color: #332925;
+}
+
+.dpaam-debug-view-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dpaam-debug-view-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: #e3e3df;
+  transition: background 0.15s ease;
+}
+
+.dpaam-debug-view-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease;
+}
+
+.dpaam-debug-view-input:checked + .dpaam-debug-view-switch {
+  background: #2e9c96;
+}
+
+.dpaam-debug-view-input:checked + .dpaam-debug-view-switch::after {
+  transform: translateX(1rem);
+}
+
+.dpaam-debug-view-input:focus-visible + .dpaam-debug-view-switch {
+  outline: 2px solid #69a0d7;
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .dpaam-debug-view-switch,
+  .dpaam-debug-view-switch::after {
+    transition: none;
+  }
+
   .dpaam-auth-inner {
     animation: none;
+  }
+
+  .dpaam-auth-deco--hands,
+  .dpaam-auth-deco--head {
+    animation: none;
+    opacity: 1;
+    transform: translateX(-50%);
   }
 }
