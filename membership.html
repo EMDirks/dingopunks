@@ -786,13 +786,17 @@
             <div class="dpaam-account-row">
               <div class="dpaam-account-row-main">
                 <h4 class="dpaam-account-label" id="dpaam-account-email-label">Email</h4>
-                <p class="dpaam-account-value" id="dpaam-account-email">teacher@example.com</p>
+                <p class="dpaam-account-value" id="dpaam-account-email"></p>
                 <!-- <p class="dpaam-account-helper"><a href="https://dingopunks.com/pages/contact">Contact us</a> to change your email.</p> -->
               </div>
             </div>
           </section>
 
-          <section class="dpaam-account-section" aria-labelledby="dpaam-account-password-label">
+          <section
+            class="dpaam-account-section"
+            id="dpaam-account-password-section"
+            aria-labelledby="dpaam-account-password-label"
+          >
             <div class="dpaam-account-row">
               <div class="dpaam-account-row-main">
                 <h4 class="dpaam-account-label" id="dpaam-account-password-label">Password</h4>
@@ -801,67 +805,22 @@
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-secondary"
-                id="dpaam-account-change-password"
-                aria-expanded="false"
-                aria-controls="dpaam-account-password-form"
+                id="dpaam-account-send-reset"
               >
-                Change Password
+                Send reset email
               </button>
             </div>
-            <div class="dpaam-account-password-panel" id="dpaam-account-password-form" inert>
-              <div class="dpaam-account-password-form">
-                <label class="dpaam-account-field">
-                  <span class="dpaam-account-field-label">Current password</span>
-                  <input
-                    type="password"
-                    class="dpaam-account-input"
-                    id="dpaam-account-password-current"
-                    name="current-password"
-                    autocomplete="current-password"
-                    placeholder="••••••••"
-                  />
-                </label>
-                <label class="dpaam-account-field">
-                  <span class="dpaam-account-field-label">New password</span>
-                  <input
-                    type="password"
-                    class="dpaam-account-input"
-                    id="dpaam-account-password-new"
-                    name="new-password"
-                    autocomplete="new-password"
-                    placeholder="••••••••"
-                  />
-                </label>
-                <label class="dpaam-account-field">
-                  <span class="dpaam-account-field-label">Confirm new password</span>
-                  <input
-                    type="password"
-                    class="dpaam-account-input"
-                    id="dpaam-account-password-confirm"
-                    name="confirm-password"
-                    autocomplete="new-password"
-                    placeholder="••••••••"
-                  />
-                </label>
-                <div class="dpaam-account-password-actions">
-                  <button
-                    type="button"
-                    class="dpaam-btn dpaam-btn-secondary"
-                    id="dpaam-account-password-cancel"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="dpaam-btn dpaam-btn-primary"
-                    id="dpaam-account-password-save"
-                  >
-                    Update Password
-                  </button>
-                </div>
-              </div>
-            </div>
           </section>
+          <section class="dpaam-account-section" id="dpaam-account-google-note" hidden>
+            <p class="dpaam-account-helper">You sign in with Google.</p>
+          </section>
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-secondary dpaam-account-logout-btn"
+            id="dpaam-account-logout"
+          >
+            Log out
+          </button>
           </div>
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">

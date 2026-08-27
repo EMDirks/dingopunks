@@ -37,7 +37,7 @@ function showAuthMessage(type, message) {
   el.hidden = false;
 }
 
-function authErrorMessage(error) {
+export function authErrorMessage(error) {
   switch (error?.code) {
     case "auth/invalid-email":
       return "Enter a valid email address.";

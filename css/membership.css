@@ -2437,7 +2437,8 @@ a.dpaam-topbar-btn {
   text-align: right;
 }
 
-.dpaam-account-manage-btn {
+.dpaam-account-manage-btn,
+.dpaam-account-logout-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2447,6 +2448,15 @@ a.dpaam-topbar-btn {
   width: 100%;
   margin-top: var(--dpaam-pad-lg);
   text-align: center;
+}
+
+.dpaam-account-logout-btn {
+  margin-top: 0;
+}
+
+.dpaam-btn.is-loading {
+  cursor: wait;
+  opacity: 0.75;
 }
 
 .dpaam-modal-dl dd strong.dpaam-share-code {

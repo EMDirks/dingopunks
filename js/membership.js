@@ -6,7 +6,13 @@
 
 import { games, themes } from "./games.js";
 import { thumbHtml } from "./thumbnails.js";
-import { initAuth } from "./membership-auth.js";
+import { authErrorMessage, initAuth } from "./membership-auth.js";
+import {
+  auth,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signOut,
+} from "./firebase-init.js";
 
 // ---------- constants ----------
 
@@ -76,10 +82,11 @@ const els = {
   mobileMenuBackdrop: document.getElementById("dpaam-mobile-menu-backdrop"),
   modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
-  accountChangePassword: document.getElementById("dpaam-account-change-password"),
-  accountPasswordForm: document.getElementById("dpaam-account-password-form"),
-  accountPasswordCancel: document.getElementById("dpaam-account-password-cancel"),
-  accountPasswordSave: document.getElementById("dpaam-account-password-save"),
+  accountEmail: document.getElementById("dpaam-account-email"),
+  accountPasswordSection: document.getElementById("dpaam-account-password-section"),
+  accountGoogleNote: document.getElementById("dpaam-account-google-note"),
+  accountSendReset: document.getElementById("dpaam-account-send-reset"),
+  accountLogout: document.getElementById("dpaam-account-logout"),
   accountManageSubscription: document.getElementById("dpaam-account-manage-subscription"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
@@ -1524,23 +1531,73 @@ function activateAndShare(gameId) {
   openShareModal(gameId);
 }
 
-function setAccountPasswordFormOpen(open) {
-  if (!els.accountPasswordForm || !els.accountChangePassword) return;
-  els.accountPasswordForm.classList.toggle("dpaam-account-password-panel--open", open);
-  els.accountPasswordForm.inert = !open;
-  els.accountChangePassword.setAttribute("aria-expanded", String(open));
-  if (!open) {
-    els.accountPasswordForm
-      .querySelectorAll("input")
-      .forEach((input) => {
-        input.value = "";
-      });
+let currentUser = null;
+
+function userHasPasswordProvider(user) {
+  return Boolean(user?.providerData?.some((provider) => provider.providerId === "password"));
+}
+
+function setAccountButtonLoading(button, loading, loadingLabel) {
+  if (!button) return;
+  if (!button.dataset.defaultLabel) {
+    button.dataset.defaultLabel = button.textContent.trim();
+  }
+  button.disabled = loading;
+  button.classList.toggle("is-loading", loading);
+  button.setAttribute("aria-busy", String(loading));
+  button.textContent = loading ? loadingLabel : button.dataset.defaultLabel;
+}
+
+function updateAccountModal(user) {
+  if (els.accountEmail) {
+    els.accountEmail.textContent = user?.email || "—";
+  }
+
+  const hasPassword = userHasPasswordProvider(user);
+  if (els.accountPasswordSection) {
+    els.accountPasswordSection.hidden = !hasPassword;
+  }
+  if (els.accountGoogleNote) {
+    els.accountGoogleNote.hidden = !user || hasPassword;
+  }
+  if (els.accountSendReset) {
+    els.accountSendReset.disabled = !user?.email;
   }
 }
 
 function openAccountModal() {
-  setAccountPasswordFormOpen(false);
+  updateAccountModal(currentUser);
   showExclusiveModal(els.accountModal);
+}
+
+async function sendAccountPasswordReset() {
+  const email = currentUser?.email;
+  if (!email || !els.accountSendReset) return;
+
+  setAccountButtonLoading(els.accountSendReset, true, "Sending…");
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showToast("✓ \u00A0 Reset email sent");
+  } catch (error) {
+    showToast(authErrorMessage(error));
+  } finally {
+    setAccountButtonLoading(els.accountSendReset, false, "Sending…");
+  }
+}
+
+async function logoutAccount() {
+  if (!els.accountLogout) return;
+
+  setAccountButtonLoading(els.accountLogout, true, "Signing out…");
+  try {
+    await signOut(auth);
+    closeAnimatedModal(els.accountModal);
+    showToast("✓ \u00A0 Signed out");
+  } catch (error) {
+    showToast(authErrorMessage(error));
+  } finally {
+    setAccountButtonLoading(els.accountLogout, false, "Signing out…");
+  }
 }
 
 async function copyToClipboard(text) {
@@ -1870,9 +1927,7 @@ function wireEvents() {
   });
 
   // My Account modal
-  wireAnimatedModal(els.accountModal, () => {
-    setAccountPasswordFormOpen(false);
-  });
+  wireAnimatedModal(els.accountModal);
   els.accountBtn?.addEventListener("click", () => {
     openAccountModal();
   });
@@ -1880,17 +1935,11 @@ function wireEvents() {
     dashboardMobileMenu?.setOpen(false);
     openAccountModal();
   });
-  els.accountChangePassword?.addEventListener("click", () => {
-    const open = els.accountChangePassword.getAttribute("aria-expanded") !== "true";
-    setAccountPasswordFormOpen(open);
+  els.accountSendReset?.addEventListener("click", () => {
+    sendAccountPasswordReset();
   });
-  els.accountPasswordCancel?.addEventListener("click", () => {
-    setAccountPasswordFormOpen(false);
-  });
-  els.accountPasswordSave?.addEventListener("click", () => {
-    // Placeholder — wire to auth backend later.
-    setAccountPasswordFormOpen(false);
-    showToast("✓ \u00A0 Password updated");
+  els.accountLogout?.addEventListener("click", () => {
+    logoutAccount();
   });
   els.accountManageSubscription?.addEventListener("click", () => {
     // Placeholder — route to Stripe customer billing portal later.
@@ -2074,6 +2123,10 @@ function initQuickStartGuide() {
 
 function init() {
   initAuth();
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    updateAccountModal(user);
+  });
   initMobileMenus();
   initStickyTabbar();
   initQuickStartGuide();

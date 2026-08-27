@@ -175,7 +175,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[YOU]` Create Firebase project (Blaze), enable Auth (email/password + Google), Firestore, Functions; add play + membership domains to Auth authorized domains.
 - [X] `[LOW]` Auth gate view markup + CSS in `membership.html` (login / signup / Google / forgot password).
 - [X] `[MID]` `js/firebase-init.js` + auth flow wiring (sign-in/up, Google popup, reset email, `onAuthStateChanged` gate, error states).
-- [ ] `[LOW]` Account modal: real email, logout, password-reset button.
+- [X] `[LOW]` Account modal: real email, logout, password-reset button.
 - [ ] `[LOW]` `onUserCreated` → `users/{uid}` with `plan: "free"`.
 
 ### Phase 2 — Persistence (favorites + shared codes)
