@@ -157,6 +157,10 @@ When the user asks to publish (e.g. “publish”, “deploy to Cloudflare”):
 
 Pushing to GitHub (`dingopunks` remote) is **not** part of this skill unless the user also asks to push / back up; use the `push` skill for that.
 
+## Firebase vs Cloudflare `functions/`
+
+Cloudflare Pages treats a root-level **`functions/`** folder as **Pages Functions** and tries to bundle it on publish. Firebase Cloud Functions in this repo live in **`firebase-functions/`** instead. Do not rename that folder back to `functions/` at the repo root.
+
 ## What not to do
 
 - **Do not publish without incrementing the version and committing first.**
