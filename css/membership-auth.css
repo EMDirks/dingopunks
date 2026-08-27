@@ -10,7 +10,14 @@
 }
 
 .dpaam-auth .dpaam-topbar {
+  position: relative;
+  z-index: 3;
   margin-bottom: 0;
+  background: transparent;
+}
+
+.dpaam-auth .dpaam-topbar::before {
+  background: transparent;
 }
 
 .dpaam-auth-main {
@@ -73,14 +80,6 @@
 
 .dpaam-auth-messages:not(:has(.dpaam-auth-message:not([hidden]))) {
   display: none;
-}
-
-.dpaam-auth-messages .dpaam-auth-message {
-  margin: 0 0 var(--dpaam-pad);
-}
-
-.dpaam-auth-messages .dpaam-auth-message:last-child {
-  margin-bottom: var(--dpaam-pad-sm);
 }
 
 @keyframes dpaam-auth-main-enter {
@@ -149,11 +148,14 @@
 }
 
 .dpaam-auth-message {
-  margin: 0 0 var(--dpaam-pad);
-  padding: var(--dpaam-pad-sm) var(--dpaam-pad);
-  border-radius: var(--dpaam-radius);
-  font-size: var(--dpaam-text-sm);
+  margin: -32px 0 var(--dpaam-pad-xl) -32px;
+  padding: calc(var(--dpaam-pad-md) + var(--dpaam-pad-xs)) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad-md);
+  border-radius: var(--dpaam-radius-xl) var(--dpaam-radius-xl) 0 0;
+  font-size: var(--dpaam-text-xs);
   line-height: 1.45;
+  width: calc(100% + var(--dpaam-pad-xl) * 2);
+  text-wrap: balance;
+  text-align: center;
 }
 
 .dpaam-auth-message[hidden] {
@@ -161,9 +163,8 @@
 }
 
 .dpaam-auth-message--error {
-  background: #fdf0ef;
-  border: 1px solid var(--dpaam-danger-border);
-  color: var(--dpaam-danger);
+  background: var(--dpaam-salmon-light);
+  color: var(--dpaam-salmon-dark);
 }
 
 .dpaam-auth-message--success {
