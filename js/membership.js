@@ -1847,11 +1847,15 @@ function wireEvents() {
   function openPreview(gameId, { answers = false } = {}) {
     if (!gameId) return;
     const answersQuery = answers ? "&answers=1" : "";
-    window.open(
-      window.location.origin + "/preview.html?game=" + encodeURIComponent(gameId) + answersQuery,
-      "_blank",
-      "noopener"
-    );
+    const previewUrl =
+      window.location.origin + "/preview.html?game=" + encodeURIComponent(gameId) + answersQuery;
+    const previewWindow = window.open("", "_blank");
+    if (!previewWindow) return;
+
+    previewWindow.document.documentElement.style.background = "rgb(51, 41, 37)";
+    previewWindow.document.body.style.background = "rgb(51, 41, 37)";
+    previewWindow.opener = null;
+    previewWindow.location.replace(previewUrl);
   }
 
   // Modal Preview / Answer Key

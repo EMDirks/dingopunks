@@ -1248,7 +1248,7 @@ sub {
 }
 
 /* Match bumper intro on splash pages so off-black body does not flash before JS runs */
-body:has(.splash) {
+body:has(.splash):not(.preview-entry) {
 	background-color: rgba(var(--teal), 1);
 }
 
