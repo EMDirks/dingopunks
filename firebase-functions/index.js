@@ -28,7 +28,7 @@ async function ensureUserDocument(user) {
   return created;
 }
 
-export const ensureUserProfile = onCall(async (request) => {
+export const ensureUserProfile = onCall({ invoker: "public" }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Sign in before setting up your profile.");
   }
