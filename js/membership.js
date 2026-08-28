@@ -2072,12 +2072,6 @@ function initMobileMenus() {
     skipCloseOn: els.accountBtnMobile ? [els.accountBtnMobile] : [],
   });
 
-  wireMobileMenu({
-    toggle: document.getElementById("dpaam-auth-mobile-menu-toggle"),
-    menu: document.getElementById("dpaam-auth-mobile-menu"),
-    backdrop: document.getElementById("dpaam-auth-mobile-menu-backdrop"),
-  });
-
   if (mobileMenuControllers.length === 0) return;
 
   document.addEventListener("keydown", (e) => {

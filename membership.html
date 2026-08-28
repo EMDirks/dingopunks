@@ -20,95 +20,21 @@
       id="dpaam-auth"
       aria-labelledby="dpaam-auth-heading-signin"
     >
-      <header class="dpaam-topbar">
-        <div class="dpaam-brand">
-          <a class="dpaam-logo-link" href="https://dingopunks.com">
-            <img
-              class="dpaam-logo"
-              src="assets/branding/logo/logo-main.png"
-              alt="Dingo Punks"
-              width="800"
-              height="373"
-            />
-          </a>
-          <span class="dpaam-pill">ALL-ACCESS</span>
-        </div>
-        <div class="dpaam-topbar-buttons">
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
-          >Play</button>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            id="dpaam-auth-account-btn"
-            onclick="location.reload()"
-          >Account</button>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            id="dpaam-auth-help-btn"
-          >Help</button>
-        </div>
+      <header class="dpaam-topbar dpaam-auth-topbar">
         <button
           type="button"
-          class="dpaam-mobile-menu-toggle"
-          id="dpaam-auth-mobile-menu-toggle"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="dpaam-auth-mobile-menu"
+          class="dpaam-modal-close"
+          id="dpaam-auth-close"
+          aria-label="Close"
+        >×</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-auth-header-toggle"
         >
-          <span class="dpaam-hamburger" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+          Sign up
         </button>
-        <nav class="dpaam-mobile-menu" id="dpaam-auth-mobile-menu" hidden>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
-          >
-            <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-              <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-play.png" alt="" />
-            </div>
-            <span class="dpaam-mobile-menu-btn-label">Play</span>
-            <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            id="dpaam-auth-account-btn-mobile"
-            onclick="location.reload()"
-          >
-            <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-              <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-account.png" alt="" />
-            </div>
-            <span class="dpaam-mobile-menu-btn-label">Account</span>
-            <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-topbar-btn"
-            id="dpaam-auth-help-btn-mobile"
-          >
-            <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-              <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-help.png" alt="" />
-            </div>
-            <span class="dpaam-mobile-menu-btn-label">Help</span>
-            <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-          </button>
-        </nav>
       </header>
-      <button
-        type="button"
-        class="dpaam-mobile-menu-backdrop"
-        id="dpaam-auth-mobile-menu-backdrop"
-        hidden
-        aria-label="Close menu"
-      ></button>
 
       <div class="dpaam-auth-main">
         <div class="dpaam-auth-inner">
@@ -138,67 +64,56 @@
                 hidden
               ></p>
             </div>
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signin">Sign in</h1>
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signin">Log in</h1>
 
             <form class="dpaam-auth-form" id="dpaam-auth-signin-form" novalidate>
               <label class="dpaam-auth-field">
-                <span class="dpaam-auth-field-label">Email</span>
                 <input
                   type="email"
                   class="dpaam-auth-input"
                   id="dpaam-auth-signin-email"
                   name="email"
+                  placeholder="Email"
+                  aria-label="Email"
                   autocomplete="email"
                   required
                 />
               </label>
               <label class="dpaam-auth-field">
-                <span class="dpaam-auth-field-label">Password</span>
-                <span class="dpaam-auth-password-wrap">
+                <span class="dpaam-auth-password-wrap dpaam-auth-password-wrap--signin">
                   <input
                     type="password"
                     class="dpaam-auth-input dpaam-auth-input--password"
                     id="dpaam-auth-signin-password"
                     name="password"
+                    placeholder="Password"
+                    aria-label="Password"
                     autocomplete="current-password"
                     required
                   />
                   <button
                     type="button"
-                    class="dpaam-auth-password-toggle"
-                    id="dpaam-auth-signin-password-toggle"
-                    aria-label="Show password"
-                    aria-pressed="false"
-                    aria-controls="dpaam-auth-signin-password"
+                    class="dpaam-auth-link dpaam-auth-password-forgot"
+                    id="dpaam-auth-show-reset"
                   >
-                    <svg class="dpaam-auth-password-icon dpaam-auth-password-icon--show" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                      <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                    <svg class="dpaam-auth-password-icon dpaam-auth-password-icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                      <line x1="1" y1="1" x2="23" y2="23"/>
-                    </svg>
+                    Forgot?
                   </button>
                 </span>
               </label>
-              <div class="dpaam-auth-row dpaam-auth-row--end">
-                <button
-                  type="button"
-                  class="dpaam-auth-link"
-                  id="dpaam-auth-show-reset"
-                >
-                  Forgot password?
-                </button>
-              </div>
               <button
                 type="submit"
                 class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
                 id="dpaam-auth-signin-submit"
               >
-                Sign in
+                Log in
               </button>
             </form>
+
+            <div class="dpaam-auth-divider" aria-hidden="true">
+              <span class="dpaam-auth-divider-line"></span>
+              <span class="dpaam-auth-divider-text">or</span>
+              <span class="dpaam-auth-divider-line"></span>
+            </div>
 
             <button
               type="button"
@@ -214,11 +129,11 @@
               Continue with Google
             </button>
 
-            <p class="dpaam-auth-switch-text">
-              Don&rsquo;t have an account?
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-show-signup">
-                Sign up
-              </button>
+            <p class="dpaam-auth-legal">
+              By logging in to Dingo Punks All-Access, you agree to our
+              <a class="dpaam-auth-link" href="#">Terms</a>
+              and
+              <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
             </p>
           </div>
 
@@ -232,24 +147,26 @@
 
             <form class="dpaam-auth-form" id="dpaam-auth-signup-form" novalidate>
               <label class="dpaam-auth-field">
-                <span class="dpaam-auth-field-label">Email</span>
                 <input
                   type="email"
                   class="dpaam-auth-input"
                   id="dpaam-auth-signup-email"
                   name="email"
+                  placeholder="Email"
+                  aria-label="Email"
                   autocomplete="email"
                   required
                 />
               </label>
               <label class="dpaam-auth-field">
-                <span class="dpaam-auth-field-label">Password</span>
                 <span class="dpaam-auth-password-wrap">
                   <input
                     type="password"
                     class="dpaam-auth-input dpaam-auth-input--password"
                     id="dpaam-auth-signup-password"
                     name="password"
+                    placeholder="Password"
+                    aria-label="Password"
                     autocomplete="new-password"
                     minlength="6"
                     required
@@ -282,6 +199,12 @@
               </button>
             </form>
 
+            <div class="dpaam-auth-divider" aria-hidden="true">
+              <span class="dpaam-auth-divider-line"></span>
+              <span class="dpaam-auth-divider-text">or</span>
+              <span class="dpaam-auth-divider-line"></span>
+            </div>
+
             <button
               type="button"
               class="dpaam-btn dpaam-auth-google-btn"
@@ -296,11 +219,11 @@
               Continue with Google
             </button>
 
-            <p class="dpaam-auth-switch-text">
-              Already have an account?
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-show-signin-from-signup">
-                Sign in
-              </button>
+            <p class="dpaam-auth-legal">
+              By signing up for Dingo Punks All-Access, you agree to our
+              <a class="dpaam-auth-link" href="#">Terms</a>
+              and
+              <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
             </p>
           </div>
 
@@ -316,12 +239,13 @@
             </p>
             <form class="dpaam-auth-form" id="dpaam-auth-reset-form" novalidate>
               <label class="dpaam-auth-field">
-                <span class="dpaam-auth-field-label">Email</span>
                 <input
                   type="email"
                   class="dpaam-auth-input"
                   id="dpaam-auth-reset-email"
                   name="email"
+                  placeholder="Email"
+                  aria-label="Email"
                   autocomplete="email"
                   required
                 />
@@ -336,7 +260,7 @@
             </form>
             <p class="dpaam-auth-switch-text">
               <button type="button" class="dpaam-auth-link" id="dpaam-auth-show-signin-from-reset">
-                Back to sign in
+                Back to log in
               </button>
             </p>
           </div>
@@ -374,32 +298,6 @@
             </p>
           </div>
 
-          <div
-            class="dpaam-auth-card"
-            id="dpaam-auth-modal-setup"
-            data-auth-view="setup"
-            hidden
-          >
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-setup">
-              Getting things ready
-            </h1>
-            <p class="dpaam-auth-lead">
-              We&rsquo;re setting up your account. This should only take a moment.
-            </p>
-            <button
-              type="button"
-              class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
-              id="dpaam-auth-setup-retry"
-              hidden
-            >
-              Try again
-            </button>
-            <p class="dpaam-auth-switch-text">
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-setup-signout">
-                Use a different account
-              </button>
-            </p>
-          </div>
             </div>
             <img
               class="dpaam-auth-deco dpaam-auth-deco--hands"
@@ -414,6 +312,84 @@
         </div>
       </div>
     </section>
+
+    <div
+      id="dpaam-dashboard-skeleton"
+      class="dpaam-dashboard-skeleton"
+      hidden
+      aria-busy="true"
+      aria-label="Loading dashboard"
+    >
+      <p class="dpaam-visually-hidden" id="dpaam-skeleton-loading-text">
+        Loading your dashboard&hellip;
+      </p>
+
+      <header class="dpaam-topbar dpaam-skeleton-topbar" aria-hidden="true">
+        <div class="dpaam-brand">
+          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-logo"></div>
+          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-pill"></div>
+        </div>
+        <div class="dpaam-topbar-buttons">
+          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
+          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
+          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
+        </div>
+      </header>
+
+      <nav class="dpaam-tabbar dpaam-skeleton-tabbar" aria-hidden="true">
+        <div class="dpaam-skeleton-block dpaam-skeleton-tab"></div>
+        <div class="dpaam-skeleton-block dpaam-skeleton-tab"></div>
+        <div class="dpaam-skeleton-block dpaam-skeleton-tab"></div>
+      </nav>
+
+      <main class="dpaam-main">
+        <section class="dpaam-section" aria-hidden="true">
+          <div class="dpaam-section-header">
+            <div class="dpaam-skeleton-block dpaam-skeleton-section-title"></div>
+            <div class="dpaam-skeleton-block dpaam-skeleton-section-count"></div>
+          </div>
+
+          <div class="dpaam-filters">
+            <div class="dpaam-skeleton-block dpaam-skeleton-filter"></div>
+            <div class="dpaam-skeleton-block dpaam-skeleton-filter"></div>
+            <div class="dpaam-skeleton-block dpaam-skeleton-filter"></div>
+          </div>
+
+          <ul class="dpaam-library-list dpaam-skeleton-card-grid">
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+            <li class="dpaam-skeleton-card"><div class="dpaam-skeleton-block dpaam-skeleton-card-thumb"></div><div class="dpaam-skeleton-card-actions"><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div><div class="dpaam-skeleton-block dpaam-skeleton-card-btn"></div></div></li>
+          </ul>
+        </section>
+
+        <div class="dpaam-skeleton-status" id="dpaam-skeleton-status">
+          <p
+            class="dpaam-skeleton-status-message"
+            id="dpaam-skeleton-error-message"
+            role="alert"
+            hidden
+          ></p>
+          <div class="dpaam-skeleton-status-actions">
+            <button
+              type="button"
+              class="dpaam-btn dpaam-btn-primary"
+              id="dpaam-auth-setup-retry"
+              hidden
+            >
+              Try again
+            </button>
+            <button type="button" class="dpaam-auth-link" id="dpaam-auth-setup-signout">
+              Use a different account
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
 
     <div id="dpaam-dashboard" hidden>
     <header class="dpaam-topbar">
@@ -933,19 +909,38 @@
   <div id="dpaam-toast" class="dpaam" popover="manual" role="status" aria-live="polite"></div>
 
   <div class="dpaam-debug-view" id="dpaam-debug-view" hidden>
-    <label class="dpaam-debug-view-control" for="dpaam-debug-view-toggle">
+    <div class="dpaam-debug-view-control" role="radiogroup" aria-label="Debug view">
       <span class="dpaam-debug-view-tag">Debug</span>
-      <span class="dpaam-debug-view-state" id="dpaam-debug-view-state">Auth</span>
-      <input
-        type="checkbox"
-        class="dpaam-debug-view-input"
-        id="dpaam-debug-view-toggle"
-        role="switch"
-        aria-checked="false"
-        aria-label="Toggle between auth and dashboard view"
-      />
-      <span class="dpaam-debug-view-switch" aria-hidden="true"></span>
-    </label>
+      <div class="dpaam-debug-view-options">
+        <button
+          type="button"
+          class="dpaam-debug-view-option is-selected"
+          data-debug-view="auth"
+          role="radio"
+          aria-checked="true"
+        >
+          Auth
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-view="loading"
+          role="radio"
+          aria-checked="false"
+        >
+          Loading
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-view="dashboard"
+          role="radio"
+          aria-checked="false"
+        >
+          Dashboard
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -954,23 +949,77 @@
       if (host !== "localhost" && host !== "127.0.0.1") return;
 
       const debug = document.getElementById("dpaam-debug-view");
-      const toggle = document.getElementById("dpaam-debug-view-toggle");
-      const stateLabel = document.getElementById("dpaam-debug-view-state");
       const auth = document.getElementById("dpaam-auth");
       const dashboard = document.getElementById("dpaam-dashboard");
-      if (!debug || !toggle || !auth || !dashboard) return;
+      const skeleton = document.getElementById("dpaam-dashboard-skeleton");
+      if (!debug || !auth || !dashboard) return;
 
       debug.hidden = false;
 
-      function showDashboard(show) {
-        auth.hidden = show;
-        dashboard.hidden = !show;
-        toggle.setAttribute("aria-checked", String(show));
-        if (stateLabel) stateLabel.textContent = show ? "Dashboard" : "Auth";
+      const options = Array.from(debug.querySelectorAll("[data-debug-view]"));
+      const authCards = Array.from(auth.querySelectorAll("[data-auth-view]"));
+      const retry = document.getElementById("dpaam-auth-setup-retry");
+      const skeletonError = document.getElementById("dpaam-skeleton-error-message");
+      const headerToggle = document.getElementById("dpaam-auth-header-toggle");
+      const error = document.getElementById("dpaam-auth-error");
+      const success = document.getElementById("dpaam-auth-success");
+      const AUTH_HEADINGS = {
+        auth: "dpaam-auth-heading-signin",
+      };
+
+      function setDebugView(view) {
+        const showDashboard = view === "dashboard";
+        const showSkeleton = view === "loading";
+        auth.hidden = showDashboard || showSkeleton;
+        dashboard.hidden = !showDashboard;
+        if (skeleton) {
+          skeleton.hidden = !showSkeleton;
+          skeleton.setAttribute("aria-busy", String(showSkeleton));
+        }
+
+        if (!showDashboard && !showSkeleton) {
+          authCards.forEach((card) => {
+            card.hidden = card.dataset.authView !== "signin";
+          });
+          if (retry) retry.hidden = true;
+          if (skeletonError) {
+            skeletonError.hidden = true;
+            skeletonError.textContent = "";
+          }
+          if (error) {
+            error.hidden = true;
+            error.textContent = "";
+          }
+          if (success) {
+            success.hidden = true;
+            success.textContent = "";
+          }
+          auth.setAttribute("aria-labelledby", AUTH_HEADINGS.auth);
+          if (headerToggle) {
+            headerToggle.hidden = false;
+            headerToggle.textContent = "Sign up";
+          }
+        }
+
+        if (showSkeleton) {
+          if (retry) retry.hidden = true;
+          if (skeletonError) {
+            skeletonError.hidden = true;
+            skeletonError.textContent = "";
+          }
+        }
+
+        options.forEach((option) => {
+          const selected = option.dataset.debugView === view;
+          option.setAttribute("aria-checked", String(selected));
+          option.classList.toggle("is-selected", selected);
+        });
       }
 
-      toggle.addEventListener("change", () => {
-        showDashboard(toggle.checked);
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          setDebugView(option.dataset.debugView);
+        });
       });
     })();
   </script>

@@ -19,7 +19,6 @@ const AUTH_VIEW_HEADING_IDS = {
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
   verify: "dpaam-auth-heading-verify",
-  setup: "dpaam-auth-heading-setup",
 };
 
 export function clearAuthMessages() {
@@ -69,7 +68,7 @@ export function authErrorMessage(error) {
     case "auth/popup-blocked":
       return "Your browser blocked the Google sign-in window. Allow popups and try again.";
     case "auth/account-exists-with-different-credential":
-      return "That email uses a different sign-in method. Sign in with email and password instead.";
+      return "That email uses a different sign-in method. Log in with email and password instead.";
     case "auth/unauthorized-domain":
     case "auth/operation-not-allowed":
     case "auth/configuration-not-found":
@@ -151,11 +150,46 @@ function resetPasswordToggles(root) {
 export function initAuth() {
   const section = document.getElementById("dpaam-auth");
   const dashboard = document.getElementById("dpaam-dashboard");
+  const dashboardSkeleton = document.getElementById("dpaam-dashboard-skeleton");
   if (!section) return;
 
   const modals = Array.from(section.querySelectorAll("[data-auth-view]"));
   const messages = section.querySelector(".dpaam-auth-messages");
   if (modals.length === 0) return;
+
+  document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    window.location.href = "https://dingopunks.com";
+  });
+
+  const headerToggle = document.getElementById("dpaam-auth-header-toggle");
+
+  function updateAuthHeader(view) {
+    if (!headerToggle) return;
+
+    if (view === "signin") {
+      headerToggle.hidden = false;
+      headerToggle.textContent = "Sign up";
+      return;
+    }
+
+    if (view === "signup") {
+      headerToggle.hidden = false;
+      headerToggle.textContent = "Log in";
+      return;
+    }
+
+    headerToggle.hidden = true;
+  }
+
+  headerToggle?.addEventListener("click", () => {
+    const signinCard = document.getElementById("dpaam-auth-modal-signin");
+    const onSignin = signinCard && !signinCard.hidden;
+    setAuthView(onSignin ? "signup" : "signin", { focus: true });
+  });
 
   function setAuthView(view, { focus = false } = {}) {
     if (!AUTH_VIEW_HEADING_IDS[view]) return;
@@ -174,18 +208,13 @@ export function initAuth() {
     section.setAttribute("aria-labelledby", AUTH_VIEW_HEADING_IDS[view]);
     clearAuthMessages();
     resetPasswordToggles(section);
+    updateAuthHeader(view);
 
     if (!focus) return;
 
     activeModal.querySelector(".dpaam-auth-input")?.focus();
   }
 
-  document.getElementById("dpaam-auth-show-signup")?.addEventListener("click", () => {
-    setAuthView("signup", { focus: true });
-  });
-  document.getElementById("dpaam-auth-show-signin-from-signup")?.addEventListener("click", () => {
-    setAuthView("signin", { focus: true });
-  });
   document.getElementById("dpaam-auth-show-reset")?.addEventListener("click", () => {
     const signInEmail = document.getElementById("dpaam-auth-signin-email");
     const resetEmail = document.getElementById("dpaam-auth-reset-email");
@@ -211,13 +240,13 @@ export function initAuth() {
     emailInput.value = email;
 
     clearAuthMessages();
-    setButtonLoading(submit, true, "Signing in…");
+    setButtonLoading(submit, true, "Logging in…");
     try {
       await signInWithEmailAndPassword(auth, email, passwordInput.value);
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
-      setButtonLoading(submit, false, "Signing in…");
+      setButtonLoading(submit, false, "Logging in…");
     }
   });
 
@@ -349,31 +378,71 @@ export function initAuth() {
   });
 
   document.getElementById("dpaam-auth-setup-retry")?.addEventListener("click", () => {
+    clearSkeletonError();
     applyAuthState(auth.currentUser);
   });
 
   document.getElementById("dpaam-auth-setup-signout")?.addEventListener("click", async () => {
     clearAuthMessages();
+    clearSkeletonError();
     try {
       await signOut(auth);
+      hideDashboardSkeleton();
       setAuthView("signin", { focus: true });
     } catch (error) {
-      showAuthMessage("error", authErrorMessage(error));
+      showSkeletonError(authErrorMessage(error));
     }
   });
 
   let authStateRevision = 0;
   let provisionedUid = null;
 
+  function hideDashboardSkeleton() {
+    if (!dashboardSkeleton) return;
+    dashboardSkeleton.hidden = true;
+    dashboardSkeleton.setAttribute("aria-busy", "false");
+  }
+
+  function showDashboardSkeleton() {
+    section.hidden = true;
+    if (dashboard) dashboard.hidden = true;
+    if (!dashboardSkeleton) return;
+    dashboardSkeleton.hidden = false;
+    dashboardSkeleton.setAttribute("aria-busy", "true");
+  }
+
+  function clearSkeletonError() {
+    const message = document.getElementById("dpaam-skeleton-error-message");
+    const retry = document.getElementById("dpaam-auth-setup-retry");
+    if (message) {
+      message.hidden = true;
+      message.textContent = "";
+    }
+    if (retry) retry.hidden = true;
+    if (dashboardSkeleton) dashboardSkeleton.setAttribute("aria-busy", "true");
+  }
+
+  function showSkeletonError(message) {
+    const messageEl = document.getElementById("dpaam-skeleton-error-message");
+    const retry = document.getElementById("dpaam-auth-setup-retry");
+    if (messageEl) {
+      messageEl.textContent = message;
+      messageEl.hidden = false;
+    }
+    if (retry) retry.hidden = false;
+    if (dashboardSkeleton) dashboardSkeleton.setAttribute("aria-busy", "false");
+  }
+
   async function applyAuthState(user) {
     const revision = ++authStateRevision;
     const signedIn = userCanAccessDashboard(user);
 
-    section.hidden = false;
+    hideDashboardSkeleton();
     if (dashboard) dashboard.hidden = true;
 
     if (user && userNeedsEmailVerification(user)) {
       provisionedUid = null;
+      section.hidden = false;
       section.setAttribute("aria-busy", "false");
       updateVerifyView(user);
       const onVerify = modals.find(
@@ -385,16 +454,15 @@ export function initAuth() {
 
     if (!signedIn) {
       provisionedUid = null;
+      section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthView("signin");
       return;
     }
 
     if (provisionedUid !== user.uid) {
-      const retry = document.getElementById("dpaam-auth-setup-retry");
-      if (retry) retry.hidden = true;
-      setAuthView("setup");
-      section.setAttribute("aria-busy", "true");
+      clearSkeletonError();
+      showDashboardSkeleton();
 
       try {
         await ensureUserProfile();
@@ -402,10 +470,7 @@ export function initAuth() {
       } catch (error) {
         if (revision !== authStateRevision) return;
         console.error("Failed to provision user profile", error);
-        section.setAttribute("aria-busy", "false");
-        if (retry) retry.hidden = false;
-        showAuthMessage(
-          "error",
+        showSkeletonError(
           "We couldn't finish setting up your account. Check your connection and try again.",
         );
         return;
@@ -415,10 +480,12 @@ export function initAuth() {
     if (revision !== authStateRevision) return;
 
     clearAuthMessages();
+    clearSkeletonError();
     signInForm?.reset();
     signUpForm?.reset();
     resetForm?.reset();
     section.setAttribute("aria-busy", "false");
+    hideDashboardSkeleton();
     section.hidden = true;
     if (dashboard) dashboard.hidden = false;
   }
@@ -430,6 +497,7 @@ export function initAuth() {
       applyAuthState(user);
     },
     () => {
+      hideDashboardSkeleton();
       if (dashboard) dashboard.hidden = true;
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
