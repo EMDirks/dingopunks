@@ -47,6 +47,7 @@ body {
   --dpaam-border-strong: #c9c9c4;
   --dpaam-black: #332925;
   --dpaam-black-muted: #6b6b66;
+  --dpaam-inactive: #AAAAAA;
   --dpaam-accent: #2b2b2b;
   --dpaam-accent-text: #ffffff;
   --dpaam-success: #1f7a4d;
@@ -879,7 +880,7 @@ a.dpaam-topbar-btn {
   justify-content: center;
   margin: 0 0.2em;
   margin-top: -10px;
-  padding: 5px 10px 2px 10px;
+  padding: 7px 10px 4px 10px;
   top: -4px;
   position: relative;
   vertical-align: -0.2em;
@@ -975,6 +976,7 @@ a.dpaam-topbar-btn {
   border-radius: var(--dpaam-radius-xl);
   border: 1px solid var(--dpaam-border);
   background: var(--dpaam-white);
+  user-select: none;
 }
 
 .dpaam-card--active {
@@ -991,6 +993,15 @@ a.dpaam-topbar-btn {
 
 .dpaam-card--library {
   cursor: pointer;
+}
+
+.dpaam-card--locked .dpaam-card__thumb-wrap {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+.dpaam-card--favorite.dpaam-card--locked {
+  cursor: default;
 }
 
 /* --- Card parts --- */
@@ -1073,6 +1084,10 @@ a.dpaam-topbar-btn {
   display: block;
   flex-shrink: 0;
   transform-origin: center;
+}
+
+.dpaam-fav-heart {
+  stroke-width: 2.5;
 }
 
 @keyframes dpaam-fav-heart-pop {
@@ -1500,6 +1515,16 @@ a.dpaam-topbar-btn {
   }
 }
 
+.dpaam-card__actions .dpaam-btn.dpaam-btn--inactive,
+.dpaam-card__actions .dpaam-btn.dpaam-btn--inactive:hover,
+.dpaam-modal-footer .dpaam-btn.dpaam-btn--inactive,
+.dpaam-modal-footer .dpaam-btn.dpaam-btn--inactive:hover {
+  background: var(--dpaam-inactive);
+  color: var(--dpaam-white);
+  cursor: pointer;
+  filter: none;
+}
+
 .dpaam-card__actions .dpaam-btn-add,
 .dpaam-card__actions .dpaam-saved-mark,
 .dpaam-card__actions .dpaam-btn-activate,
@@ -1814,6 +1839,74 @@ a.dpaam-topbar-btn {
 .dpaam-modal-body--message p {
   margin: 0;
   line-height: 1.5;
+}
+
+.dpaam-modal-content .dpaam-upgrade-lead {
+  margin: 0;
+  font-size: var(--dpaam-text-sm);
+  line-height: 1.55;
+  color: var(--dpaam-black);
+}
+
+.dpaam-upgrade-highlight {
+  font-weight: 700;
+}
+
+.dpaam-plan-price-unit {
+  font-size: var(--dpaam-text-md);
+  font-weight: 500;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-upgrade-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-xs);
+  background: var(--dpaam-light-gray);
+  padding: var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-lg);
+  width: fit-content;
+  border: 1px solid var(--dpaam-border);
+}
+
+.dpaam-modal-content .dpaam-upgrade-price {
+  margin: 0;
+  font-size: var(--dpaam-text-display);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--dpaam-black);
+}
+
+.dpaam-modal-content .dpaam-upgrade-billing {
+  margin: 0;
+  font-size: var(--dpaam-text-xs);
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-upgrade-features {
+  list-style: none;
+  margin: var(--dpaam-pad-md) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-sm);
+}
+
+.dpaam-upgrade-features li {
+  position: relative;
+  padding-left: calc(var(--dpaam-pad) + var(--dpaam-pad-xs));
+  font-size: var(--dpaam-text-sm);
+  line-height: 1.4;
+  color: var(--dpaam-black);
+}
+
+.dpaam-upgrade-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--dpaam-success);
 }
 
 .dpaam-modal-thumb-wrap {
@@ -2289,7 +2382,7 @@ a.dpaam-topbar-btn {
 .dpaam-account-credentials {
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad);
+  gap: var(--dpaam-pad-lg);
 }
 
 .dpaam-account-section {
@@ -2305,6 +2398,23 @@ a.dpaam-topbar-btn {
 
 .dpaam-account-row--action {
   justify-content: flex-end;
+}
+
+.dpaam-account-row--actions {
+  display: flex;
+  align-items: stretch;
+  gap: var(--dpaam-pad-sm);
+}
+
+.dpaam-account-row--actions .dpaam-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  margin-top: 0;
+}
+
+.dpaam-account-row--actions .dpaam-btn:only-child {
+  flex: 1 1 auto;
 }
 
 .dpaam-account-row-main {
@@ -2419,7 +2529,8 @@ a.dpaam-topbar-btn {
   font-size: var(--dpaam-text-display);
   font-weight: 600;
   line-height: 1.1;
-  margin-top: calc(var(--dpaam-pad-lg) + var(--dpaam-pad-xs));
+  margin-top: calc(var(--dpaam-pad-lg) + var(--dpaam-pad-sm));
+  margin-bottom: var(--dpaam-pad-xs);
 }
 
 .dpaam-account-plan-meta {
@@ -2433,7 +2544,7 @@ a.dpaam-topbar-btn {
 .dpaam-account-plan-billing,
 .dpaam-account-plan-renewal {
   margin: 0;
-  font-size: var(--dpaam-text-sm);
+  font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
 }
 
@@ -2441,8 +2552,7 @@ a.dpaam-topbar-btn {
   text-align: right;
 }
 
-.dpaam-account-manage-btn,
-.dpaam-account-logout-btn {
+.dpaam-account-manage-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2455,7 +2565,13 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-account-logout-btn {
-  margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--dpaam-pair-btn-h);
+  padding: 6px 14px 4px 14px;
+  text-align: center;
 }
 
 .dpaam-btn.is-loading {
@@ -2521,7 +2637,7 @@ dd a {
     padding: 4px 12px 2px 12px;
   }
 
-  .dpaam-btn-primary.dpaam-account-manage-btn {
+  .dpaam-btn-secondary.dpaam-account-manage-btn {
     min-height: 38px;
     padding: 6px 14px 4px 14px;
   }
@@ -2957,13 +3073,21 @@ dd a {
 
   /* --- Account modal --- */
 
-  .dpaam-account-row {
+  .dpaam-account-row:not(.dpaam-account-row--actions) {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .dpaam-account-row > .dpaam-btn {
+  .dpaam-account-row:not(.dpaam-account-row--actions) > .dpaam-btn {
     align-self: flex-start;
+  }
+
+  .dpaam-account-row--actions {
+    flex-direction: row;
+  }
+
+  .dpaam-account-row--actions .dpaam-btn {
+    flex: 1 1 100%;
   }
 
   /* --- Share modal --- */
@@ -3146,23 +3270,6 @@ dd a {
   align-items: center;
   justify-content: center;
   gap: var(--dpaam-pad-md);
-}
-
-.dpaam-skeleton-status .dpaam-auth-link {
-  font: inherit;
-  color: var(--dpaam-black-muted);
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-@media (hover: hover) {
-  .dpaam-skeleton-status .dpaam-auth-link:hover {
-    color: var(--dpaam-black);
-  }
 }
 
 @media (max-width: 768px) {

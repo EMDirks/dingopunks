@@ -163,11 +163,12 @@
 }
 
 .dpaam-auth-lead {
-  margin: 0 0 var(--dpaam-pad-lg);
+  margin: -16px 0 var(--dpaam-pad-xl) 0;
   font-size: var(--dpaam-text-sm);
   color: var(--dpaam-black-muted);
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.45;
+  text-wrap: balance;
 }
 
 .dpaam-auth-verify-email {
@@ -431,6 +432,10 @@
   left: 8px;
   bottom: 8px;
   z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   width: auto;
   min-height: 0;
   margin: 0;

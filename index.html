@@ -18,6 +18,9 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+		<!-- Match bumper intro so off-black body does not flash before CSS loads -->
+		<style>body { background-color: rgb(112, 183, 151); }</style>
+
 		<!-- css files -->
 		<link type="text/css" rel="stylesheet" href="css/splash.css?version=3.4.84">
 		<link type="text/css" rel="stylesheet" href="css/splash-new.css?version=3.4.84">
@@ -69,7 +72,7 @@
 
 	</head>
 
-	<body>
+	<body class="play-entry">
 
 		<!-- device rotation -->
 		<div class = "div-rotate">

@@ -235,7 +235,7 @@
           >
             <h1 class="dpaam-auth-title" id="dpaam-auth-heading-reset">Reset password</h1>
             <p class="dpaam-auth-lead">
-              Enter your email and we&rsquo;ll send a link to reset your password.
+              We'll send you instructions on how to reset your password by email.
             </p>
             <form class="dpaam-auth-form" id="dpaam-auth-reset-form" novalidate>
               <label class="dpaam-auth-field">
@@ -255,14 +255,9 @@
                 class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
                 id="dpaam-auth-reset-submit"
               >
-                Send reset email
+                Submit
               </button>
             </form>
-            <p class="dpaam-auth-switch-text">
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-show-signin-from-reset">
-                Back to log in
-              </button>
-            </p>
           </div>
 
           <div
@@ -382,9 +377,6 @@
               hidden
             >
               Try again
-            </button>
-            <button type="button" class="dpaam-auth-link" id="dpaam-auth-setup-signout">
-              Use a different account
             </button>
           </div>
         </div>
@@ -692,7 +684,7 @@
         <div class="dpaam-empty dpaam-favorites-empty" id="dpaam-favorites-empty" hidden>
           <p class="dpaam-favorites-empty-text">
             Click the
-            <svg class="dpaam-fav-heart-icon dpaam-fav-heart-icon--inline" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="dpaam-fav-heart" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 20.84l-1.45-1.32C5.4 15.04 2 12.08 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.58-3.4 6.54-8.55 11.04L12 20.84z"/></svg>
+            <svg class="dpaam-fav-heart-icon dpaam-fav-heart-icon--inline" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="dpaam-fav-heart" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" d="M12 20.84l-1.45-1.32C5.4 15.04 2 12.08 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.58-3.4 6.54-8.55 11.04L12 20.84z"/></svg>
             on any escape room to save it for later.
           </p>
           <img
@@ -811,6 +803,30 @@
       </form>
     </dialog>
 
+    <!-- All-Access paywall modal -->
+    <dialog
+      class="dpaam-modal"
+      id="dpaam-member-only-modal"
+      aria-labelledby="dpaam-member-only-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">
+            Unlock this escape room
+          </h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
+            ×
+          </button>
+        </header>
+        <div class="dpaam-modal-body" id="dpaam-member-only-body"></div>
+        <footer class="dpaam-modal-footer">
+          <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-member-only-subscribe">
+            Upgrade to All-Access
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
     <!-- Share modal -->
     <dialog class="dpaam-modal" id="dpaam-share-modal" aria-labelledby="dpaam-share-modal-title">
       <form method="dialog" class="dpaam-modal-form">
@@ -835,7 +851,7 @@
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-account-modal-title">My Account</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-account-modal-title">Account</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body dpaam-account-body">
@@ -850,31 +866,27 @@
             </div>
           </section>
 
-          <section
-            class="dpaam-account-section"
-            id="dpaam-account-password-section"
-            aria-label="Password reset"
-          >
-            <div class="dpaam-account-row dpaam-account-row--action">
+          <section class="dpaam-account-section dpaam-account-actions">
+            <div class="dpaam-account-row dpaam-account-row--actions">
+              <button
+                type="button"
+                class="dpaam-btn dpaam-btn-secondary dpaam-account-logout-btn"
+                id="dpaam-account-logout"
+              >
+                Log out
+              </button>
               <button
                 type="button"
                 class="dpaam-btn dpaam-btn-secondary"
                 id="dpaam-account-send-reset"
               >
-                Send password reset email
+                Reset password
               </button>
             </div>
           </section>
           <section class="dpaam-account-section" id="dpaam-account-google-note" hidden>
             <p class="dpaam-account-helper">You sign in with Google.</p>
           </section>
-          <button
-            type="button"
-            class="dpaam-btn dpaam-btn-secondary dpaam-account-logout-btn"
-            id="dpaam-account-logout"
-          >
-            Log out
-          </button>
           </div>
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
@@ -882,7 +894,7 @@
               <h4 class="dpaam-account-plan-name" id="dpaam-account-plan-name">
                 <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
               </h4>
-              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$3.99/mo</p>
+              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
               <div class="dpaam-account-plan-meta">
                 <p class="dpaam-account-plan-billing" id="dpaam-account-plan-billing">
                   Billed annually at $47.88/yr
@@ -893,10 +905,10 @@
               </div>
               <button
                 type="button"
-                class="dpaam-btn dpaam-btn-primary dpaam-account-manage-btn"
+                class="dpaam-btn dpaam-btn-secondary dpaam-account-manage-btn"
                 id="dpaam-account-manage-subscription"
               >
-                Manage Subscription
+                Manage subscription
               </button>
             </div>
           </section>
@@ -938,6 +950,29 @@
           aria-checked="false"
         >
           Dashboard
+        </button>
+      </div>
+    </div>
+    <div class="dpaam-debug-view-control" role="radiogroup" aria-label="Debug access">
+      <span class="dpaam-debug-view-tag">Access</span>
+      <div class="dpaam-debug-view-options">
+        <button
+          type="button"
+          class="dpaam-debug-view-option is-selected"
+          data-debug-access="member"
+          role="radio"
+          aria-checked="true"
+        >
+          Member
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-access="free"
+          role="radio"
+          aria-checked="false"
+        >
+          Free
         </button>
       </div>
     </div>

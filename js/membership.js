@@ -23,6 +23,37 @@ const CODE_TTL_MS = 168 * 60 * 60 * 1000; // 7 days
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 const DASHBOARD_TABS = ["library", "favorites", "active"];
+const SUBSCRIBE_URL = "https://dingopunks.com/shop";
+
+function libraryThemeSlug(game) {
+  const match = game.path?.match(/^resource\/([^/]+)\//);
+  return match?.[1] ?? "";
+}
+
+const FREE_TIER_GAME_IDS = new Set([
+  "the-midnight-mall-mixed-reading-skills-2",
+  "the-midnight-mall-mixed-reading-skills-3",
+  "the-midnight-mall-mixed-reading-skills-4",
+  "the-midnight-mall-mixed-reading-skills-5",
+  "the-midnight-mall-mixed-math-skills-2",
+  "the-midnight-mall-mixed-math-skills-3",
+  "the-midnight-mall-mixed-math-skills-4",
+  "the-midnight-mall-mixed-math-skills-5",
+]);
+
+const LIBRARY_SEASON_ORDER = games.reduce((order, game) => {
+  if (!order.includes(game.season)) order.push(game.season);
+  return order;
+}, []);
+
+const LIBRARY_THEME_ORDER_BY_SEASON = games.reduce((map, game) => {
+  const slug = libraryThemeSlug(game);
+  if (!slug) return map;
+  if (!map.has(game.season)) map.set(game.season, []);
+  const order = map.get(game.season);
+  if (!order.includes(slug)) order.push(slug);
+  return map;
+}, new Map());
 
 // ---------- state ----------
 
@@ -32,6 +63,7 @@ const state = {
   filters: { season: "all", grade: "all", subject: "all", newThisMonth: false },
   guideFaqOpen: false,
   activeTab: null,
+  membershipAccess: "member", // "member" | "free" — debug toggle on localhost for now
 };
 
 // ---------- DOM refs ----------
@@ -75,6 +107,9 @@ const els = {
   shareModalBody: document.getElementById("dpaam-share-modal-body"),
   limitModal: document.getElementById("dpaam-limit-modal"),
   limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
+  memberOnlyModal: document.getElementById("dpaam-member-only-modal"),
+  memberOnlyBody: document.getElementById("dpaam-member-only-body"),
+  memberOnlySubscribe: document.getElementById("dpaam-member-only-subscribe"),
   accountBtn: document.getElementById("dpaam-account-btn"),
   accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
@@ -83,9 +118,8 @@ const els = {
   modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
   accountEmail: document.getElementById("dpaam-account-email"),
-  accountPasswordSection: document.getElementById("dpaam-account-password-section"),
-  accountGoogleNote: document.getElementById("dpaam-account-google-note"),
   accountSendReset: document.getElementById("dpaam-account-send-reset"),
+  accountGoogleNote: document.getElementById("dpaam-account-google-note"),
   accountLogout: document.getElementById("dpaam-account-logout"),
   accountManageSubscription: document.getElementById("dpaam-account-manage-subscription"),
   quickStart: document.getElementById("dpaam-quick-start"),
@@ -106,6 +140,66 @@ function themeByTitle(title) {
 
 function isFavorite(id) {
   return state.favorites.includes(id);
+}
+
+function isGameLockedForAccess(gameId) {
+  return state.membershipAccess === "free" && !FREE_TIER_GAME_IDS.has(gameId);
+}
+
+function cardLockedClass(gameId) {
+  return isGameLockedForAccess(gameId) ? " dpaam-card--locked" : "";
+}
+
+function cardShareBtnClass(gameId) {
+  return isGameLockedForAccess(gameId) ? " dpaam-btn--inactive" : "";
+}
+
+function libraryCardA11yAttrs(gameId) {
+  return ' tabindex="0"';
+}
+
+function libraryTopicPriority(game) {
+  if (game.topic === "mixed-reading-skills") return 0;
+  if (game.topic === "mixed-math-skills") return 1;
+  return 2;
+}
+
+function libraryLowestGrade(game) {
+  if (!game.grades?.length) return Number.POSITIVE_INFINITY;
+  return Math.min(...game.grades);
+}
+
+function libraryThemeRank(game) {
+  const order = LIBRARY_THEME_ORDER_BY_SEASON.get(game.season);
+  if (!order?.length) return 0;
+  const rank = order.indexOf(libraryThemeSlug(game));
+  return rank === -1 ? order.length : rank;
+}
+
+function sortLibraryGames(gamesList) {
+  const indexed = gamesList.map((game, index) => ({ game, index }));
+
+  indexed.sort((a, b) => {
+    const seasonDiff =
+      LIBRARY_SEASON_ORDER.indexOf(a.game.season) -
+      LIBRARY_SEASON_ORDER.indexOf(b.game.season);
+    if (seasonDiff !== 0) return seasonDiff;
+
+    const themeDiff = libraryThemeRank(a.game) - libraryThemeRank(b.game);
+    if (themeDiff !== 0) return themeDiff;
+
+    const topicDiff = libraryTopicPriority(a.game) - libraryTopicPriority(b.game);
+    if (topicDiff !== 0) return topicDiff;
+
+    if (libraryTopicPriority(a.game) < 2) {
+      const gradeDiff = libraryLowestGrade(a.game) - libraryLowestGrade(b.game);
+      if (gradeDiff !== 0) return gradeDiff;
+    }
+
+    return a.index - b.index;
+  });
+
+  return indexed.map(({ game }) => game);
 }
 
 function activeCodeFor(id) {
@@ -219,7 +313,7 @@ function removeIconSvg() {
 function heartIconSvg({ filled = false } = {}) {
   const heartClass = filled ? "dpaam-fav-heart dpaam-fav-heart--filled" : "dpaam-fav-heart";
   const fill = filled ? "currentColor" : "none";
-  return `<svg class="dpaam-fav-heart-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="${heartClass}" fill="${fill}" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 20.84l-1.45-1.32C5.4 15.04 2 12.08 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.58-3.4 6.54-8.55 11.04L12 20.84z"/></svg>`;
+  return `<svg class="dpaam-fav-heart-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="${heartClass}" fill="${fill}" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" d="M12 20.84l-1.45-1.32C5.4 15.04 2 12.08 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.58-3.4 6.54-8.55 11.04L12 20.84z"/></svg>`;
 }
 
 function activeCardTimerHtml(expiresAt) {
@@ -466,8 +560,9 @@ function renderActiveCodes() {
     .map((entry) => {
       const game = gameById(entry.gameId);
       if (!game) return "";
+      const shareInactive = cardShareBtnClass(game.id);
       return `
-        <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
+        <article class="dpaam-card dpaam-card--active${cardLockedClass(game.id)}" role="listitem" data-game-id="${escapeHtml(game.id)}">
           ${cardNewBadgeHtml(game)}
           <div class="dpaam-card__thumb-wrap">
             ${thumbHtml(game)}
@@ -481,7 +576,7 @@ function renderActiveCodes() {
                 aria-label="Cancel code"
               >${removeIconSvg()}</button>
               <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
-              <button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>
+              <button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>
             </div>
           </div>
           ${activeCardTimerHtml(entry.expiresAt)}
@@ -492,12 +587,13 @@ function renderActiveCodes() {
 }
 
 function favoriteCardHtml(game) {
-  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>`;
+  const shareInactive = cardShareBtnClass(game.id);
+  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>`;
   return `
     <li
-      class="dpaam-card dpaam-card--favorite"
+      class="dpaam-card dpaam-card--favorite${cardLockedClass(game.id)}"
       data-game-id="${escapeHtml(game.id)}"
-      draggable="true"
+      draggable="${isGameLockedForAccess(game.id) ? "false" : "true"}"
     >
       ${cardNewBadgeHtml(game)}
       <div class="dpaam-card__thumb-wrap">
@@ -522,7 +618,7 @@ function cardNewBadgeHtml(game) {
   return game.isNew ? '<span class="dpaam-card-new-badge">New</span>' : "";
 }
 
-function libraryFavoriteButtonHtml(saved) {
+function libraryFavoriteButtonHtml(saved, gameId) {
   return saved
     ? `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="remove-favorite" aria-label="Remove from favorites">${heartIconSvg({ filled: true })}</button>`
     : `<button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite" data-action="save-favorite" aria-label="Add to favorites">${heartIconSvg()}</button>`;
@@ -634,14 +730,17 @@ function renderLibrary() {
     return true;
   });
 
+  const sorted = sortLibraryGames(filtered);
+
   els.libraryCount.textContent = `${filtered.length} escape room${filtered.length === 1 ? "" : "s"}`;
   els.libraryEmpty.hidden = filtered.length !== 0;
   updateLibraryNewFilter();
 
-  els.libraryList.innerHTML = filtered
+  els.libraryList.innerHTML = sorted
     .map((game) => {
-      const favoriteAction = libraryFavoriteButtonHtml(isFavorite(game.id));
-      const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">Share</button>`;
+      const favoriteAction = libraryFavoriteButtonHtml(isFavorite(game.id), game.id);
+      const shareInactive = cardShareBtnClass(game.id);
+      const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>`;
       // const topic = game.topic ? formatLabel(game.topic) : game.title;
       // const libMainHtml = `
       //   <div class="dpaam-lib-main">
@@ -652,9 +751,9 @@ function renderLibrary() {
       //   </div>`;
       return `
         <li
-          class="dpaam-card dpaam-card--library"
+          class="dpaam-card dpaam-card--library${cardLockedClass(game.id)}"
           data-game-id="${escapeHtml(game.id)}"
-          tabindex="0"
+          ${libraryCardA11yAttrs(game.id)}
           aria-label="${escapeHtml(game.title)}"
         >
           ${cardNewBadgeHtml(game)}
@@ -707,12 +806,16 @@ let themeModalReturn = null;
 let pendingInfoReopen = null;
 let pendingShareOpen = null;
 let pendingLimitOpen = false;
+let pendingMemberOnlyOpen = false;
+let memberOnlyGameId = null;
+let pendingMemberOnlyGameId = null;
 
 const DPAAM_MODALS = [
   els.modal,
   els.themeModal,
   els.shareModal,
   els.limitModal,
+  els.memberOnlyModal,
   els.accountModal,
 ];
 
@@ -725,7 +828,9 @@ function isAnyModalOpen() {
 }
 
 function isModalTransitionPending() {
-  return Boolean(pendingThemeOpen || pendingInfoReopen || pendingShareOpen || pendingLimitOpen);
+  return Boolean(
+    pendingThemeOpen || pendingInfoReopen || pendingShareOpen || pendingLimitOpen || pendingMemberOnlyOpen,
+  );
 }
 
 function prefersReducedMotion() {
@@ -834,6 +939,46 @@ function openLimitModal() {
   showExclusiveModal(els.limitModal);
 }
 
+function memberOnlyModalBodyHtml(game) {
+  const libraryCount = games.length;
+  const content = `
+    <p class="dpaam-upgrade-lead">This escape room is included with our <span class="dpaam-upgrade-highlight">All-Access</span> membership. Upgrade to unlock it, plus the full library of ${libraryCount} escape rooms.</p>
+    <div class="dpaam-upgrade-pricing">
+      <p class="dpaam-upgrade-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
+      <p class="dpaam-upgrade-billing">Billed annually at $47.88/year</p>
+    </div>
+    <ul class="dpaam-upgrade-features">
+      <li>Unlock every escape room</li>
+      <li>New games added every month</li>
+      <li>Share with all your classes</li>
+      <li>Cancel anytime</li>
+    </ul>`;
+
+  if (!game) {
+    return `<div class="dpaam-modal-content">${content}</div>`;
+  }
+
+  return `${modalThumbHtml(game)}<div class="dpaam-modal-content">${content}</div>`;
+}
+
+function populateMemberOnlyModal(gameId) {
+  if (!els.memberOnlyBody) return;
+  const game = gameId ? gameById(gameId) : null;
+  els.memberOnlyBody.innerHTML = memberOnlyModalBodyHtml(game);
+}
+
+function openMemberOnlyModal(gameId) {
+  if (gameId) memberOnlyGameId = gameId;
+  populateMemberOnlyModal(memberOnlyGameId);
+  if (els.modal.open) {
+    pendingMemberOnlyOpen = true;
+    pendingMemberOnlyGameId = memberOnlyGameId;
+    closeAnimatedModal(els.modal);
+    return;
+  }
+  showExclusiveModal(els.memberOnlyModal);
+}
+
 function openModal(gameId, context = "library") {
   const game = gameById(gameId);
   if (!game) return;
@@ -908,15 +1053,19 @@ function openThemeModal(title) {
 function refreshModalActionButton() {
   if (!modalGameId) return;
   const btn = els.modalAdd;
-  btn.className = "dpaam-btn dpaam-btn-activate";
+  const locked = isGameLockedForAccess(modalGameId);
+  btn.className = `dpaam-btn dpaam-btn-activate${locked ? " dpaam-btn--inactive" : ""}`;
   btn.textContent = "Share";
   btn.disabled = false;
   btn.removeAttribute("aria-label");
 }
 
 function refreshModalPreviewButton() {
-  if (!modalGameId) return;
+  if (!modalGameId || !els.modalPreview) return;
   const btn = els.modalPreview;
+  const locked = isGameLockedForAccess(modalGameId);
+  btn.hidden = locked;
+  if (locked) return;
   if (modalContext === "active") {
     btn.textContent = "Answer key";
   } else {
@@ -1513,6 +1662,10 @@ function showShareModal(gameId) {
 }
 
 function openShareModal(gameId) {
+  if (isGameLockedForAccess(gameId)) {
+    openMemberOnlyModal(gameId);
+    return;
+  }
   const game = gameById(gameId);
   const active = activeCodeFor(gameId);
   if (!game || !active) return;
@@ -1527,11 +1680,20 @@ function openShareModal(gameId) {
 }
 
 function activateAndShare(gameId) {
+  if (isGameLockedForAccess(gameId)) {
+    openMemberOnlyModal(gameId);
+    return;
+  }
   if (!generateCode(gameId)) return;
   openShareModal(gameId);
 }
 
 let currentUser = null;
+
+function isLocalMembershipDev() {
+  const host = location.hostname;
+  return host === "localhost" || host === "127.0.0.1";
+}
 
 function userHasPasswordProvider(user) {
   return Boolean(user?.providerData?.some((provider) => provider.providerId === "password"));
@@ -1549,19 +1711,27 @@ function setAccountButtonLoading(button, loading, loadingLabel) {
 }
 
 function updateAccountModal(user) {
+  const localDevPreview = isLocalMembershipDev() && !user;
+
   if (els.accountEmail) {
-    els.accountEmail.textContent = user?.email || "—";
+    if (user?.email) {
+      els.accountEmail.textContent = user.email;
+    } else if (localDevPreview) {
+      els.accountEmail.textContent = "you@example.com";
+    } else {
+      els.accountEmail.textContent = "—";
+    }
   }
 
-  const hasPassword = userHasPasswordProvider(user);
-  if (els.accountPasswordSection) {
-    els.accountPasswordSection.hidden = !hasPassword;
+  const hasPassword = userHasPasswordProvider(user) || localDevPreview;
+  if (els.accountSendReset) {
+    els.accountSendReset.hidden = !hasPassword;
   }
   if (els.accountGoogleNote) {
     els.accountGoogleNote.hidden = !user || hasPassword;
   }
   if (els.accountSendReset) {
-    els.accountSendReset.disabled = !user?.email;
+    els.accountSendReset.disabled = !user?.email && !localDevPreview;
   }
 }
 
@@ -1890,6 +2060,18 @@ function wireEvents() {
       showExclusiveModal(els.limitModal);
       return;
     }
+    if (pendingMemberOnlyOpen) {
+      pendingMemberOnlyOpen = false;
+      if (pendingMemberOnlyGameId) {
+        memberOnlyGameId = pendingMemberOnlyGameId;
+        pendingMemberOnlyGameId = null;
+      }
+      modalGameId = null;
+      modalContext = "library";
+      populateMemberOnlyModal(memberOnlyGameId);
+      showExclusiveModal(els.memberOnlyModal);
+      return;
+    }
     modalGameId = null;
     modalContext = "library";
   });
@@ -1910,6 +2092,11 @@ function wireEvents() {
   wireAnimatedModal(els.limitModal);
   els.limitModalDismiss.addEventListener("click", () => {
     closeAnimatedModal(els.limitModal);
+  });
+
+  wireAnimatedModal(els.memberOnlyModal);
+  els.memberOnlySubscribe?.addEventListener("click", () => {
+    window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
   });
 
   wireAnimatedModal(els.shareModal, () => {
@@ -2119,6 +2306,32 @@ function initQuickStartGuide() {
   });
 }
 
+function initDebugAccessToggle() {
+  if (!isLocalMembershipDev()) return;
+
+  const options = Array.from(document.querySelectorAll("[data-debug-access]"));
+  if (options.length === 0) return;
+
+  function setMembershipAccess(access) {
+    if (access !== "free" && access !== "member") return;
+    state.membershipAccess = access;
+    options.forEach((option) => {
+      const selected = option.dataset.debugAccess === access;
+      option.classList.toggle("is-selected", selected);
+      option.setAttribute("aria-checked", String(selected));
+    });
+    renderLibrary();
+    renderFavorites();
+    renderActiveCodes();
+  }
+
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      setMembershipAccess(option.dataset.debugAccess);
+    });
+  });
+}
+
 function init() {
   initAuth();
   onAuthStateChanged(auth, (user) => {
@@ -2128,6 +2341,7 @@ function init() {
   initMobileMenus();
   initStickyTabbar();
   initQuickStartGuide();
+  initDebugAccessToggle();
   populateFilters();
   wireEvents();
   renderGuideFaq();

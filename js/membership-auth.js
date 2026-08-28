@@ -182,6 +182,12 @@ export function initAuth() {
       return;
     }
 
+    if (view === "reset") {
+      headerToggle.hidden = false;
+      headerToggle.textContent = "Log in";
+      return;
+    }
+
     headerToggle.hidden = true;
   }
 
@@ -220,9 +226,6 @@ export function initAuth() {
     const resetEmail = document.getElementById("dpaam-auth-reset-email");
     if (signInEmail?.value && resetEmail) resetEmail.value = signInEmail.value;
     setAuthView("reset", { focus: true });
-  });
-  document.getElementById("dpaam-auth-show-signin-from-reset")?.addEventListener("click", () => {
-    setAuthView("signin", { focus: true });
   });
 
   wirePasswordToggles(section);
@@ -380,18 +383,6 @@ export function initAuth() {
   document.getElementById("dpaam-auth-setup-retry")?.addEventListener("click", () => {
     clearSkeletonError();
     applyAuthState(auth.currentUser);
-  });
-
-  document.getElementById("dpaam-auth-setup-signout")?.addEventListener("click", async () => {
-    clearAuthMessages();
-    clearSkeletonError();
-    try {
-      await signOut(auth);
-      hideDashboardSkeleton();
-      setAuthView("signin", { focus: true });
-    } catch (error) {
-      showSkeletonError(authErrorMessage(error));
-    }
   });
 
   let authStateRevision = 0;
