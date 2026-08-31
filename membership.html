@@ -644,7 +644,7 @@
       >
         <div class="dpaam-section-header">
           <h2 id="dpaam-active-heading" class="dpaam-section-title">Shared</h2>
-          <span class="dpaam-active-count" id="dpaam-active-count">0 / 20 shared</span>
+          <span class="dpaam-active-count" id="dpaam-active-count">0 shared</span>
         </div>
         <div class="dpaam-active-list" id="dpaam-active-list" role="list"></div>
         <div class="dpaam-empty dpaam-active-empty" id="dpaam-active-empty" hidden>
@@ -771,38 +771,6 @@
       </form>
     </dialog>
 
-    <!-- Active code limit modal -->
-    <dialog
-      class="dpaam-modal dpaam-modal--compact"
-      id="dpaam-limit-modal"
-      aria-labelledby="dpaam-limit-modal-title"
-    >
-      <form method="dialog" class="dpaam-modal-form">
-        <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-limit-modal-title">
-            Active Limit Reached
-          </h3>
-          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
-            ×
-          </button>
-        </header>
-        <div class="dpaam-modal-body dpaam-modal-body--message">
-          <p>
-            You've reached your limit of 20 active escape rooms. You must cancel an existing code to generate a new one.
-          </p>
-        </div>
-        <footer class="dpaam-modal-footer">
-          <button
-            type="button"
-            class="dpaam-btn dpaam-btn-secondary"
-            id="dpaam-limit-modal-dismiss"
-          >
-            Close
-          </button>
-        </footer>
-      </form>
-    </dialog>
-
     <!-- All-Access paywall modal -->
     <dialog
       class="dpaam-modal"
@@ -819,11 +787,6 @@
           </button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-member-only-body"></div>
-        <footer class="dpaam-modal-footer">
-          <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-member-only-subscribe">
-            Upgrade to All-Access
-          </button>
-        </footer>
       </form>
     </dialog>
 
@@ -890,22 +853,23 @@
           </div>
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
-            <div class="dpaam-account-subscription">
-              <h4 class="dpaam-account-plan-name" id="dpaam-account-plan-name">
+            <div id="dpaam-account-plan-free" hidden></div>
+            <div id="dpaam-account-plan-member" class="dpaam-plan-panel">
+              <h4 class="dpaam-plan-panel__name" id="dpaam-account-plan-name">
                 <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
               </h4>
-              <p class="dpaam-account-plan-price" id="dpaam-account-plan-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
-              <div class="dpaam-account-plan-meta">
-                <p class="dpaam-account-plan-billing" id="dpaam-account-plan-billing">
+              <p class="dpaam-plan-panel__price" id="dpaam-account-plan-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
+              <div class="dpaam-plan-panel__meta">
+                <p class="dpaam-plan-panel__billing" id="dpaam-account-plan-billing">
                   Billed annually at $47.88/yr
                 </p>
-                <p class="dpaam-account-plan-renewal" id="dpaam-account-plan-renewal">
+                <p class="dpaam-plan-panel__renewal" id="dpaam-account-plan-renewal">
                   Renews Jul 12, 2027
                 </p>
               </div>
               <button
                 type="button"
-                class="dpaam-btn dpaam-btn-secondary dpaam-account-manage-btn"
+                class="dpaam-btn dpaam-btn-secondary dpaam-plan-panel__action"
                 id="dpaam-account-manage-subscription"
               >
                 Manage subscription

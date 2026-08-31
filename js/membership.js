@@ -16,7 +16,6 @@ import {
 
 // ---------- constants ----------
 
-const MAX_ACTIVE_CODES = 20;
 const CODE_LENGTH = 5;
 const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
 const CODE_TTL_MS = 168 * 60 * 60 * 1000; // 7 days
@@ -24,22 +23,13 @@ const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 const DASHBOARD_TABS = ["library", "favorites", "active"];
 const SUBSCRIBE_URL = "https://dingopunks.com/shop";
+const CARD_LOCKED_BADGE_ICON = "assets/dpaam/card-locked.png";
+const BUTTON_LOCKED_ICON = "assets/dpaam/button-locked.png";
 
 function libraryThemeSlug(game) {
   const match = game.path?.match(/^resource\/([^/]+)\//);
   return match?.[1] ?? "";
 }
-
-const FREE_TIER_GAME_IDS = new Set([
-  "the-midnight-mall-mixed-reading-skills-2",
-  "the-midnight-mall-mixed-reading-skills-3",
-  "the-midnight-mall-mixed-reading-skills-4",
-  "the-midnight-mall-mixed-reading-skills-5",
-  "the-midnight-mall-mixed-math-skills-2",
-  "the-midnight-mall-mixed-math-skills-3",
-  "the-midnight-mall-mixed-math-skills-4",
-  "the-midnight-mall-mixed-math-skills-5",
-]);
 
 const LIBRARY_SEASON_ORDER = games.reduce((order, game) => {
   if (!order.includes(game.season)) order.push(game.season);
@@ -105,11 +95,8 @@ const els = {
   themeModalBack: document.getElementById("dpaam-theme-modal-back"),
   shareModal: document.getElementById("dpaam-share-modal"),
   shareModalBody: document.getElementById("dpaam-share-modal-body"),
-  limitModal: document.getElementById("dpaam-limit-modal"),
-  limitModalDismiss: document.getElementById("dpaam-limit-modal-dismiss"),
   memberOnlyModal: document.getElementById("dpaam-member-only-modal"),
   memberOnlyBody: document.getElementById("dpaam-member-only-body"),
-  memberOnlySubscribe: document.getElementById("dpaam-member-only-subscribe"),
   accountBtn: document.getElementById("dpaam-account-btn"),
   accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
@@ -121,6 +108,8 @@ const els = {
   accountSendReset: document.getElementById("dpaam-account-send-reset"),
   accountGoogleNote: document.getElementById("dpaam-account-google-note"),
   accountLogout: document.getElementById("dpaam-account-logout"),
+  accountPlanFree: document.getElementById("dpaam-account-plan-free"),
+  accountPlanMember: document.getElementById("dpaam-account-plan-member"),
   accountManageSubscription: document.getElementById("dpaam-account-manage-subscription"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
@@ -143,15 +132,23 @@ function isFavorite(id) {
 }
 
 function isGameLockedForAccess(gameId) {
-  return state.membershipAccess === "free" && !FREE_TIER_GAME_IDS.has(gameId);
+  if (state.membershipAccess !== "free") return false;
+  return !gameById(gameId)?.isFree;
 }
 
-function cardLockedClass(gameId) {
-  return isGameLockedForAccess(gameId) ? " dpaam-card--locked" : "";
+function shareButtonLockedIconHtml() {
+  return `<img class="dpaam-share-locked-icon" src="${BUTTON_LOCKED_ICON}" alt="" width="14" height="14" decoding="async" />`;
 }
 
-function cardShareBtnClass(gameId) {
-  return isGameLockedForAccess(gameId) ? " dpaam-btn--inactive" : "";
+function shareButtonInnerHtml(gameId) {
+  if (isGameLockedForAccess(gameId)) {
+    return `${shareButtonLockedIconHtml()}Share`;
+  }
+  return "Share";
+}
+
+function shareButtonHtml(gameId) {
+  return `<button type="button" class="dpaam-btn dpaam-btn-activate" data-action="share-code">${shareButtonInnerHtml(gameId)}</button>`;
 }
 
 function libraryCardA11yAttrs(gameId) {
@@ -462,10 +459,6 @@ function setFavoritesOrder(orderedIds) {
 
 function generateCode(gameId) {
   if (activeCodeFor(gameId)) return true;
-  if (state.activeCodes.length >= MAX_ACTIVE_CODES) {
-    openLimitModal();
-    return false;
-  }
   state.activeCodes.push({
     gameId,
     code: generateCodeString(),
@@ -546,7 +539,7 @@ function renderActiveCodes() {
   const expiredRemoved = pruneExpiredCodes();
   const isEmpty = state.activeCodes.length === 0;
 
-  els.activeCount.textContent = `${state.activeCodes.length} / ${MAX_ACTIVE_CODES} shared`;
+  els.activeCount.textContent = `${state.activeCodes.length} shared`;
   els.activeEmpty.hidden = !isEmpty;
 
   if (isEmpty) {
@@ -560,11 +553,11 @@ function renderActiveCodes() {
     .map((entry) => {
       const game = gameById(entry.gameId);
       if (!game) return "";
-      const shareInactive = cardShareBtnClass(game.id);
       return `
-        <article class="dpaam-card dpaam-card--active${cardLockedClass(game.id)}" role="listitem" data-game-id="${escapeHtml(game.id)}">
+        <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
           ${cardNewBadgeHtml(game)}
           <div class="dpaam-card__thumb-wrap">
+            ${cardAllAccessBadgeHtml(game)}
             ${thumbHtml(game)}
           </div>
           <div class="dpaam-card__body">
@@ -576,7 +569,7 @@ function renderActiveCodes() {
                 aria-label="Cancel code"
               >${removeIconSvg()}</button>
               <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
-              <button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>
+              ${shareButtonHtml(game.id)}
             </div>
           </div>
           ${activeCardTimerHtml(entry.expiresAt)}
@@ -587,16 +580,16 @@ function renderActiveCodes() {
 }
 
 function favoriteCardHtml(game) {
-  const shareInactive = cardShareBtnClass(game.id);
-  const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>`;
+  const shareAction = shareButtonHtml(game.id);
   return `
     <li
-      class="dpaam-card dpaam-card--favorite${cardLockedClass(game.id)}"
+      class="dpaam-card dpaam-card--favorite"
       data-game-id="${escapeHtml(game.id)}"
       draggable="${isGameLockedForAccess(game.id) ? "false" : "true"}"
     >
       ${cardNewBadgeHtml(game)}
       <div class="dpaam-card__thumb-wrap">
+        ${cardAllAccessBadgeHtml(game)}
         ${thumbHtml(game)}
       </div>
       <div class="dpaam-card__body">
@@ -615,7 +608,12 @@ function favoriteCardHtml(game) {
 }
 
 function cardNewBadgeHtml(game) {
-  return game.isNew ? '<span class="dpaam-card-new-badge">New</span>' : "";
+  return game.isNew ? '<span class="dpaam-card-badge dpaam-card-new-badge">New</span>' : "";
+}
+
+function cardAllAccessBadgeHtml(game) {
+  if (!isGameLockedForAccess(game.id)) return "";
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="All-Access membership required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />All-Access</span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -721,7 +719,9 @@ function renderLibrary() {
 
   const filtered = games.filter((g) => {
     if (f.newThisMonth) return Boolean(g.isNew);
-    if (f.season !== "all" && g.season !== f.season) return false;
+    if (f.season === "free") {
+      if (!g.isFree) return false;
+    } else if (f.season !== "all" && g.season !== f.season) return false;
     if (f.subject !== "all" && g.subject !== f.subject) return false;
     if (f.grade !== "all") {
       const wanted = Number(f.grade);
@@ -739,8 +739,7 @@ function renderLibrary() {
   els.libraryList.innerHTML = sorted
     .map((game) => {
       const favoriteAction = libraryFavoriteButtonHtml(isFavorite(game.id), game.id);
-      const shareInactive = cardShareBtnClass(game.id);
-      const shareAction = `<button type="button" class="dpaam-btn dpaam-btn-activate${shareInactive}" data-action="share-code">Share</button>`;
+      const shareAction = shareButtonHtml(game.id);
       // const topic = game.topic ? formatLabel(game.topic) : game.title;
       // const libMainHtml = `
       //   <div class="dpaam-lib-main">
@@ -751,13 +750,14 @@ function renderLibrary() {
       //   </div>`;
       return `
         <li
-          class="dpaam-card dpaam-card--library${cardLockedClass(game.id)}"
+          class="dpaam-card dpaam-card--library"
           data-game-id="${escapeHtml(game.id)}"
           ${libraryCardA11yAttrs(game.id)}
           aria-label="${escapeHtml(game.title)}"
         >
           ${cardNewBadgeHtml(game)}
           <div class="dpaam-card__thumb-wrap">
+            ${cardAllAccessBadgeHtml(game)}
             ${thumbHtml(game)}
           </div>
           <div class="dpaam-card__body">
@@ -781,7 +781,25 @@ function populateFilters() {
     (a, b) => Number(a) - Number(b),
   );
 
+  const prevSeason = els.filters.season.value || state.filters.season;
+
   fillSelect(els.filters.season, seasons, formatLabel, "All seasons");
+  if (state.membershipAccess === "free") {
+    const freeSeasonOption = document.createElement("option");
+    freeSeasonOption.value = "free";
+    freeSeasonOption.textContent = "Free";
+    els.filters.season.insertBefore(freeSeasonOption, els.filters.season.options[1] ?? null);
+  }
+
+  let seasonValue = prevSeason;
+  if (state.membershipAccess !== "free" && seasonValue === "free") seasonValue = "all";
+  if ([...els.filters.season.options].some((option) => option.value === seasonValue)) {
+    els.filters.season.value = seasonValue;
+  } else {
+    els.filters.season.value = "all";
+    seasonValue = "all";
+  }
+  state.filters.season = seasonValue;
   fillSelect(els.filters.grade, grades, (n) => `Grade ${n}`, "All grades");
   fillSelect(els.filters.subject, subjects, formatLabel, "All subjects");
 }
@@ -805,7 +823,6 @@ let pendingThemeOpen = null;
 let themeModalReturn = null;
 let pendingInfoReopen = null;
 let pendingShareOpen = null;
-let pendingLimitOpen = false;
 let pendingMemberOnlyOpen = false;
 let memberOnlyGameId = null;
 let pendingMemberOnlyGameId = null;
@@ -814,7 +831,6 @@ const DPAAM_MODALS = [
   els.modal,
   els.themeModal,
   els.shareModal,
-  els.limitModal,
   els.memberOnlyModal,
   els.accountModal,
 ];
@@ -829,7 +845,7 @@ function isAnyModalOpen() {
 
 function isModalTransitionPending() {
   return Boolean(
-    pendingThemeOpen || pendingInfoReopen || pendingShareOpen || pendingLimitOpen || pendingMemberOnlyOpen,
+    pendingThemeOpen || pendingInfoReopen || pendingShareOpen || pendingMemberOnlyOpen,
   );
 }
 
@@ -930,29 +946,51 @@ function showExclusiveModal(modal) {
   syncModalBackdrop();
 }
 
-function openLimitModal() {
-  if (els.modal.open) {
-    pendingLimitOpen = true;
-    closeAnimatedModal(els.modal);
-    return;
+function allAccessPlanFeaturesHtml() {
+  const libraryCount = games.length;
+  return `
+    <div class="dpaam-plan-panel__features">
+      <p class="dpaam-plan-panel__features-heading">What you get</p>
+      <ul class="dpaam-plan-panel__features-list">
+        <li><strong>Unlimited access</strong> to all ${libraryCount} escape rooms</li>
+        <li><strong>All future escape rooms</strong> included</li>
+        <li><strong><em>Enter the Undermurk</em></strong> fast-finisher minigame</li>
+      </ul>
+    </div>`;
+}
+
+function allAccessFreePlanPanelHtml() {
+  return `
+    <div class="dpaam-plan-panel">
+      <h4 class="dpaam-plan-panel__name">
+        <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
+      </h4>
+      <p class="dpaam-plan-panel__price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
+      <div class="dpaam-plan-panel__meta">
+        <p class="dpaam-plan-panel__billing">Billed annually at $47.88/yr</p>
+      </div>
+      ${allAccessPlanFeaturesHtml()}
+      <button type="button" class="dpaam-btn dpaam-btn-primary dpaam-plan-panel__action" data-action="upgrade-all-access">
+        Upgrade to All-Access
+      </button>
+    </div>`;
+}
+
+function renderAccountPlanPanel() {
+  const isFree = state.membershipAccess === "free";
+  if (els.accountPlanFree) {
+    els.accountPlanFree.hidden = !isFree;
+    if (isFree) els.accountPlanFree.innerHTML = allAccessFreePlanPanelHtml();
   }
-  showExclusiveModal(els.limitModal);
+  if (els.accountPlanMember) {
+    els.accountPlanMember.hidden = isFree;
+  }
 }
 
 function memberOnlyModalBodyHtml(game) {
-  const libraryCount = games.length;
   const content = `
-    <p class="dpaam-upgrade-lead">This escape room is included with our <span class="dpaam-upgrade-highlight">All-Access</span> membership. Upgrade to unlock it, plus the full library of ${libraryCount} escape rooms.</p>
-    <div class="dpaam-upgrade-pricing">
-      <p class="dpaam-upgrade-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
-      <p class="dpaam-upgrade-billing">Billed annually at $47.88/year</p>
-    </div>
-    <ul class="dpaam-upgrade-features">
-      <li>Unlock every escape room</li>
-      <li>New games added every month</li>
-      <li>Share with all your classes</li>
-      <li>Cancel anytime</li>
-    </ul>`;
+    <p class="dpaam-upgrade-lead">This escape room is part of our All-Access membership. Upgrade now to share it with your students.</p>
+    ${allAccessFreePlanPanelHtml()}`;
 
   if (!game) {
     return `<div class="dpaam-modal-content">${content}</div>`;
@@ -1053,9 +1091,8 @@ function openThemeModal(title) {
 function refreshModalActionButton() {
   if (!modalGameId) return;
   const btn = els.modalAdd;
-  const locked = isGameLockedForAccess(modalGameId);
-  btn.className = `dpaam-btn dpaam-btn-activate${locked ? " dpaam-btn--inactive" : ""}`;
-  btn.textContent = "Share";
+  btn.className = "dpaam-btn dpaam-btn-activate";
+  btn.innerHTML = shareButtonInnerHtml(modalGameId);
   btn.disabled = false;
   btn.removeAttribute("aria-label");
 }
@@ -1733,6 +1770,7 @@ function updateAccountModal(user) {
   if (els.accountSendReset) {
     els.accountSendReset.disabled = !user?.email && !localDevPreview;
   }
+  renderAccountPlanPanel();
 }
 
 function openAccountModal() {
@@ -2053,13 +2091,6 @@ function wireEvents() {
       showShareModal(gameId);
       return;
     }
-    if (pendingLimitOpen) {
-      pendingLimitOpen = false;
-      modalGameId = null;
-      modalContext = "library";
-      showExclusiveModal(els.limitModal);
-      return;
-    }
     if (pendingMemberOnlyOpen) {
       pendingMemberOnlyOpen = false;
       if (pendingMemberOnlyGameId) {
@@ -2089,15 +2120,7 @@ function wireEvents() {
     returnFromThemeModal();
   });
 
-  wireAnimatedModal(els.limitModal);
-  els.limitModalDismiss.addEventListener("click", () => {
-    closeAnimatedModal(els.limitModal);
-  });
-
   wireAnimatedModal(els.memberOnlyModal);
-  els.memberOnlySubscribe?.addEventListener("click", () => {
-    window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
-  });
 
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
@@ -2135,6 +2158,12 @@ function wireEvents() {
   els.accountManageSubscription?.addEventListener("click", () => {
     // Placeholder — route to Stripe customer billing portal later.
     showToast("Opening billing portal…");
+  });
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action='upgrade-all-access']");
+    if (!btn) return;
+    window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
   });
 }
 
@@ -2320,6 +2349,8 @@ function initDebugAccessToggle() {
       option.classList.toggle("is-selected", selected);
       option.setAttribute("aria-checked", String(selected));
     });
+    populateFilters();
+    renderAccountPlanPanel();
     renderLibrary();
     renderFavorites();
     renderActiveCodes();
@@ -2343,6 +2374,7 @@ function init() {
   initQuickStartGuide();
   initDebugAccessToggle();
   populateFilters();
+  renderAccountPlanPanel();
   wireEvents();
   renderGuideFaq();
   renderActiveCodes();

@@ -107,6 +107,7 @@ export const games = [
 
   {
     id: "the-midnight-mall-mixed-reading-skills-2",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -127,6 +128,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-3",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -147,6 +149,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-4",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -167,6 +170,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-reading-skills-5",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -510,6 +514,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-2",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -530,6 +535,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-3",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -550,6 +556,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-4",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
@@ -570,6 +577,7 @@ export const games = [
   },
   {
     id: "the-midnight-mall-mixed-math-skills-5",
+    isFree: true,
     title: "Escape the Midnight Mall",
     color: "purple",
     season: "all-year",
