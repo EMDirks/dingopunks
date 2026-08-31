@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Dingo Punks: All-Access Membership — teacher dashboard
+   Dingo Punks: Unlimited Membership — teacher dashboard
    Scoped under .dpaam so rules can't leak to other pages.
 
    Token system
@@ -586,7 +586,7 @@ html.dpaam-mobile-menu-open body {
 .dpaam-topbar-buttons {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: var(--dpaam-pad-sm);
 }
 
 .dpaam-logo-link {
@@ -612,6 +612,38 @@ html.dpaam-mobile-menu-open body {
   transform: rotate(-2deg);
   background-color: var(--dpaam-gold);
   border-bottom: 2px solid var(--dpaam-black);
+}
+
+button.dpaam-pill {
+  appearance: none;
+  margin: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  border: 0;
+  border-bottom: 2px solid var(--dpaam-black);
+}
+
+button.dpaam-pill.dpaam-topbar-upgrade-btn {
+  transform: none;
+  flex-shrink: 0;
+  margin-left: var(--dpaam-pad-md);
+  font-weight: 600;
+  letter-spacing: 0;
+  display: none;
+}
+
+.dpaam-topbar-upgrade-btn__lead {
+  letter-spacing: 0.02em;
+}
+
+.dpaam-topbar-upgrade-btn__plan {
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.dpaam-dashboard--free button.dpaam-pill.dpaam-topbar-upgrade-btn {
+  display: inline-block;
 }
 
 .dpaam-pill--black {
@@ -1039,6 +1071,7 @@ a.dpaam-topbar-btn {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding: 3px var(--dpaam-pad-sm) 1px;
   background-color: var(--dpaam-light-gray);
   border-bottom: none;
   color: var(--dpaam-black-muted);
@@ -1052,6 +1085,10 @@ a.dpaam-topbar-btn {
   flex-shrink: 0;
   position: relative;
   top: -1px;
+}
+
+.dpaam-dashboard--free #dpaam-topbar-plan-pill {
+  display: none !important;
 }
 
 /* --- Active modifier overrides --- */
@@ -1882,14 +1919,81 @@ a.dpaam-topbar-btn {
   color: var(--dpaam-black-muted);
 }
 
+.dpaam-plan-status {
+  margin-bottom: var(--dpaam-pad-md);
+  padding: var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+  background: var(--dpaam-light-gray);
+  border-radius: 12px;
+}
+
+.dpaam-plan-status__label {
+  margin: 0 0 var(--dpaam-pad-xs);
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-plan-status__price {
+  margin-top: 0;
+}
+
+.dpaam-plan-status__features {
+  margin-top: var(--dpaam-pad-md);
+}
+
 .dpaam-plan-panel {
   padding: var(--dpaam-pad-xl);
   background: var(--dpaam-light-gray);
   border-radius: 12px;
 }
 
+.dpaam-plan-panel__header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--dpaam-pad-sm);
+}
+
+.dpaam-plan-panel__header-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--dpaam-pad-md);
+  width: 100%;
+}
+
+.dpaam-plan-panel__header .dpaam-plan-status__label {
+  margin-bottom: 0;
+}
+
+.dpaam-plan-panel__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dpaam-pad-sm);
+}
+
+.dpaam-plan-panel__intro .dpaam-plan-status__label {
+  margin-bottom: 0;
+}
+
+.dpaam-plan-panel__pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dpaam-pad-xs);
+  width: 100%;
+}
+
+.dpaam-plan-panel__header-main .dpaam-plan-panel__pricing {
+  width: auto;
+  flex: 1;
+  min-width: 0;
+}
+
 .dpaam-plan-panel__name {
   margin: 0;
+  flex-shrink: 0;
 }
 
 .dpaam-plan-panel__price {
@@ -1897,8 +2001,6 @@ a.dpaam-topbar-btn {
   font-size: var(--dpaam-text-display);
   font-weight: 600;
   line-height: 1.1;
-  margin-top: calc(var(--dpaam-pad-lg) + var(--dpaam-pad-sm));
-  margin-bottom: var(--dpaam-pad-xs);
 }
 
 .dpaam-plan-panel__meta {
@@ -1906,12 +2008,12 @@ a.dpaam-topbar-btn {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--dpaam-pad);
-  margin-bottom: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .dpaam-plan-panel__billing,
-.dpaam-plan-panel__renewal,
-.dpaam-plan-panel__features-heading {
+.dpaam-plan-panel__renewal {
   margin: 0;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
@@ -1922,12 +2024,7 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-plan-panel__features {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dpaam-pad-md);
   margin-top: var(--dpaam-pad-lg);
-  padding-top: var(--dpaam-pad-xl);
-  border-top: 1px solid var(--dpaam-border);
 }
 
 .dpaam-plan-panel__features-list {
@@ -1957,14 +2054,17 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-plan-panel__action {
+  width: 100%;
+  margin-top: var(--dpaam-pad-lg);
+}
+
+.dpaam-plan-panel__action.dpaam-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   min-height: var(--dpaam-pair-btn-h);
   padding: 6px 14px 4px 14px;
-  width: 100%;
-  margin-top: var(--dpaam-pad-lg);
   text-align: center;
 }
 
@@ -2439,8 +2539,14 @@ a.dpaam-topbar-btn {
 .dpaam-account-body {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   gap: var(--dpaam-pad-xl);
   align-items: stretch;
+}
+
+.dpaam-account-body > * {
+  width: 100%;
+  min-width: 0;
 }
 
 .dpaam-account-credentials {
@@ -2455,7 +2561,7 @@ a.dpaam-topbar-btn {
 
 .dpaam-account-row {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--dpaam-pad);
 }
@@ -2466,19 +2572,42 @@ a.dpaam-topbar-btn {
 
 .dpaam-account-row--actions {
   display: flex;
-  align-items: stretch;
-  gap: var(--dpaam-pad-sm);
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
-.dpaam-account-row--actions .dpaam-btn {
-  flex: 1 1 0;
-  min-width: 0;
-  width: auto;
-  margin-top: 0;
+.dpaam-account-logout {
+  display: flex;
+  justify-content: center;
 }
 
-.dpaam-account-row--actions .dpaam-btn:only-child {
-  flex: 1 1 auto;
+.dpaam-account-logout .dpaam-account-link {
+  color: var(--dpaam-black-muted);
+}
+
+@media (hover: hover) {
+  .dpaam-account-logout .dpaam-account-link:hover {
+    color: var(--dpaam-black-muted);
+  }
+}
+
+.dpaam-account-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--dpaam-text-sm);
+  color: var(--dpaam-blue);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .dpaam-account-link:hover {
+    color: var(--dpaam-blue);
+  }
 }
 
 .dpaam-account-row-main {
@@ -2578,16 +2707,6 @@ a.dpaam-topbar-btn {
   flex-wrap: wrap;
 }
 
-.dpaam-account-logout-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-height: var(--dpaam-pair-btn-h);
-  padding: 6px 14px 4px 14px;
-  text-align: center;
-}
-
 .dpaam-btn.is-loading {
   cursor: wait;
   opacity: 0.75;
@@ -2656,6 +2775,11 @@ dd a {
     padding: 6px 14px 4px 14px;
   }
 
+  .dpaam-auth-submit.dpaam-plan-panel__action {
+    padding-top: var(--dpaam-pad-md);
+    padding-bottom: 10px;
+  }
+
   /* --- Top bar: switch to hamburger layout --- */
 
   .dpaam-topbar {
@@ -2690,11 +2814,37 @@ dd a {
 
   .dpaam-mobile-menu-toggle {
     display: inline-flex;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .dpaam-topbar-buttons {
     display: none;
+    align-items: center;
+    gap: var(--dpaam-pad-sm);
+    margin-left: auto;
+    margin-right: var(--dpaam-pad-xs);
+  }
+
+  .dpaam-dashboard--free .dpaam-topbar-buttons {
+    display: flex;
+  }
+
+  .dpaam-topbar-buttons > .dpaam-topbar-btn {
+    display: none;
+  }
+
+  .dpaam-topbar-upgrade-btn {
+    padding: 8px var(--dpaam-pad-sm) 6px var(--dpaam-pad-sm);
+    font-size: 12px;
+    border-bottom-width: 1.5px;
+  }
+
+  .dpaam-topbar-upgrade-btn__lead {
+    letter-spacing: 0.02em;
+  }
+
+  .dpaam-topbar-upgrade-btn__plan {
+    letter-spacing: 0.04em;
   }
 
   .dpaam-mobile-menu {
@@ -3092,16 +3242,13 @@ dd a {
     align-items: stretch;
   }
 
+  .dpaam-account-row .dpaam-account-row--actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .dpaam-account-row:not(.dpaam-account-row--actions) > .dpaam-btn {
     align-self: flex-start;
-  }
-
-  .dpaam-account-row--actions {
-    flex-direction: row;
-  }
-
-  .dpaam-account-row--actions .dpaam-btn {
-    flex: 1 1 100%;
   }
 
   /* --- Share modal --- */

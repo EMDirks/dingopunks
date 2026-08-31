@@ -1,4 +1,4 @@
-// Dingo Punks: All-Access Membership — teacher dashboard
+// Dingo Punks: Unlimited Membership — teacher dashboard
 //
 // Vanilla ES module. State lives only in memory. Render functions read from
 // `state`; mutations go through the named action functions below — those
@@ -59,6 +59,7 @@ const state = {
 // ---------- DOM refs ----------
 
 const els = {
+  dashboard: document.getElementById("dpaam-dashboard"),
   tabbar: document.getElementById("dpaam-tabbar"),
   tabButtons: Array.from(document.querySelectorAll(".dpaam-tab[data-tab]")),
   tabFavorites: document.getElementById("dpaam-tab-favorites"),
@@ -110,7 +111,8 @@ const els = {
   accountLogout: document.getElementById("dpaam-account-logout"),
   accountPlanFree: document.getElementById("dpaam-account-plan-free"),
   accountPlanMember: document.getElementById("dpaam-account-plan-member"),
-  accountManageSubscription: document.getElementById("dpaam-account-manage-subscription"),
+  topbarPlanPill: document.getElementById("dpaam-topbar-plan-pill"),
+  topbarUpgradeBtn: document.getElementById("dpaam-topbar-upgrade-btn"),
   quickStart: document.getElementById("dpaam-quick-start"),
   quickStartClose: document.getElementById("dpaam-quick-start-close"),
   guideFaqToggle: document.getElementById("dpaam-guide-faq-toggle"),
@@ -613,7 +615,7 @@ function cardNewBadgeHtml(game) {
 
 function cardAllAccessBadgeHtml(game) {
   if (!isGameLockedForAccess(game.id)) return "";
-  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="All-Access membership required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />All-Access</span>`;
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />Unlimited Plan</span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -946,50 +948,109 @@ function showExclusiveModal(modal) {
   syncModalBackdrop();
 }
 
+function freeGamesCount() {
+  return games.filter((game) => game.isFree).length;
+}
+
+function currentPlanStatusHtml() {
+  const freeCount = freeGamesCount();
+  const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
+  return `
+    <div class="dpaam-plan-status">
+      <p class="dpaam-plan-status__label">Your plan</p>
+      <p class="dpaam-plan-panel__price dpaam-plan-status__price">Free</p>
+      <div class="dpaam-plan-status__features">
+        <ul class="dpaam-plan-panel__features-list">
+          <li><strong>Limited access</strong> to ${freeCount} ${roomLabel}</li>
+        </ul>
+      </div>
+    </div>`;
+}
+
 function allAccessPlanFeaturesHtml() {
   const libraryCount = games.length;
   return `
     <div class="dpaam-plan-panel__features">
-      <p class="dpaam-plan-panel__features-heading">What you get</p>
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>Unlimited access</strong> to all ${libraryCount} escape rooms</li>
-        <li><strong>All future escape rooms</strong> included</li>
-        <li><strong><em>Enter the Undermurk</em></strong> fast-finisher minigame</li>
+        <li><strong>Full access</strong> to ${libraryCount} escape rooms</li>
+        <li><strong>New escape rooms</strong> added regularly</li>
+        <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
       </ul>
     </div>`;
 }
 
-function allAccessFreePlanPanelHtml() {
+function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
+  const idAttr = planNameId ? ` id="${planNameId}"` : "";
+  return `
+    <div class="dpaam-plan-panel__header">
+      <div class="dpaam-plan-panel__header-main">
+        <div class="dpaam-plan-panel__pricing">
+          <p class="dpaam-plan-panel__price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
+          <p class="dpaam-plan-panel__billing">Billed annually at $47.88/yr</p>
+        </div>
+        <h4 class="dpaam-plan-panel__name"${idAttr}>
+          <span class="dpaam-pill">UNLIMITED</span>
+        </h4>
+      </div>
+    </div>`;
+}
+
+function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
+  const buttonHtml =
+    action === "manage"
+      ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription">
+        Manage subscription
+      </button>`
+      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access">
+        Upgrade to UNLIMITED
+      </button>`;
+
   return `
     <div class="dpaam-plan-panel">
-      <h4 class="dpaam-plan-panel__name">
-        <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
-      </h4>
-      <p class="dpaam-plan-panel__price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
-      <div class="dpaam-plan-panel__meta">
-        <p class="dpaam-plan-panel__billing">Billed annually at $47.88/yr</p>
-      </div>
+      ${allAccessPlanPanelHeaderHtml({ planNameId })}
       ${allAccessPlanFeaturesHtml()}
-      <button type="button" class="dpaam-btn dpaam-btn-primary dpaam-plan-panel__action" data-action="upgrade-all-access">
-        Upgrade to All-Access
-      </button>
+      ${buttonHtml}
     </div>`;
+}
+
+function allAccessFreePlanPanelHtml({ showPlanStatus = false } = {}) {
+  return `
+    ${showPlanStatus ? currentPlanStatusHtml() : ""}
+    ${unlimitedPlanPanelHtml()}`;
+}
+
+function syncMembershipAccessChrome() {
+  const isFree = state.membershipAccess === "free";
+  els.dashboard?.classList.toggle("dpaam-dashboard--free", isFree);
+  if (els.topbarPlanPill) {
+    els.topbarPlanPill.hidden = isFree;
+  }
+  if (els.topbarUpgradeBtn) {
+    els.topbarUpgradeBtn.hidden = !isFree;
+  }
 }
 
 function renderAccountPlanPanel() {
   const isFree = state.membershipAccess === "free";
+  syncMembershipAccessChrome();
   if (els.accountPlanFree) {
     els.accountPlanFree.hidden = !isFree;
-    if (isFree) els.accountPlanFree.innerHTML = allAccessFreePlanPanelHtml();
+    if (isFree) els.accountPlanFree.innerHTML = allAccessFreePlanPanelHtml({ showPlanStatus: true });
   }
   if (els.accountPlanMember) {
     els.accountPlanMember.hidden = isFree;
+    if (!isFree) {
+      els.accountPlanMember.innerHTML = unlimitedPlanPanelHtml({
+        action: "manage",
+        planNameId: "dpaam-account-plan-name",
+      });
+    }
   }
 }
 
 function memberOnlyModalBodyHtml(game) {
   const content = `
-    <p class="dpaam-upgrade-lead">This escape room is part of our All-Access membership. Upgrade now to share it with your students.</p>
+    <p class="dpaam-upgrade-lead">Upgrade to the <strong>Unlimited Plan</strong> to share this escape room.</p>
     ${allAccessFreePlanPanelHtml()}`;
 
   if (!game) {
@@ -1140,7 +1201,7 @@ function modalThumbHtml(game) {
   const thumb = game.thumbnail
     ? `<img class="dpaam-modal-thumb" src="${escapeHtml(game.thumbnail)}" alt="" loading="lazy" decoding="async" />`
     : `<span class="dpaam-modal-thumb dpaam-modal-thumb--empty"></span>`;
-  return `<div class="dpaam-modal-thumb-wrap">${cardNewBadgeHtml(game)}${thumb}</div>`;
+  return `<div class="dpaam-modal-thumb-wrap">${cardNewBadgeHtml(game)}${cardAllAccessBadgeHtml(game)}${thumb}</div>`;
 }
 
 function modalBodyHtml(game, metaInner, tagsInner) {
@@ -1796,15 +1857,15 @@ async function sendAccountPasswordReset() {
 async function logoutAccount() {
   if (!els.accountLogout) return;
 
-  setAccountButtonLoading(els.accountLogout, true, "Signing out…");
+  setAccountButtonLoading(els.accountLogout, true, "Logging out…");
   try {
     await signOut(auth);
     closeAnimatedModal(els.accountModal);
-    showToast("✓ \u00A0 Signed out");
+    showToast("✓ \u00A0 Logged out");
   } catch (error) {
     showToast(authErrorMessage(error));
   } finally {
-    setAccountButtonLoading(els.accountLogout, false, "Signing out…");
+    setAccountButtonLoading(els.accountLogout, false, "Logging out…");
   }
 }
 
@@ -2155,15 +2216,19 @@ function wireEvents() {
   els.accountLogout?.addEventListener("click", () => {
     logoutAccount();
   });
-  els.accountManageSubscription?.addEventListener("click", () => {
-    // Placeholder — route to Stripe customer billing portal later.
-    showToast("Opening billing portal…");
-  });
 
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-action='upgrade-all-access']");
-    if (!btn) return;
-    window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
+    const upgradeBtn = e.target.closest("[data-action='upgrade-all-access']");
+    if (upgradeBtn) {
+      window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    const manageBtn = e.target.closest("[data-action='manage-subscription']");
+    if (manageBtn) {
+      // Placeholder — route to Stripe customer billing portal later.
+      showToast("Opening billing portal…");
+    }
   });
 }
 
@@ -2349,6 +2414,7 @@ function initDebugAccessToggle() {
       option.classList.toggle("is-selected", selected);
       option.setAttribute("aria-checked", String(selected));
     });
+    syncMembershipAccessChrome();
     populateFilters();
     renderAccountPlanPanel();
     renderLibrary();

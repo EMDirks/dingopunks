@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow">
-  <title>All-Access | Dingo Punks</title>
+  <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
   <link rel="stylesheet" href="css/membership.css" />
   <link rel="stylesheet" href="css/membership-auth.css" />
@@ -130,7 +130,7 @@
             </button>
 
             <p class="dpaam-auth-legal">
-              By logging in to Dingo Punks All-Access, you agree to our
+              By logging in to Dingo Punks Unlimited, you agree to our
               <a class="dpaam-auth-link" href="#">Terms</a>
               and
               <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
@@ -220,7 +220,7 @@
             </button>
 
             <p class="dpaam-auth-legal">
-              By signing up for Dingo Punks All-Access, you agree to our
+              By signing up for Dingo Punks Unlimited, you agree to our
               <a class="dpaam-auth-link" href="#">Terms</a>
               and
               <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
@@ -395,7 +395,7 @@
             height="373"
           />
         </a>
-        <span class="dpaam-pill">ALL-ACCESS</span>
+        <span class="dpaam-pill" id="dpaam-topbar-plan-pill">UNLIMITED</span>
       </div>
       <div class="dpaam-topbar-buttons">
         <button
@@ -413,6 +413,15 @@
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn"
         >Help</button>
+        <button
+          type="button"
+          class="dpaam-pill dpaam-topbar-upgrade-btn"
+          id="dpaam-topbar-upgrade-btn"
+          data-action="upgrade-all-access"
+          hidden
+        >
+          <span class="dpaam-topbar-upgrade-btn__lead">Upgrade to </span><span class="dpaam-topbar-upgrade-btn__plan">UNLIMITED</span>
+        </button>
       </div>
       <button
         type="button"
@@ -771,7 +780,7 @@
       </form>
     </dialog>
 
-    <!-- All-Access paywall modal -->
+    <!-- Unlimited paywall modal -->
     <dialog
       class="dpaam-modal"
       id="dpaam-member-only-modal"
@@ -780,7 +789,7 @@
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
           <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">
-            Unlock this escape room
+            Sharing Options
           </h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
             ×
@@ -826,25 +835,11 @@
                 <p class="dpaam-account-value" id="dpaam-account-email"></p>
                 <!-- <p class="dpaam-account-helper"><a href="https://dingopunks.com/pages/contact">Contact us</a> to change your email.</p> -->
               </div>
-            </div>
-          </section>
-
-          <section class="dpaam-account-section dpaam-account-actions">
-            <div class="dpaam-account-row dpaam-account-row--actions">
-              <button
-                type="button"
-                class="dpaam-btn dpaam-btn-secondary dpaam-account-logout-btn"
-                id="dpaam-account-logout"
-              >
-                Log out
-              </button>
-              <button
-                type="button"
-                class="dpaam-btn dpaam-btn-secondary"
-                id="dpaam-account-send-reset"
-              >
-                Reset password
-              </button>
+              <div class="dpaam-account-row--actions">
+                <button type="button" class="dpaam-account-link" id="dpaam-account-send-reset">
+                  Reset password
+                </button>
+              </div>
             </div>
           </section>
           <section class="dpaam-account-section" id="dpaam-account-google-note" hidden>
@@ -854,27 +849,13 @@
 
           <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
             <div id="dpaam-account-plan-free" hidden></div>
-            <div id="dpaam-account-plan-member" class="dpaam-plan-panel">
-              <h4 class="dpaam-plan-panel__name" id="dpaam-account-plan-name">
-                <span class="dpaam-pill dpaam-pill--black">ALL-ACCESS</span>
-              </h4>
-              <p class="dpaam-plan-panel__price" id="dpaam-account-plan-price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
-              <div class="dpaam-plan-panel__meta">
-                <p class="dpaam-plan-panel__billing" id="dpaam-account-plan-billing">
-                  Billed annually at $47.88/yr
-                </p>
-                <p class="dpaam-plan-panel__renewal" id="dpaam-account-plan-renewal">
-                  Renews Jul 12, 2027
-                </p>
-              </div>
-              <button
-                type="button"
-                class="dpaam-btn dpaam-btn-secondary dpaam-plan-panel__action"
-                id="dpaam-account-manage-subscription"
-              >
-                Manage subscription
-              </button>
-            </div>
+            <div id="dpaam-account-plan-member" hidden></div>
+          </section>
+
+          <section class="dpaam-account-section dpaam-account-logout">
+            <button type="button" class="dpaam-account-link" id="dpaam-account-logout">
+              Log out
+            </button>
           </section>
         </div>
       </form>
