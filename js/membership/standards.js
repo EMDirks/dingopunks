@@ -327,9 +327,4 @@ function populateModalStandards(game) {
     });
 }
 
-export {
-  animateStandardsBodyResize,
-  populateModalStandards,
-  selectModalStandardsGroup,
-  setStandardsModalGameId,
-};
+export { populateModalStandards, selectModalStandardsGroup };

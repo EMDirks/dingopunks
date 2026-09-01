@@ -173,10 +173,12 @@ function formatLabel(value) {
     .join(" ");
 }
 
+function gradeTagHtml(g) {
   const grade = escapeHtml(String(g));
   return `<span class="dpaam-tag dpaam-tag--grade-${grade}" aria-label="Grade ${grade}"><span class="dpaam-tag-label dpaam-tag-label--full">Grade ${grade}</span><span class="dpaam-tag-label dpaam-tag-label--short" aria-hidden="true">${grade}</span></span>`;
 }
 
+function libTagsHtml(game) {
   if (!game.grades || game.grades.length === 0) return "";
   return `<div class="dpaam-tags">${game.grades.map((g) => gradeTagHtml(g)).join("")}</div>`;
 }
