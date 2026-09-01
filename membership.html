@@ -6,12 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css" />
-  <link rel="stylesheet" href="css/membership-auth.css" />
-  <script>
-    window.___gcfg = { parsetags: 'explicit' };
-  </script>
-  <script src="https://apis.google.com/js/platform.js"></script>
+  <link rel="stylesheet" href="css/membership.css?version=3.4.86" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.86" />
 </head>
 <body>
   <div class="dpaam">
@@ -553,57 +549,6 @@
               ×
             </button>
           </header>
-          <!--
-          <div class="dpaam-guide-body" id="dpaam-quick-start-body">
-            <div class="dpaam-guide-steps">
-              <div class="dpaam-guide-step">
-                <div class="dpaam-guide-step-icon" aria-hidden="true">
-                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-favorite.png" alt="" />
-                </div>
-                <div class="dpaam-guide-step-content">
-                  <h3 class="dpaam-guide-step-subtitle">Favorite</h3>
-                  <p class="dpaam-guide-step-body">Browse the Library and add escape rooms to your Favorites. This makes them easy to find later.
-                  </p>
-                </div>
-              </div>
-              <div class="dpaam-guide-step">
-                <div class="dpaam-guide-step-icon" aria-hidden="true">
-                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-activate.png" alt="" />
-                </div>
-                <div class="dpaam-guide-step-content">
-                  <h3 class="dpaam-guide-step-subtitle">Activate</h3>
-                  <p class="dpaam-guide-step-body">Activate a favorited escape room to make it playable for your students.</p>
-                </div>
-              </div>
-              <div class="dpaam-guide-step">
-                <div class="dpaam-guide-step-icon" aria-hidden="true">
-                  <img class="dpaam-guide-step-icon-img" src="assets/dpaam/guide-share.png" alt="" />
-                </div>
-                <div class="dpaam-guide-step-content">
-                  <h3 class="dpaam-guide-step-subtitle">Share</h3>
-                  <p class="dpaam-guide-step-body">Share the escape room with your class! Several sharing options are available to choose from.</p>
-                </div>
-              </div>
-            </div>
-            <div class="dpaam-guide-faq">
-              <button
-                type="button"
-                class="dpaam-guide-faq-toggle"
-                id="dpaam-guide-faq-toggle"
-                aria-expanded="false"
-                aria-controls="dpaam-guide-faq-list"
-              >
-                <span class="dpaam-toggle-chevron" aria-hidden="true">▸</span>
-                <span class="dpaam-guide-faq-title">FAQ</span>
-              </button>
-              <ul class="dpaam-guide-faq-list" id="dpaam-guide-faq-list" hidden>
-                <li>• Placeholder question one</li>
-                <li>• Placeholder question two</li>
-                <li>• Placeholder question three</li>
-              </ul>
-            </div>
-          </div>
-          -->
           <div class="dpaam-guide-body" id="dpaam-quick-start-body">
             <div class="dpaam-guide-steps">
               <div class="dpaam-guide-step">
@@ -694,12 +639,6 @@
         <div class="dpaam-section-header">
           <h2 id="dpaam-favorites-heading" class="dpaam-section-title">Favorites</h2>
           <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
-          <!-- Active count in header — removed for now; restore when needed.
-          <div class="dpaam-section-counts">
-            <span class="dpaam-section-count" id="dpaam-favorites-count">0 favorites</span>
-            <span class="dpaam-active-count" id="dpaam-active-count" hidden></span>
-          </div>
-          -->
         </div>
         <ul class="dpaam-favorites-list" id="dpaam-favorites-list"></ul>
         <div class="dpaam-empty dpaam-favorites-empty" id="dpaam-favorites-empty" hidden>
@@ -845,7 +784,6 @@
               <div class="dpaam-account-row-main">
                 <h4 class="dpaam-account-label" id="dpaam-account-email-label">Email</h4>
                 <p class="dpaam-account-value" id="dpaam-account-email"></p>
-                <!-- <p class="dpaam-account-helper"><a href="https://dingopunks.com/pages/contact">Contact us</a> to change your email.</p> -->
               </div>
               <div class="dpaam-account-row--actions">
                 <button type="button" class="dpaam-account-link" id="dpaam-account-send-reset">
@@ -935,87 +873,6 @@
     </div>
   </div>
 
-  <script>
-    (function () {
-      const host = location.hostname;
-      if (host !== "localhost" && host !== "127.0.0.1") return;
-
-      const debug = document.getElementById("dpaam-debug-view");
-      const auth = document.getElementById("dpaam-auth");
-      const dashboard = document.getElementById("dpaam-dashboard");
-      const skeleton = document.getElementById("dpaam-dashboard-skeleton");
-      if (!debug || !auth || !dashboard) return;
-
-      debug.hidden = false;
-
-      const options = Array.from(debug.querySelectorAll("[data-debug-view]"));
-      const authCards = Array.from(auth.querySelectorAll("[data-auth-view]"));
-      const retry = document.getElementById("dpaam-auth-setup-retry");
-      const skeletonError = document.getElementById("dpaam-skeleton-error-message");
-      const headerToggle = document.getElementById("dpaam-auth-header-toggle");
-      const error = document.getElementById("dpaam-auth-error");
-      const success = document.getElementById("dpaam-auth-success");
-      const AUTH_HEADINGS = {
-        auth: "dpaam-auth-heading-signin",
-      };
-
-      function setDebugView(view) {
-        const showDashboard = view === "dashboard";
-        const showSkeleton = view === "loading";
-        auth.hidden = showDashboard || showSkeleton;
-        dashboard.hidden = !showDashboard;
-        if (skeleton) {
-          skeleton.hidden = !showSkeleton;
-          skeleton.setAttribute("aria-busy", String(showSkeleton));
-        }
-
-        if (!showDashboard && !showSkeleton) {
-          authCards.forEach((card) => {
-            card.hidden = card.dataset.authView !== "signin";
-          });
-          if (retry) retry.hidden = true;
-          if (skeletonError) {
-            skeletonError.hidden = true;
-            skeletonError.textContent = "";
-          }
-          if (error) {
-            error.hidden = true;
-            error.textContent = "";
-          }
-          if (success) {
-            success.hidden = true;
-            success.textContent = "";
-          }
-          auth.setAttribute("aria-labelledby", AUTH_HEADINGS.auth);
-          if (headerToggle) {
-            headerToggle.hidden = false;
-            headerToggle.textContent = "Sign up";
-          }
-        }
-
-        if (showSkeleton) {
-          if (retry) retry.hidden = true;
-          if (skeletonError) {
-            skeletonError.hidden = true;
-            skeletonError.textContent = "";
-          }
-        }
-
-        options.forEach((option) => {
-          const selected = option.dataset.debugView === view;
-          option.setAttribute("aria-checked", String(selected));
-          option.classList.toggle("is-selected", selected);
-        });
-      }
-
-      options.forEach((option) => {
-        option.addEventListener("click", () => {
-          setDebugView(option.dataset.debugView);
-        });
-      });
-    })();
-  </script>
-
-  <script type="module" src="js/membership.js"></script>
+  <script type="module" src="js/membership.js?version=3.4.86"></script>
 </body>
 </html>

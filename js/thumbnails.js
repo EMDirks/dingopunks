@@ -3,6 +3,8 @@
 // Toggle between rendering strategies:
 //   "prerender" — static HTML string emitted inline at render time (current default)
 //   "render"    — colored placeholder from game.color CSS variables (image TBD)
+import { escapeHtml } from "./membership-utils.js";
+
 const THUMBNAIL_MODE = "prerender";
 
 const THUMB_COLORS = new Set([
@@ -10,20 +12,6 @@ const THUMB_COLORS = new Set([
   "orange", "pink", "purple", "salmon", "tan", "teal",
 ]);
 
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, (ch) => {
-    switch (ch) {
-      case "&": return "&amp;";
-      case "<": return "&lt;";
-      case ">": return "&gt;";
-      case '"': return "&quot;";
-      case "'": return "&#39;";
-      default: return ch;
-    }
-  });
-}
-
-// Native browser lazy loading via `loading="lazy"`; we still emit a
 // fixed width/height so the row reserves the slot before the image
 // resolves and the gray .dpaam-thumb background shows through.
 function thumbHtmlPrerender(game) {

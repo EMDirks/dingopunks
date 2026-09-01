@@ -205,8 +205,8 @@
 }
 
 .dpaam-auth-message--success {
-  background: #edf7f1;
-  border: 1px solid #b8dcc8;
+  background: var(--dpaam-success-bg);
+  border: 1px solid var(--dpaam-success-border);
   color: var(--dpaam-success);
 }
 

@@ -10,10 +10,10 @@
                      Values outside this scale (6px, 10px, 18px, 28px, 38px)
                      are intentional design-specific asymmetric values.
 
-   Shape             --dpaam-radius (6px) · --dpaam-radius-sm (4px)
+   Shape             --dpaam-radius (4px) · --dpaam-radius-lg (8px)
                      --dpaam-radius-pill (999px, capsule/tag shape)
 
-   Type scale        --dpaam-text-xs (10px) · --dpaam-text-sm (14px)
+   Type scale        --dpaam-text-xs (12px) · --dpaam-text-sm (14px)
                      --dpaam-text-md (18px) · --dpaam-text-lg (22px)
                      --dpaam-text-xl (26px, reserved)
                      Outliers: --dpaam-text-ui (16px, buttons/interactive)
@@ -30,7 +30,6 @@
    Component         --dpaam-code-bg       (code block background)
                      --dpaam-danger-border  (btn-danger border, tinted --dpaam-danger)
                      --dpaam-danger-hover   (btn-danger hover bg, tinted --dpaam-danger)
-                     --dpaam-add-btn-w      (paired width for btn-add + saved-mark)
    ========================================================================== */
 
 html,
@@ -50,6 +49,8 @@ body {
   --dpaam-accent: #2b2b2b;
   --dpaam-accent-text: #ffffff;
   --dpaam-success: #1f7a4d;
+  --dpaam-success-bg: #edf7f1;
+  --dpaam-success-border: #b8dcc8;
   --dpaam-danger: #a4302a;
   --dpaam-blue: #69A0D7;
   --dpaam-blue-light: #D2E2F3;
@@ -90,6 +91,7 @@ body {
   --dpaam-pad:     16px;
   --dpaam-pad-lg:  20px;
   --dpaam-pad-xl:  32px;
+  --dpaam-btn-pad: 6px 14px 4px 14px;
 
   /* --- typography --- */
   --dpaam-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -118,8 +120,6 @@ body {
   --dpaam-code-bg:       #f3f3ef;   /* code block background */
   --dpaam-danger-border: #e7c9c7;   /* tinted --dpaam-danger */
   --dpaam-danger-hover:  #f0d4d2;   /* tinted --dpaam-danger */
-  --dpaam-add-btn-w:         90px; /* paired: .dpaam-btn-add + .dpaam-btn-done.dpaam-saved-mark */
-  --dpaam-code-btn-w:        90px; /* paired: generate-code + .dpaam-btn-done.dpaam-code-generated-mark */
   --dpaam-favorites-activate-btn-px: var(--dpaam-pad); /* Activate / Activated in favorites cards only */
   --dpaam-pair-btn-h:         38px;  /* paired height for add/saved-mark and activate/code-generated; 36px on mobile */
   --dpaam-mobile-menu-backdrop: rgba(51, 41, 37, 0.6);
@@ -189,45 +189,6 @@ body {
   margin-top: -14px;
 }
 
-@keyframes dpaam-guide-icon-pulse {
-  0%, 100% {
-    transform: scale(1);
-    background: #757EB4;
-  }
-  12% {
-    transform: scale(1.22);
-    background: var(--dpaam-blue);
-    border-color: var(--dpaam-white);
-  }
-  24% {
-    transform: scale(1);
-    background: #757EB4;
-  }
-}
-
-@keyframes dpaam-guide-line-travel {
-  0%, 100% {
-    left: 18px;
-    opacity: 0;
-  }
-  1%, 24% {
-    left: 18px;
-    opacity: 1;
-  }
-  33.33%, 57.33% {
-    left: 50%;
-    opacity: 1;
-  }
-  66.67%, 90.67% {
-    left: calc(100% - 18px);
-    opacity: 1;
-  }
-  96% {
-    left: calc(100% - 18px);
-    opacity: 0;
-  }
-}
-
 .dpaam-guide-body {
   margin-top: var(--dpaam-pad-lg);
   display: flex;
@@ -236,7 +197,6 @@ body {
 }
 
 .dpaam-guide-steps {
-  --dpaam-guide-pulse-duration: 3.75s;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto;
@@ -269,16 +229,12 @@ body {
   background: var(--dpaam-white);
   box-shadow: 0 0 10px var(--dpaam-blue-light);
   pointer-events: none;
-  /* animation: dpaam-guide-line-travel var(--dpaam-guide-pulse-duration) linear infinite; */
 }
 
 .dpaam-guide-step {
   display: contents;
 }
 
-.dpaam-guide-step:nth-child(1) { --dpaam-guide-pulse-delay: 0s; }
-.dpaam-guide-step:nth-child(2) { --dpaam-guide-pulse-delay: calc(var(--dpaam-guide-pulse-duration) / 3); }
-.dpaam-guide-step:nth-child(3) { --dpaam-guide-pulse-delay: calc(var(--dpaam-guide-pulse-duration) * 2 / 3); }
 
 .dpaam-guide-step:nth-child(1) .dpaam-guide-step-icon { grid-column: 1; grid-row: 1; justify-self: start; }
 .dpaam-guide-step:nth-child(1) .dpaam-guide-step-content { grid-column: 1; grid-row: 2; }
@@ -298,8 +254,6 @@ body {
   border-radius: 50%;
   background: var(--dpaam-blue-dark);
   border: 1px solid var(--dpaam-blue);
-  /* animation: dpaam-guide-icon-pulse var(--dpaam-guide-pulse-duration) ease-in-out infinite;
-  animation-delay: var(--dpaam-guide-pulse-delay); */
 }
 
 .dpaam-guide-step-icon-img {
@@ -646,16 +600,6 @@ button.dpaam-pill.dpaam-topbar-upgrade-btn {
   display: inline-block;
 }
 
-.dpaam-pill--black {
-}
-
-.dpaam-pill-check {
-  font-size: 0.78em;
-  line-height: 1;
-  position: relative;
-  top: -0.04em;
-}
-
 .dpaam-topbar-btn {
   flex-shrink: 0;
   background: var(--dpaam-blue);
@@ -939,20 +883,6 @@ a.dpaam-topbar-btn {
   gap: clamp(var(--dpaam-pad-md), 1.7vw, var(--dpaam-pad-lg));
 }
 
-/* Active count in header — removed for now; restore when needed.
-.dpaam-section-counts {
-  display: flex;
-  align-items: center;
-  gap: var(--dpaam-pad);
-}
-
-.dpaam-section-counts:has(.dpaam-active-count:not([hidden])) .dpaam-section-count::after {
-  content: "•";
-  margin-left: var(--dpaam-pad);
-  color: var(--dpaam-black-muted);
-}
-*/
-
 .dpaam-section-count {
   font-size: var(--dpaam-text-sm);
   font-weight: 400;
@@ -1230,82 +1160,6 @@ a.dpaam-topbar-btn {
   }
 }
 
-.dpaam-fav-active {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.dpaam-fav-code-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  background-color: var(--dpaam-black);
-  border-radius: var(--dpaam-radius-lg);
-  padding: 14px var(--dpaam-pad-md) 14px var(--dpaam-pad-md);
-  width: var(--dpaam-code-btn-w);
-}
-
-.dpaam-fav-code {
-  display: inline-flex;
-  justify-content: center;
-  gap: 6px;
-  font-family: var(--dpaam-mono);
-  font-size: var(--dpaam-text-xl);
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--dpaam-gold);
-  user-select: all;
-  cursor: text;
-}
-
-.dpaam-fav-code-char {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.25em;
-  padding: 4px 0px;
-  border: 1px solid var(--dpaam-gold);
-  border-radius: var(--dpaam-radius-sm);
-  line-height: 1;
-}
-
-.dpaam-fav-code-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: var(--dpaam-pad-md);
-}
-
-.dpaam-fav-timer {
-  font-size: var(--dpaam-text-xs);
-  color: var(--dpaam-white);
-  white-space: nowrap;
-}
-
-.dpaam-fav-cancel-code {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--dpaam-text-xs);
-  font-weight: 500;
-  color: var(--dpaam-white);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-@media (hover: hover) {
-  .dpaam-fav-cancel-code:hover {
-    color: var(--dpaam-gold);
-  }
-}
-
 /* ---------- Section 3: Library ---------- */
 
 .dpaam-filters {
@@ -1375,51 +1229,6 @@ a.dpaam-topbar-btn {
   padding: var(--dpaam-pad-lg) var(--dpaam-pad-lg) var(--dpaam-pad-lg) var(--dpaam-pad-lg);
 }
 
-.dpaam-lib-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  overflow-wrap: break-word;
-}
-
-.dpaam-lib-topic-row {
-  display: flex;
-  align-items: center;
-  gap: var(--dpaam-pad-md);
-  flex-wrap: wrap;
-  height: 30px;
-}
-
-.dpaam-lib-topic {
-  font-size: var(--dpaam-text-md);
-  font-weight: 600;
-  margin: 0;
-  color: var(--dpaam-black);
-  line-height: 1;
-}
-
-.dpaam-lib-meta {
-  font-size: var(--dpaam-text-sm);
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-lib-meta-season {
-  font-weight: 500;
-  color: var(--dpaam-black);
-}
-
-.dpaam-lib-meta-theme {
-  font-style: italic;
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-lib-meta-sep {
-  margin: 0 6px;
-  color: var(--dpaam-border-strong);
-}
-
 /* ---------- Tag chips ---------- */
 
 .dpaam-tags {
@@ -1457,7 +1266,6 @@ a.dpaam-topbar-btn {
 
 .dpaam-btn {
   padding: 6px 14px 4px 14px;
-  font-size: var(--dpaam-text-ui);
   font-weight: 600;
   color: var(--dpaam-black);
   border: 0;
@@ -1473,19 +1281,12 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-btn-primary,
-.dpaam-btn-add,
 .dpaam-btn-activate {
   background: var(--dpaam-blue);
   color: var(--dpaam-white);
 }
 
-/* Paired action buttons (Favorite / Activate) and their done-state marks
-   (Favorited / Activated) share ONE layout. Only width differs — see the two
-   width pairs below. Edit here to change all four at once. */
-.dpaam-btn-add,
-.dpaam-btn-activate,
-.dpaam-saved-mark,
-.dpaam-code-generated-mark {
+.dpaam-btn-activate {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1494,18 +1295,6 @@ a.dpaam-topbar-btn {
   padding-top: 2px;
   padding-bottom: 0;
   text-align: center;
-}
-
-/* Width pair A — favorites "Favorite" ↔ "Favorited" mark */
-.dpaam-btn-add,
-.dpaam-saved-mark {
-  width: var(--dpaam-add-btn-w);
-}
-
-/* Width pair B — "Activate" ↔ "Activated" mark */
-.dpaam-btn-activate,
-.dpaam-code-generated-mark {
-  width: var(--dpaam-code-btn-w);
 }
 
 .dpaam-btn-activate:has(.dpaam-share-locked-icon) {
@@ -1524,26 +1313,6 @@ a.dpaam-topbar-btn {
 .dpaam-btn-secondary {
   background: var(--dpaam-white);
   border: 1px solid var(--dpaam-border);
-}
-
-.dpaam-btn-tertiary {
-  background: var(--dpaam-blue);
-  color: var(--dpaam-white);
-  font-size: var(--dpaam-text-xs);
-}
-
-.dpaam-btn.dpaam-btn-done {
-  background: var(--dpaam-light-gray);
-  cursor: default;
-  font-size: var(--dpaam-text-sm);
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-btn.dpaam-btn-done:hover,
-.dpaam-btn.dpaam-btn-done:disabled {
-  filter: none;
-  opacity: 1;
-  color: var(--dpaam-black-muted);
 }
 
 .dpaam-btn[data-action="copy-share-link"],
@@ -1587,13 +1356,6 @@ a.dpaam-topbar-btn {
   }
 }
 
-.dpaam-card__actions .dpaam-btn-add,
-.dpaam-card__actions .dpaam-saved-mark,
-.dpaam-card__actions .dpaam-btn-activate,
-.dpaam-card__actions .dpaam-code-generated-mark {
-  width: auto;
-}
-
 .dpaam-card__actions .dpaam-btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -1610,32 +1372,6 @@ a.dpaam-topbar-btn {
 
 .dpaam-card__actions:has([data-action="share-code"] .dpaam-share-locked-icon) [data-action="open-details"] {
   flex: 0.7 1 0;
-}
-
-.dpaam-btn-details {
-  background: none;
-  color: var(--dpaam-black-muted);
-  font-size: var(--dpaam-text-xs);
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1.5px;
-  text-decoration-color: var(--dpaam-black-muted);
-  text-decoration-style: solid;
-}
-
-@media (hover: hover) {
-  .dpaam-btn-details:hover {
-    filter: none;
-    color: var(--dpaam-black);
-    text-decoration-color: var(--dpaam-black);
-    background: none;
-  }
-}
-
-/* Done-state buttons that are still clickable to revert. */
-.dpaam-btn.dpaam-btn-done.dpaam-btn-revert {
-  cursor: pointer;
 }
 
 /* ---------- Toast ---------- */
@@ -1902,15 +1638,6 @@ a.dpaam-topbar-btn {
   width: min(520px, calc(100vw - 32px));
 }
 
-.dpaam-modal-body--message {
-  display: block;
-}
-
-.dpaam-modal-body--message p {
-  margin: 0;
-  line-height: 1.5;
-}
-
 .dpaam-upgrade-lead {
   margin: 0;
   font-size: var(--dpaam-text-sm);
@@ -1971,17 +1698,6 @@ a.dpaam-topbar-btn {
   margin-bottom: 0;
 }
 
-.dpaam-plan-panel__intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--dpaam-pad-sm);
-}
-
-.dpaam-plan-panel__intro .dpaam-plan-status__label {
-  margin-bottom: 0;
-}
-
 .dpaam-plan-panel__pricing {
   display: flex;
   flex-direction: column;
@@ -2008,24 +1724,10 @@ a.dpaam-topbar-btn {
   line-height: 1.1;
 }
 
-.dpaam-plan-panel__meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--dpaam-pad);
-  margin: 0;
-  width: 100%;
-}
-
-.dpaam-plan-panel__billing,
-.dpaam-plan-panel__renewal {
+.dpaam-plan-panel__billing {
   margin: 0;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
-}
-
-.dpaam-plan-panel__renewal {
-  text-align: right;
 }
 
 .dpaam-plan-panel__features {
@@ -2252,20 +1954,6 @@ a.dpaam-topbar-btn {
   margin-top: -4px;
 }
 
-.dpaam-modal-intro {
-  grid-column: 1 / -1;
-  margin: 0 0 -2px 0;
-  font-size: var(--dpaam-text-md);
-}
-
-.dpaam-modal-dl-divider {
-  grid-column: 1 / -1;
-  height: 1px;
-  margin: var(--dpaam-pad) 0;
-  border: none;
-  border-top: 1px solid var(--dpaam-border);
-}
-
 .dpaam-modal-dl dt:has(+ .dpaam-modal-skills),
 .dpaam-modal-dl dt:has(+ .dpaam-modal-grades),
 .dpaam-modal-dl dt:has(+ .dpaam-modal-standards) {
@@ -2424,18 +2112,7 @@ a.dpaam-topbar-btn {
 
 #dpaam-modal-add:has(.dpaam-share-locked-icon) {
   width: auto;
-  min-width: calc(var(--dpaam-code-btn-w) + 18px);
-}
-
-.dpaam-modal-share-classroom {
-  display: flex;
-  align-items: center;
-  gap: var(--dpaam-pad-sm);
-  flex-wrap: wrap;
-}
-
-.dpaam-classroom-share-label {
-  white-space: nowrap;
+  min-width: calc(var(--dpaam-pair-btn-h) + 18px);
 }
 
 #dpaam-share-modal-body .dpaam-share-options {
@@ -2533,11 +2210,6 @@ a.dpaam-topbar-btn {
   box-sizing: content-box;
 }
 
-.dpaam-share-copy-actions {
-  display: flex;
-  gap: var(--dpaam-pad-sm);
-  margin-top: var(--dpaam-pad-lg);
-}
 
 /* ---------- My Account modal ---------- */
 
@@ -2634,84 +2306,6 @@ a.dpaam-topbar-btn {
   word-break: break-word;
 }
 
-.dpaam-account-password-mask {
-  letter-spacing: 0.12em;
-}
-
-.dpaam-account-helper {
-  margin: var(--dpaam-pad-xs) 0 0;
-  font-size: var(--dpaam-text-xs);
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-account-divider {
-  width: 100%;
-  height: 0;
-  margin: var(--dpaam-pad-lg) 0;
-  border: none;
-  border-top: 1px solid var(--dpaam-border);
-}
-
-.dpaam-account-password-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.25s ease;
-}
-
-.dpaam-account-password-panel--open {
-  grid-template-rows: 1fr;
-}
-
-.dpaam-account-password-form {
-  overflow: hidden;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--dpaam-pad-md);
-  padding-top: 0;
-  transition: padding-top 0.25s ease;
-}
-
-.dpaam-account-password-panel--open .dpaam-account-password-form {
-  padding-top: var(--dpaam-pad);
-}
-
-.dpaam-account-password-form .dpaam-account-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dpaam-pad-xs);
-}
-
-.dpaam-account-password-form .dpaam-account-field-label {
-  font-size: var(--dpaam-text-sm);
-  font-weight: 500;
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-account-password-form .dpaam-account-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 12px;
-  font: inherit;
-  font-size: var(--dpaam-text-ui);
-  color: var(--dpaam-black);
-  background: var(--dpaam-white);
-  border: 1px solid var(--dpaam-border-strong);
-  border-radius: var(--dpaam-radius);
-}
-
-.dpaam-account-password-form .dpaam-account-input:focus {
-  outline: 2px solid var(--dpaam-blue);
-  outline-offset: 1px;
-}
-
-.dpaam-account-password-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--dpaam-pad-sm);
-  flex-wrap: wrap;
-}
-
 .dpaam-btn.is-loading {
   cursor: wait;
   opacity: 0.75;
@@ -2743,10 +2337,7 @@ dd a {
   border: 1px solid var(--dpaam-border-strong);
 }
 
-.dpaam-classroom-share-label {
-  position: relative;
-  top: 2px;
-}
+
 /* ---------- Mobile (≤768px) ----------
    Type scale scales down proportionally via --dpaam-text-* tokens.
    All layout overrides are scoped here; desktop defaults are set above. ---------- */
@@ -2763,8 +2354,6 @@ dd a {
     --dpaam-text-xl:      24px;
     --dpaam-text-ui:      15px;
     --dpaam-text-display: 30px;
-    --dpaam-add-btn-w:    97px;
-    --dpaam-code-btn-w:   97px;
     --dpaam-pair-btn-h:   36px;
     /* Tighter gutter on narrow phones */
     --dpaam-gutter: var(--dpaam-pad-md);
@@ -3041,11 +2630,6 @@ dd a {
     display: none;
   }
 
-  .dpaam-lib-main > .dpaam-tags {
-    margin-top: 0;
-    gap: 4px;
-  }
-
   /* --- Tag label: short form on mobile (cards only) --- */
 
   .dpaam-card .dpaam-tag-label--full {
@@ -3094,31 +2678,8 @@ dd a {
     grid-column: 1 / -1;
   }
 
-  /* Paired action buttons — mobile (same layout as desktop, smaller --dpaam-pair-btn-h) */
-  .dpaam-btn-add,
-  .dpaam-btn-activate,
-  .dpaam-saved-mark,
-  .dpaam-code-generated-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    height: var(--dpaam-pair-btn-h);
-    padding-top: 2px;
-    padding-bottom: 0;
-    text-align: center;
-  }
-
-  .dpaam-card__actions .dpaam-btn-add,
-  .dpaam-card__actions .dpaam-saved-mark,
-  .dpaam-card__actions .dpaam-btn-activate,
-  .dpaam-card__actions .dpaam-code-generated-mark {
-    width: 100%;
-  }
-
   /* --- Touch targets: 44×44 minimum --- */
 
-  .dpaam-btn-details,
   .dpaam-modal-close,
   .dpaam-mobile-menu-toggle {
     min-height: 32px;

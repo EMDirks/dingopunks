@@ -13,6 +13,7 @@ import {
   signInWithPopup,
   signOut,
 } from "./firebase-init.js";
+import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
@@ -87,15 +88,7 @@ function isCancelledPopup(error) {
 }
 
 function setButtonLoading(button, loading, loadingLabel) {
-  if (!button) return;
-  if (!button.dataset.defaultHtml) {
-    button.dataset.defaultHtml = button.innerHTML;
-  }
-  button.disabled = loading;
-  button.classList.toggle("is-loading", loading);
-  button.setAttribute("aria-busy", String(loading));
-  if (loading) button.textContent = loadingLabel;
-  else button.innerHTML = button.dataset.defaultHtml;
+  setAuthButtonLoading(button, loading, loadingLabel, { useHtml: true });
 }
 
 function formIsValid(form) {
