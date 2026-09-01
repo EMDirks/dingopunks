@@ -103,6 +103,7 @@ const els = {
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
   mobileMenu: document.getElementById("dpaam-mobile-menu"),
   mobileMenuBackdrop: document.getElementById("dpaam-mobile-menu-backdrop"),
+  mobileUpgradeBtn: document.getElementById("dpaam-upgrade-btn-mobile"),
   modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
   accountEmail: document.getElementById("dpaam-account-email"),
@@ -615,7 +616,7 @@ function cardNewBadgeHtml(game) {
 
 function cardAllAccessBadgeHtml(game) {
   if (!isGameLockedForAccess(game.id)) return "";
-  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />Unlimited Plan</span>`;
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" /><span class="dpaam-responsive-label dpaam-responsive-label--full">Unlimited Plan</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">UNLIMITED</span></span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -973,7 +974,7 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong>Full access</strong> to ${libraryCount} escape rooms</li>
-        <li><strong>New escape rooms</strong> added regularly</li>
+        <li><strong>New escape rooms</strong> added all the time</li>
         <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
       </ul>
     </div>`;
@@ -985,8 +986,8 @@ function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
     <div class="dpaam-plan-panel__header">
       <div class="dpaam-plan-panel__header-main">
         <div class="dpaam-plan-panel__pricing">
-          <p class="dpaam-plan-panel__price">$3.99<span class="dpaam-plan-price-unit">/month</span></p>
-          <p class="dpaam-plan-panel__billing">Billed annually at $47.88/yr</p>
+          <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
+          <p class="dpaam-plan-panel__billing">Billed annually at $35.88/yr</p>
         </div>
         <h4 class="dpaam-plan-panel__name"${idAttr}>
           <span class="dpaam-pill">UNLIMITED</span>
@@ -998,11 +999,11 @@ function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
 function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
   const buttonHtml =
     action === "manage"
-      ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription">
-        Manage subscription
+      ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Manage subscription</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Manage</span>
       </button>`
-      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access">
-        Upgrade to UNLIMITED
+      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access" aria-label="Upgrade to UNLIMITED">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to UNLIMITED</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
       </button>`;
 
   return `
@@ -1026,7 +1027,10 @@ function syncMembershipAccessChrome() {
     els.topbarPlanPill.hidden = isFree;
   }
   if (els.topbarUpgradeBtn) {
-    els.topbarUpgradeBtn.hidden = !isFree;
+    els.topbarUpgradeBtn.hidden = !isFree || MOBILE_MENU_MQL.matches;
+  }
+  if (els.mobileUpgradeBtn) {
+    els.mobileUpgradeBtn.hidden = !isFree;
   }
 }
 
@@ -2363,6 +2367,7 @@ function initMobileMenus() {
   });
 
   MOBILE_MENU_MQL.addEventListener("change", () => {
+    syncMembershipAccessChrome();
     if (!MOBILE_MENU_MQL.matches) {
       mobileMenuControllers.forEach((controller) => {
         if (controller.isOpen()) controller.setOpen(false);

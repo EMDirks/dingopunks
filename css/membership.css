@@ -1113,6 +1113,7 @@ a.dpaam-topbar-btn {
   box-sizing: border-box;
   padding-top: 10px;
   font-weight: 400;
+  border-radius: 0 0 var(--dpaam-radius-lg) var(--dpaam-radius-lg);
 }
 
 /* --- Drag state (favorites only) --- */
@@ -1445,6 +1446,10 @@ a.dpaam-topbar-btn {
 .dpaam-tag--grade-5 { background: var(--dpaam-gold-light);   color: var(--dpaam-gold-dark);}
 
 .dpaam-tag-label--short {
+  display: none;
+}
+
+.dpaam-responsive-label--short {
   display: none;
 }
 
@@ -2825,10 +2830,6 @@ dd a {
     margin-right: var(--dpaam-pad-xs);
   }
 
-  .dpaam-dashboard--free .dpaam-topbar-buttons {
-    display: flex;
-  }
-
   .dpaam-topbar-buttons > .dpaam-topbar-btn {
     display: none;
   }
@@ -2865,6 +2866,14 @@ dd a {
     text-align: left;
   }
 
+  .dpaam-mobile-menu .dpaam-btn[hidden] {
+    display: none !important;
+  }
+
+  #dpaam-dashboard:not(.dpaam-dashboard--free) #dpaam-upgrade-btn-mobile {
+    display: none !important;
+  }
+
   .dpaam-mobile-menu-backdrop {
     display: block;
   }
@@ -2897,8 +2906,8 @@ dd a {
 
   .dpaam-tabbar {
     gap: var(--dpaam-pad-xs);
-    padding-top: var(--dpaam-pad-sm);
-    padding-bottom: var(--dpaam-pad-xs);
+    padding-top: var(--dpaam-pad-md);
+    padding-bottom: var(--dpaam-pad-sm);
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -2909,7 +2918,7 @@ dd a {
 
   .dpaam-tab {
     min-height: 0;
-    padding: 10px 14px var(--dpaam-pad-sm) 14px;
+    padding: 12px 14px var(--dpaam-pad-md) 14px;
     gap: var(--dpaam-pad-xs);
     text-align: center;
     justify-content: center;
@@ -3240,15 +3249,73 @@ dd a {
   .dpaam-account-row:not(.dpaam-account-row--actions) {
     flex-direction: column;
     align-items: stretch;
+    gap: var(--dpaam-pad-xs);
+  }
+
+  .dpaam-account-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dpaam-pad-xs);
   }
 
   .dpaam-account-row .dpaam-account-row--actions {
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
   }
 
   .dpaam-account-row:not(.dpaam-account-row--actions) > .dpaam-btn {
     align-self: flex-start;
+  }
+
+  /* --- Plan panels (account modal + info/paywall modal) --- */
+
+  .dpaam-plan-panel,
+  .dpaam-plan-status {
+    padding: var(--dpaam-pad) var(--dpaam-pad-md);
+  }
+
+  .dpaam-plan-panel__header-main {
+    flex-direction: column;
+    gap: var(--dpaam-pad-sm);
+  }
+
+  .dpaam-plan-panel__header-main .dpaam-plan-panel__pricing {
+    width: 100%;
+  }
+
+  .dpaam-plan-panel__price {
+    font-size: var(--dpaam-text-xl);
+  }
+
+  .dpaam-plan-panel__features {
+    margin-top: var(--dpaam-pad-md);
+  }
+
+  /* Members account panel: pill above pricing, looser vertical rhythm */
+  #dpaam-account-plan-member .dpaam-plan-panel__header-main {
+    gap: var(--dpaam-pad-lg);
+  }
+
+  #dpaam-account-plan-member .dpaam-plan-panel__name {
+    order: -1;
+  }
+
+  #dpaam-account-plan-member .dpaam-plan-panel__features {
+    margin-top: var(--dpaam-pad-lg);
+  }
+
+  /* --- Hamburger menu: upgrade button --- */
+
+  .dpaam-mobile-menu .dpaam-mobile-menu-btn--upgrade {
+    background-color: var(--dpaam-gold) !important;
+    color: var(--dpaam-black) !important;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 2px solid var(--dpaam-black);
+    padding-top: calc(var(--dpaam-pad-md) + 2px);
   }
 
   /* --- Share modal --- */
@@ -3278,6 +3345,18 @@ dd a {
     white-space: normal;
     text-align: center;
     bottom: max(24px, env(safe-area-inset-bottom, 24px));
+  }
+}
+
+/* ---------- Very small screens (≤419px): upgrade button moves to hamburger menu ---------- */
+
+@media (max-width: 419px) {
+  .dpaam-responsive-label--full {
+    display: none;
+  }
+
+  .dpaam-responsive-label--short {
+    display: inline;
   }
 }
 

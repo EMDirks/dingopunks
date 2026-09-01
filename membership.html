@@ -130,7 +130,7 @@
             </button>
 
             <p class="dpaam-auth-legal">
-              By logging in to Dingo Punks Unlimited, you agree to our
+              By logging in to your Dingo Punks account, you agree to our
               <a class="dpaam-auth-link" href="#">Terms</a>
               and
               <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
@@ -220,7 +220,7 @@
             </button>
 
             <p class="dpaam-auth-legal">
-              By signing up for Dingo Punks Unlimited, you agree to our
+              By signing up for a Dingo Punks account, you agree to our
               <a class="dpaam-auth-link" href="#">Terms</a>
               and
               <a class="dpaam-auth-link" href="#">Privacy Policy</a>.
@@ -418,9 +418,10 @@
           class="dpaam-pill dpaam-topbar-upgrade-btn"
           id="dpaam-topbar-upgrade-btn"
           data-action="upgrade-all-access"
+          aria-label="Upgrade to UNLIMITED"
           hidden
         >
-          <span class="dpaam-topbar-upgrade-btn__lead">Upgrade to </span><span class="dpaam-topbar-upgrade-btn__plan">UNLIMITED</span>
+          <span class="dpaam-responsive-label dpaam-responsive-label--full"><span class="dpaam-topbar-upgrade-btn__lead">Upgrade to </span><span class="dpaam-topbar-upgrade-btn__plan">UNLIMITED</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
         </button>
       </div>
       <button
@@ -438,6 +439,17 @@
         </span>
       </button>
       <nav class="dpaam-mobile-menu" id="dpaam-mobile-menu" hidden>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn dpaam-mobile-menu-btn--upgrade"
+          id="dpaam-upgrade-btn-mobile"
+          data-action="upgrade-all-access"
+          aria-label="Upgrade to UNLIMITED"
+          hidden
+        >
+          <span class="dpaam-mobile-menu-btn-label"><span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to <strong>UNLIMITED</strong></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span></span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
