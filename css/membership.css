@@ -2843,6 +2843,7 @@ dd a {
 
   .dpaam-plan-panel__header-main .dpaam-plan-panel__pricing {
     width: 100%;
+    margin-bottom: var(--dpaam-pad-sm);
   }
 
   .dpaam-plan-panel__price {
@@ -2850,7 +2851,7 @@ dd a {
   }
 
   .dpaam-plan-panel__features {
-    margin-top: var(--dpaam-pad-md);
+    margin-top: var(--dpaam-pad-lg);
   }
 
   /* Members account panel: pill above pricing, looser vertical rhythm */
