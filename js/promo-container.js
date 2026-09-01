@@ -1,7 +1,20 @@
-const theme = "back_to_school";
+const theme = "all_year";
 /** Theme key → background + optional character img + optional characterStyle (root-relative paths) */
 const themeAssets = {
-  all_year: { background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png' },
+  all_year: { 
+    background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png',
+    character: 'resource/escape-the-midnight-mall/assets/activity/character/topsy.png',
+    characterStyle: {
+      left: 'auto',
+      right: '0%',
+      top: '-42%',
+    },
+    text: 'Can you escape the Midnight Mall?',
+    button: 'Shop math & reading →',
+    link: 'https://dingopunks.com/collections/digital-all-year-escape-rooms',
+    alert: 'News',
+    hasLogo: false,
+  },
   more_all_year: { background: 'resource/pickles-playground/assets/cutscene/main.png' },
   spring: { background: 'resource/beehive-blitz/assets/cutscene/main.png' },
   summer: {
@@ -57,9 +70,11 @@ function renderPromoContainer(promoContainer, themeKey = theme, assetsMap = them
 
   createElement('div', ['splash-tv-overlay', 'splash-tv-overlay--visible'], promoContainer);
 
-  const logo = createElement('img', ['promo-container__logo'], promoContainer);
-  logo.src = 'assets/branding/logo/logo-main.png';
-  logo.alt = '';
+  if (assets.hasLogo !== false) {
+    const logo = createElement('img', ['promo-container__logo'], promoContainer);
+    logo.src = 'assets/branding/logo/logo-main.png';
+    logo.alt = '';
+  }
 
   if (assets.alert) {
     const alert = createElement('p', ['promo-container__alert'], promoContainer);

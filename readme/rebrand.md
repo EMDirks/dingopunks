@@ -168,11 +168,11 @@ MONITORING (AUG 02 — OCT 01)
 
 - ✅ AUG 02 — Google: Review ads performance and adjust strategy
 - ✅ AUG 14 — Google: Review ads performance and adjust strategy
-- [ ] SEP 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
-- [ ] SEP 01 — All: Audit old references and citations
-- [ ] SEP 01 – Shopify: remove top banner; replace with a note in footer
-- [ ] SEP 01 – TPT: remove rebranding banner
-- [ ] SEP 14 — Google: Review ads performance and adjust strategy
+- ✅ SEP 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
+- ✅ SEP 01 — All: Audit old references and citations
+- ✅ SEP 01 – Shopify: remove top banner; replace with a note in footer
+- ✅ SEP 01 – TPT: remove rebranding banner
+- ✅ SEP 14 — Google: Review ads performance and adjust strategy
 - [ ] OCT 01 – Google: Check Search Console monthly for crawl errors, redirect failures, ranking drops
 - [ ] OCT 01 — All: Audit old references and citations
 - [ ] OCT 01 – Shopify: Remove note in footer

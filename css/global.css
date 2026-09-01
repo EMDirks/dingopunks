@@ -1247,9 +1247,3 @@ sub {
 	transition: opacity 0.2s, transform 0.2s;
 }
 
-/* Match bumper intro on splash pages so off-black body does not flash before JS runs */
-body:has(.splash):not(.preview-entry),
-body.play-entry {
-	background-color: rgba(var(--teal), 1);
-}
-
