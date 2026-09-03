@@ -1880,6 +1880,7 @@ let globalAssetArrays = {
           'assets/player/winston.png', 
           'assets/player/hydrax.png',
           'assets/player/lavender.png',
+          'assets/splash/whole-class.png',
         ],
         delay: 200,
       },

@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.90';
+const version = '3.4.91';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -929,7 +929,7 @@ function addSetup(){
                 if (settings.playerCount === 'Whole class') {
                   createModal(
                     'How to play as a whole class',
-                    'Whole Class Mode uses <span class="p--highlight">one device for the entire class,</span> displayed somewhere everyone can see it (such as a smart TV or projector). The teacher leads the game and calls on students to answer as needed.',
+                    'Whole Class Mode requires <span class="p--highlight">one device for the entire class,</span> like a smart TV or projector. The teacher leads the game and calls on students to answer each question.<img class="modal__whole-class-image" src="assets/splash/whole-class.png" alt="Whole class mode illustration">',
                     'Close'
                   );
                   settings.playerCount = 1;
