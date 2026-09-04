@@ -195,7 +195,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 
 *Workflow: checkpoint-commit existing work first (preserve unrelated standards WIP untouched). Develop and test against the Firebase Emulator Suite (auth + firestore + functions); deploy to production `dpaam-8864d` only once the phase works locally.*
 
-- [ ] `[HIGH]` Firestore security rules (all collections) — the wall between users and each other's data.
+- [X] `[HIGH]` Firestore security rules (all collections) — the wall between users and each other's data.
 - [ ] `[MID]` Plan-driven entitlement on the client: read `users/{uid}` on login → derive `membershipAccess` from `plan`; demote the localhost debug toggle to an explicit override.
 - [ ] `[LOW]` `userPrefs` wiring (load on login, debounced optimistic writes for add/remove/reorder; toast on persistent failure — includes the minimal toast utility).
 - [ ] `[HIGH]` `createShareCode` / `cancelShareCode` functions (server-side entitlement from user doc, idempotent one-code-per-game, 20-cap in a plain transaction, doc-ID uniqueness with expired-doc collision handling) + `scripts/export-game-ids.mjs` → committed `firebase-functions/game-ids.json` + `predeploy` hook.

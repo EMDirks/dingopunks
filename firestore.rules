@@ -2,13 +2,53 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // User profiles are created and updated only by backend functions
-    // (Admin SDK bypasses these rules). Clients may read their own doc.
-    match /users/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
-      allow write: if false;
+    function isSignedIn() {
+      return request.auth != null;
     }
 
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isValidUserPrefs() {
+      return request.resource.data.keys().hasOnly(['favorites'])
+        && request.resource.data.favorites is list
+        && request.resource.data.favorites.size() <= 500;
+    }
+
+    // Profiles and entitlement fields are written only through the Admin SDK.
+    // A client can fetch its exact profile but cannot enumerate profiles.
+    match /users/{uid} {
+      allow get: if isOwner(uid);
+      allow list, create, update, delete: if false;
+    }
+
+    // A user owns exactly one preferences document. Keep the schema narrow so
+    // this collection cannot become arbitrary client-controlled storage.
+    match /userPrefs/{uid} {
+      allow get, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && isValidUserPrefs();
+      allow list: if false;
+    }
+
+    // Functions create and delete share codes. Signed-in clients may fetch or
+    // query only code documents whose stored owner matches their auth UID.
+    match /codes/{code} {
+      allow get, list: if isSignedIn()
+        && resource.data.uid == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    // Billing claims and rate-limit counters are backend implementation data.
+    match /rebateClaims/{claim} {
+      allow read, write: if false;
+    }
+
+    match /rateLimits/{counter} {
+      allow read, write: if false;
+    }
+
+    // Default deny covers unknown collections and every subcollection.
     match /{document=**} {
       allow read, write: if false;
     }
