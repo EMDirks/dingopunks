@@ -59,7 +59,7 @@ export function authErrorMessage(error) {
     case "auth/invalid-login-credentials":
     case "auth/user-not-found":
     case "auth/wrong-password":
-      return "The email or password is incorrect.";
+      return "Your email or password is incorrect.";
     case "auth/user-disabled":
       return "This account has been disabled. Contact Dingo Punks for help.";
     case "auth/too-many-requests":

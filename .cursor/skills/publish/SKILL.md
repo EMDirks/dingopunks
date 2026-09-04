@@ -26,14 +26,13 @@ This repo is a static site (HTML/CSS/JS/assets). The Cloudflare **dashboard drag
 
 On **every** user ask to publish (including a bare “publish”):
 
-1. **Bump the patch version** (see [Version bump](#version-bump))
-2. **`git add -A`** (stage everything intended to ship)
-3. **Commit** (message must mention the new version, e.g. `… for 3.4.48.`)
-4. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
+1. **Regenerate standards lookup** — `node scripts/export-game-standards.mjs` (updates [`js/game-standards.js`](js/game-standards.js) from resource files; commit the output)
+2. **Bump the patch version** (see [Version bump](#version-bump))
+3. **`git add -A`** (stage everything intended to ship)
+4. **Commit** (message must mention the new version, e.g. `… for 3.4.48.`)
+5. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
 
-Do **not** skip the bump because “nothing CSS-related changed,” “we just published,” or “files are already dirty.” Publish = bump → add all → commit → wrangler upload.
-
-Skipping the version bump is a hard failure of this skill.
+Do **not** skip the version bump or standards export. Either is a hard failure of this skill.
 
 ## Version bump
 

@@ -1074,9 +1074,7 @@ function modalBodyHtml(game, metaInner, tagsInner) {
       <div class="dpaam-modal-dl-tags">${tagsInner}
         <dt>Standards</dt>
         <dd class="dpaam-modal-standards">
-          <div class="dpaam-tags dpaam-modal-standards-chips" role="group" aria-label="Standards categories">
-            <p class="dpaam-modal-standards-status">Loading standards…</p>
-          </div>
+          <div class="dpaam-tags dpaam-modal-standards-chips" role="group" aria-label="Standards categories"></div>
           <div class="dpaam-modal-standards-panel" id="dpaam-modal-standards-panel" inert>
             <div class="dpaam-modal-standards-body">
               <div class="dpaam-modal-standards-inner"></div>
