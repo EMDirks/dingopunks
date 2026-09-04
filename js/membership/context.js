@@ -39,7 +39,7 @@ const state = {
   filters: { season: "all", grade: "all", subject: "all", newThisMonth: false },
   guideFaqOpen: false,
   activeTab: null,
-  membershipAccess: "member", // "member" | "free" — debug toggle on localhost for now
+  membershipAccess: "free", // "member" | "free" — derived from users/{uid}.plan
 };
 
 // ---------- DOM refs ----------

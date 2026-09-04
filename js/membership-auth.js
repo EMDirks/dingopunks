@@ -140,7 +140,7 @@ function resetPasswordToggles(root) {
   });
 }
 
-export function initAuth() {
+export function initAuth({ loadDashboardState } = {}) {
   const section = document.getElementById("dpaam-auth");
   const dashboard = document.getElementById("dpaam-dashboard");
   const dashboardSkeleton = document.getElementById("dpaam-dashboard-skeleton");
@@ -444,21 +444,23 @@ export function initAuth() {
       return;
     }
 
-    if (provisionedUid !== user.uid) {
-      clearSkeletonError();
-      showDashboardSkeleton();
+    clearSkeletonError();
+    showDashboardSkeleton();
 
-      try {
+    try {
+      if (provisionedUid !== user.uid) {
         await ensureUserProfile();
         provisionedUid = user.uid;
-      } catch (error) {
-        if (revision !== authStateRevision) return;
-        console.error("Failed to provision user profile", error);
-        showSkeletonError(
-          "We couldn't finish setting up your account. Check your connection and try again.",
-        );
-        return;
       }
+
+      await loadDashboardState?.(user);
+    } catch (error) {
+      if (revision !== authStateRevision) return;
+      console.error("Failed to load dashboard state", error);
+      showSkeletonError(
+        "We couldn't finish loading your account. Check your connection and try again.",
+      );
+      return;
     }
 
     if (revision !== authStateRevision) return;

@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.92" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.92" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.93" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.93" />
 </head>
 <body>
   <div class="dpaam">
@@ -848,15 +848,24 @@
         </button>
       </div>
     </div>
-    <div class="dpaam-debug-view-control" role="radiogroup" aria-label="Debug access">
-      <span class="dpaam-debug-view-tag">Access</span>
+    <div class="dpaam-debug-view-control" role="radiogroup" aria-label="Debug access override">
+      <span class="dpaam-debug-view-tag">Access override</span>
       <div class="dpaam-debug-view-options">
         <button
           type="button"
           class="dpaam-debug-view-option is-selected"
-          data-debug-access="member"
+          data-debug-access="plan"
           role="radio"
           aria-checked="true"
+        >
+          Use plan
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-access="member"
+          role="radio"
+          aria-checked="false"
         >
           Member
         </button>
@@ -873,6 +882,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.92"></script>
+  <script type="module" src="js/membership.js?version=3.4.93"></script>
 </body>
 </html>

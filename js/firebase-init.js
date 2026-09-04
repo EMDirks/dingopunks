@@ -17,6 +17,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   connectFirestoreEmulator,
+  doc,
+  getDoc,
   getFirestore,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 import {
@@ -41,6 +43,11 @@ const db = getFirestore(app);
 const firebaseFunctions = getFunctions(app);
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 
+async function getUserProfile(uid) {
+  const snapshot = await getDoc(doc(db, "users", uid));
+  return snapshot.exists() ? snapshot.data() : null;
+}
+
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 
@@ -63,6 +70,7 @@ export {
   db,
   ensureUserProfile,
   firebaseFunctions,
+  getUserProfile,
   googleProvider,
   onAuthStateChanged,
   reload,

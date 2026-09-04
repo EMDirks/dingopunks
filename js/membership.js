@@ -10,6 +10,7 @@ import { authErrorMessage, initAuth } from "./membership-auth.js";
 import { escapeHtml, setButtonLoading } from "./membership-utils.js";
 import {
   auth,
+  getUserProfile,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signOut,
@@ -39,6 +40,32 @@ import {
 import { initDebugView } from "./membership/debug.js";
 
 // ---------- helpers ----------
+
+const MEMBERSHIP_ACCESS_BY_PLAN = Object.freeze({
+  free: "free",
+  "all-access": "member",
+});
+
+let planMembershipAccess = "free";
+let debugMembershipAccessOverride = null;
+
+function membershipAccessFromPlan(plan) {
+  const access = MEMBERSHIP_ACCESS_BY_PLAN[plan];
+  if (!access) {
+    console.warn("Unknown membership plan; defaulting to free access", plan);
+  }
+  return access ?? "free";
+}
+
+async function loadMembershipAccess(user) {
+  const profile = await getUserProfile(user.uid);
+  if (!profile) {
+    throw new Error(`Missing user profile for ${user.uid}`);
+  }
+
+  planMembershipAccess = membershipAccessFromPlan(profile.plan);
+  applyMembershipAccess();
+}
 
 function gameById(id) {
   return games.find((g) => g.id === id);
@@ -1921,34 +1948,43 @@ function initDebugAccessToggle() {
   const options = Array.from(document.querySelectorAll("[data-debug-access]"));
   if (options.length === 0) return;
 
-  function setMembershipAccess(access) {
-    if (access !== "free" && access !== "member") return;
-    state.membershipAccess = access;
-    options.forEach((option) => {
-      const selected = option.dataset.debugAccess === access;
-      option.classList.toggle("is-selected", selected);
-      option.setAttribute("aria-checked", String(selected));
-    });
-    syncMembershipAccessChrome();
-    populateFilters();
-    renderAccountPlanPanel();
-    renderLibrary();
-    renderFavorites();
-    renderActiveCodes();
-  }
-
   options.forEach((option) => {
     option.addEventListener("click", () => {
-      setMembershipAccess(option.dataset.debugAccess);
+      const access = option.dataset.debugAccess;
+      if (access !== "plan" && access !== "free" && access !== "member") return;
+      debugMembershipAccessOverride = access === "plan" ? null : access;
+      applyMembershipAccess();
     });
   });
 }
 
+function applyMembershipAccess() {
+  state.membershipAccess = debugMembershipAccessOverride ?? planMembershipAccess;
+
+  document.querySelectorAll("[data-debug-access]").forEach((option) => {
+    const selectedAccess = debugMembershipAccessOverride ?? "plan";
+    const selected = option.dataset.debugAccess === selectedAccess;
+    option.classList.toggle("is-selected", selected);
+    option.setAttribute("aria-checked", String(selected));
+  });
+
+  syncMembershipAccessChrome();
+  populateFilters();
+  renderAccountPlanPanel();
+  renderLibrary();
+  renderFavorites();
+  renderActiveCodes();
+}
+
 function init() {
-  initAuth();
+  initAuth({ loadDashboardState: loadMembershipAccess });
   initDebugView();
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
+    if (!user) {
+      planMembershipAccess = "free";
+      applyMembershipAccess();
+    }
     updateAccountModal(user);
   });
   initMobileMenus();
