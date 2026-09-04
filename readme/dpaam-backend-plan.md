@@ -23,7 +23,7 @@ Firebase supplies auth, database, and server logic. Stripe supplies billing.
 | Rebate | $8.99 off, **first year only** (assumed — flagged in Open Items). Format-based honor system: TPT = `^\d{9}$`, Shopify = `^\d{4,5}$` |
 | Free tier | 8 games: `the-midnight-mall-mixed-reading-skills-{2,3,4,5}` + `the-midnight-mall-mixed-math-skills-{2,3,4,5}` |
 | Free sharing | Free users can generate share codes, but only for the 8 free rooms (same 7-day / 20-code mechanics) |
-| Game codes | 5 chars from `ABCDEFGHIJKLMNPQRSTUVWXYZ123456789`, **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 7-day TTL, max 20 active per user |
+| Game codes | 5 chars from `ABCDEFGHIJKLMNPQRSTUVWXYZ123456789`, **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 7-day TTL, max 20 active per user (best-effort under concurrent requests — see `createShareCode`), one active code per user per game (re-sharing returns the existing code) |
 | Legacy codes | Existing 5-digit numeric purchase codes stay client-side validated in `splash-new.js`, untouched |
 
 ---
@@ -51,6 +51,14 @@ Created by the authenticated `ensureUserProfile` callable after sign-in. The sha
 server helper is idempotent and can also be called by later functions. `plan` starts
 as `"free"`.
 
+**`plan` is the entitlement source of truth starting in Phase 2.** The client reads
+`users/{uid}` on login and derives `membershipAccess` from `plan` (`"all-access"` →
+member UI, `"free"` → gated UI). The localhost debug toggle survives only as an
+explicit dev-time override, default off. `status: "canceling"` still counts as fully
+entitled (access runs through `currentPeriodEnd`); once Stripe lands, the server
+entitlement helper may also sanity-check `currentPeriodEnd > now`. Server functions
+never trust the client — `createShareCode` re-reads the user doc itself.
+
 ### `userPrefs/{uid}` — client read/write (own doc only)
 
 ```
@@ -73,8 +81,8 @@ Favorites and reorder persist by writing this one array (debounced). No function
 ```
 
 - Doc-ID-as-code + transactional create = global uniqueness for free.
-- Set a **Firestore TTL policy** on `expiresAt` — expired codes auto-delete (TTL deletion can lag ~24h, so every read path also checks `expiresAt` explicitly).
-- Dashboard reads its own codes with a client query (`where uid == auth.uid`), allowed by rules.
+- Set a **Firestore TTL policy** on `expiresAt` — but TTL is **cleanup only**, never enforcement. TTL deletion can lag ~24h, so every read path checks `expiresAt` explicitly, and a candidate code can collide with an expired-but-undeleted doc (`createShareCode` handles this: overwrite if expired, else retry a new candidate). Don't block dev/testing on the TTL policy; enable it before Phase 2 ships to production.
+- Dashboard reads its own codes with a client query (`where uid == auth.uid`), allowed by rules. Expired codes are filtered client-side and the list is sorted client-side by `createdAt` descending — at ≤20 codes there's no reason for a composite index.
 
 ### Security rules sketch
 
@@ -96,22 +104,22 @@ Seven functions. All callables verify authentication except `resolveGameCode`; t
 | Function | Type | Purpose |
 |---|---|---|
 | `ensureUserProfile()` | callable | Idempotently creates the signed-in user's complete `users/{uid}` document with `plan: "free"` if it does not exist. The client never supplies the UID. |
-| `createShareCode({gameId})` | callable | Entitlement check (free plan → gameId must be in FREE_GAME_IDS; paid → any valid gameId). Count active codes `< 20` else error → front end shows the existing limit modal. Generate code (retry on collision), create `codes/{CODE}` in a transaction (fail if doc exists). Returns `{code, expiresAt}`. |
+| `createShareCode({gameId})` | callable | Entitlement check from `users/{uid}` (free plan → gameId must be in FREE_GAME_IDS; paid → any valid gameId; `status: "canceling"` still counts as paid). **Idempotent:** if an active unexpired code already exists for this gameId, return it — one active code per user per game, enforced server-side; cancel-then-share is how users mint a fresh code. Otherwise count active codes `< 20` else `resource-exhausted` → front end shows the limit modal. Generate code, create `codes/{CODE}` — on doc collision, overwrite if the existing doc is expired, else retry a new candidate. Query + checks + create run in one plain transaction; the 20-cap is **best-effort under adversarial parallel requests** (phantom inserts can briefly exceed it — acceptable for an abuse backstop, deliberately not hardened further). Returns `{code, expiresAt}`. |
 | `cancelShareCode({code})` | callable | Verify `codes/{code}.uid == auth.uid`, delete. |
 | `resolveGameCode({code})` | callable, **unauthenticated** | Uppercase + validate format. Rate limit by IP (below). Look up `codes/{code}`; if found and unexpired, return `{gameId}`. Else a generic not-found error. |
 | `createCheckoutSession({rebatePlatform?, rebateOrderNumber?})` | callable | Validate rebate format server-side; if valid, attach the $8.99 once-off coupon and claim the order number in `rebateClaims/{platform_orderNumber}` (transactional create — blocks the same order number being reused across accounts). Create Stripe Checkout session (`mode: subscription`, existing-or-new customer, `metadata.uid`). Returns session URL. |
 | `createPortalSession()` | callable | Returns Stripe Customer Portal URL for `stripeCustomerId`. Powers the "Manage Subscription" button — cancel lives here, zero custom UI. |
 | `stripeWebhook` | HTTPS | Verifies Stripe signature. Handles `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted` → writes `plan`, `status`, `currentPeriodEnd` to `users/{uid}`. This is the **only** writer of entitlement state. |
 
-**Game catalog on the server:** functions need valid gameIds + the free set. Add a tiny script (`scripts/export-game-ids.mjs`) that reads `js/games.js` and emits `functions/game-ids.json`; run it as part of functions deploy. The 8 free IDs live as a constant in the functions code.
+**Game catalog on the server:** functions need valid gameIds + the free set. Add a tiny script (`scripts/export-game-ids.mjs`, new and independent of `export-game-standards.mjs`) that reads `js/games.js` and emits `firebase-functions/game-ids.json`. Commit the generated file **and** wire it as a `predeploy` hook in `firebase.json` so a stale catalog can't ship. The 8 free IDs live as a constant in the functions code.
 
 **Rate limiting** (simple Firestore fixed-window counters — one small doc per key, no infra):
 
 - `resolveGameCode`: per-IP, e.g. 30 lookups / 10 min. On limit, return a `resource-exhausted` error with `retryAfter` — the play page already has a lockout overlay UI to show it. (Brute force is already mathematically pointless at 45M combinations; this is the abuse backstop.)
-- `createShareCode`: per-user, e.g. 40 creations/day (the 20-active cap is the real limit).
+- `createShareCode`: **no rate limit in Phase 2.** It's authenticated and the 20-active cap is the real limit. If still wanted, add it in Phase 5 as a five-line reuse of the Phase 3 infra.
 - `createCheckoutSession`: per-user, e.g. 10/hour (protects rebate-claim probing).
 
-Counters live in a `rateLimits/{key}` collection with their own TTL field.
+Counters live in a `rateLimits/{key}` collection with their own TTL field (infra built in Phase 3 alongside `resolveGameCode`).
 
 ---
 
@@ -143,9 +151,10 @@ Lifecycle mapping:
 
 State bootstraps from Firestore after login instead of starting empty:
 
-- `favorites` ← `userPrefs/{uid}`; `activeCodes` ← `codes` query (client-side expiry filter).
-- `addFavorite` / `removeFavorite` / `setFavoritesOrder` → write the `favorites` array back (debounced ~1s). Optimistic UI, no spinners.
-- `generateCode` → `createShareCode` callable (replaces local `generateCodeString`); needs a small async/loading state on the Share button. Limit error → existing limit modal.
+- `membershipAccess` ← `users/{uid}.plan` (mapping lives in exactly one place; localhost debug toggle is an explicit override on top, default off).
+- `favorites` ← `userPrefs/{uid}`; `activeCodes` ← `codes` query (client-side expiry filter, client-side sort by `createdAt` desc).
+- `addFavorite` / `removeFavorite` / `setFavoritesOrder` → write the `favorites` array back (debounced ~1s). Optimistic UI, no spinners, no revert on failure. **No custom retry** — the Firestore SDK already queues and retries transient failures; if the write ultimately rejects, show a friendly toast (add a minimal toast utility — Phase 5 wants one anyway). The next favorites change re-saves the whole array, so state self-heals. Optional: flush pending writes on `pagehide` if it's genuinely one line.
+- `generateCode` → `createShareCode` callable (replaces local `generateCodeString`); needs a small async/loading state on the Share button. Re-share of an already-shared game returns the same code (server is idempotent); the share modal should show expiry prominently so a near-expiry code isn't a surprise. Limit error → **new dedicated limit modal**: copy "You've reached 20 active share codes. Cancel an existing code before sharing another room.", buttons `View Active Codes` (closes modal, switches dashboard to the Active tab) and `Close`.
 - `cancelCode` → `cancelShareCode` callable.
 - Library rendering: free plan → non-free rooms get a lock badge + "Upgrade" CTA instead of Share. (Server enforces regardless.)
 - Countdown timers, tabs, drag-reorder, share modal: unchanged.
@@ -183,16 +192,22 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[LOW]` Gen 2 `ensureUserProfile` callable → idempotent `users/{uid}` provisioning with `plan: "free"`.
 
 ### Phase 2 — Persistence (favorites + shared codes)
+
+*Workflow: checkpoint-commit existing work first (preserve unrelated standards WIP untouched). Develop and test against the Firebase Emulator Suite (auth + firestore + functions); deploy to production `dpaam-8864d` only once the phase works locally.*
+
 - [ ] `[HIGH]` Firestore security rules (all collections) — the wall between users and each other's data.
-- [ ] `[LOW]` `userPrefs` wiring (load on login, debounced writes for add/remove/reorder).
-- [ ] `[HIGH]` `createShareCode` / `cancelShareCode` functions (entitlement check, 20-cap, uniqueness transaction, per-user rate limit) + game-ids export script.
+- [ ] `[MID]` Plan-driven entitlement on the client: read `users/{uid}` on login → derive `membershipAccess` from `plan`; demote the localhost debug toggle to an explicit override.
+- [ ] `[LOW]` `userPrefs` wiring (load on login, debounced optimistic writes for add/remove/reorder; toast on persistent failure — includes the minimal toast utility).
+- [ ] `[HIGH]` `createShareCode` / `cancelShareCode` functions (server-side entitlement from user doc, idempotent one-code-per-game, 20-cap in a plain transaction, doc-ID uniqueness with expired-doc collision handling) + `scripts/export-game-ids.mjs` → committed `firebase-functions/game-ids.json` + `predeploy` hook.
 - [ ] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
-- [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` (and on `rateLimits`) — console setting.
+- [ ] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
 - [ ] `[LOW]` Free-tier gating in the library UI (lock badge + upgrade CTA).
+- [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before).
 
 ### Phase 3 — Play-side resolution
-- [ ] `[HIGH]` `resolveGameCode` + per-IP rate limiting (the one public, unauthenticated endpoint).
+- [ ] `[HIGH]` `resolveGameCode` + per-IP rate limiting (the one public, unauthenticated endpoint; this builds the `rateLimits` counter infra).
 - [ ] `[MID]` URL-slug auto-launch + typed-entry branch in `splash-new.js`; expired-code messaging. (Legacy code is load-bearing — careful surgery, no rewrite.)
+- [ ] `[YOU]` Firestore TTL policy on the `rateLimits` TTL field — console setting, before this phase ships.
 - [ ] `[YOU]` End-to-end: share from dashboard → open `play.dingopunks.com/?CODE` in incognito → game launches.
 
 ### Phase 4 — Stripe
@@ -204,6 +219,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 
 ### Phase 5 — Hardening
 - [ ] `[HIGH]` Adversarial review: rules, entitlement fields unwritable from clients, rate-limit tuning, probing every callable as a hostile user.
+- [ ] `[LOW]` Optional: per-user rate limit on `createShareCode` (deferred from Phase 2 — reuse the Phase 3 counter infra if the 20-cap proves insufficient).
 - [ ] `[LOW]` Friendly error toasts for every failure path.
 - [ ] `[LOW]` Update `readme/dpaam.md` (currently stale: 24hr/12-code/6-char/$49 → 7-day/20-code/5-char/$47.88).
 - [ ] `[MID]` Optional, post-MVP: Firebase App Check, email verification.
@@ -218,3 +234,4 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 2. **Rebate order-number reuse** — plan blocks the same order number across accounts (`rebateClaims`). Cheap insurance on the honor system; remove if too strict.
 3. **Lapsed subscribers' active codes** — default: codes live out their remaining 7 days. Alternative (kill immediately) is one extra check in `resolveGameCode`.
 4. **Email verification** — not required at MVP (Stripe checkout confirms a real person for paid; free tier is low-risk).
+5. **20-cap under concurrency** — deliberately best-effort: parallel requests can briefly overshoot the cap (phantom inserts aren't blocked by a plain transaction). Accepted; the cap is an abuse backstop, not an invariant, and overshoot is bounded by burst size. Global code uniqueness (doc-ID create) **is** strict.
