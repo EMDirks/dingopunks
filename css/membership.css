@@ -66,6 +66,8 @@ body {
   --dpaam-gold-dark: #C87D3B;
   --dpaam-purple: #986DD7;
   --dpaam-green: #80AA6A;
+  --dpaam-green-light: #C8E8D4;
+  --dpaam-green-dark: #1f7a4d;
   --dpaam-pink: #FF8290;
   --dpaam-cyan: #97E6F9;
   --dpaam-lime: #c7f0b0;
@@ -1669,14 +1671,18 @@ a.dpaam-topbar-btn {
   margin-top: 0;
 }
 
-.dpaam-plan-status__features {
-  margin-top: var(--dpaam-pad-md);
-}
-
 .dpaam-plan-panel {
   padding: var(--dpaam-pad-xl);
   background: var(--dpaam-light-gray);
   border-radius: 12px;
+}
+
+.dpaam-plan-status > .dpaam-plan-status__label,
+.dpaam-plan-panel > .dpaam-plan-status__label:first-child {
+  margin-top: calc(-1 * var(--dpaam-pad));
+  margin-left: calc(-1 * var(--dpaam-pad));
+  margin-right: 0;
+  margin-bottom: var(--dpaam-pad-lg);
 }
 
 .dpaam-plan-panel__header {
@@ -2834,6 +2840,12 @@ dd a {
   .dpaam-plan-panel,
   .dpaam-plan-status {
     padding: var(--dpaam-pad) var(--dpaam-pad-md);
+  }
+
+  .dpaam-plan-status > .dpaam-plan-status__label,
+  .dpaam-plan-panel > .dpaam-plan-status__label:first-child {
+    margin-top: calc(-1 * var(--dpaam-pad-xs));
+    margin-left: calc(-1 * var(--dpaam-pad-xs));
   }
 
   .dpaam-plan-panel__header-main {

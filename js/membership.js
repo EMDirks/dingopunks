@@ -842,8 +842,11 @@ function currentPlanStatusHtml() {
   return `
     <div class="dpaam-plan-status">
       <p class="dpaam-plan-status__label">Your plan</p>
-      <p class="dpaam-plan-panel__price dpaam-plan-status__price">Free</p>
-      <div class="dpaam-plan-status__features">
+      <div class="dpaam-plan-panel__pricing">
+        <p class="dpaam-plan-panel__price dpaam-plan-status__price">Free</p>
+        <p class="dpaam-plan-panel__billing">Always and forever</p>
+      </div>
+      <div class="dpaam-plan-panel__features">
         <ul class="dpaam-plan-panel__features-list">
           <li><strong>Limited access</strong> to ${freeCount} ${roomLabel}</li>
         </ul>
@@ -856,8 +859,8 @@ function allAccessPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>Full access</strong> to ${libraryCount} escape rooms</li>
-        <li><strong>New escape rooms</strong> added all the time</li>
+        <li><strong>Full access</strong> to all ${libraryCount} escape rooms</li>
+        <li><strong>New escape rooms</strong> added every month</li>
         <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
       </ul>
     </div>`;
@@ -879,7 +882,7 @@ function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
     </div>`;
 }
 
-function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
+function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "", showUpgradeLabel = false } = {}) {
   const buttonHtml =
     action === "manage"
       ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
@@ -891,6 +894,7 @@ function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
 
   return `
     <div class="dpaam-plan-panel">
+      ${showUpgradeLabel ? '<p class="dpaam-plan-status__label">Upgrade to</p>' : ""}
       ${allAccessPlanPanelHeaderHtml({ planNameId })}
       ${allAccessPlanFeaturesHtml()}
       ${buttonHtml}
@@ -900,7 +904,7 @@ function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
 function allAccessFreePlanPanelHtml({ showPlanStatus = false } = {}) {
   return `
     ${showPlanStatus ? currentPlanStatusHtml() : ""}
-    ${unlimitedPlanPanelHtml()}`;
+    ${unlimitedPlanPanelHtml({ showUpgradeLabel: showPlanStatus })}`;
 }
 
 function syncMembershipAccessChrome() {
