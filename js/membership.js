@@ -1,8 +1,7 @@
 // Dingo Punks: Unlimited Membership — teacher dashboard
 //
-// Vanilla ES module. State lives only in memory. Render functions read from
-// `state`; mutations go through the named action functions below — those
-// are the seams a real backend will plug into later.
+// Vanilla ES module. Render functions read from `state`; mutations go through
+// the named action functions below.
 
 import { games, themes } from "./games.js";
 import { thumbHtml } from "./thumbnails.js";
@@ -38,6 +37,12 @@ import {
   setStandardsModalGameId,
 } from "./membership/standards.js";
 import { initDebugView } from "./membership/debug.js";
+import { showToast } from "./membership/toast.js";
+import {
+  loadUserPrefs,
+  resetUserPrefs,
+  scheduleFavoritesSave,
+} from "./membership/user-prefs.js";
 
 // ---------- helpers ----------
 
@@ -57,8 +62,12 @@ function membershipAccessFromPlan(plan) {
   return access ?? "free";
 }
 
-async function loadMembershipAccess(user) {
-  const profile = await getUserProfile(user.uid);
+async function loadDashboardState(user) {
+  const [profile] = await Promise.all([
+    getUserProfile(user.uid),
+    loadUserPrefs(user.uid),
+  ]);
+
   if (!profile) {
     throw new Error(`Missing user profile for ${user.uid}`);
   }
@@ -317,6 +326,7 @@ function addFavorite(gameId, { toast = true } = {}) {
     appendFavoriteCard(gameId);
   }
   pulseTabCount("favorites");
+  scheduleFavoritesSave();
   if (toast) showToast("✓ \u00A0 Favorited");
 }
 
@@ -329,6 +339,7 @@ function removeFavorite(gameId) {
     removeFavoriteCard(gameId);
   }
   pulseTabCount("favorites", "remove");
+  scheduleFavoritesSave();
 }
 
 function setFavoritesOrder(orderedIds) {
@@ -337,6 +348,7 @@ function setFavoritesOrder(orderedIds) {
   const current = new Set(state.favorites);
   if (!orderedIds.every((id) => current.has(id))) return;
   state.favorites = orderedIds.slice();
+  scheduleFavoritesSave();
 }
 
 function generateCode(gameId) {
@@ -1162,71 +1174,6 @@ function shareModalHtml(game) {
   return `${modalThumbHtml(game)}${optionsHtml}`;
 }
 
-let toastTimer = null;
-
-function hideToast() {
-  const toast = document.getElementById("dpaam-toast");
-  if (!toast || !toast.classList.contains("dpaam-toast--visible")) return;
-
-  clearTimeout(toastTimer);
-  toast.classList.remove("dpaam-toast--entering", "dpaam-toast--pulse");
-  toast.classList.add("dpaam-toast--exiting");
-
-  const finish = () => {
-    toast.classList.remove("dpaam-toast--visible", "dpaam-toast--exiting");
-    toast.hidePopover?.();
-  };
-
-  toast.addEventListener(
-    "animationend",
-    (e) => {
-      if (e.animationName === "dpaam-toast-out") finish();
-    },
-    { once: true },
-  );
-  toastTimer = setTimeout(finish, 250);
-}
-
-function showToast(message) {
-  const toast = document.getElementById("dpaam-toast");
-  if (!toast) return;
-  clearTimeout(toastTimer);
-  toast.classList.remove("dpaam-toast--exiting");
-  toast.textContent = message;
-
-  const isOpen = toast.classList.contains("dpaam-toast--visible");
-
-  if (isOpen) {
-    toast.classList.remove("dpaam-toast--pulse");
-    void toast.offsetWidth;
-    toast.classList.add("dpaam-toast--pulse");
-    toast.addEventListener(
-      "animationend",
-      (e) => {
-        if (e.animationName === "dpaam-toast-pulse") {
-          toast.classList.remove("dpaam-toast--pulse");
-        }
-      },
-      { once: true }
-    );
-  } else {
-    toast.showPopover?.();
-    toast.classList.remove("dpaam-toast--entering", "dpaam-toast--pulse");
-    toast.classList.add("dpaam-toast--visible", "dpaam-toast--entering");
-    toast.addEventListener(
-      "animationend",
-      (e) => {
-        if (e.animationName === "dpaam-toast-in") {
-          toast.classList.remove("dpaam-toast--entering");
-        }
-      },
-      { once: true }
-    );
-  }
-
-  toastTimer = setTimeout(() => hideToast(), 1000);
-}
-
 function classroomShareTitle(game) {
   if (!game?.topic) return "Dingo Punks Escape Room";
   return `Dingo Punks Escape Room • ${formatLabel(game.topic)}`;
@@ -1981,11 +1928,12 @@ function applyMembershipAccess() {
 }
 
 function init() {
-  initAuth({ loadDashboardState: loadMembershipAccess });
+  initAuth({ loadDashboardState });
   initDebugView();
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (!user) {
+      resetUserPrefs();
       planMembershipAccess = "free";
       applyMembershipAccess();
     }

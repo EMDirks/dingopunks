@@ -197,7 +197,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 
 - [X] `[HIGH]` Firestore security rules (all collections) — the wall between users and each other's data.
 - [X] `[MID]` Plan-driven entitlement on the client: read `users/{uid}` on login → derive `membershipAccess` from `plan`; demote the localhost debug toggle to an explicit override.
-- [ ] `[LOW]` `userPrefs` wiring (load on login, debounced optimistic writes for add/remove/reorder; toast on persistent failure — includes the minimal toast utility).
+- [X] `[LOW]` `userPrefs` wiring (load on login, debounced optimistic writes for add/remove/reorder; toast on persistent failure — includes the minimal toast utility).
 - [ ] `[HIGH]` `createShareCode` / `cancelShareCode` functions (server-side entitlement from user doc, idempotent one-code-per-game, 20-cap in a plain transaction, doc-ID uniqueness with expired-doc collision handling) + `scripts/export-game-ids.mjs` → committed `firebase-functions/game-ids.json` + `predeploy` hook.
 - [ ] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
 - [ ] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
