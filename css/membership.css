@@ -2073,6 +2073,38 @@ a.dpaam-topbar-btn {
   min-width: 0;
 }
 
+.dpaam-share-more-chip:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.dpaam-share-panel-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-md);
+}
+
+.dpaam-share-panel-skeleton__title {
+  width: min(220px, 70%);
+  height: 20px;
+}
+
+.dpaam-share-panel-skeleton__line {
+  width: 100%;
+  height: 14px;
+}
+
+.dpaam-share-panel-skeleton__line--short {
+  width: min(280px, 85%);
+}
+
+.dpaam-share-panel-skeleton__btn {
+  width: min(160px, 55%);
+  height: 38px;
+  border-radius: var(--dpaam-radius-pill);
+  margin-top: var(--dpaam-pad-sm);
+}
+
 .dpaam-modal-standards-group-label {
   color: var(--dpaam-black-muted);
   font-size: var(--dpaam-text-xs);

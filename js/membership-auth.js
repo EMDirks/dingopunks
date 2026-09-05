@@ -150,12 +150,19 @@ export function initAuth({ loadDashboardState } = {}) {
   const messages = section.querySelector(".dpaam-auth-messages");
   if (modals.length === 0) return;
 
+  function hasAuthBackState() {
+    if (typeof window.navigation !== "undefined" && "canGoBack" in window.navigation) {
+      return window.navigation.canGoBack;
+    }
+    return window.history.length > 1;
+  }
+
   document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
-    if (window.history.length > 1) {
+    if (hasAuthBackState()) {
       window.history.back();
       return;
     }
-    window.location.href = "https://dingopunks.com";
+    window.location.href = "https://dingopunks.com/";
   });
 
   const headerToggle = document.getElementById("dpaam-auth-header-toggle");

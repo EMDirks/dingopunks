@@ -116,14 +116,22 @@ export async function invokeCreateShareCode(gameId) {
   return entry;
 }
 
-export async function invokeCancelShareCode(gameId) {
+export function removeActiveCodeLocal(gameId) {
+  const index = state.activeCodes.findIndex((item) => item.gameId === gameId);
+  if (index < 0) return null;
+  const entry = state.activeCodes[index];
+  state.activeCodes = state.activeCodes.filter((item) => item.gameId !== gameId);
+  return entry;
+}
+
+export function restoreActiveCode(entry) {
+  if (!entry) return;
+  upsertActiveCode(entry);
+}
+
+export async function invokeCancelShareCodeRemote(code) {
   if (!codesLoaded || !activeUid) {
     throw new Error("Share codes are not loaded yet.");
   }
-
-  const entry = state.activeCodes.find((item) => item.gameId === gameId);
-  if (!entry) return;
-
-  await cancelShareCode({ code: entry.code });
-  state.activeCodes = state.activeCodes.filter((item) => item.gameId !== gameId);
+  await cancelShareCode({ code });
 }

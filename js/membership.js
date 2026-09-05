@@ -41,10 +41,12 @@ import {
   scheduleFavoritesSave,
 } from "./membership/user-prefs.js";
 import {
-  invokeCancelShareCode,
+  invokeCancelShareCodeRemote,
   invokeCreateShareCode,
   loadActiveCodes,
+  removeActiveCodeLocal,
   resetShareCodes,
+  restoreActiveCode,
   shareCodeErrorMessage,
 } from "./membership/share-codes.js";
 
@@ -390,16 +392,24 @@ async function generateCode(gameId) {
 }
 
 async function cancelCode(gameId) {
+  const entry = removeActiveCodeLocal(gameId);
+  if (!entry) return;
+
+  renderActiveCodes();
+  renderFavorites();
+  renderLibrary();
+  pulseTabCount("active", "remove");
+
   try {
-    await invokeCancelShareCode(gameId);
+    await invokeCancelShareCodeRemote(entry.code);
+  } catch (error) {
+    console.error("cancelShareCode failed", error);
+    restoreActiveCode(entry);
     renderActiveCodes();
     renderFavorites();
     renderLibrary();
-    pulseTabCount("active", "remove");
-  } catch (error) {
-    console.error("cancelShareCode failed", error);
+    pulseTabCount("active");
     showToast(shareCodeErrorMessage(error));
-    throw error;
   }
 }
 
@@ -1168,7 +1178,8 @@ function shareCodeCharsHtml(code) {
 
 const SHARE_CLASSROOM_ICON = `<svg class="dpaam-share-classroom-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="8" height="6" rx="1" fill="#0F9D58"/><rect x="13" y="5" width="8" height="6" rx="1" fill="#F4B400"/><rect x="3" y="13" width="8" height="6" rx="1" fill="#4285F4"/><rect x="13" y="13" width="8" height="6" rx="1" fill="#DB4437"/></svg>`;
 
-function shareModalHtml(game) {
+function shareModalHtml(game, { pending = false } = {}) {
+  const chipDisabled = pending ? " disabled" : "";
   const optionsHtml = `
     <div class="dpaam-share-options">
       <div class="dpaam-share-more">
@@ -1178,21 +1189,21 @@ function shareModalHtml(game) {
             class="dpaam-tag dpaam-share-more-chip"
             data-action="select-share-more"
             data-share-more="direct"
-            aria-pressed="false"
+            aria-pressed="false"${chipDisabled}
           >Direct Link</button>
           <button
             type="button"
             class="dpaam-tag dpaam-share-more-chip"
             data-action="select-share-more"
             data-share-more="code"
-            aria-pressed="false"
+            aria-pressed="false"${chipDisabled}
           >Game Code</button>
           <button
             type="button"
             class="dpaam-tag dpaam-share-more-chip"
             data-action="select-share-more"
             data-share-more="classroom"
-            aria-pressed="false"
+            aria-pressed="false"${chipDisabled}
           >Google Classroom</button>
         </div>
         <div class="dpaam-share-more-panel" id="dpaam-share-more-panel" inert>
@@ -1203,6 +1214,45 @@ function shareModalHtml(game) {
       </div>
     </div>`;
   return `${modalThumbHtml(game)}${optionsHtml}`;
+}
+
+function shareModalSkeletonPanelHtml() {
+  return `<section class="dpaam-share-panel-skeleton" aria-busy="true" aria-label="Loading sharing options">
+    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__title"></div>
+    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line"></div>
+    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line dpaam-share-panel-skeleton__line--short"></div>
+    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__btn"></div>
+  </section>`;
+}
+
+function showShareModalSkeleton() {
+  const wrap = els.shareModalBody.querySelector(".dpaam-share-more");
+  const inner = wrap?.querySelector(".dpaam-share-more-inner");
+  const firstChip = wrap?.querySelector(".dpaam-share-more-chip");
+  if (!wrap || !inner || !firstChip) return;
+
+  firstChip.setAttribute("aria-pressed", "true");
+  inner.innerHTML = shareModalSkeletonPanelHtml();
+  setShareMorePanelOpen(wrap, true, { animate: false });
+}
+
+function populateShareModal(gameId) {
+  if (shareGameId !== gameId || !els.shareModal.open) return;
+  const active = activeCodeFor(gameId);
+  if (!active) return;
+
+  shareCode = active.code;
+  const wrap = els.shareModalBody.querySelector(".dpaam-share-more");
+  const inner = wrap?.querySelector(".dpaam-share-more-inner");
+  const firstChip = wrap?.querySelector('.dpaam-share-more-chip[data-share-more="direct"]');
+  if (!wrap || !inner || !firstChip) return;
+
+  wrap.querySelectorAll(".dpaam-share-more-chip").forEach((chip) => {
+    chip.disabled = false;
+  });
+  inner.innerHTML = shareMoreGroupHtml("direct");
+  firstChip.setAttribute("aria-pressed", "true");
+  setShareMorePanelOpen(wrap, true, { animate: false });
 }
 
 function classroomShareTitle(game) {
@@ -1301,78 +1351,71 @@ function selectShareMoreGroup(btn, { instant = false } = {}) {
   }
 }
 
-function showShareModal(gameId) {
+function showShareModal(gameId, { pending = false } = {}) {
   const game = gameById(gameId);
   const active = activeCodeFor(gameId);
-  if (!game || !active) return;
+  if (!game || (!pending && !active)) return;
 
   shareGameId = gameId;
-  shareCode = active.code;
-  els.shareModalBody.innerHTML = shareModalHtml(game);
-  const firstChip = els.shareModalBody.querySelector(".dpaam-share-more-chip");
-  if (firstChip) selectShareMoreGroup(firstChip, { instant: true });
+  shareCode = pending ? null : active.code;
+  els.shareModalBody.innerHTML = shareModalHtml(game, { pending });
+
+  if (pending) {
+    showShareModalSkeleton();
+  } else {
+    const firstChip = els.shareModalBody.querySelector(".dpaam-share-more-chip");
+    if (firstChip) selectShareMoreGroup(firstChip, { instant: true });
+  }
   showExclusiveModal(els.shareModal);
 }
 
-function openShareModal(gameId) {
+function openShareModal(gameId, { pending = false } = {}) {
   if (isGameLockedForAccess(gameId)) {
     openMemberOnlyModal(gameId);
     return;
   }
   const game = gameById(gameId);
   const active = activeCodeFor(gameId);
-  if (!game || !active) return;
+  if (!game || (!pending && !active)) return;
 
   if (els.modal.open) {
     transitionToModal(els.modal, () => {
       modalGameId = null;
       modalContext = "library";
-      showShareModal(gameId);
+      showShareModal(gameId, { pending });
     });
     return;
   }
 
-  showShareModal(gameId);
+  showShareModal(gameId, { pending });
 }
 
-async function activateAndShare(gameId, triggerBtn = null) {
+async function activateAndShare(gameId) {
   if (isGameLockedForAccess(gameId)) {
     openMemberOnlyModal(gameId);
     return;
   }
 
-  const btn = triggerBtn ?? shareButtonForGameId(gameId);
   const needsCreate = !activeCodeFor(gameId);
 
-  if (needsCreate && btn) {
-    setButtonLoading(btn, true, "Sharing…", { useHtml: true });
+  if (needsCreate) {
+    openShareModal(gameId, { pending: true });
+    const ok = await generateCode(gameId);
+    if (!ok) {
+      if (shareGameId === gameId && els.shareModal.open) {
+        closeAnimatedModal(els.shareModal);
+      }
+      return;
+    }
+    populateShareModal(gameId);
+    return;
   }
 
-  try {
-    if (needsCreate && !(await generateCode(gameId))) return;
-    openShareModal(gameId);
-  } finally {
-    if (needsCreate && btn) {
-      setButtonLoading(btn, false, "Sharing…", { useHtml: true });
-    }
-  }
+  openShareModal(gameId);
 }
 
-async function handleCancelCode(gameId, triggerBtn = null) {
-  const btn = triggerBtn ?? cancelButtonForGameId(gameId);
-  if (btn) {
-    setButtonLoading(btn, true, "Canceling…", { useHtml: true });
-  }
-
-  try {
-    await cancelCode(gameId);
-  } catch {
-    // cancelCode already surfaced a toast.
-  } finally {
-    if (btn) {
-      setButtonLoading(btn, false, "Canceling…", { useHtml: true });
-    }
-  }
+function handleCancelCode(gameId) {
+  void cancelCode(gameId);
 }
 
 let currentUser = null;
@@ -1548,7 +1591,7 @@ function wireEvents() {
     if (!card) return;
     const gameId = card.dataset.gameId;
     switch (btn.dataset.action) {
-      case "cancel-code": void handleCancelCode(gameId, btn); break;
+      case "cancel-code": void handleCancelCode(gameId); break;
       case "share-code": openShareModal(gameId); break;
       case "open-details": openModal(gameId, "active"); break;
     }
@@ -1562,7 +1605,7 @@ function wireEvents() {
     if (!row) return;
     const gameId = row.dataset.gameId;
     switch (btn.dataset.action) {
-      case "share-code": void activateAndShare(gameId, btn); break;
+      case "share-code": void activateAndShare(gameId); break;
       case "open-details": openModal(gameId, "favorites"); break;
       case "remove-favorite": removeFavorite(gameId); break;
     }
@@ -1659,7 +1702,7 @@ function wireEvents() {
           addFavorite(gameId);
           break;
         case "remove-favorite": removeFavorite(gameId); break;
-        case "share-code": void activateAndShare(gameId, actionBtn); break;
+        case "share-code": void activateAndShare(gameId); break;
         case "open-details": openModal(gameId); break;
       }
       return;
@@ -1714,7 +1757,7 @@ function wireEvents() {
   // Modal footer action — Share activates (if needed) and opens sharing options.
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
-    void activateAndShare(modalGameId, els.modalAdd);
+    void activateAndShare(modalGameId);
   });
 
   wireAnimatedModal(els.modal, () => {
