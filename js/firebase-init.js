@@ -42,6 +42,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const firebaseFunctions = getFunctions(app);
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
+const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
+const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
 
 async function getUserProfile(uid) {
   const snapshot = await getDoc(doc(db, "users", uid));
@@ -66,6 +68,8 @@ if (isLocal) {
 export {
   app,
   auth,
+  cancelShareCode,
+  createShareCode,
   createUserWithEmailAndPassword,
   db,
   ensureUserProfile,

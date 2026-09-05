@@ -17,9 +17,6 @@ import {
 import {
   BUTTON_LOCKED_ICON,
   CARD_LOCKED_BADGE_ICON,
-  CODE_CHARS,
-  CODE_LENGTH,
-  CODE_TTL_MS,
   DASHBOARD_TABS,
   LIBRARY_SEASON_ORDER,
   LIBRARY_THEME_ORDER_BY_SEASON,
@@ -43,6 +40,13 @@ import {
   resetUserPrefs,
   scheduleFavoritesSave,
 } from "./membership/user-prefs.js";
+import {
+  invokeCancelShareCode,
+  invokeCreateShareCode,
+  loadActiveCodes,
+  resetShareCodes,
+  shareCodeErrorMessage,
+} from "./membership/share-codes.js";
 
 // ---------- helpers ----------
 
@@ -66,6 +70,7 @@ async function loadDashboardState(user) {
   const [profile] = await Promise.all([
     getUserProfile(user.uid),
     loadUserPrefs(user.uid),
+    loadActiveCodes(user.uid),
   ]);
 
   if (!profile) {
@@ -78,6 +83,18 @@ async function loadDashboardState(user) {
 
 function gameById(id) {
   return games.find((g) => g.id === id);
+}
+
+const preloadedImages = new Set();
+
+function preloadImages(paths) {
+  for (const path of paths) {
+    if (!path || preloadedImages.has(path)) continue;
+    preloadedImages.add(path);
+    const img = new Image();
+    img.decoding = "async";
+    img.src = path;
+  }
 }
 
 function themeByTitle(title) {
@@ -177,12 +194,16 @@ function pruneExpiredCodes() {
   return state.activeCodes.length !== before;
 }
 
-function generateCodeString() {
-  let out = "";
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    out += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
-  }
-  return out;
+function shareButtonForGameId(gameId) {
+  return document.querySelector(
+    `[data-game-id="${CSS.escape(gameId)}"] button[data-action="share-code"]`,
+  );
+}
+
+function cancelButtonForGameId(gameId) {
+  return document.querySelector(
+    `[data-game-id="${CSS.escape(gameId)}"] button[data-action="cancel-code"]`,
+  );
 }
 
 // kebab-case / array values -> sentence-case display strings
@@ -351,26 +372,35 @@ function setFavoritesOrder(orderedIds) {
   scheduleFavoritesSave();
 }
 
-function generateCode(gameId) {
+async function generateCode(gameId) {
   if (activeCodeFor(gameId)) return true;
-  state.activeCodes.push({
-    gameId,
-    code: generateCodeString(),
-    expiresAt: Date.now() + CODE_TTL_MS,
-  });
-  renderActiveCodes();
-  renderFavorites();
-  renderLibrary();
-  pulseTabCount("active");
-  return true;
+
+  try {
+    await invokeCreateShareCode(gameId);
+    renderActiveCodes();
+    renderFavorites();
+    renderLibrary();
+    pulseTabCount("active");
+    return true;
+  } catch (error) {
+    console.error("createShareCode failed", error);
+    showToast(shareCodeErrorMessage(error));
+    return false;
+  }
 }
 
-function cancelCode(gameId) {
-  state.activeCodes = state.activeCodes.filter((c) => c.gameId !== gameId);
-  renderActiveCodes();
-  renderFavorites();
-  renderLibrary();
-  pulseTabCount("active", "remove");
+async function cancelCode(gameId) {
+  try {
+    await invokeCancelShareCode(gameId);
+    renderActiveCodes();
+    renderFavorites();
+    renderLibrary();
+    pulseTabCount("active", "remove");
+  } catch (error) {
+    console.error("cancelShareCode failed", error);
+    showToast(shareCodeErrorMessage(error));
+    throw error;
+  }
 }
 
 function pulseTabCount(tab, variant = "add") {
@@ -988,6 +1018,7 @@ function openMemberOnlyModal(gameId) {
 function openModal(gameId, context = "library") {
   const game = gameById(gameId);
   if (!game) return;
+  preloadImages([game.main, game.badguy]);
   modalGameId = gameId;
   setStandardsModalGameId(gameId);
   modalContext = context;
@@ -1304,13 +1335,44 @@ function openShareModal(gameId) {
   showShareModal(gameId);
 }
 
-function activateAndShare(gameId) {
+async function activateAndShare(gameId, triggerBtn = null) {
   if (isGameLockedForAccess(gameId)) {
     openMemberOnlyModal(gameId);
     return;
   }
-  if (!generateCode(gameId)) return;
-  openShareModal(gameId);
+
+  const btn = triggerBtn ?? shareButtonForGameId(gameId);
+  const needsCreate = !activeCodeFor(gameId);
+
+  if (needsCreate && btn) {
+    setButtonLoading(btn, true, "Sharing…", { useHtml: true });
+  }
+
+  try {
+    if (needsCreate && !(await generateCode(gameId))) return;
+    openShareModal(gameId);
+  } finally {
+    if (needsCreate && btn) {
+      setButtonLoading(btn, false, "Sharing…", { useHtml: true });
+    }
+  }
+}
+
+async function handleCancelCode(gameId, triggerBtn = null) {
+  const btn = triggerBtn ?? cancelButtonForGameId(gameId);
+  if (btn) {
+    setButtonLoading(btn, true, "Canceling…", { useHtml: true });
+  }
+
+  try {
+    await cancelCode(gameId);
+  } catch {
+    // cancelCode already surfaced a toast.
+  } finally {
+    if (btn) {
+      setButtonLoading(btn, false, "Canceling…", { useHtml: true });
+    }
+  }
 }
 
 let currentUser = null;
@@ -1486,7 +1548,7 @@ function wireEvents() {
     if (!card) return;
     const gameId = card.dataset.gameId;
     switch (btn.dataset.action) {
-      case "cancel-code": cancelCode(gameId); break;
+      case "cancel-code": void handleCancelCode(gameId, btn); break;
       case "share-code": openShareModal(gameId); break;
       case "open-details": openModal(gameId, "active"); break;
     }
@@ -1500,7 +1562,7 @@ function wireEvents() {
     if (!row) return;
     const gameId = row.dataset.gameId;
     switch (btn.dataset.action) {
-      case "share-code": activateAndShare(gameId); break;
+      case "share-code": void activateAndShare(gameId, btn); break;
       case "open-details": openModal(gameId, "favorites"); break;
       case "remove-favorite": removeFavorite(gameId); break;
     }
@@ -1597,7 +1659,7 @@ function wireEvents() {
           addFavorite(gameId);
           break;
         case "remove-favorite": removeFavorite(gameId); break;
-        case "share-code": activateAndShare(gameId); break;
+        case "share-code": void activateAndShare(gameId, actionBtn); break;
         case "open-details": openModal(gameId); break;
       }
       return;
@@ -1652,7 +1714,7 @@ function wireEvents() {
   // Modal footer action — Share activates (if needed) and opens sharing options.
   els.modalAdd.addEventListener("click", () => {
     if (!modalGameId) return;
-    activateAndShare(modalGameId);
+    void activateAndShare(modalGameId, els.modalAdd);
   });
 
   wireAnimatedModal(els.modal, () => {
@@ -1934,6 +1996,7 @@ function init() {
     currentUser = user;
     if (!user) {
       resetUserPrefs();
+      resetShareCodes();
       planMembershipAccess = "free";
       applyMembershipAccess();
     }

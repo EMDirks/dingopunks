@@ -1896,6 +1896,7 @@ a.dpaam-topbar-btn {
   object-fit: cover;
   opacity: 0.2;
   animation: dpaam-theme-modal-main-fade-in 0.2s ease-out both;
+  animation-delay: 0.2s;
 }
 
 @keyframes dpaam-theme-modal-main-fade-in {
@@ -1924,7 +1925,7 @@ a.dpaam-topbar-btn {
   object-fit: contain;
   object-position: bottom;
   animation: dpaam-theme-modal-badguy-enter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 0.2s;
+  animation-delay: 0.4s;
 }
 
 @keyframes dpaam-theme-modal-badguy-enter {

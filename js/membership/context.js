@@ -2,9 +2,6 @@ import { games } from "../games.js";
 
 // ---------- constants ----------
 
-const CODE_LENGTH = 5;
-const CODE_CHARS = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"; // no O, no 0
-const CODE_TTL_MS = 168 * 60 * 60 * 1000; // 7 days
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 const DASHBOARD_TABS = ["library", "favorites", "active"];
@@ -35,7 +32,7 @@ const LIBRARY_THEME_ORDER_BY_SEASON = games.reduce((map, game) => {
 
 const state = {
   favorites: [],            // ordered array of game ids
-  activeCodes: [],          // [{ gameId, code, expiresAt }]
+  activeCodes: [],          // [{ gameId, code, expiresAt, createdAt }]
   filters: { season: "all", grade: "all", subject: "all", newThisMonth: false },
   guideFaqOpen: false,
   activeTab: null,
@@ -109,9 +106,6 @@ const els = {
 export {
   BUTTON_LOCKED_ICON,
   CARD_LOCKED_BADGE_ICON,
-  CODE_CHARS,
-  CODE_LENGTH,
-  CODE_TTL_MS,
   DASHBOARD_TABS,
   LIBRARY_SEASON_ORDER,
   LIBRARY_THEME_ORDER_BY_SEASON,
