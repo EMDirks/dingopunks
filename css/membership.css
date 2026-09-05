@@ -2081,17 +2081,23 @@ a.dpaam-topbar-btn {
 .dpaam-share-panel-skeleton {
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad-md);
 }
 
 .dpaam-share-panel-skeleton__title {
   width: min(220px, 70%);
-  height: 20px;
+  height: calc(var(--dpaam-text-md) * 1.3);
+  margin-bottom: var(--dpaam-pad-md);
+}
+
+.dpaam-share-panel-skeleton__body {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--dpaam-pad-lg);
 }
 
 .dpaam-share-panel-skeleton__line {
   width: 100%;
-  height: 14px;
+  height: calc(var(--dpaam-text-sm) * 1.6);
 }
 
 .dpaam-share-panel-skeleton__line--short {

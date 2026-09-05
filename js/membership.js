@@ -1219,8 +1219,10 @@ function shareModalHtml(game, { pending = false } = {}) {
 function shareModalSkeletonPanelHtml() {
   return `<section class="dpaam-share-panel-skeleton" aria-busy="true" aria-label="Loading sharing options">
     <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__title"></div>
-    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line"></div>
-    <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line dpaam-share-panel-skeleton__line--short"></div>
+    <div class="dpaam-share-panel-skeleton__body">
+      <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line"></div>
+      <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__line dpaam-share-panel-skeleton__line--short"></div>
+    </div>
     <div class="dpaam-skeleton-block dpaam-share-panel-skeleton__btn"></div>
   </section>`;
 }
