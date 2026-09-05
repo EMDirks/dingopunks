@@ -2099,10 +2099,9 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-share-panel-skeleton__btn {
-  width: min(160px, 55%);
-  height: 38px;
-  border-radius: var(--dpaam-radius-pill);
-  margin-top: var(--dpaam-pad-sm);
+  width: 100%;
+  height: calc(var(--dpaam-text-sm) * 1.45 + 10px);
+  border-radius: var(--dpaam-radius-lg);
 }
 
 .dpaam-modal-standards-group-label {
