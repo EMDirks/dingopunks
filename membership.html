@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.100" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.100" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.101" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.101" />
 </head>
 <body>
   <div class="dpaam">
@@ -766,6 +766,38 @@
       </form>
     </dialog>
 
+    <!-- Share code limit modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact"
+      id="dpaam-share-code-limit-modal"
+      aria-labelledby="dpaam-share-code-limit-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-share-code-limit-modal-title">
+            20 Escape Rooms Shared
+          </h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
+            ×
+          </button>
+        </header>
+        <div class="dpaam-modal-body">
+          <p class="dpaam-upgrade-lead">
+            You can share up to 20 escape rooms at a time. Remove an escape room you're finished with to share another.
+          </p>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-activate"
+            id="dpaam-share-code-limit-view-active"
+          >
+            View Shared Escape Rooms
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
     <!-- My Account modal -->
     <dialog
       class="dpaam-modal dpaam-modal--compact dpaam-account-modal"
@@ -880,8 +912,20 @@
         </button>
       </div>
     </div>
+    <div class="dpaam-debug-view-control">
+      <span class="dpaam-debug-view-tag">Modals</span>
+      <div class="dpaam-debug-view-options">
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-action="share-code-limit"
+        >
+          20-code limit
+        </button>
+      </div>
+    </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.100"></script>
+  <script type="module" src="js/membership.js?version=3.4.101"></script>
 </body>
 </html>

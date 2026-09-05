@@ -47,6 +47,7 @@ import {
   removeActiveCodeLocal,
   resetShareCodes,
   restoreActiveCode,
+  isShareCodeLimitError,
   shareCodeErrorMessage,
 } from "./membership/share-codes.js";
 
@@ -386,6 +387,10 @@ async function generateCode(gameId) {
     return true;
   } catch (error) {
     console.error("createShareCode failed", error);
+    if (isShareCodeLimitError(error)) {
+      openShareCodeLimitModal();
+      return false;
+    }
     showToast(shareCodeErrorMessage(error));
     return false;
   }
@@ -772,6 +777,7 @@ const DPAAM_MODALS = [
   els.modal,
   els.themeModal,
   els.shareModal,
+  els.shareCodeLimitModal,
   els.memberOnlyModal,
   els.accountModal,
 ];
@@ -1023,6 +1029,26 @@ function openMemberOnlyModal(gameId) {
     return;
   }
   showExclusiveModal(els.memberOnlyModal);
+}
+
+function openShareCodeLimitModal() {
+  const fromModal = [els.shareModal, els.modal].find((m) => m?.open);
+  if (fromModal) {
+    transitionToModal(fromModal, () => {
+      if (fromModal === els.modal) {
+        modalGameId = null;
+        modalContext = "library";
+      }
+      showExclusiveModal(els.shareCodeLimitModal);
+    });
+    return;
+  }
+  showExclusiveModal(els.shareCodeLimitModal);
+}
+
+function viewActiveCodesFromLimitModal() {
+  closeAnimatedModal(els.shareCodeLimitModal);
+  setActiveTab("active");
 }
 
 function openModal(gameId, context = "library") {
@@ -1404,7 +1430,7 @@ async function activateAndShare(gameId) {
     openShareModal(gameId, { pending: true });
     const ok = await generateCode(gameId);
     if (!ok) {
-      if (shareGameId === gameId && els.shareModal.open) {
+      if (shareGameId === gameId && els.shareModal.open && !isModalTransitionPending()) {
         closeAnimatedModal(els.shareModal);
       }
       return;
@@ -1782,6 +1808,11 @@ function wireEvents() {
 
   wireAnimatedModal(els.memberOnlyModal);
 
+  wireAnimatedModal(els.shareCodeLimitModal);
+  els.shareCodeLimitViewActive?.addEventListener("click", () => {
+    viewActiveCodesFromLimitModal();
+  });
+
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
     shareCode = null;
@@ -2016,6 +2047,14 @@ function initDebugAccessToggle() {
   });
 }
 
+function initDebugActions() {
+  if (!isLocalMembershipDev()) return;
+
+  document.querySelector("[data-debug-action='share-code-limit']")?.addEventListener("click", () => {
+    openShareCodeLimitModal();
+  });
+}
+
 function applyMembershipAccess() {
   state.membershipAccess = debugMembershipAccessOverride ?? planMembershipAccess;
 
@@ -2051,6 +2090,7 @@ function init() {
   initStickyTabbar();
   initQuickStartGuide();
   initDebugAccessToggle();
+  initDebugActions();
   populateFilters();
   renderAccountPlanPanel();
   wireEvents();

@@ -135,7 +135,7 @@ Lifecycle mapping:
 
 - Purchase → webhook sets `plan: "all-access"`, `status: "active"`, `currentPeriodEnd`.
 - Cancel in Portal → subscription gets `cancel_at_period_end: true` → webhook sets `status: "canceling"` (access unchanged until `currentPeriodEnd`).
-- Period ends after cancel / payment fails terminally → `customer.subscription.deleted` → `plan: "free"`, `status: "lapsed"`. User keeps their account, favorites, and free-tier access. Existing active codes live out their remaining 7 days.
+- Period ends after cancel / payment fails terminally → `customer.subscription.deleted` → `plan: "free"`, `status: "lapsed"`. User keeps their account, favorites, and free-tier access. Existing active codes live out their remaining 14 days.
 
 ---
 
@@ -199,8 +199,8 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[MID]` Plan-driven entitlement on the client: read `users/{uid}` on login → derive `membershipAccess` from `plan`; demote the localhost debug toggle to an explicit override.
 - [X] `[LOW]` `userPrefs` wiring (load on login, debounced optimistic writes for add/remove/reorder; toast on persistent failure — includes the minimal toast utility).
 - [X] `[HIGH]` `createShareCode` / `cancelShareCode` functions (server-side entitlement from user doc, idempotent one-code-per-game, 20-cap in a plain transaction, doc-ID uniqueness with expired-doc collision handling) + `scripts/export-game-ids.mjs` → committed `firebase-functions/game-ids.json` + `predeploy` hook.
-- [ ] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
-- [ ] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
+- [X] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
+- [X] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
 - [ ] `[LOW]` Free-tier gating in the library UI (lock badge + upgrade CTA).
 - [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before).
 
@@ -232,6 +232,6 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 
 1. **Rebate duration** — assumed first-year-only ($38.89 year one, $47.88 after). One-line change if wrong.
 2. **Rebate order-number reuse** — plan blocks the same order number across accounts (`rebateClaims`). Cheap insurance on the honor system; remove if too strict.
-3. **Lapsed subscribers' active codes** — default: codes live out their remaining 7 days. Alternative (kill immediately) is one extra check in `resolveGameCode`.
+3. **Lapsed subscribers' active codes** — default: codes live out their remaining 14 days. Alternative (kill immediately) is one extra check in `resolveGameCode`.
 4. **Email verification** — not required at MVP (Stripe checkout confirms a real person for paid; free tier is low-risk).
 5. **20-cap under concurrency** — deliberately best-effort: parallel requests can briefly overshoot the cap (phantom inserts aren't blocked by a plain transaction). Accepted; the cap is an abuse backstop, not an invariant, and overshoot is bounded by burst size. Global code uniqueness (doc-ID create) **is** strict.

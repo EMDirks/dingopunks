@@ -45,6 +45,10 @@ function upsertActiveCode({ gameId, code, expiresAt, createdAt }) {
   sortActiveCodes();
 }
 
+export function isShareCodeLimitError(error) {
+  return error?.code === "functions/resource-exhausted";
+}
+
 export function shareCodeErrorMessage(error) {
   const code = error?.code ?? "";
   if (code === "functions/resource-exhausted") {
