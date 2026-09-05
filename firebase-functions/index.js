@@ -2,7 +2,19 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
+import {
+  createShareCode as createShareCodeImpl,
+  cancelShareCode as cancelShareCodeImpl,
+} from "./share-codes.js";
+
 initializeApp();
+
+function requireAuth(request) {
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Sign in first.");
+  }
+  return request.auth.uid;
+}
 
 async function ensureUserDocument(user) {
   const userRef = getFirestore().collection("users").doc(user.uid);
@@ -42,4 +54,14 @@ export const ensureUserProfile = onCall({ invoker: "public" }, async (request) =
   });
 
   return { created };
+});
+
+export const createShareCode = onCall({ invoker: "public" }, async (request) => {
+  const uid = requireAuth(request);
+  return createShareCodeImpl(getFirestore(), uid, request.data?.gameId);
+});
+
+export const cancelShareCode = onCall({ invoker: "public" }, async (request) => {
+  const uid = requireAuth(request);
+  return cancelShareCodeImpl(getFirestore(), uid, request.data?.code);
 });

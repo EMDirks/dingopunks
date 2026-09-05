@@ -10,7 +10,9 @@
   "scripts": {
     "serve": "firebase emulators:start --config ../firebase.json --only auth,firestore,functions",
     "deploy": "firebase deploy --only functions",
-    "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rules --only firestore \"node --test test/firestore.rules.test.js\""
+    "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rules --only firestore \"node --test test/firestore.rules.test.js\"",
+    "test:codes": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-codes --only firestore \"node --test test/share-codes.test.js\"",
+    "test": "npm run test:rules && npm run test:codes"
   },
   "dependencies": {
     "firebase-admin": "^13.6.0",

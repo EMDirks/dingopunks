@@ -6,6 +6,7 @@
     {
       "source": "firebase-functions",
       "codebase": "default",
+      "predeploy": ["node scripts/export-game-ids.mjs"],
       "ignore": [
         "node_modules",
         ".git",
