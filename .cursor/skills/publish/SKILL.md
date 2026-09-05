@@ -6,6 +6,8 @@ description: >-
   Supports projects with more than 1,000 files (Wrangler allows up to 20,000).
   Use when the user asks to publish, deploy to Cloudflare Pages, run wrangler
   pages deploy, mentions Cloudflare Pages deployment, or simply says "publish".
+  For Firestore rules or a full prod deploy (Firebase + Pages), use the `deploy`
+  skill instead.
 ---
 
 # Publish (Cloudflare Pages / Wrangler)
@@ -64,6 +66,7 @@ Replace **every** occurrence of the old `X.Y.Z` with the new one in:
 | `preview.html` | `?version=` on CSS/JS links |
 | `enter-the-undermurk.html` | `?version=` on CSS/JS links |
 | `404.html` | `?version=` on CSS/JS links |
+| `membership.html` | `?version=` on CSS/JS links |
 
 Example (after reading current `OLD` from `js/splash-new.js` and computing `NEW`):
 
@@ -72,7 +75,7 @@ OLD=3.4.47
 NEW=3.4.48
 for f in \
   404.html answer-key.html debrief.html enter-the-undermurk.html \
-  free-play.html index.html preview.html \
+  free-play.html index.html preview.html membership.html \
   js/debrief.js js/splash-new.js
 do
   sed -i '' "s/${OLD}/${NEW}/g" "$f"
