@@ -1844,7 +1844,7 @@ export const gameStandardsById = {
     {
       key: "RL",
       name: "Reading: Literature",
-      codes: ["RL.2.10"],
+      codes: ["RL.2.10","RL.3.10"],
     },
   ],
   "the-hasty-harvest-context-clues-4-5":   [

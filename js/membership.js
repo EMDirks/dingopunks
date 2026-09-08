@@ -902,12 +902,7 @@ function currentPlanStatusHtml() {
       <p class="dpaam-plan-status__label">Your plan</p>
       <div class="dpaam-plan-panel__pricing">
         <p class="dpaam-plan-panel__price dpaam-plan-status__price">Free</p>
-        <p class="dpaam-plan-panel__billing">Always and forever</p>
-      </div>
-      <div class="dpaam-plan-panel__features">
-        <ul class="dpaam-plan-panel__features-list">
-          <li><strong>Limited access</strong> to ${freeCount} ${roomLabel}</li>
-        </ul>
+        <p class="dpaam-plan-panel__billing">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
       </div>
     </div>`;
 }
@@ -917,52 +912,61 @@ function allAccessPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>Full access</strong> to all ${libraryCount} escape rooms</li>
-        <li><strong>Every new escape room</strong> we create</li>
-        <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
+        <li><strong>Unlock all ${libraryCount} escape rooms</strong> in the library</li>
+        <li><strong>Get instant access</strong> to every new escape room</li>
+        <li><strong>Keep fast-finishers busy</strong> with bonus missions</li>
       </ul>
     </div>`;
 }
 
-function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
-  const idAttr = planNameId ? ` id="${planNameId}"` : "";
+function allAccessPlanPricingHtml() {
   return `
-    <div class="dpaam-plan-panel__header">
-      <div class="dpaam-plan-panel__header-main">
-        <div class="dpaam-plan-panel__pricing">
-          <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
-          <p class="dpaam-plan-panel__billing">Billed annually at $35.88/yr</p>
-        </div>
-        <h4 class="dpaam-plan-panel__name"${idAttr}>
-          <span class="dpaam-pill">Unlimited</span>
-        </h4>
-      </div>
+    <div class="dpaam-plan-panel__pricing">
+      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
+      <p class="dpaam-plan-panel__billing">Billed annually at $35.88/yr</p>
     </div>`;
 }
 
-function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "", showUpgradeLabel = false } = {}) {
-  const buttonHtml =
-    action === "manage"
-      ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
+function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
+  const isManage = action === "manage";
+  const libraryCount = games.length;
+  const idAttr = planNameId ? ` id="${planNameId}"` : "";
+  const eyebrow = isManage ? "Your plan" : "Upgrade to";
+  const taglineHtml = isManage
+    ? ""
+    : `<p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Full access</strong> to all ${libraryCount}+ escape rooms</p>`;
+  const ctaHtml = isManage
+    ? `<button type="button" class="dpaam-btn dpaam-plan-panel__action dpaam-plan-panel__action--secondary" data-action="manage-subscription" aria-label="Manage subscription">
         <span class="dpaam-responsive-label dpaam-responsive-label--full">Manage subscription</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Manage</span>
       </button>`
-      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access" aria-label="Upgrade to Unlimited">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
-      </button>`;
+    : `<span class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" aria-hidden="true">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
+      </span>`;
 
-  return `
-    <div class="dpaam-plan-panel">
-      ${showUpgradeLabel ? '<p class="dpaam-plan-status__label">Upgrade to</p>' : ""}
-      ${allAccessPlanPanelHeaderHtml({ planNameId })}
-      ${allAccessPlanFeaturesHtml()}
-      ${buttonHtml}
-    </div>`;
+  const panelInner = `
+      <img class="dpaam-plan-panel__logo" src="assets/dpaam/unlimited-logo.png" alt="" aria-hidden="true" decoding="async" />
+      <div class="dpaam-plan-panel__hero">
+        <p class="dpaam-plan-panel__eyebrow">${eyebrow}</p>
+        <h4 class="dpaam-plan-panel__title"${idAttr}>Unlimited</h4>
+        ${taglineHtml}
+      </div>
+      <div class="dpaam-plan-panel__body">
+        ${allAccessPlanPricingHtml()}
+        ${allAccessPlanFeaturesHtml()}
+      </div>
+      ${ctaHtml}`;
+
+  if (isManage) {
+    return `<div class="dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member">${panelInner}</div>`;
+  }
+
+  return `<button type="button" class="dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--interactive" data-action="upgrade-all-access" aria-label="Upgrade to Unlimited">${panelInner}</button>`;
 }
 
 function allAccessFreePlanPanelHtml({ showPlanStatus = false } = {}) {
   return `
     ${showPlanStatus ? currentPlanStatusHtml() : ""}
-    ${unlimitedPlanPanelHtml({ showUpgradeLabel: showPlanStatus })}`;
+    ${unlimitedPlanPanelHtml()}`;
 }
 
 function syncMembershipAccessChrome() {

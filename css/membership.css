@@ -1464,6 +1464,17 @@ a.dpaam-topbar-btn {
   to   { opacity: 0; }
 }
 
+@keyframes dpaam-unlimited-logo-in {
+  from {
+    opacity: 0;
+    transform: translate(1.5rem, -1.5rem) rotate(5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) rotate(5deg);
+  }
+}
+
 .dpaam-modal {
   width: min(800px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
@@ -1643,14 +1654,14 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-plan-status {
-  margin-bottom: var(--dpaam-pad-md);
-  padding: var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+  margin-bottom: var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-lg);
   background: var(--dpaam-light-gray);
   border-radius: 12px;
 }
 
 .dpaam-plan-status__label {
-  margin: 0 0 var(--dpaam-pad-xs);
+  margin: 0 0 var(--dpaam-pad-md);
   font-size: var(--dpaam-text-xs);
   font-weight: 500;
   color: var(--dpaam-black-muted);
@@ -1660,37 +1671,20 @@ a.dpaam-topbar-btn {
   margin-top: 0;
 }
 
+.dpaam-plan-status .dpaam-plan-panel__price {
+  font-size: var(--dpaam-text-lg);
+}
+
+.dpaam-plan-status .dpaam-plan-panel__billing {
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-black-muted);
+}
+
 .dpaam-plan-panel {
   padding: var(--dpaam-pad-xl);
   background: var(--dpaam-light-gray);
   border-radius: 12px;
-}
-
-.dpaam-plan-status > .dpaam-plan-status__label,
-.dpaam-plan-panel > .dpaam-plan-status__label:first-child {
-  margin-top: calc(-1 * var(--dpaam-pad));
-  margin-left: calc(-1 * var(--dpaam-pad));
-  margin-right: 0;
-  margin-bottom: var(--dpaam-pad-lg);
-}
-
-.dpaam-plan-panel__header {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--dpaam-pad-sm);
-}
-
-.dpaam-plan-panel__header-main {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--dpaam-pad-md);
-  width: 100%;
-}
-
-.dpaam-plan-panel__header .dpaam-plan-status__label {
-  margin-bottom: 0;
 }
 
 .dpaam-plan-panel__pricing {
@@ -1699,17 +1693,6 @@ a.dpaam-topbar-btn {
   align-items: flex-start;
   gap: var(--dpaam-pad-xs);
   width: 100%;
-}
-
-.dpaam-plan-panel__header-main .dpaam-plan-panel__pricing {
-  width: auto;
-  flex: 1;
-  min-width: 0;
-}
-
-.dpaam-plan-panel__name {
-  margin: 0;
-  flex-shrink: 0;
 }
 
 .dpaam-plan-panel__price {
@@ -1768,6 +1751,189 @@ a.dpaam-topbar-btn {
   min-height: var(--dpaam-pair-btn-h);
   padding: 6px 14px 4px 14px;
   text-align: center;
+}
+
+/* --- Unlimited plan panel (account modal + paywall) --- */
+
+.dpaam-plan-panel--unlimited {
+  --dpaam-unlimited-glow: rgba(83, 94, 160, 0.42);
+  --dpaam-unlimited-body-bg: #3F4285;
+  position: relative;
+  overflow: visible;
+  padding: var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-xxl);
+  color: var(--dpaam-white);
+  background-color: var(--dpaam-blue-dark);
+}
+
+button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+@media (hover: hover) {
+  button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
+  position: relative;
+  margin-bottom: var(--dpaam-pad-lg);
+  padding-right: 5.5rem;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__logo {
+  position: absolute;
+  top: calc(-1 * var(--dpaam-pad-md));
+  right: 0.5rem;
+  width: 8rem;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+  transform: rotate(5deg);
+}
+
+.dpaam-modal[open] .dpaam-plan-panel__logo {
+  opacity: 0;
+  animation: dpaam-unlimited-logo-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dpaam-modal[open] .dpaam-plan-panel__logo {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__eyebrow {
+  margin: 0 0 var(--dpaam-pad-md);
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-blue-light);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0em;
+  padding-block: 0.06em 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--dpaam-white) !important;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__tagline {
+  margin: calc(-1 * var(--dpaam-pad-xs)) 0 0;
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-blue-light);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--dpaam-pad-md) var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-xl);
+  background-color: var(--dpaam-unlimited-body-bg);
+}
+
+/* Features sit beside pricing when the modal is wide enough, else wrap below. */
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__price {
+  font-size: var(--dpaam-text-display);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--dpaam-white);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-price-unit {
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-white);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__billing {
+  margin-bottom: var(--dpaam-pad-sm);
+  color: var(--dpaam-blue-light);
+  opacity: 0.7;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__features {
+  flex: 1 1 14rem;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__features-list li {
+  padding-left: calc(var(--dpaam-pad) + var(--dpaam-pad-xs));
+  color: rgba(255, 255, 255, 1);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__features-list li::before {
+  content: "★";
+  top: 0.15em;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--dpaam-gold);
+}
+
+button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--dpaam-pad-lg);
+  pointer-events: none;
+}
+
+.dpaam-plan-panel--member .dpaam-plan-panel__action {
+  margin-top: var(--dpaam-pad-lg);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-auth-submit.dpaam-plan-panel__action:not(.dpaam-plan-panel__action--secondary) {
+  background-color: var(--dpaam-white) !important;
+  color: var(--dpaam-black) !important;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__action-arrow {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__action--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.34);
+  box-shadow: none;
+  font-weight: 600;
+}
+
+@media (hover: hover) {
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__action--secondary:hover {
+    filter: none;
+    background: rgba(255, 255, 255, 0.16);
+  }
 }
 
 .dpaam-modal-thumb-wrap {
@@ -2857,46 +3023,31 @@ dd a {
 
   /* --- Plan panels (account modal + info/paywall modal) --- */
 
-  .dpaam-plan-panel,
   .dpaam-plan-status {
-    padding: var(--dpaam-pad) var(--dpaam-pad-md);
+    padding: var(--dpaam-pad-lg);
   }
 
-  .dpaam-plan-status > .dpaam-plan-status__label,
-  .dpaam-plan-panel > .dpaam-plan-status__label:first-child {
-    margin-top: calc(-1 * var(--dpaam-pad-xs));
-    margin-left: calc(-1 * var(--dpaam-pad-xs));
+  .dpaam-plan-panel--unlimited {
+    padding: var(--dpaam-pad-md);
   }
 
-  .dpaam-plan-panel__header-main {
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
+    padding-right: 4.5rem;
+  }
+
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__logo {
+    width: 4.25rem;
+    top: calc(-1 * var(--dpaam-pad-xs));
+    right: calc(-1 * var(--dpaam-pad-xs));
+  }
+
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__body {
     flex-direction: column;
-    gap: var(--dpaam-pad-sm);
+    gap: var(--dpaam-pad-md);
   }
 
-  .dpaam-plan-panel__header-main .dpaam-plan-panel__pricing {
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
     width: 100%;
-    margin-bottom: var(--dpaam-pad-sm);
-  }
-
-  .dpaam-plan-panel__price {
-    font-size: var(--dpaam-text-xl);
-  }
-
-  .dpaam-plan-panel__features {
-    margin-top: var(--dpaam-pad-lg);
-  }
-
-  /* Members account panel: pill above pricing, looser vertical rhythm */
-  #dpaam-account-plan-member .dpaam-plan-panel__header-main {
-    gap: var(--dpaam-pad-lg);
-  }
-
-  #dpaam-account-plan-member .dpaam-plan-panel__name {
-    order: -1;
-  }
-
-  #dpaam-account-plan-member .dpaam-plan-panel__features {
-    margin-top: var(--dpaam-pad-lg);
   }
 
   /* --- Hamburger menu: upgrade button --- */
