@@ -13,7 +13,10 @@
     "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rules --only firestore \"node --test test/firestore.rules.test.js\"",
     "test:codes": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-codes --only firestore \"node --test test/share-codes.test.js\"",
     "test:beta": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-beta-signup --only firestore \"node --test test/beta-signup.test.js\"",
-    "test": "npm run test:rules && npm run test:codes && npm run test:beta"
+    "test:ratelimit": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rate-limits --only firestore \"node --test test/rate-limit.test.js\"",
+    "test:resolve": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-resolve --only firestore \"node --test test/resolve-code.test.js\"",
+    "test:blocked": "node --test test/blocked-codes.test.js",
+    "test": "npm run test:rules && npm run test:codes && npm run test:beta && npm run test:ratelimit && npm run test:resolve && npm run test:blocked"
   },
   "dependencies": {
     "firebase-admin": "^13.6.0",

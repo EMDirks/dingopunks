@@ -552,7 +552,7 @@ function cardNewBadgeHtml(game) {
 
 function cardAllAccessBadgeHtml(game) {
   if (!isGameLockedForAccess(game.id)) return "";
-  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" /><span class="dpaam-responsive-label dpaam-responsive-label--full">Unlimited Plan</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">UNLIMITED</span></span>`;
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" /><span class="dpaam-responsive-label dpaam-responsive-label--full">Unlimited Plan</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Unlimited</span></span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -934,7 +934,7 @@ function allAccessPlanPanelHeaderHtml({ planNameId = "" } = {}) {
           <p class="dpaam-plan-panel__billing">Billed annually at $35.88/yr</p>
         </div>
         <h4 class="dpaam-plan-panel__name"${idAttr}>
-          <span class="dpaam-pill">UNLIMITED</span>
+          <span class="dpaam-pill">Unlimited</span>
         </h4>
       </div>
     </div>`;
@@ -946,8 +946,8 @@ function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "", showUpgra
       ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
         <span class="dpaam-responsive-label dpaam-responsive-label--full">Manage subscription</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Manage</span>
       </button>`
-      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access" aria-label="Upgrade to UNLIMITED">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to UNLIMITED</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
+      : `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="upgrade-all-access" aria-label="Upgrade to Unlimited">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
       </button>`;
 
   return `

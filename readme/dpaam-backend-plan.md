@@ -22,8 +22,8 @@ Firebase supplies auth, database, and server logic. Stripe supplies billing.
 | Cancel behavior | `cancel_at_period_end` via Portal — access continues until the year is up |
 | Rebate | $8.99 off, **first year only** (assumed — flagged in Open Items). Format-based honor system: TPT = `^\d{9}$`, Shopify = `^\d{4,5}$` |
 | Free tier | 8 games: `the-midnight-mall-mixed-reading-skills-{2,3,4,5}` + `the-midnight-mall-mixed-math-skills-{2,3,4,5}` |
-| Free sharing | Free users can generate share codes, but only for the 8 free rooms (same 7-day / 20-code mechanics) |
-| Game codes | 5 chars from `ABCDEFGHIJKLMNPQRSTUVWXYZ123456789`, **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 7-day TTL, max 20 active per user (best-effort under concurrent requests — see `createShareCode`), one active code per user per game (re-sharing returns the existing code) |
+| Free sharing | Free users can generate share codes, but only for the 8 free rooms (same 14-day / 20-code mechanics) |
+| Game codes | 5 chars from `ABCDEFGHIJKLMNPQRSTUVWXYZ123456789`, **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 14-day TTL, max 20 active per user (best-effort under concurrent requests — see `createShareCode`), one active code per user per game (re-sharing returns the existing code) |
 | Legacy codes | Existing 5-digit numeric purchase codes stay client-side validated in `splash-new.js`, untouched |
 
 ---
@@ -119,7 +119,9 @@ Seven functions. All callables verify authentication except `resolveGameCode`; t
 - `createShareCode`: **no rate limit in Phase 2.** It's authenticated and the 20-active cap is the real limit. If still wanted, add it in Phase 5 as a five-line reuse of the Phase 3 infra.
 - `createCheckoutSession`: per-user, e.g. 10/hour (protects rebate-claim probing).
 
-Counters live in a `rateLimits/{key}` collection with their own TTL field (infra built in Phase 3 alongside `resolveGameCode`).
+Counters live in a `rateLimits/{key}` collection with their own TTL field (infra built in Phase 3 alongside `resolveGameCode`). Doc IDs are `{scope}_{sha256(scope+identifier)}` — hashing keeps raw IPs out of the collection and sidesteps Firestore's doc-ID character rules. Each doc holds `{scope, count, windowStart, expiresAt}`; the read-modify-write runs in a transaction, and once a key is over its limit the transaction stops writing, so a blocked caller costs one read per attempt. Fixed windows allow up to 2× the limit across a boundary — fine for an abuse backstop.
+
+**Which IP counts.** `X-Forwarded-For` is client-writable and the functions framework does not enable Express `trust proxy`, so `request.rawRequest.ip` is the Google front end, not the caller. Google *appends* `<client-ip>, <lb-ip>` to whatever the client sent, so the only IP Google actually observed is the **second-from-right** entry — that's what the limit keys on. Keying on the leftmost entry (the common mistake) would let an attacker rotate a fake IP per request to bypass the limit, or aim it at a real user's IP. Fewer than two entries means we aren't behind the expected proxy chain (emulator, direct connection), so the header is unverified and the socket address is used instead. IPv6 is bucketed to its /64 prefix, since one subscriber routinely holds a whole /64; anything unparseable falls into a single shared bucket, erring toward over-limiting.
 
 ---
 
@@ -201,11 +203,11 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[HIGH]` `createShareCode` / `cancelShareCode` functions (server-side entitlement from user doc, idempotent one-code-per-game, 20-cap in a plain transaction, doc-ID uniqueness with expired-doc collision handling) + `scripts/export-game-ids.mjs` → committed `firebase-functions/game-ids.json` + `predeploy` hook.
 - [X] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
 - [X] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
-- [ ] `[LOW]` Free-tier gating in the library UI (lock badge + upgrade CTA).
-- [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before).
+- [X] `[LOW]` Free-tier gating in the library UI (lock badge + upgrade CTA).
+- [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before). *Deferred: the console's collection dropdown doesn't list `codes` until the collection exists in production, so this waits on the first prod deploy. Pair it with the `rateLimits` TTL policy below.*
 
 ### Phase 3 — Play-side resolution
-- [ ] `[HIGH]` `resolveGameCode` + per-IP rate limiting (the one public, unauthenticated endpoint; this builds the `rateLimits` counter infra).
+- [X] `[HIGH]` `resolveGameCode` + per-IP rate limiting (the one public, unauthenticated endpoint; this builds the `rateLimits` counter infra).
 - [ ] `[MID]` URL-slug auto-launch + typed-entry branch in `splash-new.js`; expired-code messaging. (Legacy code is load-bearing — careful surgery, no rewrite.)
 - [ ] `[YOU]` Firestore TTL policy on the `rateLimits` TTL field — console setting, before this phase ships.
 - [ ] `[YOU]` End-to-end: share from dashboard → open `play.dingopunks.com/?CODE` in incognito → game launches.
@@ -221,7 +223,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [ ] `[HIGH]` Adversarial review: rules, entitlement fields unwritable from clients, rate-limit tuning, probing every callable as a hostile user.
 - [ ] `[LOW]` Optional: per-user rate limit on `createShareCode` (deferred from Phase 2 — reuse the Phase 3 counter infra if the 20-cap proves insufficient).
 - [ ] `[LOW]` Friendly error toasts for every failure path.
-- [ ] `[LOW]` Update `readme/dpaam.md` (currently stale: 24hr/12-code/6-char/$49 → 7-day/20-code/5-char/$47.88).
+- [ ] `[LOW]` Update `readme/dpaam.md` (currently stale: 24hr/12-code/6-char/$49 → 14-day/20-code/5-char/$47.88).
 - [ ] `[MID]` Optional, post-MVP: Firebase App Check, email verification.
 
 **Local dev:** Firebase Emulator Suite (auth + firestore + functions) with `firebase-init.js` auto-connecting on `localhost`; `stripe listen --forward-to` for webhook testing.
@@ -230,7 +232,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 
 ## 7. Open items / defaults chosen
 
-1. **Rebate duration** — assumed first-year-only ($38.89 year one, $47.88 after). One-line change if wrong.
+1. **Rebate duration** — assumed first-year-only ($26.89 year one, $35.88 after). One-line change if wrong.
 2. **Rebate order-number reuse** — plan blocks the same order number across accounts (`rebateClaims`). Cheap insurance on the honor system; remove if too strict.
 3. **Lapsed subscribers' active codes** — default: codes live out their remaining 14 days. Alternative (kill immediately) is one extra check in `resolveGameCode`.
 4. **Email verification** — not required at MVP (Stripe checkout confirms a real person for paid; free tier is low-risk).

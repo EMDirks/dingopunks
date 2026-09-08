@@ -8,12 +8,14 @@ import { readFileSync } from "node:fs";
 import { HttpsError } from "firebase-functions/v2/https";
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
+import { isCodeBlocked } from "./blocked-code-terms.js";
+
 // No O or 0 — and every code must contain at least one letter, which keeps
 // membership codes disjoint from the legacy all-numeric purchase codes.
 export const CODE_ALPHABET = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
 export const CODE_LENGTH = 5;
 export const CODE_PATTERN = new RegExp(`^[${CODE_ALPHABET}]{${CODE_LENGTH}}$`);
-export const CODE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+export const CODE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 export const MAX_ACTIVE_CODES = 20;
 const MAX_CANDIDATE_ATTEMPTS = 20;
 
@@ -52,11 +54,13 @@ export function generateCandidateCode() {
     }
     // Require ≥1 letter (all-numeric would collide with the legacy code
     // space). All-numeric draws are ~0.4% likely, so the loop is cheap.
-    if (/[A-Z]/.test(code)) return code;
+    if (/[A-Z]/.test(code) && !isCodeBlocked(code)) return code;
   }
 }
 
-function isActive(codeDoc, nowMs) {
+// TTL deletion can lag ~24h, so expiry is always checked explicitly and never
+// inferred from the document still existing.
+export function isCodeActive(codeDoc, nowMs) {
   const expiresAt = codeDoc.get("expiresAt");
   return expiresAt instanceof Timestamp && expiresAt.toMillis() > nowMs;
 }
@@ -93,7 +97,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
     const ownCodes = await tx.get(
       db.collection("codes").where("uid", "==", uid),
     );
-    const activeCodes = ownCodes.docs.filter((doc) => isActive(doc, now));
+    const activeCodes = ownCodes.docs.filter((doc) => isCodeActive(doc, now));
 
     // Idempotent: one active code per user per game. Re-share returns the
     // existing code; cancel-then-share is how users mint a fresh one.
@@ -118,7 +122,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
       const code = randomCode();
       const ref = db.collection("codes").doc(code);
       const snap = await tx.get(ref);
-      if (snap.exists && isActive(snap, now)) continue;
+      if (snap.exists && isCodeActive(snap, now)) continue;
 
       const expiresAtMs = now + CODE_TTL_MS;
       const data = {

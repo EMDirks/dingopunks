@@ -11,6 +11,10 @@ import {
   createShareCode as createShareCodeImpl,
   cancelShareCode as cancelShareCodeImpl,
 } from "./share-codes.js";
+import {
+  clientIpFromRequest,
+  resolveGameCode as resolveGameCodeImpl,
+} from "./resolve-code.js";
 
 initializeApp();
 
@@ -84,4 +88,14 @@ export const createShareCode = onCall({ invoker: "public" }, async (request) => 
 export const cancelShareCode = onCall({ invoker: "public" }, async (request) => {
   const uid = requireAuth(request);
   return cancelShareCodeImpl(getFirestore(), uid, request.data?.code);
+});
+
+// Deliberately unauthenticated: students play from a shared code, with no
+// account. Per-IP rate limiting inside the implementation is the only gate.
+export const resolveGameCode = onCall({ invoker: "public" }, async (request) => {
+  return resolveGameCodeImpl(
+    getFirestore(),
+    request.data?.code,
+    clientIpFromRequest(request.rawRequest),
+  );
 });
