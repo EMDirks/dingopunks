@@ -204,14 +204,14 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[LOW]` Swap `generateCode`/`cancelCode` front-end seams to callables (async/loading states).
 - [X] `[LOW]` New 20-code limit modal (`View Active Codes` → Active tab, `Close`).
 - [X] `[LOW]` Free-tier gating in the library UI (lock badge + upgrade CTA).
-- [ ] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before). *Deferred: the console's collection dropdown doesn't list `codes` until the collection exists in production, so this waits on the first prod deploy. Pair it with the `rateLimits` TTL policy below.*
+- [X] `[YOU]` Firestore TTL policy on `codes.expiresAt` — console setting; cleanup only, required before the phase ships to production (not before). *Deferred: the console's collection dropdown doesn't list `codes` until the collection exists in production, so this waits on the first prod deploy. Pair it with the `rateLimits` TTL policy below.*
 
 ### Phase 3 — Play-side resolution
 - [X] `[HIGH]` `resolveGameCode` + per-IP rate limiting (the one public, unauthenticated endpoint; this builds the `rateLimits` counter infra).
 - [X] `[MID]` URL-slug auto-launch + typed-entry branch in `splash-new.js`; expired-code messaging. (Legacy code is load-bearing — careful surgery, no rewrite.) *`js/play-share-code.js` is a lazily dynamic-imported ES-module bridge, so a legacy purchase code never loads the Firebase SDK and is unaffected if it's unreachable. Share codes are refused on `answer-key.html` (`gameMode === "preview"`) — every student in a class holds one.*
 - [ ] `[LOW]` **Known gap:** touch devices can't type a share code. `setHardwareKeyboardFunctionality` sets `inputmode: none` on touch, and the splash keypad is digits-only, so on iPads/Chromebooks the URL slug is the *only* way in. Either add a letter keypad on the access step or change the dashboard share copy to lead with the link.
-- [ ] `[YOU]` Firestore TTL policy on the `rateLimits` TTL field — console setting, before this phase ships.
-- [ ] `[YOU]` End-to-end: share from dashboard → open `play.dingopunks.com/?CODE` in incognito → game launches.
+- [X] `[YOU]` Firestore TTL policy on the `rateLimits` TTL field — console setting, before this phase ships.
+- [X] `[YOU]` End-to-end: share from dashboard → open `play.dingopunks.com/?CODE` in incognito → game launches.
 
 ### Phase 4 — Stripe
 - [ ] `[YOU]` Stripe product/price/coupon/portal/webhook setup in the dashboard (test mode first).

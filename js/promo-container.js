@@ -1,4 +1,4 @@
-const theme = "all_year";
+const theme = "fall";
 /** Theme key → background + optional character img + optional characterStyle (root-relative paths) */
 const themeAssets = {
   all_year: { 
@@ -25,7 +25,20 @@ const themeAssets = {
     link: 'https://dingopunks.com/collections/digital-summer-escape-rooms',
     alert: 'News',
   },
-  fall: { background: 'resource/the-hasty-harvest/assets/cutscene/main.png' },
+  fall: { 
+    background: 'resource/the-hasty-harvest/assets/cutscene/main.png',
+    character: 'resource/the-hasty-harvest/assets/activity/character/candlewick.png',
+    characterStyle: {
+      left: 'auto',
+      right: '0%',
+      top: '-45%',
+    },
+    text: 'The Hasty Harvest has begun!',
+    button: 'Shop fall escape rooms →',
+    link: 'https://dingopunks.com/collections/digital-fall-escape-rooms',
+    alert: 'News',
+    hasLogo: false,
+  },
   winter: { background: 'resource/the-yeti-and-the-yam/assets/cutscene/main.png' },
   valentines: { background: 'resource/cupids-countdown/assets/cutscene/main.png' },
   st_patricks: { background: 'resource/rainbow-rescue/assets/cutscene/main.png' },
