@@ -12,7 +12,8 @@
     "deploy": "firebase deploy --only functions",
     "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rules --only firestore \"node --test test/firestore.rules.test.js\"",
     "test:codes": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-codes --only firestore \"node --test test/share-codes.test.js\"",
-    "test": "npm run test:rules && npm run test:codes"
+    "test:beta": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-beta-signup --only firestore \"node --test test/beta-signup.test.js\"",
+    "test": "npm run test:rules && npm run test:codes && npm run test:beta"
   },
   "dependencies": {
     "firebase-admin": "^13.6.0",

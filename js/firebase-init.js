@@ -41,6 +41,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const firebaseFunctions = getFunctions(app);
+const authorizeBetaSignup = httpsCallable(firebaseFunctions, "authorizeBetaSignup");
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
 const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
@@ -68,6 +69,7 @@ if (isLocal) {
 export {
   app,
   auth,
+  authorizeBetaSignup,
   cancelShareCode,
   createShareCode,
   createUserWithEmailAndPassword,

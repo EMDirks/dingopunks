@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.101" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.101" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.102" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.102" />
 </head>
 <body>
   <div class="dpaam">
@@ -185,6 +185,21 @@
                     </svg>
                   </button>
                 </span>
+              </label>
+              <!-- Temporary beta signup gate. Remove with the matching logic in membership-auth.js. -->
+              <label class="dpaam-auth-field">
+                <input
+                  type="text"
+                  class="dpaam-auth-input"
+                  id="dpaam-auth-signup-access-code"
+                  name="accessCode"
+                  placeholder="BETA ACCESS CODE"
+                  aria-label="Beta access code"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  spellcheck="false"
+                  required
+                />
               </label>
               <button
                 type="submit"
@@ -926,6 +941,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.101"></script>
+  <script type="module" src="js/membership.js?version=3.4.102"></script>
 </body>
 </html>

@@ -1,7 +1,12 @@
 import { HttpsError, onCall } from "firebase-functions/v2/https";
+import { beforeUserCreated } from "firebase-functions/v2/identity";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
+import {
+  authorizeBetaSignup as authorizeBetaSignupImpl,
+  consumeBetaSignupApproval,
+} from "./beta-signup.js";
 import {
   createShareCode as createShareCodeImpl,
   cancelShareCode as cancelShareCodeImpl,
@@ -54,6 +59,21 @@ export const ensureUserProfile = onCall({ invoker: "public" }, async (request) =
   });
 
   return { created };
+});
+
+export const authorizeBetaSignup = onCall(
+  { invoker: "public" },
+  async (request) => {
+    return authorizeBetaSignupImpl(
+      getFirestore(),
+      request.data?.email,
+      request.data?.accessCode,
+    );
+  },
+);
+
+export const enforceBetaSignupGate = beforeUserCreated(async (event) => {
+  await consumeBetaSignupApproval(getFirestore(), event.data?.email);
 });
 
 export const createShareCode = onCall({ invoker: "public" }, async (request) => {
