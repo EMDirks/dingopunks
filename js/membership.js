@@ -552,7 +552,7 @@ function cardNewBadgeHtml(game) {
 
 function cardAllAccessBadgeHtml(game) {
   if (!isGameLockedForAccess(game.id)) return "";
-  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" /><span class="dpaam-responsive-label dpaam-responsive-label--full">Unlimited Plan</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Unlimited</span></span>`;
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />Unlimited</span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -918,7 +918,7 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong>Full access</strong> to all ${libraryCount} escape rooms</li>
-        <li><strong>New escape rooms</strong> added every month</li>
+        <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
       </ul>
     </div>`;
@@ -999,7 +999,7 @@ function renderAccountPlanPanel() {
 
 function memberOnlyModalBodyHtml(game) {
   const content = `
-    <p class="dpaam-upgrade-lead">Upgrade to the <strong>Unlimited Plan</strong> to share this escape room.</p>
+    <p class="dpaam-upgrade-lead">Upgrade to <strong>Unlimited</strong> to share this escape room.</p>
     ${allAccessFreePlanPanelHtml()}`;
 
   if (!game) {
