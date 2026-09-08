@@ -738,6 +738,7 @@ function updateElementSize() {
 
     ['.code-node-input', 0.11],
     ['.access-input',0.045],
+    ['.access-message',0.022],
     ['.promo-container__title',0.06],
     ['.promo-container__banner',0.06],
     ['.promo-container__resource-overlay__text',0.25],

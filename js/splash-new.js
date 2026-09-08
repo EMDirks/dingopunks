@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.103';
+const version = '3.4.104';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -29,19 +29,38 @@ function isPinLockedOut() {
   return pinLockoutTimeoutId !== null;
 }
 
-function triggerPinLockout() {
+// Server rate limits (resolveGameCode) can ask for a window well past a minute,
+// so anything over a minute reads as m:ss. At or under a minute — which is every
+// locally triggered lockout — the display is unchanged.
+function writeLockoutCountdown(secondsEl, labelEl, remaining) {
+  if (remaining > 60) {
+    const minutes = Math.floor(remaining / 60);
+    const seconds = remaining % 60;
+    if (secondsEl) secondsEl.textContent = minutes + ':' + String(seconds).padStart(2, '0');
+    if (labelEl) labelEl.textContent = '';
+    return;
+  }
+  if (secondsEl) secondsEl.textContent = remaining;
+  if (labelEl) labelEl.textContent = 's';
+}
+
+function triggerPinLockout(lockoutSeconds) {
+  const total = Number.isFinite(lockoutSeconds) && lockoutSeconds > 0
+    ? Math.ceil(lockoutSeconds)
+    : PIN_LOCKOUT_SECONDS;
   const overlay = document.querySelector('.rate-limit-overlay');
   const secondsEl = overlay ? overlay.querySelector('.rate-limit-overlay__seconds') : null;
-  let remaining = PIN_LOCKOUT_SECONDS;
-  if (secondsEl) secondsEl.textContent = remaining;
+  const labelEl = overlay ? overlay.querySelector('.rate-limit-overlay__seconds-label') : null;
+  let remaining = total;
+  writeLockoutCountdown(secondsEl, labelEl, remaining);
   if (overlay) overlay.classList.replace('rate-limit-overlay--hidden', 'rate-limit-overlay--visible');
 
   pinLockoutIntervalId = setInterval(function() {
     remaining -= 1;
-    if (secondsEl) secondsEl.textContent = remaining;
+    writeLockoutCountdown(secondsEl, labelEl, remaining);
   }, 1000);
 
-  pinLockoutTimeoutId = setTimeout(endPinLockout, PIN_LOCKOUT_SECONDS * 1000);
+  pinLockoutTimeoutId = setTimeout(endPinLockout, total * 1000);
 }
 
 function endPinLockout() {
@@ -54,6 +73,10 @@ function endPinLockout() {
   const overlay = document.querySelector('.rate-limit-overlay');
   if (overlay) overlay.classList.replace('rate-limit-overlay--visible', 'rate-limit-overlay--hidden');
 
+  clearAccessInputs();
+}
+
+function clearAccessInputs() {
   const cells = document.querySelectorAll('.access-input');
   cells.forEach(function(cell, i) {
     cell.value = '';
@@ -62,6 +85,218 @@ function endPinLockout() {
       activeInput__codeInput = cell;
     }
   });
+}
+
+function fillAccessInputs(code) {
+  const cells = document.querySelectorAll('.access-input');
+  cells.forEach(function(cell, i) {
+    cell.value = code.charAt(i);
+  });
+}
+
+//////////////////////
+// MEMBERSHIP CODES
+//////////////////////
+
+// Membership share codes always contain at least one letter; legacy purchase
+// codes are always five digits. That split is the whole reason the two systems
+// can share one input without ever colliding, so every branch below keys on it.
+// Mirrors CODE_ALPHABET in firebase-functions/share-codes.js (no O, no zero).
+const MEMBERSHIP_CODE_PATTERN = /^[A-NP-Z1-9]{5}$/;
+const MEMBERSHIP_CODE_LOADING_MESSAGE = 'Loading your escape room…';
+const MEMBERSHIP_CODE_NOT_FOUND_MESSAGE = "That code has expired or doesn't exist.";
+const MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE =
+  "We couldn't check that code. Check your connection and try again.";
+
+// Hold an auto-launch until the opening bumper has played out, so a fast
+// lookup doesn't transition the splash out from under the logo animation.
+const AUTO_LAUNCH_MIN_MS = 1600;
+
+// Set once, before drawSplash, when the page was opened as play.dingopunks.com/?CODE.
+let autoLaunchCode = null;
+// Blocks typed entry while a lookup is in flight or a game is already loading.
+let membershipLookupPending = false;
+let shareCodeModulePromise = null;
+let accessMessage;
+
+function membershipCodeFromUrl() {
+  const raw = window.location.search.slice(1).toUpperCase();
+  return isMembershipCode(raw) ? raw : null;
+}
+
+function isMembershipCode(code) {
+  return MEMBERSHIP_CODE_PATTERN.test(code) && /[A-Z]/.test(code);
+}
+
+// Loaded on first use only. A student playing a legacy purchase code never
+// downloads the Firebase SDK, and never depends on it being reachable.
+function lookupMembershipCode(code) {
+  if (!shareCodeModulePromise) {
+    const moduleUrl = new URL('js/play-share-code.js?version=' + version, document.baseURI).href;
+    shareCodeModulePromise = import(moduleUrl);
+  }
+  return shareCodeModulePromise.then(function(module) {
+    return module.lookupShareCode(code);
+  });
+}
+
+function setAccessMessage(text, isError) {
+  if (!accessMessage) return;
+  accessMessage.textContent = text;
+  accessMessage.classList.toggle('access-message--error', isError === true);
+  toggleClass(accessMessage, 'access-message--hidden', 'access-message--visible');
+  updateElementSize();
+}
+
+function clearAccessMessage() {
+  if (!accessMessage) return;
+  toggleClass(accessMessage, 'access-message--visible', 'access-message--hidden');
+}
+
+// A wrong code: flash the cells red, clear them, and count the attempt toward
+// the local lockout. Shared by the legacy and membership paths.
+function rejectAccessCode() {
+  pinFailedAttempts += 1;
+  const cells = document.querySelectorAll('.access-input');
+  for (let i = 0; i < cells.length; i++) {
+    toggleClass(cells[i], 'access-input--no-flash', 'access-input--flash');
+    setTimeout(clearCells, 400, cells[i], i);
+  }
+  if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
+    setTimeout(triggerPinLockout, 450);
+  }
+
+  function clearCells(cell, i) {
+    toggleClass(cell, 'access-input--flash', 'access-input--no-flash');
+    toggleClass(splashButton, 'splash-button--visible', 'splash-button--hidden');
+    cell.value = '';
+    cell.blur();
+    if (i == 0) {
+      cell.focus();
+      activeInput__codeInput = cell;
+    }
+  }
+}
+
+function submitMembershipCode(code) {
+  // Share codes must never unlock the answer key: a teacher's students all hold
+  // one. The preview pages stay on purchased codes only.
+  if (gameMode === 'preview') {
+    rejectAccessCode();
+    return;
+  }
+  if (!isMembershipCode(code)) {
+    setAccessMessage(MEMBERSHIP_CODE_NOT_FOUND_MESSAGE, true);
+    rejectAccessCode();
+    return;
+  }
+
+  membershipLookupPending = true;
+  clearAccessMessage();
+
+  lookupMembershipCode(code)
+    .then(function(game) {
+      // Stays pending: the inputs are on their way out either way.
+      launchMembershipGame(game, 0);
+    })
+    .catch(function(error) {
+      membershipLookupPending = false;
+      reportMembershipCodeError(error, true);
+    });
+}
+
+function startAutoLaunch() {
+  const notBefore = Date.now() + AUTO_LAUNCH_MIN_MS;
+  membershipLookupPending = true;
+  setAccessMessage(MEMBERSHIP_CODE_LOADING_MESSAGE, false);
+
+  lookupMembershipCode(autoLaunchCode)
+    .then(function(game) {
+      fillAccessInputs(autoLaunchCode);
+      launchMembershipGame(game, notBefore);
+    })
+    .catch(function(error) {
+      membershipLookupPending = false;
+      autoLaunchCode = null;
+      // A bad link isn't a guessed code, so it costs no attempt — the student
+      // is dropped onto the normal code-entry screen with the reason showing.
+      reportMembershipCodeError(error, false);
+    });
+}
+
+// Same hand-off the legacy code path uses once its resource script is ready,
+// optionally held back until `notBefore` for the auto-launch bumper.
+function launchMembershipGame(game, notBefore) {
+  loadResourceGame(game.theme, game.script, function() {
+    setTimeout(function() {
+      handlePreloading('onPinInput');
+      setTimeout(removeAccessInputs, 200);
+      setTimeout(transitionSplash, 1300);
+    }, Math.max(0, notBefore - Date.now()));
+  });
+}
+
+function reportMembershipCodeError(error, countAttempt) {
+  const code = error && error.code;
+
+  if (code === 'functions/resource-exhausted') {
+    const retryAfter = Number(error?.details?.retryAfter);
+    clearAccessInputs();
+    clearAccessMessage();
+    triggerPinLockout(retryAfter);
+    return;
+  }
+
+  if (code === 'functions/not-found' || code === 'functions/invalid-argument') {
+    setAccessMessage(MEMBERSHIP_CODE_NOT_FOUND_MESSAGE, true);
+    if (countAttempt) rejectAccessCode();
+    else clearAccessInputs();
+    return;
+  }
+
+  // Offline, blocked CDN, Firebase outage — not the student's fault, so it
+  // doesn't burn an attempt against the local lockout.
+  console.error('Share code lookup failed', error);
+  setAccessMessage(MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE, true);
+  clearAccessInputs();
+}
+
+// Load a resource's game script and its cutscene script, then hand off once the
+// resource has registered its assets. Shared by the legacy purchase-code path
+// and the membership share-code path.
+function loadResourceGame(theme, scriptPath, onReady) {
+  resourceTheme = theme;
+  resourceJS = scriptPath;
+
+  var scriptsDiv = document.getElementById('script-resource');
+  scriptsDiv.innerHTML = '';
+  var scriptElement = document.createElement('script');
+  scriptElement.type = 'text/javascript';
+  scriptElement.src =
+    'resource/' + resourceTheme + '/' + resourceJS + '?datetime=' + new Date().getTime();
+  scriptsDiv.appendChild(scriptElement);
+
+  // preload first set of resource assets
+  scriptElement.onload = function() {
+    checkResourceAssets();
+  };
+
+  function checkResourceAssets() {
+      if (typeof localAssetArrays !== 'undefined') {
+          onReady();
+      } else {
+          setTimeout(checkResourceAssets, 50); // Check again after 50ms
+      }
+  }
+
+  // load local cutscene script
+  var cutsceneDiv = document.getElementById('script-cutscene');
+  cutsceneDiv.innerHTML = '';
+  var cutsceneScript = document.createElement('script');
+  cutsceneScript.type = 'text/javascript';
+  cutsceneScript.src =
+    'resource/' + resourceTheme  + '/cutscene/cutscene.js';
+  cutsceneDiv.appendChild(cutsceneScript);
 }
 
 // draw splash
@@ -422,7 +657,8 @@ function addAccess(){
     setHardwareKeyboardFunctionality(accessInput,"access-input","access-input-container"); 
     setTimeout(setAccessInputValue,10);
     function setAccessInputValue(){
-      accessInput.value = '';
+      // An auto-launching URL slug shows its code; typed entry starts empty.
+      accessInput.value = autoLaunchCode ? autoLaunchCode.charAt(i) : '';
     } 
     if (i === 0) {
       /*
@@ -438,7 +674,10 @@ function addAccess(){
   }
   setSoftwareKeyboardFunctionality("access-input","access-input-container");    
 
-  addPromo();
+  accessMessage = createElement('p', ['access-message', 'access-message--hidden'], splashContent);
+
+  // The promo slides in at 2s; an auto-launching game is already leaving by then.
+  if (!autoLaunchCode) addPromo();
   function addPromo() {
     const promoContainer = createElement('a', ['promo-container', 'promo-container--hidden'], splashContainer);
 
@@ -456,7 +695,8 @@ function addAccess(){
 }
 
 function checkIfAccessInputIsFilled() {
-  if (isPinLockedOut()) return false;
+  if (isPinLockedOut() || membershipLookupPending) return false;
+  clearAccessMessage(); // any previous share-code error is stale once they retype
   toggleClass(splashButton, 'splash-button--visible', 'splash-button--hidden');
   var filledCells = document.querySelectorAll('.access-input');
   var allFilled = true;
@@ -469,6 +709,15 @@ function checkIfAccessInputIsFilled() {
   }
 
   if (allFilled) {
+    // Branch before anything else: a code containing a letter is a membership
+    // share code and is resolved by the server. Everything below this point is
+    // the original all-numeric purchase-code path, unchanged.
+    const typedCode = Array.from(filledCells, (cell) => String(cell.value).toUpperCase()).join('');
+    if (/[A-Z]/.test(typedCode)) {
+      submitMembershipCode(typedCode);
+      return;
+    }
+
     let filledValuesArray = Array.from(filledCells, (cell) => Number(cell.value));
     let correctIDs = []; // Declare correctIDs array here
 
@@ -500,44 +749,15 @@ function checkIfAccessInputIsFilled() {
             analyticsArray[matchIndexMain].resources[matchIndexSub]
               .googleAnalyticsID.match(/\d+/g).join('')
           ) {
-            resourceTheme = analyticsArray[matchIndexMain].path;
-            resourceJS =
-              analyticsArray[matchIndexMain].resources[matchIndexSub].resourceJS;
-            var scriptsDiv = document.getElementById('script-resource');
-            scriptsDiv.innerHTML = '';
-            var scriptElement = document.createElement('script');
-            scriptElement.type = 'text/javascript';
-            scriptElement.src =
-              'resource/' + resourceTheme + '/' + resourceJS + '?datetime=' + new Date().getTime();
-            scriptsDiv.appendChild(scriptElement);
-            
-            // preload first set of resource assets
-            scriptElement.onload = function() {
-              checkResourceAssets();
-            };
-            
-            function checkResourceAssets() {
-                if (typeof localAssetArrays !== 'undefined') {
-                    nextStep();
-                } else {
-                    setTimeout(checkResourceAssets, 50); // Check again after 50ms
-                }
-            }
-
-            function nextStep(){
-              handlePreloading('onPinInput');
-              setTimeout(removeAccessInputs, 200);
-              setTimeout(transitionSplash, 1300);
-            }
-
-            // load local cutscene script
-            var cutsceneDiv = document.getElementById('script-cutscene');
-            cutsceneDiv.innerHTML = '';
-            var cutsceneScript = document.createElement('script');
-            cutsceneScript.type = 'text/javascript';
-            cutsceneScript.src =
-              'resource/' + resourceTheme  + '/cutscene/cutscene.js';
-            cutsceneDiv.appendChild(cutsceneScript); 
+            loadResourceGame(
+              analyticsArray[matchIndexMain].path,
+              analyticsArray[matchIndexMain].resources[matchIndexSub].resourceJS,
+              function nextStep(){
+                handlePreloading('onPinInput');
+                setTimeout(removeAccessInputs, 200);
+                setTimeout(transitionSplash, 1300);
+              }
+            );
 
           }
 
@@ -546,37 +766,7 @@ function checkIfAccessInputIsFilled() {
     }
 
     if (!foundMatch) {
-      pinFailedAttempts += 1;
-      for (let i = 0; i < filledCells.length; i++) {
-        toggleClass(
-          filledCells[i],
-          'access-input--no-flash',
-          'access-input--flash'
-        );
-        setTimeout(clearCells, 400, filledCells[i], i);
-      }
-      if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
-        setTimeout(triggerPinLockout, 450);
-      }
-    }
-
-    function clearCells(cell,i) {
-      toggleClass(
-        cell,
-        'access-input--flash',
-        'access-input--no-flash'
-      );
-      toggleClass(
-        splashButton,
-        'splash-button--visible',
-        'splash-button--hidden'
-      );
-      cell.value = '';
-      cell.blur();
-      if (i == 0) {
-        cell.focus();
-        activeInput__codeInput = cell; 
-      }
+      rejectAccessCode();
     }
 
   } else {
@@ -1668,6 +1858,16 @@ function removeSplash(){
 
 document.addEventListener("DOMContentLoaded", function() {
   if (isPreviewPage) return; // preview.js handles boot for the preview page
+
+  // gameMode is assigned by global.js's own DOMContentLoaded listener, which is
+  // registered first and so has already run. Only the plain play page (the one
+  // with the code inputs) honours a share code in the URL.
+  if (gameMode !== 'preview' && gameMode !== 'free' && !isUndermurkPage) {
+    autoLaunchCode = membershipCodeFromUrl();
+  }
+
   drawSplash();
+
+  if (autoLaunchCode) startAutoLaunch();
 });
 

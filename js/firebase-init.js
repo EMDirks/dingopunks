@@ -45,6 +45,7 @@ const authorizeBetaSignup = httpsCallable(firebaseFunctions, "authorizeBetaSignu
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
 const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
+const resolveGameCode = httpsCallable(firebaseFunctions, "resolveGameCode");
 
 async function getUserProfile(uid) {
   const snapshot = await getDoc(doc(db, "users", uid));
@@ -80,6 +81,7 @@ export {
   googleProvider,
   onAuthStateChanged,
   reload,
+  resolveGameCode,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
