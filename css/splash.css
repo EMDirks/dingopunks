@@ -315,6 +315,12 @@
         transition: transform 0.2s, opacity 0.15s;
     }
 
+    .keyboard--splash-alphabet {
+        width: 68% !important;
+        left: 16% !important;
+        top: 35% !important;
+    }
+
     .keyboard-splash--off-right {
         transform: translate(30%, 0%);
         opacity: 0; 
@@ -351,17 +357,34 @@
         opacity: 0.5;
         padding: 2% 0% !important;
     }
+
+    .keyboard-button--splash-alphabet {
+        padding: 1.5% 0% !important;
+    }
+
+    @media (hover:hover){
+        .keyboard-button--splash-alphabet:hover {
+            background-image: none !important;
+            background-color: rgba(var(--off-white), 1) !important;
+            padding: 1.1% 0% !important;
+        }
+    }
+
+    .keyboard-button--splash-alphabet:active {
+        opacity: 0.5;
+        padding: 1.1% 0% !important;
+    }
     
     .access-input-container {
         display: flex;
         justify-content: center;
-        height: 14.75%;
+        height: 17%;
     }
 
     .access-input {
         border: 0.35vmin solid rgba(var(--gold), 1);
         background-color: rgba(var(--off-black), 1);
-        width: 7%;
+        width: 8%;
         height: 100%;
         border-radius: 1vmin;
         margin: 0 0.7%;

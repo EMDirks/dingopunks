@@ -419,6 +419,18 @@ const keyboard = document.querySelector('.keyboard');
 const keyboardButtons = document.querySelectorAll(".keyboard-button");
 const keyboardSplash = document.querySelector('.keyboard--splash');
 const keyboardButtonsSplash = document.querySelectorAll(".keyboard-button--splash");
+
+function initSplashKeyboard() {
+  const numericSection = document.querySelector('.keyboard-splash-section--numeric');
+  const alphabetSection = document.querySelector('.keyboard-splash-section--alphabet');
+  if (!numericSection || !alphabetSection || !keyboardSplash) return;
+
+  const useAlphabet = typeof ALPHABET_KEYBOARD !== 'undefined' && ALPHABET_KEYBOARD;
+  numericSection.hidden = useAlphabet;
+  alphabetSection.hidden = !useAlphabet;
+  keyboardSplash.classList.toggle('keyboard--splash-alphabet', useAlphabet);
+}
+initSplashKeyboard();
 const machineWrapper = document.querySelector('.machine-wrapper');
 const machineContainer = document.querySelector('.machine-container');
 const machineColumnLeft = document.querySelector('.machine-column-left');
@@ -602,7 +614,7 @@ function updateElementHeight() {
     ['.code-box-button',0.18],
     ['.code-input-flash',1.05],
     /* -container-wrapper',0.48], */
-    ['.promo-container',0.17],
+    ['.promo-container',0.15],
     ['.promo-container__resource',0.3],
     ['.promo-container__single-image',0.65],
   ];
@@ -734,11 +746,11 @@ function updateElementSize() {
     ['.cutscene-text', 0.047],
     ['.keyboard-button', 0.03],
     ['.keyboard-button--splash', 0.125],
+    ['.keyboard-button--splash-alphabet', 0.05],
     ['.activity-button-done', 0.03],
 
     ['.code-node-input', 0.11],
-    ['.access-input',0.045],
-    ['.access-message',0.022],
+    ['.access-input',0.05],
     ['.promo-container__title',0.06],
     ['.promo-container__banner',0.06],
     ['.promo-container__resource-overlay__text',0.25],

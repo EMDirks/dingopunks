@@ -395,37 +395,6 @@
 }
 
 
-/* ---- access code message ---- */
-
-/* Sits in the gap between the splash keypad (ends at 62% of the wrapper) and
-   the promo banner (starts at 75%), so it never collides with either. */
-.access-message {
-    font-family: 'Primer Print Bold', sans-serif;
-    color: rgba(var(--off-white), 1);
-    text-align: center;
-    position: absolute;
-    top: 60.5%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 84%;
-    margin: 0;
-    line-height: 115%;
-    transition: opacity 0.2s;
-}
-
-.access-message--hidden {
-    opacity: 0;
-}
-
-.access-message--visible {
-    opacity: 1;
-}
-
-.access-message--error {
-    color: rgba(var(--salmon), 1);
-}
-
-
 /* ---- rate limit overlay ---- */
 
 .rate-limit-overlay {

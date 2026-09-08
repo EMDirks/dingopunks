@@ -104,9 +104,6 @@ function fillAccessInputs(code) {
 // Mirrors CODE_ALPHABET in firebase-functions/share-codes.js — no lookalike
 // characters (O/0 and I/1 are all excluded).
 const MEMBERSHIP_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{5}$/;
-const MEMBERSHIP_CODE_NOT_FOUND_MESSAGE = "That code has expired or doesn't exist.";
-const MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE =
-  "We couldn't check that code. Check your connection and try again.";
 
 // Hold an auto-launch until the opening bumper has played out, so a fast
 // lookup doesn't transition the splash out from under the logo animation.
@@ -117,7 +114,6 @@ let autoLaunchCode = null;
 // Blocks typed entry while a lookup is in flight or a game is already loading.
 let membershipLookupPending = false;
 let shareCodeModulePromise = null;
-let accessMessage;
 
 function membershipCodeFromUrl() {
   const raw = window.location.search.slice(1).toUpperCase();
@@ -140,30 +136,12 @@ function lookupMembershipCode(code) {
   });
 }
 
-function setAccessMessage(text, isError) {
-  if (!accessMessage) return;
-  accessMessage.textContent = text;
-  accessMessage.classList.toggle('access-message--error', isError === true);
-  toggleClass(accessMessage, 'access-message--hidden', 'access-message--visible');
-  updateElementSize();
-}
-
-function clearAccessMessage() {
-  if (!accessMessage) return;
-  toggleClass(accessMessage, 'access-message--visible', 'access-message--hidden');
-}
-
-// A wrong code: flash the cells red, clear them, and count the attempt toward
-// the local lockout. Shared by the legacy and membership paths.
-function rejectAccessCode() {
-  pinFailedAttempts += 1;
+// The only feedback a rejected code gets: flash the cells red and clear them.
+function flashAccessInputs() {
   const cells = document.querySelectorAll('.access-input');
   for (let i = 0; i < cells.length; i++) {
     toggleClass(cells[i], 'access-input--no-flash', 'access-input--flash');
     setTimeout(clearCells, 400, cells[i], i);
-  }
-  if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
-    setTimeout(triggerPinLockout, 450);
   }
 
   function clearCells(cell, i) {
@@ -178,6 +156,16 @@ function rejectAccessCode() {
   }
 }
 
+// A wrong code: flash the cells and count the attempt toward the local lockout.
+// Shared by the legacy and membership paths.
+function rejectAccessCode() {
+  pinFailedAttempts += 1;
+  flashAccessInputs();
+  if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
+    setTimeout(triggerPinLockout, 450);
+  }
+}
+
 function submitMembershipCode(code) {
   // Share codes must never unlock the answer key: a teacher's students all hold
   // one. The preview pages stay on purchased codes only.
@@ -186,13 +174,11 @@ function submitMembershipCode(code) {
     return;
   }
   if (!isMembershipCode(code)) {
-    setAccessMessage(MEMBERSHIP_CODE_NOT_FOUND_MESSAGE, true);
     rejectAccessCode();
     return;
   }
 
   membershipLookupPending = true;
-  clearAccessMessage();
 
   lookupMembershipCode(code)
     .then(function(game) {
@@ -217,7 +203,7 @@ function startAutoLaunch() {
       membershipLookupPending = false;
       autoLaunchCode = null;
       // A bad link isn't a guessed code, so it costs no attempt — the student
-      // is dropped onto the normal code-entry screen with the reason showing.
+      // is dropped onto the normal code-entry screen.
       buildAccessCodeEntry();
       reportMembershipCodeError(error, false);
     });
@@ -245,23 +231,20 @@ function reportMembershipCodeError(error, countAttempt) {
   if (code === 'functions/resource-exhausted') {
     const retryAfter = Number(error?.details?.retryAfter);
     clearAccessInputs();
-    clearAccessMessage();
     triggerPinLockout(retryAfter);
     return;
   }
 
   if (code === 'functions/not-found' || code === 'functions/invalid-argument') {
-    setAccessMessage(MEMBERSHIP_CODE_NOT_FOUND_MESSAGE, true);
     if (countAttempt) rejectAccessCode();
-    else clearAccessInputs();
+    else flashAccessInputs();
     return;
   }
 
   // Offline, blocked CDN, Firebase outage — not the student's fault, so it
   // doesn't burn an attempt against the local lockout.
   console.error('Share code lookup failed', error);
-  setAccessMessage(MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE, true);
-  clearAccessInputs();
+  flashAccessInputs();
 }
 
 // Load a resource's game script and its cutscene script, then hand off once the
@@ -681,8 +664,6 @@ function buildAccessCodeEntry() {
   }
   setSoftwareKeyboardFunctionality("access-input","access-input-container");    
 
-  accessMessage = createElement('p', ['access-message', 'access-message--hidden'], splashContent);
-
   toggleClass(splashTitle, 'splash-title--hidden', 'splash-title--visible');
   toggleClass(splashSubtitle, 'splash-subtitle--hidden', 'splash-subtitle--visible');
   updateElementSize();
@@ -706,7 +687,6 @@ function buildAccessCodeEntry() {
 
 function checkIfAccessInputIsFilled() {
   if (isPinLockedOut() || membershipLookupPending) return false;
-  clearAccessMessage(); // any previous share-code error is stale once they retype
   toggleClass(splashButton, 'splash-button--visible', 'splash-button--hidden');
   var filledCells = document.querySelectorAll('.access-input');
   var allFilled = true;
