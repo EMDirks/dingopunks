@@ -1288,7 +1288,10 @@ function classroomShareTitle(game) {
   return `Dingo Punks Escape Room • ${formatLabel(game.topic)}`;
 }
 
-const CLASSROOM_SHARE_BODY = "Click the link to play your escape room!";
+function classroomShareBody(code) {
+  const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(code);
+  return "Click this link to play your escape room:\n" + directLink;
+}
 
 function shareMoreGroupHtml(key) {
   const code = shareCode || "";
@@ -1559,13 +1562,15 @@ function shareToGoogleClassroom() {
   if (!shareCode) return;
   const game = shareGameId ? gameById(shareGameId) : null;
   const title = game ? classroomShareTitle(game) : "Dingo Punks Escape Room";
+  const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(shareCode);
   const shareUrl =
     "https://classroom.google.com/share?url=" +
-    encodeURIComponent("https://play.dingopunks.com") +
+    encodeURIComponent(directLink) +
     "&title=" +
     encodeURIComponent(title) +
     "&body=" +
-    encodeURIComponent(CLASSROOM_SHARE_BODY);
+    encodeURIComponent(classroomShareBody(shareCode)) +
+    "&itemtype=assignment";
   window.open(shareUrl, "_blank", "noopener");
 }
 

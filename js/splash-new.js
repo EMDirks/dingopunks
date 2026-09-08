@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.105';
+const version = '3.4.106';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -104,7 +104,6 @@ function fillAccessInputs(code) {
 // Mirrors CODE_ALPHABET in firebase-functions/share-codes.js — no lookalike
 // characters (O/0 and I/1 are all excluded).
 const MEMBERSHIP_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{5}$/;
-const MEMBERSHIP_CODE_LOADING_MESSAGE = 'Loading your escape room…';
 const MEMBERSHIP_CODE_NOT_FOUND_MESSAGE = "That code has expired or doesn't exist.";
 const MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE =
   "We couldn't check that code. Check your connection and try again.";
@@ -209,30 +208,33 @@ function submitMembershipCode(code) {
 function startAutoLaunch() {
   const notBefore = Date.now() + AUTO_LAUNCH_MIN_MS;
   membershipLookupPending = true;
-  setAccessMessage(MEMBERSHIP_CODE_LOADING_MESSAGE, false);
 
   lookupMembershipCode(autoLaunchCode)
     .then(function(game) {
-      fillAccessInputs(autoLaunchCode);
-      launchMembershipGame(game, notBefore);
+      launchMembershipGame(game, notBefore, true);
     })
     .catch(function(error) {
       membershipLookupPending = false;
       autoLaunchCode = null;
       // A bad link isn't a guessed code, so it costs no attempt — the student
       // is dropped onto the normal code-entry screen with the reason showing.
+      buildAccessCodeEntry();
       reportMembershipCodeError(error, false);
     });
 }
 
 // Same hand-off the legacy code path uses once its resource script is ready,
 // optionally held back until `notBefore` for the auto-launch bumper.
-function launchMembershipGame(game, notBefore) {
+function launchMembershipGame(game, notBefore, skipAccessStep) {
   loadResourceGame(game.theme, game.script, function() {
     setTimeout(function() {
       handlePreloading('onPinInput');
-      setTimeout(removeAccessInputs, 200);
-      setTimeout(transitionSplash, 1300);
+      if (skipAccessStep) {
+        setTimeout(transitionSplash, 200);
+      } else {
+        setTimeout(removeAccessInputs, 200);
+        setTimeout(transitionSplash, 1300);
+      }
     }, Math.max(0, notBefore - Date.now()));
   });
 }
@@ -376,8 +378,11 @@ function drawSplash(){
   
   // transition splash container and title in
   toggleClass(splashContainer,'splash-container--off-right','splash-container--center');
-  setTimeout(toggleClass,splashTransitionDuration,splashTitle,'splash-title--hidden','splash-title--visible');
-  setTimeout(toggleClass,splashTransitionDuration,splashSubtitle,'splash-subtitle--hidden','splash-subtitle--visible');
+  // A direct link shows only the logo bumper while the code resolves.
+  if (!autoLaunchCode || splashIndex !== 0) {
+    setTimeout(toggleClass,splashTransitionDuration,splashTitle,'splash-title--hidden','splash-title--visible');
+    setTimeout(toggleClass,splashTransitionDuration,splashSubtitle,'splash-subtitle--hidden','splash-subtitle--visible');
+  }
 
   // click button
   splashButton.addEventListener("click", function() { 
@@ -630,6 +635,14 @@ function addAccess(){
 
   };
 
+  // Direct links resolve in the background; only the bumper shows until we land
+  // on "Right on! You're playing" or fall back to manual code entry on error.
+  if (autoLaunchCode) return;
+
+  buildAccessCodeEntry();
+}
+
+function buildAccessCodeEntry() {
   splashTitle.innerHTML = 'To play, enter your <span class="character-select-text-player">game code</span><span class = "icon-clickable--splash">?</span>';
 
   if (gameMode === "preview"){
@@ -658,18 +671,11 @@ function addAccess(){
     setHardwareKeyboardFunctionality(accessInput,"access-input","access-input-container"); 
     setTimeout(setAccessInputValue,10);
     function setAccessInputValue(){
-      // An auto-launching URL slug shows its code; typed entry starts empty.
       accessInput.value = autoLaunchCode ? autoLaunchCode.charAt(i) : '';
     } 
     if (i === 0) {
-      /*
-      if (gameMode !== "preview") {
-        accessInput.focus();
-        activeInput__codeInput = accessInput; 
-      }
-      */
-        accessInput.focus();
-        activeInput__codeInput = accessInput; 
+      accessInput.focus();
+      activeInput__codeInput = accessInput; 
     }
     
   }
@@ -677,8 +683,11 @@ function addAccess(){
 
   accessMessage = createElement('p', ['access-message', 'access-message--hidden'], splashContent);
 
-  // The promo slides in at 2s; an auto-launching game is already leaving by then.
-  if (!autoLaunchCode) addPromo();
+  toggleClass(splashTitle, 'splash-title--hidden', 'splash-title--visible');
+  toggleClass(splashSubtitle, 'splash-subtitle--hidden', 'splash-subtitle--visible');
+  updateElementSize();
+
+  addPromo();
   function addPromo() {
     const promoContainer = createElement('a', ['promo-container', 'promo-container--hidden'], splashContainer);
 
