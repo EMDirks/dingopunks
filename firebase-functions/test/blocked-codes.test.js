@@ -17,8 +17,12 @@ import {
 
 describe("normalizeLeet", () => {
   test("maps leet digits to their letters", () => {
-    assert.equal(normalizeLeet("41357"), "AIEST");
+    assert.equal(normalizeLeet("4B357"), "ABEST");
     assert.equal(normalizeLeet("8UTT9"), "BUTT9");
+  });
+
+  test("leaves 0 and 1 alone — they were dropped from the code alphabet", () => {
+    assert.equal(normalizeLeet("41057"), "A10ST");
   });
 
   test("leaves unmapped characters alone", () => {
@@ -34,7 +38,7 @@ describe("isCodeBlocked", () => {
   });
 
   test("blocks leet spellings", () => {
-    for (const code of ["N1GGA", "A55BC", "5H1T2", "8UTT4"]) {
+    for (const code of ["PU55Y", "A55BC", "53X4B", "8UTT4"]) {
       assert.equal(isCodeBlocked(code), true, code);
     }
   });

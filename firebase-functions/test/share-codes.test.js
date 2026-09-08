@@ -159,14 +159,14 @@ describe("createShareCode idempotency", () => {
 
   test("an expired code for the same game is not reused", async () => {
     await seedUser("free-user");
-    await seedCode("EXPD1", {
+    await seedCode("EXPD2", {
       uid: "free-user",
       gameId: FREE_GAME,
       expiresAtMs: NOW - 1000,
     });
 
     const result = await createShareCode(db, "free-user", FREE_GAME, { now: NOW });
-    assert.notEqual(result.code, "EXPD1");
+    assert.notEqual(result.code, "EXPD2");
     assert.equal(result.expiresAt, NOW + CODE_TTL_MS);
   });
 
@@ -186,7 +186,7 @@ describe("createShareCode idempotency", () => {
     await cancelShareCode(db, "free-user", first.code);
     const second = await createShareCode(db, "free-user", FREE_GAME, {
       now: NOW,
-      randomCode: candidates(first.code === "AAAA1" ? "BBBB2" : "AAAA1"),
+      randomCode: candidates(first.code === "AAAA2" ? "BBBB2" : "AAAA2"),
     });
 
     assert.notEqual(second.code, first.code);
@@ -254,7 +254,7 @@ describe("createShareCode 20-cap", () => {
 describe("createShareCode collision handling", () => {
   test("retries past a candidate that collides with an active code", async () => {
     await seedUser("free-user");
-    await seedCode("TAKN1", {
+    await seedCode("TAKN2", {
       uid: "someone-else",
       gameId: PAID_GAME,
       expiresAtMs: NOW + 60_000,
@@ -262,11 +262,11 @@ describe("createShareCode collision handling", () => {
 
     const result = await createShareCode(db, "free-user", FREE_GAME, {
       now: NOW,
-      randomCode: candidates("TAKN1", "FRESH"),
+      randomCode: candidates("TAKN2", "FRESH"),
     });
 
     assert.equal(result.code, "FRESH");
-    const collided = await db.collection("codes").doc("TAKN1").get();
+    const collided = await db.collection("codes").doc("TAKN2").get();
     assert.equal(collided.get("uid"), "someone-else");
   });
 
@@ -293,30 +293,30 @@ describe("createShareCode collision handling", () => {
 
 describe("cancelShareCode", () => {
   test("deletes the caller's code, accepting lowercase input", async () => {
-    await seedCode("MINE1", {
+    await seedCode("MYNE2", {
       uid: "free-user",
       gameId: FREE_GAME,
       expiresAtMs: NOW + 60_000,
     });
 
-    const result = await cancelShareCode(db, "free-user", " mine1 ");
+    const result = await cancelShareCode(db, "free-user", " myne2 ");
     assert.deepEqual(result, { canceled: true });
 
-    const doc = await db.collection("codes").doc("MINE1").get();
+    const doc = await db.collection("codes").doc("MYNE2").get();
     assert.equal(doc.exists, false);
   });
 
   test("returns the same not-found for missing codes and other users' codes", async () => {
-    await seedCode("THRS1", {
+    await seedCode("THRS2", {
       uid: "someone-else",
       gameId: FREE_GAME,
       expiresAtMs: NOW + 60_000,
     });
 
-    await assertHttpsError(cancelShareCode(db, "free-user", "GXNE1"), "not-found");
-    await assertHttpsError(cancelShareCode(db, "free-user", "THRS1"), "not-found");
+    await assertHttpsError(cancelShareCode(db, "free-user", "GXNE2"), "not-found");
+    await assertHttpsError(cancelShareCode(db, "free-user", "THRS2"), "not-found");
 
-    const doc = await db.collection("codes").doc("THRS1").get();
+    const doc = await db.collection("codes").doc("THRS2").get();
     assert.equal(doc.exists, true);
   });
 

@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.104';
+const version = '3.4.105';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -101,8 +101,9 @@ function fillAccessInputs(code) {
 // Membership share codes always contain at least one letter; legacy purchase
 // codes are always five digits. That split is the whole reason the two systems
 // can share one input without ever colliding, so every branch below keys on it.
-// Mirrors CODE_ALPHABET in firebase-functions/share-codes.js (no O, no zero).
-const MEMBERSHIP_CODE_PATTERN = /^[A-NP-Z1-9]{5}$/;
+// Mirrors CODE_ALPHABET in firebase-functions/share-codes.js — no lookalike
+// characters (O/0 and I/1 are all excluded).
+const MEMBERSHIP_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{5}$/;
 const MEMBERSHIP_CODE_LOADING_MESSAGE = 'Loading your escape room…';
 const MEMBERSHIP_CODE_NOT_FOUND_MESSAGE = "That code has expired or doesn't exist.";
 const MEMBERSHIP_CODE_UNAVAILABLE_MESSAGE =

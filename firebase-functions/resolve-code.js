@@ -10,7 +10,7 @@ import { HttpsError } from "firebase-functions/v2/https";
 import { CODE_PATTERN, VALID_GAME_IDS, isCodeActive } from "./share-codes.js";
 import { enforceRateLimit } from "./rate-limit.js";
 
-// 30 lookups / 10 min per IP. Brute force is already pointless (45M
+// 30 lookups / 10 min per IP. Brute force is already pointless (33M
 // combinations); this only stops someone pointing a script at the endpoint.
 export const RESOLVE_RATE_LIMIT_SCOPE = "resolveGameCode";
 export const RESOLVE_RATE_LIMIT = 30;

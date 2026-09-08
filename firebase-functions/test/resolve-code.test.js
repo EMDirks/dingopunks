@@ -162,45 +162,47 @@ describe("clientIpFromRequest", () => {
 
 describe("resolveGameCode lookups", () => {
   test("resolves an active code to its gameId", async () => {
-    await seedCode("AB1CD", { gameId: PAID_GAME, expiresAtMs: NOW + 60_000 });
+    await seedCode("AB2CD", { gameId: PAID_GAME, expiresAtMs: NOW + 60_000 });
 
-    assert.deepEqual(await resolve("AB1CD"), { gameId: PAID_GAME });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME });
   });
 
   test("accepts lowercase and padded input", async () => {
-    await seedCode("AB1CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+    await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
-    assert.deepEqual(await resolve("  ab1cd "), { gameId: FREE_GAME });
+    assert.deepEqual(await resolve("  ab2cd "), { gameId: FREE_GAME });
   });
 
   test("resolves regardless of who owns the code or their plan", async () => {
     // Per the plan, a lapsed member's codes live out their remaining 14 days.
-    await seedCode("AB1CD", {
+    await seedCode("AB2CD", {
       uid: "lapsed-member",
       gameId: PAID_GAME,
       expiresAtMs: NOW + 60_000,
     });
 
-    assert.deepEqual(await resolve("AB1CD"), { gameId: PAID_GAME });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME });
   });
 
   test("gives the same not-found for missing, expired, and stale-catalog codes", async () => {
-    await seedCode("EXPD1", { gameId: FREE_GAME, expiresAtMs: NOW - 1 });
-    await seedCode("GNNE1", { gameId: "retired-room-4", expiresAtMs: NOW + 60_000 });
+    await seedCode("EXPD2", { gameId: FREE_GAME, expiresAtMs: NOW - 1 });
+    await seedCode("GNNE2", { gameId: "retired-room-4", expiresAtMs: NOW + 60_000 });
 
-    for (const code of ["AB1CD", "EXPD1", "GNNE1"]) {
+    for (const code of ["AB2CD", "EXPD2", "GNNE2"]) {
       await assertHttpsError(resolve(code), "not-found", NOT_FOUND_MESSAGE);
     }
   });
 
   test("treats a code with no usable expiry as not found", async () => {
-    await db.collection("codes").doc("BRKN1").set({ uid: "owner", gameId: FREE_GAME });
+    await db.collection("codes").doc("BRKN2").set({ uid: "owner", gameId: FREE_GAME });
 
-    await assertHttpsError(resolve("BRKN1"), "not-found", NOT_FOUND_MESSAGE);
+    await assertHttpsError(resolve("BRKN2"), "not-found", NOT_FOUND_MESSAGE);
   });
 
   test("rejects malformed codes without touching Firestore", async () => {
-    for (const code of ["AB1", "AB1CDE", "AB0CD", "ABOCD", "AB-CD", "", 12345, null, ["AB1CD"]]) {
+    // AB1CD and ABICD cover the lookalike ban: 1 and I left the alphabet
+    // alongside 0 and O.
+    for (const code of ["AB1", "AB2CDE", "AB0CD", "ABOCD", "AB1CD", "ABICD", "AB-CD", "", 12345, null, ["AB2CD"]]) {
       await assertHttpsError(resolve(code), "invalid-argument");
     }
 
@@ -218,13 +220,13 @@ describe("resolveGameCode lookups", () => {
 
 describe("resolveGameCode rate limiting", () => {
   test("blocks an IP past the limit and reports retryAfter", async () => {
-    await seedCode("AB1CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+    await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
     for (let i = 0; i < 3; i++) {
-      assert.deepEqual(await resolve("AB1CD", { limit: 3 }), { gameId: FREE_GAME });
+      assert.deepEqual(await resolve("AB2CD", { limit: 3 }), { gameId: FREE_GAME });
     }
 
-    await assert.rejects(resolve("AB1CD", { limit: 3 }), (error) => {
+    await assert.rejects(resolve("AB2CD", { limit: 3 }), (error) => {
       assert.equal(error.code, "resource-exhausted");
       assert.equal(error.details.retryAfter, RESOLVE_RATE_WINDOW_MS / 1000);
       return true;
@@ -233,49 +235,49 @@ describe("resolveGameCode rate limiting", () => {
 
   test("failed guesses count toward the limit", async () => {
     for (let i = 0; i < 3; i++) {
-      await assertHttpsError(resolve("AB1CD", { limit: 3 }), "not-found");
+      await assertHttpsError(resolve("AB2CD", { limit: 3 }), "not-found");
     }
 
-    await assertHttpsError(resolve("AB1CD", { limit: 3 }), "resource-exhausted");
+    await assertHttpsError(resolve("AB2CD", { limit: 3 }), "resource-exhausted");
   });
 
   test("the limit is charged before the lookup, so a blocked IP learns nothing", async () => {
-    await seedCode("AB1CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+    await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
     for (let i = 0; i < 2; i++) {
       await assertHttpsError(resolve("ZZ9ZZ", { limit: 2 }), "not-found");
     }
 
-    await assertHttpsError(resolve("AB1CD", { limit: 2 }), "resource-exhausted");
+    await assertHttpsError(resolve("AB2CD", { limit: 2 }), "resource-exhausted");
   });
 
   test("one IP's limit does not affect another", async () => {
-    for (let i = 0; i < 2; i++) await assertHttpsError(resolve("AB1CD", { limit: 2 }), "not-found");
+    for (let i = 0; i < 2; i++) await assertHttpsError(resolve("AB2CD", { limit: 2 }), "not-found");
 
-    await assertHttpsError(resolve("AB1CD", { limit: 2 }), "resource-exhausted");
+    await assertHttpsError(resolve("AB2CD", { limit: 2 }), "resource-exhausted");
     await assertHttpsError(
-      resolve("AB1CD", { limit: 2, ip: "198.51.100.7" }),
+      resolve("AB2CD", { limit: 2, ip: "198.51.100.7" }),
       "not-found",
     );
   });
 
   test("an IPv6 subnet cannot buy quota by rotating addresses in its /64", async () => {
     await assertHttpsError(
-      resolve("AB1CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:3:4:5:6") }),
+      resolve("AB2CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:3:4:5:6") }),
       "not-found",
     );
     await assertHttpsError(
-      resolve("AB1CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:aaaa:bbbb:cccc:dddd") }),
+      resolve("AB2CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:aaaa:bbbb:cccc:dddd") }),
       "resource-exhausted",
     );
   });
 
   test("quota frees up once the window rolls over", async () => {
-    await assertHttpsError(resolve("AB1CD", { limit: 1 }), "not-found");
-    await assertHttpsError(resolve("AB1CD", { limit: 1 }), "resource-exhausted");
+    await assertHttpsError(resolve("AB2CD", { limit: 1 }), "not-found");
+    await assertHttpsError(resolve("AB2CD", { limit: 1 }), "resource-exhausted");
 
     await assertHttpsError(
-      resolve("AB1CD", { limit: 1, now: NOW + RESOLVE_RATE_WINDOW_MS }),
+      resolve("AB2CD", { limit: 1, now: NOW + RESOLVE_RATE_WINDOW_MS }),
       "not-found",
     );
   });
@@ -285,10 +287,10 @@ describe("resolveGameCode rate limiting", () => {
     assert.equal(RESOLVE_RATE_WINDOW_MS, 10 * 60 * 1000);
 
     for (let i = 0; i < RESOLVE_RATE_LIMIT; i++) {
-      await assertHttpsError(resolveGameCode(db, "AB1CD", IP, { now: NOW }), "not-found");
+      await assertHttpsError(resolveGameCode(db, "AB2CD", IP, { now: NOW }), "not-found");
     }
     await assertHttpsError(
-      resolveGameCode(db, "AB1CD", IP, { now: NOW }),
+      resolveGameCode(db, "AB2CD", IP, { now: NOW }),
       "resource-exhausted",
     );
   });

@@ -23,7 +23,7 @@ Firebase supplies auth, database, and server logic. Stripe supplies billing.
 | Rebate | $8.99 off, **first year only** (assumed — flagged in Open Items). Format-based honor system: TPT = `^\d{9}$`, Shopify = `^\d{4,5}$` |
 | Free tier | 8 games: `the-midnight-mall-mixed-reading-skills-{2,3,4,5}` + `the-midnight-mall-mixed-math-skills-{2,3,4,5}` |
 | Free sharing | Free users can generate share codes, but only for the 8 free rooms (same 14-day / 20-code mechanics) |
-| Game codes | 5 chars from `ABCDEFGHIJKLMNPQRSTUVWXYZ123456789`, **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 14-day TTL, max 20 active per user (best-effort under concurrent requests — see `createShareCode`), one active code per user per game (re-sharing returns the existing code) |
+| Game codes | 5 chars from `ABCDEFGHJKLMNPQRSTUVWXYZ23456789` (no lookalikes: O/0 and I/1 excluded), **must contain ≥1 letter** (keeps the membership code space disjoint from legacy all-numeric codes), globally unique among active codes, 14-day TTL, max 20 active per user (best-effort under concurrent requests — see `createShareCode`), one active code per user per game (re-sharing returns the existing code) |
 | Legacy codes | Existing 5-digit numeric purchase codes stay client-side validated in `splash-new.js`, untouched |
 
 ---
@@ -115,7 +115,7 @@ Seven functions. All callables verify authentication except `resolveGameCode`; t
 
 **Rate limiting** (simple Firestore fixed-window counters — one small doc per key, no infra):
 
-- `resolveGameCode`: per-IP, e.g. 30 lookups / 10 min. On limit, return a `resource-exhausted` error with `retryAfter` — the play page already has a lockout overlay UI to show it. (Brute force is already mathematically pointless at 45M combinations; this is the abuse backstop.)
+- `resolveGameCode`: per-IP, e.g. 30 lookups / 10 min. On limit, return a `resource-exhausted` error with `retryAfter` — the play page already has a lockout overlay UI to show it. (Brute force is already mathematically pointless at 33M combinations; this is the abuse backstop.)
 - `createShareCode`: **no rate limit in Phase 2.** It's authenticated and the 20-active cap is the real limit. If still wanted, add it in Phase 5 as a five-line reuse of the Phase 3 infra.
 - `createCheckoutSession`: per-user, e.g. 10/hour (protects rebate-claim probing).
 
@@ -163,7 +163,7 @@ State bootstraps from Firestore after login instead of starting empty:
 
 ### Play page (`index.html` / `js/splash-new.js`) — membership codes
 
-- **URL slug:** on load, if `location.search` matches `^\?([A-NP-Z1-9]{5})$` and contains a letter → `resolveGameCode` → look up the gameId's `path` in the catalog → inject the resource script (same flow the legacy path uses) and auto-launch. Invalid/expired → normal code-entry screen + "That code has expired or doesn't exist" message.
+- **URL slug:** on load, if `location.search` matches `^\?([A-HJ-NP-Z2-9]{5})$` and contains a letter → `resolveGameCode` → look up the gameId's `path` in the catalog → inject the resource script (same flow the legacy path uses) and auto-launch. Invalid/expired → normal code-entry screen + "That code has expired or doesn't exist" message.
 - **Typed entry:** in `checkIfAccessInputIsFilled`, branch first: all-numeric → existing legacy check, untouched; contains a letter → server resolution (uppercase input as typed). Rate-limit errors reuse the existing lockout overlay.
 - Extract the "load game by resource path" portion of the legacy success handler into a shared function both paths call.
 - *(Accepted trade-off: game content is static files, so resolution gates the launch, not the assets — same as today.)*

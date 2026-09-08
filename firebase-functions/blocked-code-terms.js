@@ -1,9 +1,10 @@
 // Terms a generated share code must never contain. Generation-only: existing
 // codes are never re-validated, and resolve/cancel stay blocklist-agnostic.
 
-// Digits that read as letters in the code alphabet. 0 and 6 are absent
-// because CODE_ALPHABET has no O, and 6 has no unambiguous letter twin.
-const LEET_MAP = { 1: "I", 3: "E", 4: "A", 5: "S", 7: "T", 8: "B" };
+// Digits that read as letters in the code alphabet. 0 and 1 are absent
+// because CODE_ALPHABET excludes them (along with O and I), and 6 has no
+// unambiguous letter twin.
+const LEET_MAP = { 3: "E", 4: "A", 5: "S", 7: "T", 8: "B" };
 
 // Matched against the raw code only — these are numbers, not words.
 const RAW_NUMBER_PATTERNS = ["69", "420", "666", "1312", "1488", "8008"];

@@ -10,9 +10,11 @@ import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
 import { isCodeBlocked } from "./blocked-code-terms.js";
 
-// No O or 0 — and every code must contain at least one letter, which keeps
-// membership codes disjoint from the legacy all-numeric purchase codes.
-export const CODE_ALPHABET = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+// No lookalike characters: O/0 and I/1 are all excluded — too easy to confuse
+// when a code is read aloud or copied off a board. Every code must also
+// contain at least one letter, which keeps membership codes disjoint from the
+// legacy all-numeric purchase codes.
+export const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 export const CODE_LENGTH = 5;
 export const CODE_PATTERN = new RegExp(`^[${CODE_ALPHABET}]{${CODE_LENGTH}}$`);
 export const CODE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
@@ -139,7 +141,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
       return { code, expiresAt: expiresAtMs };
     }
 
-    // 45M combinations vs ≤20 active codes per user — reaching this means
+    // 33M combinations vs ≤20 active codes per user — reaching this means
     // something is deeply wrong, not bad luck.
     throw new HttpsError("internal", "Could not allocate a code. Try again.");
   });

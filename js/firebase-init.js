@@ -59,12 +59,38 @@ const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
+// The emulator suite is detected, never assumed. Blindly routing localhost
+// pages to the emulator ports sends every Firebase call to a dead socket
+// whenever the suite isn't (fully) running, and everything fails with
+// misleading "check your connection" errors. The emulator hub (port 4400)
+// only answers while `firebase emulators:start` is actually up, so it's the
+// discriminator; `mode: "no-cors"` because we only care about reachability.
+async function emulatorSuiteRunning() {
+  try {
+    await fetch("http://127.0.0.1:4400/emulators", {
+      mode: "no-cors",
+      signal: AbortSignal.timeout(500),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 if (isLocal) {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
-    disableWarnings: true,
-  });
-  connectFirestoreEmulator(db, "127.0.0.1", 8080);
-  connectFunctionsEmulator(firebaseFunctions, "127.0.0.1", 5001);
+  if (await emulatorSuiteRunning()) {
+    connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+      disableWarnings: true,
+    });
+    connectFirestoreEmulator(db, "127.0.0.1", 8080);
+    connectFunctionsEmulator(firebaseFunctions, "127.0.0.1", 5001);
+    console.info("Firebase: connected to the local emulator suite.");
+  } else {
+    console.warn(
+      "Firebase: no emulator suite detected on this localhost page — using PRODUCTION (dpaam-8864d). " +
+        "Sign-ins, favorites, and share codes are real. Start emulators with `npm run serve` in firebase-functions/.",
+    );
+  }
 }
 
 export {
