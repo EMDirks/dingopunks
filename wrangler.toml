@@ -1,4 +1,4 @@
 # Cloudflare Pages (Wrangler direct upload)
 # account_id is not allowed in wrangler.toml for Pages; use CLOUDFLARE_ACCOUNT_ID if needed.
 name = "dingopunks"
-pages_build_output_dir = "."
+pages_build_output_dir = "dist"

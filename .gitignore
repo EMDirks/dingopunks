@@ -18,6 +18,7 @@
 
 # Cloudflare Wrangler (local cache)
 .wrangler/
+dist/
 
 # Firebase
 firebase-functions/node_modules/
