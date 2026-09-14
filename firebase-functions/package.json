@@ -16,11 +16,13 @@
     "test:ratelimit": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rate-limits --only firestore \"node --test test/rate-limit.test.js\"",
     "test:resolve": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-resolve --only firestore \"node --test test/resolve-code.test.js\"",
     "test:blocked": "node --test test/blocked-codes.test.js",
-    "test": "npm run test:rules && npm run test:codes && npm run test:beta && npm run test:ratelimit && npm run test:resolve && npm run test:blocked"
+    "test:stripe": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-stripe --only firestore \"node --test test/stripe-billing.test.js\"",
+    "test": "npm run test:rules && npm run test:codes && npm run test:beta && npm run test:ratelimit && npm run test:resolve && npm run test:blocked && npm run test:stripe"
   },
   "dependencies": {
     "firebase-admin": "^13.6.0",
-    "firebase-functions": "^7.3.2"
+    "firebase-functions": "^7.3.2",
+    "stripe": "^22.6.2"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^5.0.2",
