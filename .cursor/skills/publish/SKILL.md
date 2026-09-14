@@ -32,7 +32,8 @@ On **every** user ask to publish (including a bare “publish”):
 2. **Bump the patch version** (see [Version bump](#version-bump))
 3. **`git add -A`** (stage everything intended to ship)
 4. **Commit** (message must mention the new version, e.g. `… for 3.4.48.`)
-5. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
+5. **Build the public-only upload directory** — `node scripts/build-pages.mjs`
+6. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
 
 Do **not** skip the version bump or standards export. Either is a hard failure of this skill.
 
@@ -113,14 +114,17 @@ Follow recent commit style (complete sentence; end with `for X.Y.Z.`). Prefer `a
 
 0. **Authenticate first (always).** Before running any publish command, remind the user to run `npx wrangler login` in their own terminal (it opens a browser for OAuth, which cannot be completed from the agent shell). Wait for them to confirm they're logged in before proceeding — **except** when they already confirmed login earlier in the same conversation. If publish fails with `Failed to fetch auth token` or a `CLOUDFLARE_API_TOKEN` error, stop and prompt them to run `npx wrangler login` (or set `CLOUDFLARE_API_TOKEN`).
 
-1. **Working directory**: repository root (the folder that contains `index.html`), not a subfolder.
+1. **Working directory**: repository root. Run `node scripts/build-pages.mjs` to copy
+   only public site files into `dist/`. Never upload the repository root directly:
+   doing so publishes backend source, local Firebase environment files, and internal
+   project files as downloadable static assets.
 
 2. **Project name**: **`dingopunks`** (Cloudflare Pages project). The repo root `wrangler.toml` sets this via `name` for Wrangler. Production domain: `dingopunks.pages.dev`.
 
 3. **Run** (after version bump + commit):
 
 ```bash
-npx wrangler pages deploy . --project-name dingopunks --commit-dirty=true --commit-message "X.Y.Z …"
+npx wrangler pages deploy dist --project-name dingopunks --commit-dirty=true --commit-message "X.Y.Z …"
 ```
 
 Use `npx wrangler` instead of `wrangler` if Wrangler is not installed globally. Pass `--commit-dirty=true` so a dirty tree (if any) does not block upload; the version bump should already be committed.
@@ -152,8 +156,8 @@ When the user asks to publish (e.g. “publish”, “deploy to Cloudflare”):
 1. **First (if not already confirmed this conversation):** remind the user to run `npx wrangler login` in their own terminal. Do not attempt the publish until they confirm they're logged in (or have set `CLOUDFLARE_API_TOKEN`).
 2. **Always** bump patch version in the files listed above; sync both `const version` declarations.
 3. **Always** `git add -A` and commit with the new version in the message.
-4. Use the workspace root for this game as the publish directory.
-5. Run `npx wrangler pages deploy . --project-name dingopunks --commit-dirty=true` with network access; include the new version in `--commit-message`.
+4. Run `node scripts/build-pages.mjs` to create the public-only `dist/` directory.
+5. Run `npx wrangler pages deploy dist --project-name dingopunks --commit-dirty=true` with network access; include the new version in `--commit-message`.
 6. Report the new version and both URLs (`https://<id>.dingopunks.pages.dev` and `https://dingopunks.pages.dev`).
 7. If publish fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
 
@@ -166,6 +170,7 @@ Cloudflare Pages treats a root-level **`functions/`** folder as **Pages Function
 ## What not to do
 
 - **Do not publish without incrementing the version and committing first.**
+- Do not pass `.` to `wrangler pages deploy`; deploy the generated `dist/` directory.
 - Do not leave `js/debrief.js` on an older `const version` than `js/splash-new.js`.
 - Do not suggest zipping the folder for dashboard upload when file count exceeds 1,000.
 - Do not publish from `resource/` or other subfolders unless the user explicitly wants only that subtree published.
