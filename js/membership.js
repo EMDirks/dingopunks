@@ -9,6 +9,8 @@ import { authErrorMessage, initAuth } from "./membership-auth.js";
 import { escapeHtml, setButtonLoading } from "./membership-utils.js";
 import {
   auth,
+  createCheckoutSession,
+  createPortalSession,
   getUserProfile,
   onAuthStateChanged,
   sendPasswordResetEmail,
@@ -22,7 +24,6 @@ import {
   LIBRARY_THEME_ORDER_BY_SEASON,
   QUICK_START_LEGACY_DISMISS_KEY,
   QUICK_START_STATE_KEY,
-  SUBSCRIBE_URL,
   els,
   libraryThemeSlug,
   state,
@@ -58,8 +59,41 @@ const MEMBERSHIP_ACCESS_BY_PLAN = Object.freeze({
   "all-access": "member",
 });
 
+const REBATE_PLATFORM_PATTERNS = Object.freeze({
+  tpt: /^\d{9}$/,
+  shopify: /^\d{4,5}$/,
+});
+
 let planMembershipAccess = "free";
+let userBillingProfile = null;
 let debugMembershipAccessOverride = null;
+let checkoutReturnStatus = new URLSearchParams(window.location.search).get("checkout");
+
+if (checkoutReturnStatus !== "success" && checkoutReturnStatus !== "cancel") {
+  checkoutReturnStatus = null;
+}
+
+function consumeCheckoutReturn() {
+  const status = checkoutReturnStatus;
+  if (!status) return;
+  checkoutReturnStatus = null;
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete("checkout");
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+
+  window.setTimeout(() => {
+    if (status === "success") {
+      showToast(
+        state.membershipAccess === "member"
+          ? "✓ \u00A0 Welcome to Unlimited"
+          : "✓ \u00A0 Checkout complete — finishing setup…",
+      );
+      return;
+    }
+    showToast("Checkout canceled — you weren't charged");
+  }, 0);
+}
 
 function membershipAccessFromPlan(plan) {
   const access = MEMBERSHIP_ACCESS_BY_PLAN[plan];
@@ -70,18 +104,29 @@ function membershipAccessFromPlan(plan) {
 }
 
 async function loadDashboardState(user) {
-  const [profile] = await Promise.all([
+  let [profile] = await Promise.all([
     getUserProfile(user.uid),
     loadUserPrefs(user.uid),
     loadActiveCodes(user.uid),
   ]);
+
+  // Checkout completion and webhook delivery are independent. Re-read here
+  // rather than trusting the profile loaded during initial dashboard setup.
+  if (checkoutReturnStatus === "success") {
+    profile = (await getUserProfile(user.uid)) ?? profile;
+  }
 
   if (!profile) {
     throw new Error(`Missing user profile for ${user.uid}`);
   }
 
   planMembershipAccess = membershipAccessFromPlan(profile.plan);
+  userBillingProfile = {
+    status: profile.status ?? null,
+    currentPeriodEnd: profile.currentPeriodEnd ?? null,
+  };
   applyMembershipAccess();
+  consumeCheckoutReturn();
 }
 
 function gameById(id) {
@@ -779,6 +824,7 @@ const DPAAM_MODALS = [
   els.shareModal,
   els.shareCodeLimitModal,
   els.memberOnlyModal,
+  els.upgradeModal,
   els.accountModal,
 ];
 
@@ -890,6 +936,39 @@ function showExclusiveModal(modal) {
   syncModalBackdrop();
 }
 
+function periodEndMs(value) {
+  if (!value) return null;
+  if (typeof value.toMillis === "function") return value.toMillis();
+  if (typeof value.seconds === "number") return value.seconds * 1000;
+  return null;
+}
+
+function formatPlanDate(ms) {
+  return new Intl.DateTimeFormat(undefined, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(ms));
+}
+
+function normalizeClientRebate(orderRaw) {
+  const orderNumber = typeof orderRaw === "string" ? orderRaw.trim() : "";
+  if (!orderNumber) return { rebate: null };
+
+  const platform = Object.entries(REBATE_PLATFORM_PATTERNS).find(([, pattern]) =>
+    pattern.test(orderNumber),
+  )?.[0];
+  if (!platform) {
+    return { error: "Order numbers must be 4, 5, or 9 digits." };
+  }
+  return { rebate: { platform, orderNumber } };
+}
+
+function readRebateFromPanel(panel) {
+  const orderEl = panel?.querySelector("[data-rebate-order]");
+  return normalizeClientRebate(orderEl?.value ?? "");
+}
+
 function freeGamesCount() {
   return games.filter((game) => game.isFree).length;
 }
@@ -899,9 +978,8 @@ function currentPlanStatusHtml() {
   const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
   return `
     <div class="dpaam-plan-status">
-      <p class="dpaam-plan-status__label">Your plan</p>
+      <h4 class="dpaam-plan-status__title">You're on the <strong>Free Plan</strong></h4>
       <div class="dpaam-plan-panel__pricing">
-        <p class="dpaam-plan-panel__price dpaam-plan-status__price">Free</p>
         <p class="dpaam-plan-panel__billing">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
       </div>
     </div>`;
@@ -912,9 +990,9 @@ function allAccessPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>Unlock all ${libraryCount} escape rooms</strong> in the library</li>
-        <li><strong>Get instant access</strong> to every new escape room</li>
-        <li><strong>Keep fast-finishers busy</strong> with bonus missions</li>
+        <li><strong>All ${libraryCount} escape rooms</strong> in the library</li>
+        <li><strong>Instant access</strong> to every new escape room</li>
+        <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
       </ul>
     </div>`;
 }
@@ -927,46 +1005,109 @@ function allAccessPlanPricingHtml() {
     </div>`;
 }
 
-function unlimitedPlanPanelHtml({ action = "upgrade", planNameId = "" } = {}) {
+function memberPlanPricingHtml(billingProfile) {
+  const endMs = periodEndMs(billingProfile?.currentPeriodEnd);
+  const dateLabel = endMs ? formatPlanDate(endMs) : null;
+  const status = billingProfile?.status;
+  let renewalLine = "Billed annually at $35.88/yr";
+  if (status === "canceling" && dateLabel) {
+    renewalLine = `Access until ${dateLabel}`;
+  } else if (dateLabel) {
+    renewalLine = `Renews on ${dateLabel}`;
+  }
+  const cancelNote =
+    status === "canceling"
+      ? `<p class="dpaam-plan-panel__billing dpaam-plan-panel__billing--canceling">Subscription canceled — you keep Unlimited until then.</p>`
+      : "";
+  return `
+    <div class="dpaam-plan-panel__pricing">
+      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
+      <p class="dpaam-plan-panel__billing">${escapeHtml(renewalLine)}</p>
+      ${cancelNote}
+    </div>`;
+}
+
+function upgradeRebateFieldsHtml() {
+  return `
+    <details class="dpaam-upgrade-rebate">
+      <summary class="dpaam-upgrade-rebate__summary">
+        <span class="dpaam-upgrade-rebate__summary-lead">Have a recent purchase? </span><span class="dpaam-upgrade-rebate__summary-link">Apply an $8.99 credit</span>
+      </summary>
+      <div class="dpaam-upgrade-rebate__content">
+        <p class="dpaam-upgrade-rebate__hint">If you purchased an individual escape room, you can enter your order number to get $8.99 off your first year! For dingopunks.com orders, it's in the email titled "Your Dingo Punks Receipt." For TPT orders, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
+        <div class="dpaam-upgrade-rebate__row">
+          <label class="dpaam-upgrade-rebate__field">
+            <span class="dpaam-visually-hidden">Order number</span>
+            <input
+              type="text"
+              class="dpaam-auth-input"
+              data-rebate-order
+              placeholder="Order number"
+              aria-label="Order number"
+              inputmode="numeric"
+              autocomplete="off"
+            />
+          </label>
+          <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply</button>
+        </div>
+        <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
+      </div>
+    </details>`;
+}
+
+function upgradeCheckoutButtonHtml() {
+  return `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="start-checkout">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
+      </button>`;
+}
+
+function unlimitedPlanPanelHtml({
+  action = "upgrade",
+  planNameId = "",
+  billingProfile = null,
+  includeRebate = false,
+} = {}) {
   const isManage = action === "manage";
   const libraryCount = games.length;
   const idAttr = planNameId ? ` id="${planNameId}"` : "";
-  const eyebrow = isManage ? "Your plan" : "Upgrade to";
+  const eyebrowHtml = isManage ? `<p class="dpaam-plan-panel__eyebrow">Your plan</p>` : "";
   const taglineHtml = isManage
     ? ""
     : `<p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Full access</strong> to all ${libraryCount}+ escape rooms</p>`;
+  const pricingHtml = isManage
+    ? memberPlanPricingHtml(billingProfile)
+    : allAccessPlanPricingHtml();
+  const rebateHtml = !isManage && includeRebate ? upgradeRebateFieldsHtml() : "";
   const ctaHtml = isManage
-    ? `<button type="button" class="dpaam-btn dpaam-plan-panel__action dpaam-plan-panel__action--secondary" data-action="manage-subscription" aria-label="Manage subscription">
+    ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
         <span class="dpaam-responsive-label dpaam-responsive-label--full">Manage subscription</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Manage</span>
       </button>`
-    : `<span class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" aria-hidden="true">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
-      </span>`;
+    : upgradeCheckoutButtonHtml();
 
   const panelInner = `
       <img class="dpaam-plan-panel__logo" src="assets/dpaam/unlimited-logo.png" alt="" aria-hidden="true" decoding="async" />
       <div class="dpaam-plan-panel__hero">
-        <p class="dpaam-plan-panel__eyebrow">${eyebrow}</p>
+        ${eyebrowHtml}
         <h4 class="dpaam-plan-panel__title"${idAttr}>Unlimited</h4>
         ${taglineHtml}
       </div>
       <div class="dpaam-plan-panel__body">
-        ${allAccessPlanPricingHtml()}
+        ${pricingHtml}
         ${allAccessPlanFeaturesHtml()}
       </div>
+      ${rebateHtml}
       ${ctaHtml}`;
 
-  if (isManage) {
-    return `<div class="dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member">${panelInner}</div>`;
-  }
-
-  return `<button type="button" class="dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--interactive" data-action="upgrade-all-access" aria-label="Upgrade to Unlimited">${panelInner}</button>`;
+  const panelClass = isManage
+    ? "dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member"
+    : "dpaam-plan-panel dpaam-plan-panel--unlimited";
+  return `<div class="${panelClass}">${panelInner}</div>`;
 }
 
-function allAccessFreePlanPanelHtml({ showPlanStatus = false } = {}) {
+function allAccessFreePlanPanelHtml({ showPlanStatus = false, includeRebate = false } = {}) {
   return `
     ${showPlanStatus ? currentPlanStatusHtml() : ""}
-    ${unlimitedPlanPanelHtml()}`;
+    ${unlimitedPlanPanelHtml({ includeRebate })}`;
 }
 
 function syncMembershipAccessChrome() {
@@ -986,25 +1127,52 @@ function syncMembershipAccessChrome() {
 function renderAccountPlanPanel() {
   const isFree = state.membershipAccess === "free";
   syncMembershipAccessChrome();
+  if (isFree) {
+    if (els.accountPlanUpgrade) {
+      els.accountPlanUpgrade.hidden = false;
+      els.accountPlanUpgrade.innerHTML = unlimitedPlanPanelHtml({ includeRebate: true });
+    }
+    if (els.accountPlanFree) {
+      els.accountPlanFree.hidden = false;
+      els.accountPlanFree.innerHTML = currentPlanStatusHtml();
+    }
+    if (els.accountPlanMember) {
+      els.accountPlanMember.hidden = true;
+      els.accountPlanMember.innerHTML = "";
+    }
+    return;
+  }
+
+  if (els.accountPlanUpgrade) {
+    els.accountPlanUpgrade.hidden = true;
+    els.accountPlanUpgrade.innerHTML = "";
+  }
   if (els.accountPlanFree) {
-    els.accountPlanFree.hidden = !isFree;
-    if (isFree) els.accountPlanFree.innerHTML = allAccessFreePlanPanelHtml({ showPlanStatus: true });
+    els.accountPlanFree.hidden = true;
+    els.accountPlanFree.innerHTML = "";
   }
   if (els.accountPlanMember) {
-    els.accountPlanMember.hidden = isFree;
-    if (!isFree) {
-      els.accountPlanMember.innerHTML = unlimitedPlanPanelHtml({
-        action: "manage",
-        planNameId: "dpaam-account-plan-name",
-      });
-    }
+    els.accountPlanMember.hidden = false;
+    els.accountPlanMember.innerHTML = unlimitedPlanPanelHtml({
+      action: "manage",
+      planNameId: "dpaam-account-plan-name",
+      billingProfile: userBillingProfile,
+    });
   }
+}
+
+function openUpgradeModal() {
+  if (!els.upgradeModal || !els.upgradeModalBody) return;
+  els.upgradeModalBody.innerHTML = unlimitedPlanPanelHtml({
+    includeRebate: true,
+  });
+  showExclusiveModal(els.upgradeModal);
 }
 
 function memberOnlyModalBodyHtml(game) {
   const content = `
     <p class="dpaam-upgrade-lead">Upgrade to <strong>Unlimited</strong> to share this escape room.</p>
-    ${allAccessFreePlanPanelHtml()}`;
+    ${allAccessFreePlanPanelHtml({ includeRebate: true })}`;
 
   if (!game) {
     return `<div class="dpaam-modal-content">${content}</div>`;
@@ -1526,6 +1694,97 @@ async function logoutAccount() {
   }
 }
 
+function billingErrorMessage(error) {
+  if (error?.code === "functions/failed-precondition") {
+    return "No billing account is available for this membership.";
+  }
+  if (error?.code === "functions/unauthenticated") {
+    return "Sign in before managing your subscription.";
+  }
+  return "We couldn't open billing. Please try again.";
+}
+
+function checkoutErrorMessage(error) {
+  if (error?.code === "functions/invalid-argument") {
+    return error.message || "Check your rebate details and try again.";
+  }
+  if (error?.code === "functions/already-exists") {
+    return "That order number has already been used for a rebate.";
+  }
+  if (error?.code === "functions/failed-precondition") {
+    return "You already have an Unlimited membership.";
+  }
+  if (error?.code === "functions/resource-exhausted") {
+    return "Too many checkout attempts. Try again in an hour.";
+  }
+  if (error?.code === "functions/unauthenticated") {
+    return "Sign in before upgrading.";
+  }
+  return "We couldn't start checkout. Please try again.";
+}
+
+function applyPurchaseCredit(button) {
+  const rebate = button.closest(".dpaam-upgrade-rebate");
+  const status = rebate?.querySelector("[data-rebate-status]");
+  const parsed = readRebateFromPanel(rebate);
+  const message = parsed.error
+    ? parsed.error
+    : parsed.rebate
+      ? "✓ $8.99 credit will be applied at checkout."
+      : "Enter an order number.";
+
+  if (status) {
+    status.textContent = message;
+    status.classList.toggle("dpaam-upgrade-rebate__status--error", !parsed.rebate);
+  }
+}
+
+async function startCheckout(button) {
+  const panel = button.closest(".dpaam-plan-panel");
+  const parsed = readRebateFromPanel(panel);
+  if (parsed.error) {
+    showToast(parsed.error);
+    return;
+  }
+
+  setButtonLoading(button, true, "Redirecting…", { useHtml: true });
+  try {
+    const payload = { returnOrigin: window.location.origin };
+    if (parsed.rebate) {
+      payload.rebatePlatform = parsed.rebate.platform;
+      payload.rebateOrderNumber = parsed.rebate.orderNumber;
+    }
+    const result = await createCheckoutSession(payload);
+    const checkoutUrl = result.data?.url;
+    if (typeof checkoutUrl !== "string" || !checkoutUrl) {
+      throw new Error("Checkout did not return a URL.");
+    }
+    window.location.assign(checkoutUrl);
+  } catch (error) {
+    console.error("createCheckoutSession failed", error);
+    showToast(checkoutErrorMessage(error));
+    setButtonLoading(button, false, "Redirecting…", { useHtml: true });
+  }
+}
+
+async function openBillingPortal(button) {
+  setButtonLoading(button, true, "Opening…", { useHtml: true });
+  try {
+    const result = await createPortalSession({
+      returnOrigin: window.location.origin,
+    });
+    const portalUrl = result.data?.url;
+    if (typeof portalUrl !== "string" || !portalUrl) {
+      throw new Error("Billing portal did not return a URL.");
+    }
+    window.location.assign(portalUrl);
+  } catch (error) {
+    console.error("createPortalSession failed", error);
+    showToast(billingErrorMessage(error));
+    setButtonLoading(button, false, "Opening…", { useHtml: true });
+  }
+}
+
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -1816,6 +2075,7 @@ function wireEvents() {
   });
 
   wireAnimatedModal(els.memberOnlyModal);
+  wireAnimatedModal(els.upgradeModal);
 
   wireAnimatedModal(els.shareCodeLimitModal);
   els.shareCodeLimitViewActive?.addEventListener("click", () => {
@@ -1857,16 +2117,38 @@ function wireEvents() {
   });
 
   document.addEventListener("click", (e) => {
+    const applyCreditBtn = e.target.closest("[data-action='apply-purchase-credit']");
+    if (applyCreditBtn) {
+      applyPurchaseCredit(applyCreditBtn);
+      return;
+    }
+
+    const checkoutBtn = e.target.closest("[data-action='start-checkout']");
+    if (checkoutBtn) {
+      void startCheckout(checkoutBtn);
+      return;
+    }
+
     const upgradeBtn = e.target.closest("[data-action='upgrade-all-access']");
     if (upgradeBtn) {
-      window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
+      dashboardMobileMenu?.setOpen(false);
+      openUpgradeModal();
       return;
     }
 
     const manageBtn = e.target.closest("[data-action='manage-subscription']");
     if (manageBtn) {
-      // Placeholder — route to Stripe customer billing portal later.
-      showToast("Opening billing portal…");
+      void openBillingPortal(manageBtn);
+    }
+  });
+
+  document.addEventListener("input", (e) => {
+    if (!e.target.matches("[data-rebate-order]")) return;
+    const rebate = e.target.closest(".dpaam-upgrade-rebate");
+    const status = rebate?.querySelector("[data-rebate-status]");
+    if (status) {
+      status.textContent = "";
+      status.classList.remove("dpaam-upgrade-rebate__status--error");
     }
   });
 }
@@ -2091,6 +2373,7 @@ function init() {
       resetUserPrefs();
       resetShareCodes();
       planMembershipAccess = "free";
+      userBillingProfile = null;
       applyMembershipAccess();
     }
     updateAccountModal(user);

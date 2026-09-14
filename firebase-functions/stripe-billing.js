@@ -126,7 +126,7 @@ async function releaseRebateClaim(db, uid, rebate) {
   }
 }
 
-/** The return origin Checkout may send the browser back to. */
+/** The trusted origin Stripe-hosted billing pages may return the browser to. */
 export function checkoutReturnOrigin(rawOrigin, emulator) {
   if (typeof rawOrigin === "string") {
     const origin = rawOrigin.trim().replace(/\/+$/, "");
@@ -236,6 +236,44 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
       message: error?.message,
     });
     throw new HttpsError("internal", "Could not start checkout. Please try again.");
+  }
+}
+
+/**
+ * Create a Stripe Customer Portal session for the customer linked to this
+ * Firebase account. The customer ID always comes from the server-managed user
+ * document; callers can only supply a return origin, which is allowlisted.
+ *
+ * @returns {Promise<{url: string}>}
+ */
+export async function createPortalSession(db, stripe, uid, data = {}, options = {}) {
+  const { emulator = false } = options;
+  const origin = checkoutReturnOrigin(data.returnOrigin, emulator);
+  const userSnap = await db.collection("users").doc(uid).get();
+  const customerId = userSnap.exists ? userSnap.get("stripeCustomerId") : null;
+
+  if (typeof customerId !== "string" || !customerId) {
+    throw new HttpsError(
+      "failed-precondition",
+      "No billing account is available for this membership.",
+    );
+  }
+
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: `${origin}/membership.html`,
+    });
+    if (!session.url) {
+      throw new Error("Stripe returned a portal session without a URL.");
+    }
+    return { url: session.url };
+  } catch (error) {
+    logger.error("Stripe customer portal session creation failed", {
+      uid,
+      message: error?.message,
+    });
+    throw new HttpsError("internal", "Could not open billing. Please try again.");
   }
 }
 

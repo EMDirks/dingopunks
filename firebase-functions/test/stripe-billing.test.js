@@ -14,6 +14,7 @@ import {
   REBATE_COUPON_ID,
   checkoutReturnOrigin,
   createCheckoutSession,
+  createPortalSession,
   entitlementFromSubscription,
   handleStripeEvent,
   normalizeRebate,
@@ -68,7 +69,12 @@ async function assertHttpsError(promise, expectedCode) {
  * Fake Stripe client. Records every call; behavior overridable per test.
  */
 function fakeStripe(overrides = {}) {
-  const calls = { customersCreate: [], sessionsCreate: [], subscriptionsRetrieve: [] };
+  const calls = {
+    customersCreate: [],
+    sessionsCreate: [],
+    portalSessionsCreate: [],
+    subscriptionsRetrieve: [],
+  };
   return {
     calls,
     customers: {
@@ -84,6 +90,18 @@ function fakeStripe(overrides = {}) {
           calls.sessionsCreate.push(params);
           if (overrides.sessionError) throw overrides.sessionError;
           return { id: "cs_1", url: "https://checkout.stripe.com/c/pay/cs_1" };
+        },
+      },
+    },
+    billingPortal: {
+      sessions: {
+        create: async (params) => {
+          calls.portalSessionsCreate.push(params);
+          if (overrides.portalError) throw overrides.portalError;
+          return {
+            id: "bps_1",
+            url: overrides.portalUrl ?? "https://billing.stripe.com/p/session/bps_1",
+          };
         },
       },
     },
@@ -377,6 +395,70 @@ describe("createCheckoutSession", () => {
     await seedUser("buyer");
     await assertHttpsError(
       createCheckoutSession(db, fakeStripe(), "buyer", {}, { now: NOW }),
+      "internal",
+    );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// createPortalSession
+// ---------------------------------------------------------------------------
+
+describe("createPortalSession", () => {
+  test("creates a portal session for the server-linked customer", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "active",
+      stripeCustomerId: "cus_member",
+    });
+    const stripe = fakeStripe();
+
+    const result = await createPortalSession(db, stripe, "member");
+
+    assert.equal(result.url, "https://billing.stripe.com/p/session/bps_1");
+    assert.deepEqual(stripe.calls.portalSessionsCreate, [
+      {
+        customer: "cus_member",
+        return_url: `${PROD_ORIGIN}/membership.html`,
+      },
+    ]);
+  });
+
+  test("allows an emulator localhost return origin", async () => {
+    await seedUser("member", { stripeCustomerId: "cus_member" });
+    const stripe = fakeStripe();
+
+    await createPortalSession(
+      db,
+      stripe,
+      "member",
+      { returnOrigin: "http://localhost:8000" },
+      { emulator: true },
+    );
+
+    assert.equal(
+      stripe.calls.portalSessionsCreate[0].return_url,
+      "http://localhost:8000/membership.html",
+    );
+  });
+
+  test("rejects accounts without a linked Stripe customer", async () => {
+    await seedUser("free-user");
+    const stripe = fakeStripe();
+
+    await assertHttpsError(
+      createPortalSession(db, stripe, "free-user"),
+      "failed-precondition",
+    );
+    assert.equal(stripe.calls.portalSessionsCreate.length, 0);
+  });
+
+  test("maps Stripe portal errors to a safe callable error", async () => {
+    await seedUser("member", { stripeCustomerId: "cus_member" });
+    const stripe = fakeStripe({ portalError: new Error("secret Stripe detail") });
+
+    await assertHttpsError(
+      createPortalSession(db, stripe, "member"),
       "internal",
     );
   });

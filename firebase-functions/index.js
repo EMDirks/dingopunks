@@ -20,6 +20,7 @@ import {
 } from "./resolve-code.js";
 import {
   createCheckoutSession as createCheckoutSessionImpl,
+  createPortalSession as createPortalSessionImpl,
   handleStripeEvent,
 } from "./stripe-billing.js";
 
@@ -134,6 +135,20 @@ export const createCheckoutSession = onCall(
         typeof request.auth.token.email === "string" ? request.auth.token.email : null,
       emulator: process.env.FUNCTIONS_EMULATOR === "true",
     });
+  },
+);
+
+export const createPortalSession = onCall(
+  { invoker: "public", secrets: [stripeSecretKey] },
+  async (request) => {
+    const uid = requireAuth(request);
+    return createPortalSessionImpl(
+      getFirestore(),
+      stripeClient(),
+      uid,
+      request.data ?? {},
+      { emulator: process.env.FUNCTIONS_EMULATOR === "true" },
+    );
   },
 );
 

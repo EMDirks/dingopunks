@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Unlimited | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.108" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.108" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.109" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.109" />
 </head>
 <body>
   <div class="dpaam">
@@ -746,6 +746,21 @@
       </form>
     </dialog>
 
+    <!-- Standalone Unlimited upgrade modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact dpaam-upgrade-modal"
+      id="dpaam-upgrade-modal"
+      aria-labelledby="dpaam-upgrade-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-upgrade-modal-title">Upgrade</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body" id="dpaam-upgrade-modal-body"></div>
+      </form>
+    </dialog>
+
     <!-- Unlimited paywall modal -->
     <dialog
       class="dpaam-modal"
@@ -825,17 +840,33 @@
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body dpaam-account-body">
+          <section
+            class="dpaam-account-section dpaam-account-plan-section"
+            id="dpaam-account-plan-panel"
+          >
+            <div id="dpaam-account-plan-free" hidden></div>
+            <div id="dpaam-account-plan-upgrade" hidden></div>
+            <div id="dpaam-account-plan-member" hidden></div>
+          </section>
+
+          <div
+            class="dpaam-account-sign-in-panel"
+            id="dpaam-account-sign-in-panel"
+          >
           <div class="dpaam-account-credentials">
-          <section class="dpaam-account-section" aria-labelledby="dpaam-account-email-label">
+          <section class="dpaam-account-section" aria-label="Account email">
             <div class="dpaam-account-row">
               <div class="dpaam-account-row-main">
-                <h4 class="dpaam-account-label" id="dpaam-account-email-label">Email</h4>
                 <p class="dpaam-account-value" id="dpaam-account-email"></p>
-              </div>
-              <div class="dpaam-account-row--actions">
-                <button type="button" class="dpaam-account-link" id="dpaam-account-send-reset">
-                  Reset password
-                </button>
+                <div class="dpaam-account-inline-actions">
+                  <button type="button" class="dpaam-account-link dpaam-account-logout-link" id="dpaam-account-logout">
+                    Log out
+                  </button>
+                  <span class="dpaam-account-inline-actions__sep" aria-hidden="true">•</span>
+                  <button type="button" class="dpaam-account-link" id="dpaam-account-send-reset">
+                    Reset password
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -843,17 +874,7 @@
             <p class="dpaam-account-helper">You sign in with Google.</p>
           </section>
           </div>
-
-          <section class="dpaam-account-section" aria-labelledby="dpaam-account-plan-name">
-            <div id="dpaam-account-plan-free" hidden></div>
-            <div id="dpaam-account-plan-member" hidden></div>
-          </section>
-
-          <section class="dpaam-account-section dpaam-account-logout">
-            <button type="button" class="dpaam-account-link" id="dpaam-account-logout">
-              Log out
-            </button>
-          </section>
+          </div>
         </div>
       </form>
     </dialog>
@@ -941,6 +962,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.108"></script>
+  <script type="module" src="js/membership.js?version=3.4.109"></script>
 </body>
 </html>

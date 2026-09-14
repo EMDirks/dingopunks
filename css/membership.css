@@ -1640,6 +1640,21 @@ a.dpaam-topbar-btn {
   width: min(520px, calc(100vw - 32px));
 }
 
+.dpaam-upgrade-modal .dpaam-plan-panel {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Logo sits above the panel edge; scroll on the form, not the body, so it isn’t clipped. */
+.dpaam-modal-form:has(.dpaam-plan-panel--unlimited) {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.dpaam-modal-form:has(.dpaam-plan-panel--unlimited) .dpaam-modal-body {
+  overflow: visible;
+}
+
 .dpaam-upgrade-lead {
   margin: 0;
   font-size: var(--dpaam-text-sm);
@@ -1656,29 +1671,35 @@ a.dpaam-topbar-btn {
 .dpaam-plan-status {
   margin-bottom: var(--dpaam-pad-lg);
   padding: var(--dpaam-pad-lg);
+  padding-bottom: calc(var(--dpaam-pad-lg) - var(--dpaam-pad-xs));
   background: var(--dpaam-light-gray);
   border-radius: 12px;
 }
 
-.dpaam-plan-status__label {
-  margin: 0 0 var(--dpaam-pad-md);
-  font-size: var(--dpaam-text-xs);
-  font-weight: 500;
-  color: var(--dpaam-black-muted);
+.dpaam-plan-status__title {
+  margin: 0 0 var(--dpaam-pad-xs);
+  font-size: var(--dpaam-text-md);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--dpaam-black);
 }
 
-.dpaam-plan-status__price {
-  margin-top: 0;
-}
-
-.dpaam-plan-status .dpaam-plan-panel__price {
-  font-size: var(--dpaam-text-lg);
+.dpaam-plan-status__title strong {
+  font-weight: 600;
 }
 
 .dpaam-plan-status .dpaam-plan-panel__billing {
   font-size: var(--dpaam-text-xs);
   font-weight: 500;
   color: var(--dpaam-black-muted);
+  text-align: left;
+}
+
+.dpaam-plan-status .dpaam-plan-panel__pricing {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--dpaam-pad-xs);
 }
 
 .dpaam-plan-panel {
@@ -1691,8 +1712,8 @@ a.dpaam-topbar-btn {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--dpaam-pad-xs);
   width: 100%;
+  margin-bottom: var(--dpaam-pad-xs);
 }
 
 .dpaam-plan-panel__price {
@@ -1700,12 +1721,20 @@ a.dpaam-topbar-btn {
   font-size: var(--dpaam-text-display);
   font-weight: 600;
   line-height: 1.1;
+  flex: 0 1 auto;
 }
 
 .dpaam-plan-panel__billing {
   margin: 0;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-black-muted);
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.dpaam-plan-panel__billing--canceling {
+  flex: 1 0 100%;
+  text-align: left;
 }
 
 .dpaam-plan-panel__features {
@@ -1761,7 +1790,7 @@ a.dpaam-topbar-btn {
   position: relative;
   overflow: visible;
   padding: var(--dpaam-pad-lg);
-  border-radius: var(--dpaam-radius-xxl);
+  border-radius: var(--dpaam-radius-xl);
   color: var(--dpaam-white);
   background-color: var(--dpaam-blue-dark);
 }
@@ -1776,11 +1805,20 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
   font: inherit;
   appearance: none;
   -webkit-appearance: none;
+  transition:
+    box-shadow var(--dpaam-transition),
+    filter var(--dpaam-transition);
 }
 
 @media (hover: hover) {
   button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive:hover {
     filter: brightness(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
+    transition: none;
   }
 }
 
@@ -1822,7 +1860,8 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__title {
   margin: 0;
-  font-size: clamp(2.25rem, 8vw, 2.75rem);
+  margin-top: 3px;
+  font-size: clamp(1.875rem, 6.5vw, 2.35rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: 0em;
@@ -1833,7 +1872,7 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 }
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__tagline {
-  margin: calc(-1 * var(--dpaam-pad-xs)) 0 0;
+  margin: 0;
   font-size: var(--dpaam-text-xs);
   font-weight: 500;
   color: var(--dpaam-blue-light);
@@ -1851,13 +1890,13 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 
 /* Features sit beside pricing when the modal is wide enough, else wrap below. */
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
-  flex: 0 1 auto;
-  width: auto;
+  flex: 1 1 100%;
+  width: 100%;
   min-width: 0;
 }
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__price {
-  font-size: var(--dpaam-text-display);
+  font-size: clamp(1.625rem, 5vw, 1.875rem);
   font-weight: 700;
   line-height: 1.05;
   color: var(--dpaam-white);
@@ -1870,7 +1909,7 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 }
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__billing {
-  margin-bottom: var(--dpaam-pad-sm);
+  margin-bottom: 0;
   color: var(--dpaam-blue-light);
   opacity: 0.7;
 }
@@ -1883,7 +1922,8 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__features-list li {
   padding-left: calc(var(--dpaam-pad) + var(--dpaam-pad-xs));
-  color: rgba(255, 255, 255, 1);
+  color: var(--dpaam-white);
+  font-size: var(--dpaam-text-sm);
 }
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__features-list li::before {
@@ -1906,6 +1946,150 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   width: 100%;
   margin-top: var(--dpaam-pad-lg);
   pointer-events: none;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-plan-panel__billing--canceling {
+  margin-top: var(--dpaam-pad-xs);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: var(--dpaam-pad-lg);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary {
+  display: block;
+  margin: 0;
+  color: var(--dpaam-blue-light);
+  font-size: var(--dpaam-text-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+  opacity: 1;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary-link {
+  color: var(--dpaam-white);
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate + .dpaam-plan-panel__action {
+  margin-top: calc(var(--dpaam-pad-lg) - 2px);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate[open] + .dpaam-plan-panel__action {
+  margin-top: var(--dpaam-pad-lg);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary::-webkit-details-marker {
+  display: none;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary:focus-visible {
+  outline: 2px solid var(--dpaam-white);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-md);
+  margin-top: var(--dpaam-pad-md);
+  padding: var(--dpaam-pad-md);
+  border-radius: var(--dpaam-radius);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__hint {
+  margin: 0;
+  font-size: var(--dpaam-text-xs);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__row {
+  display: flex;
+  gap: var(--dpaam-pad-sm);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__field {
+  flex: 1 1 auto;
+  display: flex;
+  min-width: 0;
+  margin: 0;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__field .dpaam-auth-input {
+  font: inherit;
+  font-size: var(--dpaam-text-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: var(--dpaam-radius-sm);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__field .dpaam-auth-input::placeholder {
+  color: var(--dpaam-white);
+  opacity: 1;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__field .dpaam-auth-input:focus {
+  outline-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__apply {
+  flex: none;
+  min-height: 41px;
+  margin: 0;
+  padding-inline: var(--dpaam-pad-lg);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 500;
+  border-radius: var(--dpaam-radius-sm);
+}
+
+@media (hover: hover) {
+  .dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__apply:hover {
+    filter: none;
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.36);
+  }
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__status {
+  margin: var(--dpaam-pad-xs) 0 0;
+  min-height: 1.4em;
+  color: var(--dpaam-blue-light);
+  font-size: var(--dpaam-text-xs);
+  line-height: 1.4;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__status:empty {
+  display: none;
+  margin: 0;
+  min-height: 0;
+}
+
+.dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__status--error {
+  color: #ffd3d3;
+}
+
+@media (max-width: 420px) {
+  .dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__row {
+    flex-direction: column;
+  }
 }
 
 .dpaam-plan-panel--member .dpaam-plan-panel__action {
@@ -2426,10 +2610,25 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   min-width: 0;
 }
 
+.dpaam-account-sign-in-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-xs);
+}
+
 .dpaam-account-credentials {
   display: flex;
   flex-direction: column;
+}
+
+.dpaam-account-plan-section {
+  display: flex;
+  flex-direction: column;
   gap: var(--dpaam-pad-lg);
+}
+
+.dpaam-account-plan-section .dpaam-plan-status {
+  margin-bottom: 0;
 }
 
 .dpaam-account-section {
@@ -2438,9 +2637,8 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-account-row {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: var(--dpaam-pad);
 }
 
 .dpaam-account-row--action {
@@ -2455,19 +2653,34 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   flex-shrink: 0;
 }
 
-.dpaam-account-logout {
-  display: flex;
-  justify-content: center;
-}
-
-.dpaam-account-logout .dpaam-account-link {
+.dpaam-account-logout-link {
   color: var(--dpaam-black-muted);
 }
 
 @media (hover: hover) {
-  .dpaam-account-logout .dpaam-account-link:hover {
+  .dpaam-account-logout-link:hover {
     color: var(--dpaam-black-muted);
   }
+}
+
+.dpaam-account-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dpaam-pad-xs);
+  margin-top: var(--dpaam-pad-xs);
+}
+
+.dpaam-account-inline-actions__sep {
+  color: var(--dpaam-black-muted);
+  font-size: var(--dpaam-text-sm);
+  line-height: 1;
+  user-select: none;
+  padding: 0 var(--dpaam-pad-sm);
+}
+
+.dpaam-account-inline-actions:has(#dpaam-account-send-reset[hidden]) .dpaam-account-inline-actions__sep {
+  display: none;
 }
 
 .dpaam-account-link {
@@ -2490,6 +2703,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 .dpaam-account-row-main {
   min-width: 0;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
 }
 
 .dpaam-account-label {
@@ -2999,15 +3216,27 @@ dd a {
 
   /* --- Account modal --- */
 
-  .dpaam-account-row:not(.dpaam-account-row--actions) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--dpaam-pad-xs);
+  .dpaam-account-body {
+    gap: var(--dpaam-pad-xl);
+  }
+
+  .dpaam-account-value {
+    font-size: var(--dpaam-text-sm);
   }
 
   .dpaam-account-row-main {
     display: flex;
     flex-direction: column;
+    gap: var(--dpaam-pad-xs);
+  }
+
+  .dpaam-account-inline-actions {
+    margin-top: 0;
+  }
+
+  .dpaam-account-row:not(.dpaam-account-row--actions) {
+    flex-direction: column;
+    align-items: stretch;
     gap: var(--dpaam-pad-xs);
   }
 
@@ -3025,6 +3254,7 @@ dd a {
 
   .dpaam-plan-status {
     padding: var(--dpaam-pad-lg);
+    padding-bottom: calc(var(--dpaam-pad-lg) - (2 * var(--dpaam-pad-xs)));
   }
 
   .dpaam-plan-panel--unlimited {
@@ -3032,21 +3262,30 @@ dd a {
   }
 
   .dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
-    padding-right: 4.5rem;
+    margin-bottom: var(--dpaam-pad-md);
+    padding-right: 5.25rem;
   }
 
   .dpaam-plan-panel--unlimited .dpaam-plan-panel__logo {
-    width: 4.25rem;
-    top: calc(-1 * var(--dpaam-pad-xs));
+    width: 6.25rem;
+    top: calc(-1 * var(--dpaam-pad-sm));
     right: calc(-1 * var(--dpaam-pad-xs));
   }
 
   .dpaam-plan-panel--unlimited .dpaam-plan-panel__body {
     flex-direction: column;
     gap: var(--dpaam-pad-md);
+    padding: var(--dpaam-pad);
   }
 
   .dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
+    width: 100%;
+  }
+
+  /* In the column layout the desktop flex-basis (14rem) would become a
+     minimum height and leave a large empty gap under the feature list. */
+  .dpaam-plan-panel--unlimited .dpaam-plan-panel__features {
+    flex: 0 0 auto;
     width: 100%;
   }
 

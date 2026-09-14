@@ -641,6 +641,12 @@ const analyticsArray = [
 
             // All
             {
+                level: ['2nd'],
+                topic: 'Reading Comprehension',
+                resourceJS: 'topic/reading/all/reading_2ndGrade.js',
+                googleAnalyticsID: 'Y6a4dmS-4Kls4Pw-2jTanqd'
+            },
+            {
                 level: ['3rd'],
                 topic: 'Reading Comprehension',
                 resourceJS: 'topic/reading/all/reading_3rdGrade.js',

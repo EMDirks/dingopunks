@@ -5,7 +5,6 @@ import { games } from "../games.js";
 const QUICK_START_STATE_KEY = "dpaam-quick-start-state";
 const QUICK_START_LEGACY_DISMISS_KEY = "dpaam-quick-start-dismissed";
 const DASHBOARD_TABS = ["library", "favorites", "active"];
-const SUBSCRIBE_URL = "https://dingopunks.com/shop";
 const CARD_LOCKED_BADGE_ICON = "assets/dpaam/card-locked.png";
 const BUTTON_LOCKED_ICON = "assets/dpaam/button-locked.png";
 
@@ -83,6 +82,8 @@ const els = {
   shareCodeLimitViewActive: document.getElementById("dpaam-share-code-limit-view-active"),
   memberOnlyModal: document.getElementById("dpaam-member-only-modal"),
   memberOnlyBody: document.getElementById("dpaam-member-only-body"),
+  upgradeModal: document.getElementById("dpaam-upgrade-modal"),
+  upgradeModalBody: document.getElementById("dpaam-upgrade-modal-body"),
   accountBtn: document.getElementById("dpaam-account-btn"),
   accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
   mobileMenuToggle: document.getElementById("dpaam-mobile-menu-toggle"),
@@ -91,10 +92,13 @@ const els = {
   mobileUpgradeBtn: document.getElementById("dpaam-upgrade-btn-mobile"),
   modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
+  accountPlanPanel: document.getElementById("dpaam-account-plan-panel"),
+  accountSignInPanel: document.getElementById("dpaam-account-sign-in-panel"),
   accountEmail: document.getElementById("dpaam-account-email"),
   accountSendReset: document.getElementById("dpaam-account-send-reset"),
   accountGoogleNote: document.getElementById("dpaam-account-google-note"),
   accountLogout: document.getElementById("dpaam-account-logout"),
+  accountPlanUpgrade: document.getElementById("dpaam-account-plan-upgrade"),
   accountPlanFree: document.getElementById("dpaam-account-plan-free"),
   accountPlanMember: document.getElementById("dpaam-account-plan-member"),
   topbarPlanPill: document.getElementById("dpaam-topbar-plan-pill"),
@@ -113,7 +117,6 @@ export {
   LIBRARY_THEME_ORDER_BY_SEASON,
   QUICK_START_LEGACY_DISMISS_KEY,
   QUICK_START_STATE_KEY,
-  SUBSCRIBE_URL,
   els,
   libraryThemeSlug,
   state,

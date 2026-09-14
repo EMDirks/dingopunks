@@ -18,7 +18,7 @@ Firebase supplies auth, database, and server logic. Stripe supplies billing.
 | Sign-in methods | Email/password + Google |
 | Password change | Firebase default: `sendPasswordResetEmail` (replaces the in-modal change-password form) |
 | Billing UI | Stripe-hosted Checkout for purchase; Stripe Customer Portal for cancel / card management |
-| Price | $47.88/yr (displayed as $3.99/mo, billed annually), auto-renews |
+| Price | $35.88/yr (displayed as $2.99/mo, billed annually), auto-renews |
 | Cancel behavior | `cancel_at_period_end` via Portal — access continues until the year is up |
 | Rebate | $8.99 off, **first year only** (assumed — flagged in Open Items). Format-based honor system: TPT = `^\d{9}$`, Shopify = `^\d{4,5}$` |
 | Free tier | 8 games: `the-midnight-mall-mixed-reading-skills-{2,3,4,5}` + `the-midnight-mall-mixed-math-skills-{2,3,4,5}` |
@@ -127,7 +127,7 @@ Counters live in a `rateLimits/{key}` collection with their own TTL field (infra
 
 ## 4. Stripe setup (dashboard, one-time)
 
-1. Product **All-Access** → Price **$47.88/year**, recurring.
+1. Product **All-Access** → Price **$35.88/year**, recurring.
 2. Coupon **REBATE899**: $8.99 amount off, duration `once` (first invoice only). *(If the rebate should recur every year, change duration to `forever` — nothing else changes.)*
 3. Customer Portal config: enable cancel (at period end) + payment method update; disable plan switching.
 4. Webhook endpoint → `stripeWebhook` URL, events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
@@ -214,17 +214,17 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[YOU]` End-to-end: share from dashboard → open `play.dingopunks.com/?CODE` in incognito → game launches.
 
 ### Phase 4 — Stripe
-- [ ] `[YOU]` Stripe product/price/coupon/portal/webhook setup in the dashboard (test mode first).
+- [X] `[YOU]` Stripe product/price/coupon/portal/webhook setup in the dashboard (test mode first).
 - [X] `[HIGH]` `createCheckoutSession` (rebate validation + `rebateClaims`) and `stripeWebhook` (signature verification, entitlement writes) — money and access control. *Implemented in `firebase-functions/stripe-billing.js` (emulator tests: `npm run test:stripe`). Beyond the plan: out-of-order webhook events are skipped via a `stripeEventCreated` marker, a lapse only applies to the tracked `subscriptionId` (a late `deleted` for an old sub can't kill a re-subscribe), a current member can't buy a second subscription, and a rebate claim is released if Stripe errors after claiming. Deploy config: secrets `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET`, string param `STRIPE_PRICE_ID` (deploy prompts once).*
-- [ ] `[MID]` `createPortalSession` + return-from-Checkout handling.
-- [ ] `[LOW]` Upgrade panel UI; paid account view (plan, renewal date, Manage Subscription).
+- [X] `[MID]` `createPortalSession` + return-from-Checkout handling.
+- [X] `[LOW]` Upgrade panel UI; paid account view (plan, renewal date, Manage Subscription).
 - [ ] `[MID]` Test full lifecycle with Stripe test clocks: purchase → renew → cancel → lapse.
 
 ### Phase 5 — Hardening
 - [ ] `[HIGH]` Adversarial review: rules, entitlement fields unwritable from clients, rate-limit tuning, probing every callable as a hostile user.
 - [ ] `[LOW]` Optional: per-user rate limit on `createShareCode` (deferred from Phase 2 — reuse the Phase 3 counter infra if the 20-cap proves insufficient).
 - [ ] `[LOW]` Friendly error toasts for every failure path.
-- [ ] `[LOW]` Update `readme/dpaam.md` (currently stale: 24hr/12-code/6-char/$49 → 14-day/20-code/5-char/$47.88).
+- [ ] `[LOW]` Update `readme/dpaam.md` (currently stale: 24hr/12-code/6-char/$49 → 14-day/20-code/5-char/$35.88).
 - [ ] `[MID]` Optional, post-MVP: Firebase App Check, email verification.
 
 **Local dev:** Firebase Emulator Suite (auth + firestore + functions) with `firebase-init.js` auto-connecting on `localhost`; `stripe listen --forward-to` for webhook testing.

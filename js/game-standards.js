@@ -3553,6 +3553,38 @@ export const gameStandardsById = {
       codes: ["4.OA.A.3"],
     },
   ],
+  "yeti-and-the-yams-mixed-reading-skills-2":   [
+    {
+      key: "CCRA.L",
+      name: "Anchor Standards for Language",
+      codes: ["CCRA.L.1","CCRA.L.3","CCRA.L.4","CCRA.L.5","CCRA.L.6"],
+    },
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.2.3","RF.2.3a","RF.2.3d","RF.2.4","RF.2.4a","RF.2.4b","RF.2.4c"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.2.1","RI.2.2","RI.2.5","RI.2.6","RI.2.7","RI.2.8","RI.2.10"],
+    },
+    {
+      key: "L",
+      name: "Reading: Language",
+      codes: ["L.2.4","L.2.4a","L.2.4b","L.2.4d","L.2.4e","L.2.5","L.2.5b","L.2.6"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.4","RL.2.5","RL.2.6","RL.2.10"],
+    },
+  ],
   "yeti-and-the-yams-mixed-reading-skills-3":   [
     {
       key: "CCRA.L",

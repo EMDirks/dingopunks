@@ -2243,6 +2243,27 @@ export const games = [
   // ─────────────────────────────────────────────
 
   {
+    id: "yeti-and-the-yams-mixed-reading-skills-2",
+    isNew: true,
+    title: "The Yeti and the Yams",
+    color: "blue",
+    season: "winter",
+    grades: [2],
+    subject: "reading",
+    topic: "mixed-reading-skills",
+    skills: [
+      "Main Idea and Supporting Details",
+      "Poetry",
+      "Context Clues and Vocabulary",
+      "Text Features",
+      "Story Elements",
+    ],
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-2nd-grade.png",
+    path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_2ndGrade.js",
+    badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
+    main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
+  },
+  {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
     title: "The Yeti and the Yams",
     color: "blue",

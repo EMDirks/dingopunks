@@ -46,6 +46,8 @@ const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
 const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
 const resolveGameCode = httpsCallable(firebaseFunctions, "resolveGameCode");
+const createPortalSession = httpsCallable(firebaseFunctions, "createPortalSession");
+const createCheckoutSession = httpsCallable(firebaseFunctions, "createCheckoutSession");
 
 async function getUserProfile(uid) {
   const snapshot = await getDoc(doc(db, "users", uid));
@@ -98,6 +100,8 @@ export {
   auth,
   authorizeBetaSignup,
   cancelShareCode,
+  createCheckoutSession,
+  createPortalSession,
   createShareCode,
   createUserWithEmailAndPassword,
   db,
