@@ -22,5 +22,6 @@ dist/
 
 # Firebase
 firebase-functions/node_modules/
+firebase-functions/.env*
 firebase-debug.log
 firebase-debug.*.log
