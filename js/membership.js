@@ -1011,7 +1011,7 @@ function memberPlanPricingHtml(billingProfile) {
   const status = billingProfile?.status;
   let renewalLine = "Billed annually at $35.88/yr";
   if (status === "canceling" && dateLabel) {
-    renewalLine = `Access until ${dateLabel}`;
+    renewalLine = `Cancels on ${dateLabel}`;
   } else if (dateLabel) {
     renewalLine = `Renews on ${dateLabel}`;
   }
