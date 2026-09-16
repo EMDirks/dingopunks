@@ -3418,6 +3418,28 @@ export const gameStandardsById = {
       codes: ["L.4.1","L.4.1a","L.4.1b","L.4.1c","L.4.1d","L.4.1e","L.4.1f","L.4.1g","L.4.2","L.4.2a","L.4.2b","L.4.2c","L.4.2d","L.4.3","L.4.3a","L.4.3b","L.5.1","L.5.1a","L.5.1c","L.5.2","L.5.2a","L.5.2b","L.5.2c","L.5.2e","L.5.3","L.5.3a"],
     },
   ],
+  "yeti-and-the-yams-main-idea-and-supporting-details-2-3":   [
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.5","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.2.4","RF.2.4a","RF.2.4b","RF.3.4","RF.3.4a","RF.3.4b"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.2.1","RI.2.2","RI.2.6","RI.2.8","RI.2.10","RI.3.1","RI.3.2","RI.3.8","RI.3.10"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.10","RL.3.1","RL.3.2","RL.3.5","RL.3.10"],
+    },
+  ],
   "yeti-and-the-yams-main-idea-and-supporting-details-4-5":   [
     {
       key: "CCRA.R",

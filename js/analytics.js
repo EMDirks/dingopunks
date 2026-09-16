@@ -667,6 +667,12 @@ const analyticsArray = [
 
             // Main Idea
             {
+                level: ['2nd', '3rd'],
+                topic: 'Main Idea',
+                resourceJS: 'topic/reading/main-idea/mainIdea_2nd3rdGrade.js',
+                googleAnalyticsID: 'Y5e6t5i7y8a-msnowcone'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Main Idea',
                 resourceJS: 'topic/reading/main-idea/mainIdea_4th5thGrade.js',

@@ -50,6 +50,13 @@ Examples: `topic/reading/all/reading_2ndGrade.js`,
 
 ## Top-level shape
 
+Every new resource file **must** start with this comment on line 1 (before
+`const resource`):
+
+```javascript
+// NOTE: education.commonCore standards in this file were auto-added and distributed by AI and might need manual review at some future point.
+```
+
 ```javascript
 const resource = {
     info: {
@@ -559,6 +566,7 @@ python3 -m http.server 8765
 
 ## Checklist
 
+- [ ] Line 1 is the AI `commonCore` disclaimer comment (see **Top-level shape**)
 - [ ] Uses `challengeArray`, not `activityArray`
 - [ ] 5 challenges, code box last
 - [ ] Assets referenced actually exist (or the gap was confirmed with the user)
