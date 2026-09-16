@@ -1077,9 +1077,12 @@ function unlimitedPlanPanelHtml({
     ? memberPlanPricingHtml(billingProfile)
     : allAccessPlanPricingHtml();
   const rebateHtml = !isManage && includeRebate ? upgradeRebateFieldsHtml() : "";
+  const isCanceling = billingProfile?.status === "canceling";
+  const manageCtaLabel = isCanceling ? "Renew subscription" : "Manage subscription";
+  const manageCtaShort = isCanceling ? "Renew" : "Manage";
   const ctaHtml = isManage
-    ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="Manage subscription">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Manage subscription</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Manage</span>
+    ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="${escapeHtml(manageCtaLabel)}">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">${escapeHtml(manageCtaLabel)}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${escapeHtml(manageCtaShort)}</span>
       </button>`
     : upgradeCheckoutButtonHtml();
 
