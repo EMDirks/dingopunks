@@ -20,6 +20,7 @@ import {
   doc,
   getDoc,
   getFirestore,
+  onSnapshot,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 import {
   connectFunctionsEmulator,
@@ -52,6 +53,14 @@ const createCheckoutSession = httpsCallable(firebaseFunctions, "createCheckoutSe
 async function getUserProfile(uid) {
   const snapshot = await getDoc(doc(db, "users", uid));
   return snapshot.exists() ? snapshot.data() : null;
+}
+
+function subscribeToUserProfile(uid, onProfile, onError) {
+  return onSnapshot(
+    doc(db, "users", uid),
+    (snapshot) => onProfile(snapshot.exists() ? snapshot.data() : null),
+    onError,
+  );
 }
 
 const googleProvider = new GoogleAuthProvider();
@@ -117,4 +126,5 @@ export {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  subscribeToUserProfile,
 };

@@ -15,6 +15,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   signOut,
+  subscribeToUserProfile,
 } from "./firebase-init.js";
 import {
   BUTTON_LOCKED_ICON,
@@ -66,6 +67,7 @@ const REBATE_PLATFORM_PATTERNS = Object.freeze({
 
 let planMembershipAccess = "free";
 let userBillingProfile = null;
+let unsubscribeUserProfile = null;
 let debugMembershipAccessOverride = null;
 let checkoutReturnStatus = new URLSearchParams(window.location.search).get("checkout");
 
@@ -103,6 +105,15 @@ function membershipAccessFromPlan(plan) {
   return access ?? "free";
 }
 
+function applyUserProfile(profile) {
+  planMembershipAccess = membershipAccessFromPlan(profile.plan);
+  userBillingProfile = {
+    status: profile.status ?? null,
+    currentPeriodEnd: profile.currentPeriodEnd ?? null,
+  };
+  applyMembershipAccess();
+}
+
 async function loadDashboardState(user) {
   let [profile] = await Promise.all([
     getUserProfile(user.uid),
@@ -120,12 +131,7 @@ async function loadDashboardState(user) {
     throw new Error(`Missing user profile for ${user.uid}`);
   }
 
-  planMembershipAccess = membershipAccessFromPlan(profile.plan);
-  userBillingProfile = {
-    status: profile.status ?? null,
-    currentPeriodEnd: profile.currentPeriodEnd ?? null,
-  };
-  applyMembershipAccess();
+  applyUserProfile(profile);
   consumeCheckoutReturn();
 }
 
@@ -2368,6 +2374,8 @@ function init() {
   initAuth({ loadDashboardState });
   initDebugView();
   onAuthStateChanged(auth, (user) => {
+    unsubscribeUserProfile?.();
+    unsubscribeUserProfile = null;
     currentUser = user;
     if (!user) {
       resetUserPrefs();
@@ -2375,6 +2383,14 @@ function init() {
       planMembershipAccess = "free";
       userBillingProfile = null;
       applyMembershipAccess();
+    } else {
+      unsubscribeUserProfile = subscribeToUserProfile(
+        user.uid,
+        (profile) => {
+          if (currentUser?.uid === user.uid && profile) applyUserProfile(profile);
+        },
+        (error) => console.error("Failed to watch user profile", error),
+      );
     }
     updateAccountModal(user);
   });
