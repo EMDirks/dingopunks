@@ -1021,15 +1021,10 @@ function memberPlanPricingHtml(billingProfile) {
   } else if (dateLabel) {
     renewalLine = `Renews on ${dateLabel}`;
   }
-  const cancelNote =
-    status === "canceling"
-      ? `<p class="dpaam-plan-panel__billing dpaam-plan-panel__billing--canceling">Subscription canceled — you keep Unlimited until then.</p>`
-      : "";
   return `
     <div class="dpaam-plan-panel__pricing">
       <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
       <p class="dpaam-plan-panel__billing">${escapeHtml(renewalLine)}</p>
-      ${cancelNote}
     </div>`;
 }
 
@@ -1077,9 +1072,7 @@ function unlimitedPlanPanelHtml({
   const libraryCount = games.length;
   const idAttr = planNameId ? ` id="${planNameId}"` : "";
   const eyebrowHtml = isManage ? `<p class="dpaam-plan-panel__eyebrow">Your plan</p>` : "";
-  const taglineHtml = isManage
-    ? ""
-    : `<p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Full access</strong> to all ${libraryCount}+ escape rooms</p>`;
+  const taglineHtml = `<p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Full access</strong> to all ${libraryCount}+ escape rooms</p>`;
   const pricingHtml = isManage
     ? memberPlanPricingHtml(billingProfile)
     : allAccessPlanPricingHtml();
