@@ -482,6 +482,14 @@ describe("entitlementFromSubscription", () => {
     assert.equal(canceling.plan, "all-access");
     assert.equal(canceling.status, "canceling");
 
+    // Newer API versions schedule cancellation via a cancel_at timestamp
+    // with cancel_at_period_end left false.
+    const cancelingViaCancelAt = entitlementFromSubscription(
+      subscriptionObject({ cancel_at_period_end: false, cancel_at: PERIOD_END_S }),
+    );
+    assert.equal(cancelingViaCancelAt.plan, "all-access");
+    assert.equal(cancelingViaCancelAt.status, "canceling");
+
     const pastDue = entitlementFromSubscription(subscriptionObject({ status: "past_due" }));
     assert.equal(pastDue.plan, "all-access");
 

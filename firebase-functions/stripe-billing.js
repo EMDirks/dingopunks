@@ -306,9 +306,16 @@ export function subscriptionPeriodEndMs(subscription) {
 export function entitlementFromSubscription(subscription) {
   if (ENTITLED_STATUSES.has(subscription.status)) {
     const periodEndMs = subscriptionPeriodEndMs(subscription);
+    // A scheduled cancellation arrives as cancel_at_period_end: true on
+    // classic-mode subscriptions, but newer API versions (and the Customer
+    // Portal on them) schedule it as a cancel_at timestamp instead, leaving
+    // cancel_at_period_end false. Either shape means "canceling".
+    const cancelScheduled =
+      subscription.cancel_at_period_end === true ||
+      typeof subscription.cancel_at === "number";
     return {
       plan: "all-access",
-      status: subscription.cancel_at_period_end ? "canceling" : "active",
+      status: cancelScheduled ? "canceling" : "active",
       currentPeriodEnd: periodEndMs === null ? null : Timestamp.fromMillis(periodEndMs),
       subscriptionId: subscription.id,
     };
