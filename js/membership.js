@@ -5,13 +5,18 @@
 
 import { games, themes } from "./games.js";
 import { thumbHtml } from "./thumbnails.js";
-import { authErrorMessage, initAuth } from "./membership-auth.js";
+import {
+  authErrorMessage,
+  initAuth,
+  userCanAccessDashboard,
+} from "./membership-auth.js";
 import { escapeHtml, setButtonLoading } from "./membership-utils.js";
 import {
   auth,
   createCheckoutSession,
   createPortalSession,
   getUserProfile,
+  getUserProfileForBootstrap,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signOut,
@@ -116,7 +121,7 @@ function applyUserProfile(profile) {
 
 async function loadDashboardState(user) {
   let [profile] = await Promise.all([
-    getUserProfile(user.uid),
+    getUserProfileForBootstrap(user.uid),
     loadUserPrefs(user.uid),
     loadActiveCodes(user.uid),
   ]);
@@ -2366,27 +2371,38 @@ function applyMembershipAccess() {
   renderActiveCodes();
 }
 
+function attachUserProfileSubscription(user) {
+  unsubscribeUserProfile?.();
+  unsubscribeUserProfile = null;
+  if (!userCanAccessDashboard(user)) return;
+
+  unsubscribeUserProfile = subscribeToUserProfile(
+    user.uid,
+    (profile) => {
+      if (currentUser?.uid === user.uid && profile) applyUserProfile(profile);
+    },
+    (error) => console.error("Failed to watch user profile", error),
+  );
+}
+
 function init() {
-  initAuth({ loadDashboardState });
+  initAuth({
+    loadDashboardState,
+    onDashboardLoaded: attachUserProfileSubscription,
+  });
   initDebugView();
   onAuthStateChanged(auth, (user) => {
-    unsubscribeUserProfile?.();
-    unsubscribeUserProfile = null;
     currentUser = user;
     if (!user) {
+      unsubscribeUserProfile?.();
+      unsubscribeUserProfile = null;
       resetUserPrefs();
       resetShareCodes();
       planMembershipAccess = "free";
       userBillingProfile = null;
       applyMembershipAccess();
     } else {
-      unsubscribeUserProfile = subscribeToUserProfile(
-        user.uid,
-        (profile) => {
-          if (currentUser?.uid === user.uid && profile) applyUserProfile(profile);
-        },
-        (error) => console.error("Failed to watch user profile", error),
-      );
+      attachUserProfileSubscription(user);
     }
     updateAccountModal(user);
   });

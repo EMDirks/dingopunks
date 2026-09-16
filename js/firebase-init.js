@@ -55,6 +55,20 @@ async function getUserProfile(uid) {
   return snapshot.exists() ? snapshot.data() : null;
 }
 
+const BOOTSTRAP_PROFILE_ATTEMPTS = 5;
+const BOOTSTRAP_PROFILE_DELAY_MS = 150;
+
+async function getUserProfileForBootstrap(uid) {
+  for (let attempt = 0; attempt < BOOTSTRAP_PROFILE_ATTEMPTS; attempt++) {
+    const profile = await getUserProfile(uid);
+    if (profile) return profile;
+    if (attempt < BOOTSTRAP_PROFILE_ATTEMPTS - 1) {
+      await new Promise((resolve) => setTimeout(resolve, BOOTSTRAP_PROFILE_DELAY_MS));
+    }
+  }
+  return null;
+}
+
 function subscribeToUserProfile(uid, onProfile, onError) {
   return onSnapshot(
     doc(db, "users", uid),
@@ -117,6 +131,7 @@ export {
   ensureUserProfile,
   firebaseFunctions,
   getUserProfile,
+  getUserProfileForBootstrap,
   googleProvider,
   onAuthStateChanged,
   reload,

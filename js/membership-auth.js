@@ -116,7 +116,7 @@ function userNeedsEmailVerification(user) {
   return user.providerData.some((provider) => provider.providerId === "password");
 }
 
-function userCanAccessDashboard(user) {
+export function userCanAccessDashboard(user) {
   return Boolean(user) && !userNeedsEmailVerification(user);
 }
 
@@ -154,7 +154,7 @@ function resetPasswordToggles(root) {
   });
 }
 
-export function initAuth({ loadDashboardState } = {}) {
+export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   const section = document.getElementById("dpaam-auth");
   const dashboard = document.getElementById("dpaam-dashboard");
   const dashboardSkeleton = document.getElementById("dpaam-dashboard-skeleton");
@@ -528,6 +528,7 @@ export function initAuth({ loadDashboardState } = {}) {
     hideDashboardSkeleton();
     section.hidden = true;
     if (dashboard) dashboard.hidden = false;
+    onDashboardLoaded?.(user);
   }
 
   section.setAttribute("aria-busy", "true");
