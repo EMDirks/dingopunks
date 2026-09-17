@@ -1,4 +1,4 @@
-// Dingo Punks: Unlimited Membership — auth gate
+// Dingo Punks: All-Access Membership — auth gate
 
 import {
   auth,

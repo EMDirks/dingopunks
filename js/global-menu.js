@@ -152,7 +152,7 @@ function buildGlobalMenuHTML(state) {
         <!--
         <a class="global-menu__teachers-link" href="membership.html">
           <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-dpaam.png" alt="" aria-hidden="true">
-          Unlimited Membership
+          All-Access Membership
         </a>
         -->
       </div>

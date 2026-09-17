@@ -1,4 +1,4 @@
-// Dingo Punks: Unlimited Membership — teacher dashboard
+// Dingo Punks: All-Access Membership — teacher dashboard
 //
 // Vanilla ES module. Render functions read from `state`; mutations go through
 // the named action functions below.
@@ -100,7 +100,7 @@ function consumeCheckoutReturn() {
     if (status === "success") {
       showToast(
         state.membershipAccess === "member"
-          ? "✓ \u00A0 Welcome to Unlimited"
+          ? "✓ \u00A0 Welcome to All-Access"
           : "✓ \u00A0 Checkout complete — finishing setup…",
       );
       return;
@@ -615,7 +615,7 @@ function cardNewBadgeHtml(game) {
 
 function cardAllAccessBadgeHtml(game) {
   if (!isGameLockedForAccess(game.id)) return "";
-  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="Unlimited plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />Unlimited</span>`;
+  return `<span class="dpaam-card-badge dpaam-card-all-access-badge" aria-label="All-Access plan required"><img class="dpaam-card-all-access-badge__icon" src="${CARD_LOCKED_BADGE_ICON}" alt="" width="10" height="10" decoding="async" />All-Access</span>`;
 }
 
 function libraryFavoriteButtonHtml(saved, gameId) {
@@ -991,40 +991,53 @@ function freeGamesCount() {
   return games.filter((game) => game.isFree).length;
 }
 
+function planPanelTierPillHtml(tierName, planNameId = "") {
+  const idAttr = planNameId ? ` id="${escapeHtml(planNameId)}"` : "";
+  return `<p class="dpaam-plan-panel__tagline"><span class="dpaam-pill dpaam-plan-panel__summary-pill"${idAttr}>${escapeHtml(tierName)}</span></p>`;
+}
+
 function currentPlanStatusHtml() {
-  const freeCount = freeGamesCount();
-  const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
   return `
     <div class="dpaam-plan-status">
       <h4 class="dpaam-plan-status__title">You're on the <strong>Starter Plan</strong></h4>
       <div class="dpaam-plan-panel__pricing">
-        <p class="dpaam-plan-panel__billing">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
+        ${planPanelTierPillHtml("Starter")}
       </div>
     </div>`;
 }
 
-function authOfferFreePlanPanelHtml() {
+function starterPlanFeaturesHtml() {
   const freeCount = freeGamesCount();
-  const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
+  return `
+    <div class="dpaam-plan-panel__features">
+      <ul class="dpaam-plan-panel__features-list">
+        <li><strong>${freeCount} starter</strong> escape rooms</li>
+      </ul>
+    </div>`;
+}
+
+function authOfferFreePlanPanelHtml() {
   return `
     <div class="dpaam-plan-panel dpaam-plan-panel--offer-starter">
       <div class="dpaam-plan-panel__hero">
-        <h4 class="dpaam-plan-panel__title">Starter</h4>
-        <p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
+        ${planPanelTierPillHtml("Starter")}
       </div>
       <div class="dpaam-plan-panel__body">
         <div class="dpaam-plan-panel__pricing">
-          <p class="dpaam-plan-panel__price">$0</p>
-          <p class="dpaam-plan-panel__billing">Always free</p>
+          <p class="dpaam-plan-panel__price">Free</p>
+          <p class="dpaam-plan-panel__billing">always & forever</p>
         </div>
+        ${starterPlanFeaturesHtml()}
       </div>
       <button
         type="button"
         class="dpaam-btn dpaam-btn-secondary dpaam-auth-submit dpaam-plan-panel__action"
         data-action="complete-auth-offer"
+        aria-label="Select"
       >
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Continue with Free<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Continue</span>
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
       </button>
+      <p class="dpaam-plan-panel__post-action-note">Upgrade anytime</p>
     </div>`;
 }
 
@@ -1033,9 +1046,9 @@ function allAccessPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>All ${libraryCount} escape rooms</strong> in the library</li>
-        <li><strong>Instant access</strong> to every new escape room</li>
-        <li><strong>Bonus missions</strong> to keep fast-finishers busy</li>
+        <li><strong>${libraryCount} escape rooms</strong> — the whole library</li>
+        <li><strong>Every new escape room</strong> we create</li>
+        <li><strong>Bonus missions</strong> for fast-finishers</li>
       </ul>
     </div>`;
 }
@@ -1043,8 +1056,8 @@ function allAccessPlanFeaturesHtml() {
 function allAccessPlanPricingHtml() {
   return `
     <div class="dpaam-plan-panel__pricing">
-      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
-      <p class="dpaam-plan-panel__billing">Billed annually at $35.88/yr</p>
+      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/<strong>month</strong></span></p>
+      <p class="dpaam-plan-panel__billing">billed annually at $35.88/year</p>
     </div>`;
 }
 
@@ -1052,7 +1065,7 @@ function memberPlanPricingHtml(billingProfile) {
   const endMs = periodEndMs(billingProfile?.currentPeriodEnd);
   const dateLabel = endMs ? formatPlanDate(endMs) : null;
   const status = billingProfile?.status;
-  let renewalLine = "Billed annually at $35.88/yr";
+  let renewalLine = "billed annually at $35.88/year";
   if (status === "canceling" && dateLabel) {
     renewalLine = `Cancels on ${dateLabel}`;
   } else if (dateLabel) {
@@ -1060,7 +1073,7 @@ function memberPlanPricingHtml(billingProfile) {
   }
   return `
     <div class="dpaam-plan-panel__pricing">
-      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/month</span></p>
+      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/<strong>month</strong></span></p>
       <p class="dpaam-plan-panel__billing">${escapeHtml(renewalLine)}</p>
     </div>`;
 }
@@ -1074,12 +1087,12 @@ function upgradeRebateFieldsHtml() {
         data-action="toggle-upgrade-rebate"
         aria-expanded="false"
       >
-        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Get $8.99 off your first year!<span class="dpaam-upgrade-rebate__summary-caret" aria-hidden="true">▸</span></span>
+        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Get $8.99 off</span>
       </button>
       <div class="dpaam-modal-standards-panel" inert>
         <div class="dpaam-modal-standards-body">
           <div class="dpaam-modal-standards-inner dpaam-upgrade-rebate__content">
-            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year! For purchases made on dingopunks.com, it's in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
+            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year of All-Access! For purchases made on dingopunks.com, it's in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
             <div class="dpaam-upgrade-rebate__row">
               <label class="dpaam-upgrade-rebate__field">
                 <span class="dpaam-visually-hidden">Order number</span>
@@ -1103,8 +1116,8 @@ function upgradeRebateFieldsHtml() {
 }
 
 function upgradeCheckoutButtonHtml() {
-  return `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="start-checkout">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
+  return `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="start-checkout" aria-label="Select">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
       </button>`;
 }
 
@@ -1115,10 +1128,8 @@ function unlimitedPlanPanelHtml({
   includeRebate = false,
 } = {}) {
   const isManage = action === "manage";
-  const libraryCount = games.length;
-  const idAttr = planNameId ? ` id="${planNameId}"` : "";
   const eyebrowHtml = isManage ? `<p class="dpaam-plan-panel__eyebrow">Your plan</p>` : "";
-  const taglineHtml = `<p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Full access</strong> to all ${libraryCount}+ escape rooms</p>`;
+  const taglineHtml = planPanelTierPillHtml("All-Access", planNameId);
   const pricingHtml = isManage
     ? memberPlanPricingHtml(billingProfile)
     : allAccessPlanPricingHtml();
@@ -1133,18 +1144,16 @@ function unlimitedPlanPanelHtml({
     : upgradeCheckoutButtonHtml();
 
   const panelInner = `
-      <img class="dpaam-plan-panel__logo" src="assets/dpaam/unlimited-logo.png" alt="" aria-hidden="true" decoding="async" />
       <div class="dpaam-plan-panel__hero">
         ${eyebrowHtml}
-        <h4 class="dpaam-plan-panel__title"${idAttr}>Unlimited</h4>
         ${taglineHtml}
       </div>
       <div class="dpaam-plan-panel__body">
         ${pricingHtml}
         ${allAccessPlanFeaturesHtml()}
       </div>
-      ${rebateHtml}
-      ${ctaHtml}`;
+      ${ctaHtml}
+      ${rebateHtml}`;
 
   const panelClass = isManage
     ? "dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member"
@@ -1248,7 +1257,7 @@ function openUpgradeModal() {
 
 function memberOnlyModalBodyHtml(game) {
   const content = `
-    <p class="dpaam-upgrade-lead">Upgrade to <strong>Unlimited</strong> to share this escape room.</p>
+    <p class="dpaam-upgrade-lead">Upgrade to <strong>All-Access</strong> to share this escape room.</p>
     ${allAccessFreePlanPanelHtml({ includeRebate: true })}`;
 
   if (!game) {
@@ -1789,7 +1798,7 @@ function checkoutErrorMessage(error) {
     return "That order number has already been used for a rebate.";
   }
   if (error?.code === "functions/failed-precondition") {
-    return "You already have an Unlimited membership.";
+    return "You already have an All-Access membership.";
   }
   if (error?.code === "functions/resource-exhausted") {
     return "Too many checkout attempts. Try again in an hour.";
