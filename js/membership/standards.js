@@ -74,8 +74,7 @@ function standardsChipsHtml(groups) {
     .join("");
 }
 
-function setModalStandardsPanelOpen(wrap, open, { animate = true } = {}) {
-  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
+export function setCollapsiblePanelOpen(panel, open, { animate = true } = {}) {
   if (!panel) return;
   if (!animate) panel.classList.add("dpaam-modal-standards-panel--instant");
   panel.classList.toggle("dpaam-modal-standards-panel--open", open);
@@ -84,6 +83,10 @@ function setModalStandardsPanelOpen(wrap, open, { animate = true } = {}) {
     void panel.offsetHeight;
     panel.classList.remove("dpaam-modal-standards-panel--instant");
   }
+}
+
+function setModalStandardsPanelOpen(wrap, open, options = {}) {
+  setCollapsiblePanelOpen(wrap?.querySelector(".dpaam-modal-standards-panel"), open, options);
 }
 
 function standardsBodyHeightForInner(body, inner) {

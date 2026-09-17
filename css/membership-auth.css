@@ -79,6 +79,14 @@
   animation-delay: var(--dpaam-auth-enter-delay);
 }
 
+.dpaam-auth.dpaam-auth--offer .dpaam-auth-inner {
+  max-width: min(920px, 100%);
+}
+
+.dpaam-auth.dpaam-auth--offer .dpaam-auth-deco {
+  display: none;
+}
+
 .dpaam-auth-modal-wrap {
   position: relative;
 }
@@ -427,6 +435,153 @@
 
 .dpaam-auth-card[hidden] {
   display: none;
+}
+
+.dpaam-auth-offer[hidden] {
+  display: none;
+}
+
+.dpaam-auth-offer .dpaam-auth-title {
+  margin-bottom: var(--dpaam-pad-md);
+}
+
+.dpaam-auth-offer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--dpaam-pad-lg);
+  align-items: stretch;
+}
+
+.dpaam-auth-offer-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100%;
+}
+
+/* Offer columns — shared outer rhythm (matches .dpaam-plan-panel--unlimited shell) */
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter,
+.dpaam-auth-offer .dpaam-plan-panel--unlimited {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-xl);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero,
+.dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
+  position: relative;
+  margin-bottom: var(--dpaam-pad-lg);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero {
+  padding-right: 0;
+}
+
+/* Starter column — account modal colors; body box matches Unlimited inset spacing */
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter {
+  background: var(--dpaam-white);
+  border: 1px solid var(--dpaam-border);
+  color: var(--dpaam-black);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__title {
+  margin: 0;
+  margin-top: 3px;
+  padding-block: 0.06em 0;
+  font-size: clamp(1.875rem, 6.5vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--dpaam-black);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__tagline {
+  margin: 0;
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--dpaam-pad-md) var(--dpaam-pad-lg);
+  margin: 0;
+  padding: var(--dpaam-pad-lg);
+  border-radius: var(--dpaam-radius-xl);
+  background-color: var(--dpaam-light-gray);
+  border: none;
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__pricing {
+  flex: 1 1 100%;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
+  font-size: clamp(1.625rem, 5vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--dpaam-black);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__billing {
+  margin-bottom: 0;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action {
+  margin-top: auto;
+  padding-top: var(--dpaam-pad-lg);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-auth-submit.dpaam-plan-panel__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--dpaam-pair-btn-h);
+  height: auto;
+  padding-top: var(--dpaam-pad-md);
+  padding-bottom: 10px;
+  background-color: var(--dpaam-white) !important;
+  color: var(--dpaam-black) !important;
+  border: 1px solid var(--dpaam-border);
+  border-bottom: 3px solid var(--dpaam-black);
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-auth-submit.dpaam-plan-panel__action:not(.dpaam-plan-panel__action--secondary) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--dpaam-pair-btn-h);
+  height: auto;
+  padding-top: var(--dpaam-pad-md);
+  padding-bottom: 10px;
+}
+
+.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action-arrow {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+@media (max-width: 720px) {
+  .dpaam-auth-offer-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 #dpaam-auth[hidden],

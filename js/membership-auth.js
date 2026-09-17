@@ -15,12 +15,20 @@ import {
   signOut,
 } from "./firebase-init.js";
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
+import {
+  completeAuthOfferAndEnterDashboard,
+  registerAuthOfferCompleteHandler,
+  renderAuthOfferPanels,
+  setAuthOfferLayoutActive,
+  shouldShowAuthOfferStep,
+} from "./membership/auth-offer.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
   verify: "dpaam-auth-heading-verify",
+  offer: "dpaam-auth-heading-offer",
 };
 
 export function clearAuthMessages() {
@@ -202,6 +210,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       return;
     }
 
+    if (view === "offer") {
+      headerToggle.hidden = true;
+      return;
+    }
+
     headerToggle.hidden = true;
   }
 
@@ -229,6 +242,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     clearAuthMessages();
     resetPasswordToggles(section);
     updateAuthHeader(view);
+    setAuthOfferLayoutActive(view === "offer");
 
     if (!focus) return;
 
@@ -471,33 +485,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     if (dashboardSkeleton) dashboardSkeleton.setAttribute("aria-busy", "false");
   }
 
-  async function applyAuthState(user) {
-    const revision = ++authStateRevision;
-    const signedIn = userCanAccessDashboard(user);
-
-    hideDashboardSkeleton();
-    if (dashboard) dashboard.hidden = true;
-
-    if (user && userNeedsEmailVerification(user)) {
-      provisionedUid = null;
-      section.hidden = false;
-      section.setAttribute("aria-busy", "false");
-      updateVerifyView(user);
-      const onVerify = modals.find(
-        (modal) => modal.dataset.authView === "verify" && !modal.hidden,
-      );
-      if (!onVerify) setAuthView("verify");
-      return;
-    }
-
-    if (!signedIn) {
-      provisionedUid = null;
-      section.hidden = false;
-      section.setAttribute("aria-busy", "false");
-      setAuthView("signin");
-      return;
-    }
-
+  async function enterDashboard(user, revision) {
     clearSkeletonError();
     showDashboardSkeleton();
 
@@ -527,9 +515,76 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     section.setAttribute("aria-busy", "false");
     hideDashboardSkeleton();
     section.hidden = true;
+    setAuthOfferLayoutActive(false);
     if (dashboard) dashboard.hidden = false;
     onDashboardLoaded?.(user);
   }
+
+  async function applyAuthState(user) {
+    const revision = ++authStateRevision;
+    const signedIn = userCanAccessDashboard(user);
+
+    hideDashboardSkeleton();
+    if (dashboard) dashboard.hidden = true;
+
+    if (user && userNeedsEmailVerification(user)) {
+      provisionedUid = null;
+      section.hidden = false;
+      section.setAttribute("aria-busy", "false");
+      setAuthOfferLayoutActive(false);
+      updateVerifyView(user);
+      const onVerify = modals.find(
+        (modal) => modal.dataset.authView === "verify" && !modal.hidden,
+      );
+      if (!onVerify) setAuthView("verify");
+      return;
+    }
+
+    if (!signedIn) {
+      provisionedUid = null;
+      section.hidden = false;
+      section.setAttribute("aria-busy", "false");
+      setAuthOfferLayoutActive(false);
+      setAuthView("signin");
+      return;
+    }
+
+    if (shouldShowAuthOfferStep(user)) {
+      try {
+        if (provisionedUid !== user.uid) {
+          await ensureUserProfile();
+          provisionedUid = user.uid;
+        }
+      } catch (error) {
+        if (revision !== authStateRevision) return;
+        console.error("Failed to prepare new account", error);
+        section.hidden = false;
+        section.setAttribute("aria-busy", "false");
+        setAuthView("signin");
+        showAuthMessage(
+          "error",
+          "We couldn't finish setting up your account. Check your connection and try again.",
+        );
+        return;
+      }
+
+      if (revision !== authStateRevision) return;
+
+      renderAuthOfferPanels();
+      section.hidden = false;
+      section.setAttribute("aria-busy", "false");
+      setAuthView("offer");
+      return;
+    }
+
+    await enterDashboard(user, revision);
+  }
+
+  registerAuthOfferCompleteHandler(async () => {
+    const user = auth.currentUser;
+    if (!user || !userCanAccessDashboard(user)) return;
+    await enterDashboard(user, authStateRevision);
+  });
 
   section.setAttribute("aria-busy", "true");
   onAuthStateChanged(

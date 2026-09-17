@@ -218,7 +218,7 @@ Rule of thumb: anything a hostile user could probe gets `[HIGH]`. Anything that 
 - [X] `[HIGH]` `createCheckoutSession` (rebate validation + `rebateClaims`) and `stripeWebhook` (signature verification, entitlement writes) — money and access control. *Implemented in `firebase-functions/stripe-billing.js` (emulator tests: `npm run test:stripe`). Beyond the plan: out-of-order webhook events are skipped via a `stripeEventCreated` marker, a lapse only applies to the tracked `subscriptionId` (a late `deleted` for an old sub can't kill a re-subscribe), a current member can't buy a second subscription, and a rebate claim is released if Stripe errors after claiming. Deploy config: secrets `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET`, string param `STRIPE_PRICE_ID` (deploy prompts once).*
 - [X] `[MID]` `createPortalSession` + return-from-Checkout handling.
 - [X] `[LOW]` Upgrade panel UI; paid account view (plan, renewal date, Manage Subscription).
-- [ ] `[MID]` Test full lifecycle with Stripe test clocks: purchase → renew → cancel → lapse.
+- [X] `[MID]` Test full lifecycle with Stripe test clocks: purchase → renew → cancel → lapse.
 
 ### Phase 5 — Hardening
 - [ ] `[HIGH]` Adversarial review: rules, entitlement fields unwritable from clients, rate-limit tuning, probing every callable as a hostile user.

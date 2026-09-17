@@ -92,6 +92,7 @@ const els = {
   mobileUpgradeBtn: document.getElementById("dpaam-upgrade-btn-mobile"),
   modalBackdrop: document.getElementById("dpaam-modal-backdrop"),
   accountModal: document.getElementById("dpaam-account-modal"),
+  accountBodyInner: document.getElementById("dpaam-account-body-inner"),
   accountPlanPanel: document.getElementById("dpaam-account-plan-panel"),
   accountSignInPanel: document.getElementById("dpaam-account-sign-in-panel"),
   accountEmail: document.getElementById("dpaam-account-email"),

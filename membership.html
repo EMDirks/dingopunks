@@ -304,6 +304,23 @@
             </p>
           </div>
 
+          <div
+            class="dpaam-auth-offer"
+            id="dpaam-auth-modal-offer"
+            data-auth-view="offer"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer">Choose your plan</h1>
+            <p class="dpaam-auth-lead">
+              Start with free access to select escape rooms, or unlock the full library with
+              Unlimited.
+            </p>
+            <div class="dpaam-auth-offer-grid">
+              <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-free"></div>
+              <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-paid"></div>
+            </div>
+          </div>
+
             </div>
             <img
               class="dpaam-auth-deco dpaam-auth-deco--hands"
@@ -424,16 +441,27 @@
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn"
         >Help</button>
-        <button
-          type="button"
-          class="dpaam-pill dpaam-topbar-upgrade-btn"
-          id="dpaam-topbar-upgrade-btn"
+        <div
+          class="dpaam-topbar-upgrade"
           data-action="upgrade-all-access"
-          aria-label="Upgrade to Unlimited"
-          hidden
         >
-          <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
-        </button>
+          <button
+            type="button"
+            class="dpaam-pill dpaam-topbar-upgrade-btn"
+            id="dpaam-topbar-upgrade-btn"
+            aria-label="Upgrade to Unlimited"
+            hidden
+          >
+            <span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span>
+          </button>
+          <img
+            class="dpaam-topbar-upgrade__logo"
+            src="assets/dpaam/unlimited-logo.png"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+          />
+        </div>
       </div>
       <button
         type="button"
@@ -450,17 +478,28 @@
         </span>
       </button>
       <nav class="dpaam-mobile-menu" id="dpaam-mobile-menu" hidden>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn dpaam-mobile-menu-btn--upgrade"
-          id="dpaam-upgrade-btn-mobile"
+        <div
+          class="dpaam-topbar-upgrade dpaam-topbar-upgrade--menu"
           data-action="upgrade-all-access"
-          aria-label="Upgrade to Unlimited"
-          hidden
         >
-          <span class="dpaam-mobile-menu-btn-label"><span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span></span>
-          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-        </button>
+          <button
+            type="button"
+            class="dpaam-btn dpaam-topbar-btn dpaam-mobile-menu-btn--upgrade"
+            id="dpaam-upgrade-btn-mobile"
+            aria-label="Upgrade to Unlimited"
+            hidden
+          >
+            <span class="dpaam-mobile-menu-btn-label"><span class="dpaam-responsive-label dpaam-responsive-label--full">Upgrade to Unlimited</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Upgrade</span></span>
+            <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+          </button>
+          <img
+            class="dpaam-topbar-upgrade__logo"
+            src="assets/dpaam/unlimited-logo.png"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+          />
+        </div>
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
@@ -840,6 +879,7 @@
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body dpaam-account-body">
+          <div class="dpaam-account-body-inner" id="dpaam-account-body-inner">
           <section
             class="dpaam-account-section dpaam-account-plan-section"
             id="dpaam-account-plan-panel"
@@ -875,6 +915,7 @@
           </section>
           </div>
           </div>
+          </div>
         </div>
       </form>
     </dialog>
@@ -895,6 +936,15 @@
           aria-checked="true"
         >
           Auth
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-view="offer"
+          role="radio"
+          aria-checked="false"
+        >
+          Offer
         </button>
         <button
           type="button"

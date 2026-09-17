@@ -38,9 +38,16 @@ import {
   animateStandardsBodyResize,
   populateModalStandards,
   selectModalStandardsGroup,
+  setCollapsiblePanelOpen,
   setStandardsModalGameId,
 } from "./membership/standards.js";
 import { initDebugView } from "./membership/debug.js";
+import {
+  completeAuthOfferAndEnterDashboard,
+  configureAuthOffer,
+  isAuthOfferViewVisible,
+  markAuthOfferStepComplete,
+} from "./membership/auth-offer.js";
 import { showToast } from "./membership/toast.js";
 import {
   loadUserPrefs,
@@ -970,7 +977,7 @@ function normalizeClientRebate(orderRaw) {
     pattern.test(orderNumber),
   )?.[0];
   if (!platform) {
-    return { error: "Order numbers must be 4, 5, or 9 digits." };
+    return { error: "Please enter a valid order number." };
   }
   return { rebate: { platform, orderNumber } };
 }
@@ -989,10 +996,35 @@ function currentPlanStatusHtml() {
   const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
   return `
     <div class="dpaam-plan-status">
-      <h4 class="dpaam-plan-status__title">You're on the <strong>Free Plan</strong></h4>
+      <h4 class="dpaam-plan-status__title">You're on the <strong>Starter Plan</strong></h4>
       <div class="dpaam-plan-panel__pricing">
         <p class="dpaam-plan-panel__billing">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
       </div>
+    </div>`;
+}
+
+function authOfferFreePlanPanelHtml() {
+  const freeCount = freeGamesCount();
+  const roomLabel = freeCount === 1 ? "escape room" : "escape rooms";
+  return `
+    <div class="dpaam-plan-panel dpaam-plan-panel--offer-starter">
+      <div class="dpaam-plan-panel__hero">
+        <h4 class="dpaam-plan-panel__title">Starter</h4>
+        <p class="dpaam-plan-panel__tagline">✓ \u00a0<strong>Limited access</strong> to ${freeCount} ${roomLabel}</p>
+      </div>
+      <div class="dpaam-plan-panel__body">
+        <div class="dpaam-plan-panel__pricing">
+          <p class="dpaam-plan-panel__price">$0</p>
+          <p class="dpaam-plan-panel__billing">Always free</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="dpaam-btn dpaam-btn-secondary dpaam-auth-submit dpaam-plan-panel__action"
+        data-action="complete-auth-offer"
+      >
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Continue with Free<span class="dpaam-plan-panel__action-arrow" aria-hidden="true"> →</span></span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Continue</span>
+      </button>
     </div>`;
 }
 
@@ -1035,30 +1067,39 @@ function memberPlanPricingHtml(billingProfile) {
 
 function upgradeRebateFieldsHtml() {
   return `
-    <details class="dpaam-upgrade-rebate">
-      <summary class="dpaam-upgrade-rebate__summary">
-        <span class="dpaam-upgrade-rebate__summary-lead">Have a recent purchase? </span><span class="dpaam-upgrade-rebate__summary-link">Apply an $8.99 credit</span>
-      </summary>
-      <div class="dpaam-upgrade-rebate__content">
-        <p class="dpaam-upgrade-rebate__hint">If you purchased an individual escape room, you can enter your order number to get $8.99 off your first year! For dingopunks.com orders, it's in the email titled "Your Dingo Punks Receipt." For TPT orders, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
-        <div class="dpaam-upgrade-rebate__row">
-          <label class="dpaam-upgrade-rebate__field">
-            <span class="dpaam-visually-hidden">Order number</span>
-            <input
-              type="text"
-              class="dpaam-auth-input"
-              data-rebate-order
-              placeholder="Order number"
-              aria-label="Order number"
-              inputmode="numeric"
-              autocomplete="off"
-            />
-          </label>
-          <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply</button>
+    <div class="dpaam-upgrade-rebate">
+      <button
+        type="button"
+        class="dpaam-upgrade-rebate__summary"
+        data-action="toggle-upgrade-rebate"
+        aria-expanded="false"
+      >
+        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Get $8.99 off your first year!<span class="dpaam-upgrade-rebate__summary-caret" aria-hidden="true">▸</span></span>
+      </button>
+      <div class="dpaam-modal-standards-panel" inert>
+        <div class="dpaam-modal-standards-body">
+          <div class="dpaam-modal-standards-inner dpaam-upgrade-rebate__content">
+            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year! For purchases made on dingopunks.com, it's in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
+            <div class="dpaam-upgrade-rebate__row">
+              <label class="dpaam-upgrade-rebate__field">
+                <span class="dpaam-visually-hidden">Order number</span>
+                <input
+                  type="text"
+                  class="dpaam-auth-input"
+                  data-rebate-order
+                  placeholder="Order number"
+                  aria-label="Order number"
+                  inputmode="numeric"
+                  autocomplete="off"
+                />
+              </label>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply</button>
+            </div>
+            <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
+          </div>
         </div>
-        <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
       </div>
-    </details>`;
+    </div>`;
 }
 
 function upgradeCheckoutButtonHtml() {
@@ -1131,9 +1172,8 @@ function syncMembershipAccessChrome() {
   }
 }
 
-function renderAccountPlanPanel() {
+function applyAccountPlanPanelContent() {
   const isFree = state.membershipAccess === "free";
-  syncMembershipAccessChrome();
   if (isFree) {
     if (els.accountPlanUpgrade) {
       els.accountPlanUpgrade.hidden = false;
@@ -1166,6 +1206,36 @@ function renderAccountPlanPanel() {
       billingProfile: userBillingProfile,
     });
   }
+}
+
+function renderAccountPlanPanel() {
+  syncMembershipAccessChrome();
+  const accountBody = els.accountModal?.open
+    ? els.accountModal.querySelector(".dpaam-account-body")
+    : null;
+  const accountInner = els.accountBodyInner;
+  if (accountBody && accountInner) {
+    animateStandardsBodyResize(accountBody, accountInner, applyAccountPlanPanelContent);
+    return;
+  }
+  applyAccountPlanPanelContent();
+}
+
+function setUpgradeRebateOpen(wrap, open, { animate = true } = {}) {
+  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
+  const summary = wrap?.querySelector(".dpaam-upgrade-rebate__summary");
+  setCollapsiblePanelOpen(panel, open, { animate });
+  summary?.setAttribute("aria-expanded", open ? "true" : "false");
+  wrap?.classList.toggle("dpaam-upgrade-rebate--open", open);
+}
+
+function toggleUpgradeRebate(btn) {
+  const wrap = btn.closest(".dpaam-upgrade-rebate");
+  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
+  if (!wrap || !panel) return;
+
+  const isOpen = panel.classList.contains("dpaam-modal-standards-panel--open");
+  setUpgradeRebateOpen(wrap, !isOpen);
 }
 
 function openUpgradeModal() {
@@ -1754,6 +1824,10 @@ async function startCheckout(button) {
     return;
   }
 
+  if (isAuthOfferViewVisible()) {
+    markAuthOfferStepComplete(auth.currentUser?.uid);
+  }
+
   setButtonLoading(button, true, "Redirecting…", { useHtml: true });
   try {
     const payload = { returnOrigin: window.location.origin };
@@ -2124,6 +2198,12 @@ function wireEvents() {
   });
 
   document.addEventListener("click", (e) => {
+    const rebateToggle = e.target.closest("[data-action='toggle-upgrade-rebate']");
+    if (rebateToggle) {
+      toggleUpgradeRebate(rebateToggle);
+      return;
+    }
+
     const applyCreditBtn = e.target.closest("[data-action='apply-purchase-credit']");
     if (applyCreditBtn) {
       applyPurchaseCredit(applyCreditBtn);
@@ -2133,6 +2213,12 @@ function wireEvents() {
     const checkoutBtn = e.target.closest("[data-action='start-checkout']");
     if (checkoutBtn) {
       void startCheckout(checkoutBtn);
+      return;
+    }
+
+    const completeOfferBtn = e.target.closest("[data-action='complete-auth-offer']");
+    if (completeOfferBtn) {
+      void completeAuthOfferAndEnterDashboard();
       return;
     }
 
@@ -2386,6 +2472,13 @@ function attachUserProfileSubscription(user) {
 }
 
 function init() {
+  configureAuthOffer({
+    renderPanels(freeHost, paidHost) {
+      freeHost.innerHTML = authOfferFreePlanPanelHtml();
+      paidHost.innerHTML = unlimitedPlanPanelHtml({ includeRebate: true });
+    },
+  });
+
   initAuth({
     loadDashboardState,
     onDashboardLoaded: attachUserProfileSubscription,

@@ -1,3 +1,8 @@
+import {
+  renderAuthOfferPanels,
+  setAuthOfferLayoutActive,
+} from "./auth-offer.js";
+
 export function initDebugView() {
   const host = location.hostname;
   if (host !== "localhost" && host !== "127.0.0.1") return;
@@ -11,7 +16,7 @@ export function initDebugView() {
   debug.hidden = false;
 
   const options = Array.from(debug.querySelectorAll("[data-debug-view]"));
-  const authCards = Array.from(auth.querySelectorAll("[data-auth-view]"));
+  const authViews = Array.from(auth.querySelectorAll("[data-auth-view]"));
   const retry = document.getElementById("dpaam-auth-setup-retry");
   const skeletonError = document.getElementById("dpaam-skeleton-error-message");
   const headerToggle = document.getElementById("dpaam-auth-header-toggle");
@@ -19,11 +24,13 @@ export function initDebugView() {
   const success = document.getElementById("dpaam-auth-success");
   const AUTH_HEADINGS = {
     auth: "dpaam-auth-heading-signin",
+    offer: "dpaam-auth-heading-offer",
   };
 
   function setDebugView(view) {
     const showDashboard = view === "dashboard";
     const showSkeleton = view === "loading";
+    const showOffer = view === "offer";
     auth.hidden = showDashboard || showSkeleton;
     dashboard.hidden = !showDashboard;
     if (skeleton) {
@@ -32,9 +39,14 @@ export function initDebugView() {
     }
 
     if (!showDashboard && !showSkeleton) {
-      authCards.forEach((card) => {
-        card.hidden = card.dataset.authView !== "signin";
+      const activeAuthView = showOffer ? "offer" : "signin";
+      authViews.forEach((panel) => {
+        panel.hidden = panel.dataset.authView !== activeAuthView;
       });
+      setAuthOfferLayoutActive(showOffer);
+      if (showOffer) {
+        renderAuthOfferPanels();
+      }
       if (retry) retry.hidden = true;
       if (skeletonError) {
         skeletonError.hidden = true;
@@ -48,11 +60,18 @@ export function initDebugView() {
         success.hidden = true;
         success.textContent = "";
       }
-      auth.setAttribute("aria-labelledby", AUTH_HEADINGS.auth);
+      auth.setAttribute(
+        "aria-labelledby",
+        AUTH_HEADINGS[showOffer ? "offer" : "auth"],
+      );
       if (headerToggle) {
-        headerToggle.hidden = false;
-        headerToggle.textContent = "Sign up";
+        headerToggle.hidden = showOffer;
+        if (!showOffer) {
+          headerToggle.textContent = "Sign up";
+        }
       }
+    } else {
+      setAuthOfferLayoutActive(false);
     }
 
     if (showSkeleton) {
