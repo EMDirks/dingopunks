@@ -3333,6 +3333,38 @@ export const gameStandardsById = {
       codes: ["RL.4.1","RL.4.4","RL.4.5","RL.4.10","RL.5.1","RL.5.10"],
     },
   ],
+  "yeti-and-the-yams-context-clues-and-vocabulary-2-3":   [
+    {
+      key: "CCRA.L",
+      name: "Anchor Standards for Language",
+      codes: ["CCRA.L.3","CCRA.L.4","CCRA.L.5","CCRA.L.6"],
+    },
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.4","CCRA.R.7","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.2.3","RF.2.3a","RF.2.3b","RF.2.3c","RF.2.3d","RF.2.3e","RF.2.3f","RF.2.4","RF.2.4a","RF.2.4b","RF.2.4c","RF.3.3","RF.3.3a","RF.3.3b","RF.3.3c","RF.3.3d","RF.3.4","RF.3.4a","RF.3.4b","RF.3.4c"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.2.4","RI.3.4"],
+    },
+    {
+      key: "L",
+      name: "Reading: Language",
+      codes: ["L.2.3","L.2.4","L.2.4a","L.2.4b","L.2.5","L.2.5b","L.2.6","L.3.3","L.3.4","L.3.4a","L.3.4b","L.3.4c","L.3.5","L.3.5c","L.3.6"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.2.4","RL.3.4"],
+    },
+  ],
   "yeti-and-the-yams-figurative-language-4-5":   [
     {
       key: "CCRA.L",

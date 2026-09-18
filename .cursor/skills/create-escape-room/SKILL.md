@@ -267,6 +267,39 @@ style: {
 
 Reference: same file, Tater Durant's Cell.
 
+#### Letter (one block, passage only — often paired with a cryptogram)
+
+Do **not** use `brSplit` or `indent` on the passage style. Those modes indent every
+paragraph after a `<br>`, which also indents the salutation (`Dear …`) and the closing
+signature — letters should keep those lines flush left.
+
+Instead, indent **body** paragraphs only in the passage text with **`&nbsp;&nbsp;`**
+(two non-breaking spaces) at the start of each body line. Separate blocks with
+`<br>` pairs as usual. Leave the greeting and sign-off without leading `&nbsp;`:
+
+```javascript
+passage: {
+    text:   "Dear Frozen Knight,\
+            <br>\
+            <br>\
+            &nbsp;&nbsp; I still remember the day you marched over the [<hi>hillside] to catch that yeti.\
+            <br>\
+            <br>\
+            &nbsp;&nbsp; I hope you and the others can make a [<sal>campfire] soon.\
+            <br>\
+            <br>\
+            Your friend,\
+            <br>\
+            King Kevin"
+},
+// style — no brSplit / indent on passage
+passage: { font: 'default', size: 'mediumSmall', align: 'left' },
+```
+
+Reference:
+`resource/the-yeti-and-the-yam/topic/reading/context-clues/contextClues_2nd3rdGrade.js`
+(The Knight's Cell).
+
 #### Short story (one block, title + subtitle + multi-paragraph passage)
 
 Always set **`brSplit: 'default'`** and **`indent: 'default'`** on the passage style so
@@ -284,12 +317,13 @@ contentArray: [{
 ```
 
 Do not give the title and subtitle the same size, and do not omit `brSplit` / `indent`
-on short stories. Reference: same file, The Knight's Cell.
+on short stories. Reference: `reading_2ndGrade.js`, The Knight's Cell (story, not letter).
 
 ### Multi-paragraph passages
 
 Put `<br>` between paragraphs using line continuations. For **short stories**, set
-`passage.brSplit: 'default'` and `passage.indent: 'default'` (see above). For **poems**,
+`passage.brSplit: 'default'` and `passage.indent: 'default'` (see above). For **letters**,
+use manual `&nbsp;&nbsp;` body indents and omit `brSplit` / `indent`. For **poems**,
 leave `brSplit` off so `<br>` stays inline and stanza breaks stay tight.
 
 ```javascript
@@ -574,9 +608,10 @@ python3 -m http.server 8765
 - [ ] Every block has a 1–4 degree rotation
 - [ ] 2–3 image+text cards each have a `translateX` offset (not rotation only)
 - [ ] Single-poem blocks use `width: "auto"`; no `brSplit` on poem passages
+- [ ] Letters use `&nbsp;&nbsp;` for body indents only; no `brSplit` / `indent` on passage style
 - [ ] Text hierarchy is title > body > subtitle/author on every activity
 - [ ] 2nd–3rd grade files use bumped sizes (`medium` / `mediumSmall` / `small`), not 4th-grade defaults
-- [ ] Short stories use `brSplit: 'default'` + `indent: 'default'`
+- [ ] Short stories use `brSplit: 'default'` + `indent: 'default'` (not letters)
 - [ ] `style.contentArray` long enough and covers every content key per position
 - [ ] Exactly 4 multiple-choice questions, one `{x}` per option
 - [ ] Crosswords are 6×7, labels/digits ordered `(A)3F`, no accidental words

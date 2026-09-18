@@ -1727,6 +1727,15 @@ a.dpaam-topbar-btn {
   width: min(520px, calc(100vw - 32px));
 }
 
+.dpaam-modal.dpaam-modal--compact.dpaam-upgrade-modal,
+.dpaam-modal.dpaam-modal--compact.dpaam-account-modal {
+  width: min(720px, calc(100vw - 32px));
+}
+
+#dpaam-member-only-modal {
+  width: min(920px, calc(100vw - 32px));
+}
+
 .dpaam-upgrade-modal .dpaam-plan-panel {
   box-sizing: border-box;
   width: 100%;
@@ -1916,6 +1925,48 @@ a.dpaam-topbar-btn {
   border: 1px solid var(--dpaam-border);
   color: var(--dpaam-black);
   background-color: var(--dpaam-white);
+}
+
+/* All-Access upgrade panel with offer art (auth offer + upgrade modals) */
+.dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image {
+  --dpaam-offer-art-width: min(38%, 16.5rem);
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--dpaam-white);
+}
+
+.dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image .dpaam-plan-panel__offer-media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--dpaam-offer-art-width);
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  border-left: 1px solid var(--dpaam-border);
+  box-sizing: border-box;
+}
+
+.dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image .dpaam-plan-panel__offer-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image .dpaam-plan-panel__offer-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 100%;
+  padding: var(--dpaam-pad-xl);
+  padding-right: calc(var(--dpaam-offer-art-width) + var(--dpaam-pad-xl));
 }
 
 button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {

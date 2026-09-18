@@ -1011,7 +1011,7 @@ function starterPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>${freeCount} starter</strong> escape rooms</li>
+        <li><strong>${freeCount} escape rooms</strong> — the starter set</li>
       </ul>
     </div>`;
 }
@@ -1092,7 +1092,7 @@ function upgradeRebateFieldsHtml() {
       <div class="dpaam-modal-standards-panel" inert>
         <div class="dpaam-modal-standards-body">
           <div class="dpaam-modal-standards-inner dpaam-upgrade-rebate__content">
-            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year of All-Access! For purchases made on dingopunks.com, it's in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
+            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year! For purchases made on dingopunks.com, your order number is in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
             <div class="dpaam-upgrade-rebate__row">
               <label class="dpaam-upgrade-rebate__field">
                 <span class="dpaam-visually-hidden">Order number</span>
@@ -1126,8 +1126,10 @@ function unlimitedPlanPanelHtml({
   planNameId = "",
   billingProfile = null,
   includeRebate = false,
+  includeOfferImage,
 } = {}) {
   const isManage = action === "manage";
+  const showOfferImage = includeOfferImage ?? !isManage;
   const eyebrowHtml = isManage ? `<p class="dpaam-plan-panel__eyebrow">Your plan</p>` : "";
   const taglineHtml = planPanelTierPillHtml("All-Access", planNameId);
   const pricingHtml = isManage
@@ -1158,6 +1160,22 @@ function unlimitedPlanPanelHtml({
   const panelClass = isManage
     ? "dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member"
     : "dpaam-plan-panel dpaam-plan-panel--unlimited";
+  const panelClassWithOffer = showOfferImage
+    ? `${panelClass} dpaam-plan-panel--with-offer-image`
+    : panelClass;
+  if (showOfferImage) {
+    return `<div class="${panelClassWithOffer}">
+      <div class="dpaam-plan-panel__offer-media" aria-hidden="true">
+        <img
+          class="dpaam-plan-panel__offer-image"
+          src="assets/dpaam/offer-image.png"
+          alt=""
+          decoding="async"
+        />
+      </div>
+      <div class="dpaam-plan-panel__offer-content">${panelInner}</div>
+    </div>`;
+  }
   return `<div class="${panelClass}">${panelInner}</div>`;
 }
 

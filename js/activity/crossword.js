@@ -59,7 +59,11 @@ function drawCrossword(activityIndex){
   let machineItemCrosswordPuzzle = createElement("div", ["machine-item-crossword-puzzle", "machine-item"], machineColumnRight);
   let machineCrosswordTable = createElement("table", ["machine-crossword-table"], machineItemCrosswordPuzzle);
   for (let i = 0; i <  activityCrossword.puzzle.length; i++) {
-    let machineCrosswordRow = createElement("tr", ["machine-crossword-row"], machineCrosswordTable);
+    const rowIsAllEmpty = activityCrossword.puzzle[i].every(cell => cell === "0");
+    const rowClasses = rowIsAllEmpty
+      ? ["machine-crossword-row", "machine-crossword-row--all-empty"]
+      : ["machine-crossword-row"];
+    let machineCrosswordRow = createElement("tr", rowClasses, machineCrosswordTable);
     for (let j = 0; j <  activityCrossword.puzzle[i].length; j++) {
       let machineCrosswordCell = createElement("td", ["machine-crossword-cell"], machineCrosswordRow);
       if ( activityCrossword.puzzle[i][j] !== "0") {

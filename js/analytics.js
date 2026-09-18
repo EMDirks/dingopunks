@@ -689,6 +689,12 @@ const analyticsArray = [
 
             // Context Clues
             {
+                level: ['2nd', '3rd'],
+                topic: 'Context Clues',
+                resourceJS: 'topic/reading/context-clues/contextClues_2nd3rdGrade.js',
+                googleAnalyticsID: '91937-YetiYams-Clues'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Context Clues',
                 resourceJS: 'topic/reading/context-clues/contextClues_4th5thGrade.js',

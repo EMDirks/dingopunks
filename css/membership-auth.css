@@ -80,7 +80,7 @@
 }
 
 .dpaam-auth.dpaam-auth--offer .dpaam-auth-inner {
-  max-width: min(920px, 100%);
+  max-width: min(1000px, 100%);
 }
 
 .dpaam-auth.dpaam-auth--offer .dpaam-auth-deco {
@@ -458,7 +458,7 @@
 
 .dpaam-auth-offer-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
   gap: var(--dpaam-pad-lg);
   align-items: stretch;
 }
