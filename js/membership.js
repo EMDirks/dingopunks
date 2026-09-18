@@ -1017,6 +1017,7 @@ function starterPlanFeaturesHtml() {
 }
 
 function authOfferFreePlanPanelHtml() {
+  // Restore under Select: <p class="dpaam-plan-panel__post-action-note">Upgrade anytime</p>
   return `
     <div class="dpaam-plan-panel dpaam-plan-panel--offer-starter">
       <div class="dpaam-plan-panel__hero">
@@ -1037,7 +1038,6 @@ function authOfferFreePlanPanelHtml() {
       >
         <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
       </button>
-      <p class="dpaam-plan-panel__post-action-note">Upgrade anytime</p>
     </div>`;
 }
 

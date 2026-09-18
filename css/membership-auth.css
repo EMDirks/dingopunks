@@ -537,6 +537,7 @@
 }
 
 .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__post-action-note {
+  display: none; /* paired with authOfferFreePlanPanelHtml — remove to restore note */
   width: 100%;
   margin: var(--dpaam-pad-lg) 0 0;
   font-size: var(--dpaam-text-xs);

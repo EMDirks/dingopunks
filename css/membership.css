@@ -1939,21 +1939,20 @@ a.dpaam-topbar-btn {
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
+  bottom: auto;
   width: var(--dpaam-offer-art-width);
   margin: 0;
   padding: 0;
   pointer-events: none;
-  border-left: 1px solid var(--dpaam-border);
   box-sizing: border-box;
 }
 
 .dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image .dpaam-plan-panel__offer-image {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
+  object-fit: contain;
+  object-position: top right;
 }
 
 .dpaam-plan-panel--unlimited.dpaam-plan-panel--with-offer-image .dpaam-plan-panel__offer-content {
@@ -1966,7 +1965,7 @@ a.dpaam-topbar-btn {
   width: 100%;
   min-height: 100%;
   padding: var(--dpaam-pad-xl);
-  padding-right: calc(var(--dpaam-offer-art-width) + var(--dpaam-pad-xl));
+  padding-right: calc(var(--dpaam-offer-art-width) + var(--dpaam-pad-lg));
 }
 
 button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
@@ -2179,6 +2178,8 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   box-sizing: border-box;
   width: 100%;
   margin-top: var(--dpaam-pad-lg);
+  /* Rebate UI (summary + form) hidden — delete display:none to restore; JS unchanged. */
+  display: none;
 }
 
 .dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary {
