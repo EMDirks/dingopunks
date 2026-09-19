@@ -106,19 +106,42 @@ describe("normalizeIp", () => {
 });
 
 describe("clientIpFromRequest", () => {
-  test("uses the entry Google appended, not the client-supplied leftmost one", () => {
-    // Google's front end appends `<client-ip>, <lb-ip>`; anything to the left
-    // came from the caller. Trusting the leftmost entry would let an attacker
-    // rotate a fake IP per request and bypass the limit entirely.
-    const ip = clientIpFromRequest({
-      headers: { "x-forwarded-for": "9.9.9.9, 203.0.113.5, 130.211.0.1" },
-    });
-    assert.equal(ip, "203.0.113.5");
+  // Verified in production (2026-09-19): Google appends exactly one entry —
+  // the client IP it observed — as the RIGHTMOST value. Everything to its
+  // left came from the caller and is attacker-controlled.
+
+  test("a clean request is just the Google-appended client IP", () => {
+    assert.equal(
+      clientIpFromRequest({ headers: { "x-forwarded-for": "203.0.113.5" } }),
+      "203.0.113.5",
+    );
   });
 
-  test("a two-entry chain is client then load balancer", () => {
+  test("uses the entry Google appended, never the client-supplied ones", () => {
+    // A spoofed header arrives as `<spoofed...>, <real-client-ip>`. Trusting
+    // anything but the rightmost entry would let an attacker rotate a fake IP
+    // per request (limit bypass) or charge a victim's bucket (targeted
+    // lockout).
     assert.equal(
-      clientIpFromRequest({ headers: { "x-forwarded-for": "203.0.113.5, 130.211.0.1" } }),
+      clientIpFromRequest({
+        headers: { "x-forwarded-for": "9.9.9.9, 203.0.113.5" },
+      }),
+      "203.0.113.5",
+    );
+    assert.equal(
+      clientIpFromRequest({
+        headers: { "x-forwarded-for": "9.9.9.9, 8.8.8.8, 203.0.113.5" },
+      }),
+      "203.0.113.5",
+    );
+  });
+
+  test("ignores Express req.ip when a header is present — it is the spoofable leftmost entry", () => {
+    assert.equal(
+      clientIpFromRequest({
+        headers: { "x-forwarded-for": "9.9.9.9, 203.0.113.5" },
+        ip: "9.9.9.9",
+      }),
       "203.0.113.5",
     );
   });
@@ -126,7 +149,7 @@ describe("clientIpFromRequest", () => {
   test("normalizes the extracted address", () => {
     assert.equal(
       clientIpFromRequest({
-        headers: { "x-forwarded-for": "9.9.9.9, 2001:db8:1:2:3:4:5:6, 130.211.0.1" },
+        headers: { "x-forwarded-for": "9.9.9.9, 2001:db8:1:2:3:4:5:6" },
       }),
       "2001:0db8:0001:0002::/64",
     );
@@ -135,17 +158,17 @@ describe("clientIpFromRequest", () => {
   test("joins a repeated header before picking the trusted entry", () => {
     assert.equal(
       clientIpFromRequest({
-        headers: { "x-forwarded-for": ["9.9.9.9", "203.0.113.5, 130.211.0.1"] },
+        headers: { "x-forwarded-for": ["9.9.9.9", "8.8.8.8, 203.0.113.5"] },
       }),
       "203.0.113.5",
     );
   });
 
-  test("falls back to the socket address when there is no proxy chain", () => {
-    // One entry means we aren't behind the expected chain (emulator, direct
-    // connection), so the header is unverified and must not be trusted.
+  test("falls back to the socket address only when there is no header at all", () => {
+    // No header means we aren't behind Google's front end (emulator, direct
+    // connection) — in production the front end always appends the client IP.
     assert.equal(
-      clientIpFromRequest({ headers: { "x-forwarded-for": "9.9.9.9" }, ip: "203.0.113.5" }),
+      clientIpFromRequest({ headers: {}, ip: "203.0.113.5" }),
       "203.0.113.5",
     );
     assert.equal(

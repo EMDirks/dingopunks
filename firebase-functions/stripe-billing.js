@@ -51,23 +51,23 @@ export function normalizeRebate(rawPlatform, rawOrderNumber) {
   if (!platformGiven || !orderGiven) {
     throw new HttpsError(
       "invalid-argument",
-      "Both a platform and an order number are required for the rebate.",
+      "Enter platform and order number.",
     );
   }
 
   const platform = typeof rawPlatform === "string" ? rawPlatform.trim().toLowerCase() : "";
   const pattern = REBATE_PLATFORM_PATTERNS[platform];
   if (!pattern) {
-    throw new HttpsError("invalid-argument", "Unknown rebate platform.");
+    throw new HttpsError("invalid-argument", "Unknown platform.");
   }
 
-  const orderNumber = typeof rawOrderNumber === "string" ? rawOrderNumber.trim() : "";
+  const orderNumber = typeof rawOrderNumber === "string" ? rawOrderNumber.trim().replace(/^#/, "") : "";
   if (!pattern.test(orderNumber)) {
     throw new HttpsError(
       "invalid-argument",
       platform === "tpt"
-        ? "TPT order numbers are 9 digits."
-        : "Shopify order numbers are 4 or 5 digits.",
+        ? "TPT orders are 9 digits."
+        : "Shopify orders are 4-5 digits.",
     );
   }
 
@@ -94,7 +94,7 @@ export async function claimRebate(db, uid, rebate) {
       if (snap.get("uid") === uid) return false;
       throw new HttpsError(
         "already-exists",
-        "That order number has already been used for a rebate.",
+        "That order number was already used.",
       );
     }
     tx.create(ref, {
@@ -158,7 +158,7 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
 
   if (!priceId) {
     logger.error("createCheckoutSession called without a configured STRIPE_PRICE_ID");
-    throw new HttpsError("internal", "Billing is not configured.");
+    throw new HttpsError("internal", "Billing unavailable.");
   }
 
   const rebate = normalizeRebate(data.rebatePlatform, data.rebateOrderNumber);
@@ -168,7 +168,7 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
     limit,
     windowMs,
     now,
-    message: "Too many checkout attempts. Try again in an hour.",
+    message: "Too many attempts. Try again in an hour.",
   });
 
   const userRef = db.collection("users").doc(uid);
@@ -180,7 +180,7 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
   if (userSnap.exists && userSnap.get("plan") === "all-access") {
     throw new HttpsError(
       "failed-precondition",
-      "You already have an All-Access membership.",
+      "You already have All-Access.",
     );
   }
 
@@ -235,7 +235,7 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
       uid,
       message: error?.message,
     });
-    throw new HttpsError("internal", "Could not start checkout. Please try again.");
+    throw new HttpsError("internal", "Couldn't start checkout. Try again.");
   }
 }
 
@@ -255,7 +255,7 @@ export async function createPortalSession(db, stripe, uid, data = {}, options = 
   if (typeof customerId !== "string" || !customerId) {
     throw new HttpsError(
       "failed-precondition",
-      "No billing account is available for this membership.",
+      "No billing account on file.",
     );
   }
 
@@ -273,7 +273,7 @@ export async function createPortalSession(db, stripe, uid, data = {}, options = 
       uid,
       message: error?.message,
     });
-    throw new HttpsError("internal", "Could not open billing. Please try again.");
+    throw new HttpsError("internal", "Couldn't open billing. Try again.");
   }
 }
 

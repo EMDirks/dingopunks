@@ -26,19 +26,41 @@ const NOT_FOUND_MESSAGE = "That code has expired or doesn't exist.";
 const UNKNOWN_IP_BUCKET = "unknown";
 
 /**
+ * How many entries Google's own infrastructure appends to `X-Forwarded-For`
+ * before the request reaches this function. Everything to the LEFT of those
+ * entries came from the caller and is attacker-controlled; the leftmost of
+ * the appended entries is the client IP Google actually observed.
+ *
+ * VERIFIED IN PRODUCTION (2026-09-19, adversarial review): gen2 functions
+ * invoked via their cloudfunctions.net URL receive exactly ONE appended
+ * entry — the observed client IP, rightmost. A clean request arrived as
+ * `66.113.20.76`; a request spoofing `X-Forwarded-For: 9.9.9.9` arrived as
+ * `9.9.9.9,66.113.20.76`. There is no trailing load-balancer entry (that
+ * `<client-ip>, <lb-ip>` shape belongs to the external Application Load
+ * Balancer, which is not in front of these functions).
+ *
+ * Getting this wrong in either direction breaks the limit: too high trusts a
+ * client-supplied entry (per-request bucket rotation = bypass); too low keys
+ * everyone on a shared infrastructure address (one global bucket = trivial
+ * lockout). Re-verify if these functions ever move behind a load balancer.
+ */
+export const GOOGLE_APPENDED_XFF_ENTRIES = 1;
+
+/**
  * The client IP we're willing to rate-limit on.
  *
- * `X-Forwarded-For` is a client-writable header, and the functions framework
- * does not enable Express `trust proxy`, so `req.ip` is the Google front end,
- * not the caller. Google's front end *appends* `<client-ip>, <lb-ip>` to
- * whatever the client already put in the header, so the rightmost entry is the
- * load balancer and the one before it is the only IP Google actually observed.
- * Taking the leftmost entry instead would let an attacker rotate a fake IP per
- * request and bypass the limit entirely — or aim it at a real user's IP.
+ * `X-Forwarded-For` is a client-writable header, and Express `req.ip` on this
+ * stack resolves to the LEFTMOST entry — verified attacker-controlled, never
+ * use it when a header is present. Google *appends* its own entries to
+ * whatever the client already put in the header (see
+ * GOOGLE_APPENDED_XFF_ENTRIES), so the trusted client IP is counted from the
+ * RIGHT end of the chain.
  *
- * With fewer than two entries we're not behind the expected proxy chain
- * (local emulator, direct connection), so nothing in the header is verified
- * and we fall back to the socket address.
+ * With fewer entries than Google appends we're not behind Google's front end
+ * at all (local emulator, direct connection), so nothing in the header is
+ * verified and we fall back to the socket address. In production every
+ * request passes through the front end, so a non-empty-but-short chain means
+ * GOOGLE_APPENDED_XFF_ENTRIES is wrong — log loudly so it's caught.
  */
 export function clientIpFromRequest(rawRequest) {
   const forwarded = rawRequest?.headers?.["x-forwarded-for"];
@@ -47,9 +69,16 @@ export function clientIpFromRequest(rawRequest) {
     .map((entry) => entry.trim())
     .filter(Boolean);
 
+  if (chain.length > 0 && chain.length < GOOGLE_APPENDED_XFF_ENTRIES) {
+    logger.warn("X-Forwarded-For chain shorter than the trusted proxy depth", {
+      chainLength: chain.length,
+      expectedAppendedEntries: GOOGLE_APPENDED_XFF_ENTRIES,
+    });
+  }
+
   const observed =
-    chain.length >= 2
-      ? chain[chain.length - 2]
+    chain.length >= GOOGLE_APPENDED_XFF_ENTRIES
+      ? chain[chain.length - GOOGLE_APPENDED_XFF_ENTRIES]
       : rawRequest?.ip || rawRequest?.socket?.remoteAddress || "";
 
   return normalizeIp(observed);

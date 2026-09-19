@@ -12,7 +12,7 @@ import {
 import { games } from "../games.js";
 import { state } from "./context.js";
 
-const GENERIC_ERROR = "Something went wrong. Please try again.";
+const GENERIC_ERROR = "Something went wrong. Try again.";
 const validGameIds = new Set(games.map((game) => game.id));
 
 let activeUid = null;
@@ -52,16 +52,13 @@ export function isShareCodeLimitError(error) {
 export function shareCodeErrorMessage(error) {
   const code = error?.code ?? "";
   if (code === "functions/resource-exhausted") {
-    return (
-      error.message ||
-      "You've reached 20 active share codes. Cancel an existing code before sharing another room."
-    );
+    return "Limit reached.";
   }
   if (code === "functions/permission-denied") {
-    return error.message || "An All-Access membership is required to share this room.";
+    return "All-Access required.";
   }
   if (code === "functions/unauthenticated") {
-    return "Sign in to share escape rooms.";
+    return "Sign in to share.";
   }
   if (code === "functions/invalid-argument" || code === "functions/not-found") {
     return error.message || GENERIC_ERROR;

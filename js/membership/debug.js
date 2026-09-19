@@ -23,14 +23,15 @@ export function initDebugView() {
   const error = document.getElementById("dpaam-auth-error");
   const success = document.getElementById("dpaam-auth-success");
   const AUTH_HEADINGS = {
-    auth: "dpaam-auth-heading-signin",
+    signin: "dpaam-auth-heading-signin",
+    verify: "dpaam-auth-heading-verify",
     offer: "dpaam-auth-heading-offer",
   };
 
   function setDebugView(view) {
     const showDashboard = view === "dashboard";
     const showSkeleton = view === "loading";
-    const showOffer = view === "offer";
+    const authView = view === "verify" || view === "offer" ? view : "signin";
     auth.hidden = showDashboard || showSkeleton;
     dashboard.hidden = !showDashboard;
     if (skeleton) {
@@ -39,13 +40,16 @@ export function initDebugView() {
     }
 
     if (!showDashboard && !showSkeleton) {
-      const activeAuthView = showOffer ? "offer" : "signin";
       authViews.forEach((panel) => {
-        panel.hidden = panel.dataset.authView !== activeAuthView;
+        panel.hidden = panel.dataset.authView !== authView;
       });
-      setAuthOfferLayoutActive(showOffer);
-      if (showOffer) {
+      setAuthOfferLayoutActive(authView === "offer");
+      if (authView === "offer") {
         renderAuthOfferPanels();
+      }
+      if (authView === "verify") {
+        const verifyEmail = document.getElementById("dpaam-auth-verify-email");
+        if (verifyEmail) verifyEmail.textContent = "you@example.com";
       }
       if (retry) retry.hidden = true;
       if (skeletonError) {
@@ -60,13 +64,10 @@ export function initDebugView() {
         success.hidden = true;
         success.textContent = "";
       }
-      auth.setAttribute(
-        "aria-labelledby",
-        AUTH_HEADINGS[showOffer ? "offer" : "auth"],
-      );
+      auth.setAttribute("aria-labelledby", AUTH_HEADINGS[authView]);
       if (headerToggle) {
-        headerToggle.hidden = showOffer;
-        if (!showOffer) {
+        headerToggle.hidden = authView !== "signin";
+        if (authView === "signin") {
           headerToggle.textContent = "Sign up";
         }
       }

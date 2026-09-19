@@ -36,6 +36,11 @@ const stripeWebhookSecret = defineSecret("STRIPE_WEBHOOK_SECRET");
 const stripePriceId = defineString("STRIPE_PRICE_ID", {
   description: "Stripe Price ID for the All-Access yearly subscription (price_...)",
 });
+// Deploy-time config, not source: the repo's public mirror burned the original
+// hardcoded value. Lives in firebase-functions/.env.dpaam-8864d (gitignored).
+const betaAccessCode = defineString("BETA_ACCESS_CODE", {
+  description: "Access code required to create an account while the beta gate is up",
+});
 
 let cachedStripe = null;
 function stripeClient() {
@@ -97,6 +102,10 @@ export const authorizeBetaSignup = onCall(
       getFirestore(),
       request.data?.email,
       request.data?.accessCode,
+      {
+        expectedCode: betaAccessCode.value(),
+        clientIp: clientIpFromRequest(request.rawRequest),
+      },
     );
   },
 );

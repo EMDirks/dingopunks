@@ -159,6 +159,21 @@ describe("normalizeRebate", () => {
     });
   });
 
+  test("strips a leading # from the order number (Shopify receipt format)", () => {
+    assert.deepEqual(normalizeRebate("shopify", "#1234"), {
+      platform: "shopify",
+      orderNumber: "1234",
+    });
+    assert.deepEqual(normalizeRebate("shopify", " #12345 "), {
+      platform: "shopify",
+      orderNumber: "12345",
+    });
+    assert.deepEqual(normalizeRebate("tpt", "#123456789"), {
+      platform: "tpt",
+      orderNumber: "123456789",
+    });
+  });
+
   test("rejects half-filled, unknown-platform, and bad-format input", () => {
     const cases = [
       ["tpt", undefined],

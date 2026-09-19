@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>All-Access | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.118" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.118" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.121" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.121" />
 </head>
 <body>
   <div class="dpaam">
@@ -281,7 +281,7 @@
             <p class="dpaam-auth-lead">
               We sent a verification link to
               <strong class="dpaam-auth-verify-email" id="dpaam-auth-verify-email"></strong>.
-              Click the link in that email, then return here and press Continue.
+              Click the link, then return here and press Continue.
             </p>
             <button
               type="button"
@@ -297,10 +297,8 @@
             >
               Resend verification email
             </button>
-            <p class="dpaam-auth-switch-text">
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-verify-signout">
-                Use a different account
-              </button>
+            <p class="dpaam-auth-legal">
+              Don&rsquo;t see the email? Check your Spam folder. It may take a few minutes to arrive.
             </p>
           </div>
 
@@ -310,10 +308,12 @@
             data-auth-view="offer"
             hidden
           >
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer">Choose your plan</h1>
-            <div class="dpaam-auth-offer-grid">
-              <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-free"></div>
-              <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-paid"></div>
+            <div class="dpaam-auth-card dpaam-auth-offer-card">
+              <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer">Choose your plan</h1>
+              <div class="dpaam-auth-offer-grid">
+                <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-free"></div>
+                <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-paid"></div>
+              </div>
             </div>
           </div>
 
@@ -783,13 +783,13 @@
 
     <!-- Standalone All-Access upgrade modal -->
     <dialog
-      class="dpaam-modal dpaam-modal--compact dpaam-upgrade-modal"
+      class="dpaam-modal dpaam-modal--compact dpaam-all-access-paywall-modal dpaam-upgrade-modal"
       id="dpaam-upgrade-modal"
       aria-labelledby="dpaam-upgrade-modal-title"
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-upgrade-modal-title">Upgrade</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-upgrade-modal-title">Upgrade to All-Access</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-upgrade-modal-body"></div>
@@ -798,18 +798,14 @@
 
     <!-- All-Access paywall modal -->
     <dialog
-      class="dpaam-modal"
+      class="dpaam-modal dpaam-modal--compact dpaam-all-access-paywall-modal"
       id="dpaam-member-only-modal"
       aria-labelledby="dpaam-member-only-modal-title"
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">
-            Sharing Options
-          </h3>
-          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
-            ×
-          </button>
+          <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">Upgrade to All-Access to Share</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-member-only-body"></div>
       </form>
@@ -840,7 +836,7 @@
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
           <h3 class="dpaam-modal-title" id="dpaam-share-code-limit-modal-title">
-            20 Escape Rooms Shared
+            20 rooms shared
           </h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
             ×
@@ -848,7 +844,7 @@
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            You can share up to 20 escape rooms at a time. Remove an escape room you're finished with to share another.
+            Share up to 20 at a time. Cancel one to share another.
           </p>
         </div>
         <footer class="dpaam-modal-footer">
@@ -857,7 +853,7 @@
             class="dpaam-btn dpaam-btn-activate"
             id="dpaam-share-code-limit-view-active"
           >
-            View Shared Escape Rooms
+            View shared rooms
           </button>
         </footer>
       </form>
@@ -936,6 +932,15 @@
         <button
           type="button"
           class="dpaam-debug-view-option"
+          data-debug-view="verify"
+          role="radio"
+          aria-checked="false"
+        >
+          Continue
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
           data-debug-view="offer"
           role="radio"
           aria-checked="false"
@@ -1008,6 +1013,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.118"></script>
+  <script type="module" src="js/membership.js?version=3.4.121"></script>
 </body>
 </html>

@@ -9,8 +9,7 @@ import { state } from "./context.js";
 import { showToast } from "./toast.js";
 
 const SAVE_DEBOUNCE_MS = 1000;
-const FAVORITES_SAVE_ERROR =
-  "We couldn't save your favorites. Check your connection.";
+const FAVORITES_SAVE_ERROR = "Couldn't save favorites. Check connection.";
 
 const validGameIds = new Set(games.map((game) => game.id));
 

@@ -793,8 +793,8 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-tab[aria-selected="true"] .dpaam-tab-count {
-  background: var(--dpaam-blue-light);
-  color: var(--dpaam-blue-dark);
+  background: var(--dpaam-teal-light);
+  color: var(--dpaam-teal-dark);
 }
 
 @keyframes dpaam-tab-count-pulse {
@@ -1727,16 +1727,20 @@ a.dpaam-topbar-btn {
   width: min(520px, calc(100vw - 32px));
 }
 
+.dpaam-modal.dpaam-all-access-paywall-modal,
 .dpaam-modal.dpaam-modal--compact.dpaam-upgrade-modal,
-.dpaam-modal.dpaam-modal--compact.dpaam-account-modal {
-  width: min(720px, calc(100vw - 32px));
-}
-
 #dpaam-member-only-modal {
-  width: min(920px, calc(100vw - 32px));
+  --dpaam-all-access-paywall-modal-width: min(620px, calc(100vw - 32px));
+  width: var(--dpaam-all-access-paywall-modal-width);
 }
 
-.dpaam-upgrade-modal .dpaam-plan-panel {
+.dpaam-modal.dpaam-modal--compact.dpaam-account-modal {
+  width: min(620px, calc(100vw - 32px));
+}
+
+.dpaam-upgrade-modal .dpaam-plan-panel,
+.dpaam-account-modal .dpaam-plan-panel--unlimited,
+#dpaam-member-only-modal .dpaam-plan-panel--unlimited {
   box-sizing: border-box;
   width: 100%;
 }
@@ -2178,8 +2182,6 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   box-sizing: border-box;
   width: 100%;
   margin-top: var(--dpaam-pad-lg);
-  /* Rebate UI (summary + form) hidden — delete display:none to restore; JS unchanged. */
-  display: none;
 }
 
 .dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary {
@@ -3344,7 +3346,6 @@ dd a {
 
   /* --- Touch targets: 44×44 minimum --- */
 
-  .dpaam-modal-close,
   .dpaam-mobile-menu-toggle {
     min-height: 32px;
     min-width: 32px;
@@ -3353,15 +3354,18 @@ dd a {
     justify-content: center;
   }
 
-  .dpaam-modal-close {
-    margin-right: -16px;
-    margin-top: -20px;
+  .dpaam-modal-header > .dpaam-modal-close {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
     border-radius: var(--dpaam-radius-lg);
-  }
-
-  .dpaam-guide-header .dpaam-modal-close {
-    margin-right: 0;
-    margin-top: 0;
   }
 
   /* --- Modals: full viewport-aware sizing with dvh --- */
@@ -3370,7 +3374,7 @@ dd a {
     width: min(900px, calc(100vw - 24px));
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
-    padding: var(--dpaam-pad-md);
+    padding: 0;
   }
 
   .dpaam-modal-form {
@@ -3379,8 +3383,10 @@ dd a {
   }
 
   .dpaam-upgrade-modal,
-  #dpaam-member-only-modal {
-    padding: 0;
+  #dpaam-member-only-modal,
+  .dpaam-modal.dpaam-all-access-paywall-modal {
+    --dpaam-all-access-paywall-modal-width: min(620px, calc(100vw - 24px));
+    width: var(--dpaam-all-access-paywall-modal-width);
     max-height: none;
     overflow: hidden;
   }
@@ -3400,7 +3406,8 @@ dd a {
   }
 
   .dpaam-modal-header {
-    padding: var(--dpaam-pad-md) var(--dpaam-pad) var(--dpaam-pad-lg);
+    min-height: 56px;
+    padding: var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad);
   }
 
   .dpaam-modal-body {
@@ -3584,17 +3591,8 @@ dd a {
 
   /* --- Share modal --- */
 
-  #dpaam-share-modal .dpaam-modal-header,
-  #dpaam-member-only-modal .dpaam-modal-header {
-    padding-bottom: var(--dpaam-pad);
-  }
-
   #dpaam-member-only-modal .dpaam-modal-content {
     gap: 0;
-  }
-
-  #dpaam-member-only-modal .dpaam-upgrade-lead {
-    margin-bottom: var(--dpaam-pad-md);
   }
 
   .dpaam-share-option-actions {

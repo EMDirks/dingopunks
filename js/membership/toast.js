@@ -1,5 +1,23 @@
 let toastTimer = null;
 
+const TOAST_DURATION_MIN_MS = 2500;
+const TOAST_DURATION_MAX_MS = 7000;
+const TOAST_MS_PER_WORD = 180;
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function getToastDuration(message) {
+  const text = typeof message === "string" ? message.trim() : "";
+  const wordCount = text ? text.split(/\s+/).length : 0;
+  return clamp(
+    TOAST_DURATION_MIN_MS + wordCount * TOAST_MS_PER_WORD,
+    TOAST_DURATION_MIN_MS,
+    TOAST_DURATION_MAX_MS,
+  );
+}
+
 function hideToast() {
   const toast = document.getElementById("dpaam-toast");
   if (!toast || !toast.classList.contains("dpaam-toast--visible")) return;
@@ -60,5 +78,5 @@ export function showToast(message) {
     );
   }
 
-  toastTimer = setTimeout(() => hideToast(), 1000);
+  toastTimer = setTimeout(() => hideToast(), getToastDuration(message));
 }

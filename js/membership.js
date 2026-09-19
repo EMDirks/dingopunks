@@ -100,12 +100,12 @@ function consumeCheckoutReturn() {
     if (status === "success") {
       showToast(
         state.membershipAccess === "member"
-          ? "✓ \u00A0 Welcome to All-Access"
-          : "✓ \u00A0 Checkout complete — finishing setup…",
+          ? "Welcome to All-Access"
+          : "Checkout complete",
       );
       return;
     }
-    showToast("Checkout canceled — you weren't charged");
+    showToast("Checkout canceled");
   }, 0);
 }
 
@@ -414,7 +414,7 @@ function addFavorite(gameId, { toast = true } = {}) {
   }
   pulseTabCount("favorites");
   scheduleFavoritesSave();
-  if (toast) showToast("✓ \u00A0 Favorited");
+  if (toast) showToast("Favorited");
 }
 
 function removeFavorite(gameId) {
@@ -970,14 +970,14 @@ function formatPlanDate(ms) {
 }
 
 function normalizeClientRebate(orderRaw) {
-  const orderNumber = typeof orderRaw === "string" ? orderRaw.trim() : "";
+  const orderNumber = typeof orderRaw === "string" ? orderRaw.trim().replace(/^#/, "") : "";
   if (!orderNumber) return { rebate: null };
 
   const platform = Object.entries(REBATE_PLATFORM_PATTERNS).find(([, pattern]) =>
     pattern.test(orderNumber),
   )?.[0];
   if (!platform) {
-    return { error: "Please enter a valid order number." };
+    return { error: "Invalid order number." };
   }
   return { rebate: { platform, orderNumber } };
 }
@@ -1154,8 +1154,7 @@ function unlimitedPlanPanelHtml({
         ${pricingHtml}
         ${allAccessPlanFeaturesHtml()}
       </div>
-      ${ctaHtml}
-      ${rebateHtml}`;
+      ${ctaHtml}`;
 
   const panelClass = isManage
     ? "dpaam-plan-panel dpaam-plan-panel--unlimited dpaam-plan-panel--member"
@@ -1163,8 +1162,8 @@ function unlimitedPlanPanelHtml({
   const panelClassWithOffer = showOfferImage
     ? `${panelClass} dpaam-plan-panel--with-offer-image`
     : panelClass;
-  if (showOfferImage) {
-    return `<div class="${panelClassWithOffer}">
+  const panelHtml = showOfferImage
+    ? `<div class="${panelClassWithOffer}">
       <div class="dpaam-plan-panel__offer-media" aria-hidden="true">
         <img
           class="dpaam-plan-panel__offer-image"
@@ -1174,9 +1173,12 @@ function unlimitedPlanPanelHtml({
         />
       </div>
       <div class="dpaam-plan-panel__offer-content">${panelInner}</div>
-    </div>`;
-  }
-  return `<div class="${panelClass}">${panelInner}</div>`;
+    </div>`
+    : `<div class="${panelClass}">${panelInner}</div>`;
+
+  return rebateHtml
+    ? `<div class="dpaam-all-access-offer">${panelHtml}${rebateHtml}</div>`
+    : panelHtml;
 }
 
 function allAccessFreePlanPanelHtml({ showPlanStatus = false, includeRebate = false } = {}) {
@@ -1273,22 +1275,14 @@ function openUpgradeModal() {
   showExclusiveModal(els.upgradeModal);
 }
 
-function memberOnlyModalBodyHtml(game) {
-  const content = `
-    <p class="dpaam-upgrade-lead">Upgrade to <strong>All-Access</strong> to share this escape room.</p>
-    ${allAccessFreePlanPanelHtml({ includeRebate: true })}`;
-
-  if (!game) {
-    return `<div class="dpaam-modal-content">${content}</div>`;
-  }
-
-  return `${modalThumbHtml(game)}<div class="dpaam-modal-content">${content}</div>`;
+function memberOnlyModalBodyHtml() {
+  return `<div class="dpaam-modal-content">${allAccessFreePlanPanelHtml({ includeRebate: true })}</div>`;
 }
 
 function populateMemberOnlyModal(gameId) {
   if (!els.memberOnlyBody) return;
-  const game = gameId ? gameById(gameId) : null;
-  els.memberOnlyBody.innerHTML = memberOnlyModalBodyHtml(game);
+  if (gameId) memberOnlyGameId = gameId;
+  els.memberOnlyBody.innerHTML = memberOnlyModalBodyHtml();
 }
 
 function openMemberOnlyModal(gameId) {
@@ -1775,7 +1769,7 @@ async function sendAccountPasswordReset() {
   setButtonLoading(els.accountSendReset, true, "Sending…");
   try {
     await sendPasswordResetEmail(auth, email);
-    showToast("✓ \u00A0 Reset email sent");
+    showToast("Reset email sent");
   } catch (error) {
     showToast(authErrorMessage(error));
   } finally {
@@ -1790,7 +1784,7 @@ async function logoutAccount() {
   try {
     await signOut(auth);
     closeAnimatedModal(els.accountModal);
-    showToast("✓ \u00A0 Logged out");
+    showToast("Logged out");
   } catch (error) {
     showToast(authErrorMessage(error));
   } finally {
@@ -1800,31 +1794,31 @@ async function logoutAccount() {
 
 function billingErrorMessage(error) {
   if (error?.code === "functions/failed-precondition") {
-    return "No billing account is available for this membership.";
+    return "No billing account on file.";
   }
   if (error?.code === "functions/unauthenticated") {
-    return "Sign in before managing your subscription.";
+    return "Sign in to manage billing.";
   }
-  return "We couldn't open billing. Please try again.";
+  return "Couldn't open billing. Try again.";
 }
 
 function checkoutErrorMessage(error) {
   if (error?.code === "functions/invalid-argument") {
-    return error.message || "Check your rebate details and try again.";
+    return error.message || "Check order number and try again.";
   }
   if (error?.code === "functions/already-exists") {
-    return "That order number has already been used for a rebate.";
+    return "That order number was already used.";
   }
   if (error?.code === "functions/failed-precondition") {
-    return "You already have an All-Access membership.";
+    return "You already have All-Access.";
   }
   if (error?.code === "functions/resource-exhausted") {
-    return "Too many checkout attempts. Try again in an hour.";
+    return "Too many attempts. Try again in an hour.";
   }
   if (error?.code === "functions/unauthenticated") {
-    return "Sign in before upgrading.";
+    return "Sign in to upgrade.";
   }
-  return "We couldn't start checkout. Please try again.";
+  return "Couldn't start checkout. Try again.";
 }
 
 function applyPurchaseCredit(button) {
@@ -1834,7 +1828,7 @@ function applyPurchaseCredit(button) {
   const message = parsed.error
     ? parsed.error
     : parsed.rebate
-      ? "✓ $8.99 credit will be applied at checkout."
+      ? "$8.99 credit at checkout."
       : "Enter an order number.";
 
   if (status) {
@@ -1896,37 +1890,52 @@ async function openBillingPortal(button) {
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
+    return true;
   } catch {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "absolute";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
   }
 }
 
 async function copyShareCode() {
   if (!shareCode) return;
-  await copyToClipboard(shareCode);
-  showToast("✓ \u00A0 Game code copied");
+  if (!(await copyToClipboard(shareCode))) {
+    showToast("Couldn't copy.");
+    return;
+  }
+  showToast("Game code copied");
 }
 
 async function copyShareLink() {
   if (!shareCode) return;
   const link = "https://play.dingopunks.com";
-  await copyToClipboard(link);
-  showToast("✓ \u00A0 Website copied");
+  if (!(await copyToClipboard(link))) {
+    showToast("Couldn't copy.");
+    return;
+  }
+  showToast("Website copied");
 }
 
 async function copyDirectLink() {
   if (!shareCode) return;
   const link = "https://play.dingopunks.com/?" + encodeURIComponent(shareCode);
-  await copyToClipboard(link);
-  showToast("✓ \u00A0 Link copied");
+  if (!(await copyToClipboard(link))) {
+    showToast("Couldn't copy.");
+    return;
+  }
+  showToast("Link copied");
 }
 
 function shareToGoogleClassroom() {
@@ -2494,7 +2503,10 @@ function attachUserProfileSubscription(user) {
     (profile) => {
       if (currentUser?.uid === user.uid && profile) applyUserProfile(profile);
     },
-    (error) => console.error("Failed to watch user profile", error),
+    (error) => {
+      console.error("Failed to watch user profile", error);
+      showToast("Couldn't refresh plan.");
+    },
   );
 }
 
@@ -2502,7 +2514,10 @@ function init() {
   configureAuthOffer({
     renderPanels(freeHost, paidHost) {
       freeHost.innerHTML = authOfferFreePlanPanelHtml();
-      paidHost.innerHTML = unlimitedPlanPanelHtml({ includeRebate: true });
+      paidHost.innerHTML = unlimitedPlanPanelHtml({
+        includeRebate: true,
+        includeOfferImage: false,
+      });
     },
   });
 

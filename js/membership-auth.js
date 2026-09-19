@@ -12,7 +12,6 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
 } from "./firebase-init.js";
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 import {
@@ -55,49 +54,49 @@ function showAuthMessage(type, message) {
 export function authErrorMessage(error) {
   switch (error?.code) {
     case "auth/invalid-email":
-      return "Enter a valid email address.";
+      return "Enter a valid email.";
     case "auth/missing-email":
-      return "Enter your email address.";
+      return "Enter your email.";
     case "auth/missing-password":
       return "Enter your password.";
     case "auth/weak-password":
-      return "Choose a stronger password with at least 6 characters.";
+      return "Password needs 6+ characters.";
     case "auth/email-already-in-use":
-      return "An account already exists for that email. Try signing in instead.";
+      return "Account exists. Try signing in.";
     case "auth/invalid-credential":
     case "auth/invalid-login-credentials":
     case "auth/user-not-found":
     case "auth/wrong-password":
-      return "Your email or password is incorrect.";
+      return "Incorrect email or password.";
     case "auth/user-disabled":
-      return "This account has been disabled. Contact Dingo Punks for help.";
+      return "Account disabled. Contact us for help.";
     case "auth/too-many-requests":
-      return "Too many attempts. Wait a few minutes, then try again.";
+      return "Too many attempts. Wait a few minutes.";
     case "auth/network-request-failed":
-      return "We couldn't connect. Check your internet connection and try again.";
+      return "No connection. Check internet.";
     case "auth/popup-blocked":
-      return "Your browser blocked the Google sign-in window. Allow popups and try again.";
+      return "Popups blocked. Allow popups and try again.";
     case "auth/account-exists-with-different-credential":
-      return "That email uses a different sign-in method. Log in with email and password instead.";
+      return "Sign in with email and password.";
     case "auth/unauthorized-domain":
     case "auth/operation-not-allowed":
     case "auth/configuration-not-found":
     case "auth/invalid-api-key":
-      return "Sign-in isn't available right now. Please try again later.";
+      return "Sign-in unavailable. Try again later.";
     default:
-      return "Something went wrong. Please try again.";
+      return "Something went wrong. Try again.";
   }
 }
 
 function betaSignupErrorMessage(error) {
   if (error?.code === "functions/permission-denied") {
-    return "That beta access code isn't valid.";
+    return "Invalid beta code.";
   }
   if (error?.code === "functions/invalid-argument") {
-    return "Enter a valid email address and beta access code.";
+    return "Enter valid email and beta code.";
   }
   if (error?.code === "auth/internal-error") {
-    return "We couldn't authorize this signup. For Google, choose the same email entered above.";
+    return "For Google, use the email above.";
   }
   return authErrorMessage(error);
 }
@@ -321,10 +320,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       await sendEmailVerification(credential.user);
       updateVerifyView(credential.user);
       setAuthView("verify");
-      showAuthMessage(
-        "success",
-        "Check your inbox for a verification link before continuing.",
-      );
+      showAuthMessage("success", "Check email for verification.");
     } catch (error) {
       showAuthMessage("error", betaSignupErrorMessage(error));
     } finally {
@@ -346,10 +342,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setButtonLoading(submit, true, "Sending…");
     try {
       await sendPasswordResetEmail(auth, email);
-      showAuthMessage(
-        "success",
-        "If an account exists for that email, a password reset link is on its way.",
-      );
+      showAuthMessage("success", "Password reset email sent.");
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
@@ -403,10 +396,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
         await applyAuthState(auth.currentUser);
         return;
       }
-      showAuthMessage(
-        "error",
-        "Your email is not verified yet. Check your inbox, then try again.",
-      );
+      showAuthMessage("error", "Email not verified. Check inbox.");
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
@@ -423,21 +413,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setButtonLoading(verifyResend, true, "Sending…");
     try {
       await sendEmailVerification(user);
-      showAuthMessage("success", "Verification email sent. Check your inbox.");
+      showAuthMessage("success", "Verification email sent.");
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
       setButtonLoading(verifyResend, false, "Sending…");
-    }
-  });
-
-  document.getElementById("dpaam-auth-verify-signout")?.addEventListener("click", async () => {
-    clearAuthMessages();
-    try {
-      await signOut(auth);
-      setAuthView("signin", { focus: true });
-    } catch (error) {
-      showAuthMessage("error", authErrorMessage(error));
     }
   });
 
@@ -499,9 +479,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     } catch (error) {
       if (revision !== authStateRevision) return;
       console.error("Failed to load dashboard state", error);
-      showSkeletonError(
-        "We couldn't finish loading your account. Check your connection and try again.",
-      );
+      showSkeletonError("Couldn't load account. Check connection.");
       return;
     }
 
@@ -561,10 +539,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
         section.hidden = false;
         section.setAttribute("aria-busy", "false");
         setAuthView("signin");
-        showAuthMessage(
-          "error",
-          "We couldn't finish setting up your account. Check your connection and try again.",
-        );
+        showAuthMessage("error", "Couldn't set up account. Check connection.");
         return;
       }
 
@@ -598,10 +573,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthView("signin");
-      showAuthMessage(
-        "error",
-        "We couldn't verify your sign-in. Refresh the page and try again.",
-      );
+      showAuthMessage("error", "Sign-in error. Refresh and try again.");
     },
   );
 }

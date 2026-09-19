@@ -90,10 +90,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
     const userSnap = await tx.get(db.collection("users").doc(uid));
     const plan = userSnap.exists ? userSnap.get("plan") : "free";
     if (plan !== "all-access" && !FREE_GAME_IDS.has(gameId)) {
-      throw new HttpsError(
-        "permission-denied",
-        "An All-Access membership is required to share this room.",
-      );
+      throw new HttpsError("permission-denied", "All-Access required.");
     }
 
     const ownCodes = await tx.get(
@@ -112,10 +109,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
     }
 
     if (activeCodes.length >= MAX_ACTIVE_CODES) {
-      throw new HttpsError(
-        "resource-exhausted",
-        `You've reached ${MAX_ACTIVE_CODES} active share codes. Cancel an existing code before sharing another room.`,
-      );
+      throw new HttpsError("resource-exhausted", "Limit reached.");
     }
 
     // Find a free doc ID. Expired-but-not-yet-TTL-deleted docs are fair game
@@ -143,7 +137,7 @@ export async function createShareCode(db, uid, gameId, options = {}) {
 
     // 33M combinations vs ≤20 active codes per user — reaching this means
     // something is deeply wrong, not bad luck.
-    throw new HttpsError("internal", "Could not allocate a code. Try again.");
+    throw new HttpsError("internal", "Couldn't assign a code. Try again.");
   });
 }
 
@@ -153,18 +147,18 @@ export async function createShareCode(db, uid, gameId, options = {}) {
  */
 export async function cancelShareCode(db, uid, rawCode) {
   if (typeof rawCode !== "string") {
-    throw new HttpsError("invalid-argument", "A code is required.");
+    throw new HttpsError("invalid-argument", "Code required.");
   }
   const code = rawCode.trim().toUpperCase();
   if (!CODE_PATTERN.test(code)) {
-    throw new HttpsError("invalid-argument", "That code isn't valid.");
+    throw new HttpsError("invalid-argument", "Invalid code.");
   }
 
   await db.runTransaction(async (tx) => {
     const ref = db.collection("codes").doc(code);
     const snap = await tx.get(ref);
     if (!snap.exists || snap.get("uid") !== uid) {
-      throw new HttpsError("not-found", "That code doesn't exist.");
+      throw new HttpsError("not-found", "Code not found.");
     }
     tx.delete(ref);
   });
