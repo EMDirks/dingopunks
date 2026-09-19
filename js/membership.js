@@ -1016,7 +1016,22 @@ function starterPlanFeaturesHtml() {
     </div>`;
 }
 
-function authOfferFreePlanPanelHtml() {
+function starterOfferPlanPanelHtml({ cta = "select", showYourPlanUnit = false } = {}) {
+  const yourPlanUnitHtml = showYourPlanUnit
+    ? `<span class="dpaam-plan-price-unit">(<strong>Your Plan</strong>)</span>`
+    : "";
+  const actionHtml =
+    cta === "none"
+      ? ""
+      : `<button
+        type="button"
+        class="dpaam-btn dpaam-btn-secondary dpaam-auth-submit dpaam-plan-panel__action"
+        data-action="complete-auth-offer"
+        aria-label="Select"
+      >
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
+      </button>`;
+
   // Restore under Select: <p class="dpaam-plan-panel__post-action-note">Upgrade anytime</p>
   return `
     <div class="dpaam-plan-panel dpaam-plan-panel--offer-starter">
@@ -1025,20 +1040,21 @@ function authOfferFreePlanPanelHtml() {
       </div>
       <div class="dpaam-plan-panel__body">
         <div class="dpaam-plan-panel__pricing">
-          <p class="dpaam-plan-panel__price">Free</p>
+          <p class="dpaam-plan-panel__price">Free${yourPlanUnitHtml}</p>
           <p class="dpaam-plan-panel__billing">always & forever</p>
         </div>
         ${starterPlanFeaturesHtml()}
       </div>
-      <button
-        type="button"
-        class="dpaam-btn dpaam-btn-secondary dpaam-auth-submit dpaam-plan-panel__action"
-        data-action="complete-auth-offer"
-        aria-label="Select"
-      >
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
-      </button>
+      ${actionHtml}
     </div>`;
+}
+
+function authOfferFreePlanPanelHtml() {
+  return starterOfferPlanPanelHtml({ cta: "select" });
+}
+
+function accountStarterPlanPanelHtml() {
+  return starterOfferPlanPanelHtml({ cta: "none", showYourPlanUnit: true });
 }
 
 function allAccessPlanFeaturesHtml() {
@@ -1087,12 +1103,12 @@ function upgradeRebateFieldsHtml() {
         data-action="toggle-upgrade-rebate"
         aria-expanded="false"
       >
-        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Get $8.99 off</span>
+        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Apply your $8.99 purchase toward All-Access.</span>
       </button>
       <div class="dpaam-modal-standards-panel" inert>
         <div class="dpaam-modal-standards-body">
           <div class="dpaam-modal-standards-inner dpaam-upgrade-rebate__content">
-            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year! For purchases made on dingopunks.com, your order number is in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
+            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year of All-Access. For purchases made on dingopunks.com, your order number is in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
             <div class="dpaam-upgrade-rebate__row">
               <label class="dpaam-upgrade-rebate__field">
                 <span class="dpaam-visually-hidden">Order number</span>
@@ -1106,7 +1122,7 @@ function upgradeRebateFieldsHtml() {
                   autocomplete="off"
                 />
               </label>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply</button>
+              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply your $8.99 purchase</button>
             </div>
             <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
           </div>
@@ -1115,9 +1131,10 @@ function upgradeRebateFieldsHtml() {
     </div>`;
 }
 
-function upgradeCheckoutButtonHtml() {
-  return `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="start-checkout" aria-label="Select">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">Select</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">Select</span>
+function upgradeCheckoutButtonHtml({ label = "Select" } = {}) {
+  const cta = escapeHtml(label);
+  return `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="start-checkout" aria-label="${cta}">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">${cta}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${cta}</span>
       </button>`;
 }
 
@@ -1127,6 +1144,7 @@ function unlimitedPlanPanelHtml({
   billingProfile = null,
   includeRebate = false,
   includeOfferImage,
+  checkoutCta = "select",
 } = {}) {
   const isManage = action === "manage";
   const showOfferImage = includeOfferImage ?? !isManage;
@@ -1143,7 +1161,9 @@ function unlimitedPlanPanelHtml({
     ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="${escapeHtml(manageCtaLabel)}">
         <span class="dpaam-responsive-label dpaam-responsive-label--full">${escapeHtml(manageCtaLabel)}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${escapeHtml(manageCtaShort)}</span>
       </button>`
-    : upgradeCheckoutButtonHtml();
+    : upgradeCheckoutButtonHtml({
+        label: checkoutCta === "upgrade" ? "Upgrade" : "Select",
+      });
 
   const panelInner = `
       <div class="dpaam-plan-panel__hero">
@@ -1181,10 +1201,15 @@ function unlimitedPlanPanelHtml({
     : panelHtml;
 }
 
-function allAccessFreePlanPanelHtml({ showPlanStatus = false, includeRebate = false } = {}) {
+function allAccessFreePlanPanelHtml({
+  showPlanStatus = false,
+  includeRebate = false,
+  includeOfferImage,
+  checkoutCta = "upgrade",
+} = {}) {
   return `
     ${showPlanStatus ? currentPlanStatusHtml() : ""}
-    ${unlimitedPlanPanelHtml({ includeRebate })}`;
+    ${unlimitedPlanPanelHtml({ includeRebate, includeOfferImage, checkoutCta })}`;
 }
 
 function syncMembershipAccessChrome() {
@@ -1206,11 +1231,15 @@ function applyAccountPlanPanelContent() {
   if (isFree) {
     if (els.accountPlanUpgrade) {
       els.accountPlanUpgrade.hidden = false;
-      els.accountPlanUpgrade.innerHTML = unlimitedPlanPanelHtml({ includeRebate: true });
+      els.accountPlanUpgrade.innerHTML = unlimitedPlanPanelHtml({
+        includeRebate: true,
+        includeOfferImage: !MOBILE_MENU_MQL.matches,
+        checkoutCta: "upgrade",
+      });
     }
     if (els.accountPlanFree) {
       els.accountPlanFree.hidden = false;
-      els.accountPlanFree.innerHTML = currentPlanStatusHtml();
+      els.accountPlanFree.innerHTML = accountStarterPlanPanelHtml();
     }
     if (els.accountPlanMember) {
       els.accountPlanMember.hidden = true;
@@ -1233,6 +1262,7 @@ function applyAccountPlanPanelContent() {
       action: "manage",
       planNameId: "dpaam-account-plan-name",
       billingProfile: userBillingProfile,
+      includeOfferImage: !MOBILE_MENU_MQL.matches,
     });
   }
 }
@@ -1271,12 +1301,17 @@ function openUpgradeModal() {
   if (!els.upgradeModal || !els.upgradeModalBody) return;
   els.upgradeModalBody.innerHTML = unlimitedPlanPanelHtml({
     includeRebate: true,
+    includeOfferImage: !MOBILE_MENU_MQL.matches,
+    checkoutCta: "upgrade",
   });
   showExclusiveModal(els.upgradeModal);
 }
 
 function memberOnlyModalBodyHtml() {
-  return `<div class="dpaam-modal-content">${allAccessFreePlanPanelHtml({ includeRebate: true })}</div>`;
+  return `<div class="dpaam-modal-content">${allAccessFreePlanPanelHtml({
+    includeRebate: true,
+    includeOfferImage: !MOBILE_MENU_MQL.matches,
+  })}</div>`;
 }
 
 function populateMemberOnlyModal(gameId) {
@@ -2414,6 +2449,17 @@ function initMobileMenus() {
 
   MOBILE_MENU_MQL.addEventListener("change", () => {
     syncMembershipAccessChrome();
+    applyAccountPlanPanelContent();
+    if (els.upgradeModal?.open && els.upgradeModalBody) {
+      els.upgradeModalBody.innerHTML = unlimitedPlanPanelHtml({
+        includeRebate: true,
+        includeOfferImage: !MOBILE_MENU_MQL.matches,
+        checkoutCta: "upgrade",
+      });
+    }
+    if (els.memberOnlyModal?.open) {
+      populateMemberOnlyModal();
+    }
     if (!MOBILE_MENU_MQL.matches) {
       mobileMenuControllers.forEach((controller) => {
         if (controller.isOpen()) controller.setOpen(false);
@@ -2515,9 +2561,13 @@ function init() {
     renderPanels(freeHost, paidHost) {
       freeHost.innerHTML = authOfferFreePlanPanelHtml();
       paidHost.innerHTML = unlimitedPlanPanelHtml({
-        includeRebate: true,
+        includeRebate: false,
         includeOfferImage: false,
       });
+      const rebateHost = document.getElementById("dpaam-auth-offer-rebate");
+      if (rebateHost) {
+        rebateHost.innerHTML = upgradeRebateFieldsHtml();
+      }
     },
   });
 

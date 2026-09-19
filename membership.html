@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>All-Access | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.121" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.121" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.122" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.122" />
 </head>
 <body>
   <div class="dpaam">
@@ -309,11 +309,12 @@
             hidden
           >
             <div class="dpaam-auth-card dpaam-auth-offer-card">
-              <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer">Choose your plan</h1>
+              <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer">Select your plan</h1>
               <div class="dpaam-auth-offer-grid">
                 <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-free"></div>
                 <div class="dpaam-auth-offer-column" id="dpaam-auth-offer-paid"></div>
               </div>
+              <div class="dpaam-auth-offer-rebate" id="dpaam-auth-offer-rebate"></div>
             </div>
           </div>
 
@@ -804,7 +805,7 @@
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">Upgrade to All-Access to Share</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-member-only-modal-title">Upgrade to Share</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body" id="dpaam-member-only-body"></div>
@@ -872,15 +873,6 @@
         </header>
         <div class="dpaam-modal-body dpaam-account-body">
           <div class="dpaam-account-body-inner" id="dpaam-account-body-inner">
-          <section
-            class="dpaam-account-section dpaam-account-plan-section"
-            id="dpaam-account-plan-panel"
-          >
-            <div id="dpaam-account-plan-free" hidden></div>
-            <div id="dpaam-account-plan-upgrade" hidden></div>
-            <div id="dpaam-account-plan-member" hidden></div>
-          </section>
-
           <div
             class="dpaam-account-sign-in-panel"
             id="dpaam-account-sign-in-panel"
@@ -907,6 +899,15 @@
           </section>
           </div>
           </div>
+
+          <section
+            class="dpaam-account-section dpaam-account-plan-section"
+            id="dpaam-account-plan-panel"
+          >
+            <div id="dpaam-account-plan-free" hidden></div>
+            <div id="dpaam-account-plan-upgrade" hidden></div>
+            <div id="dpaam-account-plan-member" hidden></div>
+          </section>
           </div>
         </div>
       </form>
@@ -1013,6 +1014,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.121"></script>
+  <script type="module" src="js/membership.js?version=3.4.122"></script>
 </body>
 </html>

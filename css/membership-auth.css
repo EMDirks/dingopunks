@@ -476,7 +476,7 @@
   min-height: 0;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter,
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,
 .dpaam-auth-offer .dpaam-plan-panel--unlimited {
   display: flex;
   flex-direction: column;
@@ -492,27 +492,27 @@
   overflow: hidden;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero,
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero,
 .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
   position: relative;
   margin-bottom: var(--dpaam-pad-lg);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero {
   padding-right: 0;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter {
   background: var(--dpaam-white);
   border: 1px solid var(--dpaam-border);
   color: var(--dpaam-black);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__tagline {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__tagline {
   margin: 0;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__body {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -530,7 +530,7 @@
   min-width: 0;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__pricing,
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__pricing,
 .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
   flex: 0 0 auto;
   width: 100%;
@@ -545,24 +545,35 @@
   margin-top: var(--dpaam-pad-md);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
   font-size: var(--dpaam-plan-panel-price-size);
   font-weight: 700;
   line-height: 1.05;
   color: var(--dpaam-black);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__billing {
+.dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-price-unit {
+  margin-left: 0.45em;
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  color: var(--dpaam-black);
+}
+
+.dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-price-unit strong {
+  font-weight: 700;
+}
+
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__billing {
   margin-bottom: 0;
   color: var(--dpaam-black-muted);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action {
   margin-top: auto;
   padding-top: var(--dpaam-pad-lg);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__post-action-note {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__post-action-note {
   display: none; /* paired with authOfferFreePlanPanelHtml — remove to restore note */
   width: 100%;
   margin: var(--dpaam-pad-lg) 0 0;
@@ -584,19 +595,29 @@
   padding-bottom: 10px;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-auth-submit.dpaam-plan-panel__action {
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-auth-submit.dpaam-plan-panel__action {
   background-color: var(--dpaam-black-muted) !important;
   color: var(--dpaam-white) !important;
   border: 0;
   border-bottom: 3px solid var(--dpaam-black);
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-upgrade-rebate__summary {
+.dpaam-auth-offer .dpaam-upgrade-rebate__summary {
   text-align: center;
   justify-content: center;
 }
 
-.dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action-arrow {
+.dpaam-auth-offer-rebate {
+  width: 100%;
+  margin-top: var(--dpaam-pad-xl);
+}
+
+.dpaam-auth-offer-rebate .dpaam-upgrade-rebate {
+  width: 100%;
+  margin-top: 0;
+}
+
+:is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action-arrow {
   font-size: 1.15em;
   line-height: 1;
 }
@@ -680,6 +701,68 @@
   outline-offset: 1px;
 }
 
+@media (min-width: 769px) {
+  .dpaam-account-modal .dpaam-plan-panel--offer-starter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--dpaam-pad-md);
+    align-items: start;
+    min-height: auto;
+    padding: var(--dpaam-pad-lg);
+  }
+
+  .dpaam-account-modal
+    .dpaam-plan-panel--offer-starter
+    .dpaam-plan-panel__hero {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    align-self: start;
+    justify-self: end;
+    margin: 0;
+  }
+
+  .dpaam-account-modal .dpaam-plan-panel__summary-pill {
+    padding: 5px var(--dpaam-pad-md) 3px;
+    font-size: var(--dpaam-text-sm);
+  }
+
+  .dpaam-account-modal
+    .dpaam-plan-panel--offer-starter
+    .dpaam-plan-panel__body {
+    display: contents;
+  }
+
+  .dpaam-account-modal
+    .dpaam-plan-panel--offer-starter
+    .dpaam-plan-panel__pricing {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    margin-top: 0;
+  }
+
+  .dpaam-account-modal
+    .dpaam-plan-panel--offer-starter
+    .dpaam-plan-panel__price {
+    font-size: var(--dpaam-text-xl);
+  }
+
+  .dpaam-account-modal
+    .dpaam-plan-panel--offer-starter
+    .dpaam-plan-panel__features {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: var(--dpaam-pad-md);
+  }
+
+  .dpaam-account-modal .dpaam-plan-panel__features-list li {
+    font-size: var(--dpaam-text-xs);
+  }
+}
+
 /* --- Responsive --- */
 
 @media (max-width: 768px) {
@@ -696,7 +779,7 @@
     gap: var(--dpaam-pad-md);
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -709,12 +792,12 @@
     --dpaam-auth-card-pad-x: var(--dpaam-pad-md);
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited {
     padding: var(--dpaam-pad-lg);
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__hero,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__hero {
     grid-column: 2;
     grid-row: 1;
@@ -726,17 +809,17 @@
     margin: 0;
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel__summary-pill {
-    padding: 4px var(--dpaam-pad-sm) 2px;
-    font-size: var(--dpaam-text-xs);
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel__summary-pill {
+    padding: 5px var(--dpaam-pad-md) 3px;
+    font-size: var(--dpaam-text-sm);
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__body,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__body,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__body {
     display: contents;
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__pricing,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__pricing,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__pricing {
     grid-column: 1;
     grid-row: 1;
@@ -744,12 +827,12 @@
     margin-top: 0;
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__price {
     font-size: var(--dpaam-text-xl);
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features,
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__features {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -765,19 +848,10 @@
     grid-row: 3;
   }
 
-  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action {
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__action {
     margin-top: var(--dpaam-pad-lg);
   }
 
-  .dpaam-auth-offer .dpaam-upgrade-rebate {
-    grid-column: 1 / -1;
-  }
-
-  .dpaam-auth.dpaam-auth--offer .dpaam-auth-main {
-    justify-content: flex-start;
-    padding-top: var(--dpaam-pad-xl);
-    padding-bottom: calc(var(--dpaam-pad-xl) + env(safe-area-inset-bottom, 0px) + 4.5rem);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
