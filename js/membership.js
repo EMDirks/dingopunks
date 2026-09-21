@@ -1869,7 +1869,11 @@ function applyPurchaseCredit(button) {
 
 async function startCheckout(button) {
   const panel = button.closest(".dpaam-plan-panel");
-  const parsed = readRebateFromPanel(panel);
+  const rebateScope =
+    button.closest(".dpaam-all-access-offer") ??
+    (isAuthOfferViewVisible() ? document.getElementById("dpaam-auth-offer-rebate") : null) ??
+    panel;
+  const parsed = readRebateFromPanel(rebateScope);
   if (parsed.error) {
     showToast(parsed.error);
     return;
