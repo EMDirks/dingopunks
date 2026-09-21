@@ -1742,6 +1742,14 @@ a.dpaam-topbar-btn {
   width: min(620px, calc(100vw - 32px));
 }
 
+.dpaam-modal.dpaam-rebate-modal {
+  min-height: 0;
+}
+
+.dpaam-rebate-modal .dpaam-btn-activate {
+  background: var(--dpaam-teal-accessible);
+}
+
 .dpaam-upgrade-modal .dpaam-plan-panel,
 .dpaam-account-modal .dpaam-plan-panel--unlimited,
 #dpaam-member-only-modal .dpaam-plan-panel--unlimited {
@@ -2192,6 +2200,94 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   box-sizing: border-box;
   width: 100%;
   margin-top: var(--dpaam-pad-xl);
+}
+
+.dpaam-upgrade-rebate__prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 0.35em;
+  margin: 0;
+  text-align: center;
+  font-size: var(--dpaam-text-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--dpaam-black-muted);
+}
+
+.dpaam-upgrade-rebate__open {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--dpaam-teal-accessible);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.dpaam-upgrade-rebate__open:focus-visible {
+  outline: 2px solid var(--dpaam-teal-accessible);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.dpaam-upgrade-rebate--modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-lg);
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-md);
+  margin: 0;
+  font-size: var(--dpaam-text-sm);
+  line-height: 1.45;
+  color: var(--dpaam-black);
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-lead {
+  margin: 0;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-list {
+  margin: 0;
+  padding-left: 1.15em;
+  list-style: disc;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-list li {
+  margin: 0;
+  padding-left: 0.15em;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-list li + li {
+  margin-top: var(--dpaam-pad-sm);
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-label {
+  font-weight: 600;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__hint-list a {
+  font-weight: 600;
+  color: var(--dpaam-teal-accessible);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__field {
+  width: 100%;
+}
+
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__status {
+  margin-top: 0;
 }
 
 .dpaam-upgrade-rebate__summary {

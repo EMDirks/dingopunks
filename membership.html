@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>All-Access | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.127" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.127" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.128" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.128" />
 </head>
 <body>
   <div class="dpaam">
@@ -464,11 +464,13 @@
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-account-btn"
         >Account</button>
-        <button
-          type="button"
+        <a
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn"
-        >Help</button>
+          href="https://dingopunks.com/pages/contact"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Help</a>
         <div
           class="dpaam-topbar-upgrade"
           data-action="upgrade-all-access"
@@ -550,17 +552,19 @@
           <span class="dpaam-mobile-menu-btn-label">Account</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </button>
-        <button
-          type="button"
+        <a
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn-mobile"
+          href="https://dingopunks.com/pages/contact"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
             <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-help.png" alt="" />
           </div>
           <span class="dpaam-mobile-menu-btn-label">Help</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-        </button>
+        </a>
       </nav>
     </header>
     <button
@@ -777,8 +781,6 @@
       </section>
     </main>
 
-    <div id="dpaam-modal-backdrop" class="dpaam-modal-backdrop" hidden aria-hidden="true"></div>
-
     <!-- Detail modal -->
     <dialog class="dpaam-modal" id="dpaam-modal" aria-labelledby="dpaam-modal-title">
       <form method="dialog" class="dpaam-modal-form">
@@ -943,6 +945,75 @@
     </div>
   </div>
 
+  <div id="dpaam-modal-backdrop" class="dpaam dpaam-modal-backdrop" hidden aria-hidden="true"></div>
+
+  <!-- Purchase credit (rebate) modal is global so auth and dashboard offers can open it. -->
+  <dialog
+    class="dpaam dpaam-modal dpaam-modal--compact dpaam-rebate-modal"
+    id="dpaam-rebate-modal"
+    aria-labelledby="dpaam-rebate-modal-title"
+  >
+    <form method="dialog" class="dpaam-modal-form">
+      <header class="dpaam-modal-header dpaam-modal-header--with-back">
+        <button
+          type="button"
+          class="dpaam-modal-back"
+          id="dpaam-rebate-modal-back"
+          aria-label="Back"
+        >
+          ←
+        </button>
+        <h3 class="dpaam-modal-title" id="dpaam-rebate-modal-title">Apply Purchase Credit</h3>
+        <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+      </header>
+      <div class="dpaam-modal-body">
+        <div class="dpaam-upgrade-rebate dpaam-upgrade-rebate--modal">
+          <div class="dpaam-upgrade-rebate__hint">
+            <p class="dpaam-upgrade-rebate__hint-lead">
+              If you already purchased an escape room from us, you can enter your order number
+              for $8.99 off your first year of All-Access!
+            </p>
+            <ul class="dpaam-upgrade-rebate__hint-list">
+              <li>
+                <span class="dpaam-upgrade-rebate__hint-label">Bought on dingopunks.com?</span>
+                Your order number is in the email &ldquo;Your Dingo Punks Receipt.&rdquo; It should be 4 or 5 digits.
+              </li>
+              <li>
+                <span class="dpaam-upgrade-rebate__hint-label">Bought on TPT:</span>
+                Your order number can be found by clicking
+                <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank" rel="noopener noreferrer">My Purchases</a>
+                then &ldquo;View Receipt.&rdquo; It should be 9 digits.
+              </li>
+            </ul>
+          </div>
+          <label class="dpaam-upgrade-rebate__field">
+            <span class="dpaam-visually-hidden">Order number</span>
+            <input
+              type="text"
+              class="dpaam-auth-input"
+              id="dpaam-rebate-order-input"
+              data-rebate-order
+              placeholder="Order number"
+              aria-label="Order number"
+              inputmode="numeric"
+              autocomplete="off"
+            />
+          </label>
+          <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      <footer class="dpaam-modal-footer">
+        <button
+          type="button"
+          class="dpaam-btn dpaam-btn-activate"
+          data-action="apply-purchase-credit"
+        >
+          Apply $8.99 credit
+        </button>
+      </footer>
+    </form>
+  </dialog>
+
   <div id="dpaam-toast" class="dpaam" popover="manual" role="status" aria-live="polite"></div>
 
   <div class="dpaam-debug-view" id="dpaam-debug-view" hidden>
@@ -1051,6 +1122,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.127"></script>
+  <script type="module" src="js/membership.js?version=3.4.128"></script>
 </body>
 </html>

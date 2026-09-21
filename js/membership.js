@@ -38,7 +38,6 @@ import {
   animateStandardsBodyResize,
   populateModalStandards,
   selectModalStandardsGroup,
-  setCollapsiblePanelOpen,
   setStandardsModalGameId,
 } from "./membership/standards.js";
 import { initDebugView } from "./membership/debug.js";
@@ -815,6 +814,7 @@ let modalGameId = null;
 let modalContext = "library"; // "library" | "favorites" | "active"
 let pendingModalOpen = null;
 let themeModalReturn = null;
+let rebateModalReturn = null;
 let memberOnlyGameId = null;
 
 function queueModalOpen(openFn) {
@@ -843,6 +843,7 @@ const DPAAM_MODALS = [
   els.shareCodeLimitModal,
   els.memberOnlyModal,
   els.upgradeModal,
+  els.rebateModal,
   els.accountModal,
 ];
 
@@ -936,6 +937,7 @@ function closeOtherModals(keep) {
   for (const m of DPAAM_MODALS) {
     if (!m || m === keep || !m.open) continue;
     if (m === els.themeModal) themeModalReturn = null;
+    if (m === els.rebateModal) rebateModalReturn = null;
     m.classList.remove("is-closing");
     if (typeof m.close === "function") m.close();
     else m.removeAttribute("open");
@@ -980,11 +982,6 @@ function normalizeClientRebate(orderRaw) {
     return { error: "Invalid order number." };
   }
   return { rebate: { platform, orderNumber } };
-}
-
-function readRebateFromPanel(panel) {
-  const orderEl = panel?.querySelector("[data-rebate-order]");
-  return normalizeClientRebate(orderEl?.value ?? "");
 }
 
 function freeGamesCount() {
@@ -1109,37 +1106,12 @@ function memberPlanPricingHtml(billingProfile) {
 function upgradeRebateFieldsHtml() {
   return `
     <div class="dpaam-upgrade-rebate">
-      <button
-        type="button"
-        class="dpaam-upgrade-rebate__summary"
-        data-action="toggle-upgrade-rebate"
-        aria-expanded="false"
-      >
-        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span> <span class="dpaam-upgrade-rebate__summary-link">Apply your $8.99 purchase toward All-Access.</span>
-      </button>
-      <div class="dpaam-modal-standards-panel" inert>
-        <div class="dpaam-modal-standards-body">
-          <div class="dpaam-modal-standards-inner dpaam-upgrade-rebate__content">
-            <p class="dpaam-upgrade-rebate__hint">Enter your order number for $8.99 off your first year of All-Access. For purchases made on dingopunks.com, your order number is in the email titled "Your Dingo Punks Receipt." For TPT, open <a href="https://www.teacherspayteachers.com/My-Purchases" target="_blank">My Purchases</a> and click "View Receipt."</p>
-            <div class="dpaam-upgrade-rebate__row">
-              <label class="dpaam-upgrade-rebate__field">
-                <span class="dpaam-visually-hidden">Order number</span>
-                <input
-                  type="text"
-                  class="dpaam-auth-input"
-                  data-rebate-order
-                  placeholder="Order number"
-                  aria-label="Order number"
-                  inputmode="numeric"
-                  autocomplete="off"
-                />
-              </label>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary dpaam-upgrade-rebate__apply" data-action="apply-purchase-credit">Apply your $8.99 purchase</button>
-            </div>
-            <p class="dpaam-upgrade-rebate__status" data-rebate-status role="status" aria-live="polite"></p>
-          </div>
-        </div>
-      </div>
+      <p class="dpaam-upgrade-rebate__prompt">
+        <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span>
+        <button type="button" class="dpaam-upgrade-rebate__open" data-action="open-upgrade-rebate">
+          Get $8.99 credit toward All-Access.
+        </button>
+      </p>
     </div>`;
 }
 
@@ -1292,21 +1264,58 @@ function renderAccountPlanPanel() {
   applyAccountPlanPanelContent();
 }
 
-function setUpgradeRebateOpen(wrap, open, { animate = true } = {}) {
-  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
-  const summary = wrap?.querySelector(".dpaam-upgrade-rebate__summary");
-  setCollapsiblePanelOpen(panel, open, { animate });
-  summary?.setAttribute("aria-expanded", open ? "true" : "false");
-  wrap?.classList.toggle("dpaam-upgrade-rebate--open", open);
+function resetRebateModalForm() {
+  const status = els.rebateModal?.querySelector("[data-rebate-status]");
+  if (els.rebateOrderInput) {
+    els.rebateOrderInput.value = "";
+  }
+  if (status) {
+    status.textContent = "";
+    status.classList.remove("dpaam-upgrade-rebate__status--error");
+  }
 }
 
-function toggleUpgradeRebate(btn) {
-  const wrap = btn.closest(".dpaam-upgrade-rebate");
-  const panel = wrap?.querySelector(".dpaam-modal-standards-panel");
-  if (!wrap || !panel) return;
+function rebateHostModal() {
+  return [els.accountModal, els.upgradeModal, els.memberOnlyModal].find((m) => m?.open) ?? null;
+}
 
-  const isOpen = panel.classList.contains("dpaam-modal-standards-panel--open");
-  setUpgradeRebateOpen(wrap, !isOpen);
+function setRebateModalBackVisible(show) {
+  if (els.rebateModalBack) {
+    els.rebateModalBack.hidden = !show;
+  }
+  const header = els.rebateModal?.querySelector(".dpaam-modal-header");
+  header?.classList.toggle("dpaam-modal-header--with-back", show);
+}
+
+function openRebateModal() {
+  if (!els.rebateModal) return;
+  resetRebateModalForm();
+  const focusRebateInput = () => {
+    els.rebateOrderInput?.focus();
+  };
+  const host = rebateHostModal();
+  setRebateModalBackVisible(Boolean(host));
+  if (host) {
+    rebateModalReturn = host;
+    transitionToModal(host, () => {
+      showExclusiveModal(els.rebateModal);
+      focusRebateInput();
+    });
+    return;
+  }
+  rebateModalReturn = null;
+  showExclusiveModal(els.rebateModal);
+  focusRebateInput();
+}
+
+function returnFromRebateModal() {
+  if (rebateModalReturn) {
+    const returnTo = rebateModalReturn;
+    rebateModalReturn = null;
+    transitionToModal(els.rebateModal, () => showExclusiveModal(returnTo));
+    return;
+  }
+  closeAnimatedModal(els.rebateModal);
 }
 
 function openUpgradeModal() {
@@ -1863,21 +1872,7 @@ function checkoutErrorMessage(error) {
   return "Couldn't start checkout. Try again.";
 }
 
-function rebateScopeForButton(button) {
-  return (
-    button.closest(".dpaam-all-access-offer") ??
-    (isAuthOfferViewVisible() ? document.getElementById("dpaam-auth-offer-rebate") : null) ??
-    button.closest(".dpaam-plan-panel")
-  );
-}
-
-async function beginCheckout(triggerButton, rebateScope) {
-  const parsed = readRebateFromPanel(rebateScope);
-  if (parsed.error) {
-    showToast(parsed.error);
-    return;
-  }
-
+async function beginCheckout(triggerButton, rebate = null) {
   if (isAuthOfferViewVisible()) {
     markAuthOfferStepComplete(auth.currentUser?.uid);
   }
@@ -1885,9 +1880,9 @@ async function beginCheckout(triggerButton, rebateScope) {
   setButtonLoading(triggerButton, true, "Redirecting…", { useHtml: true });
   try {
     const payload = { returnOrigin: window.location.origin };
-    if (parsed.rebate) {
-      payload.rebatePlatform = parsed.rebate.platform;
-      payload.rebateOrderNumber = parsed.rebate.orderNumber;
+    if (rebate) {
+      payload.rebatePlatform = rebate.platform;
+      payload.rebateOrderNumber = rebate.orderNumber;
     }
     const result = await createCheckoutSession(payload);
     const checkoutUrl = result.data?.url;
@@ -1903,9 +1898,8 @@ async function beginCheckout(triggerButton, rebateScope) {
 }
 
 async function applyPurchaseCredit(button) {
-  const rebate = button.closest(".dpaam-upgrade-rebate");
-  const status = rebate?.querySelector("[data-rebate-status]");
-  const parsed = readRebateFromPanel(rebate);
+  const status = els.rebateModal?.querySelector("[data-rebate-status]");
+  const parsed = normalizeClientRebate(els.rebateOrderInput?.value ?? "");
   if (parsed.error || !parsed.rebate) {
     const message = parsed.error ?? "Enter an order number.";
     if (status) {
@@ -1920,12 +1914,11 @@ async function applyPurchaseCredit(button) {
     status.classList.remove("dpaam-upgrade-rebate__status--error");
   }
 
-  const scope = rebateScopeForButton(button) ?? rebate;
-  await beginCheckout(button, scope);
+  await beginCheckout(button, parsed.rebate);
 }
 
 async function startCheckout(button) {
-  await beginCheckout(button, rebateScopeForButton(button));
+  await beginCheckout(button);
 }
 
 async function openBillingPortal(button) {
@@ -2250,8 +2243,16 @@ function wireEvents() {
     returnFromThemeModal();
   });
 
-  wireAnimatedModal(els.memberOnlyModal);
-  wireAnimatedModal(els.upgradeModal);
+  wireAnimatedModal(els.rebateModal, () => {
+    runPendingModalOpen();
+    if (!pendingModalOpen) rebateModalReturn = null;
+  });
+  els.rebateModalBack?.addEventListener("click", () => {
+    returnFromRebateModal();
+  });
+
+  wireAnimatedModal(els.memberOnlyModal, runPendingModalOpen);
+  wireAnimatedModal(els.upgradeModal, runPendingModalOpen);
 
   wireAnimatedModal(els.shareCodeLimitModal);
   els.shareCodeLimitViewActive?.addEventListener("click", () => {
@@ -2277,7 +2278,7 @@ function wireEvents() {
   });
 
   // My Account modal
-  wireAnimatedModal(els.accountModal);
+  wireAnimatedModal(els.accountModal, runPendingModalOpen);
   els.accountBtn?.addEventListener("click", () => {
     openAccountModal();
   });
@@ -2293,9 +2294,9 @@ function wireEvents() {
   });
 
   document.addEventListener("click", (e) => {
-    const rebateToggle = e.target.closest("[data-action='toggle-upgrade-rebate']");
-    if (rebateToggle) {
-      toggleUpgradeRebate(rebateToggle);
+    const rebateOpen = e.target.closest("[data-action='open-upgrade-rebate']");
+    if (rebateOpen) {
+      openRebateModal();
       return;
     }
 
@@ -2332,8 +2333,7 @@ function wireEvents() {
 
   document.addEventListener("input", (e) => {
     if (!e.target.matches("[data-rebate-order]")) return;
-    const rebate = e.target.closest(".dpaam-upgrade-rebate");
-    const status = rebate?.querySelector("[data-rebate-status]");
+    const status = els.rebateModal?.querySelector("[data-rebate-status]");
     if (status) {
       status.textContent = "";
       status.classList.remove("dpaam-upgrade-rebate__status--error");

@@ -704,8 +704,7 @@
   border-bottom: 3px solid var(--dpaam-black);
 }
 
-.dpaam-auth-offer .dpaam-upgrade-rebate__summary {
-  text-align: center;
+.dpaam-auth-offer .dpaam-upgrade-rebate__prompt {
   justify-content: center;
 }
 
