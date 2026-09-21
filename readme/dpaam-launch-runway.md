@@ -22,7 +22,7 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 
 ## Shopify changes
 - [ ] **Add account button to header**
-- [ ] **Wire signup 
+- [ ] **Wire in new ToS and PP**
 
 ## Current P0 blockers
 

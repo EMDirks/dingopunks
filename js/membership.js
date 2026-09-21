@@ -1016,9 +1016,17 @@ function starterPlanFeaturesHtml() {
     </div>`;
 }
 
-function starterOfferPlanPanelHtml({ cta = "select", showYourPlanUnit = false } = {}) {
+function starterOfferPlanPanelHtml({
+  cta = "select",
+  showYourPlanUnit = false,
+  priceText = "Free",
+  showBillingLine = true,
+} = {}) {
   const yourPlanUnitHtml = showYourPlanUnit
     ? `<span class="dpaam-plan-price-unit">(<strong>Your Plan</strong>)</span>`
+    : "";
+  const billingHtml = showBillingLine
+    ? `<p class="dpaam-plan-panel__billing">always & forever</p>`
     : "";
   const actionHtml =
     cta === "none"
@@ -1040,8 +1048,8 @@ function starterOfferPlanPanelHtml({ cta = "select", showYourPlanUnit = false } 
       </div>
       <div class="dpaam-plan-panel__body">
         <div class="dpaam-plan-panel__pricing">
-          <p class="dpaam-plan-panel__price">Free${yourPlanUnitHtml}</p>
-          <p class="dpaam-plan-panel__billing">always & forever</p>
+          <p class="dpaam-plan-panel__price">${escapeHtml(priceText)}${yourPlanUnitHtml}</p>
+          ${billingHtml}
         </div>
         ${starterPlanFeaturesHtml()}
       </div>
@@ -1054,7 +1062,11 @@ function authOfferFreePlanPanelHtml() {
 }
 
 function accountStarterPlanPanelHtml() {
-  return starterOfferPlanPanelHtml({ cta: "none", showYourPlanUnit: true });
+  return starterOfferPlanPanelHtml({
+    cta: "none",
+    priceText: "Your plan",
+    showBillingLine: false,
+  });
 }
 
 function allAccessPlanFeaturesHtml() {

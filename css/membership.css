@@ -1640,6 +1640,7 @@ a.dpaam-topbar-btn {
   flex-direction: column;
   max-height: calc(100vh - 64px);
   max-height: calc(100dvh - 64px);
+  min-height: 0;
 }
 
 .dpaam-modal-header {
@@ -1650,6 +1651,7 @@ a.dpaam-topbar-btn {
   padding: var(--dpaam-pad-xl) var(--dpaam-pad-xl) 0 var(--dpaam-pad-xl);
   background: var(--dpaam-white);
   position: relative;
+  flex-shrink: 0;
 }
 
 .dpaam-modal-header--with-back {
@@ -1713,14 +1715,16 @@ a.dpaam-topbar-btn {
 .dpaam-modal-body {
   margin: 0;
   padding: 26px var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--dpaam-pad-xl);
   align-items: flex-start;
+  overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dpaam-modal--compact {
@@ -1747,24 +1751,21 @@ a.dpaam-topbar-btn {
 
 .dpaam-upgrade-modal,
 #dpaam-member-only-modal {
-  overflow: hidden;
   padding: 0;
-  max-height: none;
 }
 
 .dpaam-upgrade-modal .dpaam-modal-form,
 #dpaam-member-only-modal .dpaam-modal-form {
-  overflow: hidden;
-  max-height: none;
-  flex: 0 0 auto;
+  min-height: 0;
 }
 
 .dpaam-upgrade-modal .dpaam-modal-body,
 #dpaam-member-only-modal .dpaam-modal-body {
-  overflow: hidden;
-  overflow-y: hidden;
-  flex: 0 0 auto;
-  min-height: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Keep the logo inside the panel in modals so content height stays predictable. */
@@ -2079,7 +2080,9 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
   font-weight: 700;
 }
 
-.dpaam-plan-panel--offer-starter .dpaam-plan-panel__features-list li::before {
+:is(.dpaam-plan-panel--offer-starter, .dpaam-plan-panel--unlimited)
+  .dpaam-plan-panel__features-list
+  li::before {
   content: "★";
   top: 0.15em;
   width: auto;
@@ -2089,6 +2092,9 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
   box-shadow: none;
   font-size: 0.85rem;
   line-height: 1;
+}
+
+.dpaam-plan-panel--offer-starter .dpaam-plan-panel__features-list li::before {
   color: var(--dpaam-black-muted);
 }
 
@@ -2151,16 +2157,15 @@ button.dpaam-plan-panel--unlimited.dpaam-plan-panel--interactive {
 }
 
 .dpaam-plan-panel--unlimited .dpaam-plan-panel__features-list li::before {
-  content: "★";
-  top: 0.15em;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  font-size: 0.85rem;
-  line-height: 1;
   color: var(--dpaam-unlimited-accent);
+}
+
+@media (min-width: 769px) {
+  :is(.dpaam-plan-panel--offer-starter, .dpaam-plan-panel--unlimited)
+    .dpaam-plan-panel__features-list
+    li::before {
+    top: calc(0.15em - 1px);
+  }
 }
 
 button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
@@ -2302,14 +2307,6 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   color: var(--dpaam-black);
   font-weight: 500;
   border-radius: var(--dpaam-radius-sm);
-}
-
-@media (hover: hover) {
-  .dpaam-upgrade-rebate__apply:hover {
-    filter: none;
-    background: var(--dpaam-light-gray);
-    border-color: var(--dpaam-black-muted);
-  }
 }
 
 .dpaam-upgrade-rebate__status {
@@ -2737,6 +2734,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   justify-content: flex-end;
   gap: var(--dpaam-pad-sm);
   padding: 0 var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
+  flex-shrink: 0;
 }
 
 #dpaam-modal-add:has(.dpaam-share-locked-icon) {
@@ -2849,7 +2847,9 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   gap: 0;
   padding: var(--dpaam-pad-lg) var(--dpaam-pad-xl) var(--dpaam-pad-xl) var(--dpaam-pad-xl);
   align-items: stretch;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transition: height 0.2s ease;
 }
 
@@ -2894,7 +2894,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 .dpaam-account-row {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .dpaam-account-row--action {
@@ -2923,8 +2923,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: var(--dpaam-pad-xs);
-  margin-top: var(--dpaam-pad-xs);
+  margin-top: 0;
+  flex-shrink: 0;
 }
 
 .dpaam-account-inline-actions__sep {
@@ -2932,7 +2934,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   font-size: var(--dpaam-text-sm);
   line-height: 1;
   user-select: none;
-  padding: 0 var(--dpaam-pad-sm);
+  padding: 0 2px;
 }
 
 .dpaam-account-inline-actions:has(#dpaam-account-send-reset[hidden]) .dpaam-account-inline-actions__sep {
@@ -2961,8 +2963,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--dpaam-pad-xs);
+  text-align: center;
 }
 
 .dpaam-account-label {
@@ -2977,6 +2981,16 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   font-size: var(--dpaam-text-ui);
   font-weight: 500;
   word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 769px) {
+  .dpaam-account-credentials .dpaam-account-link,
+  .dpaam-account-credentials .dpaam-account-inline-actions__sep {
+    font-size: var(--dpaam-text-xs);
+  }
 }
 
 .dpaam-btn.is-loading {
@@ -3385,6 +3399,7 @@ dd a {
   .dpaam-modal-form {
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
+    min-height: 0;
   }
 
   .dpaam-upgrade-modal,
@@ -3392,22 +3407,6 @@ dd a {
   .dpaam-modal.dpaam-all-access-paywall-modal {
     --dpaam-all-access-paywall-modal-width: min(620px, calc(100vw - 24px));
     width: var(--dpaam-all-access-paywall-modal-width);
-    max-height: none;
-    overflow: hidden;
-  }
-
-  .dpaam-upgrade-modal .dpaam-modal-form,
-  #dpaam-member-only-modal .dpaam-modal-form {
-    max-height: none;
-    overflow: hidden;
-  }
-
-  .dpaam-upgrade-modal .dpaam-modal-body,
-  #dpaam-member-only-modal .dpaam-modal-body {
-    overflow: hidden;
-    overflow-y: hidden;
-    flex: 0 0 auto;
-    min-height: auto;
   }
 
   /* All modal All-Access panels use the auth-offer card treatment on mobile. */
@@ -3491,14 +3490,20 @@ dd a {
   }
 
   .dpaam-modal-header {
-    min-height: 56px;
     padding: calc(var(--dpaam-pad-md) + 4px) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad);
+  }
+
+  .dpaam-modal:not(.dpaam-account-modal) .dpaam-modal-header {
+    min-height: 56px;
   }
 
   .dpaam-modal-body {
     flex-direction: column;
     padding: 0 var(--dpaam-pad) var(--dpaam-pad);
     gap: var(--dpaam-pad);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   :is(.dpaam-upgrade-modal, .dpaam-account-modal, #dpaam-member-only-modal)
@@ -3589,9 +3594,13 @@ dd a {
 
   /* --- Account modal --- */
 
+  .dpaam-account-modal .dpaam-modal-header {
+    padding-bottom: 0;
+  }
+
   .dpaam-account-body {
     gap: var(--dpaam-pad-lg);
-    padding-top: var(--dpaam-pad-lg);
+    padding-top: var(--dpaam-pad-sm);
   }
 
   .dpaam-account-body-inner {
@@ -3612,6 +3621,11 @@ dd a {
     margin-top: 0;
   }
 
+  .dpaam-account-credentials .dpaam-account-link,
+  .dpaam-account-credentials .dpaam-account-inline-actions__sep {
+    font-size: var(--dpaam-text-xs);
+  }
+
   .dpaam-account-row:not(.dpaam-account-row--actions) {
     flex-direction: column;
     align-items: stretch;
@@ -3629,6 +3643,22 @@ dd a {
   }
 
   /* --- Plan panels (account modal + info/paywall modal) --- */
+
+  .dpaam-account-plan-section {
+    gap: var(--dpaam-pad-md);
+  }
+
+  :is(.dpaam-plan-panel--offer-starter, .dpaam-plan-panel--unlimited)
+    .dpaam-plan-panel__features-list
+    li::before {
+    font-size: 0.65rem;
+  }
+
+  :is(.dpaam-plan-panel--offer-starter, .dpaam-plan-panel--unlimited)
+    .dpaam-plan-panel__features-list
+    li {
+    padding-left: calc(var(--dpaam-pad) + var(--dpaam-pad-xs) - 4px);
+  }
 
   .dpaam-plan-status {
     padding: var(--dpaam-pad-lg);

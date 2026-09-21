@@ -453,11 +453,11 @@
 /* --- Auth offer loading skeleton --- */
 
 .dpaam-auth-offer-skeleton-panel {
+  --dpaam-plan-panel-price-size: clamp(2.5rem, 9vw, 3.375rem);
   display: flex;
   flex-direction: column;
-  gap: var(--dpaam-pad-md);
-  min-height: 280px;
-  padding: var(--dpaam-pad-lg);
+  min-height: 100%;
+  padding: var(--dpaam-pad-xl);
   border: 1px solid var(--dpaam-border);
   border-radius: var(--dpaam-radius-xl);
   background: var(--dpaam-white);
@@ -465,24 +465,57 @@
 }
 
 .dpaam-auth-offer-skeleton-panel--paid {
-  background: var(--dpaam-light-gray);
+  background: var(--dpaam-white);
 }
 
 .dpaam-auth-offer-skeleton-pill {
-  width: min(120px, 55%);
-  height: 28px;
+  width: min(123px, 55%);
+  height: calc(var(--dpaam-text-md) + 9px);
+  margin-bottom: var(--dpaam-pad-lg);
   border-radius: var(--dpaam-radius-pill);
+  flex-shrink: 0;
+}
+
+.dpaam-auth-offer-skeleton-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-xs);
+  flex-shrink: 0;
+  margin-top: var(--dpaam-pad-sm);
 }
 
 .dpaam-auth-offer-skeleton-price {
-  width: min(160px, 70%);
-  height: 36px;
+  width: min(10rem, 70%);
+  height: calc(var(--dpaam-plan-panel-price-size) * 1.05 - var(--dpaam-pad-xs));
   border-radius: var(--dpaam-radius);
+}
+
+.dpaam-auth-offer-skeleton-panel--paid .dpaam-auth-offer-skeleton-price {
+  width: min(12.5rem, 80%);
+}
+
+.dpaam-auth-offer-skeleton-billing {
+  width: min(7.5rem, 55%);
+  height: calc(var(--dpaam-text-xs) * 1.45);
+  border-radius: var(--dpaam-radius-pill);
+}
+
+.dpaam-auth-offer-skeleton-panel--paid .dpaam-auth-offer-skeleton-billing {
+  width: min(14rem, 80%);
+}
+
+.dpaam-auth-offer-skeleton-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-sm);
+  margin-top: calc(var(--dpaam-pad-md) * 2);
+  margin-bottom: var(--dpaam-pad-lg);
+  flex: 1 1 auto;
 }
 
 .dpaam-auth-offer-skeleton-line {
   width: 100%;
-  height: 14px;
+  height: calc(var(--dpaam-text-sm) * 1.4);
   border-radius: var(--dpaam-radius-pill);
 }
 
@@ -492,9 +525,23 @@
 
 .dpaam-auth-offer-skeleton-btn {
   width: 100%;
-  height: var(--dpaam-pair-btn-h);
+  height: calc(var(--dpaam-pad-md) + 13px + var(--dpaam-text-md) * 1.67);
   margin-top: auto;
+  flex-shrink: 0;
   border-radius: var(--dpaam-radius-lg);
+}
+
+.dpaam-auth-offer-skeleton-rebate {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--dpaam-pad-xl);
+}
+
+.dpaam-auth-offer-skeleton-rebate-line {
+  width: min(32rem, 90%);
+  height: calc(var(--dpaam-text-xs) * 1.4);
+  border-radius: var(--dpaam-radius-pill);
 }
 
 /* --- Auth offer (choose plan) --- */
@@ -597,6 +644,14 @@
   font-weight: 700;
   line-height: 1.05;
   color: var(--dpaam-black);
+}
+
+.dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
+  font-weight: 700;
+}
+
+.dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
+  margin-top: var(--dpaam-pad-sm);
 }
 
 .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-price-unit {
@@ -794,7 +849,7 @@
   .dpaam-account-modal
     .dpaam-plan-panel--offer-starter
     .dpaam-plan-panel__price {
-    font-size: var(--dpaam-text-xl);
+    font-size: var(--dpaam-text-lg);
   }
 
   .dpaam-account-modal
@@ -802,7 +857,6 @@
     .dpaam-plan-panel__features {
     grid-column: 1 / -1;
     grid-row: 2;
-    margin-top: var(--dpaam-pad-md);
   }
 
   .dpaam-account-modal .dpaam-plan-panel__features-list li {
@@ -823,11 +877,16 @@
 
   .dpaam-auth-offer-grid {
     grid-template-columns: 1fr;
-    gap: var(--dpaam-pad-md);
+    gap: var(--dpaam-pad-sm);
   }
 
   .dpaam-auth-offer-skeleton-panel {
     min-height: auto;
+    padding: var(--dpaam-pad-lg);
+  }
+
+  .dpaam-auth-offer-skeleton-price {
+    height: calc(var(--dpaam-text-xl) * 1.05 - var(--dpaam-pad-xs));
   }
 
   :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,
@@ -883,11 +942,21 @@
     font-size: var(--dpaam-text-xl);
   }
 
-  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features,
+  .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
+    font-size: var(--dpaam-text-lg);
+  }
+
+  .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__features {
     grid-column: 1 / -1;
     grid-row: 2;
     margin-top: var(--dpaam-pad-md);
+  }
+
+  .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: var(--dpaam-pad-xs);
   }
 
   .dpaam-auth-offer .dpaam-plan-panel__features-list li {
