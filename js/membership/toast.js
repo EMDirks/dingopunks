@@ -3,6 +3,8 @@ let toastTimer = null;
 const TOAST_DURATION_MIN_MS = 2500;
 const TOAST_DURATION_MAX_MS = 7000;
 const TOAST_MS_PER_WORD = 180;
+/** Display time is scaled down from the word-based estimate (50% of raw duration). */
+const TOAST_DURATION_FACTOR = 0.5;
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -11,11 +13,12 @@ function clamp(value, min, max) {
 function getToastDuration(message) {
   const text = typeof message === "string" ? message.trim() : "";
   const wordCount = text ? text.split(/\s+/).length : 0;
-  return clamp(
+  const raw = clamp(
     TOAST_DURATION_MIN_MS + wordCount * TOAST_MS_PER_WORD,
     TOAST_DURATION_MIN_MS,
     TOAST_DURATION_MAX_MS,
   );
+  return Math.round(raw * TOAST_DURATION_FACTOR);
 }
 
 function hideToast() {

@@ -23,14 +23,16 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 ## Shopify changes
 - [ ] **Add account button to header**
 - [ ] **Wire in new ToS and PP**
+- [ ] **Add a help doc/FAQ**
+- [ ] **config the alphabetic keyboard**
 
 ## Current P0 blockers
 
 - [X] **Remove the beta signup gate for public registration.** Remove the beta-code field and frontend authorization call, disable the backend pre-create approval requirement, deploy both pieces, and prove a brand-new email and Google user can register without a code.
 - [X] **Add touch-device membership-code entry.** A student must be able to type all allowed letters and digits on iPad, Chromebook touch mode, and phone; direct links must continue to work.
 - [X] **Replace the placeholder legal links.** Both sign-in and signup currently link Terms and Privacy Policy to `#`. Use published, mobile-readable pages.
-- [ ] **Lock the refund policy and entitlement behavior.** Policy: full refunds and chargebacks revoke All-Access immediately. The webhook handles `charge.refunded` (full only) and `charge.dispute.created` by canceling the Stripe subscription immediately and writing `plan: free, status: lapsed`. Verify by issuing a test-mode refund and confirming the account loses access within one webhook delivery.
-- [ ] **Set up subscription renewal notice email.** Subscribers receive email at least 30 days before an annual All-Access subscription renews, with correct branding, renewal date, and charge amount (Stripe customer emails, custom email, or equivalent).
+- [X] **Lock the refund policy and entitlement behavior.** Policy: full refunds and chargebacks revoke All-Access immediately. The webhook handles `charge.refunded` (full only) and `charge.dispute.created` by canceling the Stripe subscription immediately and writing `plan: free, status: lapsed`. Verify by issuing a test-mode refund and confirming the account loses access within one webhook delivery.
+- [X] **Set up subscription renewal notice email.** Subscribers receive email at least 30 days before an annual All-Access subscription renews, with correct branding, renewal date, and charge amount (Stripe customer emails, custom email, or equivalent).
 - [X] **Confirm the public route and acquisition path.** A customer can get from the public Dingo Punks site to `https://play.dingopunks.com/membership.html`, understand free versus paid access, create an account, and purchase without a hidden URL or beta instructions.
 
 ---

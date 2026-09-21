@@ -1476,8 +1476,8 @@ a.dpaam-topbar-btn {
   border: 0;
   box-sizing: border-box;
   transform: translateX(-50%) translateY(12px);
-  background: var(--dpaam-blue);
-  color: var(--dpaam-white);
+  background: var(--dpaam-light-gray);
+  color: var(--dpaam-black-muted);
   font-family: var(--dpaam-sans);
   font-size: var(--dpaam-text-ui);
   font-weight: 600;
