@@ -1,15 +1,10 @@
 import { logger } from "firebase-functions";
 import { HttpsError, onCall, onRequest } from "firebase-functions/v2/https";
-import { beforeUserCreated } from "firebase-functions/v2/identity";
 import { defineSecret, defineString } from "firebase-functions/params";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import Stripe from "stripe";
 
-import {
-  authorizeBetaSignup as authorizeBetaSignupImpl,
-  consumeBetaSignupApproval,
-} from "./beta-signup.js";
 import {
   createShareCode as createShareCodeImpl,
   cancelShareCode as cancelShareCodeImpl,
@@ -36,12 +31,6 @@ const stripeWebhookSecret = defineSecret("STRIPE_WEBHOOK_SECRET");
 const stripePriceId = defineString("STRIPE_PRICE_ID", {
   description: "Stripe Price ID for the All-Access yearly subscription (price_...)",
 });
-// Deploy-time config, not source: the repo's public mirror burned the original
-// hardcoded value. Lives in firebase-functions/.env.dpaam-8864d (gitignored).
-const betaAccessCode = defineString("BETA_ACCESS_CODE", {
-  description: "Access code required to create an account while the beta gate is up",
-});
-
 let cachedStripe = null;
 function stripeClient() {
   cachedStripe ??= new Stripe(stripeSecretKey.value());
@@ -93,25 +82,6 @@ export const ensureUserProfile = onCall({ invoker: "public" }, async (request) =
   });
 
   return { created };
-});
-
-export const authorizeBetaSignup = onCall(
-  { invoker: "public" },
-  async (request) => {
-    return authorizeBetaSignupImpl(
-      getFirestore(),
-      request.data?.email,
-      request.data?.accessCode,
-      {
-        expectedCode: betaAccessCode.value(),
-        clientIp: clientIpFromRequest(request.rawRequest),
-      },
-    );
-  },
-);
-
-export const enforceBetaSignupGate = beforeUserCreated(async (event) => {
-  await consumeBetaSignupApproval(getFirestore(), event.data?.email);
 });
 
 export const createShareCode = onCall({ invoker: "public" }, async (request) => {

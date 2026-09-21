@@ -2,7 +2,6 @@
 
 import {
   auth,
-  authorizeBetaSignup,
   createUserWithEmailAndPassword,
   ensureUserProfile,
   googleProvider,
@@ -86,19 +85,6 @@ export function authErrorMessage(error) {
     default:
       return "Something went wrong. Try again.";
   }
-}
-
-function betaSignupErrorMessage(error) {
-  if (error?.code === "functions/permission-denied") {
-    return "Invalid beta code.";
-  }
-  if (error?.code === "functions/invalid-argument") {
-    return "Enter valid email and beta code.";
-  }
-  if (error?.code === "auth/internal-error") {
-    return "For Google, use the email above.";
-  }
-  return authErrorMessage(error);
 }
 
 function isCancelledPopup(error) {
@@ -282,27 +268,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   const signUpForm = document.getElementById("dpaam-auth-signup-form");
   const signUpEmailInput = document.getElementById("dpaam-auth-signup-email");
-  const signUpAccessCodeInput = document.getElementById(
-    "dpaam-auth-signup-access-code",
-  );
-
-  function signupGateFieldsAreValid() {
-    for (const input of [signUpEmailInput, signUpAccessCodeInput]) {
-      if (!input?.checkValidity()) {
-        input?.reportValidity();
-        return false;
-      }
-    }
-    return true;
-  }
-
-  async function authorizeCurrentSignup() {
-    const email = signUpEmailInput.value.trim();
-    const accessCode = signUpAccessCodeInput.value.trim().toUpperCase();
-    signUpEmailInput.value = email;
-    signUpAccessCodeInput.value = accessCode;
-    await authorizeBetaSignup({ email, accessCode });
-  }
 
   signUpForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -315,14 +280,13 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     clearAuthMessages();
     setButtonLoading(submit, true, "Creating account…");
     try {
-      await authorizeCurrentSignup();
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
       await sendEmailVerification(credential.user);
       updateVerifyView(credential.user);
       setAuthView("verify");
       showAuthMessage("success", "Check email for verification.");
     } catch (error) {
-      showAuthMessage("error", betaSignupErrorMessage(error));
+      showAuthMessage("error", authErrorMessage(error));
     } finally {
       setButtonLoading(submit, false, "Creating account…");
     }
@@ -350,22 +314,14 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     }
   });
 
-  async function signInWithGoogle(button, { requiresBetaAccess = false } = {}) {
-    if (requiresBetaAccess && !signupGateFieldsAreValid()) return;
-
+  async function signInWithGoogle(button) {
     clearAuthMessages();
     setButtonLoading(button, true, "Opening Google…");
     try {
-      if (requiresBetaAccess) await authorizeCurrentSignup();
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       if (!isCancelledPopup(error)) {
-        showAuthMessage(
-          "error",
-          requiresBetaAccess
-            ? betaSignupErrorMessage(error)
-            : authErrorMessage(error),
-        );
+        showAuthMessage("error", authErrorMessage(error));
       }
     } finally {
       setButtonLoading(button, false, "Opening Google…");
@@ -376,9 +332,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   googleSignIn?.addEventListener("click", () => signInWithGoogle(googleSignIn));
 
   const googleSignUp = document.getElementById("dpaam-auth-google-signup");
-  googleSignUp?.addEventListener("click", () =>
-    signInWithGoogle(googleSignUp, { requiresBetaAccess: true }),
-  );
+  googleSignUp?.addEventListener("click", () => signInWithGoogle(googleSignUp));
 
   const verifyContinue = document.getElementById("dpaam-auth-verify-continue");
   verifyContinue?.addEventListener("click", async () => {

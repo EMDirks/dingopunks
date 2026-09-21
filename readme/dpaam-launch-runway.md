@@ -1,0 +1,354 @@
+# DPAAM Public Launch Runway
+
+Target: public paid launch of Dingo Punks All-Access as soon as every P0 gate below passes.
+
+Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree, launch uses:
+
+- $35.88/year, displayed as $2.99/month billed annually
+- Optional $8.99 first-year rebate
+- 8 free rooms
+- 5-character membership codes with at least one letter
+- 14-day code lifetime
+- 20 active codes per account
+
+## How to use this checklist
+
+- **P0** means launch-blocking. Do not launch with an unchecked P0 item.
+- **P1** means important but safe to complete immediately after launch.
+- Test the exact release commit. If code changes after a test pass, rerun the affected gate.
+- Attach evidence to failures and critical passes: date, tester, device/browser, account, screenshot or recording, and issue link.
+- Keep test accounts clearly labeled and remove their production share codes and rebate claims when testing is complete.
+- Final launch rule: all P0 items checked, no open critical/high defects, and one named person makes the go/no-go decision.
+
+## Current P0 blockers
+
+- [ ] **Remove the beta signup gate for public registration.** Remove the beta-code field and frontend authorization call, disable the backend pre-create approval requirement, deploy both pieces, and prove a brand-new email and Google user can register without a code.
+- [ ] **Add touch-device membership-code entry.** A student must be able to type all allowed letters and digits on iPad, Chromebook touch mode, and phone; direct links must continue to work.
+- [ ] **Replace the placeholder legal links.** Both sign-in and signup currently link Terms and Privacy Policy to `#`. Use published, mobile-readable pages.
+- [ ] **Lock the refund policy and entitlement behavior.** The current webhook handles subscription lifecycle events, not refunds. A refund by itself does not revoke access. Decide whether refunded users retain access through the canceled period or lose it immediately, then make the product, support policy, and test expectation match.
+- [ ] **Confirm the public route and acquisition path.** A customer can get from the public Dingo Punks site to `https://play.dingopunks.com/membership.html`, understand free versus paid access, create an account, and purchase without a hidden URL or beta instructions.
+
+---
+
+## Gate 1 — Release candidate and automated checks
+
+### Release control
+
+- [ ] **P0** Choose the release commit and record its SHA here: `________________`.
+- [ ] **P0** Working tree is clean; every intended launch change is committed.
+- [ ] **P0** Confirm the generated game catalog is current:
+
+  ```sh
+  node scripts/export-game-ids.mjs
+  git diff --exit-code -- firebase-functions/game-ids.json
+  ```
+
+- [ ] **P0** Confirm all catalog entries used by the membership library have a valid resource path, thumbnail, metadata, and server-exported game ID.
+- [ ] **P0** Freeze unrelated content and refactors until launch verification is complete.
+- [ ] **P0** Record the currently deployed Cloudflare Pages version and Firebase Functions revisions so rollback is possible.
+
+### Backend test suite
+
+- [ ] **P0** From the repo root, run:
+
+  ```sh
+  npm --prefix firebase-functions test
+  ```
+
+- [ ] **P0** All Firestore rules tests pass: own-profile reads, no profile enumeration, no client entitlement writes, bounded preferences, owner-only code queries, backend collections denied, unknown paths denied.
+- [ ] **P0** All share-code tests pass: free/paid entitlement, catalog validation, idempotency, expiry, 20-code cap, collisions, cancellation, and blocked/profane codes.
+- [ ] **P0** All public-resolution tests pass: format handling, generic not-found behavior, expiration, trusted client-IP extraction, IPv6 bucketing, and 30-per-10-minute limiting.
+- [ ] **P0** All beta/public-signup tests are updated for the public-launch behavior and pass after the beta gate is removed.
+- [ ] **P0** All Stripe tests pass: rebate validation and uniqueness, checkout rate limiting, duplicate-subscription prevention, portal creation, webhook ordering, cancellation, lapse, and safe error mapping.
+- [ ] **P0** Run `npm audit` in `firebase-functions`; triage every high or critical production dependency finding.
+- [ ] **P0** No secrets, live Stripe IDs, real customer data, or private access codes appear in tracked files or the browser bundle.
+
+### Frontend confidence
+
+There is currently no repository-owned browser E2E suite or CI workflow, so the manual gates below are required.
+
+- [ ] **P0** Load the release candidate with DevTools open and resolve every uncaught exception, failed first-party request, mixed-content warning, and missing production asset.
+- [ ] **P0** Verify the browser loads pinned Firebase modules successfully on normal home, school, and privacy-filtered networks.
+- [ ] **P0** Test localhost only while the Emulator Suite is visibly connected. The current client intentionally falls back to production when emulators are absent.
+- [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, paid sharing, and student launch.
+- [ ] **P1** Run backend tests automatically on every pull request.
+
+---
+
+## Gate 2 — Production configuration
+
+### Firebase
+
+- [ ] **P0** Project is `dpaam-8864d`, Blaze billing is active, and Identity Platform is enabled.
+- [ ] **P0** Email/password and Google providers are enabled and configured for the correct support email.
+- [ ] **P0** `play.dingopunks.com` and every actual membership origin are authorized Auth domains.
+- [ ] **P0** Verification and password-reset emails use the correct sender name, branding, destination URL, and non-spammy copy.
+- [ ] **P0** Firestore rules deployed from the release commit match `firestore.rules`.
+- [ ] **P0** Functions run on the intended Node runtime and every required function is deployed.
+- [ ] **P0** Production values exist for `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `STRIPE_PRICE_ID`; test-mode values are not deployed to live.
+- [ ] **P0** The public-signup deployment no longer requires `BETA_ACCESS_CODE` or beta approval documents.
+- [ ] **P0** TTL policies are enabled for `codes.expiresAt` and `rateLimits.expiresAt`.
+- [ ] **P0** Remove or confirm the future of `betaSignupApprovals.expiresAt` after the public gate is retired.
+- [ ] **P0** Firebase/Google Cloud budget alerts and quota alerts go to a monitored email.
+- [ ] **P0** Logs expose no raw payment data, passwords, rebate values beyond what support requires, or spoofable IP data presented as trusted.
+
+### Stripe live mode
+
+- [ ] **P0** Live product and recurring price are exactly $35.88 USD per year.
+- [ ] **P0** Live coupon `REBATE899` is $8.99 off once, not forever.
+- [ ] **P0** Checkout clearly states annual billing, auto-renewal, first-year discounted total when applicable, and later renewal price.
+- [ ] **P0** Customer Portal allows payment-method updates and cancellation at period end and does not allow plan switching.
+- [ ] **P0** Live webhook points to the deployed `stripeWebhook` URL and subscribes to `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`.
+- [ ] **P0** Stripe reports a successful webhook delivery for each lifecycle event used in testing.
+- [ ] **P0** Failed payments, disputes, refunds, and support-driven cancellation have written operating procedures even when they are handled manually at launch.
+- [ ] **P0** Public refund and renewal language matches actual Stripe and entitlement behavior.
+
+### Cloudflare and public web
+
+- [ ] **P0** Custom domain serves the release over valid HTTPS with no redirect loop.
+- [ ] **P0** `play.dingopunks.com`, `/membership.html`, `/answer-key.html`, and representative resource assets return successfully.
+- [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
+- [ ] **P0** Terms, Privacy Policy, contact/support, refund policy, and billing descriptors are discoverable before purchase.
+- [ ] **P0** Analytics and consent behavior are acceptable for teacher and student pages; no student account or payment data is sent to analytics.
+
+---
+
+## Gate 3 — Account and authentication journeys
+
+Use at least these clean states: unverified email user, free email user, free Google user, active paid user, canceling user, lapsed user, and second user for cross-account checks.
+
+### Public signup and sign-in
+
+- [ ] **P0** New email/password signup works without a beta code.
+- [ ] **P0** Invalid email, weak password, duplicate email, wrong password, disabled account, offline state, and excessive attempts show useful non-technical errors.
+- [ ] **P0** Email signup cannot enter the dashboard before verification.
+- [ ] **P0** Verification email arrives, its link works, Continue rechecks the account, and resend works without creating duplicate accounts.
+- [ ] **P0** Google signup works without a beta code and is treated as verified.
+- [ ] **P0** Google sign-in handles popup blocked, popup canceled, account chooser, and an email already registered with another provider.
+- [ ] **P0** Existing email and Google users can sign in after the public-signup change.
+- [ ] **P0** Forgot-password email arrives, reset succeeds, old password fails, and new password signs in.
+- [ ] **P0** Logout clears the dashboard and browser Back does not reveal private account data.
+- [ ] **P0** Refreshing or opening a second tab restores the correct signed-in state without flashing another user's data.
+- [ ] **P0** A network failure during profile provisioning gives a retry path and does not create a broken partial account.
+
+### New-account plan selection
+
+- [ ] **P0** A new verified account sees the free-versus-paid offer before the dashboard.
+- [ ] **P0** Selecting Free enters the dashboard with exactly the free entitlement.
+- [ ] **P0** Selecting All-Access starts Checkout for the signed-in account.
+- [ ] **P0** Refresh, browser Back, private browsing, and a second device do not trap the user in the offer step or silently grant paid access.
+- [ ] **P0** The account email, plan, price, renewal/cancellation date, password reset, logout, Upgrade, and Manage Subscription controls are correct for each account state.
+
+---
+
+## Gate 4 — Free dashboard journey
+
+- [ ] **P0** Exactly the 8 intended Midnight Mall rooms are shareable on a free account.
+- [ ] **P0** Every other room visibly shows the paid lock/upgrade path and cannot be shared through UI or direct callable invocation.
+- [ ] **P0** Season, grade, subject, and topic filters work alone and in combinations; clearing filters restores the catalog.
+- [ ] **P0** Room details show the correct title, description, tags, standards, preview, favorite state, and sharing state.
+- [ ] **P0** Add, remove, and drag-reorder Favorites; refresh, sign out/in, and use a second device to confirm persistence and ordering.
+- [ ] **P0** A rejected preference write produces a friendly toast and a later edit self-heals the saved array.
+- [ ] **P0** Share a free room; the code, direct link, QR/copy actions if present, expiry, answer-key action, and Google Classroom action are correct.
+- [ ] **P0** Re-share the same room and confirm the same active code and expiry return.
+- [ ] **P0** Cancel the code, confirm student access stops, then share again and confirm a new code is issued.
+- [ ] **P0** Upgrade CTAs from the library, account panel, and paywall all open the same correct paid offer.
+
+---
+
+## Gate 5 — Paid dashboard and code lifecycle
+
+- [ ] **P0** An active member can share representative free and paid rooms across grades, subjects, seasons, and resource folders.
+- [ ] **P0** A free user cannot gain paid sharing by editing browser state, local storage, requests, or Firestore documents.
+- [ ] **P0** Active-code rows show the correct room, code, creation order, and live countdown after refresh and on a second device.
+- [ ] **P0** Re-sharing is idempotent, while cancel-then-share creates a fresh code.
+- [ ] **P0** At 20 active codes, re-sharing an existing room still works and a new room opens the dedicated limit modal.
+- [ ] **P0** “View Active Codes” from the limit modal goes to the Active tab; canceling one code permits one replacement.
+- [ ] **P0** An expired code disappears from the dashboard and does not resolve even if TTL cleanup has not deleted its document.
+- [ ] **P0** A canceling subscriber retains full paid sharing until `currentPeriodEnd`.
+- [ ] **P0** A lapsed subscriber sees free access only; existing active codes behave according to the chosen policy in the backend plan.
+- [ ] **P0** One account cannot read, list, cancel, or infer another account's profile, preferences, codes, rebate claims, or rate-limit records.
+- [ ] **P0** All function failures end loading states and show a useful toast; no button remains permanently disabled.
+
+---
+
+## Gate 6 — Student play and legacy regression
+
+### Membership code paths
+
+- [ ] **P0** Open a valid direct link in a signed-out incognito window: `https://play.dingopunks.com/?CODE`; the correct room auto-launches.
+- [ ] **P0** Type the same code with a physical keyboard and with touch input; lowercase input normalizes correctly.
+- [ ] **P0** Touch entry supports every allowed letter and digit, excludes ambiguous characters as designed, supports correction, and submits only five characters.
+- [ ] **P0** Invalid, missing, expired, canceled, malformed, and stale-catalog codes all reveal only the same generic failure.
+- [ ] **P0** A membership code is refused on `answer-key.html`.
+- [ ] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
+- [ ] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it.
+- [ ] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts.
+
+### Legacy and game regression
+
+- [ ] **P0** A valid 5-digit legacy purchase code still launches the correct room.
+- [ ] **P0** Invalid legacy codes and the existing local lockout behave exactly as before.
+- [ ] **P0** Legacy play still works when Firebase is blocked or unavailable.
+- [ ] **P0** Complete at least one free membership room and one paid membership room through splash, setup, every challenge type, completion, and debrief.
+- [ ] **P0** Test representative resources containing multiple choice, crossword, decoder, drag/touch interaction, audio, images, and answer-key content.
+- [ ] **P0** Browser refresh, Back, opening a copied link, and returning from background do not load the wrong room or expose an answer key.
+
+---
+
+## Gate 7 — Billing lifecycle
+
+### Test-mode coverage
+
+- [ ] **P0** Standard purchase: free account → Checkout → successful payment → success return → webhook → active All-Access UI.
+- [ ] **P0** Canceled Checkout returns safely, grants no access, and allows a retry.
+- [ ] **P0** Valid TPT 9-digit rebate applies exactly $8.99 once.
+- [ ] **P0** Valid Shopify 4- or 5-digit order number, with and without a leading `#`, applies exactly $8.99 once.
+- [ ] **P0** Invalid, partial, or mismatched rebate input cannot start a discounted Checkout.
+- [ ] **P0** The same rebate order cannot be used by another account; the original account can safely retry after a Stripe creation error.
+- [ ] **P0** A current or canceling member cannot buy a second subscription.
+- [ ] **P0** Checkout rate limiting produces a friendly retry message.
+- [ ] **P0** A successful return handles webhook delay without falsely claiming access is ready; the UI updates when the profile changes.
+- [ ] **P0** Portal opens only for the server-linked Stripe customer and returns to the correct membership page.
+- [ ] **P0** Payment-method update is reflected in Stripe and does not alter entitlement.
+- [ ] **P0** Cancel at period end changes status to canceling, shows the cancellation date, and preserves access.
+- [ ] **P0** Test-clock renewal preserves active access and advances the renewal date.
+- [ ] **P0** Test-clock period end after cancellation changes the account to free/lapsed.
+- [ ] **P0** Out-of-order and replayed webhooks do not resurrect a lapsed account or let an old subscription deletion kill a newer subscription.
+- [ ] **P0** Stripe webhook signature failure returns 400; transient handler failure returns 500 for retry.
+
+### One controlled live-mode transaction
+
+- [ ] **P0** Use a dedicated launch-test account and a real card to buy one live annual subscription.
+- [ ] **P0** Confirm the expected charge, receipt, Stripe customer/subscription metadata, successful webhook, and active entitlement.
+- [ ] **P0** Generate and play a paid-room code from the live entitlement.
+- [ ] **P0** Open the live Customer Portal and cancel at period end; confirm the account becomes canceling and access remains.
+- [ ] **P0** Issue the planned live refund and verify the result against the locked refund policy. If current behavior is retained, cancellation plus refund still leaves access until period end.
+- [ ] **P0** Clean up the live test customer only after screenshots, event IDs, and expected entitlement state are recorded.
+
+---
+
+## Gate 8 — Browser, device, accessibility, and resilience matrix
+
+Run the smoke journey below on:
+
+- [ ] **P0** Chrome on macOS or Windows desktop
+- [ ] **P0** Safari on macOS desktop
+- [ ] **P0** Edge on Windows desktop
+- [ ] **P0** Chrome on a Chromebook, including touch mode if available
+- [ ] **P0** Safari on iPad
+- [ ] **P0** Safari on iPhone
+- [ ] **P0** Chrome on Android phone
+
+Smoke journey for each device:
+
+- [ ] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
+- [ ] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
+- [ ] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
+- [ ] Complete every teacher action using only a keyboard on desktop.
+- [ ] Check visible focus, meaningful labels, heading order, alt text, status announcements, color contrast, and 200% zoom.
+- [ ] Use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
+- [ ] Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
+- [ ] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
+
+---
+
+## Gate 9 — Content, support, and operations
+
+### Customer-facing accuracy
+
+- [ ] **P0** Every visible price says $35.88/year or $2.99/month billed annually; no live page uses the older $49 figure.
+- [ ] **P0** Every visible limit says 14 days and 20 active codes; no live page uses the older 24-hour or 12-code values.
+- [ ] **P0** Rebate copy says $8.99 off the first year and explains accepted order-number formats without promising verification that does not exist.
+- [ ] **P0** Renewal, cancellation, lapse, and refund copy matches actual behavior.
+- [ ] **P0** Free-room count and room names match the server constants and UI.
+- [ ] **P0** Customer receipts and card statement descriptor are recognizable as Dingo Punks.
+
+### Support readiness
+
+- [ ] **P0** A monitored support address is visible from auth, billing, and error states.
+- [ ] **P0** Prepare short support procedures for: verification email missing, Google popup failure, password reset, wrong plan, webhook delay, duplicate account, rebate rejected/claimed, share-code limit, student code expired, refund, cancellation, and accidental duplicate purchase.
+- [ ] **P0** Support can locate a customer by email in Firebase and Stripe without requesting a password or full card number.
+- [ ] **P0** Define who can manually correct entitlement, issue a refund, cancel a subscription, release a rebate claim, and inspect logs.
+- [ ] **P0** Define severity and response owners for purchase failure, widespread login failure, wrong entitlement, student launch failure, and data exposure.
+
+### Monitoring and rollback
+
+- [ ] **P0** Confirm access to Firebase logs, Firestore usage, Auth usage, Cloudflare analytics/deployments, Stripe events, payments, disputes, and webhook delivery logs.
+- [ ] **P0** Save exact rollback steps for Cloudflare Pages, Functions, and Firestore rules.
+- [ ] **P0** Rollback does not restore the beta gate or deploy frontend code that calls missing backend functions.
+- [ ] **P0** Choose a launch window when the owner can monitor for at least two hours and respond for the next 24 hours.
+- [ ] **P0** Prepare a short customer-facing outage message and a way to disable/redirect the paid CTA without breaking existing members.
+
+---
+
+## Launch day
+
+### Before deploy
+
+- [ ] All P0 gates above are checked.
+- [ ] Release SHA, test evidence, known P1 issues, rollback target, and go/no-go owner are recorded.
+- [ ] No active Stripe test/live mode confusion; production secrets and live webhook are confirmed one final time.
+- [ ] Create clean production test accounts and choose one representative free and paid room.
+
+### Deploy order
+
+- [ ] Deploy and verify Firestore rules and Firebase Functions first.
+- [ ] Prove public signup works without beta approval directly against the deployed backend.
+- [ ] Publish the matching static frontend to Cloudflare Pages.
+- [ ] Confirm the custom domain serves the intended deployment and cache-busted assets.
+- [ ] Run the production smoke: public signup, verification or Google auth, Free selection, live purchase, paid share, incognito student launch, portal cancellation, and refund-policy check.
+- [ ] Verify logs and Stripe webhook deliveries before announcing.
+- [ ] Make the public marketing CTA live only after the production smoke passes.
+
+### Immediate monitoring: first two hours
+
+- [ ] Watch signup and login failures.
+- [ ] Watch Checkout starts versus completed sessions and payment failures.
+- [ ] Watch webhook 4xx/5xx responses, retries, and entitlement mismatches.
+- [ ] Watch function errors, latency, invocation spikes, rate-limit spikes, Firestore reads/writes, and budget alerts.
+- [ ] Test one free and one paid student link from outside the admin network.
+- [ ] Triage support messages and record every launch defect in one shared list.
+- [ ] Roll back for widespread auth, payment, entitlement, privacy, or student-launch failures; do not hot-fix blindly in production.
+
+---
+
+## Post-launch runway
+
+### After 24 hours
+
+- [ ] Reconcile Stripe's successful subscriptions with Firestore `all-access` users.
+- [ ] Review failed/abandoned Checkouts, webhook retries, refund/cancellation requests, and duplicate customer records.
+- [ ] Review signup verification completion, Google versus email failures, and support volume.
+- [ ] Review share creation, resolution failures, rate-limit frequency, expired-code behavior, and top student launch errors.
+- [ ] Confirm spend and usage are within expected bounds.
+- [ ] Fix every P0 regression before additional marketing.
+
+### After 72 hours
+
+- [ ] Repeat cross-account entitlement, cancellation, paid share, and student-launch smoke tests.
+- [ ] Review Cloudflare/Firebase/Stripe logs for errors that did not produce support tickets.
+- [ ] Check school-network, iPad, Chromebook, Safari, popup-blocker, and email-deliverability reports.
+- [ ] Prioritize the remaining P1 list and automate the highest-frequency regression journey.
+
+### After 7 days
+
+- [ ] Reconcile subscriptions and entitlements again.
+- [ ] Review conversion, rebate use/rejection, cancellations, refunds, disputes, and support themes.
+- [ ] Confirm TTL cleanup and Firestore growth are healthy.
+- [ ] Decide whether Firebase App Check or stricter authenticated-callable limits are justified by observed abuse or cost.
+- [ ] Run a short launch retrospective and update this checklist with anything that escaped.
+
+---
+
+## Final sign-off
+
+- Release SHA: `________________`
+- Production Pages deployment: `________________`
+- Firebase Functions revision/deploy time: `________________`
+- Stripe live transaction/event: `________________`
+- Test evidence folder or issue: `________________`
+- Known accepted P1 issues: `________________`
+- Go/no-go owner: `________________`
+- Launch decision and time: `________________`
+
