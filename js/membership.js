@@ -1782,11 +1782,6 @@ function updateAccountModal(user) {
   const hasPassword = userHasPasswordProvider(user) || localDevPreview;
   if (els.accountSendReset) {
     els.accountSendReset.hidden = !hasPassword;
-  }
-  if (els.accountGoogleNote) {
-    els.accountGoogleNote.hidden = !user || hasPassword;
-  }
-  if (els.accountSendReset) {
     els.accountSendReset.disabled = !user?.email && !localDevPreview;
   }
   renderAccountPlanPanel();

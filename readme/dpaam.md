@@ -75,7 +75,7 @@
 - Annual billing only (no monthly option — keeps it simple, reduces churn surface)
 - Auto-renews yearly
 - Cancellation stops renewal; access continues until end of paid period
-- No refunds after renewal — stated clearly at checkout
+- Refunds revoke All-Access immediately; the webhook cancels the Stripe subscription and sets the account to free/lapsed
 
 ### Teacher Account
 - Account created at purchase (email + password)

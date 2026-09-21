@@ -52,7 +52,12 @@ function showAuthMessage(type, message) {
 }
 
 export function authErrorMessage(error) {
-  switch (error?.code) {
+  const code = typeof error?.code === "string" ? error.code : "";
+  if (code.startsWith("auth/requests-from-referer-") && code.endsWith("-are-blocked.")) {
+    return "Sign-in unavailable on this site. Contact support.";
+  }
+
+  switch (code) {
     case "auth/invalid-email":
       return "Enter a valid email.";
     case "auth/missing-email":
@@ -82,9 +87,15 @@ export function authErrorMessage(error) {
     case "auth/operation-not-allowed":
     case "auth/configuration-not-found":
     case "auth/invalid-api-key":
+    case "auth/app-not-authorized":
       return "Sign-in unavailable. Try again later.";
-    default:
+    default: {
+      const message = typeof error?.message === "string" ? error.message : "";
+      if (/referer.*blocked/i.test(message) || /API key not valid/i.test(message)) {
+        return "Sign-in unavailable on this site. Contact support.";
+      }
       return "Something went wrong. Try again.";
+    }
   }
 }
 

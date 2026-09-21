@@ -10,6 +10,7 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 
 import {
+  ACCOUNT_ORIGIN,
   PROD_ORIGIN,
   REBATE_COUPON_ID,
   checkoutReturnOrigin,
@@ -74,6 +75,8 @@ function fakeStripe(overrides = {}) {
     sessionsCreate: [],
     portalSessionsCreate: [],
     subscriptionsRetrieve: [],
+    subscriptionsCancel: [],
+    chargesRetrieve: [],
   };
   return {
     calls,
@@ -109,6 +112,19 @@ function fakeStripe(overrides = {}) {
       retrieve: async (id) => {
         calls.subscriptionsRetrieve.push(id);
         return overrides.subscription ?? subscriptionObject({ id });
+      },
+      cancel: async (id) => {
+        calls.subscriptionsCancel.push(id);
+        if (overrides.cancelError) throw overrides.cancelError;
+        // Return the subscription as canceled (mirrors Stripe behavior).
+        return overrides.canceledSubscription ?? subscriptionObject({ id, status: "canceled" });
+      },
+    },
+    charges: {
+      retrieve: async (id) => {
+        calls.chargesRetrieve.push(id);
+        if (overrides.chargeRetrieveError) throw overrides.chargeRetrieveError;
+        return overrides.charge ?? { id, customer: "cus_1" };
       },
     },
   };
@@ -208,6 +224,11 @@ describe("checkoutReturnOrigin", () => {
     assert.equal(checkoutReturnOrigin(PROD_ORIGIN, false), PROD_ORIGIN);
   });
 
+  test("allows the account production origin", () => {
+    assert.equal(checkoutReturnOrigin(ACCOUNT_ORIGIN, false), ACCOUNT_ORIGIN);
+    assert.equal(checkoutReturnOrigin(`${ACCOUNT_ORIGIN}/`, false), ACCOUNT_ORIGIN);
+  });
+
   test("allows localhost only under the emulator", () => {
     assert.equal(checkoutReturnOrigin("http://localhost:8000", true), "http://localhost:8000");
     assert.equal(checkoutReturnOrigin("http://127.0.0.1:5500", true), "http://127.0.0.1:5500");
@@ -262,6 +283,23 @@ describe("createCheckoutSession", () => {
 
     assert.equal(stripe.calls.customersCreate.length, 0);
     assert.equal(stripe.calls.sessionsCreate[0].customer, "cus_existing");
+  });
+
+  test("returns account-domain checkout sessions to the account domain", async () => {
+    await seedUser("buyer");
+    const stripe = fakeStripe();
+
+    await createCheckoutSession(
+      db,
+      stripe,
+      "buyer",
+      { returnOrigin: ACCOUNT_ORIGIN },
+      { now: NOW, priceId: PRICE_ID },
+    );
+
+    const session = stripe.calls.sessionsCreate[0];
+    assert.equal(session.success_url, `${ACCOUNT_ORIGIN}/membership.html?checkout=success`);
+    assert.equal(session.cancel_url, `${ACCOUNT_ORIGIN}/membership.html?checkout=cancel`);
   });
 
   test("a valid rebate attaches the coupon and claims the order number", async () => {
@@ -454,6 +492,20 @@ describe("createPortalSession", () => {
     assert.equal(
       stripe.calls.portalSessionsCreate[0].return_url,
       "http://localhost:8000/membership.html",
+    );
+  });
+
+  test("returns account-domain portal sessions to the account domain", async () => {
+    await seedUser("member", { stripeCustomerId: "cus_member" });
+    const stripe = fakeStripe();
+
+    await createPortalSession(db, stripe, "member", {
+      returnOrigin: ACCOUNT_ORIGIN,
+    });
+
+    assert.equal(
+      stripe.calls.portalSessionsCreate[0].return_url,
+      `${ACCOUNT_ORIGIN}/membership.html`,
     );
   });
 
@@ -764,5 +816,184 @@ describe("handleStripeEvent", () => {
 
     const doc = await db.collection("users").doc("buyer").get();
     assert.equal(doc.get("rebate.orderNumber"), "111111111");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// charge.refunded and charge.dispute.created — immediate access revocation
+// ---------------------------------------------------------------------------
+
+describe("handleStripeEvent — refund and dispute revocation", () => {
+  function chargeRefundedEvent(overrides = {}) {
+    return stripeEvent("charge.refunded", {
+      id: "ch_1",
+      customer: "cus_1",
+      refunded: true,
+      ...overrides,
+    });
+  }
+
+  function disputeCreatedEvent(overrides = {}) {
+    return stripeEvent("charge.dispute.created", {
+      id: "dp_1",
+      charge: "ch_1",
+      ...overrides,
+    });
+  }
+
+  test("full refund cancels the subscription in Stripe and revokes access immediately", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "active",
+      stripeCustomerId: "cus_1",
+      subscriptionId: "sub_1",
+    });
+    const stripe = fakeStripe();
+
+    const result = await handleStripeEvent(db, stripe, chargeRefundedEvent());
+
+    assert.equal(result.handled, true);
+    // Stripe subscription was canceled
+    assert.deepEqual(stripe.calls.subscriptionsCancel, ["sub_1"]);
+
+    const doc = await db.collection("users").doc("member").get();
+    assert.equal(doc.get("plan"), "free");
+    assert.equal(doc.get("status"), "lapsed");
+    assert.equal(doc.get("subscriptionId"), null);
+  });
+
+  test("refund arriving after support already canceled in Stripe revokes without re-canceling", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "canceling",
+      stripeCustomerId: "cus_1",
+      subscriptionId: "sub_1",
+    });
+    // subscription.retrieve returns an already-canceled subscription
+    const stripe = fakeStripe({
+      subscription: subscriptionObject({ status: "canceled" }),
+    });
+
+    const result = await handleStripeEvent(db, stripe, chargeRefundedEvent());
+
+    assert.equal(result.handled, true);
+    // Should not call cancel again
+    assert.equal(stripe.calls.subscriptionsCancel.length, 0);
+
+    const doc = await db.collection("users").doc("member").get();
+    assert.equal(doc.get("plan"), "free");
+    assert.equal(doc.get("status"), "lapsed");
+  });
+
+  test("partial refund (refunded: false) writes nothing", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "active",
+      stripeCustomerId: "cus_1",
+      subscriptionId: "sub_1",
+    });
+    const stripe = fakeStripe();
+
+    const result = await handleStripeEvent(
+      db,
+      stripe,
+      chargeRefundedEvent({ refunded: false }),
+    );
+
+    assert.equal(result.handled, false);
+    assert.equal(stripe.calls.subscriptionsCancel.length, 0);
+
+    const doc = await db.collection("users").doc("member").get();
+    assert.equal(doc.get("plan"), "all-access"); // unchanged from seed
+    assert.equal(doc.get("status"), "active");   // unchanged from seed
+  });
+
+  test("refund for an unknown customer returns handled=false with no writes", async () => {
+    const stripe = fakeStripe();
+
+    const result = await handleStripeEvent(
+      db,
+      stripe,
+      chargeRefundedEvent({ customer: "cus_unknown" }),
+    );
+
+    assert.equal(result.handled, false);
+    assert.equal(stripe.calls.subscriptionsCancel.length, 0);
+  });
+
+  test("refund for a user with no tracked subscriptionId returns handled=false", async () => {
+    await seedUser("member", {
+      plan: "free",
+      stripeCustomerId: "cus_1",
+      subscriptionId: null,
+    });
+    const stripe = fakeStripe();
+
+    const result = await handleStripeEvent(db, stripe, chargeRefundedEvent());
+
+    assert.equal(result.handled, false);
+    assert.equal(stripe.calls.subscriptionsCancel.length, 0);
+  });
+
+  test("charge.dispute.created retrieves the charge, cancels the subscription, and revokes access", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "active",
+      stripeCustomerId: "cus_1",
+      subscriptionId: "sub_1",
+    });
+    const stripe = fakeStripe({ charge: { id: "ch_1", customer: "cus_1" } });
+
+    const result = await handleStripeEvent(db, stripe, disputeCreatedEvent());
+
+    assert.equal(result.handled, true);
+    assert.deepEqual(stripe.calls.chargesRetrieve, ["ch_1"]);
+    assert.deepEqual(stripe.calls.subscriptionsCancel, ["sub_1"]);
+
+    const doc = await db.collection("users").doc("member").get();
+    assert.equal(doc.get("plan"), "free");
+    assert.equal(doc.get("status"), "lapsed");
+  });
+
+  test("a later replayed customer.subscription.deleted for the same subscription is idempotent", async () => {
+    await seedUser("member", {
+      plan: "all-access",
+      status: "active",
+      stripeCustomerId: "cus_1",
+      subscriptionId: "sub_1",
+      stripeEventCreated: 1_800_000_000,
+    });
+    const stripe = fakeStripe({
+      subscription: subscriptionObject({ status: "canceled" }),
+    });
+
+    // Refund already applied at t=1_800_000_100, revoking access
+    await handleStripeEvent(
+      db,
+      stripe,
+      stripeEvent(
+        "charge.refunded",
+        { id: "ch_1", customer: "cus_1", refunded: true },
+        { created: 1_800_000_100 },
+      ),
+    );
+
+    const afterRevoke = await db.collection("users").doc("member").get();
+    assert.equal(afterRevoke.get("plan"), "free");
+
+    // Later customer.subscription.deleted arrives (older timestamp, should be skipped)
+    const result = await handleStripeEvent(
+      db,
+      fakeStripe(),
+      stripeEvent(
+        "customer.subscription.deleted",
+        subscriptionObject({ id: "sub_1", status: "canceled", metadata: { uid: "member" } }),
+        { created: 1_800_000_050 }, // older than the refund event
+      ),
+    );
+
+    assert.equal(result.applied ?? true, true); // guard didn't throw
+    const afterReplay = await db.collection("users").doc("member").get();
+    assert.equal(afterReplay.get("plan"), "free"); // still lapsed, no state corruption
   });
 });

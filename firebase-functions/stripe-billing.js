@@ -34,6 +34,8 @@ export const CHECKOUT_RATE_WINDOW_MS = 60 * 60 * 1000;
 // Checkout into an open redirect. Localhost is honored only under the
 // emulator; anything else falls back to production.
 export const PROD_ORIGIN = "https://play.dingopunks.com";
+export const ACCOUNT_ORIGIN = "https://account.dingopunks.com";
+const PROD_RETURN_ORIGINS = new Set([PROD_ORIGIN, ACCOUNT_ORIGIN]);
 const LOCALHOST_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 export const REBATE_CLAIMS_COLLECTION = "rebateClaims";
@@ -130,7 +132,7 @@ async function releaseRebateClaim(db, uid, rebate) {
 export function checkoutReturnOrigin(rawOrigin, emulator) {
   if (typeof rawOrigin === "string") {
     const origin = rawOrigin.trim().replace(/\/+$/, "");
-    if (origin === PROD_ORIGIN) return origin;
+    if (PROD_RETURN_ORIGINS.has(origin)) return origin;
     if (emulator && LOCALHOST_ORIGIN.test(origin)) return origin;
   }
   return PROD_ORIGIN;
@@ -423,6 +425,57 @@ function rebateFromMetadata(metadata) {
 }
 
 /**
+ * Immediately revoke All-Access for the account linked to a Stripe customer.
+ * Called by charge.refunded and charge.dispute.created handlers.
+ *
+ * Order:
+ *  1. Resolve the uid from the users collection (charges carry no uid metadata).
+ *  2. Look up the user's tracked subscriptionId; bail if there is none.
+ *  3. Retrieve the subscription from Stripe. If it is not already lapsed,
+ *     cancel it immediately (not at period end).
+ *  4. Apply the resulting canceled subscription state through the same
+ *     applySubscriptionState path used by subscription events, so all
+ *     out-of-order and wrong-subscription guards apply automatically.
+ *
+ * Returns {handled: true} on success, {handled: false} when the customer
+ * cannot be resolved or there is no subscription to cancel.
+ */
+async function revokeEntitlementForCustomer(db, stripe, customerId, event) {
+  const uid = await uidForCustomer(db, customerId);
+  if (!uid) {
+    logger.error("Charge event could not be resolved to a uid", {
+      eventId: event.id,
+      eventType: event.type,
+      customerId,
+    });
+    return { handled: false };
+  }
+
+  const userSnap = await db.collection("users").doc(uid).get();
+  const subscriptionId = userSnap.exists ? userSnap.get("subscriptionId") : null;
+  if (!subscriptionId) {
+    logger.warn("Charge event: user has no tracked subscriptionId, nothing to revoke", {
+      eventId: event.id,
+      eventType: event.type,
+      uid,
+    });
+    return { handled: false };
+  }
+
+  let subscription = await stripe.subscriptions.retrieve(subscriptionId);
+
+  // Cancel immediately only when Stripe doesn't already consider it lapsed.
+  // Support's typical flow is: cancel → refund, so the subscription is often
+  // already canceled by the time the charge event arrives.
+  if (!LAPSED_STATUSES.has(subscription.status)) {
+    subscription = await stripe.subscriptions.cancel(subscriptionId);
+  }
+
+  await applySubscriptionState(db, uid, subscription, event);
+  return { handled: true };
+}
+
+/**
  * Route one verified Stripe event to its entitlement write. Signature
  * verification happens in index.js before this is called.
  *
@@ -486,6 +539,41 @@ export async function handleStripeEvent(db, stripe, event) {
 
       await applySubscriptionState(db, uid, subscription, event);
       return { handled: true };
+    }
+
+    case "charge.refunded": {
+      // Stripe fires this event for partial refunds too, even though we don't
+      // offer them. Guard so only a fully-refunded charge revokes access.
+      const charge = event.data.object;
+      if (charge.refunded !== true) {
+        logger.info("Ignoring partial charge.refunded event", {
+          eventId: event.id,
+          chargeId: charge.id,
+        });
+        return { handled: false };
+      }
+      const customerId =
+        typeof charge.customer === "string" ? charge.customer : charge.customer?.id;
+      return revokeEntitlementForCustomer(db, stripe, customerId, event);
+    }
+
+    case "charge.dispute.created": {
+      // Dispute objects don't carry a customer field — retrieve the charge to
+      // get it.
+      const dispute = event.data.object;
+      const chargeId =
+        typeof dispute.charge === "string" ? dispute.charge : dispute.charge?.id;
+      if (!chargeId) {
+        logger.error("charge.dispute.created without a resolvable charge ID", {
+          eventId: event.id,
+          disputeId: dispute.id,
+        });
+        return { handled: false };
+      }
+      const charge = await stripe.charges.retrieve(chargeId);
+      const customerId =
+        typeof charge.customer === "string" ? charge.customer : charge.customer?.id;
+      return revokeEntitlementForCustomer(db, stripe, customerId, event);
     }
 
     default:

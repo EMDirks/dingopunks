@@ -20,13 +20,18 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - Keep test accounts clearly labeled and remove their production share codes and rebate claims when testing is complete.
 - Final launch rule: all P0 items checked, no open critical/high defects, and one named person makes the go/no-go decision.
 
+## Shopify changes
+- [ ] **Add account button to header**
+- [ ] **Wire signup 
+
 ## Current P0 blockers
 
-- [ ] **Remove the beta signup gate for public registration.** Remove the beta-code field and frontend authorization call, disable the backend pre-create approval requirement, deploy both pieces, and prove a brand-new email and Google user can register without a code.
-- [ ] **Add touch-device membership-code entry.** A student must be able to type all allowed letters and digits on iPad, Chromebook touch mode, and phone; direct links must continue to work.
-- [ ] **Replace the placeholder legal links.** Both sign-in and signup currently link Terms and Privacy Policy to `#`. Use published, mobile-readable pages.
-- [ ] **Lock the refund policy and entitlement behavior.** The current webhook handles subscription lifecycle events, not refunds. A refund by itself does not revoke access. Decide whether refunded users retain access through the canceled period or lose it immediately, then make the product, support policy, and test expectation match.
-- [ ] **Confirm the public route and acquisition path.** A customer can get from the public Dingo Punks site to `https://play.dingopunks.com/membership.html`, understand free versus paid access, create an account, and purchase without a hidden URL or beta instructions.
+- [X] **Remove the beta signup gate for public registration.** Remove the beta-code field and frontend authorization call, disable the backend pre-create approval requirement, deploy both pieces, and prove a brand-new email and Google user can register without a code.
+- [X] **Add touch-device membership-code entry.** A student must be able to type all allowed letters and digits on iPad, Chromebook touch mode, and phone; direct links must continue to work.
+- [X] **Replace the placeholder legal links.** Both sign-in and signup currently link Terms and Privacy Policy to `#`. Use published, mobile-readable pages.
+- [ ] **Lock the refund policy and entitlement behavior.** Policy: full refunds and chargebacks revoke All-Access immediately. The webhook handles `charge.refunded` (full only) and `charge.dispute.created` by canceling the Stripe subscription immediately and writing `plan: free, status: lapsed`. Verify by issuing a test-mode refund and confirming the account loses access within one webhook delivery.
+- [ ] **Set up subscription renewal notice email.** Subscribers receive email at least 30 days before an annual All-Access subscription renews, with correct branding, renewal date, and charge amount (Stripe customer emails, custom email, or equivalent).
+- [X] **Confirm the public route and acquisition path.** A customer can get from the public Dingo Punks site to `https://play.dingopunks.com/membership.html`, understand free versus paid access, create an account, and purchase without a hidden URL or beta instructions.
 
 ---
 
@@ -81,7 +86,8 @@ There is currently no repository-owned browser E2E suite or CI workflow, so the 
 
 - [ ] **P0** Project is `dpaam-8864d`, Blaze billing is active, and Identity Platform is enabled.
 - [ ] **P0** Email/password and Google providers are enabled and configured for the correct support email.
-- [ ] **P0** `play.dingopunks.com` and every actual membership origin are authorized Auth domains.
+- [ ] **P0** `play.dingopunks.com` and `account.dingopunks.com` (and any other membership origin) are Firebase **Authorized domains**.
+- [ ] **P0** Google Cloud **Browser API key** HTTP referrers include `account.dingopunks.com/*` (403 on `identitytoolkit.googleapis.com` means this is missing). See `readme/dpaam-account-domain.md`.
 - [ ] **P0** Verification and password-reset emails use the correct sender name, branding, destination URL, and non-spammy copy.
 - [ ] **P0** Firestore rules deployed from the release commit match `firestore.rules`.
 - [ ] **P0** Functions run on the intended Node runtime and every required function is deployed.
@@ -97,8 +103,9 @@ There is currently no repository-owned browser E2E suite or CI workflow, so the 
 - [ ] **P0** Live product and recurring price are exactly $35.88 USD per year.
 - [ ] **P0** Live coupon `REBATE899` is $8.99 off once, not forever.
 - [ ] **P0** Checkout clearly states annual billing, auto-renewal, first-year discounted total when applicable, and later renewal price.
+- [ ] **P0** Subscription renewal reminder email is configured so subscribers get at least 30 days' notice before annual renewal (verify sender, copy, and a test delivery).
 - [ ] **P0** Customer Portal allows payment-method updates and cancellation at period end and does not allow plan switching.
-- [ ] **P0** Live webhook points to the deployed `stripeWebhook` URL and subscribes to `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`.
+- [ ] **P0** Live webhook points to the deployed `stripeWebhook` URL and subscribes to `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`, and `charge.dispute.created`.
 - [ ] **P0** Stripe reports a successful webhook delivery for each lifecycle event used in testing.
 - [ ] **P0** Failed payments, disputes, refunds, and support-driven cancellation have written operating procedures even when they are handled manually at launch.
 - [ ] **P0** Public refund and renewal language matches actual Stripe and entitlement behavior.
@@ -223,7 +230,7 @@ Use at least these clean states: unverified email user, free email user, free Go
 - [ ] **P0** Confirm the expected charge, receipt, Stripe customer/subscription metadata, successful webhook, and active entitlement.
 - [ ] **P0** Generate and play a paid-room code from the live entitlement.
 - [ ] **P0** Open the live Customer Portal and cancel at period end; confirm the account becomes canceling and access remains.
-- [ ] **P0** Issue the planned live refund and verify the result against the locked refund policy. If current behavior is retained, cancellation plus refund still leaves access until period end.
+- [ ] **P0** Issue the planned live refund and verify the result against the locked refund policy: the webhook receives `charge.refunded`, cancels the subscription, and the account immediately shows `plan: free, status: lapsed` with no remaining access.
 - [ ] **P0** Clean up the live test customer only after screenshots, event IDs, and expected entitlement state are recorded.
 
 ---
