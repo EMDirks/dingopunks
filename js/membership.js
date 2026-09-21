@@ -1851,28 +1851,15 @@ function checkoutErrorMessage(error) {
   return "Couldn't start checkout. Try again.";
 }
 
-function applyPurchaseCredit(button) {
-  const rebate = button.closest(".dpaam-upgrade-rebate");
-  const status = rebate?.querySelector("[data-rebate-status]");
-  const parsed = readRebateFromPanel(rebate);
-  const message = parsed.error
-    ? parsed.error
-    : parsed.rebate
-      ? "$8.99 credit at checkout."
-      : "Enter an order number.";
-
-  if (status) {
-    status.textContent = message;
-    status.classList.toggle("dpaam-upgrade-rebate__status--error", !parsed.rebate);
-  }
-}
-
-async function startCheckout(button) {
-  const panel = button.closest(".dpaam-plan-panel");
-  const rebateScope =
+function rebateScopeForButton(button) {
+  return (
     button.closest(".dpaam-all-access-offer") ??
     (isAuthOfferViewVisible() ? document.getElementById("dpaam-auth-offer-rebate") : null) ??
-    panel;
+    button.closest(".dpaam-plan-panel")
+  );
+}
+
+async function beginCheckout(triggerButton, rebateScope) {
   const parsed = readRebateFromPanel(rebateScope);
   if (parsed.error) {
     showToast(parsed.error);
@@ -1883,7 +1870,7 @@ async function startCheckout(button) {
     markAuthOfferStepComplete(auth.currentUser?.uid);
   }
 
-  setButtonLoading(button, true, "Redirecting…", { useHtml: true });
+  setButtonLoading(triggerButton, true, "Redirecting…", { useHtml: true });
   try {
     const payload = { returnOrigin: window.location.origin };
     if (parsed.rebate) {
@@ -1899,8 +1886,34 @@ async function startCheckout(button) {
   } catch (error) {
     console.error("createCheckoutSession failed", error);
     showToast(checkoutErrorMessage(error));
-    setButtonLoading(button, false, "Redirecting…", { useHtml: true });
+    setButtonLoading(triggerButton, false, "Redirecting…", { useHtml: true });
   }
+}
+
+async function applyPurchaseCredit(button) {
+  const rebate = button.closest(".dpaam-upgrade-rebate");
+  const status = rebate?.querySelector("[data-rebate-status]");
+  const parsed = readRebateFromPanel(rebate);
+  if (parsed.error || !parsed.rebate) {
+    const message = parsed.error ?? "Enter an order number.";
+    if (status) {
+      status.textContent = message;
+      status.classList.add("dpaam-upgrade-rebate__status--error");
+    }
+    return;
+  }
+
+  if (status) {
+    status.textContent = "";
+    status.classList.remove("dpaam-upgrade-rebate__status--error");
+  }
+
+  const scope = rebateScopeForButton(button) ?? rebate;
+  await beginCheckout(button, scope);
+}
+
+async function startCheckout(button) {
+  await beginCheckout(button, rebateScopeForButton(button));
 }
 
 async function openBillingPortal(button) {
@@ -2276,7 +2289,7 @@ function wireEvents() {
 
     const applyCreditBtn = e.target.closest("[data-action='apply-purchase-credit']");
     if (applyCreditBtn) {
-      applyPurchaseCredit(applyCreditBtn);
+      void applyPurchaseCredit(applyCreditBtn);
       return;
     }
 
