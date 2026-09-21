@@ -25,13 +25,17 @@ export function initDebugView() {
   const AUTH_HEADINGS = {
     signin: "dpaam-auth-heading-signin",
     verify: "dpaam-auth-heading-verify",
+    "offer-loading": "dpaam-auth-heading-offer-loading",
     offer: "dpaam-auth-heading-offer",
   };
 
   function setDebugView(view) {
     const showDashboard = view === "dashboard";
     const showSkeleton = view === "loading";
-    const authView = view === "verify" || view === "offer" ? view : "signin";
+    const authView =
+      view === "verify" || view === "offer" || view === "offer-loading"
+        ? view
+        : "signin";
     auth.hidden = showDashboard || showSkeleton;
     dashboard.hidden = !showDashboard;
     if (skeleton) {
@@ -43,7 +47,7 @@ export function initDebugView() {
       authViews.forEach((panel) => {
         panel.hidden = panel.dataset.authView !== authView;
       });
-      setAuthOfferLayoutActive(authView === "offer");
+      setAuthOfferLayoutActive(authView === "offer" || authView === "offer-loading");
       if (authView === "offer") {
         renderAuthOfferPanels();
       }

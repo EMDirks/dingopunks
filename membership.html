@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <title>All-Access | Dingo Punks</title>
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.123" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.123" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.124" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.124" />
 </head>
 <body>
   <div class="dpaam">
@@ -285,6 +285,39 @@
             <p class="dpaam-auth-legal">
               Don&rsquo;t see the email? Check your Spam folder. It may take a few minutes to arrive.
             </p>
+          </div>
+
+          <div
+            class="dpaam-auth-offer"
+            id="dpaam-auth-modal-offer-loading"
+            data-auth-view="offer-loading"
+            hidden
+            aria-busy="true"
+          >
+            <div class="dpaam-auth-card dpaam-auth-offer-card">
+              <h1 class="dpaam-auth-title" id="dpaam-auth-heading-offer-loading">
+                Select your plan
+              </h1>
+              <p class="dpaam-visually-hidden" id="dpaam-auth-offer-loading-text">
+                Loading plan options&hellip;
+              </p>
+              <div class="dpaam-auth-offer-grid" aria-hidden="true">
+                <div class="dpaam-auth-offer-skeleton-panel">
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-pill"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-price"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line dpaam-auth-offer-skeleton-line--short"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-btn"></div>
+                </div>
+                <div class="dpaam-auth-offer-skeleton-panel dpaam-auth-offer-skeleton-panel--paid">
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-pill"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-price"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
+                  <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-btn"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -936,6 +969,15 @@
         <button
           type="button"
           class="dpaam-debug-view-option"
+          data-debug-view="offer-loading"
+          role="radio"
+          aria-checked="false"
+        >
+          Offer load
+        </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
           data-debug-view="loading"
           role="radio"
           aria-checked="false"
@@ -999,6 +1041,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.123"></script>
+  <script type="module" src="js/membership.js?version=3.4.124"></script>
 </body>
 </html>

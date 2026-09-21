@@ -450,6 +450,53 @@
   display: none;
 }
 
+/* --- Auth offer loading skeleton --- */
+
+.dpaam-auth-offer-skeleton-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dpaam-pad-md);
+  min-height: 280px;
+  padding: var(--dpaam-pad-lg);
+  border: 1px solid var(--dpaam-border);
+  border-radius: var(--dpaam-radius-xl);
+  background: var(--dpaam-white);
+  box-sizing: border-box;
+}
+
+.dpaam-auth-offer-skeleton-panel--paid {
+  background: var(--dpaam-light-gray);
+}
+
+.dpaam-auth-offer-skeleton-pill {
+  width: min(120px, 55%);
+  height: 28px;
+  border-radius: var(--dpaam-radius-pill);
+}
+
+.dpaam-auth-offer-skeleton-price {
+  width: min(160px, 70%);
+  height: 36px;
+  border-radius: var(--dpaam-radius);
+}
+
+.dpaam-auth-offer-skeleton-line {
+  width: 100%;
+  height: 14px;
+  border-radius: var(--dpaam-radius-pill);
+}
+
+.dpaam-auth-offer-skeleton-line--short {
+  width: 85%;
+}
+
+.dpaam-auth-offer-skeleton-btn {
+  width: 100%;
+  height: var(--dpaam-pair-btn-h);
+  margin-top: auto;
+  border-radius: var(--dpaam-radius-lg);
+}
+
 /* --- Auth offer (choose plan) --- */
 
 .dpaam-auth-offer-card {
@@ -777,6 +824,10 @@
   .dpaam-auth-offer-grid {
     grid-template-columns: 1fr;
     gap: var(--dpaam-pad-md);
+  }
+
+  .dpaam-auth-offer-skeleton-panel {
+    min-height: auto;
   }
 
   :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,

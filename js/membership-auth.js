@@ -26,6 +26,7 @@ const AUTH_VIEW_HEADING_IDS = {
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
   verify: "dpaam-auth-heading-verify",
+  "offer-loading": "dpaam-auth-heading-offer-loading",
   offer: "dpaam-auth-heading-offer",
 };
 
@@ -195,7 +196,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       return;
     }
 
-    if (view === "offer") {
+    if (view === "offer" || view === "offer-loading") {
       headerToggle.hidden = true;
       return;
     }
@@ -227,7 +228,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     clearAuthMessages();
     resetPasswordToggles(section);
     updateAuthHeader(view);
-    setAuthOfferLayoutActive(view === "offer");
+    setAuthOfferLayoutActive(view === "offer" || view === "offer-loading");
 
     if (!focus) return;
 
@@ -314,11 +315,16 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     }
   });
 
-  async function signInWithGoogle(button) {
+  async function signInWithGoogle(button, { expectNewAccount = false } = {}) {
     clearAuthMessages();
     setButtonLoading(button, true, "Opening Google…");
     try {
       await signInWithPopup(auth, googleProvider);
+      if (expectNewAccount) {
+        section.hidden = false;
+        section.setAttribute("aria-busy", "true");
+        setAuthView("offer-loading");
+      }
     } catch (error) {
       if (!isCancelledPopup(error)) {
         showAuthMessage("error", authErrorMessage(error));
@@ -332,7 +338,9 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   googleSignIn?.addEventListener("click", () => signInWithGoogle(googleSignIn));
 
   const googleSignUp = document.getElementById("dpaam-auth-google-signup");
-  googleSignUp?.addEventListener("click", () => signInWithGoogle(googleSignUp));
+  googleSignUp?.addEventListener("click", () =>
+    signInWithGoogle(googleSignUp, { expectNewAccount: true }),
+  );
 
   const verifyContinue = document.getElementById("dpaam-auth-verify-continue");
   verifyContinue?.addEventListener("click", async () => {
@@ -482,6 +490,10 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     }
 
     if (shouldShowAuthOfferStep(user)) {
+      section.hidden = false;
+      section.setAttribute("aria-busy", "true");
+      setAuthView("offer-loading");
+
       try {
         if (provisionedUid !== user.uid) {
           await ensureUserProfile();
@@ -500,7 +512,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       if (revision !== authStateRevision) return;
 
       renderAuthOfferPanels();
-      section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthView("offer");
       return;
