@@ -372,6 +372,19 @@ function activeCardTimerHtml(expiresAt) {
 // swaps. Measured from the edge the pointer is entering.
 const FAVORITE_SWAP_OVERLAP = 0.05;
 
+// Return a card's bounding rect with any in-flight FLIP translation removed.
+// FLIP only ever applies pure translations, so subtracting m.e / m.f gives
+// the settled grid position the card is heading toward. This prevents
+// mid-animation rects from feeding back into drop-target decisions and
+// causing jitter when a card wraps between rows.
+function layoutRect(el) {
+  const rect = el.getBoundingClientRect();
+  const t = getComputedStyle(el).transform;
+  if (!t || t === "none") return rect;
+  const m = new DOMMatrixReadOnly(t);
+  return new DOMRect(rect.x - m.e, rect.y - m.f, rect.width, rect.height);
+}
+
 // During a live drag-reorder, decide which sibling card the dragged element
 // should land *before*, walking the grid in reading order (left-to-right,
 // then top-to-bottom row by row). Returns null to mean "append to the end".
@@ -390,7 +403,9 @@ function rowAfterPointer(listEl, clientX, clientY, dragEl, dragDir) {
       ? FAVORITE_SWAP_OVERLAP
       : 0.5;
   for (const row of rows) {
-    const rect = row.getBoundingClientRect();
+    // Use settled grid position so in-flight animations don't skew drop
+    // target selection — the primary cause of cross-row jitter.
+    const rect = layoutRect(row);
     if (clientY >= rect.bottom) continue; // pointer is below this card's row entirely
     const aboveRow = clientY < rect.top;
     const beforeSwapLine = clientX < rect.left + rect.width * leadingFraction;
@@ -402,14 +417,16 @@ function rowAfterPointer(listEl, clientX, clientY, dragEl, dragDir) {
 // FLIP reorder: record each non-dragged card's pre-mutation position, run
 // the DOM mutation, then animate each card from its old position to its
 // new position (both axes, since cards wrap in a grid) via the Web
-// Animations API. Any in-flight animation on a card is cancelled so rapid
-// dragover events don't queue up.
+// Animations API. Any in-flight animation on a card is cancelled *before*
+// the destination rect is read so the measurement is always the pure layout
+// position, not a frame that still carries the old translation.
 const flipAnims = new WeakMap();
 function flipReorder(listEl, dragEl, mutate) {
   const rows = Array.from(listEl.querySelectorAll(".dpaam-card--favorite"));
   const firstRects = new Map();
   for (const r of rows) {
     if (r === dragEl) continue;
+    // Start from where the card visually is right now (may be mid-flight).
     const rect = r.getBoundingClientRect();
     firstRects.set(r, { top: rect.top, left: rect.left });
   }
@@ -418,14 +435,18 @@ function flipReorder(listEl, dragEl, mutate) {
 
   for (const r of rows) {
     if (r === dragEl) continue;
+
+    // Cancel any running animation before reading the destination rect so
+    // the measured position reflects the settled grid layout, not the
+    // animation's current transform offset.
+    const prev = flipAnims.get(r);
+    if (prev) prev.cancel();
+
     const newRect = r.getBoundingClientRect();
     const first = firstRects.get(r);
     const dx = first.left - newRect.left;
     const dy = first.top - newRect.top;
     if (!dx && !dy) continue;
-
-    const prev = flipAnims.get(r);
-    if (prev) prev.cancel();
 
     const anim = r.animate(
       [
@@ -454,16 +475,17 @@ function pulseFavoriteHeart(btn) {
   );
 }
 
-function addFavorite(gameId, { toast = true } = {}) {
+function addFavorite(gameId, { toast = true, pulseBtn } = {}) {
   if (!gameById(gameId)) return;
   if (isFavorite(gameId)) return;
   const wasEmpty = state.favorites.length === 0;
   state.favorites.push(gameId);
   updateLibraryFavoriteButton(gameId);
+  refreshModalFavoriteButton();
   const libraryBtn = els.libraryList.querySelector(
     `.dpaam-card--library[data-game-id="${CSS.escape(gameId)}"] .dpaam-btn-favorite`,
   );
-  pulseFavoriteHeart(libraryBtn);
+  pulseFavoriteHeart(pulseBtn || libraryBtn);
   if (wasEmpty) {
     renderFavorites();
   } else {
@@ -477,6 +499,7 @@ function addFavorite(gameId, { toast = true } = {}) {
 function removeFavorite(gameId) {
   state.favorites = state.favorites.filter((id) => id !== gameId);
   updateLibraryFavoriteButton(gameId);
+  refreshModalFavoriteButton();
   if (state.favorites.length === 0) {
     renderFavorites();
   } else {
@@ -689,17 +712,20 @@ function updateFavoritesChrome() {
   renderTabCounts();
 }
 
-function updateLibraryFavoriteButton(gameId) {
-  const row = els.libraryList.querySelector(
-    `.dpaam-card--library[data-game-id="${CSS.escape(gameId)}"]`,
-  );
-  if (!row) return;
-  const btn = row.querySelector(".dpaam-btn-favorite");
+function applyFavoriteButtonState(btn, gameId) {
   if (!btn) return;
   const saved = isFavorite(gameId);
   btn.dataset.action = saved ? "remove-favorite" : "save-favorite";
   btn.setAttribute("aria-label", saved ? "Remove from favorites" : "Add to favorites");
   btn.innerHTML = heartIconSvg({ filled: saved });
+}
+
+function updateLibraryFavoriteButton(gameId) {
+  const row = els.libraryList.querySelector(
+    `.dpaam-card--library[data-game-id="${CSS.escape(gameId)}"]`,
+  );
+  if (!row) return;
+  applyFavoriteButtonState(row.querySelector(".dpaam-btn-favorite"), gameId);
 }
 
 function appendFavoriteCard(gameId) {
@@ -1480,6 +1506,7 @@ function openModal(gameId, context = "library") {
 
   refreshModalActionButton();
   refreshModalPreviewButton();
+  refreshModalFavoriteButton();
 
   showExclusiveModal(els.modal);
 }
@@ -1544,6 +1571,18 @@ function refreshModalPreviewButton() {
   } else {
     btn.textContent = "Preview";
   }
+}
+
+function refreshModalFavoriteButton() {
+  if (!modalGameId || !els.modalFavorite) return;
+  const btn = els.modalFavorite;
+  if (modalContext === "favorites" && isFavorite(modalGameId)) {
+    btn.dataset.action = "remove-favorite";
+    btn.setAttribute("aria-label", "Remove from favorites");
+    btn.innerHTML = removeIconSvg();
+    return;
+  }
+  applyFavoriteButtonState(btn, modalGameId);
 }
 
 function closeAnimatedModal(modal) {
@@ -2306,6 +2345,16 @@ function wireEvents() {
     previewWindow.opener = null;
     previewWindow.location.replace(previewUrl);
   }
+
+  // Modal like / favorite
+  els.modalFavorite?.addEventListener("click", () => {
+    if (!modalGameId) return;
+    if (isFavorite(modalGameId)) {
+      removeFavorite(modalGameId);
+    } else {
+      addFavorite(modalGameId, { pulseBtn: els.modalFavorite });
+    }
+  });
 
   // Modal Preview / Answer Key
   els.modalPreview.addEventListener("click", () => {

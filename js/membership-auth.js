@@ -253,6 +253,10 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setAuthView("reset", { focus: true });
   });
 
+  document.getElementById("dpaam-auth-reset-back")?.addEventListener("click", () => {
+    setAuthView("signin", { focus: true });
+  });
+
   wirePasswordToggles(section);
   setAuthView("signin");
 

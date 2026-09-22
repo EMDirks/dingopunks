@@ -431,6 +431,11 @@
   margin-left: 0;
 }
 
+#dpaam-auth #dpaam-auth-reset-back,
+#dpaam-auth #dpaam-auth-reset-back:hover {
+  color: inherit;
+}
+
 .dpaam-auth-switch-text {
   margin: var(--dpaam-pad-xl) 0 0;
   font-size: var(--dpaam-text-xs);

@@ -80,8 +80,7 @@ Functions:
 There is currently no repository-owned browser E2E suite or CI workflow, so the manual gates below are required.
 
 - [X] **P0** Load the release candidate with DevTools open and resolve every uncaught exception, failed first-party request, mixed-content warning, and missing production asset.
-- [ ] **P0** Verify the browser loads pinned Firebase modules successfully on normal home, school, and privacy-filtered networks.
-- [ ] **P0** Test localhost only while the Emulator Suite is visibly connected. The current client intentionally falls back to production when emulators are absent.
+- [X] **P0** Verify the browser loads pinned Firebase modules successfully on normal home, school, and privacy-filtered networks. (2026-09-22: home and school pass. uBlock, Brave shields, and Safari Prevent Cross-Site Tracking do not block `gstatic.com/firebasejs`, so they are not a useful stand-in. Real privacy-filtered networks deferred to the post-launch runway.)
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, paid sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every pull request.
 
@@ -98,11 +97,21 @@ There is currently no repository-owned browser E2E suite or CI workflow, so the 
 
 ### Firebase
 
-- [ ] **P0** Project is `dpaam-8864d`, Blaze billing is active, and Identity Platform is enabled.
-- [ ] **P0** Email/password and Google providers are enabled and configured for the correct support email.
-- [ ] **P0** `play.dingopunks.com` and `account.dingopunks.com` (and any other membership origin) are Firebase **Authorized domains**.
-- [ ] **P0** Google Cloud **Browser API key** HTTP referrers include `account.dingopunks.com/*` (403 on `identitytoolkit.googleapis.com` means this is missing). See `readme/dpaam-account-domain.md`.
-- [ ] **P0** Verification and password-reset emails use the correct sender name, branding, destination URL, and non-spammy copy.
+- [X] **P0** Project is `dpaam-8864d`, Blaze billing is active, and Identity Platform is enabled.
+- [X] **P0** Email/password and Google providers are enabled and configured for the correct support email.
+- [X] **P0** `play.dingopunks.com` and `account.dingopunks.com` (and any other membership origin) are Firebase **Authorized domains**.
+- [X] **P0** Google Cloud **Browser API key** HTTP referrers include `account.dingopunks.com/*` (403 on `identitytoolkit.googleapis.com` means this is missing). See `readme/dpaam-account-domain.md`.
+- [ ] **P0** Every customer email uses the correct sender name, Dingo Punks branding, a working destination link, and clear non-spammy copy. Open each of these and check it. Next session (2026-09-23): proofread the Stripe emails below.
+
+  - **Verify your email** (Firebase). Sent when someone signs up with email and password, and again from Resend verification email.
+  - **Reset your password** (Firebase). Sent from Forgot? on the login screen and from Reset password in the Account panel. One template.
+  - **Payment receipt** (Stripe). Sent after a successful All-Access charge, including the first purchase and a later renewal.
+  - **Refund receipt** (Stripe). Sent when a charge is refunded.
+  - **Upcoming renewal reminder** (Stripe). Sent before the annual renewal, with the renewal date and the amount that will be charged. The 30-day timing is checked in the renewal item below.
+  - **Failed payment** (Stripe). Sent when a subscription card charge fails, with a way to update the card.
+  - **Expiring card** (Stripe). Sent before the card on file expires.
+  - **Confirm your payment** (Stripe). Sent when the bank requires an extra confirmation step.
+  - **Subscription canceled** (Stripe). Sent when the subscription is canceled.
 - [ ] **P0** Firestore rules deployed from the release commit match `firestore.rules`.
 - [ ] **P0** Functions run on the intended Node runtime and every required function is deployed.
 - [ ] **P0** Production values exist for `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `STRIPE_PRICE_ID`; test-mode values are not deployed to live.
@@ -350,6 +359,7 @@ Smoke journey for each device:
 - [ ] Repeat cross-account entitlement, cancellation, paid share, and student-launch smoke tests.
 - [ ] Review Cloudflare/Firebase/Stripe logs for errors that did not produce support tickets.
 - [ ] Check school-network, iPad, Chromebook, Safari, popup-blocker, and email-deliverability reports.
+- [ ] Test pinned Firebase module load on a real privacy-filtered network (for example NextDNS or similar DNS/filter lists). Browser blockers (uBlock, Brave shields, Safari Prevent Cross-Site Tracking) do not block `gstatic` and do not count.
 - [ ] Prioritize the remaining P1 list and automate the highest-frequency regression journey.
 
 ### After 7 days

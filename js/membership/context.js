@@ -71,6 +71,7 @@ const els = {
   modalBody: document.getElementById("dpaam-modal-body"),
   modalAdd: document.getElementById("dpaam-modal-add"),
   modalPreview: document.getElementById("dpaam-modal-preview"),
+  modalFavorite: document.getElementById("dpaam-modal-favorite"),
   themeModal: document.getElementById("dpaam-theme-modal"),
   themeModalTitle: document.getElementById("dpaam-theme-modal-title"),
   themeModalSeason: document.getElementById("dpaam-theme-modal-season"),
