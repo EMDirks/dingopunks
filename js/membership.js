@@ -247,8 +247,16 @@ function formatExpiresLabel(expiresAt) {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
+  // Round up to the smallest unit on screen, so a fresh 14-day code reads
+  // "14d 0h" until a full hour has passed, and "2h 0m" instead of "1h 59m".
+  if (days > 0) {
+    const roundedHours = Math.ceil(totalSeconds / 3600);
+    return `${Math.floor(roundedHours / 24)}d ${roundedHours % 24}h`;
+  }
+  if (hours > 0) {
+    const roundedMinutes = Math.ceil(totalSeconds / 60);
+    return `${Math.floor(roundedMinutes / 60)}h ${roundedMinutes % 60}m`;
+  }
   if (minutes > 0) return `${minutes}m ${seconds}s`;
   return `${seconds}s`;
 }
