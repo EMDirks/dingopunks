@@ -258,52 +258,36 @@
 
 .access-input-container--checking .access-input {
     opacity: 0.5;
-    animation: manual-code-wave 0.4s linear infinite;
+    animation: manual-code-wave 0.6s linear infinite;
     pointer-events: none;
 }
 
 .access-input-container--checking .access-input:nth-child(2) {
-    animation-delay: 0.05s;
+    animation-delay: 0.075s;
 }
 
 .access-input-container--checking .access-input:nth-child(3) {
-    animation-delay: 0.1s;
-}
-
-.access-input-container--checking .access-input:nth-child(4) {
     animation-delay: 0.15s;
 }
 
-.access-input-container--checking .access-input:nth-child(5) {
-    animation-delay: 0.2s;
+.access-input-container--checking .access-input:nth-child(4) {
+    animation-delay: 0.225s;
 }
 
-/* A sine hump, not a triangle. Neighbors overlap, then the row rests
-   at the bottom before the next pass. */
+.access-input-container--checking .access-input:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+/* Each half of the hump eases in and out, so the handoff between boxes
+   stays curved. The row then rests before the next pass. */
 @keyframes manual-code-wave {
     0% {
         transform: translateY(0);
-    }
-    5% {
-        transform: translateY(-2.9%);
-    }
-    10% {
-        transform: translateY(-5.5%);
-    }
-    15% {
-        transform: translateY(-7.2%);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
     }
     21% {
         transform: translateY(-8%);
-    }
-    27% {
-        transform: translateY(-7.2%);
-    }
-    32% {
-        transform: translateY(-5.5%);
-    }
-    37% {
-        transform: translateY(-2.9%);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
     }
     42%,
     100% {

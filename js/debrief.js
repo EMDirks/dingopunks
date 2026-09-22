@@ -1,4 +1,4 @@
-const version = '3.4.134';
+const version = '3.4.135';
 
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
