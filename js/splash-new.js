@@ -182,6 +182,25 @@ function lookupMembershipCode(code) {
   });
 }
 
+function setManualCodeCheckingState(isChecking) {
+  const cells = document.querySelectorAll('.access-input');
+  const inputContainer = document.querySelector('.access-input-container');
+
+  cells.forEach(function(cell) {
+    cell.disabled = isChecking;
+  });
+  keyboardButtonsSplash.forEach(function(button) {
+    button.disabled = isChecking;
+  });
+
+  if (inputContainer) {
+    inputContainer.classList.toggle('access-input-container--checking', isChecking);
+  }
+  if (keyboardSplash) {
+    keyboardSplash.classList.toggle('keyboard--splash-checking', isChecking);
+  }
+}
+
 // The only feedback a rejected code gets: flash the cells red and clear them.
 function flashAccessInputs() {
   const cells = document.querySelectorAll('.access-input');
@@ -225,6 +244,7 @@ function submitMembershipCode(code) {
   }
 
   membershipLookupPending = true;
+  setManualCodeCheckingState(true);
 
   lookupMembershipCode(code)
     .then(function(game) {
@@ -233,6 +253,7 @@ function submitMembershipCode(code) {
     })
     .catch(function(error) {
       membershipLookupPending = false;
+      setManualCodeCheckingState(false);
       reportMembershipCodeError(error, true);
     });
 }
@@ -265,6 +286,7 @@ function launchMembershipGame(game, notBefore, skipAccessStep) {
       if (skipAccessStep) {
         setTimeout(transitionSplash, 200);
       } else {
+        setManualCodeCheckingState(false);
         setTimeout(removeAccessInputs, 200);
         setTimeout(transitionSplash, 1300);
       }
