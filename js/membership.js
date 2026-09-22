@@ -239,17 +239,52 @@ function activeCodeFor(id) {
 }
 
 function formatExpiresLabel(expiresAt) {
-  const remaining = expiresAt - Date.now();
-  if (remaining <= 0) return "Expired";
+  const totalSeconds = Math.ceil((expiresAt - Date.now()) / 1000);
+  if (totalSeconds <= 0) return "Expired";
 
-  const totalMinutes = Math.floor(remaining / 60000);
-  const days = Math.floor(totalMinutes / (24 * 60));
-  const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
-  const minutes = totalMinutes % 60;
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
   if (days > 0) return `${days}d ${hours}h`;
   if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes}m`;
+  if (minutes > 0) return `${minutes}m ${seconds}s`;
+  return `${seconds}s`;
+}
+
+const DAY_MS = 86400000;
+
+function expiresTone(expiresAt) {
+  const remaining = expiresAt - Date.now();
+  if (remaining < DAY_MS) return "salmon";
+  if (remaining < 7 * DAY_MS) return "gold";
+  return "";
+}
+
+function applyExpiresTone(label, expiresAt) {
+  const tone = expiresTone(expiresAt);
+  label.classList.toggle("dpaam-card__label--gold", tone === "gold");
+  label.classList.toggle("dpaam-card__label--salmon", tone === "salmon");
+}
+
+function tickActiveCodeTimers() {
+  if (state.activeCodes.length === 0) return;
+  const expiredRemoved = pruneExpiredCodes();
+  if (expiredRemoved) {
+    renderActiveCodes();
+    renderFavorites();
+    return;
+  }
+  for (const entry of state.activeCodes) {
+    const label = els.activeList?.querySelector(
+      `.dpaam-card--active[data-game-id="${CSS.escape(entry.gameId)}"] .dpaam-card__label`,
+    );
+    if (!label) continue;
+    const timer = label.querySelector(".dpaam-active-card-timer");
+    if (timer) timer.textContent = formatExpiresLabel(entry.expiresAt);
+    applyExpiresTone(label, entry.expiresAt);
+  }
 }
 
 function pruneExpiredCodes() {
@@ -317,10 +352,12 @@ function heartIconSvg({ filled = false } = {}) {
 
 function activeCardTimerHtml(expiresAt) {
   const expiresLabel = formatExpiresLabel(expiresAt);
+  const tone = expiresTone(expiresAt);
+  const toneClass = tone ? ` dpaam-card__label--${tone}` : "";
   if (expiresLabel === "Expired") {
-    return `<div class="dpaam-card__label"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+    return `<div class="dpaam-card__label${toneClass}"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
   }
-  return `<div class="dpaam-card__label">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+  return `<div class="dpaam-card__label${toneClass}">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
 // During a live drag-reorder, decide which sibling card the dragged element
@@ -2652,12 +2689,7 @@ function init() {
   renderFavorites();
   renderLibrary();
   setActiveTab(pickDefaultTab());
-  setInterval(() => {
-    if (state.activeCodes.length === 0) return;
-    const expiredRemoved = pruneExpiredCodes();
-    renderActiveCodes();
-    if (expiredRemoved) renderFavorites();
-  }, 60_000);
+  setInterval(tickActiveCodeTimers, 1000);
 }
 
 init();

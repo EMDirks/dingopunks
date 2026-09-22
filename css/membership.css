@@ -1130,7 +1130,17 @@ a.dpaam-topbar-btn {
   box-sizing: border-box;
   padding-top: 10px;
   font-weight: 400;
-  border-radius: 0 0 var(--dpaam-radius-lg) var(--dpaam-radius-lg);
+  border-radius: 0 0 calc(var(--dpaam-radius-xl) - 1px) calc(var(--dpaam-radius-xl) - 1px);
+}
+
+.dpaam-card--active .dpaam-card__label--gold {
+  color: var(--dpaam-gold-dark);
+  background-color: var(--dpaam-gold-light);
+}
+
+.dpaam-card--active .dpaam-card__label--salmon {
+  color: var(--dpaam-salmon-dark);
+  background-color: var(--dpaam-salmon-light);
 }
 
 /* --- Drag state (favorites only) --- */

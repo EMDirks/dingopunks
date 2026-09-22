@@ -89,6 +89,8 @@ There is currently no repository-owned browser E2E suite or CI workflow, so the 
 
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
+- [ ] **P1** Show a modal when a student enters a wrong game code. Today a miss only flashes the cells red and clears them.
+- [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent.
 
 ---
 
