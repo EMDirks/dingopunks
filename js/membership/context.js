@@ -32,7 +32,7 @@ const LIBRARY_THEME_ORDER_BY_SEASON = games.reduce((map, game) => {
 const state = {
   favorites: [],            // ordered array of game ids
   activeCodes: [],          // [{ gameId, code, expiresAt, createdAt }]
-  filters: { season: "all", grade: "all", subject: "all", newThisMonth: false },
+  filters: { season: "all", grade: "all", subject: "all" },
   guideFaqOpen: false,
   activeTab: null,
   membershipAccess: "free", // "member" | "free" — derived from users/{uid}.plan

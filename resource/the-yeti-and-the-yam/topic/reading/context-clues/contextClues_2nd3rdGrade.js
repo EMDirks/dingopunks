@@ -21,7 +21,7 @@ const resource = {
                 asset: "pippo-fizzlepop.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read each label, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read each passage, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -65,7 +65,7 @@ const resource = {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue: {
-                    incomplete: "Need an oven to bake those yams? No problem! I can build anything. But first, I need help reading the labels on these old parts. Think you can help?",
+                    incomplete: "Need an oven to bake those yams? No problem! I can build anything. But first, I need help reading the labels on some old parts. Think you can help?",
                     complete: "Thanks for the help! If you see my sister Topsy, tell her I miss her."
                 },
             },
@@ -90,7 +90,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "-8%",
-                                translateY: "-4%",
+                                translateY: "-10%",
                                 rotate: "-2deg",
                             }
                         }
@@ -146,7 +146,7 @@ const resource = {
                         ],
                         style: {
                             transform: {
-                                translateX: "6%",
+                                translateX: "12%",
                                 translateY: "6%",
                                 rotate: "-1deg",
                             }
@@ -296,7 +296,7 @@ const resource = {
                 character: "The Frozen Knight",
                 asset: "the-frozen-knight.png",
                 dialogue: {
-                    incomplete: "Need some marshmallows for those candied yams? I\'ve got some! But first, help me read this secret letter. Some of these words are giving me trouble.",
+                    incomplete: "Need some marshmallows for those candied yams? I\'ve got some! But first, help me read this secret letter. Some words are giving me trouble.",
                     complete: "If you happen to get out of here, tell King Kevin we still need help!"
                 },
             },
@@ -316,9 +316,7 @@ const resource = {
                                     <br>\
                                     &nbsp;&nbsp; I still remember the day you marched over the [<hi>hillside] to catch that yeti. You were very brave then, and you are still brave now. Do not give up!\
                                     <br>\
-                                    <br>\
                                     &nbsp;&nbsp; I hope you and the others can make a [<sal>campfire] soon. It may be cold in the cave, but I bet it feels [<hi>freezing] at night!\
-                                    <br>\
                                     <br>\
                                     &nbsp;&nbsp; Everyone in the kingdom is waiting for you to come home. Some people whisper about your return, some speak about it, and some [<hi>shout] from the rooftops!\
                                     <br>\
@@ -332,7 +330,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "-4%",
-                                translateY: "2%",
+                                translateY: "8%",
                                 rotate: "1deg",
                             }
                         }
@@ -347,7 +345,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "4%",
-                                translateY: "6%",
+                                translateY: "-8%",
                                 rotate: "-2deg",
                             }
                         }
@@ -408,7 +406,7 @@ const resource = {
                         word: "C[A]MP",
                     },
                     {
-                        title: "[<g>3.] Which word means \"the side of a hill\"?",
+                        title: "[<g>3.] Which word means \"the side of a hill\" ?",
                         word: "H[I]LLSIDE",
                     },
                     {
@@ -585,7 +583,7 @@ const resource = {
                     ],
                     puzzle: [
                         ["0","0","0","(C)F","0","0","0"],
-                        ["0","(D)G","3L","E","2A","M","D"],
+                        ["(D)G","3L","E","2A","M","E","D"],
                         ["0","0","0","S","0","0","0"],
                         ["0","0","0","(A)1T","R","U","E"],
                         ["0","0","0","0","0","0","0"],
@@ -769,7 +767,7 @@ const resource = {
                         title: "[<g>3.] Which of these places is usually \"underground\" ?",
                         correctIndex: 1,
                         paragraph: [
-                            "A {n} ocean",
+                            "A{n} ocean",
                             "A {c}ave",
                             "A moun{t}ain",
                         ],

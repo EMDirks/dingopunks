@@ -694,12 +694,15 @@ function updateLibraryNewFilter() {
   const count = newGamesCount();
   if (count === 0) {
     btn.hidden = true;
-    state.filters.newThisMonth = false;
+    if (state.filters.season === "new") {
+      state.filters.season = "all";
+      if (els.filters.season) els.filters.season.value = "all";
+    }
     return;
   }
   btn.hidden = false;
   btn.textContent = `${count} new this month →`;
-  btn.setAttribute("aria-pressed", String(state.filters.newThisMonth));
+  btn.setAttribute("aria-pressed", String(state.filters.season === "new"));
   btn.setAttribute(
     "aria-label",
     `Show ${count} new escape room${count === 1 ? "" : "s"} this month`,
@@ -719,8 +722,9 @@ function renderLibrary() {
   const f = state.filters;
 
   const filtered = games.filter((g) => {
-    if (f.newThisMonth) return Boolean(g.isNew);
-    if (f.season === "free") {
+    if (f.season === "new") {
+      if (!g.isNew) return false;
+    } else if (f.season === "free") {
       if (!g.isFree) return false;
     } else if (f.season !== "all" && g.season !== f.season) return false;
     if (f.subject !== "all" && g.subject !== f.subject) return false;
@@ -777,11 +781,25 @@ function populateFilters() {
   const prevSeason = els.filters.season.value || state.filters.season;
 
   fillSelect(els.filters.season, seasons, formatLabel, "All seasons");
+  let seasonInsertAt = 1;
+  if (newGamesCount() > 0) {
+    const newSeasonOption = document.createElement("option");
+    newSeasonOption.value = "new";
+    newSeasonOption.textContent = "★ New";
+    els.filters.season.insertBefore(
+      newSeasonOption,
+      els.filters.season.options[seasonInsertAt] ?? null,
+    );
+    seasonInsertAt += 1;
+  }
   if (state.membershipAccess === "free") {
     const freeSeasonOption = document.createElement("option");
     freeSeasonOption.value = "free";
     freeSeasonOption.textContent = "Free";
-    els.filters.season.insertBefore(freeSeasonOption, els.filters.season.options[1] ?? null);
+    els.filters.season.insertBefore(
+      freeSeasonOption,
+      els.filters.season.options[seasonInsertAt] ?? null,
+    );
   }
 
   let seasonValue = prevSeason;
@@ -990,7 +1008,8 @@ function freeGamesCount() {
 
 function planPanelTierPillHtml(tierName, planNameId = "") {
   const idAttr = planNameId ? ` id="${escapeHtml(planNameId)}"` : "";
-  return `<p class="dpaam-plan-panel__tagline"><span class="dpaam-pill dpaam-plan-panel__summary-pill"${idAttr}>${escapeHtml(tierName)}</span></p>`;
+  const tierClass = tierName === "All-Access" ? " dpaam-tier-pill--all-access" : "";
+  return `<p class="dpaam-plan-panel__tagline"><span class="dpaam-pill dpaam-plan-panel__summary-pill${tierClass}"${idAttr}>${escapeHtml(tierName)}</span></p>`;
 }
 
 function currentPlanStatusHtml() {
@@ -1132,7 +1151,6 @@ function unlimitedPlanPanelHtml({
 } = {}) {
   const isManage = action === "manage";
   const showOfferImage = includeOfferImage ?? !isManage;
-  const eyebrowHtml = isManage ? `<p class="dpaam-plan-panel__eyebrow">Your plan</p>` : "";
   const taglineHtml = planPanelTierPillHtml("All-Access", planNameId);
   const pricingHtml = isManage
     ? memberPlanPricingHtml(billingProfile)
@@ -1151,7 +1169,6 @@ function unlimitedPlanPanelHtml({
 
   const panelInner = `
       <div class="dpaam-plan-panel__hero">
-        ${eyebrowHtml}
         ${taglineHtml}
       </div>
       <div class="dpaam-plan-panel__body">
@@ -2141,15 +2158,22 @@ function wireEvents() {
 
   // Filters
   els.libraryNewFilter?.addEventListener("click", () => {
-    const nextActive = !state.filters.newThisMonth;
-    state.filters.newThisMonth = nextActive;
-    if (nextActive) resetLibraryDropdownFilters();
+    const nextActive = state.filters.season !== "new";
+    if (nextActive) {
+      state.filters.season = "new";
+      els.filters.season.value = "new";
+      state.filters.grade = "all";
+      state.filters.subject = "all";
+      els.filters.grade.value = "all";
+      els.filters.subject.value = "all";
+    } else {
+      resetLibraryDropdownFilters();
+    }
     renderLibrary();
   });
 
   Object.entries(els.filters).forEach(([key, sel]) => {
     sel.addEventListener("change", () => {
-      state.filters.newThisMonth = false;
       state.filters[key] = sel.value;
       renderLibrary();
     });

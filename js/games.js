@@ -1930,8 +1930,9 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  {
+  /* {
     id: "the-hasty-harvest-story-elements-2-3",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1944,11 +1945,11 @@ export const games = [
       "Structure",
       "Theme",
     ],
-    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/story-elements/thumbnail-2nd-3rd-grade.png",
+    thumbnail: "assets/branding/placeholder/need-image.png",
     path: "resource/the-hasty-harvest/topic/reading/story-elements/storyElements_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  },
+  }, */
   {
     id: "the-hasty-harvest-story-elements-4-5",
     title: "The Hasty Harvest",
@@ -1968,8 +1969,9 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  {
+  /* {
     id: "the-hasty-harvest-poetry-2-3",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1982,11 +1984,11 @@ export const games = [
       "Language and Vocabulary",
       "Central Message or Lesson",
     ],
-    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/poetry/thumbnail-2nd-3rd-grade.png",
+    thumbnail: "assets/branding/placeholder/need-image.png",
     path: "resource/the-hasty-harvest/topic/reading/poetry/poetry_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  },
+  }, */
   {
     id: "the-hasty-harvest-poetry-4-5",
     title: "The Hasty Harvest",
@@ -2006,8 +2008,9 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  {
+  /* {
     id: "the-hasty-harvest-making-inferences-2-3",
+    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2020,11 +2023,11 @@ export const games = [
       "Making Inferences About a Visual",
       "Solving Riddles",
     ],
-    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/making-inferences/thumbnail-2nd-3rd-grade.png",
+    thumbnail: "assets/branding/placeholder/need-image.png",
     path: "resource/the-hasty-harvest/topic/reading/making-inferences/makingInferences_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  },
+  }, */
   {
     id: "the-hasty-harvest-making-inferences-4-5",
     title: "The Hasty Harvest",
@@ -2242,7 +2245,7 @@ export const games = [
   // The Yeti and the Yams
   // ─────────────────────────────────────────────
 
-  {
+  /* {
     id: "yeti-and-the-yams-mixed-reading-skills-2",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2258,11 +2261,11 @@ export const games = [
       "Text Features",
       "Story Elements",
     ],
-    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-2nd-grade.png",
+    thumbnail: "assets/branding/placeholder/need-image.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_2ndGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  },
+  }, */
   {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
     title: "The Yeti and the Yams",
@@ -2323,7 +2326,7 @@ export const games = [
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
   },
-  {
+  /* {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-2-3",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2342,8 +2345,8 @@ export const games = [
     path: "resource/the-yeti-and-the-yam/topic/reading/main-idea/mainIdea_2nd3rdGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  },
-  {
+  }, */
+  /* {
     id: "yeti-and-the-yams-context-clues-and-vocabulary-2-3",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2362,7 +2365,7 @@ export const games = [
     path: "resource/the-yeti-and-the-yam/topic/reading/context-clues/contextClues_2nd3rdGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  },
+  }, */
   {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-4-5",
     title: "The Yeti and the Yams",

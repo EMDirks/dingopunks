@@ -20,11 +20,12 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - Keep test accounts clearly labeled and remove their production share codes and rebate claims when testing is complete.
 - Final launch rule: all P0 items checked, no open critical/high defects, and one named person makes the go/no-go decision.
 
-## Shopify changes
+## Shopify + platform changes
 - [ ] **Add account button to header**
 - [ ] **Wire in new ToS and PP**
 - [ ] **Add a help doc/FAQ**
 - [ ] **config the alphabetic keyboard**
+- [ ] **remove debug panel**
 
 ## Current P0 blockers
 
@@ -41,7 +42,7 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 
 ### Release control
 
-- [ ] **P0** Choose the release commit and record its SHA here: `________________`.
+- [ ] **P0** Choose the release commit and record its SHA here:
 - [ ] **P0** Working tree is clean; every intended launch change is committed.
 - [ ] **P0** Confirm the generated game catalog is current:
 
@@ -53,22 +54,26 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - [ ] **P0** Confirm all catalog entries used by the membership library have a valid resource path, thumbnail, metadata, and server-exported game ID.
 - [ ] **P0** Freeze unrelated content and refactors until launch verification is complete.
 - [ ] **P0** Record the currently deployed Cloudflare Pages version and Firebase Functions revisions so rollback is possible.
+Version:
+Cloudflare:
+Git:
+Functions:
 
 ### Backend test suite
 
-- [ ] **P0** From the repo root, run:
+- [X] **P0** From the repo root, run:
 
   ```sh
   npm --prefix firebase-functions test
   ```
 
-- [ ] **P0** All Firestore rules tests pass: own-profile reads, no profile enumeration, no client entitlement writes, bounded preferences, owner-only code queries, backend collections denied, unknown paths denied.
-- [ ] **P0** All share-code tests pass: free/paid entitlement, catalog validation, idempotency, expiry, 20-code cap, collisions, cancellation, and blocked/profane codes.
-- [ ] **P0** All public-resolution tests pass: format handling, generic not-found behavior, expiration, trusted client-IP extraction, IPv6 bucketing, and 30-per-10-minute limiting.
-- [ ] **P0** All beta/public-signup tests are updated for the public-launch behavior and pass after the beta gate is removed.
-- [ ] **P0** All Stripe tests pass: rebate validation and uniqueness, checkout rate limiting, duplicate-subscription prevention, portal creation, webhook ordering, cancellation, lapse, and safe error mapping.
-- [ ] **P0** Run `npm audit` in `firebase-functions`; triage every high or critical production dependency finding.
-- [ ] **P0** No secrets, live Stripe IDs, real customer data, or private access codes appear in tracked files or the browser bundle.
+- [X] **P0** All Firestore rules tests pass: own-profile reads, no profile enumeration, no client entitlement writes, bounded preferences, owner-only code queries, backend collections denied, unknown paths denied.
+- [X] **P0** All share-code tests pass: free/paid entitlement, catalog validation, idempotency, expiry, 20-code cap, collisions, cancellation, and blocked/profane codes.
+- [X] **P0** All public-resolution tests pass: format handling, generic not-found behavior, expiration, trusted client-IP extraction, IPv6 bucketing, and 30-per-10-minute limiting.
+- [X] **P0** All beta/public-signup tests are updated for the public-launch behavior and pass after the beta gate is removed.
+- [X] **P0** All Stripe tests pass: rebate validation and uniqueness, checkout rate limiting, duplicate-subscription prevention, portal creation, webhook ordering, cancellation, lapse, and safe error mapping.
+- [X] **P0** Run `npm audit` in `firebase-functions`; triage every high or critical production dependency finding. (2026-09-22: `--omit=dev`, no high/critical; `npm audit fix` for `qs`; 8 moderate transitive `uuid` in Firebase SDK — deferred, see post-launch backlog.)
+- [X] **P0** No secrets, live Stripe IDs, real customer data, or private access codes appear in tracked files or the browser bundle. (2026-09-22: scanned all tracked files for Stripe keys/IDs (`sk_live`, `pk_live`, `whsec_`, `price_`/`cus_`/`sub_` etc.), private keys, tokens, `.env`/credential files, high-entropy literals, and email addresses — clean. Only emails are `example.com` test fixtures, the public support address, and the owner's email in an internal doc. Firebase browser API key in `js/firebase-init.js` is public by design (referrer restriction is Gate 2). `firebase-functions/.env.dpaam-8864d` is gitignored and untracked. Fixed this pass: 176 accidentally tracked `node_modules/` playwright files untracked and `node_modules/` added to `.gitignore`, closing the risk of the publish skill's `git add -A` committing the Wrangler account cache. Accepted exception: legacy 5-digit purchase codes are derivable from `googleAnalyticsID` strings in `js/analytics.js` in the shipped bundle — required by design for offline legacy play (Gate 6); membership share codes are server-side only. Old beta code `BETA01` in git history is already documented as rotated/burned.)
 
 ### Frontend confidence
 
@@ -79,6 +84,11 @@ There is currently no repository-owned browser E2E suite or CI workflow, so the 
 - [ ] **P0** Test localhost only while the Emulator Suite is visibly connected. The current client intentionally falls back to production when emulators are absent.
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, paid sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every pull request.
+
+### Post-launch backlog (P1)
+
+- [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
+- [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
 
 ---
 

@@ -97,7 +97,7 @@ const resource = {
                             padding: "double"
                         },
                         dimension: {
-                            width: "percent60",
+                            width: "percent65",
                             height: "auto",
                         },
                         flexbox: {
@@ -109,17 +109,17 @@ const resource = {
                         {
                             title: {
                                 font: 'default',
-                                size: 'medium',
+                                size: 'large',
                                 align: 'center'
                             },
                             subtitle: {
                                 font: 'default',
-                                size: 'small',
+                                size: 'mediumSmall',
                                 align: 'center'
                             },
                             passage: {
                                 font: 'default',
-                                size: 'mediumSmall',
+                                size: 'medium',
                                 align: 'left',
                                 brSplit: 'default',
                                 indent: 'default',
@@ -144,7 +144,7 @@ const resource = {
                         paragraph: [
                             "A crashed plane mus{t} be fixed before it can fly",
                             "Planes can be painte{d} many different colors",
-                            "My favorite color is purpl{e}",
+                            "Engineer Topsy\'s favorite color is purpl{e}",
                         ],
                     },
                     {
@@ -152,7 +152,7 @@ const resource = {
                         correctIndex: 0,
                         paragraph: [
                             "\"First, fix any cracks in th{e} wings.\"",
-                            "\"My favorite color is purple{e}.\"",
+                            "\"My favorite color is purpl{e}.\"",
                             "\"Planes can be painted many different colo{r}s.\"",
                         ],
                     },
@@ -248,11 +248,11 @@ const resource = {
                                     text: "By Tater Durant",
                                 },
                                 passage: {
-                                    text: "There once was a little potato riding in a cart. When the cart hit a bump, he fell off and landed in the snow. He felt cold, and he shivered every time the wind blew. So he rolled through the snow, looking for somewhere warm.\
+                                    text: "There once was a little potato riding in a cart. When the cart hit a bump, the little potato fell off and landed in the snow. He felt cold, and he shivered every time the wind blew. So he rolled through the snow, looking for somewhere warm.\
                                     <br>\
-                                    First, he hid under a tree, but the cold wind still found him. [<hi>Then he hid under a sock, but the sock was full of snow.] \"There has to be a warmer place!\" he cried.\
+                                    First, the little potato hid under a tree, but the cold wind still found him. [<hi>Then he hid under a sock, but the sock was full of snow.] \"There has to be a warmer place!\" he cried.\
                                     <br>\
-                                    At last, he spotted a campfire. A big pot of stew bubbled over the flames. The potato grinned. \"Perfect!\" he shouted, and with one happy hop, he jumped right into the pot."
+                                    At last, the little potato spotted a campfire. A big pot of stew bubbled over the flames. The potato grinned. \"Perfect!\" he shouted. And with one happy hop, he jumped right into the pot."
                                 }
                             }
                         ],
@@ -383,8 +383,8 @@ const resource = {
                 character: "Captain Fishbeard",
                 asset: "fishbeard.png",
                 dialogue: {
-                    incomplete: "Arr, matey! You need butter for those candied yams? I\'ve got plenty! But first, help me read this guide. My crew can\'t tell the main ideas apart.",
-                    complete: "Shiver me timbers, you\'re a sharp reader! Take the butter, and remember ol\' Fishbeard if you find gold!"
+                    incomplete: "Arr! I got captured while hunting for gold, but I\'m not giving up yet! I made a new plan for finding treasure. Read it over and tell me what ye think!",
+                    complete: "Aye, you\'re a sharp one! Take the butter, and remember ol\' Fishbeard if you find gold!"
                 },
             },
 
@@ -404,7 +404,7 @@ const resource = {
                                     text: "By Captain Fishbeard",
                                 },
                                 passage: {
-                                    text: "A good pirate never gives up on gold! There are two smart ways to look for treasure.\
+                                    text: "A good pirate never gives up on gold! The way I see it, there are two smart ways to look for treasure.\
                                     <br>\
                                     One way is to search on the ground. Look for footprints, strange rocks, or an X in the sand. Dig where the clues point, and keep digging until you find the treasure! [<hi>I named my favorite shovel Kevin.]\
                                     <br>\
@@ -524,7 +524,7 @@ const resource = {
                 asset: "dr-seraphina.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read Cone A and Cone B, then type in the answers to the questions below. Use the cryptogram if you get stuck. The yellow letters, in order, spell the secret code word.",
+                    text: "Read the two passages, then type in the answers to the questions below. Use the cryptogram if you get stuck. The yellow letters, in order, spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -560,7 +560,7 @@ const resource = {
                 character: "Dr. Sera",
                 asset: "dr-seraphina.png",
                 dialogue: {
-                    incomplete: "I can give you some sugar for those candied yams, but I need your help first! I\'m trying to make the perfect snow cone. Can you read my notes and help?",
+                    incomplete: "I can give you some sugar for those yams, but I need your help first. I\'m trying to make the perfect snow cone. Will you read over my notes?",
                     complete: "Yes, I turned my hair into a snow cone. No, I don\'t know how to fix it. Let\'s move on, okay?"
                 },
             },
@@ -578,7 +578,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "This snow cone is very sticky. It\'s made from fresh cave goop, so it\'s super thick. This snow cone is so gooey, it\'s hard to eat!"
+                                    text: "This snow cone is very sticky. It\'s made from fresh cave goop, so it\'s super thick. In fact, it\'s so gooey, it\'s hard to eat!"
                                 }
                             }
                         ],
@@ -604,7 +604,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "4%",
+                                translateY: "10%",
                                 rotate: "4deg",
                             }
                         }
@@ -619,7 +619,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "6%",
+                                translateY: "20%",
                                 rotate: "-1deg",
                             }
                         }

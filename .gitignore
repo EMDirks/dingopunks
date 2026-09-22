@@ -16,6 +16,9 @@
 *.tmp
 *.temp
 
+# Node (root-level installs and tool caches, e.g. Wrangler/Playwright)
+node_modules/
+
 # Cloudflare Wrangler (local cache)
 .wrangler/
 dist/

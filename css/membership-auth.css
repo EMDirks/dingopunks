@@ -825,7 +825,7 @@
     margin: 0;
   }
 
-  .dpaam-account-modal .dpaam-plan-panel__summary-pill {
+  .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__summary-pill {
     padding: 5px var(--dpaam-pad-md) 3px;
     font-size: var(--dpaam-text-sm);
   }

@@ -2025,38 +2025,6 @@ export const gameStandardsById = {
       codes: ["RL.2.1","RL.2.3","RL.2.5","RL.2.7","RL.2.10","RL.3.1","RL.3.3","RL.3.7","RL.3.10"],
     },
   ],
-  "the-hasty-harvest-making-inferences-4-5":   [
-    {
-      key: "CCRA.L",
-      name: "Anchor Standards for Language",
-      codes: ["CCRA.L.3","CCRA.L.5"],
-    },
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.4.4","RF.4.4a","RF.4.4b","RF.5.4","RF.5.4a","RF.5.4b"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.4.1","RI.4.2","RI.4.3","RI.4.5","RI.4.6","RI.4.7","RI.4.8","RI.4.9","RI.4.10","RI.5.1","RI.5.3","RI.5.5","RI.5.6","RI.5.7","RI.5.8","RI.5.9","RI.5.10"],
-    },
-    {
-      key: "L",
-      name: "Reading: Language",
-      codes: ["L.4.3","L.4.3a","L.4.4a","L.4.5","L.5.3","L.5.4a","L.5.5"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.4.1","RL.4.2","RL.4.3","RL.4.10","RL.5.1","RL.5.10"],
-    },
-  ],
   "the-hasty-harvest-mixed-math-skills-3":   [
     {
       key: "MD",
@@ -2314,38 +2282,6 @@ export const gameStandardsById = {
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.4","RL.2.5","RL.2.10","RL.3.1","RL.3.2","RL.3.3","RL.3.4","RL.3.5","RL.3.10"],
     },
   ],
-  "the-hasty-harvest-poetry-4-5":   [
-    {
-      key: "CCRA.L",
-      name: "Anchor Standards for Language",
-      codes: ["CCRA.L.5"],
-    },
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.4.4","RF.4.4a","RF.4.4b","RF.5.4","RF.5.4a","RF.5.4b"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.4.1","RI.4.2","RI.4.8","RI.4.9","RI.4.10","RI.5.1","RI.5.3","RI.5.5","RI.5.8","RI.5.9","RI.5.10"],
-    },
-    {
-      key: "L",
-      name: "Reading: Language",
-      codes: ["L.4.4","L.4.5","L.4.5a","L.4.5b","L.5.4","L.5.5","L.5.5b"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.4.1","RL.4.2","RL.4.4","RL.4.5","RL.4.10","RL.5.1","RL.5.2","RL.5.4","RL.5.5","RL.5.9","RL.5.10"],
-    },
-  ],
   "the-hasty-harvest-story-elements-2-3":   [
     {
       key: "CCRA.R",
@@ -2361,28 +2297,6 @@ export const gameStandardsById = {
       key: "RL",
       name: "Reading: Literature",
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.5","RL.2.7","RL.2.9","RL.2.10","RL.3.1","RL.3.2","RL.3.3","RL.3.5","RL.3.7","RL.3.10"],
-    },
-  ],
-  "the-hasty-harvest-story-elements-4-5":   [
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.5","CCRA.R.7","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.4.1","RF.4.2","RF.4.3","RF.4.4","RF.4.4a","RF.4.4b","RF.4.10","RF.5.4","RF.5.4a","RF.5.4b"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.4.1","RI.4.10","RI.5.1","RI.5.10"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.4.1","RL.4.3","RL.4.10","RL.5.1","RL.5.2","RL.5.3","RL.5.5","RL.5.10"],
     },
   ],
   "the-midnight-mall-authors-purpose-4-5":   [
@@ -3333,38 +3247,6 @@ export const gameStandardsById = {
       codes: ["RL.4.1","RL.4.4","RL.4.5","RL.4.10","RL.5.1","RL.5.10"],
     },
   ],
-  "yeti-and-the-yams-context-clues-and-vocabulary-2-3":   [
-    {
-      key: "CCRA.L",
-      name: "Anchor Standards for Language",
-      codes: ["CCRA.L.3","CCRA.L.4","CCRA.L.5","CCRA.L.6"],
-    },
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.1","CCRA.R.4","CCRA.R.7","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.2.3","RF.2.3a","RF.2.3b","RF.2.3c","RF.2.3d","RF.2.3e","RF.2.3f","RF.2.4","RF.2.4a","RF.2.4b","RF.2.4c","RF.3.3","RF.3.3a","RF.3.3b","RF.3.3c","RF.3.3d","RF.3.4","RF.3.4a","RF.3.4b","RF.3.4c"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.2.4","RI.3.4"],
-    },
-    {
-      key: "L",
-      name: "Reading: Language",
-      codes: ["L.2.3","L.2.4","L.2.4a","L.2.4b","L.2.5","L.2.5b","L.2.6","L.3.3","L.3.4","L.3.4a","L.3.4b","L.3.4c","L.3.5","L.3.5c","L.3.6"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.2.4","RL.3.4"],
-    },
-  ],
   "yeti-and-the-yams-figurative-language-4-5":   [
     {
       key: "CCRA.L",
@@ -3470,33 +3352,6 @@ export const gameStandardsById = {
       key: "RL",
       name: "Reading: Literature",
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.10","RL.3.1","RL.3.2","RL.3.5","RL.3.10"],
-    },
-  ],
-  "yeti-and-the-yams-main-idea-and-supporting-details-4-5":   [
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.9","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.4.4","RF.4.4a","RF.4.4b","RF.5.4","RF.5.4a","RF.5.4b"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.4.1","RI.4.2","RI.4.3","RI.4.5","RI.4.9","RI.4.10","RI.5.1","RI.5.2","RI.5.3","RI.5.5","RI.5.9","RI.5.10"],
-    },
-    {
-      key: "L",
-      name: "Reading: Language",
-      codes: ["L.4.3","L.4.6","L.5.3","L.5.6"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.4.1","RL.4.2","RL.4.3","RL.4.5","RL.4.10","RL.5.1","RL.5.2","RL.5.3","RL.5.5","RL.5.10"],
     },
   ],
   "yeti-and-the-yams-making-inferences-4-5":   [
@@ -3637,38 +3492,6 @@ export const gameStandardsById = {
       key: "RL",
       name: "Reading: Literature",
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.4","RL.2.5","RL.2.6","RL.2.10"],
-    },
-  ],
-  "yeti-and-the-yams-mixed-reading-skills-3":   [
-    {
-      key: "CCRA.L",
-      name: "Anchor Standards for Language",
-      codes: ["CCRA.L.3","CCRA.L.4","CCRA.L.5","CCRA.L.6"],
-    },
-    {
-      key: "CCRA.R",
-      name: "Anchor Standards for Reading",
-      codes: ["CCRA.R.2","CCRA.R.3","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.10"],
-    },
-    {
-      key: "RF",
-      name: "Reading: Foundational Skills",
-      codes: ["RF.3.3","RF.3.4","RF.3.4a","RF.3.4b","RF.3.4c"],
-    },
-    {
-      key: "RI",
-      name: "Reading: Informational Text",
-      codes: ["RI.3.2","RI.3.6","RI.3.10"],
-    },
-    {
-      key: "L",
-      name: "Reading: Language",
-      codes: ["L.3.4","L.3.4a"],
-    },
-    {
-      key: "RL",
-      name: "Reading: Literature",
-      codes: ["RL.3.1","RL.3.2","RL.3.3","RL.3.4","RL.3.5","RL.3.6","RL.3.10"],
     },
   ],
   "yeti-and-the-yams-mixed-reading-skills-4":   [

@@ -50,7 +50,7 @@ const resource =  {
                 character: "Dr. Sera",
                 asset: "dr-seraphina.png",
                 dialogue : {
-                    incomplete: "I can give you some sugar for the candied yams, but I need your help first! You see, I\'m trying to make the perfect snow cone. Can you read my notes?",
+                    incomplete: "I\'ll give you some sugar for those yams, but I need your help first! You see, I\'m trying to make the perfect snow cone. Can you read my notes?",
                     complete: "Did I turn my hair into a snow cone? Yep. Do I know how to fix it? Nope!"
                 },
             },
@@ -267,20 +267,20 @@ const resource =  {
                                 passage: {
                                     text:   "Potatoes grow down in the ground,\
                                     <br>\
-                                    Round and brown, they can be found.\
+                                    round and brown, they can be found.\
                                     <br>\
                                     Bake them hot or mash them right,\
                                     <br>\
-                                    Crispy, crunchy fries all night!\
+                                    crispy, crunchy fries all night!\
                                     <br>\
                                     <br>\
                                     Potatoes make a tasty treat,\
                                     <br>\
-                                    Warm and soft and good to eat.\
+                                    warm and soft and good to eat.\
                                     <br>\
                                     I could have them every day,\
                                     <br>\
-                                    Cooked in almost any way!"
+                                    cooked in almost every way!"
                                 }
                             }
                         ],
@@ -590,11 +590,11 @@ const resource =  {
                         ],
                     },
                     {
-                        title: "[<g>3.] Which puzzle piece has a word that means \"a boat with sails\" ?",
+                        title: "[<g>3.] Which of these puzzle pieces has a word that means \"a boat with sails\" ?",
                         columns: 2,
                         correctIndex: 1,
                         paragraph: [
-                            "Puzzle {p}iece E",
+                            "Puzzle {p}iece I",
                             "Puzzle piece {D}",
                         ],
                     },
@@ -626,7 +626,7 @@ const resource =  {
                 asset: "pippo-fizzlepop.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read \"What an Airplane Needs\" and answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Look at the passage, glossary, and picture, and answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -657,7 +657,7 @@ const resource =  {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue : {
-                    incomplete: "My plane crashed, and I\'m trying to fix it. I found these papers in the wreck, but I can\'t read all the words. If you help, I\'ll build an oven for those yams!",
+                    incomplete: "I must fix my crashed plane! I found these papers in the wreck, but I can\'t read all the words. If you help, I\'ll build you an oven for those yams!",
                     complete: "If you ever see my sister Topsy, let her know I\'m doing okay!"
                 },
             },
@@ -784,7 +784,7 @@ const resource =  {
                 contentArray: {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
-                        'A. [<u>True] or [<u>false]: the title of the passage is \"By Engineer Topsy.\"',
+                        'A. [<u>True] or [<u>false]: the title of the passage is \"By Pilot Topsy.\"',
                         'B. Read the glossary. Do propellers have blades that [<u>roll], [<u>spin], or [<u>flap]?',
                         'C. Look at the picture. Is the propeller in the [<u>front] or the [<u>back] of the airplane?',
                         'D. The caption says the plane is named [<i>The ____ .]',
@@ -795,7 +795,6 @@ const resource =  {
                         ["0","(C)3F","R","O","N","4T","0"],
                         ["0","0","0","O","0","0","0"],
                         ["0","0","(B)S","P","2I","N","0"],
-                        ["0","0","0","0","0","0","0"],
                     ]
                 },
                 code: {
@@ -867,11 +866,11 @@ const resource =  {
                                     text: "By The Frozen Knight",
                                 },
                                 passage: {
-                                    text:   "One winter, the King sent me to catch a yeti. I thought I could do it alone, but I got lost. The yeti found me, stuffed me in a bag, and carried me to her freezing ice cave.\
+                                    text:   "One winter, the King sent me to catch a yeti. I thought I could do it alone, but I got lost. The yeti found me, stuffed me in a bag, and took me to her freezing ice cave.\
                                     <br>\
-                                    Other people were trapped in the cave too. At first, I did not want their help. But soon I learned that working together made life in the cave easier.\
+                                    Other people were trapped in the cave too. At first, I did not want their help. But soon I found out that working together made life in the cave easier.\
                                     <br>\
-                                    We are still trapped, but now we are a team. I learned that everyone needs help sometimes. Even me!"
+                                    We are still trapped, but now we are a team. I learned that everyone needs help sometimes. Even a knight like me!"
                                 }
                             }
                         ],
