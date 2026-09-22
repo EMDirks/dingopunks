@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.131';
+const version = '3.4.132';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -114,6 +114,52 @@ let autoLaunchCode = null;
 // Blocks typed entry while a lookup is in flight or a game is already loading.
 let membershipLookupPending = false;
 let shareCodeModulePromise = null;
+let directLinkLoader = null;
+let directLinkLoaderRemovalId = null;
+
+// The loader is created only for a validated direct-link code. Keeping these
+// helpers global also makes the animation easy to preview from DevTools with
+// showDirectLinkLoader() and hideDirectLinkLoader().
+function showDirectLinkLoader() {
+  clearTimeout(directLinkLoaderRemovalId);
+
+  if (directLinkLoader) {
+    directLinkLoader.classList.remove('direct-link-loader--hidden');
+    return;
+  }
+
+  directLinkLoader = document.createElement('div');
+  directLinkLoader.className = 'direct-link-loader';
+  directLinkLoader.setAttribute('role', 'status');
+  directLinkLoader.setAttribute('aria-label', 'Loading escape room');
+
+  const streakContainer = document.createElement('div');
+  streakContainer.className = 'direct-link-loader__streaks';
+  streakContainer.setAttribute('aria-hidden', 'true');
+
+  for (let i = 0; i < 9; i++) {
+    const streak = document.createElement('div');
+    streak.className = 'direct-link-loader__streak';
+    streakContainer.appendChild(streak);
+  }
+
+  directLinkLoader.appendChild(streakContainer);
+  document.body.appendChild(directLinkLoader);
+}
+
+function hideDirectLinkLoader() {
+  if (!directLinkLoader) return;
+
+  const loaderToRemove = directLinkLoader;
+  loaderToRemove.classList.add('direct-link-loader--hidden');
+  clearTimeout(directLinkLoaderRemovalId);
+  directLinkLoaderRemovalId = setTimeout(function() {
+    loaderToRemove.remove();
+    if (directLinkLoader === loaderToRemove) {
+      directLinkLoader = null;
+    }
+  }, 250);
+}
 
 function membershipCodeFromUrl() {
   const raw = window.location.search.slice(1).toUpperCase();
@@ -205,6 +251,7 @@ function startAutoLaunch() {
       // A bad link isn't a guessed code, so it costs no attempt — the student
       // is dropped onto the normal code-entry screen.
       buildAccessCodeEntry();
+      hideDirectLinkLoader();
       reportMembershipCodeError(error, false);
     });
 }
@@ -818,6 +865,9 @@ function addTitle(){
     splashLogo.setAttribute('src', resource.info.logo);
     // toggle button on delay
     setTimeout(toggleClass,400,splashLogo,'splash-logo--hidden','splash-logo--visible');
+    if (directLinkLoader) {
+      setTimeout(hideDirectLinkLoader, 400);
+    }
     setTimeout(toggleClass,900,splashButton,'splash-button--hidden','splash-button--visible');
 
     if (gameMode === "preview"){
@@ -1856,6 +1906,7 @@ document.addEventListener("DOMContentLoaded", function() {
     autoLaunchCode = membershipCodeFromUrl();
   }
 
+  if (autoLaunchCode) showDirectLinkLoader();
   drawSplash();
 
   if (autoLaunchCode) startAutoLaunch();

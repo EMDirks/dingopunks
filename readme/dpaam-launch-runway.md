@@ -79,7 +79,7 @@ Functions:
 
 There is currently no repository-owned browser E2E suite or CI workflow, so the manual gates below are required.
 
-- [ ] **P0** Load the release candidate with DevTools open and resolve every uncaught exception, failed first-party request, mixed-content warning, and missing production asset.
+- [X] **P0** Load the release candidate with DevTools open and resolve every uncaught exception, failed first-party request, mixed-content warning, and missing production asset.
 - [ ] **P0** Verify the browser loads pinned Firebase modules successfully on normal home, school, and privacy-filtered networks.
 - [ ] **P0** Test localhost only while the Emulator Suite is visibly connected. The current client intentionally falls back to production when emulators are absent.
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, paid sharing, and student launch.

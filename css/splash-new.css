@@ -120,6 +120,141 @@
         transform: translateY(0%);
     }
   }
+
+.direct-link-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    overflow: hidden;
+    background-color: rgba(var(--off-black), 1);
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+}
+
+.direct-link-loader--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.direct-link-loader__streaks {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.direct-link-loader__streak {
+    --streak-color: var(--off-white);
+    position: absolute;
+    top: 12%;
+    left: 0;
+    width: 30vw;
+    height: clamp(2px, 0.35vmin, 4px);
+    border-radius: 999px;
+    background-color: rgba(var(--streak-color), 0.75);
+    will-change: transform;
+    animation: direct-link-streak-flight 0.85s linear infinite;
+}
+
+.direct-link-loader__streak:nth-child(1) {
+    top: 9%;
+    width: 38vw;
+    animation-duration: 0.78s;
+    animation-delay: -0.31s;
+}
+
+.direct-link-loader__streak:nth-child(2) {
+    top: 21%;
+    width: 24vw;
+    opacity: 0.55;
+    animation-duration: 0.67s;
+    animation-delay: -0.08s;
+}
+
+.direct-link-loader__streak:nth-child(3) {
+    --streak-color: var(--gold);
+    top: 31%;
+    width: 44vw;
+    animation-duration: 0.94s;
+    animation-delay: -0.62s;
+}
+
+.direct-link-loader__streak:nth-child(4) {
+    top: 43%;
+    width: 29vw;
+    opacity: 0.65;
+    animation-duration: 0.72s;
+    animation-delay: -0.47s;
+}
+
+.direct-link-loader__streak:nth-child(5) {
+    --streak-color: var(--teal);
+    top: 52%;
+    width: 48vw;
+    animation-duration: 1.02s;
+    animation-delay: -0.19s;
+}
+
+.direct-link-loader__streak:nth-child(6) {
+    top: 64%;
+    width: 20vw;
+    opacity: 0.5;
+    animation-duration: 0.63s;
+    animation-delay: -0.38s;
+}
+
+.direct-link-loader__streak:nth-child(7) {
+    --streak-color: var(--gold);
+    top: 73%;
+    width: 35vw;
+    animation-duration: 0.83s;
+    animation-delay: -0.71s;
+}
+
+.direct-link-loader__streak:nth-child(8) {
+    top: 84%;
+    width: 27vw;
+    opacity: 0.6;
+    animation-duration: 0.69s;
+    animation-delay: -0.24s;
+}
+
+.direct-link-loader__streak:nth-child(9) {
+    --streak-color: var(--salmon);
+    top: 92%;
+    width: 41vw;
+    animation-duration: 0.97s;
+    animation-delay: -0.53s;
+}
+
+@keyframes direct-link-streak-flight {
+    from {
+        transform: translate3d(calc(100vw + 10vmin), 0, 0);
+    }
+    to {
+        transform: translate3d(calc(-100% - 10vmin), 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .direct-link-loader__streak {
+        animation-name: direct-link-streak-pulse;
+        animation-duration: 1.4s;
+        animation-timing-function: ease-in-out;
+        animation-direction: alternate;
+    }
+}
+
+@keyframes direct-link-streak-pulse {
+    from {
+        opacity: 0.25;
+        transform: translate3d(15vw, 0, 0);
+    }
+    to {
+        opacity: 0.7;
+        transform: translate3d(17vw, 0, 0);
+    }
+}
   
 .bumper-container {
     width: 200vw;
