@@ -368,20 +368,33 @@ function activeCardTimerHtml(expiresAt) {
   return `<div class="dpaam-card__label${toneClass}">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
 }
 
+// How far into a neighboring card the pointer must travel before that card
+// swaps. Measured from the edge the pointer is entering.
+const FAVORITE_SWAP_OVERLAP = 0.05;
+
 // During a live drag-reorder, decide which sibling card the dragged element
 // should land *before*, walking the grid in reading order (left-to-right,
 // then top-to-bottom row by row). Returns null to mean "append to the end".
 // The currently-dragged element is skipped so it can never displace itself.
-function rowAfterPointer(listEl, clientX, clientY, dragEl) {
+// dragDir is 1 when the pointer is moving right, -1 when moving left, and 0
+// before a direction is known.
+function rowAfterPointer(listEl, clientX, clientY, dragEl, dragDir) {
   const rows = Array.from(listEl.querySelectorAll(".dpaam-card--favorite")).filter(
     (el) => el !== dragEl,
   );
+  // Rightward: swap after the leading 5%. Leftward: swap after the
+  // trailing 5%. Until the pointer has moved horizontally, use the midpoint.
+  const leadingFraction = dragDir < 0
+    ? 1 - FAVORITE_SWAP_OVERLAP
+    : dragDir > 0
+      ? FAVORITE_SWAP_OVERLAP
+      : 0.5;
   for (const row of rows) {
     const rect = row.getBoundingClientRect();
     if (clientY >= rect.bottom) continue; // pointer is below this card's row entirely
     const aboveRow = clientY < rect.top;
-    const beforeMidpoint = clientX < rect.left + rect.width / 2;
-    if (aboveRow || beforeMidpoint) return row;
+    const beforeSwapLine = clientX < rect.left + rect.width * leadingFraction;
+    if (aboveRow || beforeSwapLine) return row;
   }
   return null;
 }
@@ -2145,6 +2158,8 @@ function wireEvents() {
   // room. We avoid re-rendering during the drag (which would destroy the
   // node the browser is dragging). On dragend we sync state from the DOM.
   let dragEl = null;
+  let dragPointerX = null;
+  let dragDir = 0;
 
   els.favoritesList.addEventListener("dragstart", (e) => {
     if (e.target.closest("button, a, input, select, textarea")) {
@@ -2154,6 +2169,8 @@ function wireEvents() {
     const row = e.target.closest(".dpaam-card--favorite");
     if (!row) return;
     dragEl = row;
+    dragPointerX = e.clientX;
+    dragDir = 0;
 
     const rect = row.getBoundingClientRect();
     e.dataTransfer.setDragImage(
@@ -2172,6 +2189,8 @@ function wireEvents() {
     if (!dragEl) return;
     dragEl.classList.remove("is-dragging");
     dragEl = null;
+    dragPointerX = null;
+    dragDir = 0;
     const newOrder = Array.from(
       els.favoritesList.querySelectorAll(".dpaam-card--favorite"),
     ).map((el) => el.dataset.gameId);
@@ -2183,7 +2202,12 @@ function wireEvents() {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
 
-    const after = rowAfterPointer(els.favoritesList, e.clientX, e.clientY, dragEl);
+    if (dragPointerX != null && Math.abs(e.clientX - dragPointerX) >= 2) {
+      dragDir = e.clientX > dragPointerX ? 1 : -1;
+    }
+    dragPointerX = e.clientX;
+
+    const after = rowAfterPointer(els.favoritesList, e.clientX, e.clientY, dragEl, dragDir);
     if (after == null) {
       if (els.favoritesList.lastElementChild !== dragEl) {
         flipReorder(els.favoritesList, dragEl, () => {
