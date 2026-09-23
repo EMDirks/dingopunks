@@ -38,7 +38,7 @@ jobs:
         run: npm ci --prefix firebase-functions
 
       - name: Set up Java 21 (required by Firebase emulators)
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
