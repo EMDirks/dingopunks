@@ -519,6 +519,16 @@ body {
   background: var(--dpaam-teal-accessible);
 }
 
+#dpaam-dashboard .dpaam-btn.dpaam-verify-resend {
+  background: var(--dpaam-gold);
+  color: var(--dpaam-black);
+}
+
+#dpaam-dashboard .dpaam-btn.dpaam-verify-resend:disabled {
+  background: var(--dpaam-gold);
+  color: var(--dpaam-black);
+}
+
 #dpaam-dashboard .dpaam-topbar-buttons > .dpaam-topbar-btn {
   background: var(--dpaam-teal-accessible);
 }
@@ -1531,11 +1541,6 @@ a.dpaam-topbar-btn {
 
 .dpaam-btn-activate:has(.dpaam-share-locked-icon) {
   gap: 5px;
-}
-
-.dpaam-btn.dpaam-verify-resend {
-  background: var(--dpaam-gold);
-  color: var(--dpaam-black);
 }
 
 .dpaam-share-locked-icon {
