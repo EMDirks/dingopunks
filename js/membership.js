@@ -8,7 +8,6 @@ import { thumbHtml } from "./thumbnails.js";
 import {
   authErrorMessage,
   initAuth,
-  queueSignedOutView,
   userCanAccessDashboard,
 } from "./membership-auth.js";
 import { escapeHtml, setButtonLoading } from "./membership-utils.js";
@@ -1999,19 +1998,6 @@ async function sendAccountPasswordReset() {
   }
 }
 
-// Used by "Log out and sign up again" in the verify banner/modal.
-// Queues the signup view before signing out so it opens instead of signin.
-async function signOutToSignUp() {
-  // Close any open modal so the UI is clean when the auth section reappears.
-  document.querySelectorAll("dialog[open]").forEach((d) => d.close());
-  queueSignedOutView("signup");
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error("signOutToSignUp failed", error);
-  }
-}
-
 async function logoutAccount() {
   if (!els.accountLogout) return;
 
@@ -2044,7 +2030,7 @@ function syncResendButtons() {
   document.querySelectorAll("[data-action='resend-verification']").forEach((btn) => {
     if (btn.getAttribute("aria-busy") === "true") return;
     btn.disabled = remaining > 0;
-    btn.textContent = remaining > 0 ? "Sent ✓" : "Resend email";
+    btn.textContent = remaining > 0 ? "Email Sent ✓" : "Resend email";
   });
 
   if (remaining > 0) {
@@ -2620,12 +2606,6 @@ function wireEvents() {
     const resendBtn = e.target.closest("[data-action='resend-verification']");
     if (resendBtn) {
       void resendVerificationEmail(resendBtn);
-      return;
-    }
-
-    const signoutToSignupBtn = e.target.closest("[data-action='signout-to-signup']");
-    if (signoutToSignupBtn) {
-      void signOutToSignUp();
       return;
     }
 

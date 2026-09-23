@@ -29,14 +29,6 @@ const AUTH_VIEW_HEADING_IDS = {
   offer: "dpaam-auth-heading-offer",
 };
 
-// When the user signs out mid-flow (e.g. "Log out and sign up again"), the
-// auth view that should open on the next signed-out state instead of signin.
-let queuedSignedOutView = "signin";
-
-export function queueSignedOutView(view) {
-  if (AUTH_VIEW_HEADING_IDS[view]) queuedSignedOutView = view;
-}
-
 export function clearAuthMessages() {
   const error = document.getElementById("dpaam-auth-error");
   const success = document.getElementById("dpaam-auth-success");
@@ -488,9 +480,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthOfferLayoutActive(false);
-      const viewOnSignout = queuedSignedOutView;
-      queuedSignedOutView = "signin";
-      setAuthView(viewOnSignout, { focus: viewOnSignout !== "signin" });
+      setAuthView("signin");
       return;
     }
 
