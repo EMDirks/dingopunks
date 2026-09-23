@@ -11,6 +11,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "./firebase-init.js";
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 import {
@@ -425,6 +426,23 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   let authStateRevision = 0;
   let provisionedUid = null;
+  let viewAfterSignOut = null;
+
+  document.getElementById("dpaam-auth-verify-back")?.addEventListener("click", async () => {
+    viewAfterSignOut = "signup";
+    if (!auth.currentUser) {
+      setAuthView("signup", { focus: true });
+      viewAfterSignOut = null;
+      return;
+    }
+
+    try {
+      await signOut(auth);
+    } catch (error) {
+      viewAfterSignOut = null;
+      showAuthMessage("error", authErrorMessage(error));
+    }
+  });
 
   function hideDashboardSkeleton() {
     if (!dashboardSkeleton) return;
@@ -520,7 +538,9 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthOfferLayoutActive(false);
-      setAuthView("signin");
+      const nextView = viewAfterSignOut || "signin";
+      viewAfterSignOut = null;
+      setAuthView(nextView, { focus: nextView === "signup" });
       return;
     }
 

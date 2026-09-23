@@ -1119,9 +1119,12 @@ a.dpaam-topbar-btn {
 }
 
 .dpaam-card--active .dpaam-card__label {
+  display: block;
   width: 100%;
+  margin: 0;
   margin-top: auto;
   padding: var(--dpaam-pad-sm);
+  font-family: inherit;
   font-size: var(--dpaam-text-xs);
   color: var(--dpaam-teal-dark);
   text-align: center;
@@ -1130,7 +1133,16 @@ a.dpaam-topbar-btn {
   box-sizing: border-box;
   padding-top: 10px;
   font-weight: 400;
+  appearance: none;
+  border: 0;
+  cursor: pointer;
   border-radius: 0 0 calc(var(--dpaam-radius-xl) - 1px) calc(var(--dpaam-radius-xl) - 1px);
+}
+
+@media (hover: hover) {
+  .dpaam-card--active .dpaam-card__label:hover {
+    filter: brightness(0.96);
+  }
 }
 
 .dpaam-card--active .dpaam-card__label--gold {

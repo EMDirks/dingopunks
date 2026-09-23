@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.141" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.141" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.142" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.142" />
 </head>
 <body>
   <div class="dpaam">
@@ -296,6 +296,11 @@
             </button>
             <p class="dpaam-auth-legal">
               Don&rsquo;t see the email? Check your Spam folder. It may take a few minutes to arrive.
+            </p>
+            <p class="dpaam-auth-legal">
+              <button type="button" class="dpaam-auth-link" id="dpaam-auth-verify-back">
+                Back to sign up
+              </button>
             </p>
           </div>
 
@@ -916,6 +921,28 @@
       </form>
     </dialog>
 
+    <!-- Share expiry explanation -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact"
+      id="dpaam-share-expiry-modal"
+      aria-labelledby="dpaam-share-expiry-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-share-expiry-modal-title">What's This?</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body">
+          <p class="dpaam-upgrade-lead">
+            A shared escape room stays active for <strong>14 days.</strong> After that, it expires and the game code stops working. Don't worry — this just puts it back in the library. You can share it again any time.
+          </p>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button type="submit" class="dpaam-btn dpaam-btn-activate">Got it</button>
+        </footer>
+      </form>
+    </dialog>
+
     <!-- My Account modal -->
     <dialog
       class="dpaam-modal dpaam-modal--compact dpaam-account-modal"
@@ -1141,10 +1168,17 @@
         >
           20-code limit
         </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-action="share-expiry"
+        >
+          Expires in
+        </button>
       </div>
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.141"></script>
+  <script type="module" src="js/membership.js?version=3.4.142"></script>
 </body>
 </html>

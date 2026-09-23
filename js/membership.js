@@ -383,10 +383,11 @@ function activeCardTimerHtml(expiresAt) {
   const expiresLabel = formatExpiresLabel(expiresAt);
   const tone = expiresTone(expiresAt);
   const toneClass = tone ? ` dpaam-card__label--${tone}` : "";
-  if (expiresLabel === "Expired") {
-    return `<div class="dpaam-card__label${toneClass}"><span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
-  }
-  return `<div class="dpaam-card__label${toneClass}">Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span></div>`;
+  const text =
+    expiresLabel === "Expired"
+      ? `<span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span>`
+      : `Expires in <span class="dpaam-active-card-timer">${escapeHtml(expiresLabel)}</span>`;
+  return `<button type="button" class="dpaam-card__label${toneClass}" data-action="explain-share-expiry" aria-haspopup="dialog">${text}</button>`;
 }
 
 // How far into a neighboring card the pointer must travel before that card
@@ -964,6 +965,7 @@ const DPAAM_MODALS = [
   els.themeModal,
   els.shareModal,
   els.shareCodeLimitModal,
+  els.shareExpiryModal,
   els.memberOnlyModal,
   els.upgradeModal,
   els.rebateModal,
@@ -1487,6 +1489,10 @@ function openMemberOnlyModal(gameId) {
     return;
   }
   showExclusiveModal(els.memberOnlyModal);
+}
+
+function openShareExpiryModal() {
+  showExclusiveModal(els.shareExpiryModal);
 }
 
 function openShareCodeLimitModal() {
@@ -2205,6 +2211,10 @@ function wireEvents() {
   els.activeList.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
+    if (btn.dataset.action === "explain-share-expiry") {
+      openShareExpiryModal();
+      return;
+    }
     const card = btn.closest("[data-game-id]");
     if (!card) return;
     const gameId = card.dataset.gameId;
@@ -2439,6 +2449,7 @@ function wireEvents() {
   els.shareCodeLimitViewActive?.addEventListener("click", () => {
     viewActiveCodesFromLimitModal();
   });
+  wireAnimatedModal(els.shareExpiryModal);
 
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
@@ -2719,6 +2730,9 @@ function initDebugActions() {
 
   document.querySelector("[data-debug-action='share-code-limit']")?.addEventListener("click", () => {
     openShareCodeLimitModal();
+  });
+  document.querySelector("[data-debug-action='share-expiry']")?.addEventListener("click", () => {
+    openShareExpiryModal();
   });
 }
 

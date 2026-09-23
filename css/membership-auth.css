@@ -494,8 +494,18 @@
 }
 
 #dpaam-auth #dpaam-auth-reset-back,
-#dpaam-auth #dpaam-auth-reset-back:hover {
-  color: inherit;
+#dpaam-auth #dpaam-auth-reset-back:hover,
+#dpaam-auth #dpaam-auth-verify-back,
+#dpaam-auth #dpaam-auth-verify-back:hover {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: var(--dpaam-teal-accessible);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#dpaam-auth-modal-verify > .dpaam-auth-legal + .dpaam-auth-legal {
+  margin-top: var(--dpaam-pad-md);
 }
 
 .dpaam-auth-switch-text {
