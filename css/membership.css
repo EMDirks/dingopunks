@@ -163,12 +163,11 @@ body {
 /* ---------- Email verification banner (soft gate) ---------- */
 
 .dpaam-verify-banner {
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--dpaam-pad-md) var(--dpaam-pad-lg);
-  padding: var(--dpaam-pad) calc(var(--dpaam-pad-xl) + var(--dpaam-pad)) var(--dpaam-pad) var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad) var(--dpaam-pad-lg);
   background: var(--dpaam-gold-light);
   border: 1px solid var(--dpaam-gold);
   border-radius: var(--dpaam-radius-lg);
@@ -227,22 +226,8 @@ body {
 
 .dpaam-verify-resend:disabled {
   cursor: default;
-  opacity: 0.6;
+  opacity: 0.8;
   filter: none;
-}
-
-.dpaam-verify-banner-dismiss {
-  position: absolute;
-  top: 10px;
-  right: 8px;
-  margin: 0;
-  background: transparent;
-}
-
-@media (hover: hover) {
-  .dpaam-verify-banner-dismiss:hover {
-    background: rgba(51, 41, 37, 0.08);
-  }
 }
 
 @media (max-width: 600px) {

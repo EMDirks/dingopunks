@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.143" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.143" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.144" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.144" />
 </head>
 <body>
   <div class="dpaam">
@@ -628,12 +628,6 @@
             data-action="resend-verification"
           >Resend email</button>
         </div>
-        <button
-          type="button"
-          class="dpaam-modal-close dpaam-verify-banner-dismiss"
-          id="dpaam-verify-banner-dismiss"
-          aria-label="Hide until next visit"
-        >×</button>
       </aside>
       <aside
         class="dpaam-guide"
@@ -947,14 +941,13 @@
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-verify-email-modal-title">Verify your email to share</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-verify-email-modal-title">Verify your Email</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
-            Click it, then come back&nbsp;&mdash; this page updates on its own.
-            Don&rsquo;t see it? Check your Spam folder; it can take a few minutes to arrive.
+            To share escape rooms, you must first verify your email. We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
+            Click it, then come back here. It may take a few minutes to arrive. Don't see it? Check your spam folder.
           </p>
         </div>
         <footer class="dpaam-modal-footer">
@@ -979,7 +972,7 @@
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
           <h3 class="dpaam-modal-title" id="dpaam-change-email-modal-title">Change email</h3>
-          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close" formnovalidate>×</button>
         </header>
         <div class="dpaam-modal-body dpaam-change-email-body">
           <p class="dpaam-upgrade-lead">
@@ -1256,6 +1249,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.143"></script>
+  <script type="module" src="js/membership.js?version=3.4.144"></script>
 </body>
 </html>

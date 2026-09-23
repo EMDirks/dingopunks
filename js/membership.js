@@ -2029,28 +2029,7 @@ async function logoutAccount() {
 // everything the moment the link is clicked, so nobody has to press
 // "Continue" or refresh.
 
-const VERIFY_BANNER_DISMISSED_PREFIX = "dpaam-verify-banner-dismissed:";
 let resendCooldownTimer = null;
-
-function verifyBannerDismissed(uid) {
-  if (!uid) return false;
-  try {
-    return sessionStorage.getItem(`${VERIFY_BANNER_DISMISSED_PREFIX}${uid}`) === "1";
-  } catch {
-    return false;
-  }
-}
-
-function setVerifyBannerDismissed(uid, dismissed) {
-  if (!uid) return;
-  try {
-    const key = `${VERIFY_BANNER_DISMISSED_PREFIX}${uid}`;
-    if (dismissed) sessionStorage.setItem(key, "1");
-    else sessionStorage.removeItem(key);
-  } catch {
-    /* ignore quota / private mode */
-  }
-}
 
 function syncResendButtons() {
   window.clearTimeout(resendCooldownTimer);
@@ -2060,12 +2039,11 @@ function syncResendButtons() {
   document.querySelectorAll("[data-action='resend-verification']").forEach((btn) => {
     if (btn.getAttribute("aria-busy") === "true") return;
     btn.disabled = remaining > 0;
-    btn.textContent =
-      remaining > 0 ? `Resend in ${Math.ceil(remaining / 1000)}s` : "Resend email";
+    btn.textContent = remaining > 0 ? "Sent ✓" : "Resend email";
   });
 
   if (remaining > 0) {
-    resendCooldownTimer = window.setTimeout(syncResendButtons, (remaining % 1000) || 1000);
+    resendCooldownTimer = window.setTimeout(syncResendButtons, remaining + 50);
   }
 }
 
@@ -2078,7 +2056,7 @@ function renderVerificationState() {
   });
 
   if (els.verifyBanner) {
-    els.verifyBanner.hidden = !unverified || verifyBannerDismissed(currentUser?.uid);
+    els.verifyBanner.hidden = !unverified;
     const title = els.verifyBanner.querySelector(".dpaam-verify-banner-title");
     if (title) {
       title.textContent = verificationIsPendingEmailChange(currentUser)
@@ -2719,10 +2697,6 @@ function wireEvents() {
   // Email verification banner + modals
   wireAnimatedModal(els.verifyEmailModal, runPendingModalOpen);
   wireAnimatedModal(els.changeEmailModal, runPendingModalOpen);
-  els.verifyBannerDismiss?.addEventListener("click", () => {
-    setVerifyBannerDismissed(currentUser?.uid, true);
-    renderVerificationState();
-  });
   els.changeEmailSubmit?.addEventListener("click", () => {
     void submitChangeEmail();
   });

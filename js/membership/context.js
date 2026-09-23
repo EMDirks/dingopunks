@@ -83,7 +83,6 @@ const els = {
   shareCodeLimitViewActive: document.getElementById("dpaam-share-code-limit-view-active"),
   shareExpiryModal: document.getElementById("dpaam-share-expiry-modal"),
   verifyBanner: document.getElementById("dpaam-verify-banner"),
-  verifyBannerDismiss: document.getElementById("dpaam-verify-banner-dismiss"),
   verifyEmailModal: document.getElementById("dpaam-verify-email-modal"),
   changeEmailModal: document.getElementById("dpaam-change-email-modal"),
   changeEmailInput: document.getElementById("dpaam-change-email-input"),
