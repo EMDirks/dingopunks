@@ -2890,6 +2890,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   padding: 2px 0 0;
 }
 
+#dpaam-modal-favorite[hidden] {
+  display: none;
+}
+
 @media (hover: hover) {
   #dpaam-modal-favorite:hover {
     background: var(--dpaam-salmon-light);

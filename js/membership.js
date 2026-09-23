@@ -1576,6 +1576,12 @@ function refreshModalPreviewButton() {
 function refreshModalFavoriteButton() {
   if (!modalGameId || !els.modalFavorite) return;
   const btn = els.modalFavorite;
+  // Shared-tab info modal has no like control. Other openings of this modal keep it.
+  if (modalContext === "active") {
+    btn.hidden = true;
+    return;
+  }
+  btn.hidden = false;
   if (modalContext === "favorites" && isFavorite(modalGameId)) {
     btn.dataset.action = "remove-favorite";
     btn.setAttribute("aria-label", "Remove from favorites");

@@ -88,7 +88,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
 - [ ] **P1** Show a modal when a student enters a wrong game code. Today a miss only flashes the cells red and clears them.
 - [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent.
-- [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, paid sharing, and student launch.
+- [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
 - [X] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
 
 ---
@@ -114,12 +114,12 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 ### Stripe live mode
 
 - [X] **P0** Live product and recurring price are exactly $35.88 USD per year. (2026-09-23: `price_1UIr7tP9iKw5zvCcQHViAvwk` verified via Stripe API — livemode, active, USD 3588 recurring yearly.)
-- [ ] **P0** Live coupon `REBATE899` is $8.99 off once, not forever.
-- [ ] **P0** Checkout clearly states annual billing, auto-renewal, first-year discounted total when applicable, and later renewal price.
-- [ ] **P0** Subscription renewal reminder email is configured so subscribers get at least 30 days' notice before annual renewal (verify sender, copy, and a test delivery).
-- [ ] **P0** Customer Portal allows payment-method updates and cancellation at period end and does not allow plan switching.
+- [X] **P0** Live coupon `REBATE899` is $8.99 off once, not forever.
+- [X] **P0** Checkout clearly states annual billing, auto-renewal, first-year discounted total when applicable, and later renewal price.
+- [X] **P0** Subscription renewal reminder email is configured so subscribers get at least 30 days' notice before annual renewal (verify sender, copy, and a test delivery).
+- [X] **P0** Customer Portal allows payment-method updates and cancellation at period end and does not allow plan switching.
 - [X] **P0** Live webhook points to the deployed `stripeWebhook` URL and subscribes to `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`, and `charge.dispute.created`. (2026-09-23: live-mode endpoint enabled at `https://stripewebhook-j6oopmp5zq-uc.a.run.app` with exactly those five events.)
-- [ ] **P0** Stripe reports a successful webhook delivery for each lifecycle event used in testing.
+- [X] **P0** Stripe reports a successful webhook delivery for each lifecycle event used in testing. (2026-09-23: live purchase, then cancel at period end. Stripe `pending_webhooks: 0` and Cloud Run HTTP 200 for `checkout.session.completed` at 15:47:37Z and both `customer.subscription.updated` deliveries at 15:48:31Z (`cancel_at` set to period end, status still `active`) and 15:48:32Z (cancellation comment). `customer.subscription.deleted`, `charge.refunded`, and `charge.dispute.created` did not fire in this test.)
 - [ ] **P0** Failed payments, disputes, refunds, and support-driven cancellation have written operating procedures even when they are handled manually at launch.
 - [ ] **P0** Public refund and renewal language matches actual Stripe and entitlement behavior.
 

@@ -729,7 +729,8 @@
 }
 
 #dpaam-auth[hidden],
-#dpaam-dashboard[hidden] {
+#dpaam-dashboard[hidden],
+#dpaam-debug-view[hidden] {
   display: none;
 }
 
