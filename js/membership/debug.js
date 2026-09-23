@@ -24,7 +24,6 @@ export function initDebugView() {
   const success = document.getElementById("dpaam-auth-success");
   const AUTH_HEADINGS = {
     signin: "dpaam-auth-heading-signin",
-    verify: "dpaam-auth-heading-verify",
     "offer-loading": "dpaam-auth-heading-offer-loading",
     offer: "dpaam-auth-heading-offer",
   };
@@ -32,10 +31,7 @@ export function initDebugView() {
   function setDebugView(view) {
     const showDashboard = view === "dashboard";
     const showSkeleton = view === "loading";
-    const authView =
-      view === "verify" || view === "offer" || view === "offer-loading"
-        ? view
-        : "signin";
+    const authView = view === "offer" || view === "offer-loading" ? view : "signin";
     auth.hidden = showDashboard || showSkeleton;
     dashboard.hidden = !showDashboard;
     if (skeleton) {
@@ -50,10 +46,6 @@ export function initDebugView() {
       setAuthOfferLayoutActive(authView === "offer" || authView === "offer-loading");
       if (authView === "offer") {
         renderAuthOfferPanels();
-      }
-      if (authView === "verify") {
-        const verifyEmail = document.getElementById("dpaam-auth-verify-email");
-        if (verifyEmail) verifyEmail.textContent = "you@example.com";
       }
       if (retry) retry.hidden = true;
       if (skeletonError) {

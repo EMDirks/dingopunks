@@ -6,12 +6,9 @@ import {
   ensureUserProfile,
   googleProvider,
   onAuthStateChanged,
-  reload,
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
 } from "./firebase-init.js";
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 import {
@@ -21,12 +18,12 @@ import {
   setAuthOfferLayoutActive,
   shouldShowAuthOfferStep,
 } from "./membership/auth-offer.js";
+import { sendVerificationEmail } from "./membership/email-verification.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
-  verify: "dpaam-auth-heading-verify",
   "offer-loading": "dpaam-auth-heading-offer-loading",
   offer: "dpaam-auth-heading-offer",
 };
@@ -118,18 +115,11 @@ function formIsValid(form) {
   return false;
 }
 
-function userNeedsEmailVerification(user) {
-  if (!user?.email || user.emailVerified) return false;
-  return user.providerData.some((provider) => provider.providerId === "password");
-}
-
+// Email verification is a soft gate: any signed-in user reaches the dashboard,
+// which shows a verify banner and withholds share-code creation until the
+// link is clicked (see membership/email-verification.js).
 export function userCanAccessDashboard(user) {
-  return Boolean(user) && !userNeedsEmailVerification(user);
-}
-
-function updateVerifyView(user) {
-  const emailEl = document.getElementById("dpaam-auth-verify-email");
-  if (emailEl) emailEl.textContent = user?.email || "";
+  return Boolean(user);
 }
 
 function setPasswordVisible(toggle, visible) {
@@ -317,10 +307,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setButtonLoading(submit, true, "Creating account…");
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
-      await sendEmailVerification(credential.user);
-      updateVerifyView(credential.user);
-      setAuthView("verify");
-      showAuthMessage("success", "Check your email for verification.");
+      // Don't hold the sign-up on the email round trip; the dashboard banner
+      // offers a resend if this one never arrives.
+      sendVerificationEmail(credential.user).catch((error) => {
+        console.warn("Verification email failed to send", error);
+      });
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
@@ -378,47 +369,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     signInWithGoogle(googleSignUp, { expectNewAccount: true });
   });
 
-  const verifyContinue = document.getElementById("dpaam-auth-verify-continue");
-  verifyContinue?.addEventListener("click", async () => {
-    const user = auth.currentUser;
-    if (!user) {
-      setAuthView("signin", { focus: true });
-      return;
-    }
-
-    clearAuthMessages();
-    setButtonLoading(verifyContinue, true, "Checking…");
-    try {
-      await reload(user);
-      if (userCanAccessDashboard(auth.currentUser)) {
-        await applyAuthState(auth.currentUser);
-        return;
-      }
-      showAuthMessage("error", "Email not verified. Check inbox.");
-    } catch (error) {
-      showAuthMessage("error", authErrorMessage(error));
-    } finally {
-      setButtonLoading(verifyContinue, false, "Checking…");
-    }
-  });
-
-  const verifyResend = document.getElementById("dpaam-auth-verify-resend");
-  verifyResend?.addEventListener("click", async () => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    clearAuthMessages();
-    setButtonLoading(verifyResend, true, "Sending…");
-    try {
-      await sendEmailVerification(user);
-      showAuthMessage("success", "Verification email sent.");
-    } catch (error) {
-      showAuthMessage("error", authErrorMessage(error));
-    } finally {
-      setButtonLoading(verifyResend, false, "Sending…");
-    }
-  });
-
   document.getElementById("dpaam-auth-setup-retry")?.addEventListener("click", () => {
     clearSkeletonError();
     applyAuthState(auth.currentUser);
@@ -426,23 +376,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   let authStateRevision = 0;
   let provisionedUid = null;
-  let viewAfterSignOut = null;
-
-  document.getElementById("dpaam-auth-verify-back")?.addEventListener("click", async () => {
-    viewAfterSignOut = "signup";
-    if (!auth.currentUser) {
-      setAuthView("signup", { focus: true });
-      viewAfterSignOut = null;
-      return;
-    }
-
-    try {
-      await signOut(auth);
-    } catch (error) {
-      viewAfterSignOut = null;
-      showAuthMessage("error", authErrorMessage(error));
-    }
-  });
 
   function hideDashboardSkeleton() {
     if (!dashboardSkeleton) return;
@@ -520,27 +453,12 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     hideDashboardSkeleton();
     if (dashboard) dashboard.hidden = true;
 
-    if (user && userNeedsEmailVerification(user)) {
-      provisionedUid = null;
-      section.hidden = false;
-      section.setAttribute("aria-busy", "false");
-      setAuthOfferLayoutActive(false);
-      updateVerifyView(user);
-      const onVerify = modals.find(
-        (modal) => modal.dataset.authView === "verify" && !modal.hidden,
-      );
-      if (!onVerify) setAuthView("verify");
-      return;
-    }
-
     if (!signedIn) {
       provisionedUid = null;
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthOfferLayoutActive(false);
-      const nextView = viewAfterSignOut || "signin";
-      viewAfterSignOut = null;
-      setAuthView(nextView, { focus: nextView === "signup" });
+      setAuthView("signin");
       return;
     }
 

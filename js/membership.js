@@ -42,6 +42,17 @@ import {
 } from "./membership/standards.js";
 import { initDebugView } from "./membership/debug.js";
 import {
+  VERIFICATION_SENT_EVENT,
+  changeUnverifiedEmail,
+  resendCooldownRemainingMs,
+  sendVerificationEmail,
+  startVerificationWatch,
+  stopVerificationWatch,
+  userNeedsEmailVerification,
+  verificationIsPendingEmailChange,
+  verificationTargetEmail,
+} from "./membership/email-verification.js";
+import {
   completeAuthOfferAndEnterDashboard,
   configureAuthOffer,
   isAuthOfferViewVisible,
@@ -966,6 +977,8 @@ const DPAAM_MODALS = [
   els.shareModal,
   els.shareCodeLimitModal,
   els.shareExpiryModal,
+  els.verifyEmailModal,
+  els.changeEmailModal,
   els.memberOnlyModal,
   els.upgradeModal,
   els.rebateModal,
@@ -1912,6 +1925,13 @@ async function activateAndShare(gameId) {
 
   const needsCreate = !activeCodeFor(gameId);
 
+  // Creating a share code is the one action held back until the email is
+  // verified; browsing, favoriting, and already-active codes keep working.
+  if (needsCreate && userNeedsEmailVerification(currentUser)) {
+    openVerifyEmailModal();
+    return;
+  }
+
   if (needsCreate) {
     openShareModal(gameId, { pending: true });
     const ok = await generateCode(gameId);
@@ -1999,6 +2019,212 @@ async function logoutAccount() {
     showToast(authErrorMessage(error));
   } finally {
     setButtonLoading(els.accountLogout, false, "Logging out…");
+  }
+}
+
+// ---------- email verification (soft gate) ----------
+//
+// Unverified email/password users get the full dashboard plus a banner; only
+// share-code creation waits (see activateAndShare). A background watch flips
+// everything the moment the link is clicked, so nobody has to press
+// "Continue" or refresh.
+
+const VERIFY_BANNER_DISMISSED_PREFIX = "dpaam-verify-banner-dismissed:";
+let resendCooldownTimer = null;
+
+function verifyBannerDismissed(uid) {
+  if (!uid) return false;
+  try {
+    return sessionStorage.getItem(`${VERIFY_BANNER_DISMISSED_PREFIX}${uid}`) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function setVerifyBannerDismissed(uid, dismissed) {
+  if (!uid) return;
+  try {
+    const key = `${VERIFY_BANNER_DISMISSED_PREFIX}${uid}`;
+    if (dismissed) sessionStorage.setItem(key, "1");
+    else sessionStorage.removeItem(key);
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
+function syncResendButtons() {
+  window.clearTimeout(resendCooldownTimer);
+  resendCooldownTimer = null;
+
+  const remaining = resendCooldownRemainingMs(currentUser);
+  document.querySelectorAll("[data-action='resend-verification']").forEach((btn) => {
+    if (btn.getAttribute("aria-busy") === "true") return;
+    btn.disabled = remaining > 0;
+    btn.textContent =
+      remaining > 0 ? `Resend in ${Math.ceil(remaining / 1000)}s` : "Resend email";
+  });
+
+  if (remaining > 0) {
+    resendCooldownTimer = window.setTimeout(syncResendButtons, (remaining % 1000) || 1000);
+  }
+}
+
+function renderVerificationState() {
+  const unverified = userNeedsEmailVerification(currentUser);
+  const email = verificationTargetEmail(currentUser);
+
+  document.querySelectorAll("[data-verify-email]").forEach((el) => {
+    el.textContent = email;
+  });
+
+  if (els.verifyBanner) {
+    els.verifyBanner.hidden = !unverified || verifyBannerDismissed(currentUser?.uid);
+    const title = els.verifyBanner.querySelector(".dpaam-verify-banner-title");
+    if (title) {
+      title.textContent = verificationIsPendingEmailChange(currentUser)
+        ? "Confirm your new email to share escape rooms"
+        : "Verify your email to share escape rooms";
+    }
+  }
+
+  syncResendButtons();
+}
+
+function onEmailVerified() {
+  renderVerificationState();
+  if (els.verifyEmailModal?.open) closeAnimatedModal(els.verifyEmailModal);
+  if (els.changeEmailModal?.open) closeAnimatedModal(els.changeEmailModal);
+  showToast("Email verified");
+}
+
+function syncEmailVerification() {
+  renderVerificationState();
+  if (!userNeedsEmailVerification(currentUser)) {
+    stopVerificationWatch();
+    return;
+  }
+  startVerificationWatch(currentUser, onEmailVerified);
+}
+
+function openVerifyEmailModal() {
+  renderVerificationState();
+  const fromModal = [els.shareModal, els.modal].find((m) => m?.open);
+  if (fromModal) {
+    transitionToModal(fromModal, () => {
+      if (fromModal === els.modal) {
+        modalGameId = null;
+        modalContext = "library";
+      }
+      showExclusiveModal(els.verifyEmailModal);
+    });
+    return;
+  }
+  showExclusiveModal(els.verifyEmailModal);
+}
+
+async function resendVerificationEmail(button) {
+  const user = currentUser;
+  if (!user || resendCooldownRemainingMs(user) > 0) return;
+
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  button.textContent = "Sending…";
+  try {
+    await sendVerificationEmail(user);
+    showToast(`Verification email sent to ${verificationTargetEmail(user)}`);
+  } catch (error) {
+    console.error("sendEmailVerification failed", error);
+    showToast(authErrorMessage(error));
+  } finally {
+    button.removeAttribute("aria-busy");
+    syncResendButtons();
+  }
+}
+
+function setChangeEmailStatus(message, { error = false } = {}) {
+  const status = els.changeEmailStatus;
+  if (!status) return;
+  status.textContent = message;
+  status.hidden = !message;
+  status.classList.toggle("dpaam-change-email-status--error", Boolean(message) && error);
+}
+
+function openChangeEmailModal() {
+  if (els.changeEmailInput) els.changeEmailInput.value = "";
+  if (els.changeEmailPassword) els.changeEmailPassword.value = "";
+  if (els.changeEmailPasswordField) els.changeEmailPasswordField.hidden = true;
+  setChangeEmailStatus("");
+
+  const fromModal = els.verifyEmailModal?.open ? els.verifyEmailModal : null;
+  transitionToModal(fromModal, () => {
+    showExclusiveModal(els.changeEmailModal);
+    els.changeEmailInput?.focus();
+  });
+}
+
+function changeEmailErrorMessage(error) {
+  if (error?.code === "auth/email-already-in-use") {
+    return "That email already has an account. Log out and sign in with it instead.";
+  }
+  if (
+    error?.code === "auth/invalid-credential" ||
+    error?.code === "auth/wrong-password" ||
+    error?.code === "auth/invalid-login-credentials"
+  ) {
+    return "Incorrect password.";
+  }
+  return authErrorMessage(error);
+}
+
+async function submitChangeEmail() {
+  const user = currentUser;
+  const input = els.changeEmailInput;
+  const submit = els.changeEmailSubmit;
+  if (!user || !input || !submit) return;
+
+  const newEmail = input.value.trim();
+  input.value = newEmail;
+  if (!newEmail || !input.checkValidity()) {
+    setChangeEmailStatus("Enter a valid email.", { error: true });
+    input.focus();
+    return;
+  }
+  if (newEmail.toLowerCase() === (user.email ?? "").toLowerCase()) {
+    setChangeEmailStatus("That's already the email on this account.", { error: true });
+    input.focus();
+    return;
+  }
+
+  const needsPassword = els.changeEmailPasswordField && !els.changeEmailPasswordField.hidden;
+  const password = needsPassword ? els.changeEmailPassword?.value ?? "" : "";
+  if (needsPassword && !password) {
+    setChangeEmailStatus("Enter your password to confirm.", { error: true });
+    els.changeEmailPassword?.focus();
+    return;
+  }
+
+  setChangeEmailStatus("");
+  setButtonLoading(submit, true, "Sending…");
+  try {
+    const result = await changeUnverifiedEmail(user, newEmail, password);
+    renderVerificationState();
+    closeAnimatedModal(els.changeEmailModal);
+    showToast(
+      result.pendingVerification
+        ? `Link sent to ${newEmail}. Click it, then log in with that email.`
+        : `Link sent to ${newEmail}`,
+    );
+  } catch (error) {
+    if (error?.code === "auth/requires-recent-login") {
+      if (els.changeEmailPasswordField) els.changeEmailPasswordField.hidden = false;
+      setChangeEmailStatus("For security, enter your password to confirm.");
+      els.changeEmailPassword?.focus();
+      return;
+    }
+    console.error("changeUnverifiedEmail failed", error);
+    setChangeEmailStatus(changeEmailErrorMessage(error), { error: true });
+  } finally {
+    setButtonLoading(submit, false, "Sending…");
   }
 }
 
@@ -2166,6 +2392,10 @@ function shareToGoogleClassroom() {
 }
 
 function wireAnimatedModal(modal, onClose) {
+  // A missing dialog (stale cached module vs. fresh markup, or vice versa)
+  // must not take the rest of event wiring down with it.
+  if (!modal) return;
+
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeAnimatedModal(modal);
   });
@@ -2454,6 +2684,7 @@ function wireEvents() {
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
     shareCode = null;
+    runPendingModalOpen();
   });
 
   els.shareModal.addEventListener("click", (e) => {
@@ -2485,7 +2716,39 @@ function wireEvents() {
     logoutAccount();
   });
 
+  // Email verification banner + modals
+  wireAnimatedModal(els.verifyEmailModal, runPendingModalOpen);
+  wireAnimatedModal(els.changeEmailModal, runPendingModalOpen);
+  els.verifyBannerDismiss?.addEventListener("click", () => {
+    setVerifyBannerDismissed(currentUser?.uid, true);
+    renderVerificationState();
+  });
+  els.changeEmailSubmit?.addEventListener("click", () => {
+    void submitChangeEmail();
+  });
+  document.addEventListener(VERIFICATION_SENT_EVENT, () => {
+    syncResendButtons();
+  });
+  // Enter inside the change-email form should submit it, not close the dialog.
+  els.changeEmailModal?.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || !e.target.matches("input")) return;
+    e.preventDefault();
+    void submitChangeEmail();
+  });
+
   document.addEventListener("click", (e) => {
+    const resendBtn = e.target.closest("[data-action='resend-verification']");
+    if (resendBtn) {
+      void resendVerificationEmail(resendBtn);
+      return;
+    }
+
+    const changeEmailBtn = e.target.closest("[data-action='change-verify-email']");
+    if (changeEmailBtn) {
+      openChangeEmailModal();
+      return;
+    }
+
     const rebateOpen = e.target.closest("[data-action='open-upgrade-rebate']");
     if (rebateOpen) {
       openRebateModal();
@@ -2521,6 +2784,10 @@ function wireEvents() {
     if (manageBtn) {
       void openBillingPortal(manageBtn);
     }
+  });
+
+  els.changeEmailModal?.addEventListener("input", () => {
+    setChangeEmailStatus("");
   });
 
   document.addEventListener("input", (e) => {
@@ -2734,6 +3001,14 @@ function initDebugActions() {
   document.querySelector("[data-debug-action='share-expiry']")?.addEventListener("click", () => {
     openShareExpiryModal();
   });
+  document.querySelector("[data-debug-action='verify-email']")?.addEventListener("click", () => {
+    // Preview the unverified state without a real unverified account.
+    document.querySelectorAll("[data-verify-email]").forEach((el) => {
+      if (!el.textContent) el.textContent = "you@example.com";
+    });
+    if (els.verifyBanner) els.verifyBanner.hidden = false;
+    showExclusiveModal(els.verifyEmailModal);
+  });
 }
 
 function applyMembershipAccess() {
@@ -2805,6 +3080,7 @@ function init() {
       attachUserProfileSubscription(user);
     }
     updateAccountModal(user);
+    syncEmailVerification();
   });
   initMobileMenus();
   initStickyTabbar();

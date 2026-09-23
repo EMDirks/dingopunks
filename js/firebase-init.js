@@ -3,17 +3,21 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
+  EmailAuthProvider,
   GoogleAuthProvider,
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   reload,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateEmail,
+  verifyBeforeUpdateEmail,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   connectFirestoreEmulator,
@@ -136,6 +140,7 @@ if (isLocal) {
 }
 
 export {
+  EmailAuthProvider,
   app,
   auth,
   cancelShareCode,
@@ -150,6 +155,7 @@ export {
   getUserProfileForBootstrap,
   googleProvider,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   reload,
   resolveGameCode,
   sendEmailVerification,
@@ -158,4 +164,6 @@ export {
   signInWithPopup,
   signOut,
   subscribeToUserProfile,
+  updateEmail,
+  verifyBeforeUpdateEmail,
 };

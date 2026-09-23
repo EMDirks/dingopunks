@@ -1,2 +1,11 @@
 https://:project.pages.dev/*
   X-Robots-Tag: noindex
+
+# Only the entry scripts carry a ?version= cache-buster; the modules they
+# import (js/membership/*.js, etc.) do not. Make browsers revalidate those on
+# every load (cheap 304s via ETag) so a fresh entry never runs against a stale
+# import after a publish.
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate

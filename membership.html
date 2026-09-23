@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.142" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.142" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.143" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.143" />
 </head>
 <body>
   <div class="dpaam">
@@ -264,42 +264,6 @@
             <p class="dpaam-auth-legal">
               <button type="button" class="dpaam-auth-link" id="dpaam-auth-reset-back">
                 Back to log in
-              </button>
-            </p>
-          </div>
-
-          <div
-            class="dpaam-auth-card"
-            id="dpaam-auth-modal-verify"
-            data-auth-view="verify"
-            hidden
-          >
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-verify">Verify your email</h1>
-            <p class="dpaam-auth-lead">
-              We sent a verification link to
-              <strong class="dpaam-auth-verify-email" id="dpaam-auth-verify-email"></strong>.
-              Click the link, then return here and press Continue.
-            </p>
-            <button
-              type="button"
-              class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
-              id="dpaam-auth-verify-continue"
-            >
-              Continue
-            </button>
-            <button
-              type="button"
-              class="dpaam-btn dpaam-btn-secondary dpaam-auth-google-btn"
-              id="dpaam-auth-verify-resend"
-            >
-              Resend verification email
-            </button>
-            <p class="dpaam-auth-legal">
-              Don&rsquo;t see the email? Check your Spam folder. It may take a few minutes to arrive.
-            </p>
-            <p class="dpaam-auth-legal">
-              <button type="button" class="dpaam-auth-link" id="dpaam-auth-verify-back">
-                Back to sign up
               </button>
             </p>
           </div>
@@ -639,6 +603,38 @@
     </nav>
 
     <main class="dpaam-main">
+      <!-- Email verification (soft gate): shown until the link is clicked. -->
+      <aside
+        class="dpaam-verify-banner"
+        id="dpaam-verify-banner"
+        aria-labelledby="dpaam-verify-banner-title"
+        hidden
+      >
+        <div class="dpaam-verify-banner-copy">
+          <h2 class="dpaam-verify-banner-title" id="dpaam-verify-banner-title">
+            Verify your email to share escape rooms
+          </h2>
+          <p class="dpaam-verify-banner-text">
+            We sent a link to <strong class="dpaam-verify-email" data-verify-email></strong>.
+            Click it and you&rsquo;re set&nbsp;&mdash; this page updates on its own.
+            Wrong address?
+            <button type="button" class="dpaam-verify-link" data-action="change-verify-email">Change email</button>
+          </p>
+        </div>
+        <div class="dpaam-verify-banner-actions">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-activate dpaam-verify-resend"
+            data-action="resend-verification"
+          >Resend email</button>
+        </div>
+        <button
+          type="button"
+          class="dpaam-modal-close dpaam-verify-banner-dismiss"
+          id="dpaam-verify-banner-dismiss"
+          aria-label="Hide until next visit"
+        >×</button>
+      </aside>
       <aside
         class="dpaam-guide"
         id="dpaam-quick-start"
@@ -943,6 +939,89 @@
       </form>
     </dialog>
 
+    <!-- Verify email before sharing -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact"
+      id="dpaam-verify-email-modal"
+      aria-labelledby="dpaam-verify-email-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-verify-email-modal-title">Verify your email to share</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body">
+          <p class="dpaam-upgrade-lead">
+            We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
+            Click it, then come back&nbsp;&mdash; this page updates on its own.
+            Don&rsquo;t see it? Check your Spam folder; it can take a few minutes to arrive.
+          </p>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="change-verify-email">
+            Change email
+          </button>
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-activate dpaam-verify-resend"
+            data-action="resend-verification"
+          >Resend email</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Change an unverified email -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact"
+      id="dpaam-change-email-modal"
+      aria-labelledby="dpaam-change-email-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-change-email-modal-title">Change email</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body dpaam-change-email-body">
+          <p class="dpaam-upgrade-lead">
+            Enter the address you meant to use and we&rsquo;ll send the verification link there instead.
+          </p>
+          <label class="dpaam-change-email-field">
+            <span class="dpaam-visually-hidden">New email</span>
+            <input
+              type="email"
+              class="dpaam-auth-input"
+              id="dpaam-change-email-input"
+              placeholder="New email"
+              autocomplete="email"
+              required
+            />
+          </label>
+          <label class="dpaam-change-email-field" id="dpaam-change-email-password-field" hidden>
+            <span class="dpaam-visually-hidden">Current password</span>
+            <input
+              type="password"
+              class="dpaam-auth-input"
+              id="dpaam-change-email-password"
+              placeholder="Current password"
+              autocomplete="current-password"
+            />
+          </label>
+          <p
+            class="dpaam-change-email-status"
+            id="dpaam-change-email-status"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button type="button" class="dpaam-btn dpaam-btn-activate" id="dpaam-change-email-submit">
+            Send verification link
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
     <!-- My Account modal -->
     <dialog
       class="dpaam-modal dpaam-modal--compact dpaam-account-modal"
@@ -1082,15 +1161,6 @@
         <button
           type="button"
           class="dpaam-debug-view-option"
-          data-debug-view="verify"
-          role="radio"
-          aria-checked="false"
-        >
-          Continue
-        </button>
-        <button
-          type="button"
-          class="dpaam-debug-view-option"
           data-debug-view="offer"
           role="radio"
           aria-checked="false"
@@ -1175,10 +1245,17 @@
         >
           Expires in
         </button>
+        <button
+          type="button"
+          class="dpaam-debug-view-option"
+          data-debug-action="verify-email"
+        >
+          Verify email
+        </button>
       </div>
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.142"></script>
+  <script type="module" src="js/membership.js?version=3.4.143"></script>
 </body>
 </html>
