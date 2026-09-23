@@ -717,7 +717,7 @@
 }
 
 .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
-  margin-top: var(--dpaam-pad-sm);
+  margin-top: var(--dpaam-pad-md);
 }
 
 .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-price-unit {
@@ -1055,7 +1055,7 @@
   .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
     grid-column: 1 / -1;
     grid-row: 2;
-    margin-top: var(--dpaam-pad-xs);
+    margin-top: var(--dpaam-pad-sm);
   }
 
   .dpaam-auth-offer .dpaam-plan-panel__features-list li {

@@ -2,9 +2,11 @@ import { logger } from "firebase-functions";
 import { HttpsError, onCall, onRequest } from "firebase-functions/v2/https";
 import { defineSecret, defineString } from "firebase-functions/params";
 import { initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import Stripe from "stripe";
 
+import { checkEmailAvailable as checkEmailAvailableImpl } from "./change-email.js";
 import {
   createShareCode as createShareCodeImpl,
   cancelShareCode as cancelShareCodeImpl,
@@ -82,6 +84,16 @@ export const ensureUserProfile = onCall({ invoker: "public" }, async (request) =
   });
 
   return { created };
+});
+
+export const checkEmailAvailable = onCall({ invoker: "public" }, async (request) => {
+  requireAuth(request);
+  return checkEmailAvailableImpl(
+    getAuth(),
+    getFirestore(),
+    request.auth,
+    request.data?.email,
+  );
 });
 
 export const createShareCode = onCall({ invoker: "public" }, async (request) => {

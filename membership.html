@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.148" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.148" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.149" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.149" />
 </head>
 <body>
   <div class="dpaam">
@@ -617,8 +617,11 @@
           <p class="dpaam-verify-banner-text">
             We sent a link to <strong class="dpaam-verify-email" data-verify-email></strong>.
             Click it and you&rsquo;re all set.
+            <span class="dpaam-verify-pending-hint" data-verify-pending-hint hidden>
+              Didn&rsquo;t get it? That address may already have an account. Log out and sign in with it, or change the email again.
+            </span>
             Wrong email?
-            <button type="button" class="dpaam-verify-link" data-action="change-verify-email">Change it</button>
+            <button type="button" class="dpaam-verify-link" data-action="change-verify-email">Change it here.</button>
           </p>
         </div>
         <div class="dpaam-verify-banner-actions">
@@ -948,6 +951,9 @@
           <p class="dpaam-upgrade-lead">
             To share escape rooms, you must first verify your email. We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
             Click it, then come back here. It may take a few minutes to arrive. If you don't see it, check your spam folder.
+            <span class="dpaam-verify-pending-hint" data-verify-pending-hint hidden>
+              Didn&rsquo;t get it? That address may already have an account. Log out and sign in with it, or change the email again.
+            </span>
           </p>
         </div>
         <footer class="dpaam-modal-footer">
@@ -977,6 +983,7 @@
         <div class="dpaam-modal-body dpaam-change-email-body">
           <p class="dpaam-upgrade-lead">
             Enter the email address you meant to use and we&rsquo;ll send the verification link there instead.
+            If that address already has an account, we&rsquo;ll tell you here.
           </p>
           <label class="dpaam-change-email-field">
             <span class="dpaam-visually-hidden">New email</span>
@@ -1249,6 +1256,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.148"></script>
+  <script type="module" src="js/membership.js?version=3.4.149"></script>
 </body>
 </html>

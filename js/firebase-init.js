@@ -65,6 +65,7 @@ const db = initializeFirestore(
 );
 const firebaseFunctions = getFunctions(app);
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
+const checkEmailAvailable = httpsCallable(firebaseFunctions, "checkEmailAvailable");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
 const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
 const resolveGameCode = httpsCallable(firebaseFunctions, "resolveGameCode");
@@ -144,6 +145,7 @@ export {
   app,
   auth,
   cancelShareCode,
+  checkEmailAvailable,
   createCheckoutSession,
   createPortalSession,
   createShareCode,

@@ -44,6 +44,7 @@ import { initDebugView } from "./membership/debug.js";
 import {
   VERIFICATION_SENT_EVENT,
   changeUnverifiedEmail,
+  pendingEmailMatches,
   resendCooldownRemainingMs,
   sendVerificationEmail,
   startVerificationWatch,
@@ -2049,6 +2050,9 @@ function renderVerificationState() {
   document.querySelectorAll("[data-verify-email]").forEach((el) => {
     el.textContent = email;
   });
+  document.querySelectorAll("[data-verify-pending-hint]").forEach((el) => {
+    el.hidden = !verificationIsPendingEmailChange(currentUser);
+  });
 
   if (els.verifyBanner) {
     els.verifyBanner.hidden = !unverified;
@@ -2104,7 +2108,12 @@ async function resendVerificationEmail(button) {
   button.textContent = "Sending…";
   try {
     await sendVerificationEmail(user);
-    showToast(`Verification email sent to ${verificationTargetEmail(user)}`);
+    const email = verificationTargetEmail(user);
+    showToast(
+      verificationIsPendingEmailChange(user)
+        ? `If ${email} isn't already registered, another link is on its way.`
+        : `Verification email sent to ${email}`,
+    );
   } catch (error) {
     console.error("sendEmailVerification failed", error);
     showToast(authErrorMessage(error));
@@ -2139,6 +2148,9 @@ function changeEmailErrorMessage(error) {
   if (error?.code === "auth/email-already-in-use") {
     return "That email already has an account. Log out and sign in with it instead.";
   }
+  if (error?.code === "functions/resource-exhausted") {
+    return "Too many attempts. Try again in a few minutes.";
+  }
   if (
     error?.code === "auth/invalid-credential" ||
     error?.code === "auth/wrong-password" ||
@@ -2167,6 +2179,11 @@ async function submitChangeEmail() {
     input.focus();
     return;
   }
+  if (pendingEmailMatches(user, newEmail)) {
+    setChangeEmailStatus("That's already the address we sent the link to.", { error: true });
+    input.focus();
+    return;
+  }
 
   const needsPassword = els.changeEmailPasswordField && !els.changeEmailPasswordField.hidden;
   const password = needsPassword ? els.changeEmailPassword?.value ?? "" : "";
@@ -2184,7 +2201,7 @@ async function submitChangeEmail() {
     closeAnimatedModal(els.changeEmailModal);
     showToast(
       result.pendingVerification
-        ? `Link sent to ${newEmail}. Click it, then log in with that email.`
+        ? `If ${newEmail} isn't already registered, a link is on its way. Click it, then log in with that email.`
         : `Link sent to ${newEmail}`,
     );
   } catch (error) {
