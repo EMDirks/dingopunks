@@ -150,7 +150,7 @@ export const stripeWebhook = onRequest(
       );
     } catch (error) {
       logger.warn("Stripe webhook signature verification failed", {
-        message: error?.message,
+        errorMessage: error?.message,
       });
       response.status(400).send("Invalid signature");
       return;
@@ -167,7 +167,7 @@ export const stripeWebhook = onRequest(
       logger.error("Stripe webhook handler failed", {
         eventId: event.id,
         eventType: event.type,
-        message: error?.message,
+        errorMessage: error?.message,
       });
       response.status(500).send("Webhook handler error");
     }

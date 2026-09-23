@@ -56,7 +56,7 @@ body {
   --dpaam-blue-light: #D2E2F3;
   --dpaam-blue-dark: #535EA0;
   --dpaam-teal: #70B797;
-  --dpaam-teal-accessible: #46907D;
+  --dpaam-teal-accessible: #378D77;
   --dpaam-teal-light: #DAF5CA;
   --dpaam-teal-dark: #45857E;
   --dpaam-salmon: #FF5E58;
@@ -1146,7 +1146,7 @@ a.dpaam-topbar-btn {
 /* --- Drag state (favorites only) --- */
 
 .dpaam-card--favorite.is-dragging {
-  background: #ececea; /* lightened --dpaam-border */
+  background: var(--dpaam-light-gray);
   border: 1px dashed var(--dpaam-border-strong);
   cursor: grabbing;
   box-shadow: none !important;

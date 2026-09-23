@@ -91,7 +91,12 @@ function fakeStripe(overrides = {}) {
       sessions: {
         create: async (params) => {
           calls.sessionsCreate.push(params);
-          if (overrides.sessionError) throw overrides.sessionError;
+          // sessionError may be an Error (always throw) or a function of the
+          // request params returning an Error or null (conditional throw).
+          const sessionError = typeof overrides.sessionError === "function"
+            ? overrides.sessionError(params)
+            : overrides.sessionError;
+          if (sessionError) throw sessionError;
           return { id: "cs_1", url: "https://checkout.stripe.com/c/pay/cs_1" };
         },
       },
@@ -283,6 +288,34 @@ describe("createCheckoutSession", () => {
 
     assert.equal(stripe.calls.customersCreate.length, 0);
     assert.equal(stripe.calls.sessionsCreate[0].customer, "cus_existing");
+  });
+
+  test("a stale stored customer is replaced and the session retried", async () => {
+    // The stored customer doesn't exist in the current Stripe mode (e.g. a
+    // test-mode leftover after the switch to the live key).
+    await seedUser("buyer", { stripeCustomerId: "cus_stale" });
+    const staleError = Object.assign(
+      new Error("No such customer: 'cus_stale'; a similar object exists in test mode."),
+      { code: "resource_missing", param: "customer", type: "StripeInvalidRequestError" },
+    );
+    const stripe = fakeStripe({
+      sessionError: (params) => (params.customer === "cus_stale" ? staleError : null),
+    });
+
+    const result = await createCheckoutSession(db, stripe, "buyer", {}, {
+      now: NOW,
+      priceId: PRICE_ID,
+    });
+
+    assert.ok(result.url);
+    // First attempt used the stale ID, the retry used a fresh customer.
+    assert.equal(stripe.calls.sessionsCreate.length, 2);
+    assert.equal(stripe.calls.sessionsCreate[0].customer, "cus_stale");
+    assert.equal(stripe.calls.sessionsCreate[1].customer, "cus_new");
+    assert.equal(stripe.calls.customersCreate.length, 1);
+    // The dead ID was overwritten so future calls skip the retry.
+    const userDoc = await db.collection("users").doc("buyer").get();
+    assert.equal(userDoc.get("stripeCustomerId"), "cus_new");
   });
 
   test("returns account-domain checkout sessions to the account domain", async () => {

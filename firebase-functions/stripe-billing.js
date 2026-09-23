@@ -123,7 +123,7 @@ async function releaseRebateClaim(db, uid, rebate) {
     logger.error("Failed to release rebate claim after checkout error", {
       uid,
       claim: rebateClaimId(rebate),
-      message: error?.message,
+      errorMessage: error?.message,
     });
   }
 }
@@ -189,21 +189,27 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
   const claimCreated = rebate ? await claimRebate(db, uid, rebate) : false;
 
   try {
-    let customerId = userSnap.exists ? userSnap.get("stripeCustomerId") : null;
-    if (!customerId) {
+    // Save the new customer, unless a parallel call already saved a different
+    // one — then use the stored one so the account never splits across
+    // customers. `replacing` lets the stale-customer retry below overwrite the
+    // dead ID it just failed with (a parallel call's fresh ID still wins).
+    const createAndSaveCustomer = async (replacing = null) => {
       const customer = await stripe.customers.create({
         email: email ?? userSnap.get("email") ?? undefined,
         metadata: { uid },
       });
-      // Save it, unless a parallel call already saved a different customer —
-      // then use the stored one so the account never splits across customers.
-      customerId = await db.runTransaction(async (tx) => {
+      return db.runTransaction(async (tx) => {
         const snap = await tx.get(userRef);
         const existing = snap.exists ? snap.get("stripeCustomerId") : null;
-        if (existing) return existing;
+        if (existing && existing !== replacing) return existing;
         tx.set(userRef, { stripeCustomerId: customer.id }, { merge: true });
         return customer.id;
       });
+    };
+
+    let customerId = userSnap.exists ? userSnap.get("stripeCustomerId") : null;
+    if (!customerId) {
+      customerId = await createAndSaveCustomer();
     }
 
     const metadata = { uid };
@@ -212,19 +218,38 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
       metadata.rebateOrderNumber = rebate.orderNumber;
     }
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      customer: customerId,
-      line_items: [{ price: priceId, quantity: 1 }],
-      ...(rebate ? { discounts: [{ coupon: REBATE_COUPON_ID }] } : {}),
-      // uid rides on the session (for checkout.session.completed) AND on the
-      // subscription itself (for customer.subscription.* events).
-      metadata,
-      subscription_data: { metadata: { uid } },
-      client_reference_id: uid,
-      success_url: `${origin}/membership.html?checkout=success`,
-      cancel_url: `${origin}/membership.html?checkout=cancel`,
-    });
+    const createSession = (customer) =>
+      stripe.checkout.sessions.create({
+        mode: "subscription",
+        customer,
+        line_items: [{ price: priceId, quantity: 1 }],
+        ...(rebate ? { discounts: [{ coupon: REBATE_COUPON_ID }] } : {}),
+        // uid rides on the session (for checkout.session.completed) AND on the
+        // subscription itself (for customer.subscription.* events).
+        metadata,
+        subscription_data: { metadata: { uid } },
+        client_reference_id: uid,
+        success_url: `${origin}/membership.html?checkout=success`,
+        cancel_url: `${origin}/membership.html?checkout=cancel`,
+      });
+
+    let session;
+    try {
+      session = await createSession(customerId);
+    } catch (error) {
+      // Stored customer doesn't exist in this Stripe mode — typically a
+      // test-mode leftover after the switch to the live key, or a customer
+      // deleted in the dashboard. Self-heal: mint a fresh customer, replace
+      // the dead ID, retry once.
+      const staleCustomer =
+        error?.code === "resource_missing" && error?.param === "customer";
+      if (!staleCustomer) throw error;
+      logger.warn("Stored Stripe customer is missing in this mode — recreating", {
+        uid,
+        staleCustomerId: customerId,
+      });
+      session = await createSession(await createAndSaveCustomer(customerId));
+    }
 
     if (!session.url) {
       throw new Error("Stripe returned a session without a URL.");
@@ -233,9 +258,14 @@ export async function createCheckoutSession(db, stripe, uid, data = {}, options 
   } catch (error) {
     if (claimCreated) await releaseRebateClaim(db, uid, rebate);
     if (error instanceof HttpsError) throw error;
+    // Keys must not be named `message` — the logger treats that as its own
+    // display field and the Stripe reason gets clobbered.
     logger.error("Stripe checkout session creation failed", {
       uid,
-      message: error?.message,
+      stripeMessage: error?.message,
+      stripeCode: error?.code,
+      stripeType: error?.type,
+      stripeParam: error?.param,
     });
     throw new HttpsError("internal", "Couldn't start checkout. Try again.");
   }
@@ -273,7 +303,9 @@ export async function createPortalSession(db, stripe, uid, data = {}, options = 
   } catch (error) {
     logger.error("Stripe customer portal session creation failed", {
       uid,
-      message: error?.message,
+      stripeMessage: error?.message,
+      stripeCode: error?.code,
+      stripeType: error?.type,
     });
     throw new HttpsError("internal", "Couldn't open billing. Try again.");
   }
