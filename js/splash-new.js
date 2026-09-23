@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.146';
+const version = '3.4.147';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -232,12 +232,7 @@ function rejectAccessCode() {
 }
 
 function submitMembershipCode(code) {
-  // Share codes must never unlock the answer key: a teacher's students all hold
-  // one. The preview pages stay on purchased codes only.
-  if (gameMode === 'preview') {
-    rejectAccessCode();
-    return;
-  }
+  // Share codes work on the answer key on the same footing as legacy codes.
   if (!isMembershipCode(code)) {
     rejectAccessCode();
     return;

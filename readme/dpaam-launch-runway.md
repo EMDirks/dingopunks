@@ -89,7 +89,8 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Show a modal when a student enters a wrong game code. Today a miss only flashes the cells red and clears them.
 - [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent.
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
-- [X] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
+- [ ] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
+- [ ] **P1** **Custom Firebase email action handler (post-launch).** Launch ships with Firebase’s default interstitial (“Your email has been verified…”) plus our `continueUrl` back to the account page; the original tab already auto-detects verification. After launch, add a dedicated `auth-action.html` on `account.dingopunks.com` that handles **all** action modes in one place (`verifyEmail`, `resetPassword`, `recoverEmail`, `verifyAndChangeEmail` via `applyActionCode` / password-reset confirm), shows Dingo Punks copy (e.g. verified → brief message + redirect to account), and handles expired/used links. Test every mode in the Auth emulator, then flip Firebase Console → Authentication → Templates **custom action URL** (reversible). Do not point the action URL at membership/dashboard JS until all modes are covered — password-reset links must keep working.
 
 ---
 
@@ -200,7 +201,7 @@ Use at least these clean states: unverified email user, free email user, free Go
 - [ ] **P0** Type the same code with a physical keyboard and with touch input; lowercase input normalizes correctly.
 - [ ] **P0** Touch entry supports every allowed letter and digit, excludes ambiguous characters as designed, supports correction, and submits only five characters.
 - [ ] **P0** Invalid, missing, expired, canceled, malformed, and stale-catalog codes all reveal only the same generic failure.
-- [ ] **P0** A membership code is refused on `answer-key.html`.
+- [ ] **P0** A membership code opens the answer key on `answer-key.html`; a legacy code still works there too.
 - [ ] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
 - [ ] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it.
 - [ ] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts.
