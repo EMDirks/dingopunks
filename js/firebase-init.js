@@ -3,21 +3,17 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
-  EmailAuthProvider,
   GoogleAuthProvider,
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
-  reauthenticateWithCredential,
   reload,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  updateEmail,
-  verifyBeforeUpdateEmail,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   connectFirestoreEmulator,
@@ -65,7 +61,6 @@ const db = initializeFirestore(
 );
 const firebaseFunctions = getFunctions(app);
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
-const checkEmailAvailable = httpsCallable(firebaseFunctions, "checkEmailAvailable");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");
 const cancelShareCode = httpsCallable(firebaseFunctions, "cancelShareCode");
 const resolveGameCode = httpsCallable(firebaseFunctions, "resolveGameCode");
@@ -141,11 +136,9 @@ if (isLocal) {
 }
 
 export {
-  EmailAuthProvider,
   app,
   auth,
   cancelShareCode,
-  checkEmailAvailable,
   createCheckoutSession,
   createPortalSession,
   createShareCode,
@@ -157,7 +150,6 @@ export {
   getUserProfileForBootstrap,
   googleProvider,
   onAuthStateChanged,
-  reauthenticateWithCredential,
   reload,
   resolveGameCode,
   sendEmailVerification,
@@ -166,6 +158,4 @@ export {
   signInWithPopup,
   signOut,
   subscribeToUserProfile,
-  updateEmail,
-  verifyBeforeUpdateEmail,
 };

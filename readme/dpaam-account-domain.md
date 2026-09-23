@@ -49,9 +49,24 @@ Use **Online Store → Navigation → View URL redirects** (or **Content → Men
 
 Do **not** turn on Cloudflare “proxied” DNS for the apex shop domain just to run redirect rules — that would break Shopify.
 
+## 6. Cloudflare zone cache-control (required)
+
+The repo's `_headers` file sets `Cache-Control: public, max-age=0, must-revalidate` for `/js/*` and `/css/*` so browsers revalidate imported modules on every load. Cloudflare Pages respects this on `dingopunks.pages.dev`, but the proxied custom hostnames override it with the zone's Browser Cache TTL (default 4 hours). This causes stale-module errors after a publish.
+
+**Fix:** In Cloudflare Dashboard → the `dingopunks.com` zone → **Rules → Cache Rules**, add a rule for hostname `account.dingopunks.com` (and `play.dingopunks.com`) that sets **Browser TTL: Respect Origin** and **Edge Cache TTL: Respect Origin** for `/js/*` and `/css/*`, or set the zone's global Browser Cache TTL to **Respect Existing Headers**.
+
+**Verify** after applying:
+
+```bash
+curl -sI https://account.dingopunks.com/js/membership/email-verification.js | grep -i cache-control
+# Expected: cache-control: public, max-age=0, must-revalidate
+```
+
 ## Smoke test
 
 - [ ] `https://account.dingopunks.com/` — membership loads, login works (email + Google).
+- [ ] `https://account.dingopunks.com/?anything=here` — lands on the membership page, not the student splash.
 - [ ] `https://play.dingopunks.com/` — student code entry unchanged.
 - [ ] `https://dingopunks.com/membership` — lands on account domain.
 - [ ] Checkout / Manage Subscription from account domain return to `account.dingopunks.com`.
+- [ ] `/js/membership/email-verification.js` cache-control header is `max-age=0, must-revalidate` on the custom domain.

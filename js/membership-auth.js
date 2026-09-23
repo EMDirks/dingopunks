@@ -23,10 +23,19 @@ import { sendVerificationEmail } from "./membership/email-verification.js";
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
   signup: "dpaam-auth-heading-signup",
+  "signup-confirm": "dpaam-auth-heading-signup-confirm",
   reset: "dpaam-auth-heading-reset",
   "offer-loading": "dpaam-auth-heading-offer-loading",
   offer: "dpaam-auth-heading-offer",
 };
+
+// When the user signs out mid-flow (e.g. "Log out and sign up again"), the
+// auth view that should open on the next signed-out state instead of signin.
+let queuedSignedOutView = "signin";
+
+export function queueSignedOutView(view) {
+  if (AUTH_VIEW_HEADING_IDS[view]) queuedSignedOutView = view;
+}
 
 export function clearAuthMessages() {
   const error = document.getElementById("dpaam-auth-error");
@@ -294,29 +303,50 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     if (signUpConsent.checked) clearAuthMessages();
   });
 
-  signUpForm?.addEventListener("submit", async (event) => {
+  signUpForm?.addEventListener("submit", (event) => {
     event.preventDefault();
     if (!formIsValid(signUpForm)) return;
     if (!consentGiven()) return;
 
-    const passwordInput = document.getElementById("dpaam-auth-signup-password");
-    const submit = document.getElementById("dpaam-auth-signup-submit");
+    // Show the confirm view so the user can verify their email before we
+    // create the account. The form values stay intact while the view is hidden.
     const email = signUpEmailInput.value.trim();
-
+    signUpEmailInput.value = email;
+    const confirmEmailEl = document.getElementById("dpaam-auth-confirm-email");
+    if (confirmEmailEl) confirmEmailEl.textContent = email;
     clearAuthMessages();
-    setButtonLoading(submit, true, "Creating account…");
+    setAuthView("signup-confirm");
+  });
+
+  // Confirm button: actually create the account.
+  async function doCreateAccount() {
+    const email = signUpEmailInput?.value.trim() ?? "";
+    const passwordInput = document.getElementById("dpaam-auth-signup-password");
+    const confirmSubmit = document.getElementById("dpaam-auth-confirm-submit");
+    if (!email || !passwordInput || !confirmSubmit) return;
+
+    setAuthButtonLoading(confirmSubmit, true, "Creating account…");
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
-      // Don't hold the sign-up on the email round trip; the dashboard banner
-      // offers a resend if this one never arrives.
+      // Don't hold sign-up on the email round trip; dashboard banner offers resend.
       sendVerificationEmail(credential.user).catch((error) => {
         console.warn("Verification email failed to send", error);
       });
     } catch (error) {
+      setAuthView("signup");
       showAuthMessage("error", authErrorMessage(error));
     } finally {
-      setButtonLoading(submit, false, "Creating account…");
+      setAuthButtonLoading(confirmSubmit, false, "Creating account…");
     }
+  }
+
+  document.getElementById("dpaam-auth-confirm-submit")?.addEventListener("click", () => {
+    void doCreateAccount();
+  });
+
+  document.getElementById("dpaam-auth-confirm-back")?.addEventListener("click", () => {
+    clearAuthMessages();
+    setAuthView("signup", { focus: true });
   });
 
   const resetForm = document.getElementById("dpaam-auth-reset-form");
@@ -458,7 +488,9 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthOfferLayoutActive(false);
-      setAuthView("signin");
+      const viewOnSignout = queuedSignedOutView;
+      queuedSignedOutView = "signin";
+      setAuthView(viewOnSignout, { focus: viewOnSignout !== "signin" });
       return;
     }
 

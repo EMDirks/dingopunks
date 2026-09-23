@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.149" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.149" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.150" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.150" />
 </head>
 <body>
   <div class="dpaam">
@@ -228,6 +228,30 @@
               </svg>
               Continue with Google
             </button>
+          </div>
+
+          <div
+            class="dpaam-auth-card"
+            id="dpaam-auth-modal-signup-confirm"
+            data-auth-view="signup-confirm"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signup-confirm">Double-check your email</h1>
+            <p class="dpaam-auth-lead">
+              We&rsquo;ll send your verification link to <strong id="dpaam-auth-confirm-email"></strong>. Is that right?
+            </p>
+            <button
+              type="button"
+              class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
+              id="dpaam-auth-confirm-submit"
+            >
+              Yes, create my account
+            </button>
+            <p class="dpaam-auth-legal">
+              <button type="button" class="dpaam-auth-link" id="dpaam-auth-confirm-back">
+                Edit email
+              </button>
+            </p>
           </div>
 
           <div
@@ -612,16 +636,13 @@
       >
         <div class="dpaam-verify-banner-copy">
           <h2 class="dpaam-verify-banner-title" id="dpaam-verify-banner-title">
-            Verify your email to share escape rooms
+            Verify your email to share or upgrade
           </h2>
           <p class="dpaam-verify-banner-text">
             We sent a link to <strong class="dpaam-verify-email" data-verify-email></strong>.
             Click it and you&rsquo;re all set.
-            <span class="dpaam-verify-pending-hint" data-verify-pending-hint hidden>
-              Didn&rsquo;t get it? That address may already have an account. Log out and sign in with it, or change the email again.
-            </span>
             Wrong email?
-            <button type="button" class="dpaam-verify-link" data-action="change-verify-email">Change it here.</button>
+            <button type="button" class="dpaam-verify-link" data-action="signout-to-signup">Log out and sign up again.</button>
           </p>
         </div>
         <div class="dpaam-verify-banner-actions">
@@ -949,75 +970,19 @@
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            To share escape rooms, you must first verify your email. We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
+            To share escape rooms or upgrade, first verify your email. We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>.
             Click it, then come back here. It may take a few minutes to arrive. If you don't see it, check your spam folder.
-            <span class="dpaam-verify-pending-hint" data-verify-pending-hint hidden>
-              Didn&rsquo;t get it? That address may already have an account. Log out and sign in with it, or change the email again.
-            </span>
           </p>
         </div>
         <footer class="dpaam-modal-footer">
-          <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="change-verify-email">
-            Change Email
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="signout-to-signup">
+            Log out and sign up again
           </button>
           <button
             type="button"
             class="dpaam-btn dpaam-btn-activate dpaam-verify-resend"
             data-action="resend-verification"
           >Resend email</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- Change an unverified email -->
-    <dialog
-      class="dpaam-modal dpaam-modal--compact"
-      id="dpaam-change-email-modal"
-      aria-labelledby="dpaam-change-email-modal-title"
-    >
-      <form method="dialog" class="dpaam-modal-form">
-        <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-change-email-modal-title">Change email</h3>
-          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close" formnovalidate>×</button>
-        </header>
-        <div class="dpaam-modal-body dpaam-change-email-body">
-          <p class="dpaam-upgrade-lead">
-            Enter the email address you meant to use and we&rsquo;ll send the verification link there instead.
-            If that address already has an account, we&rsquo;ll tell you here.
-          </p>
-          <label class="dpaam-change-email-field">
-            <span class="dpaam-visually-hidden">New email</span>
-            <input
-              type="email"
-              class="dpaam-auth-input"
-              id="dpaam-change-email-input"
-              placeholder="New email"
-              autocomplete="email"
-              required
-            />
-          </label>
-          <label class="dpaam-change-email-field" id="dpaam-change-email-password-field" hidden>
-            <span class="dpaam-visually-hidden">Current password</span>
-            <input
-              type="password"
-              class="dpaam-auth-input"
-              id="dpaam-change-email-password"
-              placeholder="Current password"
-              autocomplete="current-password"
-            />
-          </label>
-          <p
-            class="dpaam-change-email-status"
-            id="dpaam-change-email-status"
-            role="status"
-            aria-live="polite"
-            hidden
-          ></p>
-        </div>
-        <footer class="dpaam-modal-footer">
-          <button type="button" class="dpaam-btn dpaam-btn-activate" id="dpaam-change-email-submit">
-            Send verification link
-          </button>
         </footer>
       </form>
     </dialog>
@@ -1256,6 +1221,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.149"></script>
+  <script type="module" src="js/membership.js?version=3.4.150"></script>
 </body>
 </html>

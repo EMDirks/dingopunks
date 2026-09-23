@@ -8,6 +8,7 @@ import { thumbHtml } from "./thumbnails.js";
 import {
   authErrorMessage,
   initAuth,
+  queueSignedOutView,
   userCanAccessDashboard,
 } from "./membership-auth.js";
 import { escapeHtml, setButtonLoading } from "./membership-utils.js";
@@ -43,15 +44,11 @@ import {
 import { initDebugView } from "./membership/debug.js";
 import {
   VERIFICATION_SENT_EVENT,
-  changeUnverifiedEmail,
-  pendingEmailMatches,
   resendCooldownRemainingMs,
   sendVerificationEmail,
   startVerificationWatch,
   stopVerificationWatch,
   userNeedsEmailVerification,
-  verificationIsPendingEmailChange,
-  verificationTargetEmail,
 } from "./membership/email-verification.js";
 import {
   completeAuthOfferAndEnterDashboard,
@@ -973,7 +970,6 @@ const DPAAM_MODALS = [
   els.shareCodeLimitModal,
   els.shareExpiryModal,
   els.verifyEmailModal,
-  els.changeEmailModal,
   els.memberOnlyModal,
   els.upgradeModal,
   els.rebateModal,
@@ -1196,7 +1192,7 @@ function authOfferFreePlanPanelHtml() {
 function accountStarterPlanPanelHtml() {
   return starterOfferPlanPanelHtml({
     cta: "none",
-    priceText: "Your plan",
+    priceText: "Your Plan",
     showBillingLine: false,
   });
 }
@@ -2003,6 +1999,19 @@ async function sendAccountPasswordReset() {
   }
 }
 
+// Used by "Log out and sign up again" in the verify banner/modal.
+// Queues the signup view before signing out so it opens instead of signin.
+async function signOutToSignUp() {
+  // Close any open modal so the UI is clean when the auth section reappears.
+  document.querySelectorAll("dialog[open]").forEach((d) => d.close());
+  queueSignedOutView("signup");
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("signOutToSignUp failed", error);
+  }
+}
+
 async function logoutAccount() {
   if (!els.accountLogout) return;
 
@@ -2045,23 +2054,14 @@ function syncResendButtons() {
 
 function renderVerificationState() {
   const unverified = userNeedsEmailVerification(currentUser);
-  const email = verificationTargetEmail(currentUser);
+  const email = currentUser?.email ?? "";
 
   document.querySelectorAll("[data-verify-email]").forEach((el) => {
     el.textContent = email;
   });
-  document.querySelectorAll("[data-verify-pending-hint]").forEach((el) => {
-    el.hidden = !verificationIsPendingEmailChange(currentUser);
-  });
 
   if (els.verifyBanner) {
     els.verifyBanner.hidden = !unverified;
-    const title = els.verifyBanner.querySelector(".dpaam-verify-banner-title");
-    if (title) {
-      title.textContent = verificationIsPendingEmailChange(currentUser)
-        ? "Confirm your new email to share escape rooms"
-        : "Verify your email to share escape rooms";
-    }
   }
 
   syncResendButtons();
@@ -2070,7 +2070,6 @@ function renderVerificationState() {
 function onEmailVerified() {
   renderVerificationState();
   if (els.verifyEmailModal?.open) closeAnimatedModal(els.verifyEmailModal);
-  if (els.changeEmailModal?.open) closeAnimatedModal(els.changeEmailModal);
   showToast("Email verified");
 }
 
@@ -2085,7 +2084,7 @@ function syncEmailVerification() {
 
 function openVerifyEmailModal() {
   renderVerificationState();
-  const fromModal = [els.shareModal, els.modal].find((m) => m?.open);
+  const fromModal = [els.rebateModal, els.shareModal, els.modal].find((m) => m?.open);
   if (fromModal) {
     transitionToModal(fromModal, () => {
       if (fromModal === els.modal) {
@@ -2108,113 +2107,13 @@ async function resendVerificationEmail(button) {
   button.textContent = "Sending…";
   try {
     await sendVerificationEmail(user);
-    const email = verificationTargetEmail(user);
-    showToast(
-      verificationIsPendingEmailChange(user)
-        ? `If ${email} isn't already registered, another link is on its way.`
-        : `Verification email sent to ${email}`,
-    );
+    showToast(`Verification email sent to ${user.email}`);
   } catch (error) {
     console.error("sendEmailVerification failed", error);
     showToast(authErrorMessage(error));
   } finally {
     button.removeAttribute("aria-busy");
     syncResendButtons();
-  }
-}
-
-function setChangeEmailStatus(message, { error = false } = {}) {
-  const status = els.changeEmailStatus;
-  if (!status) return;
-  status.textContent = message;
-  status.hidden = !message;
-  status.classList.toggle("dpaam-change-email-status--error", Boolean(message) && error);
-}
-
-function openChangeEmailModal() {
-  if (els.changeEmailInput) els.changeEmailInput.value = "";
-  if (els.changeEmailPassword) els.changeEmailPassword.value = "";
-  if (els.changeEmailPasswordField) els.changeEmailPasswordField.hidden = true;
-  setChangeEmailStatus("");
-
-  const fromModal = els.verifyEmailModal?.open ? els.verifyEmailModal : null;
-  transitionToModal(fromModal, () => {
-    showExclusiveModal(els.changeEmailModal);
-    els.changeEmailInput?.focus();
-  });
-}
-
-function changeEmailErrorMessage(error) {
-  if (error?.code === "auth/email-already-in-use") {
-    return "That email already has an account. Log out and sign in with it instead.";
-  }
-  if (error?.code === "functions/resource-exhausted") {
-    return "Too many attempts. Try again in a few minutes.";
-  }
-  if (
-    error?.code === "auth/invalid-credential" ||
-    error?.code === "auth/wrong-password" ||
-    error?.code === "auth/invalid-login-credentials"
-  ) {
-    return "Incorrect password.";
-  }
-  return authErrorMessage(error);
-}
-
-async function submitChangeEmail() {
-  const user = currentUser;
-  const input = els.changeEmailInput;
-  const submit = els.changeEmailSubmit;
-  if (!user || !input || !submit) return;
-
-  const newEmail = input.value.trim();
-  input.value = newEmail;
-  if (!newEmail || !input.checkValidity()) {
-    setChangeEmailStatus("Enter a valid email.", { error: true });
-    input.focus();
-    return;
-  }
-  if (newEmail.toLowerCase() === (user.email ?? "").toLowerCase()) {
-    setChangeEmailStatus("That's already the email on this account.", { error: true });
-    input.focus();
-    return;
-  }
-  if (pendingEmailMatches(user, newEmail)) {
-    setChangeEmailStatus("That's already the address we sent the link to.", { error: true });
-    input.focus();
-    return;
-  }
-
-  const needsPassword = els.changeEmailPasswordField && !els.changeEmailPasswordField.hidden;
-  const password = needsPassword ? els.changeEmailPassword?.value ?? "" : "";
-  if (needsPassword && !password) {
-    setChangeEmailStatus("Enter your password to confirm.", { error: true });
-    els.changeEmailPassword?.focus();
-    return;
-  }
-
-  setChangeEmailStatus("");
-  setButtonLoading(submit, true, "Sending…");
-  try {
-    const result = await changeUnverifiedEmail(user, newEmail, password);
-    renderVerificationState();
-    closeAnimatedModal(els.changeEmailModal);
-    showToast(
-      result.pendingVerification
-        ? `If ${newEmail} isn't already registered, a link is on its way. Click it, then log in with that email.`
-        : `Link sent to ${newEmail}`,
-    );
-  } catch (error) {
-    if (error?.code === "auth/requires-recent-login") {
-      if (els.changeEmailPasswordField) els.changeEmailPasswordField.hidden = false;
-      setChangeEmailStatus("For security, enter your password to confirm.");
-      els.changeEmailPassword?.focus();
-      return;
-    }
-    console.error("changeUnverifiedEmail failed", error);
-    setChangeEmailStatus(changeEmailErrorMessage(error), { error: true });
-  } finally {
-    setButtonLoading(submit, false, "Sending…");
   }
 }
 
@@ -2248,6 +2147,11 @@ function checkoutErrorMessage(error) {
 }
 
 async function beginCheckout(triggerButton, rebate = null) {
+  if (userNeedsEmailVerification(auth.currentUser)) {
+    openVerifyEmailModal();
+    return;
+  }
+
   if (isAuthOfferViewVisible()) {
     markAuthOfferStepComplete(auth.currentUser?.uid);
   }
@@ -2708,18 +2612,8 @@ function wireEvents() {
 
   // Email verification banner + modals
   wireAnimatedModal(els.verifyEmailModal, runPendingModalOpen);
-  wireAnimatedModal(els.changeEmailModal, runPendingModalOpen);
-  els.changeEmailSubmit?.addEventListener("click", () => {
-    void submitChangeEmail();
-  });
   document.addEventListener(VERIFICATION_SENT_EVENT, () => {
     syncResendButtons();
-  });
-  // Enter inside the change-email form should submit it, not close the dialog.
-  els.changeEmailModal?.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || !e.target.matches("input")) return;
-    e.preventDefault();
-    void submitChangeEmail();
   });
 
   document.addEventListener("click", (e) => {
@@ -2729,9 +2623,9 @@ function wireEvents() {
       return;
     }
 
-    const changeEmailBtn = e.target.closest("[data-action='change-verify-email']");
-    if (changeEmailBtn) {
-      openChangeEmailModal();
+    const signoutToSignupBtn = e.target.closest("[data-action='signout-to-signup']");
+    if (signoutToSignupBtn) {
+      void signOutToSignUp();
       return;
     }
 
@@ -2770,10 +2664,6 @@ function wireEvents() {
     if (manageBtn) {
       void openBillingPortal(manageBtn);
     }
-  });
-
-  els.changeEmailModal?.addEventListener("input", () => {
-    setChangeEmailStatus("");
   });
 
   document.addEventListener("input", (e) => {

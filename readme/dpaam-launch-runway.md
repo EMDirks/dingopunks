@@ -45,6 +45,7 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - [ ] **P0** Choose the release commit and record its SHA here:
 - [ ] **P0** Working tree is clean; every intended launch change is committed.
 - [ ] **P0** Confirm the generated game catalog is current:
+- [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
 
   ```sh
   node scripts/export-game-ids.mjs
@@ -91,6 +92,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
 - [ ] **P1** **Custom Firebase email action handler (post-launch).** Launch ships with Firebase’s default interstitial (“Your email has been verified…”) plus our `continueUrl` back to the account page; the original tab already auto-detects verification. After launch, add a dedicated `auth-action.html` on `account.dingopunks.com` that handles **all** action modes in one place (`verifyEmail`, `resetPassword`, `recoverEmail`, `verifyAndChangeEmail` via `applyActionCode` / password-reset confirm), shows Dingo Punks copy (e.g. verified → brief message + redirect to account), and handles expired/used links. Test every mode in the Auth emulator, then flip Firebase Console → Authentication → Templates **custom action URL** (reversible). Do not point the action URL at membership/dashboard JS until all modes are covered — password-reset links must keep working.
+- [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
 
 ---
 
@@ -129,9 +131,8 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 
 - [X] **P0** Custom domain serves the release over valid HTTPS with no redirect loop.
 - [X] **P0** `play.dingopunks.com`, `/membership.html`, `/answer-key.html`, and representative resource assets return successfully.
-- [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
-- [ ] **P0** Terms, Privacy Policy, contact/support, refund policy, and billing descriptors are discoverable before purchase.
-- [ ] **P0** Analytics and consent behavior are acceptable for teacher and student pages; no student account or payment data is sent to analytics.
+- [X] **P0** Terms, Privacy Policy, contact/support, refund policy, and billing descriptors are discoverable before purchase.
+- [X] **P0** Analytics and consent behavior are acceptable for teacher and student pages; no student account or payment data is sent to analytics.
 
 ---
 
@@ -289,7 +290,7 @@ Smoke journey for each device:
 ### Support readiness
 
 - [ ] **P0** A monitored support address is visible from auth, billing, and error states.
-- [ ] **P0** Prepare short support procedures for: verification email missing, Google popup failure, password reset, wrong plan, webhook delay, duplicate account, rebate rejected/claimed, share-code limit, student code expired, refund, cancellation, and accidental duplicate purchase.
+- [ ] **P0** Prepare short support procedures for: verification email missing, Google popup failure, password reset, wrong plan, webhook delay, duplicate account, rebate rejected/claimed, share-code limit, student code expired, refund, cancellation, accidental duplicate purchase, and email change (support edits the address in Firebase Console → Authentication → find user → Edit, then asks the user to sign in with the new address).
 - [ ] **P0** Support can locate a customer by email in Firebase and Stripe without requesting a password or full card number.
 - [ ] **P0** Define who can manually correct entitlement, issue a refund, cancel a subscription, release a rebate claim, and inspect logs.
 - [ ] **P0** Define severity and response owners for purchase failure, widespread login failure, wrong entitlement, student launch failure, and data exposure.

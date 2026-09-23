@@ -202,11 +202,6 @@ body {
   font-weight: 600;
 }
 
-.dpaam-verify-pending-hint:not([hidden]) {
-  display: block;
-  margin-top: 4px;
-}
-
 .dpaam-verify-link {
   padding: 0;
   border: 0;
@@ -231,8 +226,10 @@ body {
 
 .dpaam-verify-resend:disabled {
   cursor: default;
-  opacity: 0.8;
+  opacity: 1;
   filter: none;
+  color: var(--dpaam-black);
+  -webkit-text-fill-color: var(--dpaam-black);
 }
 
 @media (max-width: 600px) {
@@ -240,52 +237,6 @@ body {
   .dpaam-verify-resend {
     width: 100%;
   }
-}
-
-/* Change-email modal */
-
-.dpaam-modal-body.dpaam-change-email-body {
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--dpaam-pad);
-}
-
-.dpaam-change-email-field {
-  display: flex;
-  margin: 0;
-}
-
-.dpaam-change-email-field[hidden] {
-  display: none;
-}
-
-.dpaam-change-email-field .dpaam-auth-input {
-  font: inherit;
-  font-size: var(--dpaam-text-sm);
-  background: var(--dpaam-white);
-  border-color: var(--dpaam-border);
-  color: var(--dpaam-black);
-  border-radius: var(--dpaam-radius-sm);
-}
-
-.dpaam-change-email-field .dpaam-auth-input:focus {
-  outline-color: var(--dpaam-teal-accessible);
-  border-color: var(--dpaam-teal-accessible);
-}
-
-.dpaam-change-email-status {
-  margin: 0;
-  font-size: var(--dpaam-text-xs);
-  line-height: 1.4;
-  color: var(--dpaam-black-muted);
-}
-
-.dpaam-change-email-status[hidden] {
-  display: none;
-}
-
-.dpaam-change-email-status--error {
-  color: var(--dpaam-salmon);
 }
 
 /* ---------- Quick Start Guide ---------- */
@@ -532,6 +483,8 @@ body {
 #dpaam-dashboard .dpaam-btn.dpaam-verify-resend:disabled {
   background: var(--dpaam-gold);
   color: var(--dpaam-black);
+  -webkit-text-fill-color: var(--dpaam-black);
+  opacity: 1;
 }
 
 #dpaam-dashboard .dpaam-topbar-buttons > .dpaam-topbar-btn {
