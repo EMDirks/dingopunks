@@ -604,12 +604,6 @@ function pulseTabCount(tab, variant = "add") {
   el.addEventListener("animationend", () => el.classList.remove(cls), { once: true });
 }
 
-function pickDefaultTab() {
-  if (state.activeCodes.length > 0) return "active";
-  if (state.favorites.length > 0) return "favorites";
-  return "library";
-}
-
 function setActiveTab(tab) {
   if (!DASHBOARD_TABS.includes(tab)) return;
   state.activeTab = tab;
@@ -1918,17 +1912,18 @@ function openShareModal(gameId, { pending = false } = {}) {
 }
 
 async function activateAndShare(gameId) {
-  if (isGameLockedForAccess(gameId)) {
-    openMemberOnlyModal(gameId);
-    return;
-  }
-
   const needsCreate = !activeCodeFor(gameId);
 
   // Creating a share code is the one action held back until the email is
-  // verified; browsing, favoriting, and already-active codes keep working.
+  // verified. Check this before the access paywall so a new unverified user
+  // gets the verification prompt even when the selected room is locked.
   if (needsCreate && userNeedsEmailVerification(currentUser)) {
     openVerifyEmailModal();
+    return;
+  }
+
+  if (isGameLockedForAccess(gameId)) {
+    openMemberOnlyModal(gameId);
     return;
   }
 
@@ -3037,7 +3032,10 @@ function init() {
 
   initAuth({
     loadDashboardState,
-    onDashboardLoaded: attachUserProfileSubscription,
+    onDashboardLoaded(user) {
+      setActiveTab("library");
+      attachUserProfileSubscription(user);
+    },
   });
   initDebugView();
   onAuthStateChanged(auth, (user) => {
@@ -3068,7 +3066,7 @@ function init() {
   renderActiveCodes();
   renderFavorites();
   renderLibrary();
-  setActiveTab(pickDefaultTab());
+  setActiveTab("library");
   setInterval(tickActiveCodeTimers, 1000);
 }
 
