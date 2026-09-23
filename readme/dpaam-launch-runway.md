@@ -120,13 +120,13 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [X] **P0** Customer Portal allows payment-method updates and cancellation at period end and does not allow plan switching.
 - [X] **P0** Live webhook points to the deployed `stripeWebhook` URL and subscribes to `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`, and `charge.dispute.created`. (2026-09-23: live-mode endpoint enabled at `https://stripewebhook-j6oopmp5zq-uc.a.run.app` with exactly those five events.)
 - [X] **P0** Stripe reports a successful webhook delivery for each lifecycle event used in testing. (2026-09-23: live purchase, then cancel at period end. Stripe `pending_webhooks: 0` and Cloud Run HTTP 200 for `checkout.session.completed` at 15:47:37Z and both `customer.subscription.updated` deliveries at 15:48:31Z (`cancel_at` set to period end, status still `active`) and 15:48:32Z (cancellation comment). `customer.subscription.deleted`, `charge.refunded`, and `charge.dispute.created` did not fire in this test.)
-- [ ] **P0** Failed payments, disputes, refunds, and support-driven cancellation have written operating procedures even when they are handled manually at launch.
-- [ ] **P0** Public refund and renewal language matches actual Stripe and entitlement behavior.
+- [X] **P0** Failed payments, disputes, refunds, and support-driven cancellation have written operating procedures even when they are handled manually at launch.
+- [X] **P0** Public refund and renewal language matches actual Stripe and entitlement behavior.
 
 ### Cloudflare and public web
 
-- [ ] **P0** Custom domain serves the release over valid HTTPS with no redirect loop.
-- [ ] **P0** `play.dingopunks.com`, `/membership.html`, `/answer-key.html`, and representative resource assets return successfully.
+- [X] **P0** Custom domain serves the release over valid HTTPS with no redirect loop.
+- [X] **P0** `play.dingopunks.com`, `/membership.html`, `/answer-key.html`, and representative resource assets return successfully.
 - [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
 - [ ] **P0** Terms, Privacy Policy, contact/support, refund policy, and billing descriptors are discoverable before purchase.
 - [ ] **P0** Analytics and consent behavior are acceptable for teacher and student pages; no student account or payment data is sent to analytics.

@@ -41,6 +41,7 @@ export function clearAuthMessages() {
     success.hidden = true;
     success.textContent = "";
   }
+  document.querySelector(".dpaam-auth-consent.is-error")?.classList.remove("is-error");
 }
 
 function showAuthMessage(type, message) {
@@ -284,10 +285,28 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   const signUpForm = document.getElementById("dpaam-auth-signup-form");
   const signUpEmailInput = document.getElementById("dpaam-auth-signup-email");
+  const signUpConsent = document.getElementById("dpaam-auth-signup-consent");
+
+  function consentGiven() {
+    if (signUpConsent?.checked) return true;
+
+    showAuthMessage(
+      "error",
+      "Please agree to the Terms of Service and Privacy Policy to sign up.",
+    );
+    signUpConsent?.closest(".dpaam-auth-consent")?.classList.add("is-error");
+    signUpConsent?.focus();
+    return false;
+  }
+
+  signUpConsent?.addEventListener("change", () => {
+    if (signUpConsent.checked) clearAuthMessages();
+  });
 
   signUpForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!formIsValid(signUpForm)) return;
+    if (!consentGiven()) return;
 
     const passwordInput = document.getElementById("dpaam-auth-signup-password");
     const submit = document.getElementById("dpaam-auth-signup-submit");
@@ -300,7 +319,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       await sendEmailVerification(credential.user);
       updateVerifyView(credential.user);
       setAuthView("verify");
-      showAuthMessage("success", "Check email for verification.");
+      showAuthMessage("success", "Check your email for verification.");
     } catch (error) {
       showAuthMessage("error", authErrorMessage(error));
     } finally {
@@ -353,9 +372,10 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   googleSignIn?.addEventListener("click", () => signInWithGoogle(googleSignIn));
 
   const googleSignUp = document.getElementById("dpaam-auth-google-signup");
-  googleSignUp?.addEventListener("click", () =>
-    signInWithGoogle(googleSignUp, { expectNewAccount: true }),
-  );
+  googleSignUp?.addEventListener("click", () => {
+    if (!consentGiven()) return;
+    signInWithGoogle(googleSignUp, { expectNewAccount: true });
+  });
 
   const verifyContinue = document.getElementById("dpaam-auth-verify-continue");
   verifyContinue?.addEventListener("click", async () => {

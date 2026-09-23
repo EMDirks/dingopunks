@@ -81,6 +81,7 @@ let userBillingProfile = null;
 let unsubscribeUserProfile = null;
 let debugMembershipAccessOverride = null;
 let checkoutReturnStatus = new URLSearchParams(window.location.search).get("checkout");
+const DASHBOARD_LOAD_TIMEOUT_MS = 20_000;
 
 if (checkoutReturnStatus !== "success" && checkoutReturnStatus !== "cancel") {
   checkoutReturnStatus = null;
@@ -125,18 +126,38 @@ function applyUserProfile(profile) {
   applyMembershipAccess();
 }
 
-async function loadDashboardState(user) {
-  let [profile] = await Promise.all([
-    getUserProfileForBootstrap(user.uid),
-    loadUserPrefs(user.uid),
-    loadActiveCodes(user.uid),
-  ]);
+async function withTimeout(promise, timeoutMs, message) {
+  let timeout;
+  const timeoutPromise = new Promise((_, reject) => {
+    timeout = window.setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
 
-  // Checkout completion and webhook delivery are independent. Re-read here
-  // rather than trusting the profile loaded during initial dashboard setup.
-  if (checkoutReturnStatus === "success") {
-    profile = (await getUserProfile(user.uid)) ?? profile;
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    window.clearTimeout(timeout);
   }
+}
+
+async function loadDashboardState(user) {
+  const profile = await withTimeout(
+    (async () => {
+      let [loadedProfile] = await Promise.all([
+        getUserProfileForBootstrap(user.uid),
+        loadUserPrefs(user.uid),
+        loadActiveCodes(user.uid),
+      ]);
+
+      // Checkout completion and webhook delivery are independent. Re-read here
+      // rather than trusting the profile loaded during initial dashboard setup.
+      if (checkoutReturnStatus === "success") {
+        loadedProfile = (await getUserProfile(user.uid)) ?? loadedProfile;
+      }
+      return loadedProfile;
+    })(),
+    DASHBOARD_LOAD_TIMEOUT_MS,
+    "Dashboard load timed out.",
+  );
 
   if (!profile) {
     throw new Error(`Missing user profile for ${user.uid}`);
@@ -1111,7 +1132,8 @@ function starterPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>${freeCount} escape rooms</strong> — the starter set</li>
+        <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
+        <li><strong>Unlimited plays</strong>, as often as you want</li>
       </ul>
     </div>`;
 }
@@ -1174,7 +1196,8 @@ function allAccessPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong>${libraryCount} escape rooms</strong> — the whole library</li>
+        <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
+        <li><strong>Unlimited plays</strong>, as often as you want</li>
         <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus missions</strong> for fast-finishers</li>
       </ul>
@@ -1354,7 +1377,11 @@ function applyAccountPlanPanelContent() {
 
 function renderAccountPlanPanel() {
   syncMembershipAccessChrome();
-  const accountBody = els.accountModal?.open
+  const accountModalVisible =
+    els.accountModal?.open &&
+    !els.accountModal.classList.contains("is-closing") &&
+    els.accountModal.getClientRects().length > 0;
+  const accountBody = accountModalVisible
     ? els.accountModal.querySelector(".dpaam-account-body")
     : null;
   const accountInner = els.accountBodyInner;
@@ -1419,18 +1446,22 @@ function returnFromRebateModal() {
   closeAnimatedModal(els.rebateModal);
 }
 
-function openUpgradeModal() {
-  if (!els.upgradeModal || !els.upgradeModalBody) return;
-  els.upgradeModalBody.innerHTML = unlimitedPlanPanelHtml({
+function upgradeModalBodyHtml() {
+  return `<p class="dpaam-upgrade-lead">Unlock <em>every</em> escape room in the library!</p>${unlimitedPlanPanelHtml({
     includeRebate: true,
     includeOfferImage: !MOBILE_MENU_MQL.matches,
     checkoutCta: "upgrade",
-  });
+  })}`;
+}
+
+function openUpgradeModal() {
+  if (!els.upgradeModal || !els.upgradeModalBody) return;
+  els.upgradeModalBody.innerHTML = upgradeModalBodyHtml();
   showExclusiveModal(els.upgradeModal);
 }
 
 function memberOnlyModalBodyHtml() {
-  return `<div class="dpaam-modal-content">${allAccessFreePlanPanelHtml({
+  return `<div class="dpaam-modal-content"><p class="dpaam-upgrade-lead">This escape room is included in the All-Access plan. Upgrade to unlock it, plus <em>every</em> escape room in the library!</p>${allAccessFreePlanPanelHtml({
     includeRebate: true,
     includeOfferImage: !MOBILE_MENU_MQL.matches,
   })}</div>`;
@@ -1930,6 +1961,8 @@ function updateAccountModal(user) {
 
 function openAccountModal() {
   updateAccountModal(currentUser);
+  const accountBody = els.accountModal?.querySelector(".dpaam-account-body");
+  if (accountBody) accountBody.style.height = "";
   showExclusiveModal(els.accountModal);
 }
 
@@ -2623,11 +2656,7 @@ function initMobileMenus() {
     syncMembershipAccessChrome();
     applyAccountPlanPanelContent();
     if (els.upgradeModal?.open && els.upgradeModalBody) {
-      els.upgradeModalBody.innerHTML = unlimitedPlanPanelHtml({
-        includeRebate: true,
-        includeOfferImage: !MOBILE_MENU_MQL.matches,
-        checkoutCta: "upgrade",
-      });
+      els.upgradeModalBody.innerHTML = upgradeModalBodyHtml();
     }
     if (els.memberOnlyModal?.open) {
       populateMemberOnlyModal();

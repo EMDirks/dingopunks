@@ -19,7 +19,7 @@ import {
   connectFirestoreEmulator,
   doc,
   getDoc,
-  getFirestore,
+  initializeFirestore,
   onSnapshot,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 import {
@@ -40,7 +40,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+function isWebKitBrowser() {
+  const ua = navigator.userAgent;
+  const isIOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isMacSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(ua);
+  return isIOS || isMacSafari;
+}
+
+// Safari 26.4+ can buffer Firestore stream completion frames for ~30 seconds.
+// Force long polling until WebKit ships its fix:
+// https://github.com/firebase/firebase-js-sdk/issues/9789
+const db = initializeFirestore(
+  app,
+  isWebKitBrowser()
+    ? { experimentalForceLongPolling: true, useFetchStreams: false }
+    : {},
+);
 const firebaseFunctions = getFunctions(app);
 const ensureUserProfile = httpsCallable(firebaseFunctions, "ensureUserProfile");
 const createShareCode = httpsCallable(firebaseFunctions, "createShareCode");

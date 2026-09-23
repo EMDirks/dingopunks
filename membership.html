@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.140" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.140" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.141" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.141" />
 </head>
 <body>
   <div class="dpaam">
@@ -128,7 +128,7 @@
 
             <p class="dpaam-auth-legal">
               By logging in to your Dingo Punks account, you agree to our
-              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
+              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
               and
               <a class="dpaam-auth-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
             </p>
@@ -187,6 +187,19 @@
                   </button>
                 </span>
               </label>
+              <label class="dpaam-auth-legal dpaam-auth-consent">
+                <input
+                  type="checkbox"
+                  class="dpaam-auth-consent-checkbox"
+                  id="dpaam-auth-signup-consent"
+                />
+                <span>
+                  I agree to the
+                  <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                  and
+                  <a class="dpaam-auth-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                </span>
+              </label>
               <button
                 type="submit"
                 class="dpaam-btn dpaam-btn-primary dpaam-auth-submit"
@@ -215,13 +228,6 @@
               </svg>
               Continue with Google
             </button>
-
-            <p class="dpaam-auth-legal">
-              By signing up for a Dingo Punks account, you agree to our
-              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
-              and
-              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-            </p>
           </div>
 
           <div
@@ -316,6 +322,7 @@
                   </div>
                   <div class="dpaam-auth-offer-skeleton-features">
                     <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line dpaam-auth-offer-skeleton-line--short"></div>
+                    <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line dpaam-auth-offer-skeleton-line--short"></div>
                   </div>
                   <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-btn"></div>
                 </div>
@@ -326,6 +333,7 @@
                     <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-billing"></div>
                   </div>
                   <div class="dpaam-auth-offer-skeleton-features">
+                    <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
                     <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
                     <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line"></div>
                     <div class="dpaam-skeleton-block dpaam-auth-offer-skeleton-line dpaam-auth-offer-skeleton-line--short"></div>
@@ -885,7 +893,7 @@
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
           <h3 class="dpaam-modal-title" id="dpaam-share-code-limit-modal-title">
-            20 rooms shared
+            Your active shares are full
           </h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">
             ×
@@ -893,7 +901,7 @@
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            Share up to 20 at a time. Cancel one to share another.
+            You can share <strong>up to 20</strong> escape rooms at the same time. To share another, deactivate one you're finished with. Don't worry — this just puts it back in the library. You can share it again any time.
           </p>
         </div>
         <footer class="dpaam-modal-footer">
@@ -902,7 +910,7 @@
             class="dpaam-btn dpaam-btn-activate"
             id="dpaam-share-code-limit-view-active"
           >
-            View shared rooms
+            Manage shared rooms
           </button>
         </footer>
       </form>
@@ -1137,6 +1145,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.140"></script>
+  <script type="module" src="js/membership.js?version=3.4.141"></script>
 </body>
 </html>

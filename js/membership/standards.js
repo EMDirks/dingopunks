@@ -9,8 +9,23 @@ export function setStandardsModalGameId(gameId) {
 }
 
 export function animateStandardsBodyResize(body, inner, updateFn, { targetHeight, onComplete } = {}) {
+  let fallback = null;
+  let finished = false;
+
+  function onEnd(e) {
+    if (e.target !== body || e.propertyName !== "height") return;
+    finish();
+  }
+
   const finish = () => {
-    if (body) body.style.height = "";
+    if (finished) return;
+    finished = true;
+    if (fallback) clearTimeout(fallback);
+    if (body) {
+      body.removeEventListener("transitionend", onEnd);
+      body.removeEventListener("transitioncancel", onEnd);
+      body.style.height = "";
+    }
     onComplete?.();
   };
 
@@ -19,7 +34,7 @@ export function animateStandardsBodyResize(body, inner, updateFn, { targetHeight
     finish();
     return;
   }
-  if (prefersReducedMotion()) {
+  if (prefersReducedMotion() || body.getClientRects().length === 0) {
     updateFn?.();
     finish();
     return;
@@ -35,14 +50,9 @@ export function animateStandardsBodyResize(body, inner, updateFn, { targetHeight
   }
   void body.offsetHeight;
   body.style.height = `${endHeight}px`;
-  body.addEventListener(
-    "transitionend",
-    function onEnd(e) {
-      if (e.target !== body || e.propertyName !== "height") return;
-      body.removeEventListener("transitionend", onEnd);
-      finish();
-    },
-  );
+  body.addEventListener("transitionend", onEnd);
+  body.addEventListener("transitioncancel", onEnd);
+  fallback = setTimeout(finish, 300);
 }
 
 function prefersReducedMotion() {
