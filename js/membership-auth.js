@@ -23,7 +23,6 @@ import { sendVerificationEmail } from "./membership/email-verification.js";
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
   signup: "dpaam-auth-heading-signup",
-  "signup-confirm": "dpaam-auth-heading-signup-confirm",
   reset: "dpaam-auth-heading-reset",
   "offer-loading": "dpaam-auth-heading-offer-loading",
   offer: "dpaam-auth-heading-offer",
@@ -295,50 +294,29 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     if (signUpConsent.checked) clearAuthMessages();
   });
 
-  signUpForm?.addEventListener("submit", (event) => {
+  signUpForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!formIsValid(signUpForm)) return;
     if (!consentGiven()) return;
 
-    // Show the confirm view so the user can verify their email before we
-    // create the account. The form values stay intact while the view is hidden.
-    const email = signUpEmailInput.value.trim();
-    signUpEmailInput.value = email;
-    const confirmEmailEl = document.getElementById("dpaam-auth-confirm-email");
-    if (confirmEmailEl) confirmEmailEl.textContent = email;
-    clearAuthMessages();
-    setAuthView("signup-confirm");
-  });
-
-  // Confirm button: actually create the account.
-  async function doCreateAccount() {
-    const email = signUpEmailInput?.value.trim() ?? "";
     const passwordInput = document.getElementById("dpaam-auth-signup-password");
-    const confirmSubmit = document.getElementById("dpaam-auth-confirm-submit");
-    if (!email || !passwordInput || !confirmSubmit) return;
+    const submit = document.getElementById("dpaam-auth-signup-submit");
+    const email = signUpEmailInput.value.trim();
 
-    setAuthButtonLoading(confirmSubmit, true, "Creating account…");
+    clearAuthMessages();
+    setButtonLoading(submit, true, "Creating account…");
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
-      // Don't hold sign-up on the email round trip; dashboard banner offers resend.
+      // Don't hold the sign-up on the email round trip; the dashboard banner
+      // offers a resend if this one never arrives.
       sendVerificationEmail(credential.user).catch((error) => {
         console.warn("Verification email failed to send", error);
       });
     } catch (error) {
-      setAuthView("signup");
       showAuthMessage("error", authErrorMessage(error));
     } finally {
-      setAuthButtonLoading(confirmSubmit, false, "Creating account…");
+      setButtonLoading(submit, false, "Creating account…");
     }
-  }
-
-  document.getElementById("dpaam-auth-confirm-submit")?.addEventListener("click", () => {
-    void doCreateAccount();
-  });
-
-  document.getElementById("dpaam-auth-confirm-back")?.addEventListener("click", () => {
-    clearAuthMessages();
-    setAuthView("signup", { focus: true });
   });
 
   const resetForm = document.getElementById("dpaam-auth-reset-form");
