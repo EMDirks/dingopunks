@@ -193,7 +193,7 @@ body {
   margin: 0;
   font-size: var(--dpaam-text-xs);
   line-height: 1.5;
-  color: var(--dpaam-black-muted);
+  color: var(--dpaam-black);
   overflow-wrap: anywhere;
 }
 
@@ -1531,6 +1531,11 @@ a.dpaam-topbar-btn {
 
 .dpaam-btn-activate:has(.dpaam-share-locked-icon) {
   gap: 5px;
+}
+
+.dpaam-btn.dpaam-verify-resend {
+  background: var(--dpaam-gold);
+  color: var(--dpaam-black);
 }
 
 .dpaam-share-locked-icon {
