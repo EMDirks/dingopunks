@@ -69,12 +69,11 @@
       minigameEl.appendChild(tvOverlay);
     }
 
-    // Locked "Coming Soon" bar when UNDERMURK_BUTTON is off (matches global menu).
-    if (
-      typeof UNDERMURK_BUTTON !== 'undefined' &&
-      !UNDERMURK_BUTTON &&
-      !minigameEl.querySelector('.dpaam-debrief-coming-soon')
-    ) {
+    // Status bar stays on the tile either way. The lock is All-Access only:
+    // undermurk=1 (or the UNDERMURK_BUTTON override) drops it and reads Play Now.
+    const undermurkLocked = typeof isUndermurkUnlocked !== 'function' || !isUndermurkUnlocked();
+
+    if (!minigameEl.querySelector('.dpaam-debrief-coming-soon')) {
       const comingSoonBar = document.createElement('div');
       comingSoonBar.classList.add('dpaam-debrief-coming-soon');
 
@@ -84,26 +83,35 @@
 
       const statusLabel = document.createElement('span');
       statusLabel.classList.add('dpaam-debrief-coming-soon__status');
-      statusLabel.textContent = 'Coming Soon';
+      if (undermurkLocked) {
+        statusLabel.appendChild(document.createTextNode('Requires '));
+        const accessPill = document.createElement('span');
+        accessPill.classList.add('dpaam-debrief-all-access-pill');
+        accessPill.textContent = 'All-Access';
+        statusLabel.appendChild(accessPill);
+      } else {
+        statusLabel.textContent = 'Play Now';
+      }
 
-      // Wrapper holds centering transform so the shared menu wiggle can run on the img.
-      const lockWrap = document.createElement('span');
-      lockWrap.classList.add('dpaam-debrief-coming-soon__lock-wrap');
-
-      const lockIcon = document.createElement('img');
-      lockIcon.classList.add('dpaam-debrief-coming-soon__lock');
-      lockIcon.src = 'assets/global/menu-lock.png';
-      lockIcon.alt = '';
-
-      lockWrap.appendChild(lockIcon);
       comingSoonBar.appendChild(titleLabel);
       comingSoonBar.appendChild(statusLabel);
-      comingSoonBar.appendChild(lockWrap);
+
+      if (undermurkLocked) {
+        // Wrapper holds centering transform so the shared menu wiggle can run on the img.
+        const lockWrap = document.createElement('span');
+        lockWrap.classList.add('dpaam-debrief-coming-soon__lock-wrap');
+
+        const lockIcon = document.createElement('img');
+        lockIcon.classList.add('dpaam-debrief-coming-soon__lock');
+        lockIcon.src = 'assets/global/menu-lock.png';
+        lockIcon.alt = '';
+
+        lockWrap.appendChild(lockIcon);
+        comingSoonBar.appendChild(lockWrap);
+      }
+
       minigameEl.appendChild(comingSoonBar);
     }
-
-    const undermurkLocked =
-      typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON;
 
     minigameEl.addEventListener('click', function () {
       if (undermurkLocked) {
@@ -113,22 +121,46 @@
           void lockIcon.offsetWidth;
           lockIcon.classList.add('global-menu__kids-link-lock-icon--wiggle');
         }
+        openBonusMissionModal();
         return;
       }
       window.location.href = 'enter-the-undermurk.html' + window.location.search;
     });
   }
 
+  function openBonusMissionModal() {
+    if (typeof createModal !== 'function') {
+      return;
+    }
+    const unlocked = typeof isUndermurkUnlocked === 'function' && isUndermurkUnlocked();
+    if (unlocked) {
+      createModal(
+        'What\'s a bonus mission?',
+        'Finished your escape room early? Take on a bonus mission: <em>Enter the Undermurk</em>, a dangerous assignment from J.J. Dingo himself!<br>',
+        'Close'
+      );
+      return;
+    }
+    createModal(
+      'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
+      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! To unlock it, ask your teacher about subscribing to <a class="dpaam-debrief-all-access-link" href="#">Dingo Punks All-Access</a> .',
+      'Close'
+    );
+  }
+
+  const bonusModalParagraph = document.querySelector('.modal__paragraph');
+  if (bonusModalParagraph) {
+    bonusModalParagraph.addEventListener('click', function (event) {
+      const link = event.target.closest('.dpaam-debrief-all-access-link');
+      if (!link || link.getAttribute('href') !== '#') return;
+      event.preventDefault();
+    });
+  }
+
   if (minigamePanel) {
     const minigameHelpIcon = minigamePanel.querySelector('#dpaam-minigame-icon-clickable--splash');
-    if (minigameHelpIcon && typeof createModal === 'function') {
-      minigameHelpIcon.addEventListener('click', function () {
-        createModal(
-          'What\'s a bonus mission?',
-          'We\'re building something new: bonus missions to complete after you finish an escape room! First up: Enter the Undermurk, a dangerous assignment from JJ Dingo himself. Just hang tight \u2014 it\'s coming soon.<br>',
-          'Close'
-        );
-      });
+    if (minigameHelpIcon) {
+      minigameHelpIcon.addEventListener('click', openBonusMissionModal);
     }
   }
 

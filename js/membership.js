@@ -1138,7 +1138,7 @@ function starterPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
-        <li><strong>Unlimited plays</strong> — as often as you want</li>
+        <li><strong>Unlimited plays</strong>, as often as you want</li>
       </ul>
     </div>`;
 }
@@ -1202,9 +1202,9 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
-        <li><strong>Unlimited plays</strong> — as often as you want</li>
+        <li><strong>Unlimited plays</strong>, as often as you want</li>
         <li><strong>Every new escape room</strong> we create</li>
-        <li><strong>Bonus missions</strong> for fast-finishers</li>
+        <li><strong>Bonus mission</strong> for fast-finishers</li>
       </ul>
     </div>`;
 }

@@ -28,7 +28,7 @@ function notFound(reason, context) {
  * Resolve a membership share code to the resource the play page should load.
  *
  * @param {string} code Uppercased 5-character share code.
- * @returns {Promise<{gameId: string, theme: string, script: string}>}
+ * @returns {Promise<{gameId: string, theme: string, script: string, plan: string}>}
  */
 export async function lookupShareCode(code) {
   const response = await resolveGameCode({ code });
@@ -44,5 +44,5 @@ export async function lookupShareCode(code) {
     throw notFound("Game has an unusable resource path", game.path);
   }
 
-  return { gameId, theme: parts[1], script: parts[2] };
+  return { gameId, theme: parts[1], script: parts[2], plan: response?.data?.plan };
 }

@@ -26,6 +26,8 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - [ ] **Add a help doc/FAQ**
 - [ ] **config the alphabetic keyboard**
 - [ ] **remove debug panel**
+- [ ] **update 'what's a game code' modal**
+- [ ] **add all-acceess link to global menu**
 
 ## Current P0 blockers
 
@@ -140,7 +142,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 
 ## Gate 3 — Account and authentication journeys
 
-Use at least these clean states: unverified email user, free email user, free Google user, active paid user, canceling user, lapsed user, and second user for cross-account checks.
+Use at least these 6 clean states: unverified email user, free email user, free Google user, active paid user, canceling user, lapsed user.
 
 ### Public signup and sign-in
 

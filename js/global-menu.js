@@ -128,6 +128,19 @@ function hasDebriefSlug() {
   return params.has('outcome') || params.has('teamSize');
 }
 
+// All-Access launches stamp undermurk=1 onto the debrief slug. UNDERMURK_BUTTON
+// opens the bonus mission to everyone regardless of that slug.
+function isUndermurkUnlocked() {
+  if (typeof UNDERMURK_BUTTON !== 'undefined' && UNDERMURK_BUTTON) {
+    return true;
+  }
+  try {
+    return new URLSearchParams(window.location.search).get('undermurk') === '1';
+  } catch (e) {
+    return false;
+  }
+}
+
 function appendLocationSearch(href) {
   const search = window.location.search;
   return search ? href + search : href;
@@ -166,19 +179,19 @@ function buildGlobalMenuHTML(state) {
     unfinished: buildKidsLinksHTML([
       { href: playHomeHref, label: 'Play an<br>Escape Room', imageKey: 'play' },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
     ]),
     active: buildKidsLinksHTML([
       { href: quitHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
     ]),
     finished: buildKidsLinksHTML([
       { href: playHomeHref, label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
       { label: 'View Your<br>Score', imageKey: 'score', refresh: true },
-      (typeof UNDERMURK_BUTTON !== 'undefined' && !UNDERMURK_BUTTON)
-        ? { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' }
-        : { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
+      isUndermurkUnlocked()
+        ? { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' }
+        : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Requires All-Access' },
     ]),
     undermurkFromDebrief: buildKidsLinksHTML([
       { href: getPlayHomeHref(), label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },

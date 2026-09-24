@@ -137,7 +137,7 @@ function expandIpv6(ip) {
  * Firestore work, and a brute-force attempt has to send well-formed codes, so
  * it can't dodge the counter this way.
  *
- * @returns {Promise<{gameId: string}>}
+ * @returns {Promise<{gameId: string, plan: "all-access" | "free"}>}
  */
 export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
   const {
@@ -180,5 +180,17 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
     throw new HttpsError("not-found", NOT_FOUND_MESSAGE);
   }
 
-  return { gameId };
+  // Current plan, not the plan at code-creation time: a downgrade locks the
+  // Undermurk bonus on the next launch, and existing codes need no migration.
+  // Anything other than an explicit all-access profile counts as free.
+  const uid = snap.get("uid");
+  let plan = "free";
+  if (typeof uid === "string" && uid) {
+    const userSnap = await db.collection("users").doc(uid).get();
+    if (userSnap.exists && userSnap.get("plan") === "all-access") {
+      plan = "all-access";
+    }
+  }
+
+  return { gameId, plan };
 }

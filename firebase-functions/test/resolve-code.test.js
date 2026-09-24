@@ -187,16 +187,16 @@ describe("resolveGameCode lookups", () => {
   test("resolves an active code to its gameId", async () => {
     await seedCode("AB2CD", { gameId: PAID_GAME, expiresAtMs: NOW + 60_000 });
 
-    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME, plan: "free" });
   });
 
   test("accepts lowercase and padded input", async () => {
     await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
-    assert.deepEqual(await resolve("  ab2cd "), { gameId: FREE_GAME });
+    assert.deepEqual(await resolve("  ab2cd "), { gameId: FREE_GAME, plan: "free" });
   });
 
-  test("resolves regardless of who owns the code or their plan", async () => {
+  test("resolves regardless of who owns the code", async () => {
     // Per the plan, a lapsed member's codes live out their remaining 14 days.
     await seedCode("AB2CD", {
       uid: "lapsed-member",
@@ -204,7 +204,26 @@ describe("resolveGameCode lookups", () => {
       expiresAtMs: NOW + 60_000,
     });
 
-    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME, plan: "free" });
+  });
+
+  test("returns the owner's current plan", async () => {
+    await db.collection("users").doc("member").set({ plan: "all-access" });
+    await seedCode("AB2CD", { uid: "member", gameId: PAID_GAME, expiresAtMs: NOW + 60_000 });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME, plan: "all-access" });
+
+    await db.collection("users").doc("free-teacher").set({ plan: "free" });
+    await seedCode("CD3EF", { uid: "free-teacher", gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+    assert.deepEqual(await resolve("CD3EF"), { gameId: FREE_GAME, plan: "free" });
+  });
+
+  test("treats a missing profile or unexpected plan value as free", async () => {
+    await db.collection("users").doc("odd").set({ plan: "lifetime" });
+    await seedCode("AB2CD", { uid: "odd", gameId: PAID_GAME, expiresAtMs: NOW + 60_000 });
+    assert.deepEqual(await resolve("AB2CD"), { gameId: PAID_GAME, plan: "free" });
+
+    await seedCode("CD3EF", { uid: "ghost", gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+    assert.deepEqual(await resolve("CD3EF"), { gameId: FREE_GAME, plan: "free" });
   });
 
   test("gives the same not-found for missing, expired, and stale-catalog codes", async () => {
@@ -246,7 +265,7 @@ describe("resolveGameCode rate limiting", () => {
     await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
     for (let i = 0; i < 3; i++) {
-      assert.deepEqual(await resolve("AB2CD", { limit: 3 }), { gameId: FREE_GAME });
+      assert.deepEqual(await resolve("AB2CD", { limit: 3 }), { gameId: FREE_GAME, plan: "free" });
     }
 
     await assert.rejects(resolve("AB2CD", { limit: 3 }), (error) => {

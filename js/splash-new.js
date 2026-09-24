@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.155';
+const version = '3.4.156';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -275,6 +275,11 @@ function startAutoLaunch() {
 // Same hand-off the legacy code path uses once its resource script is ready,
 // optionally held back until `notBefore` for the auto-launch bumper.
 function launchMembershipGame(game, notBefore, skipAccessStep) {
+  // Rides the debrief URL so the bonus mission unlocks only for All-Access
+  // launches. Legacy codes and free-play never pass through here.
+  if (game.plan === 'all-access') {
+    debriefStats.undermurk = 1;
+  }
   loadResourceGame(game.theme, game.script, function() {
     setTimeout(function() {
       handlePreloading('onPinInput');

@@ -69,18 +69,31 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+}
+
+/* Artwork lives on a pseudo-element so hover/active brightness never filters
+   the tile itself. Safari drops a border when filter, border-radius, and
+   overflow: hidden are on the same element. */
+.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     background-image: url('../assets/enter-the-undermurk/background/undermurk-mouth.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:active {
+.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:active::before,
+.dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:active > .splash-tv-overlay {
     filter: brightness(0.92);
 }
 
 @media (hover: hover) {
-    .dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:hover {
+    .dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:hover::before,
+    .dpaam-debrief-minigame-panel > .dpaam-debrief-minigame:hover > .splash-tv-overlay {
         filter: brightness(1.2);
     }
 }
@@ -116,8 +129,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.25cqi;
-    padding: 1cqi 0 1.5cqi 0;
+    gap: 0.7cqi;
+    padding: 1.75cqi 2cqi 2.25cqi;
     font-family: 'Primer Print Bold', sans-serif;
     text-align: center;
     letter-spacing: 0.1em;
@@ -136,6 +149,10 @@
     text-transform: uppercase;
 }
 
+.dpaam-debrief-coming-soon > .dpaam-debrief-coming-soon__status:has(.dpaam-debrief-all-access-pill) {
+    text-transform: none;
+}
+
 .dpaam-debrief-coming-soon > .dpaam-debrief-coming-soon__lock-wrap {
     position: absolute;
     left: 50%;
@@ -148,6 +165,39 @@
     display: block;
     height: 4.5cqi;
     width: auto;
+}
+
+/* Matches the membership dashboard All-Access tier pill. */
+.dpaam-debrief-all-access-pill {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0.1em 0.4em 0.07em 0.4em;
+    border-radius: 999px;
+    background-color: #DAF5CA;
+    color: #378D77;
+    box-shadow: 0 1px 2px rgba(var(--off-black), 0.4);
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.modal__title > .dpaam-debrief-all-access-pill {
+    transform: translateY(-5px);
+    margin: 0 0.02em 0 0.1em;
+    font-size: 0.95em;
+}
+
+.dpaam-debrief-coming-soon__status > .dpaam-debrief-all-access-pill {
+    margin-left: 0.1em;
+    font-size: 1em;
+    border-width: 2px;
+    transform: translateY(-2px);
+}
+
+.modal__paragraph > .dpaam-debrief-all-access-link {
+    color: inherit;
+    border-bottom: 2.5px solid #378D77;
+    color: #378D77;
 }
 
 /* ---- typography (scoped) ---- */
