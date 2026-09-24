@@ -138,7 +138,7 @@
     if (unlocked) {
       createModal(
         'What\'s a bonus mission?',
-        'Finished your escape room early? Take on a bonus mission: <em>Enter the Undermurk</em>, a dangerous assignment from J.J. Dingo himself!<br>',
+        'Think you\'re done? Think again! Bonus Missions are extra challenges you can take on after you escape. First up: <em>Enter the Undermurk:</em> a dangerous mission from J.J. Dingo!<br>',
         'Close'
       );
       return;
