@@ -7,8 +7,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=3.4.153" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.153" />
+  <link rel="stylesheet" href="css/membership.css?version=3.4.154" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=3.4.154" />
 </head>
 <body>
   <div class="dpaam">
@@ -63,7 +63,7 @@
             </div>
             <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signin">Log in</h1>
 
-            <form class="dpaam-auth-form" id="dpaam-auth-signin-form" novalidate>
+            <form class="dpaam-auth-form" id="dpaam-auth-signin-form" method="post" novalidate>
               <label class="dpaam-auth-field">
                 <input
                   type="email"
@@ -142,7 +142,7 @@
           >
             <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signup">Sign up</h1>
 
-            <form class="dpaam-auth-form" id="dpaam-auth-signup-form" novalidate>
+            <form class="dpaam-auth-form" id="dpaam-auth-signup-form" method="post" novalidate>
               <label class="dpaam-auth-field">
                 <input
                   type="email"
@@ -240,7 +240,7 @@
             <p class="dpaam-auth-lead">
               We'll send you instructions on how to reset your password by email.
             </p>
-            <form class="dpaam-auth-form" id="dpaam-auth-reset-form" novalidate>
+            <form class="dpaam-auth-form" id="dpaam-auth-reset-form" method="post" novalidate>
               <label class="dpaam-auth-field">
                 <input
                   type="email"
@@ -612,10 +612,10 @@
       >
         <div class="dpaam-verify-banner-copy">
           <h2 class="dpaam-verify-banner-title" id="dpaam-verify-banner-title">
-            Verify Your Email to Share
+            Verify Your Email to Continue
           </h2>
           <p class="dpaam-verify-banner-text">
-            Check <strong class="dpaam-verify-email" data-verify-email></strong> and click the verification link. Verification is required to share escape rooms. Don't see it? Check your Spam folder.
+            Email verification is required to share escape rooms. Check <strong class="dpaam-verify-email" data-verify-email></strong> and click the verification link, then return here. Make sure to check your Spam folder!
           </p>
         </div>
         <div class="dpaam-verify-banner-actions">
@@ -938,12 +938,12 @@
     >
       <form method="dialog" class="dpaam-modal-form">
         <header class="dpaam-modal-header">
-          <h3 class="dpaam-modal-title" id="dpaam-verify-email-modal-title">Verify Your Email to Share</h3>
+          <h3 class="dpaam-modal-title" id="dpaam-verify-email-modal-title">Verify Your Email to Continue</h3>
           <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            We sent a verification link to <strong class="dpaam-verify-email" data-verify-email></strong>. Click it to share escape rooms.
+            Email verification is required to share escape rooms. Check <strong class="dpaam-verify-email" data-verify-email></strong> and click the verification link, then return here. Make sure to check your Spam folder!
           </p>
         </div>
         <footer class="dpaam-modal-footer">
@@ -1190,6 +1190,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=3.4.153"></script>
+  <script type="module" src="js/membership.js?version=3.4.154"></script>
 </body>
 </html>

@@ -53,7 +53,17 @@ Do **not** turn on Cloudflare “proxied” DNS for the apex shop domain just to
 
 The repo's `_headers` file sets `Cache-Control: public, max-age=0, must-revalidate` for `/js/*` and `/css/*` so browsers revalidate imported modules on every load. Cloudflare Pages respects this on `dingopunks.pages.dev`, but the proxied custom hostnames override it with the zone's Browser Cache TTL (default 4 hours). This causes stale-module errors after a publish.
 
-**Fix:** In Cloudflare Dashboard → the `dingopunks.com` zone → **Rules → Cache Rules**, add a rule for hostname `account.dingopunks.com` (and `play.dingopunks.com`) that sets **Browser TTL: Respect Origin** and **Edge Cache TTL: Respect Origin** for `/js/*` and `/css/*`, or set the zone's global Browser Cache TTL to **Respect Existing Headers**.
+**Fix (applied 2026-09-24):** In Cloudflare Dashboard → the `dingopunks.com` zone → **Rules → Cache Rules**, one rule with this expression:
+
+```text
+((http.host eq "account.dingopunks.com" or http.host eq "play.dingopunks.com") and
+ (starts_with(http.request.uri.path, "/js/") or
+  starts_with(http.request.uri.path, "/css/")))
+```
+
+Settings: Cache eligibility **Eligible for cache**; Edge TTL **Use cache-control header if present, bypass cache if not**; Browser TTL **Respect origin TTL**. After deploying, purge the affected `/js/` and `/css/` URLs once (Custom Purge → URL). Disabling the rule restores the previous behavior instantly.
+
+**Defense in depth:** the three auth forms in `membership.html` carry `method="post"`. The JS handlers `preventDefault()` on submit, so this is inert when the page works; if the module graph ever fails again, the browser falls back to a POST and credentials never land in the URL bar or history.
 
 **Verify** after applying:
 
