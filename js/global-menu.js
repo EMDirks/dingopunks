@@ -191,7 +191,8 @@ function buildGlobalMenuHTML(state) {
       { label: 'View Your<br>Score', imageKey: 'score', refresh: true },
       isUndermurkUnlocked()
         ? { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' }
-        : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Requires All-Access' },
+        // : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Requires All-Access' },
+        : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Coming Soon' },
     ]),
     undermurkFromDebrief: buildKidsLinksHTML([
       { href: getPlayHomeHref(), label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },

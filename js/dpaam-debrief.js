@@ -84,11 +84,13 @@
       const statusLabel = document.createElement('span');
       statusLabel.classList.add('dpaam-debrief-coming-soon__status');
       if (undermurkLocked) {
-        statusLabel.appendChild(document.createTextNode('Requires '));
-        const accessPill = document.createElement('span');
-        accessPill.classList.add('dpaam-debrief-all-access-pill');
-        accessPill.textContent = 'All-Access';
-        statusLabel.appendChild(accessPill);
+        // statusLabel.appendChild(document.createTextNode('Requires '));
+        // const accessPill = document.createElement('span');
+        // accessPill.classList.add('dpaam-debrief-all-access-pill');
+        // accessPill.textContent = 'All-Access';
+        // statusLabel.appendChild(accessPill);
+        statusLabel.textContent = 'Coming Soon';
+        statusLabel.style.textTransform = 'none';
       } else {
         statusLabel.textContent = 'Play Now';
       }
@@ -142,7 +144,8 @@
       return;
     }
     createModal(
-      'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
+      // 'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
+      'Bonus missions are coming soon',
       '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! This feature is coming soon — hang tight.',
       'Close'
     );
