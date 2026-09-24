@@ -3515,6 +3515,11 @@ dd a {
     gap: var(--dpaam-pad-lg);
   }
 
+  /* Column gap is lg; pull the tab section up so the space under the verify panel is md. */
+  .dpaam-verify-banner:not([hidden]) ~ .dpaam-section:not([hidden]) {
+    margin-top: calc(var(--dpaam-pad-md) - var(--dpaam-pad-lg));
+  }
+
   .dpaam-section {
     padding: var(--dpaam-pad-md);
     border-radius: var(--dpaam-radius-lg);
@@ -3683,17 +3688,21 @@ dd a {
   }
 
   .dpaam-modal-header > .dpaam-modal-close {
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
+    align-self: flex-start;
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    display: inline-block;
+    /* Header padding is 16px top / 12px right. Pull the control up 4px so the
+       inset matches on both edges, and stays tighter than the desktop 20px. */
+    margin: -4px 0 0 0;
+    /* Same optical centering as desktop (10px 11px 4px 11px at 22px), scaled
+       to the 20px mobile heading size so the × sits in the middle of the chip. */
+    padding: 9px 10px 4px 10px;
     border-radius: var(--dpaam-radius-lg);
+    line-height: 1;
   }
 
   /* --- Modals: full viewport-aware sizing with dvh --- */

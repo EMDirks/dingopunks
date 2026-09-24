@@ -384,7 +384,7 @@ const resource = {
                 asset: "fishbeard.png",
                 dialogue: {
                     incomplete: "Arr! I got captured while hunting for gold, but I\'m not giving up yet! I made a new plan for finding treasure. Read it over and tell me what ye think!",
-                    complete: "Aye, you\'re a sharp one! Take the butter, and remember ol\' Fishbeard if you find gold!"
+                    complete: "Aye, you\'re a sharp one! Take the butter, and remember ol\' Fishbeard if ye find gold!"
                 },
             },
 
@@ -470,7 +470,7 @@ const resource = {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What is the main idea of the paragraph two?",
+                        title: "[<g>1.] What is the main idea of paragraph two?",
                         correctIndex: 0,
                         paragraph: [
                             "You can {s}earch for treasure on the ground",
@@ -686,7 +686,7 @@ const resource = {
                         word: "S[A]LTY",
                     },
                     {
-                        title: "[<g>3.] [<u>Right] or [<u>wrong]: the red text is a supporting detail.",
+                        title: "[<g>3.] [<u>Right] or [<u>wrong]: the red text is a key detail.",
                         word: "RI[G]HT",
                     },
                     {

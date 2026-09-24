@@ -214,7 +214,7 @@ const resource =  {
                 asset: "tater-drift.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read \"I Love Potatoes\" and answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
+                    text: "Read \"Cooking Potatoes\" and answer the questions to fill in the crossword. Then, look at the four yellow letters that show up. These letters spell the secret code word.",
                     isUsed: false
                 },
                 education: {
@@ -259,7 +259,7 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: "I Love Potatoes",
+                                    text: "Cooking Potatoes",
                                 },
                                 subtitle: {
                                     text: "By Tater Durant",
@@ -672,13 +672,13 @@ const resource =  {
                         contentArray: [
                             {
                                 title: {
-                                    text: "What an Airplane Needs",
+                                    text: "Airplane Needs",
                                 },
                                 subtitle: {
                                     text: "By Pilot Topsy",
                                 },
                                 passage: {
-                                    text: "An airplane needs many parts to fly. The engine gives it power. The propeller helps move it forward. The wings help keep it in the air. The airplane also needs fuel to keep the engine running."
+                                    text: "An airplane needs many parts to fly. The engine gives it power. The propeller helps move it forward. The wings help keep it in the air. An airplane also needs fuel to keep the engine running."
                                 }
                             }
                         ],
@@ -754,7 +754,7 @@ const resource =  {
                         {
                             title: {
                                 font: 'default',
-                                size: 'mediumSmall',
+                                size: 'medium',
                                 align: 'left'
                             },
                             subtitle: {
@@ -764,7 +764,7 @@ const resource =  {
                             },
                             passage: {
                                 font: 'default',
-                                size: 'small',
+                                size: 'mediumSmall',
                                 align: 'left',
                                 brSplit: 'default'
                             },
@@ -866,9 +866,9 @@ const resource =  {
                                     text: "By The Frozen Knight",
                                 },
                                 passage: {
-                                    text:   "One winter, the King sent me to catch a yeti. I thought I could do it alone, but I got lost. The yeti found me, stuffed me in a bag, and took me to her freezing ice cave.\
+                                    text:   "One winter, the King sent me out to catch a yeti. I thought I could do it alone, but I got lost. The yeti found me, stuffed me in a bag, and took me to her freezing ice cave.\
                                     <br>\
-                                    Other people were trapped in the cave too. At first, I did not want their help. But soon I found out that working together made life in the cave easier.\
+                                    Other people were trapped in the cave too. At first, I did not want their help. But soon, I found out that working together made life in the cave easier.\
                                     <br>\
                                     We are still trapped, but now we are a team. I learned that everyone needs help sometimes. Even a knight like me!"
                                 }

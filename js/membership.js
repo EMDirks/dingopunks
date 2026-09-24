@@ -1138,7 +1138,7 @@ function starterPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
-        <li><strong>Unlimited plays</strong>, as often as you want</li>
+        <li><strong>Unlimited plays</strong> — as often as you want</li>
       </ul>
     </div>`;
 }
@@ -1202,7 +1202,7 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
-        <li><strong>Unlimited plays</strong>, as often as you want</li>
+        <li><strong>Unlimited plays</strong> — as often as you want</li>
         <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus missions</strong> for fast-finishers</li>
       </ul>
@@ -2030,7 +2030,7 @@ function syncResendButtons() {
   document.querySelectorAll("[data-action='resend-verification']").forEach((btn) => {
     if (btn.getAttribute("aria-busy") === "true") return;
     btn.disabled = remaining > 0;
-    btn.textContent = remaining > 0 ? "Email Sent ✓" : "Resend email";
+    btn.textContent = remaining > 0 ? "Email sent ✓" : "Resend email";
   });
 
   if (remaining > 0) {
@@ -2133,11 +2133,6 @@ function checkoutErrorMessage(error) {
 }
 
 async function beginCheckout(triggerButton, rebate = null) {
-  if (userNeedsEmailVerification(auth.currentUser)) {
-    openVerifyEmailModal();
-    return;
-  }
-
   if (isAuthOfferViewVisible()) {
     markAuthOfferStepComplete(auth.currentUser?.uid);
   }
