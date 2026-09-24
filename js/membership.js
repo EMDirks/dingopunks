@@ -700,12 +700,7 @@ function favoriteCardHtml(game) {
       </div>
       <div class="dpaam-card__body">
         <div class="dpaam-card__actions">
-          <button
-            type="button"
-            class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
-            data-action="remove-favorite"
-            aria-label="Remove from favorites"
-          >${removeIconSvg()}</button>
+          ${libraryFavoriteButtonHtml(true, game.id)}
           <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
           ${shareAction}
         </div>
@@ -1138,7 +1133,7 @@ function starterPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
-        <li><strong>Unlimited plays</strong>, as often as you want</li>
+        <li><strong>Unlimited plays</strong>, whenever you want</li>
       </ul>
     </div>`;
 }
@@ -1202,7 +1197,7 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
-        <li><strong>Unlimited plays</strong>, as often as you want</li>
+        <li><strong>Unlimited plays</strong>, whenever you want</li>
         <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus mission</strong> for fast-finishers</li>
       </ul>
@@ -1622,12 +1617,6 @@ function refreshModalFavoriteButton() {
     return;
   }
   btn.hidden = false;
-  if (modalContext === "favorites" && isFavorite(modalGameId)) {
-    btn.dataset.action = "remove-favorite";
-    btn.setAttribute("aria-label", "Remove from favorites");
-    btn.innerHTML = removeIconSvg();
-    return;
-  }
   applyFavoriteButtonState(btn, modalGameId);
 }
 

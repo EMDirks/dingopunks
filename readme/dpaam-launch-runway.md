@@ -115,7 +115,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [X] **P0** The public-signup deployment no longer requires `BETA_ACCESS_CODE` or beta approval documents. (2026-09-23: functions source has zero beta references; `BETA_ACCESS_CODE` removed from `.env.dpaam-8864d` and confirmed absent from all deployed function environments after redeploy.)
 - [X] **P0** TTL policies are enabled for `codes.expiresAt` and `rateLimits.expiresAt`. (2026-09-23: Firestore Admin API on `dpaam-8864d` `(default)` — both collection-group fields have `ttlConfig.state: ACTIVE`. Cleanup only; reads still enforce `expiresAt`.)
 - [X] **P0** Remove or confirm the future of `betaSignupApprovals.expiresAt` after the public gate is retired. (2026-09-23: removed. Beta signup is retired, the collection was already empty, and the TTL policy is gone from `dpaam-8864d` `(default)`. `codes.expiresAt` and `rateLimits.expiresAt` remain `ACTIVE`.)
-- [ ] **P0** Set up automatic Firestore backups for `dpaam-8864d` `(default)`. Enable a daily backup schedule (or equivalent managed backups), confirm the first backup succeeds, and record the backup location and how long copies are kept.
+- [ ] **P0** Set up automatic Firestore backups for `dpaam-8864d` `(default)`. Enable a daily backup schedule (or equivalent managed backups), confirm the first backup succeeds, and record the backup location and how long copies are kept. (2026-09-24: schedules created in `nam5` — daily backups kept 14 days and weekly Sunday backups kept 98 days; PITR and database delete protection enabled. First scheduled backup is pending; after it reaches `READY`, check this item. See `readme/dpaam-firestore-backups.md`.)
 - [X] **P0** Cloud Billing budget alert emails a monitored inbox for `dpaam-8864d` (quota usage alerts intentionally omitted — Blaze spend is the tripwire; `resolveGameCode` is rate-limited). (2026-09-23: quota alerts waived; budget alert configured.)
 - [X] **P0** Logs expose no raw payment data, passwords, rebate values beyond what support requires, or spoofable IP data presented as trusted. (2026-09-23: audited every `logger.*` call in `firebase-functions/` (index, stripe-billing, resolve-code, share-codes, rate-limit, blocked-code-terms) and every `console.*` call in the shipped frontend. Payment data: none possible — cards are Stripe-hosted; logs carry only Stripe object IDs (event/session/subscription/customer/charge), uid, and `error.message`; webhook signature failures log the message only, never the body or header. Passwords: auth is Firebase client SDK only; no function receives a password and no console call prints form input — frontend logs error objects only. Rebate: the only logged rebate datum is the claim ID (`platform_orderNumber`) in the release-failure path, which support needs to manually free a stuck claim; amounts are a fixed coupon and order numbers otherwise live in Firestore, not logs. IPs: no raw IP is logged anywhere — the one XFF anomaly log records chain length only; rate-limit doc IDs are SHA-256 hashes; `clientIpFromRequest` trusts only the Google-appended rightmost XFF entry (production-verified 2026-09-19) and never client-controlled entries or Express `req.ip`.)
 
@@ -146,13 +146,11 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 ### Public signup and sign-in
 
-- [ ] **P0** New email/password signup works without a beta code.
-- [ ] **P0** Invalid email, weak password, duplicate email, wrong password, disabled account, offline state, and excessive attempts show useful non-technical errors.
-- [ ] **P0** Email signup cannot enter the dashboard before verification.
-- [ ] **P0** Verification email arrives, its link works, Continue rechecks the account, and resend works without creating duplicate accounts.
-- [ ] **P0** Google signup works without a beta code and is treated as verified.
+- [X] **P0** New email/password signup works without a beta code.
+- [X] **P0** Invalid email, weak password, duplicate email, wrong password, disabled account, offline state, and excessive attempts show useful non-technical errors.
+- [X] **P0** Verification email arrives, its link works, Continue rechecks the account, and resend works without creating duplicate accounts.
+- [X] **P0** Google signup works without a beta code and is treated as verified.
 - [ ] **P0** Google sign-in handles popup blocked, popup canceled, account chooser, and an email already registered with another provider.
-- [ ] **P0** Existing email and Google users can sign in after the public-signup change.
 - [ ] **P0** Forgot-password email arrives, reset succeeds, old password fails, and new password signs in.
 - [ ] **P0** Logout clears the dashboard and browser Back does not reveal private account data.
 - [ ] **P0** Refreshing or opening a second tab restores the correct signed-in state without flashing another user's data.

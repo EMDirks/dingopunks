@@ -66,18 +66,18 @@ export function authErrorMessage(error) {
     case "auth/weak-password":
       return "Password needs 6+ characters.";
     case "auth/email-already-in-use":
-      return "Account exists. Try signing in.";
+      return "An account with this email already exists.";
     case "auth/invalid-credential":
     case "auth/invalid-login-credentials":
     case "auth/user-not-found":
     case "auth/wrong-password":
       return "Incorrect email or password.";
     case "auth/user-disabled":
-      return "Account disabled. Contact us for help.";
+      return "This account has been disabled. Contact support for help.";
     case "auth/too-many-requests":
-      return "Too many attempts. Wait a few minutes.";
+      return "Too many login attempts. Wait a few minutes and try again.";
     case "auth/network-request-failed":
-      return "No connection. Check internet.";
+      return "We can't connect to the internet. Check your connection and try again.";
     case "auth/popup-blocked":
       return "Popups blocked. Allow popups and try again.";
     case "auth/account-exists-with-different-credential":
