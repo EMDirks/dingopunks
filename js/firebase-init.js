@@ -30,7 +30,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyB0r5j7_1LvnKJiKhi8toJ8TaF4C7kqtTc",
-  authDomain: "dpaam-8864d.firebaseapp.com",
+  authDomain: "auth.dingopunks.com",
   projectId: "dpaam-8864d",
   storageBucket: "dpaam-8864d.firebasestorage.app",
   messagingSenderId: "587690096872",
