@@ -789,6 +789,9 @@
   line-height: 1;
 }
 
+html.dpaam-boot-signed-in #dpaam-auth { display: none; }
+html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
+
 #dpaam-auth[hidden],
 #dpaam-dashboard[hidden],
 #dpaam-debug-view[hidden] {

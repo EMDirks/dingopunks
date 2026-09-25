@@ -14,7 +14,6 @@ import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js"
 import {
   completeAuthOfferAndEnterDashboard,
   isAuthOfferViewVisible,
-  isRecentAccount,
   registerAuthOfferCompleteHandler,
   renderAuthOfferPanels,
   setAuthOfferLayoutActive,
@@ -150,6 +149,16 @@ function resetPasswordToggles(root) {
   root.querySelectorAll(".dpaam-auth-password-toggle").forEach((toggle) => {
     setPasswordVisible(toggle, false);
   });
+}
+
+const SESSION_HINT_KEY = "dpaam-session-hint";
+
+function setSessionHint() {
+  try { localStorage.setItem(SESSION_HINT_KEY, "1"); } catch (e) {}
+}
+
+function clearSessionHint() {
+  try { localStorage.removeItem(SESSION_HINT_KEY); } catch (e) {}
 }
 
 export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
@@ -310,6 +319,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     clearAuthMessages();
     setButtonLoading(submit, true, "Creating account…");
+    signupInThisTab = true;
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
       // Don't hold the sign-up on the email round trip; the dashboard banner
@@ -318,6 +328,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
         console.warn("Verification email failed to send", error);
       });
     } catch (error) {
+      signupInThisTab = false;
       showAuthMessage("error", authErrorMessage(error));
     } finally {
       setButtonLoading(submit, false, "Creating account…");
@@ -349,14 +360,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   async function signInWithGoogle(button, { expectNewAccount = false } = {}) {
     clearAuthMessages();
     setButtonLoading(button, true, "Opening Google…");
+    if (expectNewAccount) signupInThisTab = true;
     try {
       await signInWithPopup(auth, googleProvider);
-      if (expectNewAccount) {
-        section.hidden = false;
-        section.setAttribute("aria-busy", "true");
-        setAuthView("offer-loading");
-      }
     } catch (error) {
+      if (expectNewAccount) signupInThisTab = false;
       if (!isCancelledPopup(error)) {
         showAuthMessage("error", authErrorMessage(error));
       }
@@ -381,6 +389,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   let authStateRevision = 0;
   let provisionedUid = null;
+  let signupInThisTab = false;
 
   function hideDashboardSkeleton() {
     if (!dashboardSkeleton) return;
@@ -424,8 +433,21 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     try {
       if (provisionedUid !== user.uid) {
-        await ensureUserProfile();
+        const result = await ensureUserProfile();
         provisionedUid = user.uid;
+
+        if (result?.data?.created === true) {
+          // Account was just created in another tab or the offer was never seen.
+          // Show the offer now rather than dropping the user straight into the
+          // free dashboard without seeing the plan screen.
+          if (revision !== authStateRevision) return;
+          hideDashboardSkeleton();
+          section.hidden = false;
+          section.setAttribute("aria-busy", "false");
+          renderAuthOfferPanels();
+          setAuthView("offer");
+          return;
+        }
       }
 
       await loadDashboardState?.(user);
@@ -455,6 +477,13 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     const revision = ++authStateRevision;
     const signedIn = userCanAccessDashboard(user);
 
+    document.documentElement.classList.remove("dpaam-boot-signed-in");
+    if (signedIn) {
+      setSessionHint();
+    } else {
+      clearSessionHint();
+    }
+
     hideDashboardSkeleton();
     if (dashboard) dashboard.hidden = true;
 
@@ -467,7 +496,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       return;
     }
 
-    if (isRecentAccount(user) && provisionedUid !== user.uid) {
+    if (signupInThisTab && provisionedUid !== user.uid) {
+      signupInThisTab = false;
       section.hidden = false;
       section.setAttribute("aria-busy", "true");
       setAuthView("offer-loading");
@@ -513,6 +543,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       applyAuthState(user);
     },
     () => {
+      document.documentElement.classList.remove("dpaam-boot-signed-in");
+      clearSessionHint();
       hideDashboardSkeleton();
       if (dashboard) dashboard.hidden = true;
       section.hidden = false;

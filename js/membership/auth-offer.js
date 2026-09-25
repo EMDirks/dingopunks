@@ -1,5 +1,3 @@
-const RECENT_ACCOUNT_MS = 24 * 60 * 60 * 1000;
-
 let panelRenderer = null;
 let onOfferComplete = null;
 
@@ -9,14 +7,6 @@ export function configureAuthOffer({ renderPanels }) {
 
 export function registerAuthOfferCompleteHandler(handler) {
   onOfferComplete = handler;
-}
-
-// Only picks the first skeleton; ensureUserProfile's `created` decides whether
-// the offer actually renders, so it appears exactly once per account.
-export function isRecentAccount(user) {
-  const created = user?.metadata?.creationTime;
-  if (!created) return false;
-  return Date.now() - new Date(created).getTime() < RECENT_ACCOUNT_MS;
 }
 
 export function renderAuthOfferPanels() {
