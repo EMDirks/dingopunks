@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.166';
+const version = '3.4.167';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -221,20 +221,34 @@ function flashAccessInputs() {
   }
 }
 
+// createModal writes innerHTML, and the cells accept any character, so the code
+// is reduced to plain alphanumerics before it's shown.
+function showBadCodeModal(code) {
+  const displayCode = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  createModal(
+    "That code didn't work.",
+    "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. Check the code and try again, or ask your teacher for a new one.",
+    "Close"
+  );
+}
+
 // A wrong code: flash the cells and count the attempt toward the local lockout.
-// Shared by the legacy and membership paths.
-function rejectAccessCode() {
+// Shared by the legacy and membership paths. The lockout overlay replaces the
+// modal on the attempt that triggers it.
+function rejectAccessCode(code) {
   pinFailedAttempts += 1;
   flashAccessInputs();
   if (pinFailedAttempts >= PIN_MAX_ATTEMPTS) {
     setTimeout(triggerPinLockout, 450);
+  } else {
+    showBadCodeModal(code);
   }
 }
 
 function submitMembershipCode(code) {
   // Share codes work on the answer key on the same footing as legacy codes.
   if (!isMembershipCode(code)) {
-    rejectAccessCode();
+    rejectAccessCode(code);
     return;
   }
 
@@ -249,15 +263,16 @@ function submitMembershipCode(code) {
     .catch(function(error) {
       membershipLookupPending = false;
       setManualCodeCheckingState(false);
-      reportMembershipCodeError(error, true);
+      reportMembershipCodeError(error, code, true);
     });
 }
 
 function startAutoLaunch() {
   const notBefore = Date.now() + AUTO_LAUNCH_MIN_MS;
+  const linkCode = autoLaunchCode;
   membershipLookupPending = true;
 
-  lookupMembershipCode(autoLaunchCode)
+  lookupMembershipCode(linkCode)
     .then(function(game) {
       launchMembershipGame(game, notBefore, true);
     })
@@ -268,7 +283,7 @@ function startAutoLaunch() {
       // is dropped onto the normal code-entry screen.
       buildAccessCodeEntry();
       hideDirectLinkLoader();
-      reportMembershipCodeError(error, false);
+      reportMembershipCodeError(error, linkCode, false);
     });
 }
 
@@ -294,7 +309,7 @@ function launchMembershipGame(game, notBefore, skipAccessStep) {
   });
 }
 
-function reportMembershipCodeError(error, countAttempt) {
+function reportMembershipCodeError(error, attemptedCode, countAttempt) {
   const code = error && error.code;
 
   if (code === 'functions/resource-exhausted') {
@@ -305,8 +320,12 @@ function reportMembershipCodeError(error, countAttempt) {
   }
 
   if (code === 'functions/not-found' || code === 'functions/invalid-argument') {
-    if (countAttempt) rejectAccessCode();
-    else flashAccessInputs();
+    if (countAttempt) {
+      rejectAccessCode(attemptedCode);
+    } else {
+      flashAccessInputs();
+      showBadCodeModal(attemptedCode);
+    }
     return;
   }
 
@@ -825,7 +844,7 @@ function checkIfAccessInputIsFilled() {
     }
 
     if (!foundMatch) {
-      rejectAccessCode();
+      rejectAccessCode(typedCode);
     }
 
   } else {

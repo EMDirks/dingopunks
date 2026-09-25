@@ -2046,7 +2046,7 @@ function syncResendButtons() {
   document.querySelectorAll("[data-action='resend-verification']").forEach((btn) => {
     if (btn.getAttribute("aria-busy") === "true") return;
     btn.disabled = remaining > 0;
-    btn.textContent = remaining > 0 ? "Email sent ✓" : "Resend email";
+    btn.textContent = remaining > 0 ? "✓ Email sent" : "Resend email";
   });
 
   if (remaining > 0) {

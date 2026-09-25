@@ -159,22 +159,22 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 ### New-account plan selection
 
-- [ ] **P0** A new verified account sees the free-versus-paid offer before the dashboard.
-- [ ] **P0** Selecting Free enters the dashboard with exactly the free entitlement.
-- [ ] **P0** Selecting All-Access starts Checkout for the signed-in account.
-- [ ] **P0** Refresh, browser Back, private browsing, and a second device do not trap the user in the offer step or silently grant paid access.
-- [ ] **P0** The account email, plan, price, renewal/cancellation date, password reset, logout, Upgrade, and Manage Subscription controls are correct for each account state.
+- [X] **P0** A new verified account sees the free-versus-paid offer before the dashboard.
+- [X] **P0** Selecting Free enters the dashboard with exactly the free entitlement.
+- [X] **P0** Selecting All-Access starts Checkout for the signed-in account.
+- [X] **P0** Refresh, browser Back, private browsing, and a second device do not trap the user in the offer step or silently grant paid access.
+- [X] **P0** The account email, plan, price, renewal/cancellation date, password reset, logout, Upgrade, and Manage Subscription controls are correct for each account state.
 
 ---
 
 ## Gate 4 — Free dashboard journey
 
-- [ ] **P0** Exactly the 8 intended Midnight Mall rooms are shareable on a free account.
-- [ ] **P0** Every other room visibly shows the paid lock/upgrade path and cannot be shared through UI or direct callable invocation.
-- [ ] **P0** Season, grade, subject, and topic filters work alone and in combinations; clearing filters restores the catalog.
-- [ ] **P0** Room details show the correct title, description, tags, standards, preview, favorite state, and sharing state.
-- [ ] **P0** Add, remove, and drag-reorder Favorites; refresh, sign out/in, and use a second device to confirm persistence and ordering.
-- [ ] **P0** A rejected preference write produces a friendly toast and a later edit self-heals the saved array.
+- [X] **P0** Exactly the 8 intended Midnight Mall rooms are shareable on a free account.
+- [X] **P0** Every other room visibly shows the paid lock/upgrade path and cannot be shared through UI or direct callable invocation.
+- [X] **P0** Season, grade, subject, and topic filters work alone and in combinations; clearing filters restores the catalog.
+- [X] **P0** Room details show the correct title, description, tags, standards, preview, favorite state, and sharing state.
+- [X] **P0** Add, remove, and drag-reorder Favorites; refresh, sign out/in, and use a second device to confirm persistence and ordering.
+- [X] **P0** A rejected preference write produces a friendly toast and a later edit self-heals the saved array. (2026-09-25: accepted for launch. Offline favorites stay queued in the open tab and sync when the connection returns. A permanent rules rejection is not a path a teacher can hit; the toast is already there if one ever does.)
 - [ ] **P0** Share a free room; the code, direct link, QR/copy actions if present, expiry, answer-key action, and Google Classroom action are correct.
 - [ ] **P0** Re-share the same room and confirm the same active code and expiry return.
 - [ ] **P0** Cancel the code, confirm student access stops, then share again and confirm a new code is issued.

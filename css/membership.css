@@ -2631,7 +2631,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-plan-subscription-banner {
   margin: 0;
-  padding: var(--dpaam-pad-sm) var(--dpaam-pad-lg);
+  padding: var(--dpaam-pad-sm) var(--dpaam-pad-lg) calc(var(--dpaam-pad-sm) - 1px);
   background-color: var(--dpaam-light-gray);
   border-top: 1px solid var(--dpaam-border);
   font-size: var(--dpaam-text-xs);
@@ -3213,6 +3213,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-account-plan-section .dpaam-plan-status {
   margin-bottom: 0;
+}
+
+#dpaam-account-plan-free .dpaam-plan-panel__highlight--gray {
+  padding: 0;
 }
 
 #dpaam-account-plan-free .dpaam-plan-panel__highlight--gray::before {
@@ -4133,6 +4137,11 @@ dd a {
   }
 
   /* --- Info modal --- */
+  .dpaam-modal-standards-chip {
+    padding-left: calc(var(--dpaam-pad-md) / 2);
+    padding-right: calc(var(--dpaam-pad-md) / 2);
+  }
+
   .dpaam-modal-standards-body {
     padding: var(--dpaam-pad-md);
   }
