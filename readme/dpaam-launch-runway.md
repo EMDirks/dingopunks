@@ -178,14 +178,14 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** A rejected preference write produces a friendly toast and a later edit self-heals the saved array. (2026-09-25: accepted for launch. Offline favorites stay queued in the open tab and sync when the connection returns. A permanent rules rejection is not a path a teacher can hit; the toast is already there if one ever does.)
 - [X] **P0** Share a free room; the code, direct link, QR/copy actions if present, expiry, answer-key action, and Google Classroom action are correct.
 - [X] **P0** Re-share the same room and confirm the same active code and expiry return.
-- [ ] **P0** Cancel the code, confirm student access stops, then share again and confirm a new code is issued.
-- [ ] **P0** Upgrade CTAs from the library, account panel, and paywall all open the same correct paid offer.
+- [X] **P0** Cancel the code, confirm student access stops, then share again and confirm a new code is issued.
+- [X] **P0** Upgrade CTAs from the library, account panel, and paywall all open the same correct paid offer.
 
 ---
 
 ## Gate 5 — Paid dashboard and code lifecycle
 
-- [ ] **P0** An active member can share representative free and paid rooms across grades, subjects, seasons, and resource folders.
+- [X] **P0** An active member can share representative free and paid rooms across grades, subjects, seasons, and resource folders.
 - [ ] **P0** A free user cannot gain paid sharing by editing browser state, local storage, requests, or Firestore documents.
 - [ ] **P0** Active-code rows show the correct room, code, creation order, and live countdown after refresh and on a second device.
 - [ ] **P0** Re-sharing is idempotent, while cancel-then-share creates a fresh code.

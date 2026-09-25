@@ -2631,7 +2631,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-plan-subscription-banner {
   margin: 0;
-  padding: var(--dpaam-pad-sm) var(--dpaam-pad-lg) calc(var(--dpaam-pad-sm) - 1px);
+  padding: calc(var(--dpaam-pad-sm) + 1px) var(--dpaam-pad-lg) calc(var(--dpaam-pad-sm) - 1px);
   background-color: var(--dpaam-light-gray);
   border-top: 1px solid var(--dpaam-border);
   font-size: var(--dpaam-text-xs);
