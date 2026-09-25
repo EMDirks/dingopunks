@@ -1210,21 +1210,19 @@ function allAccessPlanPricingHtml() {
     </div>`;
 }
 
-function memberPlanPricingHtml(billingProfile) {
+function memberSubscriptionBannerHtml(billingProfile) {
   const endMs = periodEndMs(billingProfile?.currentPeriodEnd);
-  const dateLabel = endMs ? formatPlanDate(endMs) : null;
+  if (!endMs) return "";
   const status = billingProfile?.status;
-  let renewalLine = "billed annually at $35.88/year";
-  if (status === "canceling" && dateLabel) {
-    renewalLine = `Cancels on ${dateLabel}`;
-  } else if (dateLabel) {
-    renewalLine = `Renews on ${dateLabel}`;
+  let line;
+  if (status === "canceling") {
+    line = `Subscription ends on ${formatPlanDate(endMs)}`;
+  } else if (status === "active") {
+    line = `Subscription renews on ${formatPlanDate(endMs)}`;
+  } else {
+    return "";
   }
-  return `
-    <div class="dpaam-plan-panel__pricing">
-      <p class="dpaam-plan-panel__price">$2.99<span class="dpaam-plan-price-unit">/<strong>month</strong></span></p>
-      <p class="dpaam-plan-panel__billing">${escapeHtml(renewalLine)}</p>
-    </div>`;
+  return `<p class="dpaam-plan-subscription-banner">${escapeHtml(line)}</p>`;
 }
 
 function upgradeRebateFieldsHtml() {
@@ -1257,9 +1255,7 @@ function unlimitedPlanPanelHtml({
   const isManage = action === "manage";
   const showOfferImage = includeOfferImage ?? !isManage;
   const taglineHtml = planPanelTierPillHtml("All-Access", planNameId);
-  const pricingHtml = isManage
-    ? memberPlanPricingHtml(billingProfile)
-    : allAccessPlanPricingHtml();
+  const pricingHtml = allAccessPlanPricingHtml();
   const rebateHtml = !isManage && includeRebate ? upgradeRebateFieldsHtml() : "";
   const isCanceling = billingProfile?.status === "canceling";
   const manageCtaLabel = isCanceling ? "Renew subscription" : "Manage subscription";
@@ -1301,6 +1297,13 @@ function unlimitedPlanPanelHtml({
       <div class="dpaam-plan-panel__offer-content">${panelInner}</div>
     </div>`
     : `<div class="${panelClass}">${panelInner}</div>`;
+
+  if (isManage) {
+    const bannerHtml = memberSubscriptionBannerHtml(billingProfile);
+    return bannerHtml
+      ? `<div class="dpaam-plan-member-card">${panelHtml}${bannerHtml}</div>`
+      : panelHtml;
+  }
 
   return rebateHtml
     ? `<div class="dpaam-all-access-offer">${panelHtml}${rebateHtml}</div>`

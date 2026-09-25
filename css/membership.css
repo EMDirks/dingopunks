@@ -2617,6 +2617,30 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   margin-top: var(--dpaam-pad-lg);
 }
 
+.dpaam-plan-member-card {
+  overflow: hidden;
+  border: 1px solid var(--dpaam-border);
+  border-radius: var(--dpaam-radius-xl);
+  background-color: var(--dpaam-white);
+}
+
+.dpaam-plan-member-card > .dpaam-plan-panel--member {
+  border: 0;
+  border-radius: 0;
+}
+
+.dpaam-plan-subscription-banner {
+  margin: 0;
+  padding: var(--dpaam-pad-sm) var(--dpaam-pad-lg);
+  background-color: var(--dpaam-light-gray);
+  border-top: 1px solid var(--dpaam-border);
+  font-size: var(--dpaam-text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--dpaam-black-muted);
+  text-align: center;
+}
+
 .dpaam-plan-panel--unlimited .dpaam-auth-submit.dpaam-plan-panel__action:not(.dpaam-plan-panel__action--secondary) {
   background-color: var(--dpaam-unlimited-accent) !important;
   color: var(--dpaam-white) !important;
@@ -3189,6 +3213,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-account-plan-section .dpaam-plan-status {
   margin-bottom: 0;
+}
+
+#dpaam-account-plan-free .dpaam-plan-panel__highlight--gray::before {
+  display: none;
 }
 
 .dpaam-account-section {
