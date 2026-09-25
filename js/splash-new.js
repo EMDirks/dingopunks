@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.174';
+const version = '3.4.175';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -114,6 +114,7 @@ let autoLaunchCode = null;
 // Blocks typed entry while a lookup is in flight or a game is already loading.
 let membershipLookupPending = false;
 let shareCodeModulePromise = null;
+let shareCodeModuleFailed = false;
 let directLinkLoader = null;
 let directLinkLoaderRemovalId = null;
 
@@ -175,7 +176,12 @@ function isMembershipCode(code) {
 function lookupMembershipCode(code) {
   if (!shareCodeModulePromise) {
     const moduleUrl = new URL('js/play-share-code.js?version=' + version, document.baseURI).href;
-    shareCodeModulePromise = import(moduleUrl);
+    // Browsers remember a failed module download (including the Firebase SDK
+    // behind it) until the page reloads, so a retry in place can't succeed.
+    shareCodeModulePromise = import(moduleUrl).catch(function(error) {
+      shareCodeModuleFailed = true;
+      throw error;
+    });
   }
   return shareCodeModulePromise.then(function(module) {
     return module.lookupShareCode(code);
@@ -235,13 +241,24 @@ function showBadCodeModal(code) {
     "That code didn't work.",
     "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
     "Close",
-    function() {
-      const cell = document.querySelector('.access-input');
-      if (!cell || cell.disabled) return;
-      cell.focus();
-      activeInput__codeInput = cell;
-    }
+    focusFirstAccessInput
   );
+}
+
+function showConnectionErrorModal() {
+  createModal(
+    "We can't check your code right now.",
+    "We’re having trouble connecting. Wait a few minutes, then try your game code again.",
+    "Close",
+    shareCodeModuleFailed ? function() { window.location.reload(); } : focusFirstAccessInput
+  );
+}
+
+function focusFirstAccessInput() {
+  const cell = document.querySelector('.access-input');
+  if (!cell || cell.disabled) return;
+  cell.focus();
+  activeInput__codeInput = cell;
 }
 
 // A wrong code: flash the cells and count the attempt toward the local lockout.
@@ -348,6 +365,7 @@ function reportMembershipCodeError(error, attemptedCode, countAttempt) {
   // fault, so it doesn't burn an attempt against the local lockout.
   console.error('Share code lookup failed', error);
   flashAccessInputs();
+  showConnectionErrorModal();
 }
 
 // Load a resource's game script and its cutscene script, then hand off once the

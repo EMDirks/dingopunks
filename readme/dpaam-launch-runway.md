@@ -211,7 +211,7 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** A membership code opens the answer key on `answer-key.html`; a legacy code still works there too.
 - [X] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
 - [X] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it. (2026-09-25, 3.4.174: redesigned so real students should never reach the limit. Only wrong codes count, 100 per minute per IP; correct codes are never counted; any lockout lasts under a minute; `maxInstances: 5` caps flood cost; the play page treats a busy-server 429 as a hiccup, not a lockout. Automated tests pass, including a 30-student parallel burst and the IPv6 `/64` case. Production check: the 101st wrong code from one connection returned `RESOURCE_EXHAUSTED` with `retryAfter` 33; the "limit reached" warning logged once with a hashed key; the play page showed the lockout with a 17-second countdown and returned to code entry on its own; the next lookup after the window was served normally.)
-- [ ] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts.
+- [X] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts. (2026-09-25, 3.4.175: connection failures show "We can't check your code right now." and do not count toward the 5-try pause. If Firebase itself never downloaded, Close reloads the page so the next try can succeed.)
 
 ### Legacy and game regression
 
