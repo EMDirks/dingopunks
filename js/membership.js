@@ -2148,8 +2148,25 @@ function checkoutErrorMessage(error) {
   return "Couldn't start checkout. Try again.";
 }
 
+const redirectPendingButtons = new Set();
+
+function setRedirectLoading(button, loading, loadingLabel) {
+  if (!button) return;
+  setButtonLoading(button, loading, loadingLabel, { useHtml: true });
+  if (loading) redirectPendingButtons.add(button);
+  else redirectPendingButtons.delete(button);
+}
+
+// Back from Stripe restores this page from the bfcache with buttons still loading.
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  for (const button of [...redirectPendingButtons]) {
+    setRedirectLoading(button, false);
+  }
+});
+
 async function beginCheckout(triggerButton, rebate = null) {
-  setButtonLoading(triggerButton, true, "Redirecting…", { useHtml: true });
+  setRedirectLoading(triggerButton, true, "Redirecting…");
   try {
     const payload = { returnOrigin: window.location.origin };
     if (rebate) {
@@ -2165,7 +2182,7 @@ async function beginCheckout(triggerButton, rebate = null) {
   } catch (error) {
     console.error("createCheckoutSession failed", error);
     showToast(checkoutErrorMessage(error));
-    setButtonLoading(triggerButton, false, "Redirecting…", { useHtml: true });
+    setRedirectLoading(triggerButton, false);
   }
 }
 
@@ -2194,7 +2211,7 @@ async function startCheckout(button) {
 }
 
 async function openBillingPortal(button) {
-  setButtonLoading(button, true, "Opening…", { useHtml: true });
+  setRedirectLoading(button, true, "Opening…");
   try {
     const result = await createPortalSession({
       returnOrigin: window.location.origin,
@@ -2207,7 +2224,7 @@ async function openBillingPortal(button) {
   } catch (error) {
     console.error("createPortalSession failed", error);
     showToast(billingErrorMessage(error));
-    setButtonLoading(button, false, "Opening…", { useHtml: true });
+    setRedirectLoading(button, false);
   }
 }
 

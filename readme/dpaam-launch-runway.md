@@ -89,7 +89,8 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
-- [ ] **P1** Show a modal when a student enters a wrong game code. Today a miss only flashes the cells red and clears them.
+- [X] **P1** Show a modal when a student enters a wrong game code. (Shipped 3.4.167+: “That code didn’t work.” on play and answer key; answer-key copy omits “ask your teacher for a new one.”)
+- [ ] **P1** **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue (e.g. confirm the code character-by-character, legacy PDF code vs membership share code, code expired after 14 days, create or refresh a share code from the membership library, copy/link/QR again). Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
 - [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent.
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
@@ -175,8 +176,8 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** Room details show the correct title, description, tags, standards, preview, favorite state, and sharing state.
 - [X] **P0** Add, remove, and drag-reorder Favorites; refresh, sign out/in, and use a second device to confirm persistence and ordering.
 - [X] **P0** A rejected preference write produces a friendly toast and a later edit self-heals the saved array. (2026-09-25: accepted for launch. Offline favorites stay queued in the open tab and sync when the connection returns. A permanent rules rejection is not a path a teacher can hit; the toast is already there if one ever does.)
-- [ ] **P0** Share a free room; the code, direct link, QR/copy actions if present, expiry, answer-key action, and Google Classroom action are correct.
-- [ ] **P0** Re-share the same room and confirm the same active code and expiry return.
+- [X] **P0** Share a free room; the code, direct link, QR/copy actions if present, expiry, answer-key action, and Google Classroom action are correct.
+- [X] **P0** Re-share the same room and confirm the same active code and expiry return.
 - [ ] **P0** Cancel the code, confirm student access stops, then share again and confirm a new code is issued.
 - [ ] **P0** Upgrade CTAs from the library, account panel, and paywall all open the same correct paid offer.
 
