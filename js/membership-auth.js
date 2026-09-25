@@ -13,10 +13,11 @@ import {
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 import {
   completeAuthOfferAndEnterDashboard,
+  isAuthOfferViewVisible,
+  isRecentAccount,
   registerAuthOfferCompleteHandler,
   renderAuthOfferPanels,
   setAuthOfferLayoutActive,
-  shouldShowAuthOfferStep,
 } from "./membership/auth-offer.js";
 import { sendVerificationEmail } from "./membership/email-verification.js";
 
@@ -169,6 +170,10 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   }
 
   document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
+    if (isAuthOfferViewVisible()) {
+      void completeAuthOfferAndEnterDashboard();
+      return;
+    }
     if (hasAuthBackState()) {
       window.history.back();
       return;
@@ -462,32 +467,34 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       return;
     }
 
-    if (shouldShowAuthOfferStep(user)) {
+    if (isRecentAccount(user) && provisionedUid !== user.uid) {
       section.hidden = false;
       section.setAttribute("aria-busy", "true");
       setAuthView("offer-loading");
 
+      let created = false;
       try {
-        if (provisionedUid !== user.uid) {
-          await ensureUserProfile();
-          provisionedUid = user.uid;
-        }
+        const result = await ensureUserProfile();
+        created = result?.data?.created === true;
+        provisionedUid = user.uid;
       } catch (error) {
         if (revision !== authStateRevision) return;
         console.error("Failed to prepare new account", error);
         section.hidden = false;
         section.setAttribute("aria-busy", "false");
         setAuthView("signin");
-        showAuthMessage("error", "Couldn't set up account. Check connection.");
+        showAuthMessage("error", "Couldn't set up account. Check your internet connection.");
         return;
       }
 
       if (revision !== authStateRevision) return;
 
-      renderAuthOfferPanels();
-      section.setAttribute("aria-busy", "false");
-      setAuthView("offer");
-      return;
+      if (created) {
+        renderAuthOfferPanels();
+        section.setAttribute("aria-busy", "false");
+        setAuthView("offer");
+        return;
+      }
     }
 
     await enterDashboard(user, revision);

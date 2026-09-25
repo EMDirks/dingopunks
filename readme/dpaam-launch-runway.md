@@ -94,6 +94,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
 - [ ] **P1** **Custom Firebase email action handler (post-launch).** Launch ships with Firebase’s default interstitial (“Your email has been verified…”) plus our `continueUrl` back to the account page; the original tab already auto-detects verification. After launch, add a dedicated `auth-action.html` on `account.dingopunks.com` that handles **all** action modes in one place (`verifyEmail`, `resetPassword`, `recoverEmail`, `verifyAndChangeEmail` via `applyActionCode` / password-reset confirm), shows Dingo Punks copy (e.g. verified → brief message + redirect to account), and handles expired/used links. Test every mode in the Auth emulator, then flip Firebase Console → Authentication → Templates **custom action URL** (reversible). Do not point the action URL at membership/dashboard JS until all modes are covered — password-reset links must keep working.
+- [ ] **P1** **Customize the Firebase password-management page URL and colors (if possible).** The reset-password page still uses Firebase’s default host and styling. After launch, check whether Authentication templates (or Identity Platform) can serve that page on a Dingo Punks URL and apply brand colors. If the hosted page cannot take colors, cover branding on the custom action handler above instead.
 - [ ] **P1** **Verification gate before upgrade.** Launch lets unverified email/password users start Checkout; only share-code creation waits on a verified address. After launch, block Upgrade and checkout until the email is verified (reuse the existing verify prompt), and enforce the same check on `createCheckoutSession` so a direct call cannot skip it. Google sign-in stays treated as already verified.
 - [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
@@ -150,10 +151,10 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** Invalid email, weak password, duplicate email, wrong password, disabled account, offline state, and excessive attempts show useful non-technical errors.
 - [X] **P0** Verification email arrives, its link works, Continue rechecks the account, and resend works without creating duplicate accounts.
 - [X] **P0** Google signup works without a beta code and is treated as verified.
-- [ ] **P0** Google sign-in handles popup blocked, popup canceled, account chooser, and an email already registered with another provider.
-- [ ] **P0** Forgot-password email arrives, reset succeeds, old password fails, and new password signs in.
-- [ ] **P0** Logout clears the dashboard and browser Back does not reveal private account data.
-- [ ] **P0** Refreshing or opening a second tab restores the correct signed-in state without flashing another user's data.
+- [X] **P0** Google sign-in handles popup blocked, popup canceled, account chooser, and an email already registered with another provider.
+- [X] **P0** Forgot-password email arrives, reset succeeds, old password fails, and new password signs in.
+- [X] **P0** Logout clears the dashboard and browser Back does not reveal private account data.
+- [X] **P0** Refreshing or opening a second tab restores the correct signed-in state without flashing another user's data.
 - [ ] **P0** A network failure during profile provisioning gives a retry path and does not create a broken partial account.
 
 ### New-account plan selection

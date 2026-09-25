@@ -3267,11 +3267,14 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   }
 }
 
-.dpaam-account-link.is-sent,
-.dpaam-account-link.is-sent:disabled {
+.dpaam-account-link.is-sent {
   color: var(--dpaam-black-muted);
-  cursor: default;
-  opacity: 1;
+}
+
+@media (hover: hover) {
+  .dpaam-account-link.is-sent:hover {
+    color: var(--dpaam-blue);
+  }
 }
 
 .dpaam-account-row-main {

@@ -52,8 +52,6 @@ import {
 import {
   completeAuthOfferAndEnterDashboard,
   configureAuthOffer,
-  isAuthOfferViewVisible,
-  markAuthOfferStepComplete,
 } from "./membership/auth-offer.js";
 import { showToast } from "./membership/toast.js";
 import {
@@ -1947,10 +1945,7 @@ function userHasGoogleProvider(user) {
   return Boolean(user?.providerData?.some((provider) => provider.providerId === "google.com"));
 }
 
-let accountPasswordResetSent = false;
-
 function resetAccountPasswordResetUi() {
-  accountPasswordResetSent = false;
   const btn = els.accountSendReset;
   if (!btn) return;
   btn.classList.remove("is-sent", "is-loading");
@@ -1960,14 +1955,13 @@ function resetAccountPasswordResetUi() {
 }
 
 function setAccountPasswordResetSent() {
-  accountPasswordResetSent = true;
   const btn = els.accountSendReset;
   if (!btn) return;
   btn.classList.remove("is-loading");
   btn.classList.add("is-sent");
-  btn.disabled = true;
   btn.setAttribute("aria-busy", "false");
   btn.textContent = "✓ Reset email sent";
+  btn.dataset.defaultLabel = "✓ Reset email sent";
 }
 
 function updateAccountModal(user) {
@@ -1986,9 +1980,7 @@ function updateAccountModal(user) {
   const hasPassword = userHasPasswordProvider(user) || localDevPreview;
   if (els.accountSendReset) {
     els.accountSendReset.hidden = !hasPassword;
-    if (!accountPasswordResetSent) {
-      els.accountSendReset.disabled = !user?.email && !localDevPreview;
-    }
+    els.accountSendReset.disabled = !user?.email && !localDevPreview;
   }
   if (els.accountPasswordManaged) {
     els.accountPasswordManaged.hidden = hasPassword || !userHasGoogleProvider(user);
@@ -2006,7 +1998,7 @@ function openAccountModal() {
 
 async function sendAccountPasswordReset() {
   const email = currentUser?.email;
-  if (!email || !els.accountSendReset || accountPasswordResetSent) return;
+  if (!email || !els.accountSendReset) return;
 
   setButtonLoading(els.accountSendReset, true, "Sending…");
   try {
@@ -2154,10 +2146,6 @@ function checkoutErrorMessage(error) {
 }
 
 async function beginCheckout(triggerButton, rebate = null) {
-  if (isAuthOfferViewVisible()) {
-    markAuthOfferStepComplete(auth.currentUser?.uid);
-  }
-
   setButtonLoading(triggerButton, true, "Redirecting…", { useHtml: true });
   try {
     const payload = { returnOrigin: window.location.origin };
