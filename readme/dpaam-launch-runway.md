@@ -99,6 +99,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** **Verification gate before upgrade.** Launch lets unverified email/password users start Checkout; only share-code creation waits on a verified address. After launch, block Upgrade and checkout until the email is verified (reuse the existing verify prompt), and enforce the same check on `createCheckoutSession` so a direct call cannot skip it. Google sign-in stays treated as already verified.
 - [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
+- [ ] **P1** Add images to modals as necessary to help illustrate their concepts.
 
 ---
 
@@ -186,12 +187,12 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 ## Gate 5 — Paid dashboard and code lifecycle
 
 - [X] **P0** An active member can share representative free and paid rooms across grades, subjects, seasons, and resource folders.
-- [ ] **P0** A free user cannot gain paid sharing by editing browser state, local storage, requests, or Firestore documents.
-- [ ] **P0** Active-code rows show the correct room, code, creation order, and live countdown after refresh and on a second device.
-- [ ] **P0** Re-sharing is idempotent, while cancel-then-share creates a fresh code.
-- [ ] **P0** At 20 active codes, re-sharing an existing room still works and a new room opens the dedicated limit modal.
-- [ ] **P0** “View Active Codes” from the limit modal goes to the Active tab; canceling one code permits one replacement.
-- [ ] **P0** An expired code disappears from the dashboard and does not resolve even if TTL cleanup has not deleted its document.
+- [X] **P0** A free user cannot gain paid sharing by editing browser state, local storage, requests, or Firestore documents.
+- [X] **P0** Active-code rows show the correct room, code, creation order, and live countdown after refresh and on a second device.
+- [X] **P0** Re-sharing is idempotent, while cancel-then-share creates a fresh code.
+- [X] **P0** At 20 active codes, re-sharing an existing room still works and a new room opens the dedicated limit modal.
+- [X] **P0** “View Active Codes” from the limit modal goes to the Active tab; canceling one code permits one replacement.
+- [X] **P0** An expired code disappears from the dashboard and does not resolve even if TTL cleanup has not deleted its document.
 - [ ] **P0** A canceling subscriber retains full paid sharing until `currentPeriodEnd`.
 - [ ] **P0** A lapsed subscriber sees free access only; existing active codes behave according to the chosen policy in the backend plan.
 - [ ] **P0** One account cannot read, list, cancel, or infer another account's profile, preferences, codes, rebate claims, or rate-limit records.

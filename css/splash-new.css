@@ -609,7 +609,7 @@
     padding: 2% 4%;
     border-radius: 1vmin;
     margin-top: 2.5%;
-    width: 36%;
+    width: calc(36% + 8px);
     text-align: left;
 }
 

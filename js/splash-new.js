@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.171';
+const version = '3.4.172';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -234,7 +234,13 @@ function showBadCodeModal(code) {
   createModal(
     "That code didn't work.",
     "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
-    "Close"
+    "Close",
+    function() {
+      const cell = document.querySelector('.access-input');
+      if (!cell || cell.disabled) return;
+      cell.focus();
+      activeInput__codeInput = cell;
+    }
   );
 }
 

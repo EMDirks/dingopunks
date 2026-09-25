@@ -145,7 +145,7 @@
     }
     createModal(
       // 'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
-      'Bonus missions are coming soon',
+      'Bonus missions are coming soon.',
       '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! This feature is coming soon — hang tight.',
       'Close'
     );

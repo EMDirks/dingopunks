@@ -1693,11 +1693,15 @@ function styleText(input) {
 }
 
 
+// Optional work for the modal's own button (not the X or the backdrop).
+let modalButtonCloseCallback = null;
+
 // modal
-function createModal(title,paragraph,button){
+function createModal(title,paragraph,button,onButtonClose){
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
+  modalButtonCloseCallback = typeof onButtonClose === 'function' ? onButtonClose : null;
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {
@@ -1720,14 +1724,19 @@ function hideModalElement(){
 }
 
 modalBlackout.addEventListener("click", function() { 
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
 });
 
 modalButton.addEventListener("click", function() { 
+  const onButtonClose = modalButtonCloseCallback;
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
+  if (onButtonClose) onButtonClose();
 });
 
 modalX.addEventListener("click", function() { 
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
 });
 
