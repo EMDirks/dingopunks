@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.167';
+const version = '3.4.168';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -225,9 +225,15 @@ function flashAccessInputs() {
 // is reduced to plain alphanumerics before it's shown.
 function showBadCodeModal(code) {
   const displayCode = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const pathname = window.location.pathname;
+  const isAnswerKeyPage =
+    pathname.endsWith('answer-key.html') || pathname.endsWith('/answer-key');
+  const suffix = isAnswerKeyPage
+    ? 'Check the code and try again.'
+    : 'Check the code and try again, or ask your teacher for a new one.';
   createModal(
     "That code didn't work.",
-    "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. Check the code and try again, or ask your teacher for a new one.",
+    "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
     "Close"
   );
 }
