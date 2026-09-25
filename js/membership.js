@@ -1512,6 +1512,7 @@ function openShareCodeLimitModal() {
 function viewActiveCodesFromLimitModal() {
   closeAnimatedModal(els.shareCodeLimitModal);
   setActiveTab("active");
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 function openModal(gameId, context = "library") {
