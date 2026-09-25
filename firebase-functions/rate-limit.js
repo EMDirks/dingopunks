@@ -32,6 +32,45 @@ export function rateLimitKey(scope, identifier) {
 }
 
 /**
+ * The open window a counter doc describes, or null when the doc should be
+ * treated as a fresh start. Anything unexpected — missing doc, elapsed window,
+ * a window stamped in the future, a malformed doc — counts as no window.
+ */
+function openWindowOf(snap, windowMs, now) {
+  if (!snap.exists) return null;
+  const windowStart = snap.get("windowStart");
+  const count = snap.get("count");
+  const isOpen =
+    windowStart instanceof Timestamp &&
+    typeof count === "number" &&
+    windowStart.toMillis() <= now &&
+    now - windowStart.toMillis() < windowMs;
+  return isOpen ? { count, windowEndsAt: windowStart.toMillis() + windowMs } : null;
+}
+
+function secondsUntil(windowEndsAt, now) {
+  return Math.max(1, Math.ceil((windowEndsAt - now) / 1000));
+}
+
+/**
+ * Check `scope`/`identifier` without counting anything. A plain read — no
+ * transaction and no write — so a burst of callers checking the same key
+ * never contends on its doc.
+ *
+ * @returns {Promise<{allowed: boolean, retryAfter: number}>}
+ */
+export async function peekRateLimit(db, scope, identifier, options) {
+  const { limit, windowMs, now = Date.now() } = options;
+  const snap = await db.collection(RATE_LIMIT_COLLECTION).doc(rateLimitKey(scope, identifier)).get();
+  const window = openWindowOf(snap, windowMs, now);
+
+  if (window && window.count >= limit) {
+    return { allowed: false, retryAfter: secondsUntil(window.windowEndsAt, now) };
+  }
+  return { allowed: true, retryAfter: 0 };
+}
+
+/**
  * Count one request against `scope`/`identifier`.
  *
  * Read-modify-write in a transaction, so parallel requests can't both slip
@@ -47,18 +86,9 @@ export async function consumeRateLimit(db, scope, identifier, options) {
 
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
-    const windowStart = snap.exists ? snap.get("windowStart") : null;
-    const count = snap.exists ? snap.get("count") : null;
+    const window = openWindowOf(snap, windowMs, now);
 
-    // Anything unexpected — missing doc, elapsed window, a window stamped in
-    // the future, a malformed doc — starts a fresh window.
-    const openWindow =
-      windowStart instanceof Timestamp &&
-      typeof count === "number" &&
-      windowStart.toMillis() <= now &&
-      now - windowStart.toMillis() < windowMs;
-
-    if (!openWindow) {
+    if (!window) {
       tx.set(ref, {
         scope,
         count: 1,
@@ -68,18 +98,16 @@ export async function consumeRateLimit(db, scope, identifier, options) {
       return { allowed: true, remaining: limit - 1, retryAfter: 0 };
     }
 
-    const windowEndsAt = windowStart.toMillis() + windowMs;
-
-    if (count >= limit) {
+    if (window.count >= limit) {
       return {
         allowed: false,
         remaining: 0,
-        retryAfter: Math.max(1, Math.ceil((windowEndsAt - now) / 1000)),
+        retryAfter: secondsUntil(window.windowEndsAt, now),
       };
     }
 
     tx.update(ref, { count: FieldValue.increment(1) });
-    return { allowed: true, remaining: limit - count - 1, retryAfter: 0 };
+    return { allowed: true, remaining: limit - window.count - 1, retryAfter: 0 };
   });
 }
 

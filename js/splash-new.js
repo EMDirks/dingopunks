@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '3.4.173';
+const version = '3.4.174';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -324,8 +324,11 @@ function launchMembershipGame(game, notBefore, skipAccessStep) {
 function reportMembershipCodeError(error, attemptedCode, countAttempt) {
   const code = error && error.code;
 
-  if (code === 'functions/resource-exhausted') {
-    const retryAfter = Number(error?.details?.retryAfter);
+  // The server's own limit always sends retryAfter. Without it, the 429 came
+  // from Google turning the request away at the instance cap — a busy server,
+  // so it's handled like any other hiccup below instead of a lockout.
+  const retryAfter = Number(error?.details?.retryAfter);
+  if (code === 'functions/resource-exhausted' && retryAfter > 0) {
     clearAccessInputs();
     triggerPinLockout(retryAfter);
     return;
@@ -341,8 +344,8 @@ function reportMembershipCodeError(error, attemptedCode, countAttempt) {
     return;
   }
 
-  // Offline, blocked CDN, Firebase outage — not the student's fault, so it
-  // doesn't burn an attempt against the local lockout.
+  // Offline, blocked CDN, Firebase outage, busy server — not the student's
+  // fault, so it doesn't burn an attempt against the local lockout.
   console.error('Share code lookup failed', error);
   flashAccessInputs();
 }

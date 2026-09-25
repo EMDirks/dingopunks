@@ -261,29 +261,52 @@ describe("resolveGameCode lookups", () => {
 });
 
 describe("resolveGameCode rate limiting", () => {
-  test("blocks an IP past the limit and reports retryAfter", async () => {
+  test("successful lookups never count", async () => {
     await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 30; i++) {
       assert.deepEqual(await resolve("AB2CD", { limit: 3 }), { gameId: FREE_GAME, plan: "free" });
     }
 
-    await assert.rejects(resolve("AB2CD", { limit: 3 }), (error) => {
+    const counters = await db.collection("rateLimits").get();
+    assert.equal(counters.size, 0);
+  });
+
+  test("a class entering the right code at once all get in", async () => {
+    await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
+
+    const settled = await Promise.allSettled(
+      Array.from({ length: 30 }, () => resolve("AB2CD", { limit: 3 })),
+    );
+
+    for (const outcome of settled) {
+      assert.equal(outcome.status, "fulfilled", String(outcome.reason));
+      assert.deepEqual(outcome.value, { gameId: FREE_GAME, plan: "free" });
+    }
+  });
+
+  test("wrong codes count, then the IP is blocked with retryAfter", async () => {
+    for (let i = 0; i < 3; i++) {
+      await assertHttpsError(resolve("ZZ9ZZ", { limit: 3 }), "not-found");
+    }
+
+    await assert.rejects(resolve("ZZ9ZZ", { limit: 3 }), (error) => {
       assert.equal(error.code, "resource-exhausted");
       assert.equal(error.details.retryAfter, RESOLVE_RATE_WINDOW_MS / 1000);
       return true;
     });
   });
 
-  test("failed guesses count toward the limit", async () => {
-    for (let i = 0; i < 3; i++) {
-      await assertHttpsError(resolve("AB2CD", { limit: 3 }), "not-found");
-    }
+  test("expired and stale-catalog codes count as wrong codes", async () => {
+    await seedCode("EXPD2", { gameId: FREE_GAME, expiresAtMs: NOW - 1 });
+    await seedCode("GNNE2", { gameId: "retired-room-4", expiresAtMs: NOW + 60_000 });
 
-    await assertHttpsError(resolve("AB2CD", { limit: 3 }), "resource-exhausted");
+    await assertHttpsError(resolve("EXPD2", { limit: 2 }), "not-found");
+    await assertHttpsError(resolve("GNNE2", { limit: 2 }), "not-found");
+    await assertHttpsError(resolve("EXPD2", { limit: 2 }), "resource-exhausted");
   });
 
-  test("the limit is charged before the lookup, so a blocked IP learns nothing", async () => {
+  test("once blocked, even a correct code is refused, so a blocked IP learns nothing", async () => {
     await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 60_000 });
 
     for (let i = 0; i < 2; i++) {
@@ -293,47 +316,58 @@ describe("resolveGameCode rate limiting", () => {
     await assertHttpsError(resolve("AB2CD", { limit: 2 }), "resource-exhausted");
   });
 
-  test("one IP's limit does not affect another", async () => {
-    for (let i = 0; i < 2; i++) await assertHttpsError(resolve("AB2CD", { limit: 2 }), "not-found");
+  test("blocked requests do not grow the counter", async () => {
+    for (let i = 0; i < 2; i++) await assertHttpsError(resolve("ZZ9ZZ", { limit: 2 }), "not-found");
+    for (let i = 0; i < 10; i++) {
+      await assertHttpsError(resolve("ZZ9ZZ", { limit: 2 }), "resource-exhausted");
+    }
 
-    await assertHttpsError(resolve("AB2CD", { limit: 2 }), "resource-exhausted");
-    await assertHttpsError(
-      resolve("AB2CD", { limit: 2, ip: "198.51.100.7" }),
-      "not-found",
-    );
+    const counters = await db.collection("rateLimits").get();
+    assert.equal(counters.size, 1);
+    assert.equal(counters.docs[0].get("count"), 2);
+  });
+
+  test("one IP's limit does not affect another", async () => {
+    for (let i = 0; i < 2; i++) await assertHttpsError(resolve("ZZ9ZZ", { limit: 2 }), "not-found");
+
+    await assertHttpsError(resolve("ZZ9ZZ", { limit: 2 }), "resource-exhausted");
+    await assertHttpsError(resolve("ZZ9ZZ", { limit: 2, ip: "198.51.100.7" }), "not-found");
   });
 
   test("an IPv6 subnet cannot buy quota by rotating addresses in its /64", async () => {
     await assertHttpsError(
-      resolve("AB2CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:3:4:5:6") }),
+      resolve("ZZ9ZZ", { limit: 1, ip: normalizeIp("2001:db8:1:2:3:4:5:6") }),
       "not-found",
     );
     await assertHttpsError(
-      resolve("AB2CD", { limit: 1, ip: normalizeIp("2001:db8:1:2:aaaa:bbbb:cccc:dddd") }),
+      resolve("ZZ9ZZ", { limit: 1, ip: normalizeIp("2001:db8:1:2:aaaa:bbbb:cccc:dddd") }),
       "resource-exhausted",
     );
   });
 
   test("quota frees up once the window rolls over", async () => {
-    await assertHttpsError(resolve("AB2CD", { limit: 1 }), "not-found");
+    await seedCode("AB2CD", { gameId: FREE_GAME, expiresAtMs: NOW + 10 * RESOLVE_RATE_WINDOW_MS });
+
+    await assertHttpsError(resolve("ZZ9ZZ", { limit: 1 }), "not-found");
     await assertHttpsError(resolve("AB2CD", { limit: 1 }), "resource-exhausted");
 
-    await assertHttpsError(
-      resolve("AB2CD", { limit: 1, now: NOW + RESOLVE_RATE_WINDOW_MS }),
-      "not-found",
+    assert.deepEqual(
+      await resolve("AB2CD", { limit: 1, now: NOW + RESOLVE_RATE_WINDOW_MS }),
+      { gameId: FREE_GAME, plan: "free" },
     );
   });
 
-  test("defaults to 30 lookups per 10 minutes", async () => {
-    assert.equal(RESOLVE_RATE_LIMIT, 30);
-    assert.equal(RESOLVE_RATE_WINDOW_MS, 10 * 60 * 1000);
+  test("defaults to 100 wrong codes per minute", async () => {
+    assert.equal(RESOLVE_RATE_LIMIT, 100);
+    assert.equal(RESOLVE_RATE_WINDOW_MS, 60 * 1000);
 
     for (let i = 0; i < RESOLVE_RATE_LIMIT; i++) {
-      await assertHttpsError(resolveGameCode(db, "AB2CD", IP, { now: NOW }), "not-found");
+      await assertHttpsError(resolveGameCode(db, "ZZ9ZZ", IP, { now: NOW }), "not-found");
     }
-    await assertHttpsError(
-      resolveGameCode(db, "AB2CD", IP, { now: NOW }),
-      "resource-exhausted",
-    );
+    await assert.rejects(resolveGameCode(db, "ZZ9ZZ", IP, { now: NOW }), (error) => {
+      assert.equal(error.code, "resource-exhausted");
+      assert.equal(error.details.retryAfter, 60);
+      return true;
+    });
   });
 });

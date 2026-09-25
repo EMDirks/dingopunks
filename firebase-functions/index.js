@@ -96,7 +96,9 @@ export const cancelShareCode = onCall({ invoker: "public" }, async (request) => 
 
 // Deliberately unauthenticated: students play from a shared code, with no
 // account. Per-IP rate limiting inside the implementation is the only gate.
-export const resolveGameCode = onCall({ invoker: "public" }, async (request) => {
+// maxInstances is a bill ceiling for floods, not a throughput target: 5
+// instances at the default concurrency still serve hundreds of lookups/sec.
+export const resolveGameCode = onCall({ invoker: "public", maxInstances: 5 }, async (request) => {
   return resolveGameCodeImpl(
     getFirestore(),
     request.data?.code,

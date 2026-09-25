@@ -91,7 +91,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
 - [X] **P1** Show a modal when a student enters a wrong game code. (Shipped 3.4.167+: “That code didn’t work.” on play and answer key; answer-key copy omits “ask your teacher for a new one.”)
 - [ ] **P1** **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue (e.g. confirm the code character-by-character, legacy PDF code vs membership share code, code expired after 14 days, create or refresh a share code from the membership library, copy/link/QR again). Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
-- [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent.
+- [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent. (2026-09-25: the server lockout now lasts at most 60 seconds, the same as the local one, so the long-countdown concern is mostly gone. What remains is making the two feel intentional.)
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
 - [ ] **P1** Run backend tests automatically on every push to main. (2026-09-23: added `.github/workflows/backend-tests.yml` — triggers on push/PR to main when `firebase-functions/`, `firestore.rules`, `firebase.json`, or the workflow file changes; Node 22, `npm ci`, Firebase CLI, emulator jar cache, `npm --prefix firebase-functions test`.)
 - [ ] **P1** **Custom Firebase email action handler (post-launch).** Launch ships with Firebase’s default interstitial (“Your email has been verified…”) plus our `continueUrl` back to the account page; the original tab already auto-detects verification. After launch, add a dedicated `auth-action.html` on `account.dingopunks.com` that handles **all** action modes in one place (`verifyEmail`, `resetPassword`, `recoverEmail`, `verifyAndChangeEmail` via `applyActionCode` / password-reset confirm), shows Dingo Punks copy (e.g. verified → brief message + redirect to account), and handles expired/used links. Test every mode in the Auth emulator, then flip Firebase Console → Authentication → Templates **custom action URL** (reversible). Do not point the action URL at membership/dashboard JS until all modes are covered — password-reset links must keep working.
@@ -119,7 +119,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [X] **P0** TTL policies are enabled for `codes.expiresAt` and `rateLimits.expiresAt`. (2026-09-23: Firestore Admin API on `dpaam-8864d` `(default)` — both collection-group fields have `ttlConfig.state: ACTIVE`. Cleanup only; reads still enforce `expiresAt`.)
 - [X] **P0** Remove or confirm the future of `betaSignupApprovals.expiresAt` after the public gate is retired. (2026-09-23: removed. Beta signup is retired, the collection was already empty, and the TTL policy is gone from `dpaam-8864d` `(default)`. `codes.expiresAt` and `rateLimits.expiresAt` remain `ACTIVE`.)
 - [ ] **P0** Set up automatic Firestore backups for `dpaam-8864d` `(default)`. Enable a daily backup schedule (or equivalent managed backups), confirm the first backup succeeds, and record the backup location and how long copies are kept. (2026-09-24: schedules created in `nam5` — daily backups kept 14 days and weekly Sunday backups kept 98 days; PITR and database delete protection enabled. First scheduled backup is pending; after it reaches `READY`, check this item. See `readme/dpaam-firestore-backups.md`.)
-- [X] **P0** Cloud Billing budget alert emails a monitored inbox for `dpaam-8864d` (quota usage alerts intentionally omitted — Blaze spend is the tripwire; `resolveGameCode` is rate-limited). (2026-09-23: quota alerts waived; budget alert configured.)
+- [X] **P0** Cloud Billing budget alert emails a monitored inbox for `dpaam-8864d` (quota usage alerts intentionally omitted — Blaze spend is the tripwire; `resolveGameCode` is rate-limited). (2026-09-23: quota alerts waived; budget alert configured. 2026-09-25: `resolveGameCode` also runs with `maxInstances: 5`, which caps what a request flood can cost.)
 - [X] **P0** Logs expose no raw payment data, passwords, rebate values beyond what support requires, or spoofable IP data presented as trusted. (2026-09-23: audited every `logger.*` call in `firebase-functions/` (index, stripe-billing, resolve-code, share-codes, rate-limit, blocked-code-terms) and every `console.*` call in the shipped frontend. Payment data: none possible — cards are Stripe-hosted; logs carry only Stripe object IDs (event/session/subscription/customer/charge), uid, and `error.message`; webhook signature failures log the message only, never the body or header. Passwords: auth is Firebase client SDK only; no function receives a password and no console call prints form input — frontend logs error objects only. Rebate: the only logged rebate datum is the claim ID (`platform_orderNumber`) in the release-failure path, which support needs to manually free a stuck claim; amounts are a fixed coupon and order numbers otherwise live in Firestore, not logs. IPs: no raw IP is logged anywhere — the one XFF anomaly log records chain length only; rate-limit doc IDs are SHA-256 hashes; `clientIpFromRequest` trusts only the Google-appended rightmost XFF entry (production-verified 2026-09-19) and never client-controlled entries or Express `req.ip`.)
 
 ### Stripe live mode
@@ -193,10 +193,10 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** At 20 active codes, re-sharing an existing room still works and a new room opens the dedicated limit modal.
 - [X] **P0** “View Active Codes” from the limit modal goes to the Active tab; canceling one code permits one replacement.
 - [X] **P0** An expired code disappears from the dashboard and does not resolve even if TTL cleanup has not deleted its document.
-- [ ] **P0** A canceling subscriber retains full paid sharing until `currentPeriodEnd`.
-- [ ] **P0** A lapsed subscriber sees free access only; existing active codes behave according to the chosen policy in the backend plan.
-- [ ] **P0** One account cannot read, list, cancel, or infer another account's profile, preferences, codes, rebate claims, or rate-limit records.
-- [ ] **P0** All function failures end loading states and show a useful toast; no button remains permanently disabled.
+- [X] **P0** A canceling subscriber retains full paid sharing until `currentPeriodEnd`.
+- [X] **P0** A lapsed subscriber sees free access only; existing active codes behave according to the chosen policy in the backend plan.
+- [X] **P0** One account cannot read, list, cancel, or infer another account's profile, preferences, codes, rebate claims, or rate-limit records.
+- [X] **P0** All function failures end loading states and show a useful toast; no button remains permanently disabled.
 
 ---
 
@@ -204,13 +204,13 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 ### Membership code paths
 
-- [ ] **P0** Open a valid direct link in a signed-out incognito window: `https://play.dingopunks.com/?CODE`; the correct room auto-launches.
-- [ ] **P0** Type the same code with a physical keyboard and with touch input; lowercase input normalizes correctly.
-- [ ] **P0** Touch entry supports every allowed letter and digit, excludes ambiguous characters as designed, supports correction, and submits only five characters.
-- [ ] **P0** Invalid, missing, expired, canceled, malformed, and stale-catalog codes all reveal only the same generic failure.
-- [ ] **P0** A membership code opens the answer key on `answer-key.html`; a legacy code still works there too.
-- [ ] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
-- [ ] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it.
+- [X] **P0** Open a valid direct link in a signed-out incognito window: `https://play.dingopunks.com/?CODE`; the correct room auto-launches.
+- [X] **P0** Type the same code with a physical keyboard and with touch input; lowercase input normalizes correctly.
+- [X] **P0** Touch entry supports every allowed letter and digit, excludes ambiguous characters as designed, supports correction, and submits only five characters.
+- [X] **P0** Invalid, missing, expired, canceled, malformed, and stale-catalog codes all reveal only the same generic failure.
+- [X] **P0** A membership code opens the answer key on `answer-key.html`; a legacy code still works there too.
+- [X] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
+- [ ] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it. (2026-09-25: redesigned so real students should never reach the limit. Only wrong codes count, 100 per minute per IP; correct codes are never counted; any lockout lasts under a minute; `maxInstances: 5` caps flood cost; the play page treats a busy-server 429 as a hiccup, not a lockout. Automated tests pass, including a 30-student parallel burst and the IPv6 `/64` case. Check this box after the production check: 101 wrong codes from one connection trip the limit, the countdown is under a minute, and a real code works afterward.)
 - [ ] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts.
 
 ### Legacy and game regression

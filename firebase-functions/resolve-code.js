@@ -8,13 +8,22 @@ import { logger } from "firebase-functions";
 import { HttpsError } from "firebase-functions/v2/https";
 
 import { CODE_PATTERN, VALID_GAME_IDS, isCodeActive } from "./share-codes.js";
-import { enforceRateLimit } from "./rate-limit.js";
+import { consumeRateLimit, peekRateLimit, rateLimitKey } from "./rate-limit.js";
 
-// 30 lookups / 10 min per IP. Brute force is already pointless (33M
-// combinations); this only stops someone pointing a script at the endpoint.
+// 100 WRONG codes / minute per IP. Successful lookups are never counted.
+//
+// A whole school (sometimes a whole district) usually shares one public IP,
+// and a class enters the same code within seconds. Counting every lookup let
+// one class lock out the next student, and every lookup writing the same
+// counter doc made class-sized bursts fail on write contention. A guesser's
+// traffic is nearly all misses and a class's is nearly all hits, so charging
+// only misses keeps the scripted-abuse backstop while students never touch
+// the counter. The short window keeps any lockout a real school does hit to
+// under a minute. Brute force is already pointless (33M combinations).
 export const RESOLVE_RATE_LIMIT_SCOPE = "resolveGameCode";
-export const RESOLVE_RATE_LIMIT = 30;
-export const RESOLVE_RATE_WINDOW_MS = 10 * 60 * 1000;
+export const RESOLVE_RATE_LIMIT = 100;
+export const RESOLVE_RATE_WINDOW_MS = 60 * 1000;
+const RATE_LIMITED_MESSAGE = "Too many code attempts. Wait a minute and try again.";
 
 // One message for expired, deleted, never-existed, and someone-else's codes —
 // a lookup must never confirm that a code exists.
@@ -133,9 +142,14 @@ function expandIpv6(ip) {
 /**
  * Resolve a share code to its gameId.
  *
- * Format is checked before the rate limit is charged: malformed input costs no
- * Firestore work, and a brute-force attempt has to send well-formed codes, so
- * it can't dodge the counter this way.
+ * Format is checked before the rate limit: malformed input costs no Firestore
+ * work, and a brute-force attempt has to send well-formed codes, so it can't
+ * dodge the counter this way.
+ *
+ * The limit is checked BEFORE the lookup and charged only AFTER a miss. Once an
+ * IP is blocked, even a correct code is refused, so the limit can't be used to
+ * test whether a code exists. Parallel misses can overshoot the limit by
+ * however many are in flight; the overshoot only ever learns "not found".
  *
  * @returns {Promise<{gameId: string, plan: "all-access" | "free"}>}
  */
@@ -157,16 +171,34 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
     throw new HttpsError("invalid-argument", "That code isn't valid.");
   }
 
-  await enforceRateLimit(db, RESOLVE_RATE_LIMIT_SCOPE, clientIp || UNKNOWN_IP_BUCKET, {
-    limit,
-    windowMs,
-    now,
-    message: "Too many code attempts. Wait a few minutes and try again.",
-  });
+  const bucket = clientIp || UNKNOWN_IP_BUCKET;
+  const limitOptions = { limit, windowMs, now };
+
+  const check = await peekRateLimit(db, RESOLVE_RATE_LIMIT_SCOPE, bucket, limitOptions);
+  if (!check.allowed) {
+    throw new HttpsError("resource-exhausted", RATE_LIMITED_MESSAGE, {
+      retryAfter: check.retryAfter,
+    });
+  }
+
+  // A counter write that loses a contention race still answers "not found":
+  // the student typed a wrong code and should see that, not a server error.
+  const miss = async () => {
+    const key = rateLimitKey(RESOLVE_RATE_LIMIT_SCOPE, bucket);
+    try {
+      const charged = await consumeRateLimit(db, RESOLVE_RATE_LIMIT_SCOPE, bucket, limitOptions);
+      if (charged.allowed && charged.remaining === 0) {
+        logger.warn("resolveGameCode wrong-code limit reached", { key, limit, windowMs });
+      }
+    } catch (error) {
+      logger.error("resolveGameCode could not charge a wrong code", { key, error: String(error) });
+    }
+    return new HttpsError("not-found", NOT_FOUND_MESSAGE);
+  };
 
   const snap = await db.collection("codes").doc(code).get();
   if (!snap.exists || !isCodeActive(snap, now)) {
-    throw new HttpsError("not-found", NOT_FOUND_MESSAGE);
+    throw await miss();
   }
 
   const gameId = snap.get("gameId");
@@ -177,7 +209,7 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
       code,
       gameId,
     });
-    throw new HttpsError("not-found", NOT_FOUND_MESSAGE);
+    throw await miss();
   }
 
   // Current plan, not the plan at code-creation time: a downgrade locks the

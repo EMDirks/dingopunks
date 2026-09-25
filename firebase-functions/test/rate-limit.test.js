@@ -13,6 +13,7 @@ import {
   RATE_LIMIT_GRACE_MS,
   consumeRateLimit,
   enforceRateLimit,
+  peekRateLimit,
   rateLimitKey,
 } from "../rate-limit.js";
 
@@ -176,6 +177,50 @@ describe("consumeRateLimit", () => {
     });
 
     assert.equal((await consume("1.2.3.4", NOW)).allowed, true);
+  });
+});
+
+describe("peekRateLimit", () => {
+  function peek(identifier, now) {
+    return peekRateLimit(db, "test-scope", identifier, { limit: LIMIT, windowMs: WINDOW_MS, now });
+  }
+
+  test("allows a key with no counter and creates nothing", async () => {
+    assert.deepEqual(await peek("1.2.3.4", NOW), { allowed: true, retryAfter: 0 });
+    assert.equal((await counterDoc("1.2.3.4")).exists, false);
+  });
+
+  test("allows below the limit and never changes the count", async () => {
+    await consume("1.2.3.4", NOW);
+    for (let i = 0; i < 5; i++) {
+      assert.equal((await peek("1.2.3.4", NOW)).allowed, true);
+    }
+    assert.equal((await counterDoc("1.2.3.4")).get("count"), 1);
+  });
+
+  test("blocks at the limit with the same retryAfter consume reports", async () => {
+    for (let i = 0; i < LIMIT; i++) await consume("1.2.3.4", NOW);
+
+    assert.deepEqual(await peek("1.2.3.4", NOW + 15_000), { allowed: false, retryAfter: 585 });
+    assert.equal((await consume("1.2.3.4", NOW + 15_000)).retryAfter, 585);
+  });
+
+  test("allows again once the window elapses", async () => {
+    for (let i = 0; i < LIMIT; i++) await consume("1.2.3.4", NOW);
+    assert.equal((await peek("1.2.3.4", NOW + WINDOW_MS)).allowed, true);
+  });
+
+  test("treats malformed, future-stamped, and stale counters as open", async () => {
+    const ref = db.collection(RATE_LIMIT_COLLECTION).doc(rateLimitKey("test-scope", "1.2.3.4"));
+    for (const broken of [
+      { count: 99 },
+      { count: "many", windowStart: Timestamp.fromMillis(NOW) },
+      { count: 99, windowStart: Timestamp.fromMillis(NOW + WINDOW_MS) },
+      { count: 99, windowStart: Timestamp.fromMillis(NOW - 30 * 24 * 60 * 60 * 1000) },
+    ]) {
+      await ref.set(broken);
+      assert.equal((await peek("1.2.3.4", NOW)).allowed, true);
+    }
   });
 });
 
