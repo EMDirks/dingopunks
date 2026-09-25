@@ -104,6 +104,7 @@ const els = {
   accountSignInPanel: document.getElementById("dpaam-account-sign-in-panel"),
   accountEmail: document.getElementById("dpaam-account-email"),
   accountSendReset: document.getElementById("dpaam-account-send-reset"),
+  accountPasswordManaged: document.getElementById("dpaam-account-password-managed"),
   accountLogout: document.getElementById("dpaam-account-logout"),
   accountPlanUpgrade: document.getElementById("dpaam-account-plan-upgrade"),
   accountPlanFree: document.getElementById("dpaam-account-plan-free"),

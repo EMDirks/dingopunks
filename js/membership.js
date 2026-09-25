@@ -1943,6 +1943,32 @@ function userHasPasswordProvider(user) {
   return Boolean(user?.providerData?.some((provider) => provider.providerId === "password"));
 }
 
+function userHasGoogleProvider(user) {
+  return Boolean(user?.providerData?.some((provider) => provider.providerId === "google.com"));
+}
+
+let accountPasswordResetSent = false;
+
+function resetAccountPasswordResetUi() {
+  accountPasswordResetSent = false;
+  const btn = els.accountSendReset;
+  if (!btn) return;
+  btn.classList.remove("is-sent", "is-loading");
+  btn.removeAttribute("aria-busy");
+  delete btn.dataset.defaultLabel;
+  btn.textContent = "Reset password";
+}
+
+function setAccountPasswordResetSent() {
+  accountPasswordResetSent = true;
+  const btn = els.accountSendReset;
+  if (!btn) return;
+  btn.classList.remove("is-loading");
+  btn.classList.add("is-sent");
+  btn.disabled = true;
+  btn.setAttribute("aria-busy", "false");
+  btn.textContent = "✓ Reset email sent";
+}
 
 function updateAccountModal(user) {
   const localDevPreview = isLocalMembershipDev() && !user;
@@ -1960,12 +1986,18 @@ function updateAccountModal(user) {
   const hasPassword = userHasPasswordProvider(user) || localDevPreview;
   if (els.accountSendReset) {
     els.accountSendReset.hidden = !hasPassword;
-    els.accountSendReset.disabled = !user?.email && !localDevPreview;
+    if (!accountPasswordResetSent) {
+      els.accountSendReset.disabled = !user?.email && !localDevPreview;
+    }
+  }
+  if (els.accountPasswordManaged) {
+    els.accountPasswordManaged.hidden = hasPassword || !userHasGoogleProvider(user);
   }
   renderAccountPlanPanel();
 }
 
 function openAccountModal() {
+  resetAccountPasswordResetUi();
   updateAccountModal(currentUser);
   const accountBody = els.accountModal?.querySelector(".dpaam-account-body");
   if (accountBody) accountBody.style.height = "";
@@ -1974,15 +2006,15 @@ function openAccountModal() {
 
 async function sendAccountPasswordReset() {
   const email = currentUser?.email;
-  if (!email || !els.accountSendReset) return;
+  if (!email || !els.accountSendReset || accountPasswordResetSent) return;
 
   setButtonLoading(els.accountSendReset, true, "Sending…");
   try {
     await sendPasswordResetEmail(auth, email);
-    showToast("Reset email sent");
+    showToast("Reset email sent. Check your inbox.");
+    setAccountPasswordResetSent();
   } catch (error) {
     showToast(authErrorMessage(error));
-  } finally {
     setButtonLoading(els.accountSendReset, false, "Sending…");
   }
 }
@@ -2565,7 +2597,10 @@ function wireEvents() {
   });
 
   // My Account modal
-  wireAnimatedModal(els.accountModal, runPendingModalOpen);
+  wireAnimatedModal(els.accountModal, () => {
+    resetAccountPasswordResetUi();
+    runPendingModalOpen();
+  });
   els.accountBtn?.addEventListener("click", () => {
     openAccountModal();
   });

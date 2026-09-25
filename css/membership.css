@@ -3241,8 +3241,13 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   padding: 0 2px;
 }
 
-.dpaam-account-inline-actions:has(#dpaam-account-send-reset[hidden]) .dpaam-account-inline-actions__sep {
+.dpaam-account-inline-actions:has(#dpaam-account-send-reset[hidden]):has(#dpaam-account-password-managed[hidden]) .dpaam-account-inline-actions__sep {
   display: none;
+}
+
+.dpaam-account-managed-note {
+  font-size: var(--dpaam-text-sm);
+  color: var(--dpaam-black-muted);
 }
 
 .dpaam-account-link {
@@ -3260,6 +3265,13 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   .dpaam-account-link:hover {
     color: var(--dpaam-blue);
   }
+}
+
+.dpaam-account-link.is-sent,
+.dpaam-account-link.is-sent:disabled {
+  color: var(--dpaam-black-muted);
+  cursor: default;
+  opacity: 1;
 }
 
 .dpaam-account-row-main {
@@ -3292,6 +3304,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 @media (min-width: 769px) {
   .dpaam-account-credentials .dpaam-account-link,
+  .dpaam-account-credentials .dpaam-account-managed-note,
   .dpaam-account-credentials .dpaam-account-inline-actions__sep {
     font-size: var(--dpaam-text-xs);
   }
@@ -3980,6 +3993,7 @@ dd a {
   }
 
   .dpaam-account-credentials .dpaam-account-link,
+  .dpaam-account-credentials .dpaam-account-managed-note,
   .dpaam-account-credentials .dpaam-account-inline-actions__sep {
     font-size: var(--dpaam-text-xs);
   }
