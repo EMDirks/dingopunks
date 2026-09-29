@@ -922,6 +922,21 @@ body {
     line-height: 1.15;
 }
 
+.undermurk-end__header .undermurk-overlay__title {
+    margin-bottom: 0.35cqi;
+    color: rgba(var(--gold), 1);
+}
+
+.undermurk-end__levels {
+    margin: 0 0 1cqi;
+    font-size: 2.2cqi;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgba(var(--off-white), 1);
+    line-height: 1.15;
+}
+
 .undermurk-overlay__subtitle {
     margin: 0 0 1.5cqi;
     font-size: 2.4cqi;
@@ -1033,11 +1048,12 @@ body {
     gap: 0.6cqi;
     min-width: 8cqi;
     height: 19cqi;
-    opacity: 0.5;
+    --um-end-reveal-opacity: 0.5;
+    opacity: var(--um-end-reveal-opacity);
 }
 
 .undermurk-end__player--first {
-    opacity: 1;
+    --um-end-reveal-opacity: 1;
 }
 
 .undermurk-end__rank {
@@ -1095,6 +1111,29 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1cqi;
+}
+
+/* Staged results reveal: each piece rises into place in turn. */
+@keyframes undermurk-end-reveal-in {
+    from {
+        opacity: 0;
+        transform: translateY(35%);
+    }
+
+    to {
+        opacity: var(--um-end-reveal-opacity, 1);
+        transform: translateY(0);
+    }
+}
+
+.undermurk-end__reveal--pending {
+    opacity: 0;
+}
+
+.undermurk-end__reveal--in {
+    animation-name: undermurk-end-reveal-in;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
 }
 
 .undermurk-outcome {

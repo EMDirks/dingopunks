@@ -314,8 +314,29 @@ const umEndOutcomeTiming = {
   resultsFadeInDuration: 500,
 };
 
+// Staged results reveal timing (ms). Applied in umRevealEndResults().
+// Daisy chain: each step starts after the previous step finishes, plus its *Delay value.
+// A player's score finishes counting before the next player rises.
+// Order: subtitle → each player (rise, then count) → equals sign → team total (rise, then count) → Play Again.
+const umEndRevealTiming = {
+  subtitleDelay: 200,     // extra wait after the results panel finishes fading in
+  subtitleDuration: 300,  // how long the subtitle rise takes
+  playerDelay: 150,       // extra wait after the subtitle before 1st place rises
+  playerStagger: 200,     // extra wait after a score finishes counting before the next player rises
+  playerDuration: 300,    // how long each player column rise takes
+  scoreTickDuration: 600, // target length of a count-up; longer totals tick no faster than scoreTickMinStep
+  scoreTickMinStep: 45,   // shortest gap between one point and the next
+  scoreZeroHold: 200,     // pause on a 0-point score before the sequence continues
+  equalsDelay: 100,       // extra wait after the last score finishes counting before the equals sign
+  equalsDuration: 200,
+  teamTotalDelay: 100,    // extra wait after the equals sign before the team total
+  teamTotalDuration: 300,
+  actionsDelay: 200,      // extra wait after the team total finishes counting before Play Again
+  actionsDuration: 300,
+};
+
 // Final level. umTierNames and undermurkVocab must cover tiers 1..umMaxTier.
-const umMaxTier = 2;
+const umMaxTier = 10;
 
 const umTierNames = [
   "Cupid's Castle",
@@ -327,7 +348,7 @@ const umTierNames = [
   'Dark Forest',
   "Barrel o' Laffs",
   'The Crawlspace',
-  'The Mask-Giver',
+  'Cave of Masks',
 ];
 
 function umTierName(tier) {
@@ -1195,6 +1216,10 @@ function umTeamReachedTier() {
   return maxTier;
 }
 
+function umLevelsExploredLabel() {
+  return umTeamReachedTier() + '/' + umMaxTier + ' LEVELS EXPLORED';
+}
+
 function umEndSubtitle(victory) {
   if (victory) {
     return 'Victory! Your team defeated the Undermurk.';
@@ -1287,6 +1312,145 @@ function umResetOutcomeImage() {
   umEls.outcome.style.removeProperty('--um-outcome-exit-duration');
 }
 
+function umEndRevealTargets() {
+  const players = umEls.endPlayers
+    ? Array.prototype.slice.call(umEls.endPlayers.querySelectorAll('.undermurk-end__player'))
+    : [];
+
+  return {
+    subtitle: umEls.endMessage,
+    players: players,
+    equals: umEls.endEquals,
+    teamTotal: umEls.endTeamTotal,
+    actions: umEls.endActions,
+  };
+}
+
+function umHoldEndRevealElement(element) {
+  if (!element) {
+    return;
+  }
+
+  element.classList.remove('undermurk-end__reveal--in');
+  element.classList.add('undermurk-end__reveal--pending');
+  element.style.animationDelay = '';
+  element.style.animationDuration = '';
+}
+
+function umHoldEndReveal() {
+  const targets = umEndRevealTargets();
+  umHoldEndRevealElement(targets.subtitle);
+  umHoldEndRevealElement(umEls.endLevels);
+  targets.players.forEach(umHoldEndRevealElement);
+  umHoldEndRevealElement(targets.equals);
+  umHoldEndRevealElement(targets.teamTotal);
+  umHoldEndRevealElement(targets.actions);
+}
+
+function umStartEndRevealElement(element, startMs, durationMs) {
+  if (!element) {
+    return;
+  }
+
+  element.classList.remove('undermurk-end__reveal--pending');
+  element.classList.add('undermurk-end__reveal--in');
+  element.style.animationDelay = startMs + 'ms';
+  element.style.animationDuration = durationMs + 'ms';
+}
+
+function umSetEndScoreTarget(scoreEl, score) {
+  if (!scoreEl) {
+    return;
+  }
+
+  scoreEl.dataset.umScore = String(score);
+  scoreEl.textContent = umFormatPoints(0);
+}
+
+// Counts a score from 0 to its stored total, then continues the reveal.
+function umTickEndScore(scoreEl, done) {
+  const target = scoreEl ? Number(scoreEl.dataset.umScore) || 0 : 0;
+
+  function finish() {
+    if (scoreEl) {
+      scoreEl.textContent = umFormatPoints(target);
+    }
+    if (done) {
+      done();
+    }
+  }
+
+  if (!scoreEl || target <= 0) {
+    umScheduleEndOutcomeTimeout(finish, umEndRevealTiming.scoreZeroHold);
+    return;
+  }
+
+  const step = Math.max(
+    umEndRevealTiming.scoreTickMinStep,
+    Math.round(umEndRevealTiming.scoreTickDuration / target)
+  );
+  let current = 0;
+
+  function advance() {
+    current += 1;
+    scoreEl.textContent = umFormatPoints(current);
+    if (current >= target) {
+      finish();
+      return;
+    }
+
+    umScheduleEndOutcomeTimeout(advance, step);
+  }
+
+  umScheduleEndOutcomeTimeout(advance, step);
+}
+
+// Standings are already ordered 1st through last. Each score finishes counting before the next rise.
+function umRevealEndPlayers(targets, index) {
+  const t = umEndRevealTiming;
+  const entry = targets.players[index];
+
+  if (!entry) {
+    umScheduleEndOutcomeTimeout(function () {
+      umStartEndRevealElement(targets.equals, 0, t.equalsDuration);
+      umScheduleEndOutcomeTimeout(function () {
+        umStartEndRevealElement(targets.teamTotal, 0, t.teamTotalDuration);
+        umScheduleEndOutcomeTimeout(function () {
+          umTickEndScore(umEls.endTeamScore, function () {
+            umScheduleEndOutcomeTimeout(function () {
+              umStartEndRevealElement(targets.actions, 0, t.actionsDuration);
+            }, t.actionsDelay);
+          });
+        }, t.teamTotalDuration);
+      }, t.equalsDuration + t.teamTotalDelay);
+    }, t.equalsDelay);
+    return;
+  }
+
+  umStartEndRevealElement(entry, 0, t.playerDuration);
+  umScheduleEndOutcomeTimeout(function () {
+    umTickEndScore(entry.querySelector('.undermurk-end__score'), function () {
+      umScheduleEndOutcomeTimeout(function () {
+        umRevealEndPlayers(targets, index + 1);
+      }, t.playerStagger);
+    });
+  }, t.playerDuration);
+}
+
+// Rises each piece of the results in turn, starting once the panel has faded in.
+function umRevealEndResults() {
+  const t = umEndRevealTiming;
+  const targets = umEndRevealTargets();
+
+  umScheduleEndOutcomeTimeout(function () {
+    umStartEndRevealElement(targets.subtitle, 0, t.subtitleDuration);
+    umStartEndRevealElement(umEls.endLevels, 0, t.subtitleDuration);
+    umScheduleEndOutcomeTimeout(function () {
+      umRevealEndPlayers(targets, 0);
+    }, t.subtitleDuration + t.playerDelay);
+  }, umEndOutcomeTiming.resultsFadeInDuration + t.subtitleDelay);
+}
+
 function umPrepareEndOverlay() {
   umEls.end.classList.remove('undermurk-overlay--hidden');
   umEls.endPanel.classList.add('undermurk-overlay__panel--fade-in');
@@ -1303,13 +1467,17 @@ function umFadeInEndResults() {
   }
 
   umEls.endPanel.classList.add('undermurk-overlay__panel--visible');
+  umRevealEndResults();
   updateElementSize();
   updateLineThickness();
 }
 
 function umPopulateEndResults(victory) {
   umEls.endMessage.innerHTML = umEndSubtitle(victory);
-  umEls.endTeamScore.textContent = umFormatPoints(umState.teamScore);
+  if (umEls.endLevels) {
+    umEls.endLevels.textContent = umLevelsExploredLabel();
+  }
+  umSetEndScoreTarget(umEls.endTeamScore, umState.teamScore);
 
   umEls.endPlayers.innerHTML = '';
   let previousScore = null;
@@ -1339,8 +1507,10 @@ function umPopulateEndResults(victory) {
     }
 
     const score = createElement('p', ['undermurk-end__score'], entry);
-    score.textContent = umFormatPoints(player.score);
+    umSetEndScoreTarget(score, player.score);
   });
+
+  umHoldEndReveal();
 }
 
 function umPlayEndOutcome(victory) {
@@ -1348,11 +1518,7 @@ function umPlayEndOutcome(victory) {
 
   if (!umEls.outcome) {
     umShowOverlay('end');
-    if (umEls.endPanel) {
-      umEls.endPanel.classList.add('undermurk-overlay__panel--visible');
-    }
-    updateElementSize();
-    updateLineThickness();
+    umFadeInEndResults();
     return;
   }
 
@@ -1938,6 +2104,7 @@ function umBuildDOM() {
   umEls.endPanel = createElement('div', ['undermurk-overlay__panel', 'undermurk-overlay__panel--end'], umEls.end);
   const endHeader = createElement('div', ['undermurk-end__header'], umEls.endPanel);
   umEls.endMessage = createElement('p', ['undermurk-overlay__title'], endHeader);
+  umEls.endLevels = createElement('p', ['undermurk-end__levels'], endHeader);
   umEls.endStandings = createElement('div', ['undermurk-end__standings'], umEls.endPanel);
   umEls.endPlayers = createElement('div', ['undermurk-end__players'], umEls.endStandings);
   umEls.endEquals = createElement('p', ['undermurk-end__equals'], umEls.endStandings);
@@ -1950,8 +2117,8 @@ function umBuildDOM() {
   umEls.endTeamAvatar.style.backgroundImage = 'url(assets/enter-the-undermurk/misc/team.png)';
   umEls.endTeamScore = createElement('p', ['undermurk-end__score'], umEls.endTeamTotal);
 
-  const endActions = createElement('div', ['undermurk-end__actions'], umEls.endPanel);
-  umEls.playAgain = createElement('button', ['undermurk-overlay__button'], endActions);
+  umEls.endActions = createElement('div', ['undermurk-end__actions'], umEls.endPanel);
+  umEls.playAgain = createElement('button', ['undermurk-overlay__button'], umEls.endActions);
   umEls.playAgain.textContent = 'Play Again';
   setIpadActiveState(umEls.playAgain);
 
