@@ -2473,6 +2473,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   margin-top: 0;
 }
 
+.dpaam-upgrade-rebate--modal .dpaam-upgrade-rebate__status--error {
+  margin-top: calc(var(--dpaam-pad-sm) - var(--dpaam-pad-lg));
+}
+
 .dpaam-upgrade-rebate__summary {
   display: flex;
   align-items: center;
