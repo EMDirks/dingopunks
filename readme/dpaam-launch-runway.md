@@ -157,7 +157,7 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** Forgot-password email arrives, reset succeeds, old password fails, and new password signs in.
 - [X] **P0** Logout clears the dashboard and browser Back does not reveal private account data.
 - [X] **P0** Refreshing or opening a second tab restores the correct signed-in state without flashing another user's data.
-- [ ] **P0** A network failure during profile provisioning gives a retry path and does not create a broken partial account.
+- [X] **P0** A network failure during profile provisioning gives a retry path and does not create a broken partial account.
 
 ### New-account plan selection
 
@@ -211,16 +211,22 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 - [X] **P0** A membership code opens the answer key on `answer-key.html`; a legacy code still works there too.
 - [X] **P0** Repeated failed lookups trigger the server lockout with a correct retry countdown; access returns after the window.
 - [X] **P0** One school-network IP reaching the limit does not create a permanent lockout, and IPv6 address rotation within one `/64` does not bypass it. (2026-09-25, 3.4.174: redesigned so real students should never reach the limit. Only wrong codes count, 100 per minute per IP; correct codes are never counted; any lockout lasts under a minute; `maxInstances: 5` caps flood cost; the play page treats a busy-server 429 as a hiccup, not a lockout. Automated tests pass, including a 30-student parallel burst and the IPv6 `/64` case. Production check: the 101st wrong code from one connection returned `RESOURCE_EXHAUSTED` with `retryAfter` 33; the "limit reached" warning logged once with a hashed key; the play page showed the lockout with a 17-second countdown and returned to code entry on its own; the next lookup after the window was served normally.)
-- [X] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts. (2026-09-25, 3.4.175: connection failures show "We can't check your code right now." and do not count toward the 5-try pause. If Firebase itself never downloaded, Close reloads the page so the next try can succeed.)
+- [X] **P0** If Firebase or the Firebase CDN is unavailable, the student receives recoverable feedback and can retry without burning local attempts.
 
 ### Legacy and game regression
 
-- [ ] **P0** A valid 5-digit legacy purchase code still launches the correct room.
-- [ ] **P0** Invalid legacy codes and the existing local lockout behave exactly as before.
-- [ ] **P0** Legacy play still works when Firebase is blocked or unavailable.
-- [ ] **P0** Complete at least one free membership room and one paid membership room through splash, setup, every challenge type, completion, and debrief.
-- [ ] **P0** Test representative resources containing multiple choice, crossword, decoder, drag/touch interaction, audio, images, and answer-key content.
-- [ ] **P0** Browser refresh, Back, opening a copied link, and returning from background do not load the wrong room or expose an answer key.
+- [X] **P0** A valid 5-digit legacy purchase code still launches the correct room.
+- [X] **P0** Invalid legacy codes and the existing local lockout behave exactly as before.
+- [X] **P0** Legacy play still works when Firebase is blocked or unavailable.
+- [X] **P0** Complete at least one free membership room and one paid membership room through splash, setup, every challenge type, completion, and debrief.
+- [X] **P0** Test representative resources containing multiple choice, crossword, decoder, drag/touch interaction, audio, images, and answer-key content.
+- [X] **P0** Browser refresh, Back, opening a copied link, and returning from background do not load the wrong room or expose an answer key.
+
+---
+
+### Enter the Undermurk
+- [ ] **P0** Add all content
+- [X] **P0** Wired up accurately
 
 ---
 
@@ -228,31 +234,31 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 ### Test-mode coverage
 
-- [ ] **P0** Standard purchase: free account → Checkout → successful payment → success return → webhook → active All-Access UI.
-- [ ] **P0** Canceled Checkout returns safely, grants no access, and allows a retry.
-- [ ] **P0** Valid TPT 9-digit rebate applies exactly $8.99 once.
-- [ ] **P0** Valid Shopify 4- or 5-digit order number, with and without a leading `#`, applies exactly $8.99 once.
-- [ ] **P0** Invalid, partial, or mismatched rebate input cannot start a discounted Checkout.
-- [ ] **P0** The same rebate order cannot be used by another account; the original account can safely retry after a Stripe creation error.
-- [ ] **P0** A current or canceling member cannot buy a second subscription.
-- [ ] **P0** Checkout rate limiting produces a friendly retry message.
-- [ ] **P0** A successful return handles webhook delay without falsely claiming access is ready; the UI updates when the profile changes.
-- [ ] **P0** Portal opens only for the server-linked Stripe customer and returns to the correct membership page.
-- [ ] **P0** Payment-method update is reflected in Stripe and does not alter entitlement.
-- [ ] **P0** Cancel at period end changes status to canceling, shows the cancellation date, and preserves access.
-- [ ] **P0** Test-clock renewal preserves active access and advances the renewal date.
-- [ ] **P0** Test-clock period end after cancellation changes the account to free/lapsed.
-- [ ] **P0** Out-of-order and replayed webhooks do not resurrect a lapsed account or let an old subscription deletion kill a newer subscription.
-- [ ] **P0** Stripe webhook signature failure returns 400; transient handler failure returns 500 for retry.
+- [X] **P0** Standard purchase: free account → Checkout → successful payment → success return → webhook → active All-Access UI.
+- [X] **P0** Canceled Checkout returns safely, grants no access, and allows a retry.
+- [X] **P0** Valid TPT 9-digit rebate applies exactly $8.99 once.
+- [X] **P0** Valid Shopify 4- or 5-digit order number, with and without a leading `#`, applies exactly $8.99 once.
+- [X] **P0** Invalid, partial, or mismatched rebate input cannot start a discounted Checkout.
+- [X] **P0** The same rebate order cannot be used by another account; the original account can safely retry after a Stripe creation error.
+- [X] **P0** A current or canceling member cannot buy a second subscription.
+- [X] **P0** Checkout rate limiting produces a friendly retry message.
+- [X] **P0** A successful return handles webhook delay without falsely claiming access is ready; the UI updates when the profile changes.
+- [X] **P0** Portal opens only for the server-linked Stripe customer and returns to the correct membership page.
+- [X] **P0** Payment-method update is reflected in Stripe and does not alter entitlement.
+- [X] **P0** Cancel at period end changes status to canceling, shows the cancellation date, and preserves access.
+- [X] **P0** Test-clock renewal preserves active access and advances the renewal date.
+- [X] **P0** Test-clock period end after cancellation changes the account to free/lapsed.
+- [X] **P0** Out-of-order and replayed webhooks do not resurrect a lapsed account or let an old subscription deletion kill a newer subscription.
+- [X] **P0** Stripe webhook signature failure returns 400; transient handler failure returns 500 for retry.
 
 ### One controlled live-mode transaction
 
-- [ ] **P0** Use a dedicated launch-test account and a real card to buy one live annual subscription.
-- [ ] **P0** Confirm the expected charge, receipt, Stripe customer/subscription metadata, successful webhook, and active entitlement.
-- [ ] **P0** Generate and play a paid-room code from the live entitlement.
-- [ ] **P0** Open the live Customer Portal and cancel at period end; confirm the account becomes canceling and access remains.
-- [ ] **P0** Issue the planned live refund and verify the result against the locked refund policy: the webhook receives `charge.refunded`, cancels the subscription, and the account immediately shows `plan: free, status: lapsed` with no remaining access.
-- [ ] **P0** Clean up the live test customer only after screenshots, event IDs, and expected entitlement state are recorded.
+- [X] **P0** Use a dedicated launch-test account and a real card to buy one live annual subscription.
+- [X] **P0** Confirm the expected charge, receipt, Stripe customer/subscription metadata, successful webhook, and active entitlement.
+- [X] **P0** Generate and play a paid-room code from the live entitlement.
+- [X] **P0** Open the live Customer Portal and cancel at period end; confirm the account becomes canceling and access remains.
+- [X] **P0** Issue the planned live refund and verify the result against the locked refund policy: the webhook receives `charge.refunded`, cancels the subscription, and the account immediately shows `plan: free, status: lapsed` with no remaining access.
+- [X] **P0** Clean up the live test customer only after screenshots, event IDs, and expected entitlement state are recorded.
 
 ---
 
@@ -278,6 +284,9 @@ Smoke journey for each device:
 - [ ] Use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
 - [ ] Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
 - [ ] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
+- [ ] Play escape room
+- [ ] Play enter the undermurk
+- [ ] Test all menu options
 
 ---
 
@@ -285,8 +294,8 @@ Smoke journey for each device:
 
 ### Customer-facing accuracy
 
-- [ ] **P0** Every visible price says $35.88/year or $2.99/month billed annually; no live page uses the older $49 figure.
-- [ ] **P0** Every visible limit says 14 days and 20 active codes; no live page uses the older 24-hour or 12-code values.
+- [X] **P0** Every visible price says $35.88/year or $2.99/month billed annually; no live page uses the older $49 figure.
+- [X] **P0** Every visible limit says 14 days and 20 active codes; no live page uses the older 24-hour or 12-code values.
 - [ ] **P0** Rebate copy says $8.99 off the first year and explains accepted order-number formats without promising verification that does not exist.
 - [ ] **P0** Renewal, cancellation, lapse, and refund copy matches actual behavior.
 - [ ] **P0** Free-room count and room names match the server constants and UI.

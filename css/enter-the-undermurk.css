@@ -462,6 +462,10 @@ body {
     background-color: rgba(var(--metal-gray-dark), 1);
 }
 
+.undermurk-player-card--finished {
+    background-color: rgba(var(--teal), 1);
+}
+
 .undermurk-player-card--eliminated .undermurk-player-card__name {
     color: rgba(var(--metal-gray-dark), 1);
 }
@@ -614,6 +618,35 @@ body {
     }
 }
 
+@keyframes undermurk-question-finished-out {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    20% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    40% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    75% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0;
+    }
+}
+
 .undermurk-question--enter {
     transform: translate(calc(-50% + 80cqi), -50%);
     opacity: 0;
@@ -630,6 +663,12 @@ body {
 
 .undermurk-question--wrong-out {
     animation-name: undermurk-question-wrong-out;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.undermurk-question--finished-out {
+    animation-name: undermurk-question-finished-out;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
@@ -668,6 +707,16 @@ body {
 .undermurk-question--low-time .undermurk-timer__fill,
 .undermurk-question--wrong-out .undermurk-timer__fill {
     background-color: rgba(var(--salmon), 1);
+}
+
+.undermurk-question--finished-out {
+    border-color: rgba(var(--teal), 1);
+}
+
+.undermurk-question--finished-out .undermurk-question__label,
+.undermurk-question--finished-out .undermurk-option,
+.undermurk-question--finished-out .undermurk-timer__fill {
+    background-color: rgba(var(--teal), 1);
 }
 
 .undermurk-question__body {
@@ -723,6 +772,10 @@ body {
 
     .undermurk-question--wrong-out .undermurk-option:hover {
         background-color: rgba(var(--salmon), 1);
+    }
+
+    .undermurk-question--finished-out .undermurk-option:hover {
+        background-color: rgba(var(--teal), 1);
     }
 }
 

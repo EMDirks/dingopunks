@@ -280,7 +280,7 @@ const umEntranceTiming = {
   tierBlockDuration: 200, // how long the tier badge slide-up takes
   indicatorDelay: 500, // extra wait after the tier badge finishes before the indicator slides in
   indicatorDuration: 300, // how long the player-indicator slide-in takes
-  indicatorSwitchDelay: 600, // wait before the indicator slides to the next player during play
+  indicatorSwitchDelay: 700, // wait before the indicator slides to the next player during play
   firstUpDelay: 0,     // extra wait after the indicator finishes before First Up slides in
   firstUpLeadIn: 500,    // start First Up this many ms earlier (subtracted from indicatorDuration + firstUpDelay)
 };
@@ -313,6 +313,9 @@ const umEndOutcomeTiming = {
   outcomeExitDuration: 500,
   resultsFadeInDuration: 500,
 };
+
+// Final level. umTierNames and undermurkVocab must cover tiers 1..umMaxTier.
+const umMaxTier = 2;
 
 const umTierNames = [
   "Cupid's Castle",
@@ -365,6 +368,7 @@ function umBuildPlayers(characters) {
       lives: settings.lives,
       score: 0,
       eliminated: false,
+      finished: false,
       tier: 1,
       cleared: 0,
       isBossRoundComplete: false,
@@ -375,7 +379,13 @@ function umBuildPlayers(characters) {
 
 function umActivePlayers() {
   return umState.players.filter(function (player) {
-    return !player.eliminated;
+    return !player.eliminated && !player.finished;
+  });
+}
+
+function umAnyPlayerFinished() {
+  return umState.players.some(function (player) {
+    return player.finished;
   });
 }
 
@@ -383,7 +393,8 @@ function umAdvancePlayerIndex() {
   const total = umState.players.length;
   for (let step = 1; step <= total; step++) {
     const nextIndex = (umState.currentIndex + step) % total;
-    if (!umState.players[nextIndex].eliminated) {
+    const nextPlayer = umState.players[nextIndex];
+    if (!nextPlayer.eliminated && !nextPlayer.finished) {
       umState.currentIndex = nextIndex;
       return;
     }
@@ -926,7 +937,7 @@ function umSyncActivePlayerCard() {
 
   for (let i = 0; i < cards.length; i++) {
     const player = umState.players[i];
-    cards[i].classList.toggle('undermurk-player-card--active', i === activeIndex && player && !player.eliminated);
+    cards[i].classList.toggle('undermurk-player-card--active', i === activeIndex && player && !player.eliminated && !player.finished);
   }
 }
 
@@ -984,7 +995,7 @@ function umPositionPlayerIndicator(instant) {
   const activeCard = cards[umState.currentIndex];
   const activePlayer = umState.players[umState.currentIndex];
 
-  if (!activeCard || activePlayer.eliminated) {
+  if (!activeCard || activePlayer.eliminated || activePlayer.finished) {
     umClearIndicatorSwitchTimeout();
     umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
     return;
@@ -1013,7 +1024,7 @@ function umPositionPlayerIndicator(instant) {
       }
 
       const activePlayer = umState.players[targetIndex];
-      if (activePlayer.eliminated) {
+      if (activePlayer.eliminated || activePlayer.finished) {
         umEls.playerIndicator.classList.add('undermurk-player-indicator--hidden');
         umSyncActivePlayerCard();
         return;
@@ -1070,8 +1081,9 @@ function umUpdateHUD() {
     const lives = card.querySelector('.undermurk-player-card__lives');
     const hearts = card.querySelectorAll('.undermurk-player-card__heart');
 
-    card.classList.toggle('undermurk-player-card--active', index === highlightedIndex && !player.eliminated);
+    card.classList.toggle('undermurk-player-card--active', index === highlightedIndex && !player.eliminated && !player.finished);
     card.classList.toggle('undermurk-player-card--eliminated', player.eliminated);
+    card.classList.toggle('undermurk-player-card--finished', player.finished);
     card.querySelector('.undermurk-player-card__name').textContent = String(player.score);
     lives.setAttribute('aria-label', player.lives + ' lives');
     hearts.forEach(function (heart, heartIndex) {
@@ -1139,10 +1151,6 @@ function umBuildOptions(entry, isBoss) {
   const count = isBoss ? 5 : 2;
   const distractors = umShuffle(entry.distractors).slice(0, count);
   return umShuffle([entry.word].concat(distractors));
-}
-
-function umCheckVictory() {
-  return umState.tierJustCleared;
 }
 
 function umCheckGameOver() {
@@ -1412,15 +1420,10 @@ function umShowEndScreen(victory) {
   umPlayEndOutcome(victory);
 }
 
-function umClearTierAdvanceFlag() {
-  umState.tierJustCleared = false;
-}
-
 function umAdvanceTier(callback) {
   const player = umCurrentPlayer();
 
-  if (player.tier >= 10) {
-    umState.tierJustCleared = true;
+  if (player.tier >= umMaxTier) {
     if (callback) {
       callback();
     }
@@ -1590,6 +1593,7 @@ function umRenderQuestion(prepareHidden) {
   umEls.questionArea.classList.remove(
     'undermurk-question--enter',
     'undermurk-question--wrong-out',
+    'undermurk-question--finished-out',
     'undermurk-question--out',
     'undermurk-question--low-time'
   );
@@ -1613,7 +1617,7 @@ function umAnimateQuestionOut(callback) {
     return;
   }
 
-  umEls.questionArea.classList.remove('undermurk-question--enter', 'undermurk-question--wrong-out', 'undermurk-question--fade-out');
+  umEls.questionArea.classList.remove('undermurk-question--enter', 'undermurk-question--wrong-out', 'undermurk-question--finished-out', 'undermurk-question--fade-out');
   umEls.questionArea.style.transition = '';
   umEls.questionArea.classList.add('undermurk-question--out');
   umEls.questionArea.style.animationDuration = umQuestionTiming.outDuration + 'ms';
@@ -1692,6 +1696,34 @@ function umAnimateQuestionWrong(callback) {
   umEls.questionArea.addEventListener('animationend', onWrongOutEnd);
 }
 
+function umAnimateQuestionFinished(callback) {
+  if (!umEls.questionArea || umEls.questionArea.classList.contains('undermurk-question--hidden')) {
+    if (callback) {
+      callback();
+    }
+    return;
+  }
+
+  umEls.questionArea.classList.remove('undermurk-question--enter');
+  umEls.questionArea.classList.add('undermurk-question--finished-out');
+  umEls.questionArea.style.animationDuration = umQuestionTiming.wrongOutDuration + 'ms';
+
+  function onFinishedOutEnd(event) {
+    if (event.target !== umEls.questionArea || event.animationName !== 'undermurk-question-finished-out') {
+      return;
+    }
+
+    umEls.questionArea.removeEventListener('animationend', onFinishedOutEnd);
+    umEls.questionArea.classList.remove('undermurk-question--finished-out');
+    umEls.questionArea.classList.add('undermurk-question--hidden');
+    if (callback) {
+      callback();
+    }
+  }
+
+  umEls.questionArea.addEventListener('animationend', onFinishedOutEnd);
+}
+
 function umShowNextQuestion(callback) {
   function slideIn() {
     umRenderQuestion(true);
@@ -1711,17 +1743,34 @@ function umAfterWrongAnswer() {
 
   umAnimateQuestionWrong(function () {
     if (umCheckGameOver()) {
-      umShowEndScreen(false);
-      return;
-    }
-
-    if (umCheckVictory()) {
-      umShowEndScreen(true);
+      umShowEndScreen(umAnyPlayerFinished());
       return;
     }
 
     umBeginTurn();
   });
+}
+
+function umAfterPlayerFinished() {
+  umUpdateHUD();
+
+  umAnimateQuestionFinished(function () {
+    if (umCheckGameOver()) {
+      umShowEndScreen(umAnyPlayerFinished());
+      return;
+    }
+
+    umBeginTurn();
+  });
+}
+
+function umFinishPlayer() {
+  umCurrentPlayer().finished = true;
+  umNeedsInterstitial = settings.playerCount > 1;
+  umAdvancePlayerIndex();
+  umBeginTierTransitionHudDelay(umCurrentPlayer().tier);
+  umIsFirstTurn = false;
+  umAfterPlayerFinished();
 }
 
 function umAfterTurnChange(callback) {
@@ -1759,17 +1808,11 @@ function umAfterTurnChange(callback) {
 
 function umBeginTurn() {
   if (umCheckGameOver()) {
-    umShowEndScreen(false);
-    return;
-  }
-
-  if (umCheckVictory()) {
-    umShowEndScreen(true);
+    umShowEndScreen(umAnyPlayerFinished());
     return;
   }
 
   umLocked = false;
-  umClearTierAdvanceFlag();
 
   umAfterTurnChange(function () {
     umShowNextQuestion(function () {
@@ -1798,11 +1841,11 @@ function umHandleAnswer(selectedWord) {
 
     if (isBoss) {
       player.isBossRoundComplete = true;
+      if (player.tier >= umMaxTier) {
+        umFinishPlayer();
+        return;
+      }
       umAdvanceTier(function () {
-        if (umCheckVictory()) {
-          umShowEndScreen(true);
-          return;
-        }
         umIsFirstTurn = false;
         umBeginTurn();
       });
@@ -1950,7 +1993,6 @@ function umResetState(characters) {
   umState = {
     players: umBuildPlayers(characters),
     currentIndex: 0,
-    tierJustCleared: false,
     teamScore: 0,
     timerId: null,
     timeLeft: tierTime(1),
