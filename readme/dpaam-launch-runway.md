@@ -114,6 +114,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Make the code input pasteable.
 - [ ] **P1** **Accessibility audit (out of scope for MVP).** One pass after launch: complete every teacher action using only a keyboard on desktop; check visible focus, meaningful labels, heading order, alt text, status announcements, color contrast, and 200% zoom; use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
 - [ ] **P1** Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
+- [ ] **P1** Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.
 
 ---
 
@@ -280,21 +281,21 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 Run the smoke journey below on:
 
-- [ ] **P0** Chrome on macOS desktop (CD)
-- [ ] **P0** Safari on macOS desktop (SD)
+- [CD] **P0** Chrome on macOS desktop (CD)
+- [SD] **P0** Safari on macOS desktop (SD)
 - [ ] **P0** Chrome on a Chromebook (CC)
 - [ ] **P0** Safari on iPad (SI)
 - [ ] **P0** Safari on iPhone (SP)
 
 Smoke journey for each device:
 
-- [CD] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
-- [CD] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
-- [CD] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
-- [ ] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
-- [CD] Play escape room
-- [CD] Play enter the undermurk
-- [CD] Test all menu options
+- [CD/SD] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
+- [CD/SD] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
+- [CD/SD] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
+- [CD/SD] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
+- [CD/SD] Play escape room
+- [CD/SD] Play enter the undermurk
+- [CD/SD] Test all menu options
 
 ---
 

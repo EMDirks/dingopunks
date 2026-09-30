@@ -1824,6 +1824,12 @@ a.dpaam-topbar-btn {
   }
 }
 
+/* Safari's auto focus ring wraps the × glyph's overflowing line box, not the button. */
+.dpaam-modal-close:focus-visible {
+  outline: 2px solid var(--dpaam-teal-accessible);
+  outline-offset: 0;
+}
+
 
 .dpaam-modal-body {
   margin: 0;
