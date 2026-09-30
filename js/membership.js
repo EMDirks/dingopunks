@@ -123,13 +123,52 @@ function membershipAccessFromPlan(plan) {
   return access ?? "free";
 }
 
-function applyUserProfile(profile) {
-  planMembershipAccess = membershipAccessFromPlan(profile.plan);
-  userBillingProfile = {
+// The uid whose dashboard state (profile + prefs + codes) has finished
+// loading and been rendered. Set only by the load path, which is the one
+// authoritative full render per sign-in.
+let loadedDashboardUid = null;
+
+function readBillingProfile(profile) {
+  return {
     status: profile.status ?? null,
     currentPeriodEnd: profile.currentPeriodEnd ?? null,
   };
+}
+
+// Load path: always render everything. This is what first paints the loaded
+// favorites and share codes, regardless of plan.
+function applyLoadedUserProfile(profile, uid) {
+  planMembershipAccess = membershipAccessFromPlan(profile.plan);
+  userBillingProfile = readBillingProfile(profile);
+  loadedDashboardUid = uid;
   applyMembershipAccess();
+}
+
+// Live path: the users/{uid} snapshot listener re-delivers the profile on
+// attach and on every backend write (billing status, webhooks). Most of
+// those don't change plan access, and a full re-render recreates every
+// thumbnail <img>, which visibly flickers on iPad Safari. Only rebuild cards
+// when access actually changes; otherwise refresh just the account panel.
+function applyLiveUserProfile(profile, uid) {
+  // Until the load path has run for this uid, the dashboard isn't showing
+  // this user's data yet and the load path re-reads the profile itself.
+  if (uid !== loadedDashboardUid) return;
+
+  const nextAccess = membershipAccessFromPlan(profile.plan);
+  const nextBilling = readBillingProfile(profile);
+  const accessChanged = nextAccess !== planMembershipAccess;
+  const billingChanged =
+    nextBilling.status !== userBillingProfile?.status ||
+    periodEndMs(nextBilling.currentPeriodEnd) !== periodEndMs(userBillingProfile?.currentPeriodEnd);
+
+  planMembershipAccess = nextAccess;
+  userBillingProfile = nextBilling;
+
+  if (accessChanged) {
+    applyMembershipAccess();
+    return;
+  }
+  if (billingChanged) renderAccountPlanPanel();
 }
 
 async function withTimeout(promise, timeoutMs, message) {
@@ -169,7 +208,7 @@ async function loadDashboardState(user) {
     throw new Error(`Missing user profile for ${user.uid}`);
   }
 
-  applyUserProfile(profile);
+  applyLoadedUserProfile(profile, user.uid);
   consumeCheckoutReturn();
 }
 
@@ -3024,7 +3063,7 @@ function attachUserProfileSubscription(user) {
   unsubscribeUserProfile = subscribeToUserProfile(
     user.uid,
     (profile) => {
-      if (currentUser?.uid === user.uid && profile) applyUserProfile(profile);
+      if (currentUser?.uid === user.uid && profile) applyLiveUserProfile(profile, user.uid);
     },
     (error) => {
       console.error("Failed to watch user profile", error);
@@ -3066,6 +3105,7 @@ function init() {
       resetShareCodes();
       planMembershipAccess = "free";
       userBillingProfile = null;
+      loadedDashboardUid = null;
       applyMembershipAccess();
     } else {
       attachUserProfileSubscription(user);
