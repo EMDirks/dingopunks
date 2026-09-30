@@ -1066,6 +1066,14 @@ function closeOtherModals(keep) {
   }
 }
 
+// Dialogs are reused, and a hidden dialog keeps its scroll offsets. Reopen at the top.
+function resetModalScroll(modal) {
+  modal.scrollTop = 0;
+  for (const el of modal.querySelectorAll("*")) {
+    if (el.scrollTop) el.scrollTop = 0;
+  }
+}
+
 function showExclusiveModal(modal) {
   if (!modal) return;
   modalSwapInProgress = true;
@@ -1079,6 +1087,7 @@ function showExclusiveModal(modal) {
   // Escape and Tab (which lands on the ×) keep working.
   modal.tabIndex = -1;
   modal.focus({ preventScroll: true });
+  resetModalScroll(modal);
   modalSwapInProgress = false;
   syncModalBackdrop();
 }

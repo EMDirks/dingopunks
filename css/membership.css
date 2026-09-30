@@ -1924,6 +1924,9 @@ a.dpaam-topbar-btn {
 
 .dpaam-upgrade-modal .dpaam-modal-body {
   flex-direction: column;
+  /* Inherited wrap + column pushes the plan panel into a hidden second column
+     whenever the viewport is too short for the body — the content "vanishes". */
+  flex-wrap: nowrap;
   align-items: stretch;
   gap: calc(var(--dpaam-pad-xl) - 4px);
 }
@@ -2779,6 +2782,7 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
 
 .dpaam-modal-body--theme {
   flex-direction: column;
+  flex-wrap: nowrap;
   gap: var(--dpaam-pad-xl);
 }
 
@@ -3909,6 +3913,7 @@ dd a {
 
   .dpaam-modal-body {
     flex-direction: column;
+    flex-wrap: nowrap;
     padding: 0 var(--dpaam-pad) var(--dpaam-pad);
     gap: var(--dpaam-pad);
     overflow-x: hidden;
