@@ -28,6 +28,17 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 - [ ] **remove debug panel**
 - [ ] **update 'what's a game code' modal**
 - [ ] **add all-acceess link to global menu**
+- [ ] **new blog post**
+- [ ] **do all 7 on-site marketing items:**
+
+1. Homepage repositioning. Make Unlimited one of the two primary actions alongside “Try free.” Stop treating Shop as the ultimate destination.
+2. Product-page upsell. Every $8.99 page prominently explains that the room is included in Unlimited.
+3. Cart upsell. Dynamically compare what they're about to spend with $35.88/year.
+4. Replace bundle marketing. Stop spending valuable page real estate persuading people to buy multiple individual rooms.
+5. Teacher portal promotion. Sell Unlimited to the enormous pool of people who've already bought/used your games.
+6. Automated lifecycle email. Signup → free-room usage → Unlimited messaging. This can run forever with essentially zero ongoing work.
+7. TPT brand funnel, not sales funnel. Keep feeding people into awareness of Dingo Punks, but respect TPT's restrictions on steering their customers to your external store.
+
 
 ## Current P0 blockers
 
@@ -44,9 +55,9 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 
 ### Release control
 
-- [ ] **P0** Choose the release commit and record its SHA here:
+- [ ] **P0** Choose the release commit and record its SHA here: Version 4.0.0
 - [ ] **P0** Working tree is clean; every intended launch change is committed.
-- [ ] **P0** Confirm the generated game catalog is current:
+- [ ] **P0** Confirm the generated game catalog is current
 - [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
 
   ```sh
@@ -303,19 +314,19 @@ Smoke journey for each device:
 
 ### Support readiness
 
-- [ ] **P0** A monitored support address is visible from auth, billing, and error states.
-- [ ] **P0** Prepare short support procedures for: verification email missing, Google popup failure, password reset, wrong plan, webhook delay, duplicate account, rebate rejected/claimed, share-code limit, student code expired, refund, cancellation, accidental duplicate purchase, and email change (support edits the address in Firebase Console → Authentication → find user → Edit, then asks the user to sign in with the new address).
-- [ ] **P0** Support can locate a customer by email in Firebase and Stripe without requesting a password or full card number.
-- [ ] **P0** Define who can manually correct entitlement, issue a refund, cancel a subscription, release a rebate claim, and inspect logs.
-- [ ] **P0** Define severity and response owners for purchase failure, widespread login failure, wrong entitlement, student launch failure, and data exposure.
+- [X] **P0** A monitored support address is visible from auth, billing, and error states.
+- [X] **P0** Prepare short support procedures for: verification email missing, Google popup failure, password reset, wrong plan, webhook delay, duplicate account, rebate rejected/claimed, share-code limit, student code expired, refund, cancellation, accidental duplicate purchase, and email change (support edits the address in Firebase Console → Authentication → find user → Edit, then asks the user to sign in with the new address).
+- [X] **P0** Support can locate a customer by email in Firebase and Stripe without requesting a password or full card number.
+- [X] **P0** Define who can manually correct entitlement, issue a refund, cancel a subscription, release a rebate claim, and inspect logs.
+- [X] **P0** Define severity and response owners for purchase failure, widespread login failure, wrong entitlement, student launch failure, and data exposure.
 
 ### Monitoring and rollback
 
-- [ ] **P0** Confirm access to Firebase logs, Firestore usage, Auth usage, Cloudflare analytics/deployments, Stripe events, payments, disputes, and webhook delivery logs.
-- [ ] **P0** Save exact rollback steps for Cloudflare Pages, Functions, and Firestore rules.
-- [ ] **P0** Rollback does not restore the beta gate or deploy frontend code that calls missing backend functions.
-- [ ] **P0** Choose a launch window when the owner can monitor for at least two hours and respond for the next 24 hours.
-- [ ] **P0** Prepare a short customer-facing outage message and a way to disable/redirect the paid CTA without breaking existing members.
+- [X] **P0** Confirm access to Firebase logs, Firestore usage, Auth usage, Cloudflare analytics/deployments, Stripe events, payments, disputes, and webhook delivery logs.
+- [X] **P0** Save exact rollback steps for Cloudflare Pages, Functions, and Firestore rules.
+- [X] **P0** Rollback does not restore the beta gate or deploy frontend code that calls missing backend functions.
+- [X] **P0** Choose a launch window when the owner can monitor for at least two hours and respond for the next 24 hours.
+- [X] **P0** Prepare a short customer-facing outage message and a way to disable/redirect the paid CTA without breaking existing members.
 
 ---
 
