@@ -22,12 +22,12 @@ Source of truth: `readme/dpaam-backend-plan.md`. Where older documents disagree,
 
 ## Shopify + platform changes
 - [ ] **Add account button to header**
-- [ ] **Wire in new ToS and PP**
-- [ ] **Add a help doc/FAQ**
-- [ ] **config the alphabetic keyboard**
+- [X] **Wire in new ToS and PP**
+- [X] **Add a help doc/FAQ**
+- [X] **config the alphabetic keyboard**
 - [ ] **remove debug panel**
 - [ ] **update 'what's a game code' modal**
-- [ ] **add all-acceess link to global menu**
+- [ ] **add all-access link to global menu**
 - [ ] **new blog post**
 - [ ] **do all 7 on-site marketing items:**
 
@@ -111,6 +111,7 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
 - [ ] **P1** Add images to modals as necessary to help illustrate their concepts.
+- [ ] **P1** Make the code input pasteable.
 
 ---
 
@@ -277,13 +278,11 @@ Use at least these 6 clean states: unverified email user, free email user, free 
 
 Run the smoke journey below on:
 
-- [ ] **P0** Chrome on macOS or Windows desktop
-- [ ] **P0** Safari on macOS desktop
-- [ ] **P0** Edge on Windows desktop
-- [ ] **P0** Chrome on a Chromebook, including touch mode if available
-- [ ] **P0** Safari on iPad
-- [ ] **P0** Safari on iPhone
-- [ ] **P0** Chrome on Android phone
+- [ ] **P0** Chrome on macOS desktop (CD)
+- [ ] **P0** Safari on macOS desktop (SD)
+- [ ] **P0** Chrome on a Chromebook (CC)
+- [ ] **P0** Safari on iPad (SI)
+- [ ] **P0** Safari on iPhone (SP)
 
 Smoke journey for each device:
 
