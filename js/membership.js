@@ -638,7 +638,44 @@ function renderTabCounts() {
 
 // ---------- renderers ----------
 
-function renderActiveCodes() {
+function activeCardHtml(game, entry) {
+  return `
+    <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
+      ${cardNewBadgeHtml(game)}
+      <div class="dpaam-card__thumb-wrap">
+        ${cardAllAccessBadgeHtml(game)}
+        ${thumbHtml(game)}
+      </div>
+      <div class="dpaam-card__body">
+        <div class="dpaam-card__actions">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
+            data-action="cancel-code"
+            aria-label="Cancel code"
+          >${removeIconSvg()}</button>
+          <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
+          ${shareButtonHtml(game.id)}
+        </div>
+      </div>
+      ${activeCardTimerHtml(entry.expiresAt)}
+    </article>`;
+}
+
+function activeCardElement(game, entry) {
+  const template = document.createElement("template");
+  template.innerHTML = activeCardHtml(game, entry).trim();
+  return template.content.firstElementChild;
+}
+
+// Reconcile the Ready-to-share list against state instead of rebuilding it.
+// Cards that are still active keep their DOM node (and decoded thumbnail),
+// removed codes drop their card, new codes insert at their sorted position.
+// A full rebuild recreates every <img>, which visibly flickers on iPad Safari.
+//
+// Pass { rebuild: true } when card markup itself may have changed for
+// existing entries (e.g. the plan changed, which flips lock badges).
+function renderActiveCodes({ rebuild = false } = {}) {
   pruneExpiredCodes();
   const isEmpty = state.activeCodes.length === 0;
 
@@ -651,33 +688,45 @@ function renderActiveCodes() {
     return;
   }
 
-  els.activeList.innerHTML = state.activeCodes
-    .map((entry) => {
-      const game = gameById(entry.gameId);
-      if (!game) return "";
-      return `
-        <article class="dpaam-card dpaam-card--active" role="listitem" data-game-id="${escapeHtml(game.id)}">
-          ${cardNewBadgeHtml(game)}
-          <div class="dpaam-card__thumb-wrap">
-            ${cardAllAccessBadgeHtml(game)}
-            ${thumbHtml(game)}
-          </div>
-          <div class="dpaam-card__body">
-            <div class="dpaam-card__actions">
-              <button
-                type="button"
-                class="dpaam-btn dpaam-btn-secondary dpaam-btn-favorite"
-                data-action="cancel-code"
-                aria-label="Cancel code"
-              >${removeIconSvg()}</button>
-              <button type="button" class="dpaam-btn dpaam-btn-secondary" data-action="open-details">Info</button>
-              ${shareButtonHtml(game.id)}
-            </div>
-          </div>
-          ${activeCardTimerHtml(entry.expiresAt)}
-        </article>`;
-    })
-    .join("");
+  if (rebuild) {
+    els.activeList.innerHTML = state.activeCodes
+      .map((entry) => {
+        const game = gameById(entry.gameId);
+        return game ? activeCardHtml(game, entry) : "";
+      })
+      .join("");
+    renderTabCounts();
+    return;
+  }
+
+  const existing = new Map();
+  for (const card of els.activeList.querySelectorAll(":scope > .dpaam-card--active")) {
+    existing.set(card.dataset.gameId, card);
+  }
+
+  const wanted = new Set(state.activeCodes.map((entry) => entry.gameId));
+  for (const [gameId, card] of existing) {
+    if (!wanted.has(gameId)) {
+      card.remove();
+      existing.delete(gameId);
+    }
+  }
+
+  // Walk state in order; `cursor` is the DOM node currently occupying the
+  // slot we're filling. Matching node: advance. Otherwise insert/move the
+  // wanted card in front of the cursor.
+  let cursor = els.activeList.firstElementChild;
+  for (const entry of state.activeCodes) {
+    const game = gameById(entry.gameId);
+    if (!game) continue;
+    const card = existing.get(entry.gameId) ?? activeCardElement(game, entry);
+    if (card === cursor) {
+      cursor = cursor.nextElementSibling;
+    } else {
+      els.activeList.insertBefore(card, cursor);
+    }
+  }
+
   renderTabCounts();
 }
 
@@ -2962,7 +3011,9 @@ function applyMembershipAccess() {
   renderAccountPlanPanel();
   renderLibrary();
   renderFavorites();
-  renderActiveCodes();
+  // Plan changes flip lock badges/icons on every card, so existing active
+  // cards must be regenerated rather than reconciled.
+  renderActiveCodes({ rebuild: true });
 }
 
 function attachUserProfileSubscription(user) {
