@@ -161,6 +161,12 @@ function clearSessionHint() {
   try { localStorage.removeItem(SESSION_HINT_KEY); } catch (e) {}
 }
 
+let showAuthSignIn = () => {};
+
+export function requestAuthSignIn() {
+  showAuthSignIn();
+}
+
 export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   const section = document.getElementById("dpaam-auth");
   const dashboard = document.getElementById("dpaam-dashboard");
@@ -226,6 +232,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     const onSignin = signinCard && !signinCard.hidden;
     setAuthView(onSignin ? "signup" : "signin", { focus: true });
   });
+
+  showAuthSignIn = () => {
+    if (section.hidden) return;
+    setAuthView("signin", { focus: true });
+  };
 
   function setAuthView(view, { focus = false } = {}) {
     if (!AUTH_VIEW_HEADING_IDS[view]) return;

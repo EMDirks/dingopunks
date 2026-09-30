@@ -297,9 +297,9 @@ Smoke journey for each device:
 - [X] **P0** Every visible price says $35.88/year or $2.99/month billed annually; no live page uses the older $49 figure.
 - [X] **P0** Every visible limit says 14 days and 20 active codes; no live page uses the older 24-hour or 12-code values.
 - [X] **P0** Rebate copy says $8.99 off the first year and explains accepted order-number formats without promising verification that does not exist.
-- [ ] **P0** Renewal, cancellation, lapse, and refund copy matches actual behavior.
-- [ ] **P0** Free-room count and room names match the server constants and UI.
-- [ ] **P0** Customer receipts and card statement descriptor are recognizable as Dingo Punks.
+- [X] **P0** Renewal, cancellation, lapse, and refund copy matches actual behavior.
+- [X] **P0** Free-room count and room names match the server constants and UI.
+- [X] **P0** Customer receipts and card statement descriptor are recognizable as Dingo Punks.
 
 ### Support readiness
 

@@ -18,6 +18,7 @@ import {
   createPortalSession as createPortalSessionImpl,
   handleStripeEvent,
 } from "./stripe-billing.js";
+import { subscribeToGroup } from "./mailerlite.js";
 
 initializeApp();
 
@@ -37,6 +38,13 @@ function stripeClient() {
   return cachedStripe;
 }
 
+// New accounts are added to the MailerLite "Dingo Punks" group:
+//   firebase functions:secrets:set MAILERLITE_API_KEY
+const mailerliteApiKey = defineSecret("MAILERLITE_API_KEY");
+const mailerliteGroupId = defineString("MAILERLITE_GROUP_ID", {
+  description: 'MailerLite group ID for the "Dingo Punks" group (numeric)',
+});
+
 function requireAuth(request) {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Sign in first.");
@@ -47,10 +55,14 @@ function requireAuth(request) {
 async function ensureUserDocument(user) {
   const userRef = getFirestore().collection("users").doc(user.uid);
   let created = false;
+  let mailerliteStatus = null;
 
   await getFirestore().runTransaction(async (transaction) => {
     const existing = await transaction.get(userRef);
-    if (existing.exists) return;
+    if (existing.exists) {
+      mailerliteStatus = existing.get("mailerliteStatus") ?? null;
+      return;
+    }
 
     transaction.create(userRef, {
       email: user.email ?? null,
@@ -61,28 +73,74 @@ async function ensureUserDocument(user) {
       status: null,
       currentPeriodEnd: null,
       rebate: null,
+      mailerliteStatus: "pending",
     });
     created = true;
+    mailerliteStatus = "pending";
   });
 
-  return created;
+  return { created, mailerliteStatus };
 }
 
-export const ensureUserProfile = onCall({ invoker: "public" }, async (request) => {
-  if (!request.auth) {
-    throw new HttpsError("unauthenticated", "Sign in before setting up your profile.");
+// Only "pending" accounts (created since this sync shipped) are synced, so
+// older accounts are never backfilled. A transient failure leaves the account
+// pending and the next ensureUserProfile call retries. Never throws: a
+// MailerLite outage must not block sign-up.
+async function syncMailerLite(uid, email, name) {
+  if (process.env.FUNCTIONS_EMULATOR === "true" || !email) return;
+
+  const userRef = getFirestore().collection("users").doc(uid);
+  try {
+    await subscribeToGroup({
+      apiKey: mailerliteApiKey.value(),
+      groupId: mailerliteGroupId.value(),
+      email,
+      name,
+    });
+    await userRef.update({
+      mailerliteStatus: "subscribed",
+      mailerliteSubscribedAt: FieldValue.serverTimestamp(),
+    });
+  } catch (error) {
+    if (error?.permanent) {
+      logger.warn("MailerLite rejected subscriber", {
+        uid,
+        status: error.status,
+        errorMessage: error.message,
+      });
+      await userRef.update({ mailerliteStatus: "rejected" }).catch(() => {});
+      return;
+    }
+    logger.warn("MailerLite sync failed; will retry on next profile load", {
+      uid,
+      errorMessage: error?.message,
+    });
   }
+}
 
-  const created = await ensureUserDocument({
-    uid: request.auth.uid,
-    email:
-      typeof request.auth.token.email === "string"
-        ? request.auth.token.email
-        : null,
-  });
+export const ensureUserProfile = onCall(
+  { invoker: "public", secrets: [mailerliteApiKey] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Sign in before setting up your profile.");
+    }
 
-  return { created };
-});
+    const email =
+      typeof request.auth.token.email === "string" ? request.auth.token.email : null;
+    const { created, mailerliteStatus } = await ensureUserDocument({
+      uid: request.auth.uid,
+      email,
+    });
+
+    if (mailerliteStatus === "pending") {
+      const name =
+        typeof request.auth.token.name === "string" ? request.auth.token.name : null;
+      await syncMailerLite(request.auth.uid, email, name);
+    }
+
+    return { created };
+  },
+);
 
 export const createShareCode = onCall({ invoker: "public" }, async (request) => {
   const uid = requireAuth(request);

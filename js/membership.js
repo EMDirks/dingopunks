@@ -966,6 +966,7 @@ const DPAAM_MODALS = [
   els.upgradeModal,
   els.rebateModal,
   els.accountModal,
+  els.loginRequiredModal,
 ];
 
 let modalBackdropVisible = false;
@@ -1258,8 +1259,8 @@ function unlimitedPlanPanelHtml({
   const pricingHtml = allAccessPlanPricingHtml();
   const rebateHtml = !isManage && includeRebate ? upgradeRebateFieldsHtml() : "";
   const isCanceling = billingProfile?.status === "canceling";
-  const manageCtaLabel = isCanceling ? "Renew subscription" : "Manage subscription";
-  const manageCtaShort = isCanceling ? "Renew" : "Manage";
+  const manageCtaLabel = isCanceling ? "Renew subscription" : "Manage billing";
+  const manageCtaShort = isCanceling ? "Renew" : "Billing";
   const ctaHtml = isManage
     ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="${escapeHtml(manageCtaLabel)}">
         <span class="dpaam-responsive-label dpaam-responsive-label--full">${escapeHtml(manageCtaLabel)}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${escapeHtml(manageCtaShort)}</span>
@@ -1332,6 +1333,9 @@ function syncMembershipAccessChrome() {
   }
   if (els.mobileUpgradeBtn) {
     els.mobileUpgradeBtn.hidden = !isFree;
+  }
+  if (els.footerUpgradeBtn) {
+    els.footerUpgradeBtn.textContent = footerOffersBillingPortal() ? "Billing" : "Upgrade";
   }
 }
 
@@ -1455,7 +1459,27 @@ function upgradeModalBodyHtml() {
   })}`;
 }
 
+function openLoginRequiredModal(message) {
+  if (els.loginRequiredLead) els.loginRequiredLead.textContent = message;
+  showExclusiveModal(els.loginRequiredModal);
+}
+
+// The footer is shared by every view, so its Account/Upgrade links only reach
+// the real modals once the dashboard itself is on screen.
+function isDashboardVisible() {
+  return Boolean(els.dashboard) && !els.dashboard.hidden;
+}
+
+// Members manage billing from the footer instead of upgrading.
+function footerOffersBillingPortal() {
+  return isDashboardVisible() && state.membershipAccess !== "free";
+}
+
 function openUpgradeModal() {
+  if (!isDashboardVisible()) {
+    openLoginRequiredModal("Log in to upgrade your account to All-Access.");
+    return;
+  }
   if (!els.upgradeModal || !els.upgradeModalBody) return;
   els.upgradeModalBody.innerHTML = upgradeModalBodyHtml();
   showExclusiveModal(els.upgradeModal);
@@ -1993,6 +2017,10 @@ function updateAccountModal(user) {
 }
 
 function openAccountModal() {
+  if (!isDashboardVisible()) {
+    openLoginRequiredModal("Log in to view your account details.");
+    return;
+  }
   resetAccountPasswordResetUi();
   updateAccountModal(currentUser);
   const accountBody = els.accountModal?.querySelector(".dpaam-account-body");
@@ -2617,6 +2645,18 @@ function wireEvents() {
     dashboardMobileMenu?.setOpen(false);
     openAccountModal();
   });
+  els.footerAccountBtn?.addEventListener("click", () => {
+    openAccountModal();
+  });
+  els.footerUpgradeBtn?.addEventListener("click", () => {
+    if (footerOffersBillingPortal()) {
+      void openBillingPortal(els.footerUpgradeBtn);
+      return;
+    }
+    openUpgradeModal();
+  });
+
+  wireAnimatedModal(els.loginRequiredModal);
   els.accountSendReset?.addEventListener("click", () => {
     sendAccountPasswordReset();
   });
@@ -2949,10 +2989,11 @@ function init() {
     loadDashboardState,
     onDashboardLoaded(user) {
       setActiveTab("library");
+      syncMembershipAccessChrome();
       attachUserProfileSubscription(user);
     },
   });
-  initDebugView();
+  initDebugView({ onViewChange: syncMembershipAccessChrome });
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (!user) {

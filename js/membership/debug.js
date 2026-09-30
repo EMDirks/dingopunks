@@ -3,7 +3,7 @@ import {
   setAuthOfferLayoutActive,
 } from "./auth-offer.js";
 
-export function initDebugView() {
+export function initDebugView({ onViewChange } = {}) {
   const host = location.hostname;
   if (host !== "localhost" && host !== "127.0.0.1") return;
 
@@ -84,6 +84,8 @@ export function initDebugView() {
       option.setAttribute("aria-checked", String(selected));
       option.classList.toggle("is-selected", selected);
     });
+
+    onViewChange?.(view);
   }
 
   options.forEach((option) => {

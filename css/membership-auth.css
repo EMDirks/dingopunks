@@ -10,6 +10,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1 0 auto;
   min-height: 100vh;
   min-height: 100dvh;
   background-color: var(--dpaam-light-gray);
@@ -519,7 +520,7 @@
 /* --- Auth offer loading skeleton --- */
 
 .dpaam-auth-offer-skeleton-panel {
-  --dpaam-plan-panel-price-size: clamp(2.5rem, 9vw, 3.375rem);
+  --dpaam-plan-panel-price-size: clamp(2.125rem, 8vw, 3rem);
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -918,7 +919,7 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
   .dpaam-account-modal
     .dpaam-plan-panel--offer-starter
     .dpaam-plan-panel__price {
-    font-size: var(--dpaam-text-lg);
+    font-size: var(--dpaam-text-md);
   }
 
   .dpaam-account-modal
@@ -988,7 +989,7 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
   }
 
   .dpaam-auth-offer-skeleton-price {
-    height: calc(var(--dpaam-text-xl) * 1.05 - var(--dpaam-pad-xs));
+    height: calc(var(--dpaam-text-lg) * 1.05 - var(--dpaam-pad-xs));
   }
 
   :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter,
@@ -1041,11 +1042,11 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
 
   :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price,
   .dpaam-auth-offer .dpaam-plan-panel--unlimited .dpaam-plan-panel__price {
-    font-size: var(--dpaam-text-xl);
+    font-size: var(--dpaam-text-lg);
   }
 
   .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__price {
-    font-size: var(--dpaam-text-lg);
+    font-size: var(--dpaam-text-md);
   }
 
   .dpaam-auth-offer .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features,
