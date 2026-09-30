@@ -1074,6 +1074,11 @@ function showExclusiveModal(modal) {
   showModalBackdrop({ animate: animateBackdrop });
   if (typeof modal.showModal === "function") modal.showModal();
   else modal.setAttribute("open", "");
+  // A dialog autofocuses its first control on open — the × — and Safari draws a
+  // focus ring on it. Hold focus on the dialog itself so it opens unmarked while
+  // Escape and Tab (which lands on the ×) keep working.
+  modal.tabIndex = -1;
+  modal.focus({ preventScroll: true });
   modalSwapInProgress = false;
   syncModalBackdrop();
 }
