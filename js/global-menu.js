@@ -229,7 +229,24 @@ function getGlobalMenuState() {
   return 'unfinished';
 }
 
+// Matches the 200ms hide delay in toggleModalVisibility().
+const MODAL_CLOSE_DURATION_MS = 200;
+let pendingGlobalMenuOpen = null;
+
 function openGlobalMenu(state = 'unfinished') {
+  if (pendingGlobalMenuOpen) {
+    return;
+  }
+  // Another modal is open: let it finish closing so the menu gets its own
+  // opening animation instead of swapping into the old popup.
+  if (isModalVisible) {
+    toggleModalVisibility();
+    pendingGlobalMenuOpen = setTimeout(function() {
+      pendingGlobalMenuOpen = null;
+      openGlobalMenu(state);
+    }, MODAL_CLOSE_DURATION_MS);
+    return;
+  }
   modalPopup.classList.add('modal__popup--global-menu');
   const modalVersionEl = document.querySelector('.modal-version');
   if (modalVersionEl) {
@@ -293,6 +310,10 @@ function playInactiveKidsLinkWiggle(link) {
     return;
   }
   buttonMenuGlobal.addEventListener('click', function() {
+    if (isModalVisible && modalPopup.classList.contains('modal__popup--global-menu')) {
+      toggleModalVisibility();
+      return;
+    }
     openGlobalMenu(getGlobalMenuState());
   });
 })();

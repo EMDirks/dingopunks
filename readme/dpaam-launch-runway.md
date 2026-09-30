@@ -112,6 +112,8 @@ There is currently no repository-owned browser E2E suite, so the manual gates be
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
 - [ ] **P1** Add images to modals as necessary to help illustrate their concepts.
 - [ ] **P1** Make the code input pasteable.
+- [ ] **P1** **Accessibility audit (out of scope for MVP).** One pass after launch: complete every teacher action using only a keyboard on desktop; check visible focus, meaningful labels, heading order, alt text, status announcements, color contrast, and 200% zoom; use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
+- [ ] **P1** Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
 
 ---
 
@@ -286,17 +288,13 @@ Run the smoke journey below on:
 
 Smoke journey for each device:
 
-- [ ] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
-- [ ] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
-- [ ] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
-- [ ] Complete every teacher action using only a keyboard on desktop.
-- [ ] Check visible focus, meaningful labels, heading order, alt text, status announcements, color contrast, and 200% zoom.
-- [ ] Use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
-- [ ] Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
+- [CD] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
+- [CD] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
+- [CD] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
 - [ ] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
-- [ ] Play escape room
-- [ ] Play enter the undermurk
-- [ ] Test all menu options
+- [CD] Play escape room
+- [CD] Play enter the undermurk
+- [CD] Test all menu options
 
 ---
 
