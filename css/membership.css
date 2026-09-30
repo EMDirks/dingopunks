@@ -1693,6 +1693,12 @@ a.dpaam-topbar-btn {
   animation: dpaam-modal-out 0.15s ease-in both;
 }
 
+/* The dialog takes script focus on open; Safari may still ring it as focus-visible. */
+.dpaam-modal:focus,
+.dpaam-modal:focus-visible {
+  outline: none;
+}
+
 .dpaam-modal-backdrop {
   position: fixed;
   inset: 0;
