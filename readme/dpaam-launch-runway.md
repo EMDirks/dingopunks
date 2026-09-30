@@ -284,18 +284,18 @@ Run the smoke journey below on:
 - [CD] **P0** Chrome on macOS desktop (CD)
 - [SD] **P0** Safari on macOS desktop (SD)
 - [CC] **P0** Chrome on a Chromebook (CC)
-- [ ] **P0** Safari on iPad (SI)
+- [SI] **P0** Safari on iPad (SI)
 - [ ] **P0** Safari on iPhone (SP)
 
 Smoke journey for each device:
 
-- [CD/SD/CC] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
-- [CD/SD/CC] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
-- [CD/SD/CC] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
-- [CD/SD/CC] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
-- [CD/SD/CC] Play escape room
-- [CD/SD/CC] Play enter the undermurk
-- [CD/SD/CC] Test all menu options
+- [CD/SD/CC/SI] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
+- [CD/SD/CC/SI] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
+- [CD/SD/CC/SI] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
+- [CD/SD/CC/SI] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
+- [CD/SD/CC/SI] Play escape room
+- [CD/SD/CC/SI] Play enter the undermurk
+- [CD/SD/CC/SI] Test all menu options
 
 ---
 
