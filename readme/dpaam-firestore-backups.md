@@ -94,3 +94,7 @@ Official references:
 
 - 2026-09-24: Created the daily and weekly schedules; enabled PITR and database
   delete protection. First scheduled backup is pending.
+- 2026-09-30: Verified both schedules and their retention values, seven `READY`
+  backups (2026-09-25 through 2026-09-30, with the extra weekly copy on Sunday
+  2026-09-27), and PITR plus delete protection on `(default)`. Daily backups run
+  around 08:00–08:40 UTC.
