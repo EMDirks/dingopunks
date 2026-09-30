@@ -12,8 +12,6 @@ import {
 } from "./firebase-init.js";
 import { setButtonLoading as setAuthButtonLoading } from "./membership-utils.js";
 import {
-  completeAuthOfferAndEnterDashboard,
-  isAuthOfferViewVisible,
   registerAuthOfferCompleteHandler,
   renderAuthOfferPanels,
   setAuthOfferLayoutActive,
@@ -177,22 +175,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   const messages = section.querySelector(".dpaam-auth-messages");
   if (modals.length === 0) return;
 
-  function hasAuthBackState() {
-    if (typeof window.navigation !== "undefined" && "canGoBack" in window.navigation) {
-      return window.navigation.canGoBack;
-    }
-    return window.history.length > 1;
-  }
-
   document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
-    if (isAuthOfferViewVisible()) {
-      void completeAuthOfferAndEnterDashboard();
-      return;
-    }
-    if (hasAuthBackState()) {
-      window.history.back();
-      return;
-    }
     window.location.href = "https://dingopunks.com/";
   });
 

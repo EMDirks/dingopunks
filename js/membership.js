@@ -307,8 +307,8 @@ function tickActiveCodeTimers() {
   if (state.activeCodes.length === 0) return;
   const expiredRemoved = pruneExpiredCodes();
   if (expiredRemoved) {
+    // See generateCode: only the active list reflects share-code state.
     renderActiveCodes();
-    renderFavorites();
     return;
   }
   for (const entry of state.activeCodes) {
@@ -551,9 +551,11 @@ async function generateCode(gameId) {
 
   try {
     await invokeCreateShareCode(gameId);
+    // Library and favorites cards don't read share-code state (the Share
+    // button only varies on plan lock), so only the active list needs to
+    // re-render. Rebuilding the other lists recreates every thumbnail
+    // <img>, which visibly flickers on iPad Safari.
     renderActiveCodes();
-    renderFavorites();
-    renderLibrary();
     pulseTabCount("active");
     return true;
   } catch (error) {
@@ -571,9 +573,8 @@ async function cancelCode(gameId) {
   const entry = removeActiveCodeLocal(gameId);
   if (!entry) return;
 
+  // See generateCode: only the active list reflects share-code state.
   renderActiveCodes();
-  renderFavorites();
-  renderLibrary();
   pulseTabCount("active", "remove");
 
   try {
@@ -582,8 +583,6 @@ async function cancelCode(gameId) {
     console.error("cancelShareCode failed", error);
     restoreActiveCode(entry);
     renderActiveCodes();
-    renderFavorites();
-    renderLibrary();
     pulseTabCount("active");
     showToast(shareCodeErrorMessage(error));
   }
@@ -640,7 +639,7 @@ function renderTabCounts() {
 // ---------- renderers ----------
 
 function renderActiveCodes() {
-  const expiredRemoved = pruneExpiredCodes();
+  pruneExpiredCodes();
   const isEmpty = state.activeCodes.length === 0;
 
   els.activeCount.textContent = `${state.activeCodes.length} shared`;
@@ -648,7 +647,6 @@ function renderActiveCodes() {
 
   if (isEmpty) {
     els.activeList.innerHTML = "";
-    if (expiredRemoved) renderFavorites();
     renderTabCounts();
     return;
   }
