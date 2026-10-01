@@ -6,12 +6,12 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 
 ## Shopify + platform changes
 
-- [ ] **Implement notes on phone**
+- [X] **Implement notes on phone**
 - [ ] **Add account button to header**
 - [X] **remove debug panel**
 - [ ] **update 'what's a game code' modal**
 - [ ] **add all-access link to global menu**
-- [ ] **new blog post**
+- [X] **new blog post**
 - [ ] **link "account" on the help page (How accounts work)**
 - [ ] **do all 7 on-site marketing items:**
 - [ ] **update banner on splash**
@@ -69,6 +69,7 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 - [ ] **P1** **Custom Firebase email action handler (post-launch).** Launch ships with Firebase’s default interstitial (“Your email has been verified…”) plus our `continueUrl` back to the account page; the original tab already auto-detects verification. After launch, add a dedicated `auth-action.html` on `account.dingopunks.com` that handles **all** action modes in one place (`verifyEmail`, `resetPassword`, `recoverEmail`, `verifyAndChangeEmail` via `applyActionCode` / password-reset confirm), shows Dingo Punks copy (e.g. verified → brief message + redirect to account), and handles expired/used links. Test every mode in the Auth emulator, then flip Firebase Console → Authentication → Templates **custom action URL** (reversible). Do not point the action URL at membership/dashboard JS until all modes are covered — password-reset links must keep working.
 - [ ] **P1** **Customize the Firebase password-management page URL and colors (if possible).** The reset-password page still uses Firebase’s default host and styling. After launch, check whether Authentication templates (or Identity Platform) can serve that page on a Dingo Punks URL and apply brand colors. If the hosted page cannot take colors, cover branding on the custom action handler above instead.
 - [ ] **P1** **Verification gate before upgrade.** Launch lets unverified email/password users start Checkout; only share-code creation waits on a verified address. After launch, block Upgrade and checkout until the email is verified (reuse the existing verify prompt), and enforce the same check on `createCheckoutSession` so a direct call cannot skip it. Google sign-in stays treated as already verified.
+- [ ] **P1** **Plan upgrade UI — SaaS-style comparison table.** Rework the membership upgrade surfaces (account Upgrade panel, auth sign-up offer blocks, All-Access paywall/upgrade modal, and related inline CTAs) into a conventional SaaS pricing-table pattern: aligned plan columns or a feature matrix, scannable tier names and prices, checkmarks (or equivalent) per feature row, and one clear primary CTA per tier. Keep existing copy, rebate input, and Checkout/Portal wiring; this is layout and visual hierarchy only.
 - [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
 - [ ] **P1** **Paid share codes outlive subscription lapse.** `resolveGameCode` honors the code’s `expiresAt` but does not re-check the owner’s current plan, so a member who refunds or lapses can keep up to 20 paid-room codes working for ≤14 days (bounded leak; Undermurk bonus already locks on the next launch via live plan). Optional fix: in `resolve-code.js`, reject non–free-tier games when the owner’s profile is not `all-access`.
 - [ ] **P1** **Concurrent Checkout tabs.** The “already All-Access” guard runs before session creation, so two tabs finishing Checkout at once could create two subscriptions on one Stripe customer. Low probability; support can refund the duplicate. Consider a server-side idempotency or “open session” guard if it shows up in support.

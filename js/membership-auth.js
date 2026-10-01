@@ -79,7 +79,7 @@ export function authErrorMessage(error) {
     case "auth/weak-password":
       return "Password needs 6+ characters.";
     case "auth/email-already-in-use":
-      return "An account with this email already exists.";
+      return "An account with this email already exists. Log in instead.";
     case "auth/invalid-credential":
     case "auth/invalid-login-credentials":
     case "auth/user-not-found":
