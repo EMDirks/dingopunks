@@ -1919,7 +1919,7 @@ function shareMoreGroupHtml(key) {
   if (key === "classroom") {
     return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-3-title">
       <h4 class="dpaam-share-option-title" id="dpaam-share-option-3-title">Share to Google Classroom</h4>
-      <p class="dpaam-share-option-desc">Students can start the escape room from a Google Classroom assignment.</p>
+      <p class="dpaam-share-option-desc">Students start the escape room from a Google Classroom assignment.</p>
       <div class="dpaam-share-option-actions dpaam-share-option-actions--stack">
         <button type="button" class="dpaam-btn dpaam-btn-primary dpaam-share-classroom-btn" data-action="share-google-classroom">${SHARE_CLASSROOM_ICON}Share to Google Classroom</button>
       </div>

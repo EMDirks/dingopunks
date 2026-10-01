@@ -26,6 +26,21 @@ const AUTH_VIEW_HEADING_IDS = {
   offer: "dpaam-auth-heading-offer",
 };
 
+const AUTH_QUERY_VIEWS = {
+  login: "signin",
+  signup: "signup",
+};
+
+function consumeRequestedAuthView() {
+  const url = new URL(window.location.href);
+  const requested = url.searchParams.get("auth");
+  if (requested === null) return "signin";
+
+  url.searchParams.delete("auth");
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  return AUTH_QUERY_VIEWS[requested.trim().toLowerCase()] || "signin";
+}
+
 export function clearAuthMessages() {
   const error = document.getElementById("dpaam-auth-error");
   const success = document.getElementById("dpaam-auth-success");
@@ -175,6 +190,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   const messages = section.querySelector(".dpaam-auth-messages");
   if (modals.length === 0) return;
 
+  let signedOutView = consumeRequestedAuthView();
+
   document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
     window.location.href = "https://dingopunks.com/";
   });
@@ -258,7 +275,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   });
 
   wirePasswordToggles(section);
-  setAuthView("signin");
+  setAuthView(signedOutView);
 
   const signInForm = document.getElementById("dpaam-auth-signin-form");
   signInForm?.addEventListener("submit", async (event) => {
@@ -470,6 +487,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   async function applyAuthState(user) {
     const revision = ++authStateRevision;
     const signedIn = userCanAccessDashboard(user);
+    const requestedView = signedOutView;
+    signedOutView = "signin";
 
     document.documentElement.classList.remove("dpaam-boot-signed-in");
     if (signedIn) {
@@ -486,7 +505,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       section.hidden = false;
       section.setAttribute("aria-busy", "false");
       setAuthOfferLayoutActive(false);
-      setAuthView("signin");
+      setAuthView(requestedView);
       return;
     }
 
