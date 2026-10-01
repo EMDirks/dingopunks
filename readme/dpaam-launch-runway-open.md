@@ -6,6 +6,7 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 
 ## Shopify + platform changes
 
+- [ ] **Implement notes on phone**
 - [ ] **Add account button to header**
 - [X] **remove debug panel**
 - [ ] **update 'what's a game code' modal**
@@ -58,6 +59,7 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 
 ### Post-launch backlog (P1)
 
+- [ ] **P1** **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`.
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
 - [ ] **P1** **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue (e.g. confirm the code character-by-character, legacy PDF code vs membership share code, code expired after 14 days, create or refresh a share code from the membership library, copy/link/QR again). Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
@@ -78,9 +80,11 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 - [ ] **P1** Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
 - [ ] **P1** Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.
 - [ ] **P1** Double all Enter the Undermurk content
+- [ ] **P1** Add math to the Enter the Undermurk minigame
 - [ ] **P1** Safari iPhone: more accurate skeleton loader on dashboard and share modals
 - [ ] **P1** Safari iPhone: general modal attractiveness needs a full pass
 - [ ] **P1** All: Modal scroll cutoffs — have visible top/bottom border for a cleaner look
+- [ ] **P1** **Final Bell breakout:** Change the language from "summer school" to "detention".
 
 ---
 

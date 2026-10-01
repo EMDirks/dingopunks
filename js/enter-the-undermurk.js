@@ -356,7 +356,7 @@ function umTierName(tier) {
 }
 
 function tierTime(tier) {
-  const base = 21 - tier;
+  const base = 25 - tier;
   const multiplier = umSpeedMultipliers[settings.speed] || 1;
   return base * multiplier;
 }

@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '4.0.1';
+const version = '4.0.2';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -92,6 +92,47 @@ function fillAccessInputs(code) {
   cells.forEach(function(cell, i) {
     cell.value = code.charAt(i);
   });
+}
+
+// Accepts a bare code or a copied play.dingopunks.com/?CODE link.
+function extractPastedCode(text) {
+  let raw = String(text || '').trim();
+  try {
+    const url = new URL(raw);
+    if (url.search.length > 1) raw = url.search.slice(1);
+  } catch (error) {
+    // Not a URL; use the text as-is.
+  }
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
+}
+
+function handleAccessCodePaste(event) {
+  if (!isAccess || isPinLockedOut() || membershipLookupPending) return;
+
+  const cells = document.querySelectorAll('.access-input');
+  if (!cells.length || cells[0].disabled) return;
+
+  const target = event.target;
+  if (target && target.matches && target.matches('input, textarea') && !target.classList.contains('access-input')) {
+    return;
+  }
+
+  const code = extractPastedCode(event.clipboardData && event.clipboardData.getData('text'));
+  if (!code) return;
+
+  event.preventDefault();
+  fillAccessInputs(code);
+
+  const firstEmpty = Array.from(cells).find(function(cell) { return !cell.value; });
+  if (firstEmpty) {
+    firstEmpty.focus({ preventScroll: true });
+    activeInput__codeInput = firstEmpty;
+  } else {
+    cells.forEach(function(cell) { cell.blur(); });
+    activeInput__codeInput = null;
+  }
+
+  checkIfAccessInputIsFilled();
 }
 
 //////////////////////
@@ -784,6 +825,8 @@ function buildAccessCodeEntry() {
     
   }
   setSoftwareKeyboardFunctionality("access-input","access-input-container");    
+  document.removeEventListener('paste', handleAccessCodePaste);
+  document.addEventListener('paste', handleAccessCodePaste);
 
   toggleClass(splashTitle, 'splash-title--hidden', 'splash-title--visible');
   toggleClass(splashSubtitle, 'splash-subtitle--hidden', 'splash-subtitle--visible');
@@ -889,6 +932,7 @@ function checkIfAccessInputIsFilled() {
 // remove access inputs
 function removeAccessInputs(){
   isAccess = false;
+  document.removeEventListener('paste', handleAccessCodePaste);
   let accessElements = document.querySelectorAll('.access-input');
   for (var i = 0; i < accessElements.length; i++) {
     accessElements[i].classList.add('access-input--verified');

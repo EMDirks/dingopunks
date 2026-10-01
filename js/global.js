@@ -280,6 +280,13 @@ const allowedKeys = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 ];
 const allowedLetters = /^[a-zA-Z]$/;
+const modifierKeys = ['Meta', 'Control', 'Alt', 'Shift'];
+
+// Shortcuts (Cmd/Ctrl+V and friends) must reach the browser untouched, and the
+// modifier press alone mustn't blur the cell, or a paste has nowhere to land.
+function isShortcutKeyEvent(event) {
+  return event.metaKey || event.ctrlKey || modifierKeys.includes(event.key);
+}
 
 ///////
 // save
@@ -930,6 +937,8 @@ function setHardwareKeyboardFunctionality(inputElement,inputClass,parentClass,ac
   // ----------
 
   inputElement.addEventListener('keydown', (event) => {   
+
+    if (isShortcutKeyEvent(event)) { return; }
       
     // if a disallowed key is pressed:
     // -------------------------------
@@ -1010,6 +1019,8 @@ function setHardwareKeyboardFunctionality(inputElement,inputClass,parentClass,ac
   // --------
   
   inputElement.addEventListener('keyup', (event) => {
+
+    if (isShortcutKeyEvent(event)) { return; }
 
     if (!allowedKeys.includes(event.key) && !allowedLetters.test(event.key)) {
       event.preventDefault();   
