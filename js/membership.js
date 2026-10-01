@@ -1909,7 +1909,7 @@ function shareMoreGroupHtml(key) {
   if (key === "code") {
     return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-2-title">
       <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a code</h4>
-      <p class="dpaam-share-option-desc">Students go to <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the game code <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> to start the escape room.</p>
+      <p class="dpaam-share-option-desc">Students go to <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the code <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> to start the escape room.</p>
       <div class="dpaam-share-option-actions">
         <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
         <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
