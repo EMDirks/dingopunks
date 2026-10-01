@@ -160,6 +160,7 @@ Smoke journey for each device:
 - [ ] Check school-network, iPad, Chromebook, Safari, popup-blocker, and email-deliverability reports.
 - [ ] Test pinned Firebase module load on a real privacy-filtered network (for example NextDNS or similar DNS/filter lists). Browser blockers (uBlock, Brave shields, Safari Prevent Cross-Site Tracking) do not block `gstatic` and do not count.
 - [ ] Prioritize the remaining P1 list and automate the highest-frequency regression journey.
+- [ ] Add more images to the accounts blog post on dingopunks.com (screenshots of signup, library, share flow, upgrade, and related steps as needed).
 
 ### After 7 days
 
