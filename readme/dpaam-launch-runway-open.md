@@ -7,12 +7,14 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 ## Shopify + platform changes
 
 - [ ] **Add account button to header**
-- [ ] **remove debug panel**
+- [X] **remove debug panel**
 - [ ] **update 'what's a game code' modal**
 - [ ] **add all-access link to global menu**
 - [ ] **new blog post**
 - [ ] **link "account" on the help page (How accounts work)**
 - [ ] **do all 7 on-site marketing items:**
+- [ ] **update banner on splash**
+- [ ] **update undermurk promo image to say "All-Access"**
 
 1. Homepage repositioning. Make Unlimited one of the two primary actions alongside “Try free.” Stop treating Shop as the ultimate destination.
 2. Product-page upsell. Every $8.99 page prominently explains that the room is included in Unlimited.
@@ -28,24 +30,31 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 
 ### Release control
 
-- [ ] **P0** Choose the release commit and record its SHA here: Version 4.0.0
-- [ ] **P0** Working tree is clean; every intended launch change is committed.
-- [ ] **P0** Confirm the generated game catalog is current
-- [ ] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`.
+- [X] **P0** Choose the release commit and record it here: Version 4.0.0 — `cfa4c3b23e4e9f490cb38e4359d1b9fde8a9a837` (tag `v4.0.0`)
+- [X] **P0** Working tree is clean; every intended launch change is committed.
+- [X] **P0** Confirm the generated game catalog is current
+- [X] **P0** The custom production domain is indexable as intended; the `pages.dev` preview remains `noindex`. (Only `membership.html` is indexable; all other pages carry `noindex, nofollow`.)
 
   ```sh
   node scripts/export-game-ids.mjs
   git diff --exit-code -- firebase-functions/game-ids.json
   ```
 
-- [ ] **P0** Confirm all catalog entries used by the membership library have a valid resource path, thumbnail, metadata, and server-exported game ID.
-- [ ] **P0** Freeze unrelated content and refactors until launch verification is complete.
-- [ ] **P0** Record the currently deployed Cloudflare Pages version and Firebase Functions revisions so rollback is possible.
+- [X] **P0** Confirm all catalog entries used by the membership library have a valid resource path, thumbnail, metadata, and server-exported game ID. (2026-10-01: all 150 entries pass; client `isFree` matches server `FREE_GAME_IDS`.)
+- [X] **P0** Freeze unrelated content and refactors until launch verification is complete.
+- [x] **P0** Record the currently deployed Cloudflare Pages version and Firebase Functions revisions so rollback is possible.
 
-Version:
-Cloudflare:
-Git:
-Functions:
+Rollback target (recorded 2026-10-01, before the 4.0.0 deploy):
+
+Version: 3.4.193
+Cloudflare: `51acfd05-8c71-4714-ad54-53c57794fe02` (https://51acfd05.dingopunks.pages.dev)
+Git: `989403a19376eb4d42c2b298d89534b63a340ab0`
+Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy hashes from `firebase functions:list --json`):
+
+- `cancelShareCode`, `createShareCode`, `resolveGameCode`: `6a8d48a2f28ded2b61bf5b53ab3ed8ce4f63a963`
+- `createCheckoutSession`, `createPortalSession`: `5d6c4b91867dbb4e323ca2f5978547aec0ec7d9d`
+- `ensureUserProfile`: `f873cc90e9e3ddce2c24e7bc8c447f3b4173c950`
+- `stripeWebhook`: `9736faef73e3b00aceaed86bc9337c13cf5910cb`
 
 ### Post-launch backlog (P1)
 
@@ -59,6 +68,9 @@ Functions:
 - [ ] **P1** **Customize the Firebase password-management page URL and colors (if possible).** The reset-password page still uses Firebase’s default host and styling. After launch, check whether Authentication templates (or Identity Platform) can serve that page on a Dingo Punks URL and apply brand colors. If the hosted page cannot take colors, cover branding on the custom action handler above instead.
 - [ ] **P1** **Verification gate before upgrade.** Launch lets unverified email/password users start Checkout; only share-code creation waits on a verified address. After launch, block Upgrade and checkout until the email is verified (reuse the existing verify prompt), and enforce the same check on `createCheckoutSession` so a direct call cannot skip it. Google sign-in stays treated as already verified.
 - [ ] **P1** **Inactive account cleanup (post-launch).** Decide inactivity threshold **N days (TBD)** and what “inactive” means (e.g. no sign-in, no share-code activity). Define exclusions (active or canceling All-Access, open disputes, support holds). Implement scheduled deletion or archival of eligible Firebase Auth users and related Firestore data; document retention in Privacy Policy and support macros before enabling automation.
+- [ ] **P1** **Paid share codes outlive subscription lapse.** `resolveGameCode` honors the code’s `expiresAt` but does not re-check the owner’s current plan, so a member who refunds or lapses can keep up to 20 paid-room codes working for ≤14 days (bounded leak; Undermurk bonus already locks on the next launch via live plan). Optional fix: in `resolve-code.js`, reject non–free-tier games when the owner’s profile is not `all-access`.
+- [ ] **P1** **Concurrent Checkout tabs.** The “already All-Access” guard runs before session creation, so two tabs finishing Checkout at once could create two subscriptions on one Stripe customer. Low probability; support can refund the duplicate. Consider a server-side idempotency or “open session” guard if it shows up in support.
+- [ ] **P1** **Static paid assets are publicly fetchable.** Game scripts under `/resource/...` return 200 without auth (same as the legacy model; paywall is share codes and teacher workflow, not file secrecy). Revisit only if product positioning changes; document for support if teachers ask.
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
 - [ ] **P1** Add images to modals as necessary to help illustrate their concepts.
 - [ ] **P1** Make the code input pasteable.
@@ -84,13 +96,13 @@ Run the smoke journey below on:
 
 Smoke journey for each device:
 
-- [CD/SD/CC/SI] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
-- [CD/SD/CC/SI] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
-- [CD/SD/CC/SI] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
-- [CD/SD/CC/SI] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
-- [CD/SD/CC/SI] Play escape room
-- [CD/SD/CC/SI] Play enter the undermurk
-- [CD/SD/CC/SI] Test all menu options
+- [CD/SD/CC/SI/SP] Sign in, open account details, filter the library, favorite a room, share a permitted room, copy/open the link, type the code, and launch the game.
+- [CD/SD/CC/SI/SP] Confirm layouts at portrait and landscape sizes with no clipped controls, accidental horizontal scrolling, hidden errors, or keyboard-covered inputs.
+- [CD/SD/CC/SI/SP] Confirm dialogs open, trap focus, announce titles/errors, close by their visible control and Escape where available, and restore focus.
+- [CD/SD/CC/SI/SP] Confirm no password, full payment detail, secret, or another user's data appears in URLs, page source, console, analytics, or error messages.
+- [CD/SD/CC/SI/SP] Play escape room
+- [CD/SD/CC/SI/SP] Play enter the undermurk
+- [CD/SD/CC/SI/SP] Test all menu options
 
 ---
 
@@ -107,11 +119,11 @@ Smoke journey for each device:
 
 - [ ] Deploy and verify Firestore rules and Firebase Functions first.
 - [ ] Prove public signup works without beta approval directly against the deployed backend.
-- [ ] Publish the matching static frontend to Cloudflare Pages.
-- [ ] Confirm the custom domain serves the intended deployment and cache-busted assets.
+- [x] Publish the matching static frontend to Cloudflare Pages.
+- [x] Confirm the custom domain serves the intended deployment and cache-busted assets.
 - [ ] Run the production smoke: public signup, verification or Google auth, Free selection, live purchase, paid share, incognito student launch, portal cancellation, and refund-policy check.
 - [ ] Verify logs and Stripe webhook deliveries before announcing.
-- [ ] Make the public marketing CTA live only after the production smoke passes.
+- [ ] Make the public marketing CTA live only after the production smoke passes. (Scheduled for Saturday, October 3, 2026.)
 
 ### Immediate monitoring: first two hours
 
@@ -156,11 +168,8 @@ Smoke journey for each device:
 
 ## Final sign-off
 
-- Release SHA: `________________`
-- Production Pages deployment: `________________`
-- Firebase Functions revision/deploy time: `________________`
-- Stripe live transaction/event: `________________`
-- Test evidence folder or issue: `________________`
-- Known accepted P1 issues: `________________`
-- Go/no-go owner: `________________`
-- Launch decision and time: `________________`
+- Release SHA: `cfa4c3b23e4e9f490cb38e4359d1b9fde8a9a837` (tag `v4.0.0`)
+- Production Pages deployment: `b8d08af2-4a40-479c-8370-33ddb62bbccd` (4.0.0 from `cfa4c3b`, published 2026-10-01; https://b8d08af2.dingopunks.pages.dev)
+- Known accepted P1 issues: Post-launch backlog (P1) list in Gate 1
+- Go/no-go owner: Harper Dirks
+- Launch decision and time: Publish 4.0.0 on Thursday, October 1, 2026 at `12:00PM`; point the public website to the account page on Saturday, October 3, 2026.
