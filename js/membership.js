@@ -1298,7 +1298,7 @@ function allAccessPlanFeaturesHtml() {
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
         <li><strong>Unlimited plays</strong>, whenever you want</li>
         <li><strong>Every new escape room</strong> we create</li>
-        <li><strong>Bonus mission</strong> for fast-finishers</li>
+        <li><strong>Bonus missions</strong> for fast-finishers</li>
       </ul>
     </div>`;
 }
@@ -1359,11 +1359,10 @@ function unlimitedPlanPanelHtml({
   const pricingHtml = allAccessPlanPricingHtml();
   const rebateHtml = !isManage && includeRebate ? upgradeRebateFieldsHtml() : "";
   const isCanceling = billingProfile?.status === "canceling";
-  const manageCtaLabel = isCanceling ? "Renew subscription" : "Manage billing";
-  const manageCtaShort = isCanceling ? "Renew" : "Billing";
+  const manageCtaLabel = escapeHtml(isCanceling ? "Renew plan" : "Manage plan");
   const ctaHtml = isManage
-    ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="${escapeHtml(manageCtaLabel)}">
-        <span class="dpaam-responsive-label dpaam-responsive-label--full">${escapeHtml(manageCtaLabel)}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${escapeHtml(manageCtaShort)}</span>
+    ? `<button type="button" class="dpaam-btn dpaam-btn-primary dpaam-auth-submit dpaam-plan-panel__action" data-action="manage-subscription" aria-label="${manageCtaLabel}">
+        <span class="dpaam-responsive-label dpaam-responsive-label--full">${manageCtaLabel}</span><span class="dpaam-responsive-label dpaam-responsive-label--short" aria-hidden="true">${manageCtaLabel}</span>
       </button>`
     : upgradeCheckoutButtonHtml({
         label: checkoutCta === "upgrade" ? "Upgrade" : "Select",
@@ -1435,7 +1434,7 @@ function syncMembershipAccessChrome() {
     els.mobileUpgradeBtn.hidden = !isFree;
   }
   if (els.footerUpgradeBtn) {
-    els.footerUpgradeBtn.textContent = footerOffersBillingPortal() ? "Billing" : "Upgrade";
+    els.footerUpgradeBtn.textContent = footerOffersBillingPortal() ? "Manage" : "Upgrade";
   }
 }
 

@@ -11,6 +11,7 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 - [ ] **update 'what's a game code' modal**
 - [ ] **add all-access link to global menu**
 - [ ] **new blog post**
+- [ ] **link "account" on the help page (How accounts work)
 - [ ] **do all 7 on-site marketing items:**
 
 1. Homepage repositioning. Make Unlimited one of the two primary actions alongside “Try free.” Stop treating Shop as the ultimate destination.
