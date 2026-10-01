@@ -11,7 +11,7 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 - [ ] **update 'what's a game code' modal**
 - [ ] **add all-access link to global menu**
 - [ ] **new blog post**
-- [ ] **link "account" on the help page (How accounts work)
+- [ ] **link "account" on the help page (How accounts work)**
 - [ ] **do all 7 on-site marketing items:**
 
 1. Homepage repositioning. Make Unlimited one of the two primary actions alongside “Try free.” Stop treating Shop as the ultimate destination.
@@ -66,6 +66,9 @@ Functions:
 - [ ] **P1** Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
 - [ ] **P1** Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.
 - [ ] **P1** Double all Enter the Undermurk content
+- [ ] **P1** Safari iPhone: more accurate skeleton loader on dashboard and share modals
+- [ ] **P1** Safari iPhone: general modal attractiveness needs a full pass
+- [ ] **P1** All: Modal scroll cutoffs — have visible top/bottom border for a cleaner look
 
 ---
 
@@ -77,7 +80,7 @@ Run the smoke journey below on:
 - [SD] **P0** Safari on macOS desktop (SD)
 - [CC] **P0** Chrome on a Chromebook (CC)
 - [SI] **P0** Safari on iPad (SI)
-- [ ] **P0** Safari on iPhone (SP)
+- [SP] **P0** Safari on iPhone (SP)
 
 Smoke journey for each device:
 

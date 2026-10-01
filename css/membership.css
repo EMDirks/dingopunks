@@ -4021,6 +4021,11 @@ dd a {
     display: none;
   }
 
+  /* Modal body has no top padding here, so a negative margin clips ascenders. */
+  .dpaam-theme-modal-body {
+    margin-top: 0;
+  }
+
   /* --- Account modal --- */
 
   .dpaam-account-modal .dpaam-modal-header {
