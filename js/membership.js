@@ -1900,7 +1900,7 @@ function shareMoreGroupHtml(key) {
     const directLinkLabel = "play.dingopunks.com/?" + code;
     return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-1-title">
       <h4 class="dpaam-share-option-title" id="dpaam-share-option-1-title">Send students a direct link</h4>
-      <p class="dpaam-share-option-desc">Students can visit <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> to start the escape room automatically.</p>
+      <p class="dpaam-share-option-desc">Students go to <a href="${escapeHtml(directLink)}" target="_blank" rel="noopener">${escapeHtml(directLinkLabel)}</a> to start the escape room automatically.</p>
       <div class="dpaam-share-option-actions dpaam-share-option-actions--stack">
         <button type="button" class="dpaam-btn dpaam-btn-primary" data-action="copy-direct-link">Copy direct link</button>
       </div>
@@ -1908,8 +1908,8 @@ function shareMoreGroupHtml(key) {
   }
   if (key === "code") {
     return `<section class="dpaam-share-more-option" aria-labelledby="dpaam-share-option-2-title">
-      <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a game code</h4>
-      <p class="dpaam-share-option-desc">Students can visit <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the game code <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> to start the escape room.</p>
+      <h4 class="dpaam-share-option-title" id="dpaam-share-option-2-title">Have students enter a code</h4>
+      <p class="dpaam-share-option-desc">Students go to <a href="https://play.dingopunks.com" target="_blank" rel="noopener">play.dingopunks.com</a> and enter the game code <span class="dpaam-share-code-inline" aria-label="Game code ${escapeHtml(code)}">${shareCodeCharsHtml(code)}</span> to start the escape room.</p>
       <div class="dpaam-share-option-actions">
         <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy-link" data-action="copy-share-link">Copy website</button>
         <button type="button" class="dpaam-btn dpaam-btn-primary" id="dpaam-share-copy" data-action="copy-share-code">Copy game code</button>
