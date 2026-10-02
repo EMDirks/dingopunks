@@ -210,11 +210,12 @@
   color: var(--dpaam-green-dark);
 }
 
-.dpaam-auth-message .dpaam-auth-message-link {
+#dpaam-auth .dpaam-auth-message--error .dpaam-auth-message-link,
+#dpaam-auth .dpaam-auth-message--error .dpaam-auth-message-link:hover {
   margin: 0;
   font-size: inherit;
   line-height: inherit;
-  color: inherit;
+  color: var(--dpaam-salmon-dark);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
