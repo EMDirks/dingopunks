@@ -324,6 +324,23 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     el.hidden = false;
   }
 
+  function showEmailTakenMessage(email) {
+    clearAuthMessages();
+    const el = document.getElementById("dpaam-auth-error");
+    if (!el) return;
+
+    const signInLink = makeMessageLink("Log in", () => {
+      const signInEmail = document.getElementById("dpaam-auth-signin-email");
+      const signInPassword = document.getElementById("dpaam-auth-signin-password");
+      if (email && signInEmail) signInEmail.value = email;
+      setAuthView("signin", { focus: !email });
+      if (email) signInPassword?.focus();
+    });
+
+    el.append("An account with this email already exists. ", signInLink, " instead.");
+    el.hidden = false;
+  }
+
   wirePasswordToggles(section);
   setAuthView(signedOutView);
 
@@ -394,7 +411,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       });
     } catch (error) {
       signupInThisTab = false;
-      showAuthMessage("error", authErrorMessage(error));
+      if (error?.code === "auth/email-already-in-use") {
+        showEmailTakenMessage(email);
+      } else {
+        showAuthMessage("error", authErrorMessage(error));
+      }
     } finally {
       setButtonLoading(submit, false, "Creating account…");
     }
