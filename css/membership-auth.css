@@ -35,22 +35,6 @@
   background: transparent;
 }
 
-.dpaam-auth .dpaam-topbar .dpaam-modal-close {
-  background-color: var(--dpaam-light-gray);
-  color: var(--dpaam-black-muted);
-  border: 1px solid var(--dpaam-border);
-  flex-shrink: 0;
-  margin: 0;
-  padding: 4px 11px 0px 11px;
-  font-size: var(--dpaam-text-md);
-  font-weight: 600;
-  line-height: normal;
-  border-radius: var(--dpaam-radius-lg);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .dpaam-auth .dpaam-topbar .dpaam-topbar-btn {
   position: relative;
   z-index: 2;

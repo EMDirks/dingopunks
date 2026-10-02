@@ -192,10 +192,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   let signedOutView = consumeRequestedAuthView();
 
-  document.getElementById("dpaam-auth-close")?.addEventListener("click", () => {
-    window.location.href = "https://dingopunks.com/";
-  });
-
   const headerToggle = document.getElementById("dpaam-auth-header-toggle");
 
   function updateAuthHeader(view) {
