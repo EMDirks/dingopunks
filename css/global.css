@@ -777,7 +777,7 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .global-menu__teachers-link-icon[src*="modal-icon-dpaam"] {
-	background-color: rgba(var(--blue), 1);
+	background-color: rgba(var(--teal), 1);
 }
 
 .global-menu__teachers-link-icon[src*="modal-icon-contact"] {

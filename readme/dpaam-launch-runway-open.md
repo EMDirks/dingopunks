@@ -7,23 +7,21 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 ## Shopify + platform changes
 
 - [X] **Implement notes on phone**
-- [ ] **Add account button to header**
+- [X] **Add account button to header**
 - [X] **remove debug panel**
-- [ ] **update 'what's a game code' modal**
-- [ ] **add all-access link to global menu**
+- [X] **update 'what's a game code' modal**
+- [X] **add all-access link to global menu**
 - [X] **new blog post**
-- [ ] **link "account" on the help page (How accounts work)**
+- [X] **link "account" on the help page (How accounts work)**
 - [ ] **do all 7 on-site marketing items:**
 - [ ] **update banner on splash**
-- [ ] **update undermurk promo image to say "All-Access"**
+- [X] **update undermurk promo image to say "All-Access"**
 
-1. Homepage repositioning. Make Unlimited one of the two primary actions alongside “Try free.” Stop treating Shop as the ultimate destination.
+
 2. Product-page upsell. Every $8.99 page prominently explains that the room is included in Unlimited.
-3. Cart upsell. Dynamically compare what they're about to spend with $35.88/year.
 4. Replace bundle marketing. Stop spending valuable page real estate persuading people to buy multiple individual rooms.
 5. Teacher portal promotion. Sell Unlimited to the enormous pool of people who've already bought/used your games.
-6. Automated lifecycle email. Signup → free-room usage → Unlimited messaging. This can run forever with essentially zero ongoing work.
-7. TPT brand funnel, not sales funnel. Keep feeding people into awareness of Dingo Punks, but respect TPT's restrictions on steering their customers to your external store.
+
 
 ---
 

@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '4.0.12';
+const version = '4.0.13';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -801,7 +801,7 @@ function buildAccessCodeEntry() {
     element.addEventListener("click", function() { 
       createModal(
         "What's a game code?",
-        "A game code is a unique <span class = 'p--highlight'>5-character code</span> needed to play a Dingo Punks escape room. If you're a student, your teacher will give it to you. If you're a teacher, you can find it on the PDF you purchased from us.",
+        "A game code is a <span class = 'p--highlight'>5-character code</span> needed to play a Dingo Punks escape room. If you're a student, your teacher will give it to you. If you're a teacher, you can find it on the PDF you purchased from us, or from the 'Shared' tab in your account.",
         "Close"
       )
     });
