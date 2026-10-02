@@ -54,7 +54,7 @@ Also keep `js/debrief.js`’s `const version = '…'` in sync (it has drifted be
 
 ### Files that must receive the new version string
 
-Replace **every** occurrence of the old `X.Y.Z` with the new one in:
+Only `?version=X.Y.Z` cache-bust queries and `const version = 'X.Y.Z'` lines are version strings. Everything else that looks like a version (SVG path data such as `4 0 7`, prices, coordinates) must stay untouched. These files are updated:
 
 | Path | What updates |
 |------|----------------|
@@ -69,30 +69,25 @@ Replace **every** occurrence of the old `X.Y.Z` with the new one in:
 | `404.html` | `?version=` on CSS/JS links |
 | `membership.html` | `?version=` on CSS/JS links |
 
-Example (after reading current `OLD` from `js/splash-new.js` and computing `NEW`):
+Run the bump script. It reads the current version from `js/splash-new.js`, increments the patch, and rewrites only those two anchored patterns (so `js/debrief.js` is always forced to the new version even if it drifted):
 
 ```bash
-OLD=3.4.47
-NEW=3.4.48
-for f in \
-  404.html answer-key.html debrief.html enter-the-undermurk.html \
-  free-play.html index.html preview.html membership.html \
-  js/debrief.js js/splash-new.js
-do
-  sed -i '' "s/${OLD}/${NEW}/g" "$f"
-done
-# If debrief.js was already behind OLD, force it to NEW:
-sed -i '' -E "s/const version = '[0-9]+\\.[0-9]+\\.[0-9]+'/const version = '${NEW}'/" js/debrief.js js/splash-new.js
+node scripts/bump-version.mjs
 ```
 
-Verify both consts and spot-check an HTML cache-bust query before committing:
+**Never** bump with a bare `sed "s/${OLD}/${NEW}/g"`. In `sed`, `.` matches any character, so `4.0.7` also matches `4 0 7` inside SVG `d="…"` attributes. That silently corrupted the Google and heart icons in `membership.html` across the 4.0.2–4.0.8 publishes.
+
+Verify before committing. The `git diff` check must print nothing; any output means something other than a version string changed, so stop and investigate:
 
 ```bash
 grep -n "const version" js/debrief.js js/splash-new.js
 grep -o 'version=[0-9.]*' index.html debrief.html | sort -u
+git diff -U0 -- 404.html answer-key.html debrief.html enter-the-undermurk.html \
+  free-play.html index.html preview.html membership.html js/debrief.js js/splash-new.js \
+  | grep -E '^[-+][^-+]' | grep -vE 'version=|const version'
 ```
 
-Both consts and the HTML `?version=` values must equal `NEW`. Fix any leftover old version before publish.
+Uncommitted feature edits in those files will also show up; confirm each listed line is an intended change. Both consts and the HTML `?version=` values must equal `NEW`.
 
 ### Commit after bump
 
@@ -170,6 +165,7 @@ Cloudflare Pages treats a root-level **`functions/`** folder as **Pages Function
 ## What not to do
 
 - **Do not publish without incrementing the version and committing first.**
+- Do not bump versions with an unanchored `sed` find/replace; use `node scripts/bump-version.mjs`.
 - Do not pass `.` to `wrangler pages deploy`; deploy the generated `dist/` directory.
 - Do not leave `js/debrief.js` on an older `const version` than `js/splash-new.js`.
 - Do not suggest zipping the folder for dashboard upload when file count exceeds 1,000.
