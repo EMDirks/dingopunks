@@ -84,6 +84,7 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 - [ ] **P1** Safari iPhone: general modal attractiveness needs a full pass
 - [ ] **P1** All: Modal scroll cutoffs — have visible top/bottom border for a cleaner look
 - [ ] **P1** **Final Bell breakout:** Change the language from "summer school" to "detention".
+- [ ] **P1** Add a sticky customer support control to the bottom right of the membership.
 
 ---
 
