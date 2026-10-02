@@ -210,6 +210,16 @@
   color: var(--dpaam-green-dark);
 }
 
+.dpaam-auth-message .dpaam-auth-message-link {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .dpaam-auth-form {
   display: flex;
   flex-direction: column;

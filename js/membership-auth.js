@@ -111,6 +111,20 @@ export function authErrorMessage(error) {
   }
 }
 
+// Firebase's email-enumeration protection returns the same code for an unknown
+// email and a wrong password, so the sign-in form can't tell them apart.
+function isCredentialMismatch(error) {
+  switch (error?.code) {
+    case "auth/invalid-credential":
+    case "auth/invalid-login-credentials":
+    case "auth/user-not-found":
+    case "auth/wrong-password":
+      return true;
+    default:
+      return false;
+  }
+}
+
 function isCancelledPopup(error) {
   return (
     error?.code === "auth/popup-closed-by-user" ||
@@ -270,6 +284,46 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setAuthView("signin", { focus: true });
   });
 
+  function makeMessageLink(label, onClick) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "dpaam-auth-link dpaam-auth-message-link";
+    button.textContent = label;
+    button.addEventListener("click", onClick);
+    return button;
+  }
+
+  // Covers both "no such account" and "wrong password" without revealing
+  // which one happened; offers the recovery path for each.
+  function showCredentialMismatchMessage(email) {
+    clearAuthMessages();
+    const el = document.getElementById("dpaam-auth-error");
+    if (!el) return;
+
+    const resetLink = makeMessageLink("Reset your password", () => {
+      const resetEmail = document.getElementById("dpaam-auth-reset-email");
+      if (email && resetEmail) resetEmail.value = email;
+      setAuthView("reset", { focus: true });
+    });
+
+    const signUpLink = makeMessageLink("create a free account", () => {
+      const signUpEmail = document.getElementById("dpaam-auth-signup-email");
+      const signUpPassword = document.getElementById("dpaam-auth-signup-password");
+      if (email && signUpEmail) signUpEmail.value = email;
+      setAuthView("signup", { focus: !email });
+      if (email) signUpPassword?.focus();
+    });
+
+    el.append(
+      "That email and password don't match an account. ",
+      resetLink,
+      " or ",
+      signUpLink,
+      ".",
+    );
+    el.hidden = false;
+  }
+
   wirePasswordToggles(section);
   setAuthView(signedOutView);
 
@@ -289,7 +343,11 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     try {
       await signInWithEmailAndPassword(auth, email, passwordInput.value);
     } catch (error) {
-      showAuthMessage("error", authErrorMessage(error));
+      if (isCredentialMismatch(error)) {
+        showCredentialMismatchMessage(email);
+      } else {
+        showAuthMessage("error", authErrorMessage(error));
+      }
     } finally {
       setButtonLoading(submit, false, "Logging in…");
     }
