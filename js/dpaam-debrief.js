@@ -143,7 +143,7 @@
     }
     createModal(
       'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
-      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! To unlock it, ask your teacher about signing up for <a class="dpaam-debrief-all-access-link" href="membership.html">Dingo Punks All-Access</a>.',
+      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! To unlock it, ask your teacher about signing up for <a class="dpaam-debrief-all-access-link" href="https://account.dingopunks.com/?auth=signup">Dingo Punks All-Access</a>.',
       'Close'
     );
   }
