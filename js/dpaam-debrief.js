@@ -84,13 +84,11 @@
       const statusLabel = document.createElement('span');
       statusLabel.classList.add('dpaam-debrief-coming-soon__status');
       if (undermurkLocked) {
-        // statusLabel.appendChild(document.createTextNode('Requires '));
-        // const accessPill = document.createElement('span');
-        // accessPill.classList.add('dpaam-debrief-all-access-pill');
-        // accessPill.textContent = 'All-Access';
-        // statusLabel.appendChild(accessPill);
-        statusLabel.textContent = 'Coming Soon';
-        statusLabel.style.textTransform = 'none';
+        statusLabel.appendChild(document.createTextNode('Requires '));
+        const accessPill = document.createElement('span');
+        accessPill.classList.add('dpaam-debrief-all-access-pill');
+        accessPill.textContent = 'All-Access';
+        statusLabel.appendChild(accessPill);
       } else {
         statusLabel.textContent = 'Play Now';
       }
@@ -144,26 +142,10 @@
       return;
     }
     createModal(
-      // 'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
-      'Bonus missions are coming soon.',
-      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! This feature is coming soon — hang tight.',
+      'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
+      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! To unlock it, ask your teacher about signing up for <a class="dpaam-debrief-all-access-link" href="membership.html">Dingo Punks All-Access</a>.',
       'Close'
     );
-  }
-
-  /* 'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
-      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! To unlock it, ask your teacher about subscribing to <a class="dpaam-debrief-all-access-link" href="#">Dingo Punks All-Access</a> — coming soon!',
-      'Close'
-
-  */
-
-  const bonusModalParagraph = document.querySelector('.modal__paragraph');
-  if (bonusModalParagraph) {
-    bonusModalParagraph.addEventListener('click', function (event) {
-      const link = event.target.closest('.dpaam-debrief-all-access-link');
-      if (!link || link.getAttribute('href') !== '#') return;
-      event.preventDefault();
-    });
   }
 
   if (minigamePanel) {
