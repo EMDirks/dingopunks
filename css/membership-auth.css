@@ -183,6 +183,10 @@
   margin-bottom: var(--dpaam-pad-xl);
 }
 
+#dpaam-auth-modal-signup .dpaam-auth-title {
+  margin-bottom: calc(var(--dpaam-pad-md) + var(--dpaam-pad-xs));
+}
+
 .dpaam-auth-message {
   margin: calc(-1 * var(--dpaam-auth-card-pad-y)) calc(-1 * var(--dpaam-auth-card-pad-x)) var(--dpaam-pad-xl);
   padding: calc(var(--dpaam-pad-md) + var(--dpaam-pad-xs)) var(--dpaam-pad-md) var(--dpaam-pad-md) var(--dpaam-pad-md);
