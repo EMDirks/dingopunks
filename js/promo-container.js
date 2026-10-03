@@ -11,7 +11,7 @@ const themeAssets = {
       transform: 'scaleX(1)',
     },
     text: 'Teachers, want 8 free escape rooms?',
-    button: 'Create a free Dingo Punks account',
+    button: 'Sign up for a free Dingo Punks account',
     link: 'https://account.dingopunks.com/?auth=signup',
     alert: 'News',
     hasLogo: false,
