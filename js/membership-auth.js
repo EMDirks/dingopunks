@@ -213,7 +213,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     if (view === "signin") {
       headerToggle.hidden = false;
-      headerToggle.textContent = "Sign up";
+      headerToggle.textContent = "Create account";
       return;
     }
 
@@ -306,7 +306,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       setAuthView("reset", { focus: true });
     });
 
-    const signUpLink = makeMessageLink("create a free account", () => {
+    const signUpLink = makeMessageLink("create an account", () => {
       const signUpEmail = document.getElementById("dpaam-auth-signup-email");
       const signUpPassword = document.getElementById("dpaam-auth-signup-password");
       if (email && signUpEmail) signUpEmail.value = email;
