@@ -213,7 +213,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     if (view === "signin") {
       headerToggle.hidden = false;
-      headerToggle.textContent = "Create account";
+      headerToggle.textContent = "Sign up";
       return;
     }
 

@@ -64,7 +64,7 @@ export function initDebugView({ onViewChange } = {}) {
       if (headerToggle) {
         headerToggle.hidden = authView !== "signin";
         if (authView === "signin") {
-          headerToggle.textContent = "Create account";
+          headerToggle.textContent = "Sign up";
         }
       }
     } else {
