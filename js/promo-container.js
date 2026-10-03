@@ -1,6 +1,21 @@
-const theme = "fall";
+const theme = "all_access";
 /** Theme key → background + optional character img + optional characterStyle (root-relative paths) */
 const themeAssets = {
+  all_access: { 
+    background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png',
+    character: 'assets/dpaam/all-access.png',
+    characterStyle: {
+      left: 'auto',
+      right: '-7%',
+      top: '-35%',
+      transform: 'scaleX(1)',
+    },
+    text: 'Teachers, want 8 free escape rooms?',
+    button: 'Create a free Dingo Punks account',
+    link: 'https://account.dingopunks.com/?auth=signup',
+    alert: 'News',
+    hasLogo: false,
+  },
   all_year: { 
     background: 'resource/escape-the-midnight-mall/assets/cutscene/main.png',
     character: 'resource/escape-the-midnight-mall/assets/activity/character/topsy.png',

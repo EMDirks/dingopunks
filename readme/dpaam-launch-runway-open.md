@@ -14,7 +14,7 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 - [X] **new blog post**
 - [X] **link "account" on the help page (How accounts work)**
 - [ ] **do all 7 on-site marketing items:**
-- [ ] **update banner on splash**
+- [X] **update banner on splash**
 - [X] **update undermurk promo image to say "All-Access"**
 
 
