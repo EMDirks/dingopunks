@@ -52,6 +52,7 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 
 ### Post-launch backlog (P1)
 
+- [ ] **P1** **Set up Stripe Tax.** Enable Stripe Tax on the live account, add tax registrations for jurisdictions where you collect, set tax behavior on the All-Access product/price, and confirm live Checkout, invoices, and the Customer Portal show the expected tax (or exemption) before scaling marketing.
 - [ ] **P1** **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`.
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
