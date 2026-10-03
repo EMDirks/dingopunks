@@ -19,7 +19,6 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 
 
 2. Product-page upsell. Every $8.99 page prominently explains that the room is included in Unlimited.
-4. Replace bundle marketing. Stop spending valuable page real estate persuading people to buy multiple individual rooms.
 5. Teacher portal promotion. Sell Unlimited to the enormous pool of people who've already bought/used your games.
 
 
