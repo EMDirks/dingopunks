@@ -13,13 +13,9 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 - [X] **add all-access link to global menu**
 - [X] **new blog post**
 - [X] **link "account" on the help page (How accounts work)**
-- [ ] **do all 7 on-site marketing items:**
+- [X] **do all 7 on-site marketing items:**
 - [X] **update banner on splash**
 - [X] **update undermurk promo image to say "All-Access"**
-
-
-2. Product-page upsell. Every $8.99 page prominently explains that the room is included in Unlimited.
-5. Teacher portal promotion. Sell Unlimited to the enormous pool of people who've already bought/used your games.
 
 
 ---
