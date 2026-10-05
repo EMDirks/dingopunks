@@ -3,7 +3,7 @@ const resource =  {
     info: {
         title: "The Hasty Harvest",
         path: "the-hasty-harvest",
-        logo: "assets/branding/placeholder/need-image.png",
+        logo: "resource/the-hasty-harvest/assets/branding/reading/poetry/thumbnail-2nd-3rd-grade.png",
         timerLabel: "TIME TO SUNSET"
     },
 
@@ -396,6 +396,7 @@ const resource =  {
                         "RF.2.4b",
                         "RF.2.4c",
                         "RI.2.4",
+                        "RI.3.4",
                         "RL.2.4",
                         "RL.2.10",
                         "L.3.3",

@@ -2025,6 +2025,38 @@ export const gameStandardsById = {
       codes: ["RL.2.1","RL.2.3","RL.2.5","RL.2.7","RL.2.10","RL.3.1","RL.3.3","RL.3.7","RL.3.10"],
     },
   ],
+  "the-hasty-harvest-making-inferences-4-5":   [
+    {
+      key: "CCRA.L",
+      name: "Anchor Standards for Language",
+      codes: ["CCRA.L.3","CCRA.L.5"],
+    },
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.4.4","RF.4.4a","RF.4.4b","RF.5.4","RF.5.4a","RF.5.4b"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.4.1","RI.4.2","RI.4.3","RI.4.5","RI.4.6","RI.4.7","RI.4.8","RI.4.9","RI.4.10","RI.5.1","RI.5.3","RI.5.5","RI.5.6","RI.5.7","RI.5.8","RI.5.9","RI.5.10"],
+    },
+    {
+      key: "L",
+      name: "Reading: Language",
+      codes: ["L.4.3","L.4.3a","L.4.4a","L.4.5","L.5.3","L.5.4a","L.5.5"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.4.1","RL.4.2","RL.4.3","RL.4.10","RL.5.1","RL.5.10"],
+    },
+  ],
   "the-hasty-harvest-mixed-math-skills-3":   [
     {
       key: "MD",
@@ -2269,7 +2301,7 @@ export const gameStandardsById = {
     {
       key: "RI",
       name: "Reading: Informational Text",
-      codes: ["RI.2.4"],
+      codes: ["RI.2.4","RI.3.4"],
     },
     {
       key: "L",
@@ -2280,6 +2312,38 @@ export const gameStandardsById = {
       key: "RL",
       name: "Reading: Literature",
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.4","RL.2.5","RL.2.10","RL.3.1","RL.3.2","RL.3.3","RL.3.4","RL.3.5","RL.3.10"],
+    },
+  ],
+  "the-hasty-harvest-poetry-4-5":   [
+    {
+      key: "CCRA.L",
+      name: "Anchor Standards for Language",
+      codes: ["CCRA.L.5"],
+    },
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.4","CCRA.R.5","CCRA.R.6","CCRA.R.7","CCRA.R.8","CCRA.R.9","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.4.4","RF.4.4a","RF.4.4b","RF.5.4","RF.5.4a","RF.5.4b"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.4.1","RI.4.2","RI.4.8","RI.4.9","RI.4.10","RI.5.1","RI.5.3","RI.5.5","RI.5.8","RI.5.9","RI.5.10"],
+    },
+    {
+      key: "L",
+      name: "Reading: Language",
+      codes: ["L.4.4","L.4.5","L.4.5a","L.4.5b","L.5.4","L.5.5","L.5.5b"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.4.1","RL.4.2","RL.4.4","RL.4.5","RL.4.10","RL.5.1","RL.5.2","RL.5.4","RL.5.5","RL.5.9","RL.5.10"],
     },
   ],
   "the-hasty-harvest-story-elements-2-3":   [
@@ -2297,6 +2361,28 @@ export const gameStandardsById = {
       key: "RL",
       name: "Reading: Literature",
       codes: ["RL.2.1","RL.2.2","RL.2.3","RL.2.5","RL.2.7","RL.2.9","RL.2.10","RL.3.1","RL.3.2","RL.3.3","RL.3.5","RL.3.7","RL.3.10"],
+    },
+  ],
+  "the-hasty-harvest-story-elements-4-5":   [
+    {
+      key: "CCRA.R",
+      name: "Anchor Standards for Reading",
+      codes: ["CCRA.R.1","CCRA.R.2","CCRA.R.3","CCRA.R.5","CCRA.R.7","CCRA.R.10"],
+    },
+    {
+      key: "RF",
+      name: "Reading: Foundational Skills",
+      codes: ["RF.4.1","RF.4.2","RF.4.3","RF.4.4","RF.4.4a","RF.4.4b","RF.4.10","RF.5.4","RF.5.4a","RF.5.4b"],
+    },
+    {
+      key: "RI",
+      name: "Reading: Informational Text",
+      codes: ["RI.4.1","RI.4.10","RI.5.1","RI.5.10"],
+    },
+    {
+      key: "RL",
+      name: "Reading: Literature",
+      codes: ["RL.4.1","RL.4.3","RL.4.10","RL.5.1","RL.5.2","RL.5.3","RL.5.5","RL.5.10"],
     },
   ],
   "the-midnight-mall-authors-purpose-4-5":   [

@@ -1930,7 +1930,7 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  /* {
+  {
     id: "the-hasty-harvest-story-elements-2-3",
     isNew: true,
     title: "The Hasty Harvest",
@@ -1945,11 +1945,11 @@ export const games = [
       "Structure",
       "Theme",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/story-elements/thumbnail-2nd-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/story-elements/storyElements_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  }, */
+  },
   {
     id: "the-hasty-harvest-story-elements-4-5",
     title: "The Hasty Harvest",
@@ -1969,7 +1969,7 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  /* {
+  {
     id: "the-hasty-harvest-poetry-2-3",
     isNew: true,
     title: "The Hasty Harvest",
@@ -1984,11 +1984,11 @@ export const games = [
       "Language and Vocabulary",
       "Central Message or Lesson",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/poetry/thumbnail-2nd-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/poetry/poetry_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  }, */
+  },
   {
     id: "the-hasty-harvest-poetry-4-5",
     title: "The Hasty Harvest",
@@ -2008,7 +2008,7 @@ export const games = [
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
   },
-  /* {
+  {
     id: "the-hasty-harvest-making-inferences-2-3",
     isNew: true,
     title: "The Hasty Harvest",
@@ -2023,11 +2023,11 @@ export const games = [
       "Making Inferences About a Visual",
       "Solving Riddles",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-hasty-harvest/assets/branding/reading/making-inferences/thumbnail-2nd-3rd-grade.png",
     path: "resource/the-hasty-harvest/topic/reading/making-inferences/makingInferences_2nd3rdGrade.js",
     badguy: "resource/the-hasty-harvest/assets/cutscene/badguy.png",
     main: "resource/the-hasty-harvest/assets/cutscene/main.png",
-  }, */
+  },
   {
     id: "the-hasty-harvest-making-inferences-4-5",
     title: "The Hasty Harvest",
