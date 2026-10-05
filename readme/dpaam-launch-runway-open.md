@@ -52,11 +52,12 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 ### Post-launch backlog (P1)
 
 - [X] **P1** Make the code input pasteable.
-- [ ]**P1 Set up a proper help center** One hub, 3 locations.
+- [X]**P1 Set up a proper help center** One hub, 3 locations.
 - [ ] **P1** **Set up Stripe Tax.** Enable Stripe Tax on the live account, add tax registrations for jurisdictions where you collect, set tax behavior on the All-Access product/price, and confirm live Checkout, invoices, and the Customer Portal show the expected tax (or exemption) before scaling marketing.
 - [ ] **P1** **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`.
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
 - [ ] **P1** Move legacy 5-digit purchase-code resolution server-side so valid codes are no longer derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle; define and test behavior when Firebase is blocked or unavailable (today’s client-only path).
+- [ ] **P1** **Google Analytics on the account site.** Play pages already send page views to `G-C3DG9YEYJ3`. Add the same tag to `membership.html` (and `enter-the-undermurk.html` if that surface should be measured). Keep the existing rule: no student account data, passwords, or payment details in analytics.
 - [ ] **P1** **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue (e.g. confirm the code character-by-character, legacy PDF code vs membership share code, code expired after 14 days, create or refresh a share code from the membership library, copy/link/QR again). Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
 - [ ] **P1** Clean up game-code rate limiting. The local 5-attempt lockout and the server `resource-exhausted` response both use the same countdown overlay; make the student-facing behavior intentional and consistent. (2026-09-25: the server lockout now lasts at most 60 seconds, the same as the local one, so the long-countdown concern is mostly gone. What remains is making the two feel intentional.)
 - [ ] **P1** Add a small automated browser smoke suite for public signup/sign-in, free sharing, and student launch.
