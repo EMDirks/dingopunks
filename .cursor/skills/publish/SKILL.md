@@ -28,14 +28,45 @@ This repo is a static site (HTML/CSS/JS/assets). The Cloudflare **dashboard drag
 
 On **every** user ask to publish (including a bare “publish”):
 
-1. **Regenerate standards lookup** — `node scripts/export-game-standards.mjs` (updates [`js/game-standards.js`](js/game-standards.js) from resource files; commit the output)
+1. **Regenerate standards lookup and game IDs** — `node scripts/export-game-standards.mjs` (updates [`js/game-standards.js`](js/game-standards.js) from resource files) and `node scripts/export-game-ids.mjs` (updates `firebase-functions/game-ids.json`); commit both outputs
 2. **Bump the patch version** (see [Version bump](#version-bump))
 3. **`git add -A`** (stage everything intended to ship)
 4. **Commit** (message must mention the new version, e.g. `… for 3.4.48.`)
 5. **Build the public-only upload directory** — `node scripts/build-pages.mjs`
 6. **Publish** with Wrangler (see [Publish from this repo](#publish-from-this-repo))
+7. **Redeploy share-code functions if escape rooms changed** (see [Escape room changes: redeploy share-code functions](#escape-room-changes-redeploy-share-code-functions))
 
 Do **not** skip the version bump or standards export. Either is a hard failure of this skill.
+
+## Escape room changes: redeploy share-code functions
+
+Firebase functions `createShareCode`, `cancelShareCode`, and `resolveGameCode` validate game IDs against `firebase-functions/game-ids.json`, which is loaded when the functions are deployed. Publishing to Cloudflare does **not** update it. If a room is in the catalog but missing from the deployed list, teachers get **"Unknown game."** when sharing, and students can't resolve its codes.
+
+**When it applies:** the publish includes adding, removing, enabling (uncommenting), or renaming an escape room entry — in practice, any change to `js/games.js` entries or their `id`s. Check with:
+
+```bash
+git diff HEAD~1 --stat -- js/games.js firebase-functions/game-ids.json
+```
+
+If either file changed in the publish commit (or since the last functions deploy), redeploy. If unsure, redeploy — it's safe and takes about a minute.
+
+**Steps** (after the Wrangler publish succeeds):
+
+1. Regenerate the ID list (the deploy predeploy hook also runs this, but run it before committing so the committed file is current):
+
+   ```bash
+   node scripts/export-game-ids.mjs
+   ```
+
+2. Deploy only the share-code functions:
+
+   ```bash
+   npx firebase-tools deploy --only functions:createShareCode,functions:cancelShareCode,functions:resolveGameCode --project dpaam-8864d
+   ```
+
+3. If it fails with `Your credentials are no longer valid`, stop and ask the user to run `npx firebase-tools login --reauth` in their own terminal, then retry.
+
+Do not deploy the other functions (Stripe, profile, etc.) as part of publish unless the user asks.
 
 ## Version bump
 
@@ -153,8 +184,9 @@ When the user asks to publish (e.g. “publish”, “deploy to Cloudflare”):
 3. **Always** `git add -A` and commit with the new version in the message.
 4. Run `node scripts/build-pages.mjs` to create the public-only `dist/` directory.
 5. Run `npx wrangler pages deploy dist --project-name dingopunks --commit-dirty=true` with network access; include the new version in `--commit-message`.
-6. Report the new version and both URLs (`https://<id>.dingopunks.pages.dev` and `https://dingopunks.pages.dev`).
-7. If publish fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
+6. If escape rooms were added or modified, redeploy the share-code functions (see [Escape room changes](#escape-room-changes-redeploy-share-code-functions)).
+7. Report the new version, both URLs (`https://<id>.dingopunks.pages.dev` and `https://dingopunks.pages.dev`), and whether functions were redeployed.
+8. If publish fails with a project-name error, confirm `wrangler.toml` `name` matches the dashboard or suggest `wrangler pages project list` after login.
 
 Pushing to GitHub (`dingopunks` remote) is **not** part of this skill unless the user also asks to push / back up; use the `push` skill for that.
 
@@ -165,6 +197,7 @@ Cloudflare Pages treats a root-level **`functions/`** folder as **Pages Function
 ## What not to do
 
 - **Do not publish without incrementing the version and committing first.**
+- Do not skip the share-code functions redeploy when escape rooms were added or modified; the Pages publish alone leaves new rooms unshareable.
 - Do not bump versions with an unanchored `sed` find/replace; use `node scripts/bump-version.mjs`.
 - Do not pass `.` to `wrangler pages deploy`; deploy the generated `dist/` directory.
 - Do not leave `js/debrief.js` on an older `const version` than `js/splash-new.js`.
