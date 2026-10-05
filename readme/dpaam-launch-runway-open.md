@@ -17,7 +17,6 @@ Filtered from `readme/dpaam-launch-runway.md`. Only unchecked work remains here;
 - [X] **update banner on splash**
 - [X] **update undermurk promo image to say "All-Access"**
 
-
 ---
 
 ## Gate 1 — Release candidate and automated checks
@@ -52,6 +51,8 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 
 ### Post-launch backlog (P1)
 
+- [X] **P1** Make the code input pasteable.
+- [ ]**P1 Set up a proper help center** One hub, 3 locations.
 - [ ] **P1** **Set up Stripe Tax.** Enable Stripe Tax on the live account, add tax registrations for jurisdictions where you collect, set tax behavior on the All-Access product/price, and confirm live Checkout, invoices, and the Customer Portal show the expected tax (or exemption) before scaling marketing.
 - [ ] **P1** **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`.
 - [ ] **P1** Upgrade `firebase-admin` to ≥14.4.0 to clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
@@ -70,7 +71,6 @@ Functions (project `dpaam-8864d`, us-central1, v2, nodejs22; Firebase deploy has
 - [ ] **P1** **Static paid assets are publicly fetchable.** Game scripts under `/resource/...` return 200 without auth (same as the legacy model; paywall is share codes and teacher workflow, not file secrecy). Revisit only if product positioning changes; document for support if teachers ask.
 - [ ] **P1** Prevent bumper flicker on index page load. The opening bumper is injected in JS after first paint, so the page flashes before the teal overlay covers it.
 - [ ] **P1** Add images to modals as necessary to help illustrate their concepts.
-- [ ] **P1** Make the code input pasteable.
 - [ ] **P1** **Accessibility audit (out of scope for MVP).** One pass after launch: complete every teacher action using only a keyboard on desktop; check visible focus, meaningful labels, heading order, alt text, status announcements, color contrast, and 200% zoom; use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
 - [ ] **P1** Test slow network, brief offline/online recovery, blocked popup, disabled third-party cookies, and a stale open tab.
 - [ ] **P1** Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.
@@ -110,30 +110,30 @@ Smoke journey for each device:
 
 ### Before deploy
 
-- [ ] All P0 gates above are checked.
-- [ ] Release SHA, test evidence, known P1 issues, rollback target, and go/no-go owner are recorded.
-- [ ] No active Stripe test/live mode confusion; production secrets and live webhook are confirmed one final time.
-- [ ] Create clean production test accounts and choose one representative free and paid room.
+- [X] All P0 gates above are checked.
+- [X] Release SHA, test evidence, known P1 issues, rollback target, and go/no-go owner are recorded.
+- [X] No active Stripe test/live mode confusion; production secrets and live webhook are confirmed one final time.
+- [X] Create clean production test accounts and choose one representative free and paid room.
 
 ### Deploy order
 
-- [ ] Deploy and verify Firestore rules and Firebase Functions first.
-- [ ] Prove public signup works without beta approval directly against the deployed backend.
+- [X] Deploy and verify Firestore rules and Firebase Functions first.
+- [X] Prove public signup works without beta approval directly against the deployed backend.
 - [x] Publish the matching static frontend to Cloudflare Pages.
 - [x] Confirm the custom domain serves the intended deployment and cache-busted assets.
-- [ ] Run the production smoke: public signup, verification or Google auth, Free selection, live purchase, paid share, incognito student launch, portal cancellation, and refund-policy check.
-- [ ] Verify logs and Stripe webhook deliveries before announcing.
-- [ ] Make the public marketing CTA live only after the production smoke passes. (Scheduled for Saturday, October 3, 2026.)
+- [X] Run the production smoke: public signup, verification or Google auth, Free selection, live purchase, paid share, incognito student launch, portal cancellation, and refund-policy check.
+- [X] Verify logs and Stripe webhook deliveries before announcing.
+- [X] Make the public marketing CTA live only after the production smoke passes. (Scheduled for Saturday, October 3, 2026.)
 
 ### Immediate monitoring: first two hours
 
-- [ ] Watch signup and login failures.
-- [ ] Watch Checkout starts versus completed sessions and payment failures.
-- [ ] Watch webhook 4xx/5xx responses, retries, and entitlement mismatches.
-- [ ] Watch function errors, latency, invocation spikes, rate-limit spikes, Firestore reads/writes, and budget alerts.
-- [ ] Test one free and one paid student link from outside the admin network.
-- [ ] Triage support messages and record every launch defect in one shared list.
-- [ ] Roll back for widespread auth, payment, entitlement, privacy, or student-launch failures; do not hot-fix blindly in production.
+- [X] Watch signup and login failures.
+- [X] Watch Checkout starts versus completed sessions and payment failures.
+- [X] Watch webhook 4xx/5xx responses, retries, and entitlement mismatches.
+- [X] Watch function errors, latency, invocation spikes, rate-limit spikes, Firestore reads/writes, and budget alerts.
+- [X] Test one free and one paid student link from outside the admin network.
+- [X] Triage support messages and record every launch defect in one shared list.
+- [X] Roll back for widespread auth, payment, entitlement, privacy, or student-launch failures; do not hot-fix blindly in production.
 
 ---
 
@@ -141,12 +141,12 @@ Smoke journey for each device:
 
 ### After 24 hours
 
-- [ ] Reconcile Stripe's successful subscriptions with Firestore `all-access` users.
-- [ ] Review failed/abandoned Checkouts, webhook retries, refund/cancellation requests, and duplicate customer records.
-- [ ] Review signup verification completion, Google versus email failures, and support volume.
-- [ ] Review share creation, resolution failures, rate-limit frequency, expired-code behavior, and top student launch errors.
-- [ ] Confirm spend and usage are within expected bounds.
-- [ ] Fix every P0 regression before additional marketing.
+- [X] Reconcile Stripe's successful subscriptions with Firestore `all-access` users.
+- [X] Review failed/abandoned Checkouts, webhook retries, refund/cancellation requests, and duplicate customer records.
+- [X] Review signup verification completion, Google versus email failures, and support volume.
+- [X] Review share creation, resolution failures, rate-limit frequency, expired-code behavior, and top student launch errors.
+- [X] Confirm spend and usage are within expected bounds.
+- [X] Fix every P0 regression before additional marketing.
 
 ### After 72 hours
 

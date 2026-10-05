@@ -6,12 +6,12 @@ const themeAssets = {
     character: 'assets/dpaam/all-access.png',
     characterStyle: {
       left: 'auto',
-      right: '-7%',
+      right: '-4%',
       top: '-35%',
       transform: 'scaleX(1)',
     },
-    text: 'Teachers, want 8 free escape rooms?',
-    button: 'Sign up for a free Dingo Punks account',
+    text: 'Teachers, <span>get 8 free escape rooms</span> when you sign up for a free Dingo Punks account!',
+    button: 'SIGN UP →',
     link: 'https://account.dingopunks.com/?auth=signup',
     alert: 'News',
     hasLogo: false,
@@ -130,7 +130,7 @@ function renderPromoContainer(promoContainer, themeKey = theme, assetsMap = them
 
     if (copy) {
       const text = createElement('p', ['promo-container__text'], copyWrap);
-      text.textContent = copy;
+      text.innerHTML = copy;
     }
 
     if (assets.button) {
