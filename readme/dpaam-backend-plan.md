@@ -43,7 +43,9 @@ Three top-level collections. Billing/entitlement data is **server-written only**
   subscriptionId:   string | null,
   status:           "active" | "canceling" | "lapsed" | null,   // derived from Stripe
   currentPeriodEnd: timestamp | null,
-  rebate:           { platform, orderNumber, appliedAt } | null
+  rebate:           { platform, orderNumber, appliedAt } | null,
+  mailerliteStatus: "pending" | "subscribed" | "rejected",
+  mailerlitePlan:   "starter" | "all-access" | null
 }
 ```
 

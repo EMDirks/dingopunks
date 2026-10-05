@@ -1,5 +1,6 @@
 import { logger } from "firebase-functions";
 import { HttpsError, onCall, onRequest } from "firebase-functions/v2/https";
+import { onDocumentUpdated } from "firebase-functions/v2/firestore";
 import { defineSecret, defineString } from "firebase-functions/params";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
@@ -18,7 +19,12 @@ import {
   createPortalSession as createPortalSessionImpl,
   handleStripeEvent,
 } from "./stripe-billing.js";
-import { subscribeToGroup } from "./mailerlite.js";
+import {
+  planFieldValue,
+  planSyncForChange,
+  subscribeToGroup,
+  syncPlanField,
+} from "./mailerlite.js";
 
 initializeApp();
 
@@ -38,7 +44,8 @@ function stripeClient() {
   return cachedStripe;
 }
 
-// New accounts are added to the MailerLite "Dingo Punks" group:
+// New accounts are added to the MailerLite "Dingo Punks" group. Their plan
+// custom field is kept in sync as account access changes:
 //   firebase functions:secrets:set MAILERLITE_API_KEY
 const mailerliteApiKey = defineSecret("MAILERLITE_API_KEY");
 const mailerliteGroupId = defineString("MAILERLITE_GROUP_ID", {
@@ -56,11 +63,15 @@ async function ensureUserDocument(user) {
   const userRef = getFirestore().collection("users").doc(user.uid);
   let created = false;
   let mailerliteStatus = null;
+  let plan = "free";
+  let mailerlitePlan = null;
 
   await getFirestore().runTransaction(async (transaction) => {
     const existing = await transaction.get(userRef);
     if (existing.exists) {
       mailerliteStatus = existing.get("mailerliteStatus") ?? null;
+      plan = existing.get("plan") ?? "free";
+      mailerlitePlan = existing.get("mailerlitePlan") ?? null;
       return;
     }
 
@@ -79,14 +90,14 @@ async function ensureUserDocument(user) {
     mailerliteStatus = "pending";
   });
 
-  return { created, mailerliteStatus };
+  return { created, mailerliteStatus, plan, mailerlitePlan };
 }
 
 // Only "pending" accounts (created since this sync shipped) are synced, so
 // older accounts are never backfilled. A transient failure leaves the account
 // pending and the next ensureUserProfile call retries. Never throws: a
 // MailerLite outage must not block sign-up.
-async function syncMailerLite(uid, email, name) {
+async function syncMailerLite(uid, email, name, plan) {
   if (process.env.FUNCTIONS_EMULATOR === "true" || !email) return;
 
   const userRef = getFirestore().collection("users").doc(uid);
@@ -96,9 +107,11 @@ async function syncMailerLite(uid, email, name) {
       groupId: mailerliteGroupId.value(),
       email,
       name,
+      plan,
     });
     await userRef.update({
       mailerliteStatus: "subscribed",
+      mailerlitePlan: planFieldValue(plan),
       mailerliteSubscribedAt: FieldValue.serverTimestamp(),
     });
   } catch (error) {
@@ -118,6 +131,27 @@ async function syncMailerLite(uid, email, name) {
   }
 }
 
+async function syncPlanToMailerLite(uid, email, plan) {
+  if (process.env.FUNCTIONS_EMULATOR === "true" || !email) return;
+
+  const userRef = getFirestore().collection("users").doc(uid);
+  try {
+    await syncPlanField({
+      apiKey: mailerliteApiKey.value(),
+      email,
+      plan,
+    });
+    await userRef.update({ mailerlitePlan: planFieldValue(plan) });
+  } catch (error) {
+    logger.warn("MailerLite plan sync failed; will retry on next profile load", {
+      uid,
+      permanent: Boolean(error?.permanent),
+      status: error?.status ?? null,
+      errorMessage: error?.message,
+    });
+  }
+}
+
 export const ensureUserProfile = onCall(
   { invoker: "public", secrets: [mailerliteApiKey] },
   async (request) => {
@@ -127,7 +161,7 @@ export const ensureUserProfile = onCall(
 
     const email =
       typeof request.auth.token.email === "string" ? request.auth.token.email : null;
-    const { created, mailerliteStatus } = await ensureUserDocument({
+    const { created, mailerliteStatus, plan, mailerlitePlan } = await ensureUserDocument({
       uid: request.auth.uid,
       email,
     });
@@ -135,10 +169,24 @@ export const ensureUserProfile = onCall(
     if (mailerliteStatus === "pending") {
       const name =
         typeof request.auth.token.name === "string" ? request.auth.token.name : null;
-      await syncMailerLite(request.auth.uid, email, name);
+      await syncMailerLite(request.auth.uid, email, name, plan);
+    } else if (
+      mailerliteStatus === "subscribed" &&
+      mailerlitePlan !== planFieldValue(plan)
+    ) {
+      await syncPlanToMailerLite(request.auth.uid, email, plan);
     }
 
     return { created };
+  },
+);
+
+export const onUserPlanChanged = onDocumentUpdated(
+  { document: "users/{uid}", secrets: [mailerliteApiKey] },
+  async (event) => {
+    const change = planSyncForChange(event.data.before.data(), event.data.after.data());
+    if (!change) return;
+    await syncPlanToMailerLite(event.params.uid, change.email, change.plan);
   },
 );
 

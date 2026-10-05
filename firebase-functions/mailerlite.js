@@ -3,6 +3,7 @@
 
 export const MAILERLITE_SUBSCRIBERS_URL = "https://connect.mailerlite.com/api/subscribers";
 export const MAILERLITE_TIMEOUT_MS = 5000;
+export const MAILERLITE_PLAN_FIELD = "plan";
 
 /**
  * Thrown for any failed sync. `permanent` is true when retrying can't help
@@ -17,21 +18,16 @@ export class MailerLiteError extends Error {
   }
 }
 
-/**
- * Add (or upsert) a subscriber and put them in one group. MailerLite upserts
- * by email, so calling this for an existing subscriber just adds the group.
- */
-export async function subscribeToGroup({
+export function planFieldValue(plan) {
+  return plan === "all-access" ? "all-access" : "starter";
+}
+
+async function upsertSubscriber({
   apiKey,
-  groupId,
-  email,
-  name = null,
+  body,
   fetchImpl = fetch,
   timeoutMs = MAILERLITE_TIMEOUT_MS,
 }) {
-  const body = { email, groups: [String(groupId)], status: "active" };
-  if (name) body.fields = { name };
-
   let response;
   try {
     response = await fetchImpl(MAILERLITE_SUBSCRIBERS_URL, {
@@ -63,4 +59,65 @@ export async function subscribeToGroup({
     permanent,
     status: response.status,
   });
+}
+
+/**
+ * Add (or upsert) a subscriber and put them in one group. MailerLite upserts
+ * by email, so calling this for an existing subscriber just adds the group.
+ */
+export async function subscribeToGroup({
+  apiKey,
+  groupId,
+  email,
+  name = null,
+  plan,
+  fetchImpl = fetch,
+  timeoutMs = MAILERLITE_TIMEOUT_MS,
+}) {
+  const fields = { [MAILERLITE_PLAN_FIELD]: planFieldValue(plan) };
+  if (name) fields.name = name;
+
+  return upsertSubscriber({
+    apiKey,
+    body: {
+      email,
+      groups: [String(groupId)],
+      status: "active",
+      fields,
+    },
+    fetchImpl,
+    timeoutMs,
+  });
+}
+
+/**
+ * Update only the plan field. Omitting status preserves unsubscribed state,
+ * and omitting groups leaves all group membership unchanged.
+ */
+export async function syncPlanField({
+  apiKey,
+  email,
+  plan,
+  fetchImpl = fetch,
+  timeoutMs = MAILERLITE_TIMEOUT_MS,
+}) {
+  return upsertSubscriber({
+    apiKey,
+    body: {
+      email,
+      fields: { [MAILERLITE_PLAN_FIELD]: planFieldValue(plan) },
+    },
+    fetchImpl,
+    timeoutMs,
+  });
+}
+
+/**
+ * Return the MailerLite update implied by a user-document change, if any.
+ */
+export function planSyncForChange(before, after) {
+  if (planFieldValue(before?.plan) === planFieldValue(after?.plan)) return null;
+  if (after?.mailerliteStatus !== "subscribed") return null;
+  if (typeof after?.email !== "string" || !after.email) return null;
+  return { email: after.email, plan: after.plan };
 }
