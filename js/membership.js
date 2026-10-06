@@ -88,9 +88,22 @@ let unsubscribeUserProfile = null;
 let debugMembershipAccessOverride = null;
 let checkoutReturnStatus = new URLSearchParams(window.location.search).get("checkout");
 const DASHBOARD_LOAD_TIMEOUT_MS = 20_000;
+const PENDING_UPGRADE_SUCCESS_TIMEOUT_MS = 20_000;
 
 if (checkoutReturnStatus !== "success" && checkoutReturnStatus !== "cancel") {
   checkoutReturnStatus = null;
+}
+
+// Checkout returns before the Stripe webhook has necessarily landed, so the
+// plan can still read free here. Hold the success modal until the profile
+// listener reports member access, and fall back to a toast if it never does.
+let pendingUpgradeSuccess = false;
+let pendingUpgradeSuccessTimer = null;
+
+function clearPendingUpgradeSuccess() {
+  pendingUpgradeSuccess = false;
+  window.clearTimeout(pendingUpgradeSuccessTimer);
+  pendingUpgradeSuccessTimer = null;
 }
 
 function consumeCheckoutReturn() {
@@ -102,15 +115,24 @@ function consumeCheckoutReturn() {
   url.searchParams.delete("checkout");
   window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 
-  window.setTimeout(() => {
-    if (status === "success") {
-      showToast(
-        state.membershipAccess === "member"
-          ? "Welcome to All-Access"
-          : "Checkout complete",
-      );
+  if (status === "success") {
+    // The plan value, not state.membershipAccess, so a debug access override
+    // can't decide whether the purchase landed.
+    if (planMembershipAccess === "member") {
+      window.setTimeout(() => {
+        openUpgradeSuccessModal();
+      }, 0);
       return;
     }
+    pendingUpgradeSuccess = true;
+    pendingUpgradeSuccessTimer = window.setTimeout(() => {
+      clearPendingUpgradeSuccess();
+      showToast("Payment received. Your plan will update in a moment.");
+    }, PENDING_UPGRADE_SUCCESS_TIMEOUT_MS);
+    return;
+  }
+
+  window.setTimeout(() => {
     showToast("Checkout canceled");
   }, 0);
 }
@@ -166,6 +188,10 @@ function applyLiveUserProfile(profile, uid) {
 
   if (accessChanged) {
     applyMembershipAccess();
+    if (pendingUpgradeSuccess && nextAccess === "member") {
+      clearPendingUpgradeSuccess();
+      openUpgradeSuccessModal();
+    }
     return;
   }
   if (billingChanged) renderAccountPlanPanel();
@@ -1047,6 +1073,7 @@ const DPAAM_MODALS = [
   els.shareModal,
   els.shareCodeLimitModal,
   els.shareExpiryModal,
+  els.upgradeSuccessModal,
   els.verifyEmailModal,
   els.memberOnlyModal,
   els.upgradeModal,
@@ -1620,6 +1647,53 @@ function openMemberOnlyModal(gameId) {
 
 function openShareExpiryModal() {
   showExclusiveModal(els.shareExpiryModal);
+}
+
+const CONFETTI_COLORS = Object.freeze([
+  "--dpaam-gold",
+  "--dpaam-teal",
+  "--dpaam-salmon",
+  "--dpaam-blue",
+  "--dpaam-purple",
+  "--dpaam-lime",
+]);
+const CONFETTI_PIECES = 64;
+// Burst animation (1.6s) plus the longest start delay, with a little slack.
+const CONFETTI_LIFETIME_MS = 1900;
+
+function burstConfetti() {
+  if (prefersReducedMotion()) return;
+
+  // Tokens live under .dpaam, so the layer needs that class to resolve colors.
+  const layer = document.createElement("div");
+  layer.className = "dpaam dpaam-confetti";
+  layer.setAttribute("aria-hidden", "true");
+
+  const { innerWidth, innerHeight } = window;
+
+  for (let i = 0; i < CONFETTI_PIECES; i += 1) {
+    // Scale the spread to the viewport (an ellipse, not a circle) so pieces
+    // travel out past the modal's edges toward the screen edges, wherever
+    // they head. Staying under 0.5 keeps them on screen.
+    const angle = Math.random() * Math.PI * 2;
+    const reach = 0.34 + Math.random() * 0.14;
+    const bit = document.createElement("span");
+    bit.className = "dpaam-confetti__bit";
+    bit.style.setProperty("--dpaam-confetti-dx", `${Math.cos(angle) * innerWidth * reach}px`);
+    bit.style.setProperty("--dpaam-confetti-dy", `${Math.sin(angle) * innerHeight * reach}px`);
+    bit.style.setProperty("--dpaam-confetti-rot", `${Math.random() * 720 - 360}deg`);
+    bit.style.setProperty("--dpaam-confetti-color", `var(${CONFETTI_COLORS[i % CONFETTI_COLORS.length]})`);
+    bit.style.animationDelay = `${Math.random() * 0.1}s`;
+    layer.append(bit);
+  }
+
+  document.body.append(layer);
+  window.setTimeout(() => layer.remove(), CONFETTI_LIFETIME_MS);
+}
+
+function openUpgradeSuccessModal() {
+  showExclusiveModal(els.upgradeSuccessModal);
+  burstConfetti();
 }
 
 function openShareCodeLimitModal() {
@@ -2717,6 +2791,7 @@ function wireEvents() {
     viewActiveCodesFromLimitModal();
   });
   wireAnimatedModal(els.shareExpiryModal);
+  wireAnimatedModal(els.upgradeSuccessModal);
 
   wireAnimatedModal(els.shareModal, () => {
     shareGameId = null;
@@ -3037,6 +3112,9 @@ function initDebugActions() {
     if (els.verifyBanner) els.verifyBanner.hidden = false;
     showExclusiveModal(els.verifyEmailModal);
   });
+  document.querySelector("[data-debug-action='upgrade-success']")?.addEventListener("click", () => {
+    openUpgradeSuccessModal();
+  });
 }
 
 function applyMembershipAccess() {
@@ -3110,6 +3188,7 @@ function init() {
       planMembershipAccess = "free";
       userBillingProfile = null;
       loadedDashboardUid = null;
+      clearPendingUpgradeSuccess();
       applyMembershipAccess();
     } else {
       attachUserProfileSubscription(user);

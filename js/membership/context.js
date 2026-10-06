@@ -82,6 +82,7 @@ const els = {
   shareCodeLimitModal: document.getElementById("dpaam-share-code-limit-modal"),
   shareCodeLimitViewActive: document.getElementById("dpaam-share-code-limit-view-active"),
   shareExpiryModal: document.getElementById("dpaam-share-expiry-modal"),
+  upgradeSuccessModal: document.getElementById("dpaam-upgrade-success-modal"),
   verifyBanner: document.getElementById("dpaam-verify-banner"),
   verifyEmailModal: document.getElementById("dpaam-verify-email-modal"),
   memberOnlyModal: document.getElementById("dpaam-member-only-modal"),

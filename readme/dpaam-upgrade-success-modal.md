@@ -1,5 +1,7 @@
 # All-Access success modal on return from Stripe Checkout
 
+**Implemented 2026-10-06.** The debug panel's Modals row has an **Upgrade success** button that opens the modal with a stubbed renewal date, so the layout can be checked without a Checkout run.
+
 When a user upgrades to All-Access and Stripe redirects back to the membership dashboard, show a **success modal** instead of a toast. Cancel return (`?checkout=cancel`) keeps the existing toast only.
 
 No backend changes: `success_url` stays `membership.html?checkout=success` (`firebase-functions/stripe-billing.js`).
@@ -91,6 +93,7 @@ Likely no new rules: `.dpaam-modal--compact` and `.dpaam-upgrade-lead` suffice. 
 
 ## 7. Verification
 
+- Debug panel → Modals → **Upgrade success**: modal layout, renewal line, and close paths without a Checkout run.
 - Stripe test: free → Upgrade → complete Checkout → modal over member dashboard, renewal date when available, close via button / × / Escape / backdrop; URL has no `?checkout=success` after close or refresh.
 - Race: load `?checkout=success` as free, flip `plan` to `all-access` in Firestore/emulator → modal when listener fires; without flip, fallback toast after ~20s.
 - Cancel: `?checkout=cancel` → toast only, no modal.

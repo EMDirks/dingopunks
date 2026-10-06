@@ -1722,6 +1722,51 @@ a.dpaam-topbar-btn {
   animation: dpaam-backdrop-out 0.15s ease-in both;
 }
 
+/* A dialog opened with showModal() sits in the top layer, so this ordinary
+   layer always paints behind it — it only has to clear the backdrop. */
+.dpaam-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 31;
+  overflow: hidden;
+  pointer-events: none;
+  /* The layer carries .dpaam for its color tokens, which also brings the page
+     shell's gray background and full-height minimum. Neither belongs here. */
+  background: none;
+  min-height: 0;
+}
+
+.dpaam-confetti__bit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--dpaam-confetti-color);
+  animation: dpaam-confetti-burst 1.6s both;
+}
+
+/* Fly out fast, hold at full opacity, then drift down a little as it fades. */
+@keyframes dpaam-confetti-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.6);
+    animation-timing-function: cubic-bezier(0.1, 0.7, 0.3, 1);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(var(--dpaam-confetti-dx), var(--dpaam-confetti-dy))
+      rotate(var(--dpaam-confetti-rot)) scale(1);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dpaam-confetti-dx), calc(var(--dpaam-confetti-dy) + 70px))
+      rotate(var(--dpaam-confetti-rot)) scale(1);
+  }
+}
+
 .dpaam-modal::backdrop {
   background: transparent;
 }
@@ -2664,6 +2709,32 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   line-height: 1.4;
   color: var(--dpaam-black-muted);
   text-align: center;
+}
+
+/* Inherited row/wrap on modal body would mis-layout the lead block. */
+#dpaam-upgrade-success-modal .dpaam-modal-body {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--dpaam-pad-lg);
+}
+
+#dpaam-upgrade-success-modal .dpaam-upgrade-success-signoff {
+  display: flex;
+  align-items: center;
+  gap: var(--dpaam-pad-md);
+  text-align: left;
+  margin-top: var(--dpaam-pad-xs);
+}
+
+#dpaam-upgrade-success-modal .dpaam-upgrade-success-photo {
+  display: block;
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  margin: 0;
+  object-fit: cover;
+  border-radius: 200px;
 }
 
 .dpaam-plan-panel--unlimited .dpaam-auth-submit.dpaam-plan-panel__action:not(.dpaam-plan-panel__action--secondary) {
@@ -3935,6 +4006,18 @@ dd a {
     justify-content: stretch;
     gap: var(--dpaam-pad-sm);
     padding: 0 var(--dpaam-pad) var(--dpaam-pad);
+  }
+
+  #dpaam-upgrade-success-modal .dpaam-modal-body {
+    padding-bottom: var(--dpaam-pad-sm);
+  }
+
+  #dpaam-upgrade-success-modal .dpaam-upgrade-success-signoff {
+    margin-bottom: var(--dpaam-pad-sm);
+  }
+
+  #dpaam-upgrade-success-modal .dpaam-modal-footer {
+    padding-top: var(--dpaam-pad-md);
   }
 
   #dpaam-modal .dpaam-modal-footer {

@@ -149,7 +149,7 @@ Lifecycle mapping:
 
 - New full-screen **auth view** (email/password sign-in, sign-up, Google button, "Forgot password?" → reset email). Dashboard stays `hidden` until `onAuthStateChanged` fires with a user.
 - New `js/firebase-init.js` (public web config — safe to commit) shared by membership and play pages.
-- **Account modal:** real email; replace the change-password form with a "Send password reset email" button; add **Log out**; plan/price/renewal from `users/{uid}`; "Manage Subscription" → `createPortalSession` redirect. For free users, that section becomes the **Upgrade** panel: price, rebate input (platform select + order number, client-side regex mirrored server-side), button → `createCheckoutSession` redirect. On return from Checkout (`?checkout=success`), show a toast and re-read the user doc.
+- **Account modal:** real email; replace the change-password form with a "Send password reset email" button; add **Log out**; plan/price/renewal from `users/{uid}`; "Manage Subscription" → `createPortalSession` redirect. For free users, that section becomes the **Upgrade** panel: price, rebate input (platform select + order number, client-side regex mirrored server-side), button → `createCheckoutSession` redirect. On return from Checkout (`?checkout=success`), re-read the user doc and show the **Welcome to All-Access** modal — held until the plan reads `all-access`, with a fallback toast if the webhook has not landed in ~20s. Cancel return still shows a toast. See `readme/dpaam-upgrade-success-modal.md`.
 
 ### `js/membership.js` — wire the existing seams
 

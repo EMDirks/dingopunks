@@ -1,0 +1,160 @@
+# Post-Launch Backlog
+
+## P1 — Do Now
+
+These are the remaining post-launch stabilization tasks. Finish these, then move the membership platform into maintenance mode.
+
+- [ ] **Upgrade `firebase-admin` to ≥14.4.0.** Clear transitive `uuid` npm audit findings; run `npm --prefix firebase-functions test`, then redeploy functions.
+
+- [X] **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`. *(2026-10-06: implemented; debug panel has an "Upgrade success" button to preview the modal. Still needs a live Stripe test-mode run and the webhook-lag check from the plan's verification list.)*
+
+- [ ] **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue:
+  - Confirm the code character-by-character.
+  - Explain legacy PDF codes vs. membership share codes.
+  - Explain that membership share codes expire after 14 days.
+  - Create or refresh a share code from the membership library.
+  - Copy/share the link, code, or QR again.
+
+  Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
+
+- [ ] **Add a small automated browser smoke suite.** Cover:
+  - Public signup/sign-in.
+  - Free sharing.
+  - Student launch.
+
+- [ ] **Reliability testing pass.** Test:
+  - Slow network.
+  - Brief offline/online recovery.
+  - Blocked popup.
+  - Disabled third-party cookies.
+  - Stale open tab.
+
+
+## P2 — Next / High-Value Improvements
+
+Do these after P1, but don't let them delay Elsewhere Post or regular escape-room production.
+
+- [ ] **Better blog post explaining accounts.** Publish a clearer Shopify blog post covering:
+  - Starter vs. All-Access.
+  - Sign-up.
+  - Library.
+  - Sharing.
+  - Upgrade.
+
+  Link to the Help Center and `account.dingopunks.com`. Revise or replace the launch accounts post and add screenshots.
+
+- [ ] **Accessibility audit.** Complete one post-launch pass:
+  - Complete every teacher action using only a keyboard on desktop.
+  - Check visible focus.
+  - Check meaningful labels.
+  - Check heading order.
+  - Check alt text.
+  - Check status announcements.
+  - Check color contrast.
+  - Test at 200% zoom.
+  - Use VoiceOver on one Apple device for signup, navigation, sharing, and code entry.
+
+- [ ] **Safari/iPhone polish pass.** Handle these together rather than as separate projects:
+  - More accurate skeleton loader on dashboard and share modals.
+  - General modal attractiveness.
+  - Modal scroll cutoffs / visible top and bottom borders.
+
+- [ ] **Add a sticky customer-support control** to the bottom-right of the membership platform.
+
+- [ ] **Clean up game-code rate limiting.** The local 5-attempt lockout and server `resource-exhausted` response should feel intentional and consistent. The server lockout is already capped at 60 seconds, so this is primarily UX cleanup.
+
+
+## P3 — Later / Deferred
+
+Valid improvements, but not current priorities.
+
+- [ ] **Move legacy 5-digit purchase-code resolution server-side.** Valid legacy codes are currently derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle. Eventually move resolution server-side and define fallback behavior when Firebase is blocked or unavailable.
+
+  **Deferred:** This is not currently considered an emergency issue.
+
+- [ ] **Verification gate before upgrade.** Eventually block Upgrade/Checkout for unverified email/password users and enforce the same check server-side in `createCheckoutSession`. Google sign-in remains treated as verified.
+
+  **Deferred:** This is not currently considered an emergency issue.
+
+- [ ] **Custom Firebase email action handler.** Add a dedicated `auth-action.html` on `account.dingopunks.com` covering:
+  - `verifyEmail`
+  - `resetPassword`
+  - `recoverEmail`
+  - `verifyAndChangeEmail`
+
+  Handle expired/used links and test every mode before changing Firebase's custom action URL.
+
+- [ ] **Customize Firebase password-management branding if possible.** Investigate serving password-management flows on a Dingo Punks URL and/or applying brand styling. Handle this alongside the custom email action handler rather than as a separate project.
+
+- [ ] **Plan upgrade UI — SaaS-style comparison table.** Rework upgrade surfaces into a clearer pricing-table / feature-matrix layout if customer behavior or feedback shows the current upgrade experience is confusing.
+
+- [ ] **Inactive account cleanup.** Define:
+  - Inactivity threshold.
+  - What counts as inactive.
+  - Exclusions for All-Access members, disputes, and support holds.
+  - Data-retention policy.
+
+  Only implement scheduled deletion/archival once there is enough account volume for this to matter.
+
+- [ ] **Add modal tabs.** Build a reusable tab selector for shared play-side modals. Normalize modal markup across pages first.
+
+- [ ] **Dynamic escape-room thumbnails.** Eventually generate membership-library card images from room metadata instead of maintaining individual `thumbnail-*.png` files.
+
+- [ ] **Prevent bumper flicker on index page load.** Avoid the brief page flash before the teal opening overlay is injected.
+
+- [ ] **Add images to specific modals where they materially improve comprehension.** Do not treat this as a blanket requirement; create individual tasks only when a modal actually needs an illustration.
+
+- [ ] **Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.**
+
+- [ ] **Final Bell breakout:** Change language from “summer school” to “detention.”
+
+
+## Product Expansion — Separate From Membership Stabilization
+
+These are product-development projects, not post-launch membership fixes.
+
+- [ ] **Double all Enter the Undermurk content.**
+
+- [ ] **Add math to the Enter the Undermurk minigame.**
+
+
+## Monitor / Don't Build Yet
+
+Keep these documented, but do not spend development time on them unless they become real customer problems.
+
+- [ ] **Concurrent Checkout tabs.** Two simultaneous Checkout sessions could theoretically create duplicate subscriptions on one Stripe customer. Low probability; support can refund the duplicate. Add server-side idempotency/open-session protection only if this actually occurs.
+
+- [ ] **Static paid assets are publicly fetchable.** Game scripts under `/resource/...` return `200` without authentication. This matches the legacy architecture; the paywall protects access through game/share codes rather than file secrecy. Revisit only if product positioning changes.
+
+
+## Intentional Behavior / Close
+
+- [x] **Paid share codes can survive a subscription lapse until their existing expiration date.** This is intentional: already-issued student codes may continue through the remainder of their ≤14-day sharing period. Do not add a live-plan check to invalidate existing shares.
+
+
+## Completed
+
+- [x] Make the code input pasteable.
+
+- [x] Set up a proper Help Center.
+
+- [x] Set up Stripe Tax.
+
+- [x] Add Google Analytics to the account site.
+
+- [x] Create MailerLite segments for Starter and All-Access and keep plan status synchronized.
+
+- [x] Run backend tests automatically on pushes/PRs to `main`. `.github/workflows/backend-tests.yml` added with Node 22, `npm ci`, Firebase CLI, emulator caching, and `npm --prefix firebase-functions test`.
+
+
+# Current Stopping Point
+
+Once **P1** is complete, the membership platform is considered **post-launch stabilized**.
+
+From that point forward:
+
+1. Membership work moves into regular maintenance.
+2. Dingo Punks continues its normal escape-room release cadence.
+3. Marketing receives a consistent but bounded weekly allocation.
+4. Elsewhere Post becomes the primary development project.
+5. P2/P3 membership work is handled selectively based on customer feedback, measurable friction, or available maintenance time — not simply because it exists in the backlog.
