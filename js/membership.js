@@ -1262,7 +1262,7 @@ function starterPlanFeaturesHtml() {
   return `
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
-        <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
+        <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter pack</li>
         ${PLAN_PANEL_PRINTABLES_FEATURE_LI}
       </ul>
     </div>`;
