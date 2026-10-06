@@ -1071,6 +1071,11 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
     font-size: var(--dpaam-text-xs);
   }
 
+  :is(.dpaam-auth-offer, .dpaam-account-modal) .dpaam-plan-panel__features-list,
+  .dpaam-auth-offer-skeleton-features {
+    gap: 2px;
+  }
+
   .dpaam-auth-offer .dpaam-plan-panel__action {
     grid-column: 1 / -1;
     grid-row: 3;

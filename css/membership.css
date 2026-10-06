@@ -4248,6 +4248,10 @@ dd a {
     gap: var(--dpaam-pad-md);
   }
 
+  .dpaam-plan-panel__features-list {
+    gap: 2px;
+  }
+
   :is(.dpaam-plan-panel--offer-starter, .dpaam-plan-panel--unlimited)
     .dpaam-plan-panel__features-list
     li::before {

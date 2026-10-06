@@ -1238,6 +1238,9 @@ function freeGamesCount() {
   return games.filter((game) => game.isFree).length;
 }
 
+const PLAN_PANEL_PRINTABLES_FEATURE_LI =
+  "<li><strong>Printable</strong> classroom extras</li>";
+
 function planPanelTierPillHtml(tierName, planNameId = "") {
   const idAttr = planNameId ? ` id="${escapeHtml(planNameId)}"` : "";
   const tierClass = tierName === "All-Access" ? " dpaam-tier-pill--all-access" : "";
@@ -1260,6 +1263,7 @@ function starterPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
+        ${PLAN_PANEL_PRINTABLES_FEATURE_LI}
       </ul>
     </div>`;
 }
@@ -1325,6 +1329,7 @@ function allAccessPlanFeaturesHtml() {
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
         <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus missions</strong> for fast-finishers</li>
+        ${PLAN_PANEL_PRINTABLES_FEATURE_LI}
       </ul>
     </div>`;
 }
