@@ -599,7 +599,9 @@
 
 .dpaam-auth-offer-skeleton-rebate {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--dpaam-pad-sm);
   width: 100%;
   margin-top: var(--dpaam-pad-xl);
 }
@@ -608,6 +610,10 @@
   width: min(32rem, 90%);
   height: calc(var(--dpaam-text-xs) * 1.4);
   border-radius: var(--dpaam-radius-pill);
+}
+
+.dpaam-auth-offer-skeleton-rebate-line--short {
+  width: min(12rem, 50%);
 }
 
 /* --- Auth offer (choose plan) --- */
@@ -717,7 +723,7 @@
 }
 
 .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
-  margin-top: var(--dpaam-pad-md);
+  margin-top: var(--dpaam-pad-xs);
 }
 
 .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-price-unit {
@@ -1058,7 +1064,7 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
   .dpaam-account-modal .dpaam-plan-panel--offer-starter .dpaam-plan-panel__features {
     grid-column: 1 / -1;
     grid-row: 2;
-    margin-top: var(--dpaam-pad-sm);
+    margin-top: var(--dpaam-pad-xs);
   }
 
   .dpaam-auth-offer .dpaam-plan-panel__features-list li {

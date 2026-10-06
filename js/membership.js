@@ -1232,7 +1232,6 @@ function starterPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight dpaam-plan-panel__highlight--gray">${freeCount} escape rooms</strong> — the starter set</li>
-        <li><strong>Unlimited plays</strong>, whenever you want</li>
       </ul>
     </div>`;
 }
@@ -1296,7 +1295,6 @@ function allAccessPlanFeaturesHtml() {
     <div class="dpaam-plan-panel__features">
       <ul class="dpaam-plan-panel__features-list">
         <li><strong class="dpaam-plan-panel__highlight">${libraryCount} escape rooms</strong> — the whole library</li>
-        <li><strong>Unlimited plays</strong>, whenever you want</li>
         <li><strong>Every new escape room</strong> we create</li>
         <li><strong>Bonus missions</strong> for fast-finishers</li>
       </ul>
@@ -1326,9 +1324,16 @@ function memberSubscriptionBannerHtml(billingProfile) {
   return `<p class="dpaam-plan-subscription-banner">${escapeHtml(line)}</p>`;
 }
 
-function upgradeRebateFieldsHtml() {
+function upgradeRebateFieldsHtml({ includeFaq = false } = {}) {
+  const faqHtml = includeFaq
+    ? `<p class="dpaam-upgrade-rebate__prompt">
+        <span class="dpaam-upgrade-rebate__summary-lead">Need more info?</span>
+        <a class="dpaam-upgrade-rebate__open" href="https://dingopunks.com/pages/help-center-choosing-an-account" target="_blank" rel="noopener noreferrer">Read the FAQ.</a>
+      </p>`
+    : "";
   return `
     <div class="dpaam-upgrade-rebate">
+      ${faqHtml}
       <p class="dpaam-upgrade-rebate__prompt">
         <span class="dpaam-upgrade-rebate__summary-lead">Already bought an escape room?</span>
         <button type="button" class="dpaam-upgrade-rebate__open" data-action="open-upgrade-rebate">
@@ -3081,7 +3086,7 @@ function init() {
       });
       const rebateHost = document.getElementById("dpaam-auth-offer-rebate");
       if (rebateHost) {
-        rebateHost.innerHTML = upgradeRebateFieldsHtml();
+        rebateHost.innerHTML = upgradeRebateFieldsHtml({ includeFaq: true });
       }
     },
   });

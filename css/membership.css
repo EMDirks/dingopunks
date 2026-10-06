@@ -2416,6 +2416,10 @@ button.dpaam-plan-panel--interactive .dpaam-plan-panel__action {
   color: var(--dpaam-black-muted);
 }
 
+.dpaam-upgrade-rebate__prompt + .dpaam-upgrade-rebate__prompt {
+  margin-top: var(--dpaam-pad-sm);
+}
+
 .dpaam-upgrade-rebate__open {
   margin: 0;
   padding: 0;
