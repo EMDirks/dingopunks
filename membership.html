@@ -6,8 +6,8 @@
   <title>Account | Dingo Punks</title>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=4.0.30" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.30" />
+  <link rel="stylesheet" href="css/membership.css?version=4.0.31" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.31" />
   <script>
     try {
       if (localStorage.getItem("dpaam-session-hint") === "1") {
@@ -459,6 +459,11 @@
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-account-btn"
         >Account</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-printables-btn"
+        >Printables</button>
         <a
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-help-btn"
@@ -545,6 +550,17 @@
             <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-account.png" alt="" />
           </div>
           <span class="dpaam-mobile-menu-btn-label">Account</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-printables-btn-mobile"
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Printables</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </button>
         <a
@@ -954,7 +970,7 @@
         </header>
         <div class="dpaam-modal-body">
           <p class="dpaam-upgrade-lead">
-            Great choice! You can now share <strong>every</strong> escape room in the library, plus every new one I make. Your fast-finishers can also access the exclusive minigame <em>Enter the Undermurk</em>.
+            Great choice! You can now share every escape room in the library, plus every new one I make. Your fast-finishers can also access the exclusive bonus mission <em>Enter the Undermurk</em>.
             <br /><br />
             If you have any questions, just click <a href="https://dingopunks.com/pages/help" target="_blank" rel="noopener noreferrer">Help</a> or email me directly at
             <a href="mailto:hello@dingopunks.com">hello@dingopunks.com</a>. Thanks for supporting a small business! 
@@ -1000,6 +1016,58 @@
             class="dpaam-btn dpaam-btn-activate dpaam-verify-resend"
             data-action="resend-verification"
           >Resend email</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Printables modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact dpaam-printables-modal"
+      id="dpaam-printables-modal"
+      aria-labelledby="dpaam-printables-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-printables-modal-title">Printables</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body">
+          <p class="dpaam-upgrade-lead">
+            Download some free Dingo Punks PDFs to print, share, and use around your classroom. These aren't escape rooms, just optional extras for rewards, fast finishers, take-homes, and more.
+          </p>
+          <ul class="dpaam-printables-list">
+            <li>
+              <a
+                class="dpaam-printables-link"
+                href="assets/dpaam/printables/DingoPunks-Printable-BrainTeasers-AllYear.pdf"
+                download="DingoPunks-Printable-BrainTeasers-AllYear.pdf"
+              >Brain Teasers</a>
+            </li>
+            <li>
+              <a
+                class="dpaam-printables-link"
+                href="assets/dpaam/printables/DingoPunks-Printable-ReadingChallenges.pdf"
+                download="DingoPunks-Printable-ReadingChallenges.pdf"
+              >Reading Challenges</a>
+            </li>
+            <li>
+              <a
+                class="dpaam-printables-link"
+                href="assets/dpaam/printables/DingoPunks-Printable-MathChallenges-AllYear.pdf"
+                download="DingoPunks-Printable-MathChallenges-AllYear.pdf"
+              >Math Challenges</a>
+            </li>
+            <li>
+              <a
+                class="dpaam-printables-link"
+                href="assets/dpaam/printables/DingoPunks-Printable-ColoringSheets-AllYear.pdf"
+                download="DingoPunks-Printable-ColoringSheets-AllYear.pdf"
+              >Coloring Sheets</a>
+            </li>
+          </ul>
+        </div>
+        <footer class="dpaam-modal-footer">
+          <button type="submit" class="dpaam-btn dpaam-btn-activate">Close</button>
         </footer>
       </form>
     </dialog>
@@ -1319,6 +1387,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=4.0.30"></script>
+  <script type="module" src="js/membership.js?version=4.0.31"></script>
 </body>
 </html>

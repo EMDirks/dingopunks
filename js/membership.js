@@ -1079,6 +1079,7 @@ const DPAAM_MODALS = [
   els.upgradeModal,
   els.rebateModal,
   els.accountModal,
+  els.printablesModal,
   els.loginRequiredModal,
 ];
 
@@ -2206,6 +2207,10 @@ function openAccountModal() {
   showExclusiveModal(els.accountModal);
 }
 
+function openPrintablesModal() {
+  showExclusiveModal(els.printablesModal);
+}
+
 async function sendAccountPasswordReset() {
   const email = currentUser?.email;
   if (!email || !els.accountSendReset) return;
@@ -2824,6 +2829,14 @@ function wireEvents() {
     dashboardMobileMenu?.setOpen(false);
     openAccountModal();
   });
+  wireAnimatedModal(els.printablesModal, runPendingModalOpen);
+  els.printablesBtn?.addEventListener("click", () => {
+    openPrintablesModal();
+  });
+  els.printablesBtnMobile?.addEventListener("click", () => {
+    dashboardMobileMenu?.setOpen(false);
+    openPrintablesModal();
+  });
   els.footerAccountBtn?.addEventListener("click", () => {
     openAccountModal();
   });
@@ -3021,7 +3034,7 @@ function initMobileMenus() {
     toggle: els.mobileMenuToggle,
     menu: els.mobileMenu,
     backdrop: els.mobileMenuBackdrop,
-    skipCloseOn: els.accountBtnMobile ? [els.accountBtnMobile] : [],
+    skipCloseOn: [els.accountBtnMobile, els.printablesBtnMobile].filter(Boolean),
   });
 
   if (mobileMenuControllers.length === 0) return;
