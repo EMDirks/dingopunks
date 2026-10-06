@@ -1239,7 +1239,7 @@ function freeGamesCount() {
 }
 
 const PLAN_PANEL_PRINTABLES_FEATURE_LI =
-  "<li><strong>Printable</strong> classroom extras</li>";
+  "<li><strong>Free</strong> classroom printables</li>";
 
 function planPanelTierPillHtml(tierName, planNameId = "") {
   const idAttr = planNameId ? ` id="${escapeHtml(planNameId)}"` : "";
