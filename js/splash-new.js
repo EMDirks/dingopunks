@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '4.0.33';
+const version = '4.0.34';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
