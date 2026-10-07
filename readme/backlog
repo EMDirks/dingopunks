@@ -8,14 +8,7 @@ These are the remaining post-launch stabilization tasks. Finish these, then move
 
 - [X] **All-Access success modal after Stripe Checkout.** When a user returns to the dashboard with `?checkout=success`, show a welcome modal instead of a toast; handle webhook lag with a pending flag and a fallback toast if plan access has not updated within ~20s. Cancel return keeps the existing toast. Implementation plan: `readme/dpaam-upgrade-success-modal.md`. *(2026-10-06: implemented; debug panel has an "Upgrade success" button to preview the modal. Still needs a live Stripe test-mode run and the webhook-lag check from the plan's verification list.)*
 
-- [ ] **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue:
-  - Confirm the code character-by-character.
-  - Explain legacy PDF codes vs. membership share codes.
-  - Explain that membership share codes expire after 14 days.
-  - Create or refresh a share code from the membership library.
-  - Copy/share the link, code, or QR again.
-
-  Keep student-facing body copy unchanged; the dropdown is optional detail for adults at the device.
+- [X] **Wrong-code modal — teacher troubleshooting dropdown.** Add a collapsible section to the “That code didn’t work.” modal with a quick guide for teachers to resolve the issue:
 
 - [ ] **Add a small automated browser smoke suite.** Cover:
   - Public signup/sign-in.
@@ -40,6 +33,8 @@ Do these after P1, but don't let them delay Elsewhere Post or regular escape-roo
   - Library.
   - Sharing.
   - Upgrade.
+
+- [ ] **Improve accessibility features** To ensure as many people can access the membership platform as possible.
 
   Link to the Help Center and `account.dingopunks.com`. Revise or replace the launch accounts post and add screenshots.
 

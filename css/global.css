@@ -66,6 +66,7 @@
 	--dpaam-orange: #FF934E;
 	--dpaam-tan: #D59981;
 	--dpaam-blush: #EE5A6A;
+	--dpaam-pad-xl: 32px;
   
 }
 
@@ -337,6 +338,49 @@ button, input[type="submit"], input[type="reset"] {
 	margin-top: 8px;
 }
 
+.modal__popup--teacher-help {
+	position: relative;
+	padding-bottom: 48px;
+}
+
+.modal__popup--teacher-help .modal__actions {
+	margin-bottom: var(--dpaam-pad-xl);
+}
+
+.modal__teacher-help {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 12px 16px 14px 16px;
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: var(--dpaam-font-size-xs);
+	line-height: 1.35;
+	text-align: center;
+	color: rgba(var(--salmon-dark), 1);
+	background-color: rgba(var(--salmon-light), 1);
+	border-top: 1.5px solid rgba(var(--salmon-dark), 1);
+	border-radius: 0 0 8px 8px;
+	flex-shrink: 0;
+	z-index: 1;
+}
+
+.modal__teacher-help--hidden {
+	display: none;
+}
+
+.modal__teacher-help a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.modal__teacher-help a:hover {
+	filter: brightness(0.85);
+}
+
 .modal-version {
 	flex-direction: row;
 	align-items: flex-start;
@@ -418,6 +462,15 @@ button, input[type="submit"], input[type="reset"] {
 		font-size: 16px !important;
 		padding: 3px 8px;
 	}
+	.modal__popup--teacher-help {
+		padding-bottom: 44px;
+	}
+
+	.modal__teacher-help {
+		font-size: 12px;
+		padding: 10px 12px 12px 12px;
+	}
+
 	.modal__actions {
 		gap: 4px;
 		margin-top: 0px;

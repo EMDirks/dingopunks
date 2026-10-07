@@ -16,7 +16,7 @@ let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
 const splashTransitionDuration = 170;
-const version = '4.0.36';
+const version = '4.0.37';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
@@ -278,11 +278,17 @@ function showBadCodeModal(code) {
   const suffix = isAnswerKeyPage
     ? 'Check the code and try again.'
     : 'Check the code and try again, or ask your teacher for a new one.';
+  const isPlaySplash =
+    !isAnswerKeyPage &&
+    (pathname === '/' ||
+      pathname.endsWith('/index.html') ||
+      pathname.endsWith('/index'));
   createModal(
     "That code didn't work.",
     "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
     "Close",
-    focusFirstAccessInput
+    focusFirstAccessInput,
+    { teacherHelp: isPlaySplash }
   );
 }
 

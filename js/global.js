@@ -1708,11 +1708,19 @@ function styleText(input) {
 let modalButtonCloseCallback = null;
 
 // modal
-function createModal(title,paragraph,button,onButtonClose){
+function setModalTeacherHelpVisible(show) {
+  const teacherHelpEl = document.querySelector('.modal__teacher-help');
+  if (!teacherHelpEl || !modalPopup) return;
+  teacherHelpEl.classList.toggle('modal__teacher-help--hidden', !show);
+  modalPopup.classList.toggle('modal__popup--teacher-help', show);
+}
+
+function createModal(title,paragraph,button,onButtonClose,options){
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
   modalButtonCloseCallback = typeof onButtonClose === 'function' ? onButtonClose : null;
+  setModalTeacherHelpVisible(Boolean(options && options.teacherHelp));
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {
@@ -1766,6 +1774,7 @@ function toggleModalVisibility(){
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
       modalPopup.classList.remove('modal__popup--global-menu');
+      setModalTeacherHelpVisible(false);
       const modalVersionEl = document.querySelector('.modal-version');
       if (modalVersionEl) {
         modalVersionEl.innerHTML = '';
