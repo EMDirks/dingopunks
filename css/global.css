@@ -360,25 +360,39 @@ button, input[type="submit"], input[type="reset"] {
 	font-size: var(--dpaam-font-size-xs);
 	line-height: 1.35;
 	text-align: center;
+	text-decoration: none;
 	color: rgba(var(--salmon-dark), 1);
 	background-color: rgba(var(--salmon-light), 1);
 	border-top: 1.5px solid rgba(var(--salmon-dark), 1);
 	border-radius: 0 0 8px 8px;
 	flex-shrink: 0;
 	z-index: 1;
+	cursor: pointer;
 }
 
 .modal__teacher-help--hidden {
 	display: none;
 }
 
-.modal__teacher-help a {
+@media (hover: hover) {
+	.modal__teacher-help:hover {
+		filter: brightness(0.92);
+	}
+}
+
+.modal__teacher-help:active {
+	filter: brightness(0.92);
+}
+
+.modal__teacher-help-underline {
 	text-decoration: underline;
 	text-underline-offset: 2px;
 }
 
-.modal__teacher-help a:hover {
-	filter: brightness(0.85);
+.modal__teacher-help--teal {
+	color: var(--dpaam-teal-dark);
+	background-color: var(--dpaam-teal-light);
+	border-top-color: var(--dpaam-teal-dark);
 }
 
 .modal-version {

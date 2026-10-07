@@ -1708,10 +1708,42 @@ function styleText(input) {
 let modalButtonCloseCallback = null;
 
 // modal
-function setModalTeacherHelpVisible(show) {
+let modalTeacherHelpDefaultHtml = null;
+let modalTeacherHelpDefaultHref = null;
+
+function getModalTeacherHelpDefaultHtml() {
+  const teacherHelpEl = document.querySelector('.modal__teacher-help');
+  if (!teacherHelpEl) return '';
+  if (modalTeacherHelpDefaultHtml === null) {
+    modalTeacherHelpDefaultHtml = teacherHelpEl.innerHTML;
+    modalTeacherHelpDefaultHref = teacherHelpEl.getAttribute('href') || '';
+  }
+  return modalTeacherHelpDefaultHtml;
+}
+
+function setModalTeacherHelpVisible(show, html, tone, href) {
   const teacherHelpEl = document.querySelector('.modal__teacher-help');
   if (!teacherHelpEl || !modalPopup) return;
+  if (show) {
+    const useCustomHtml = typeof html === 'string';
+    teacherHelpEl.innerHTML = useCustomHtml ? html : getModalTeacherHelpDefaultHtml();
+    const nextHref =
+      typeof href === 'string' && href
+        ? href
+        : useCustomHtml
+          ? modalTeacherHelpDefaultHref || teacherHelpEl.getAttribute('href') || ''
+          : modalTeacherHelpDefaultHref || teacherHelpEl.getAttribute('href') || '';
+    if (nextHref) {
+      teacherHelpEl.setAttribute('href', nextHref);
+    }
+  } else if (modalTeacherHelpDefaultHtml !== null) {
+    teacherHelpEl.innerHTML = modalTeacherHelpDefaultHtml;
+    if (modalTeacherHelpDefaultHref) {
+      teacherHelpEl.setAttribute('href', modalTeacherHelpDefaultHref);
+    }
+  }
   teacherHelpEl.classList.toggle('modal__teacher-help--hidden', !show);
+  teacherHelpEl.classList.toggle('modal__teacher-help--teal', show && tone === 'teal');
   modalPopup.classList.toggle('modal__popup--teacher-help', show);
 }
 
@@ -1720,7 +1752,12 @@ function createModal(title,paragraph,button,onButtonClose,options){
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
   modalButtonCloseCallback = typeof onButtonClose === 'function' ? onButtonClose : null;
-  setModalTeacherHelpVisible(Boolean(options && options.teacherHelp));
+  const teacherHelp = Boolean(options && options.teacherHelp);
+  const teacherHelpHtml =
+    options && typeof options.teacherHelpHtml === 'string' ? options.teacherHelpHtml : undefined;
+  const teacherHelpTone = options && options.teacherHelpTone;
+  const teacherHelpHref = options && options.teacherHelpHref;
+  setModalTeacherHelpVisible(teacherHelp, teacherHelpHtml, teacherHelpTone, teacherHelpHref);
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {

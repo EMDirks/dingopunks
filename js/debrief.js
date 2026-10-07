@@ -1,4 +1,4 @@
-const version = '4.0.41';
+const version = '4.0.42';
 
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
@@ -313,6 +313,9 @@ function toggleClass(element, classToRemove, classToAdd){
 // modal
 
 let isModalVisible = false;
+let modalButtonCloseCallback = null;
+let modalTeacherHelpDefaultHtml = null;
+let modalTeacherHelpDefaultHref = null;
 
 const modal = document.querySelector('.modal');
 const modalTitle = document.querySelector('.modal__title');
@@ -324,10 +327,53 @@ const modalX = document.querySelector('.modal__x');
 
 const iconDebrief = document.getElementById('icon-clickable--debrief');
 
-function createModal(title,paragraph,button){
+function getModalTeacherHelpDefaultHtml() {
+  const teacherHelpEl = document.querySelector('.modal__teacher-help');
+  if (!teacherHelpEl) return '';
+  if (modalTeacherHelpDefaultHtml === null) {
+    modalTeacherHelpDefaultHtml = teacherHelpEl.innerHTML;
+    modalTeacherHelpDefaultHref = teacherHelpEl.getAttribute('href') || '';
+  }
+  return modalTeacherHelpDefaultHtml;
+}
+
+function setModalTeacherHelpVisible(show, html, tone, href) {
+  const teacherHelpEl = document.querySelector('.modal__teacher-help');
+  if (!teacherHelpEl || !modalPopup) return;
+  if (show) {
+    const useCustomHtml = typeof html === 'string';
+    teacherHelpEl.innerHTML = useCustomHtml ? html : getModalTeacherHelpDefaultHtml();
+    const nextHref =
+      typeof href === 'string' && href
+        ? href
+        : useCustomHtml
+          ? modalTeacherHelpDefaultHref || teacherHelpEl.getAttribute('href') || ''
+          : modalTeacherHelpDefaultHref || teacherHelpEl.getAttribute('href') || '';
+    if (nextHref) {
+      teacherHelpEl.setAttribute('href', nextHref);
+    }
+  } else if (modalTeacherHelpDefaultHtml !== null) {
+    teacherHelpEl.innerHTML = modalTeacherHelpDefaultHtml;
+    if (modalTeacherHelpDefaultHref) {
+      teacherHelpEl.setAttribute('href', modalTeacherHelpDefaultHref);
+    }
+  }
+  teacherHelpEl.classList.toggle('modal__teacher-help--hidden', !show);
+  teacherHelpEl.classList.toggle('modal__teacher-help--teal', show && tone === 'teal');
+  modalPopup.classList.toggle('modal__popup--teacher-help', show);
+}
+
+function createModal(title, paragraph, button, onButtonClose, options) {
   modalTitle.innerHTML = title;
   modalParagraph.innerHTML = paragraph;
   modalButton.innerHTML = button;
+  modalButtonCloseCallback = typeof onButtonClose === 'function' ? onButtonClose : null;
+  const teacherHelp = Boolean(options && options.teacherHelp);
+  const teacherHelpHtml =
+    options && typeof options.teacherHelpHtml === 'string' ? options.teacherHelpHtml : undefined;
+  const teacherHelpTone = options && options.teacherHelpTone;
+  const teacherHelpHref = options && options.teacherHelpHref;
+  setModalTeacherHelpVisible(teacherHelp, teacherHelpHtml, teacherHelpTone, teacherHelpHref);
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {
@@ -338,14 +384,19 @@ function createModal(title,paragraph,button){
 }
 
 modalBlackout.addEventListener("click", function() { 
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
 });
 
 modalButton.addEventListener("click", function() { 
+  const onButtonClose = modalButtonCloseCallback;
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
+  if (onButtonClose) onButtonClose();
 });
 
 modalX.addEventListener("click", function() { 
+  modalButtonCloseCallback = null;
   toggleModalVisibility();
 });
 
@@ -364,6 +415,7 @@ function toggleModalVisibility(){
     function hideModal(){
       toggleClass(modal,"modal--visible","modal--hidden");
       modalPopup.classList.remove('modal__popup--global-menu');
+      setModalTeacherHelpVisible(false);
       const modalVersionEl = document.querySelector('.modal-version');
       if (modalVersionEl) {
         modalVersionEl.innerHTML = '';
