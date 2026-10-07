@@ -144,9 +144,7 @@
       createModal(
         'What\'s a bonus mission?',
         'Think you\'re done? Think again! Bonus Missions are extra challenges you can take on after you escape. First up: <em>Enter the Undermurk:</em> a dangerous assignment from J.J. Dingo!<br>',
-        'Close',
-        null,
-        bonusMissionModalOptions
+        'Close'
       );
       return;
     }
