@@ -256,6 +256,7 @@ function openGlobalMenu(state = 'unfinished') {
       ${versionText}
       <a class="modal-version__link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
       <a class="modal-version__link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy</a>
+      <a class="modal-version__link" href="https://dingopunks.com/pages/help" target="_blank" rel="noopener noreferrer">Help Center</a>
     `;
   }
   createModal('Menu', buildGlobalMenuHTML(state), 'Close');
