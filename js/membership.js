@@ -54,6 +54,7 @@ import {
   configureAuthOffer,
 } from "./membership/auth-offer.js";
 import { showToast } from "./membership/toast.js";
+import { ALL_ACCESS_PRICE_USD, setAnalyticsPlan, track } from "./membership/analytics.js";
 import {
   loadUserPrefs,
   resetUserPrefs,
@@ -573,6 +574,7 @@ function addFavorite(gameId, { toast = true, pulseBtn } = {}) {
   if (isFavorite(gameId)) return;
   const wasEmpty = state.favorites.length === 0;
   state.favorites.push(gameId);
+  track("add_to_wishlist", { game_id: gameId });
   updateLibraryFavoriteButton(gameId);
   refreshModalFavoriteButton();
   const libraryBtn = els.libraryList.querySelector(
@@ -616,6 +618,7 @@ async function generateCode(gameId) {
 
   try {
     await invokeCreateShareCode(gameId);
+    track("generate_share_code", { game_id: gameId });
     // Library and favorites cards don't read share-code state (the Share
     // button only varies on plan lock), so only the active list needs to
     // re-render. Rebuilding the other lists recreates every thumbnail
@@ -666,6 +669,7 @@ function pulseTabCount(tab, variant = "add") {
 function setActiveTab(tab) {
   if (!DASHBOARD_TABS.includes(tab)) return;
   state.activeTab = tab;
+  track("tab_change", { tab });
 
   els.tabButtons.forEach((btn) => {
     const selected = btn.dataset.tab === tab;
@@ -1560,6 +1564,7 @@ function setRebateModalBackVisible(show) {
 function openRebateModal() {
   if (!els.rebateModal) return;
   resetRebateModalForm();
+  track("rebate_open");
   const focusRebateInput = () => {
     els.rebateOrderInput?.focus();
   };
@@ -1612,12 +1617,13 @@ function footerOffersBillingPortal() {
   return isDashboardVisible() && state.membershipAccess !== "free";
 }
 
-function openUpgradeModal() {
+function openUpgradeModal(source = "unknown") {
   if (!isDashboardVisible()) {
     openLoginRequiredModal("Log in to upgrade your account to All-Access.");
     return;
   }
   if (!els.upgradeModal || !els.upgradeModalBody) return;
+  track("view_promotion", { source });
   els.upgradeModalBody.innerHTML = upgradeModalBodyHtml();
   showExclusiveModal(els.upgradeModal);
 }
@@ -1638,6 +1644,8 @@ function populateMemberOnlyModal(gameId) {
 function openMemberOnlyModal(gameId) {
   if (gameId) memberOnlyGameId = gameId;
   populateMemberOnlyModal(memberOnlyGameId);
+  track("hit_paywall", { game_id: memberOnlyGameId });
+  track("view_promotion", { source: "paywall", game_id: memberOnlyGameId });
   if (els.modal.open) {
     const paywallGameId = memberOnlyGameId;
     transitionToModal(els.modal, () => {
@@ -1699,10 +1707,12 @@ function burstConfetti() {
 
 function openUpgradeSuccessModal() {
   showExclusiveModal(els.upgradeSuccessModal);
+  track("purchase", { value: ALL_ACCESS_PRICE_USD, currency: "USD" });
   burstConfetti();
 }
 
 function openShareCodeLimitModal() {
+  track("hit_share_limit");
   const fromModal = [els.shareModal, els.modal].find((m) => m?.open);
   if (fromModal) {
     transitionToModal(fromModal, () => {
@@ -1730,6 +1740,7 @@ function openModal(gameId, context = "library") {
   modalGameId = gameId;
   setStandardsModalGameId(gameId);
   modalContext = context;
+  track("view_item", { game_id: gameId, locked: isGameLockedForAccess(gameId) });
   els.modalTitle.textContent = "Escape Room Info";
   const skillsHtml =
     game.skills && game.skills.filter((s) => s).length
@@ -2213,6 +2224,7 @@ function openAccountModal() {
 }
 
 function openPrintablesModal() {
+  track("view_printables");
   showExclusiveModal(els.printablesModal);
 }
 
@@ -2395,6 +2407,13 @@ async function beginCheckout(triggerButton, rebate = null) {
     if (typeof checkoutUrl !== "string" || !checkoutUrl) {
       throw new Error("Checkout did not return a URL.");
     }
+    track("begin_checkout", {
+      value: ALL_ACCESS_PRICE_USD,
+      currency: "USD",
+      rebate: Boolean(rebate),
+      source: triggerButton?.closest("dialog")?.id || "auth-offer",
+      transport_type: "beacon",
+    });
     window.location.assign(checkoutUrl);
   } catch (error) {
     console.error("createCheckoutSession failed", error);
@@ -2428,6 +2447,7 @@ async function startCheckout(button) {
 }
 
 async function openBillingPortal(button) {
+  track("manage_subscription");
   setRedirectLoading(button, true, "Opening…");
   try {
     const result = await createPortalSession({
@@ -2469,6 +2489,7 @@ async function copyToClipboard(text) {
 
 async function copyShareCode() {
   if (!shareCode) return;
+  track("share", { method: "code", game_id: shareGameId });
   if (!(await copyToClipboard(shareCode))) {
     showToast("Couldn't copy.");
     return;
@@ -2478,6 +2499,7 @@ async function copyShareCode() {
 
 async function copyShareLink() {
   if (!shareCode) return;
+  track("share", { method: "link", game_id: shareGameId });
   const link = "https://play.dingopunks.com";
   if (!(await copyToClipboard(link))) {
     showToast("Couldn't copy.");
@@ -2488,6 +2510,7 @@ async function copyShareLink() {
 
 async function copyDirectLink() {
   if (!shareCode) return;
+  track("share", { method: "direct_link", game_id: shareGameId });
   const link = "https://play.dingopunks.com/?" + encodeURIComponent(shareCode);
   if (!(await copyToClipboard(link))) {
     showToast("Couldn't copy.");
@@ -2498,6 +2521,7 @@ async function copyDirectLink() {
 
 function shareToGoogleClassroom() {
   if (!shareCode) return;
+  track("share", { method: "classroom", game_id: shareGameId });
   const game = shareGameId ? gameById(shareGameId) : null;
   const title = game ? classroomShareTitle(game) : "Dingo Punks Escape Room";
   const directLink = "https://play.dingopunks.com/?" + encodeURIComponent(shareCode);
@@ -2758,6 +2782,7 @@ function wireEvents() {
 
   // Modal Preview / Answer Key
   els.modalPreview.addEventListener("click", () => {
+    track(modalContext === "active" ? "view_answer_key" : "preview", { game_id: modalGameId });
     openPreview(modalGameId, { answers: modalContext === "active" });
   });
 
@@ -2816,7 +2841,10 @@ function wireEvents() {
       case "copy-share-link": copyShareLink(); break;
       case "copy-share-code": copyShareCode(); break;
       case "copy-direct-link": copyDirectLink(); break;
-      case "open-answer-key": openPreview(shareGameId, { answers: true }); break;
+      case "open-answer-key":
+        track("view_answer_key", { game_id: shareGameId });
+        openPreview(shareGameId, { answers: true });
+        break;
       case "share-google-classroom": shareToGoogleClassroom(); break;
       case "select-share-more": selectShareMoreGroup(btn); break;
     }
@@ -2850,7 +2878,7 @@ function wireEvents() {
       void openBillingPortal(els.footerUpgradeBtn);
       return;
     }
-    openUpgradeModal();
+    openUpgradeModal("footer");
   });
 
   wireAnimatedModal(els.loginRequiredModal);
@@ -2901,7 +2929,7 @@ function wireEvents() {
     const upgradeBtn = e.target.closest("[data-action='upgrade-all-access']");
     if (upgradeBtn) {
       dashboardMobileMenu?.setOpen(false);
-      openUpgradeModal();
+      openUpgradeModal("topbar");
       return;
     }
 
@@ -3137,6 +3165,7 @@ function initDebugActions() {
 
 function applyMembershipAccess() {
   state.membershipAccess = debugMembershipAccessOverride ?? planMembershipAccess;
+  setAnalyticsPlan(planMembershipAccess);
 
   document.querySelectorAll("[data-debug-access]").forEach((option) => {
     const selectedAccess = debugMembershipAccessOverride ?? "plan";

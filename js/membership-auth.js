@@ -17,6 +17,7 @@ import {
   setAuthOfferLayoutActive,
 } from "./membership/auth-offer.js";
 import { sendVerificationEmail } from "./membership/email-verification.js";
+import { track } from "./membership/analytics.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
@@ -359,6 +360,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     setButtonLoading(submit, true, "Logging in…");
     try {
       await signInWithEmailAndPassword(auth, email, passwordInput.value);
+      track("login", { method: "email" });
     } catch (error) {
       if (isCredentialMismatch(error)) {
         showCredentialMismatchMessage(email);
@@ -404,6 +406,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     signupInThisTab = true;
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, passwordInput.value);
+      track("sign_up", { method: "email" });
       // Don't hold the sign-up on the email round trip; the dashboard banner
       // offers a resend if this one never arrives.
       sendVerificationEmail(credential.user).catch((error) => {
@@ -449,6 +452,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     if (expectNewAccount) signupInThisTab = true;
     try {
       await signInWithPopup(auth, googleProvider);
+      track(expectNewAccount ? "sign_up" : "login", { method: "google" });
     } catch (error) {
       if (expectNewAccount) signupInThisTab = false;
       if (!isCancelledPopup(error)) {

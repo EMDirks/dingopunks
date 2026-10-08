@@ -21,8 +21,30 @@
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=4.0.44" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.44" />
+  <link rel="stylesheet" href="css/membership.css?version=4.0.45" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.45" />
+  <!-- Google Analytics (same property as play.dingopunks.com). Disabled on
+       localhost unless the URL has ?ga_debug=1, which also turns on DebugView. -->
+  <script>
+    (function () {
+      var host = location.hostname;
+      var isLocal = host === "localhost" || host === "127.0.0.1";
+      var debug = new URLSearchParams(location.search).get("ga_debug") === "1";
+      if (isLocal && !debug) {
+        window["ga-disable-G-C3DG9YEYJ3"] = true;
+      }
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag("js", new Date());
+      var config = {
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+      };
+      if (debug) config.debug_mode = true;
+      gtag("config", "G-C3DG9YEYJ3", config);
+    })();
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C3DG9YEYJ3"></script>
   <script>
     try {
       if (localStorage.getItem("dpaam-session-hint") === "1") {
@@ -1477,6 +1499,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=4.0.44"></script>
+  <script type="module" src="js/membership.js?version=4.0.45"></script>
 </body>
 </html>
