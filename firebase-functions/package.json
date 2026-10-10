@@ -20,7 +20,7 @@
     "test": "npm run test:rules && npm run test:codes && npm run test:ratelimit && npm run test:resolve && npm run test:blocked && npm run test:mailerlite && npm run test:stripe"
   },
   "dependencies": {
-    "firebase-admin": "^13.6.0",
+    "firebase-admin": "^14.4.0",
     "firebase-functions": "^7.3.2",
     "stripe": "^22.6.2"
   },
