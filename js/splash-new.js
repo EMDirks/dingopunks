@@ -793,6 +793,19 @@ function addAccess(){
   buildAccessCodeEntry();
 }
 
+function mountSplashCodeEntry() {
+  let splashCodeEntry = document.querySelector('.splash-code-entry');
+  if (!splashCodeEntry) {
+    splashCodeEntry = createElement('div', ['splash-code-entry'], splashContent);
+    if (keyboardSplash) {
+      splashCodeEntry.appendChild(keyboardSplash);
+    }
+  } else if (splashContent && !splashContent.contains(splashCodeEntry)) {
+    splashContent.appendChild(splashCodeEntry);
+  }
+  return splashCodeEntry;
+}
+
 function buildAccessCodeEntry() {
   splashTitle.innerHTML = 'To play, enter your <span class="character-select-text-player">game code</span><span class = "icon-clickable--splash">?</span>';
 
@@ -813,7 +826,11 @@ function buildAccessCodeEntry() {
     });
   });
   splashButton.textContent = 'Next';
-  const accessInputContainer = createElement('div', ['access-input-container'], splashContent);
+  const splashCodeEntry = mountSplashCodeEntry();
+  const accessInputContainer = createElement('div', ['access-input-container'], splashCodeEntry);
+  if (keyboardSplash && keyboardSplash.parentNode === splashCodeEntry) {
+    splashCodeEntry.insertBefore(accessInputContainer, keyboardSplash);
+  }
   for (let i = 0; i < 5; i++) {
     let accessInput = createElement('input', ['access-input', 'access-input--no-flash','input-functionality-default'], accessInputContainer);
     accessInput.type = "text";

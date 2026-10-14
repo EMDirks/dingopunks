@@ -112,6 +112,7 @@
 
 .splash--hidden {
     opacity: 0;
+    pointer-events: none;
 }
 
 .splash-container-wrapper {
@@ -305,20 +306,28 @@
         line-height: 95%;
     }
 
+    .splash-code-entry {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 1%;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15%;
+        container-type: inline-size;
+    }
+
     .keyboard--splash {
         width: 30% !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 35% !important;
-        top: 35% !important;
+        flex-shrink: 0;
         z-index: 999 !important;
         transition: transform 0.2s, opacity 0.15s;
     }
 
     .keyboard--splash-alphabet {
-        width: 68% !important;
-        left: 16% !important;
-        top: 35% !important;
+        width: 80% !important;
     }
 
     .keyboard-splash--off-right {
@@ -355,7 +364,7 @@
 
     .keyboard-button--splash:active {
         opacity: 0.5;
-        padding: 2% 0% !important;
+        padding: 1.5% 0% !important;
     }
 
     .keyboard-button--splash-alphabet {
@@ -378,13 +387,15 @@
     .access-input-container {
         display: flex;
         justify-content: center;
-        height: 17%;
+        flex-shrink: 0;
+        width: 100%;
+        height: 23%;
     }
 
     .access-input {
         border: 0.35vmin solid rgba(var(--gold), 1);
         background-color: rgba(var(--off-black), 1);
-        width: 8%;
+        width: 10%;
         height: 100%;
         border-radius: 1vmin;
         margin: 0 0.7%;
@@ -1187,7 +1198,7 @@
 
 .promo-container__text {
     font-family: 'Primer Print Bold', sans-serif;
-    font-size: 2.8cqi;
+    font-size: 3.5cqi;
     line-height: 1.1;
     color: rgba(var(--off-white), 1);
     margin: 0;

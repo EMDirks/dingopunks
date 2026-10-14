@@ -78,7 +78,6 @@ const themeAssets = {
   christmas: { background: 'resource/wacky-workshop/assets/cutscene/main.png' },
 };
 
-
 function shouldShowPromoContainer(themeKey = theme, assetsMap = themeAssets) {
   return Boolean(themeKey && assetsMap?.[themeKey]?.background);
 }
