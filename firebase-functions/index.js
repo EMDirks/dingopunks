@@ -22,6 +22,7 @@ import {
 import {
   planFieldValue,
   planSyncForChange,
+  shouldSubscribe,
   subscribeToGroup,
   syncPlanField,
 } from "./mailerlite.js";
@@ -44,8 +45,9 @@ function stripeClient() {
   return cachedStripe;
 }
 
-// New accounts are added to the MailerLite "Dingo Punks" group. Their plan
-// custom field is kept in sync as account access changes:
+// New accounts are added to the MailerLite "Dingo Punks" group once Firebase
+// reports their email address as verified (Google sign-in counts as verified).
+// Their plan custom field is kept in sync as account access changes:
 //   firebase functions:secrets:set MAILERLITE_API_KEY
 const mailerliteApiKey = defineSecret("MAILERLITE_API_KEY");
 const mailerliteGroupId = defineString("MAILERLITE_GROUP_ID", {
@@ -93,10 +95,11 @@ async function ensureUserDocument(user) {
   return { created, mailerliteStatus, plan, mailerlitePlan };
 }
 
-// Only "pending" accounts (created since this sync shipped) are synced, so
-// older accounts are never backfilled. A transient failure leaves the account
-// pending and the next ensureUserProfile call retries. Never throws: a
-// MailerLite outage must not block sign-up.
+// Only "pending" accounts (created since this sync shipped) with a verified
+// email are synced, so older accounts are never backfilled and unverified
+// addresses never reach MailerLite. An unverified account or a transient
+// failure leaves the account pending and the next ensureUserProfile call
+// retries. Never throws: a MailerLite outage must not block sign-up.
 async function syncMailerLite(uid, email, name, plan) {
   if (process.env.FUNCTIONS_EMULATOR === "true" || !email) return;
 
@@ -161,12 +164,13 @@ export const ensureUserProfile = onCall(
 
     const email =
       typeof request.auth.token.email === "string" ? request.auth.token.email : null;
+    const emailVerified = request.auth.token.email_verified === true;
     const { created, mailerliteStatus, plan, mailerlitePlan } = await ensureUserDocument({
       uid: request.auth.uid,
       email,
     });
 
-    if (mailerliteStatus === "pending") {
+    if (shouldSubscribe({ mailerliteStatus, emailVerified, email })) {
       const name =
         typeof request.auth.token.name === "string" ? request.auth.token.name : null;
       await syncMailerLite(request.auth.uid, email, name, plan);

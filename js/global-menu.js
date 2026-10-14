@@ -160,10 +160,6 @@ function buildGlobalMenuHTML(state) {
           Shop
         </a>
         -->
-        <a class="global-menu__teachers-link" href="https://account.dingopunks.com/">
-          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-dpaam.png" alt="" aria-hidden="true">
-          Log in
-        </a>
         <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">
           <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-teachers.png" alt="" aria-hidden="true">
           Teachers

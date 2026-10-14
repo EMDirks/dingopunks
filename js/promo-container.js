@@ -1,4 +1,4 @@
-const theme = "all_access";
+const theme = false;
 /** Theme key → background + optional character img + optional characterStyle (root-relative paths) */
 const themeAssets = {
   all_access: { 
@@ -79,15 +79,16 @@ const themeAssets = {
 };
 
 
+function shouldShowPromoContainer(themeKey = theme, assetsMap = themeAssets) {
+  return Boolean(themeKey && assetsMap?.[themeKey]?.background);
+}
+
 function renderPromoContainer(promoContainer, themeKey = theme, assetsMap = themeAssets) {
-  if (!promoContainer || !themeKey || !assetsMap) {
+  if (!promoContainer || !shouldShowPromoContainer(themeKey, assetsMap)) {
     return;
   }
 
   const assets = assetsMap[themeKey];
-  if (!assets?.background) {
-    return;
-  }
 
   if (assets.link) {
     promoContainer.href = assets.link;

@@ -133,13 +133,6 @@
       return;
     }
     const unlocked = typeof isUndermurkUnlocked === 'function' && isUndermurkUnlocked();
-    const bonusMissionModalOptions = {
-      teacherHelp: true,
-      teacherHelpTone: 'teal',
-      teacherHelpHref: 'https://account.dingopunks.com/?auth=signup',
-      teacherHelpHtml:
-        'Teachers: Unlock Bonus Missions by signing up for <span class="modal__teacher-help-underline">All-Access →</span>',
-    };
     if (unlocked) {
       createModal(
         'What\'s a bonus mission?',
@@ -151,9 +144,7 @@
     createModal(
       'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
       '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! Bonus Missions are unlocked when your teacher has a Dingo Punks All-Access account.',
-      'Close',
-      null,
-      bonusMissionModalOptions
+      'Close'
     );
   }
 

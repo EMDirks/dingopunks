@@ -7,8 +7,11 @@ import { describe, test } from "node:test";
 import {
   MAILERLITE_SUBSCRIBERS_URL,
   MailerLiteError,
+  deleteSubscriber,
+  findSubscriber,
   planFieldValue,
   planSyncForChange,
+  shouldSubscribe,
   subscribeToGroup,
   syncPlanField,
 } from "../mailerlite.js";
@@ -21,10 +24,40 @@ function fakeFetch(status, body = "") {
       ok: status >= 200 && status < 300,
       status,
       text: async () => body,
+      json: async () => JSON.parse(body),
     };
   };
   return { impl, calls };
 }
+
+describe("shouldSubscribe", () => {
+  const verifiedPending = {
+    mailerliteStatus: "pending",
+    emailVerified: true,
+    email: "teacher@example.com",
+  };
+
+  test("subscribes only pending accounts with a verified email", () => {
+    assert.equal(shouldSubscribe(verifiedPending), true);
+  });
+
+  test("never subscribes an unverified address", () => {
+    assert.equal(shouldSubscribe({ ...verifiedPending, emailVerified: false }), false);
+    assert.equal(shouldSubscribe({ ...verifiedPending, emailVerified: undefined }), false);
+    assert.equal(shouldSubscribe({ ...verifiedPending, emailVerified: "true" }), false);
+  });
+
+  test("ignores accounts that are not pending", () => {
+    for (const mailerliteStatus of ["subscribed", "rejected", null, undefined]) {
+      assert.equal(shouldSubscribe({ ...verifiedPending, mailerliteStatus }), false);
+    }
+  });
+
+  test("ignores accounts without an email", () => {
+    assert.equal(shouldSubscribe({ ...verifiedPending, email: null }), false);
+    assert.equal(shouldSubscribe({ ...verifiedPending, email: "" }), false);
+  });
+});
 
 const base = { apiKey: "key-123", groupId: 987654, email: "teacher@example.com" };
 
@@ -165,6 +198,93 @@ describe("syncPlanField", () => {
         return true;
       },
     );
+  });
+});
+
+describe("findSubscriber", () => {
+  test("GETs the subscriber by email and returns id, email, status", async () => {
+    const { impl, calls } = fakeFetch(
+      200,
+      JSON.stringify({ data: { id: 123456, email: "teacher@example.com", status: "active" } }),
+    );
+    const result = await findSubscriber({
+      apiKey: "key-123",
+      email: "teacher@example.com",
+      fetchImpl: impl,
+    });
+
+    assert.deepEqual(result, { id: "123456", email: "teacher@example.com", status: "active" });
+    assert.equal(calls.length, 1);
+    const { url, init } = calls[0];
+    assert.equal(url, `${MAILERLITE_SUBSCRIBERS_URL}/teacher%40example.com`);
+    assert.equal(init.method, "GET");
+    assert.equal(init.headers.Authorization, "Bearer key-123");
+    assert.equal(init.body, undefined);
+  });
+
+  test("returns null when MailerLite has no record (404)", async () => {
+    const { impl } = fakeFetch(404, '{"message":"Resource not found."}');
+    const result = await findSubscriber({ ...base, fetchImpl: impl });
+    assert.equal(result, null);
+  });
+
+  test("classifies 5xx as transient and 401 as permanent", async () => {
+    const transient = fakeFetch(503);
+    await assert.rejects(findSubscriber({ ...base, fetchImpl: transient.impl }), (error) => {
+      assert.ok(error instanceof MailerLiteError);
+      assert.equal(error.permanent, false);
+      assert.equal(error.status, 503);
+      return true;
+    });
+
+    const permanent = fakeFetch(401);
+    await assert.rejects(findSubscriber({ ...base, fetchImpl: permanent.impl }), (error) => {
+      assert.equal(error.permanent, true);
+      assert.equal(error.status, 401);
+      return true;
+    });
+  });
+});
+
+describe("deleteSubscriber", () => {
+  test("DELETEs the subscriber by id", async () => {
+    const { impl, calls } = fakeFetch(204);
+    const result = await deleteSubscriber({
+      apiKey: "key-123",
+      subscriberId: "123456",
+      fetchImpl: impl,
+    });
+
+    assert.deepEqual(result, { ok: true, status: 204 });
+    const { url, init } = calls[0];
+    assert.equal(url, `${MAILERLITE_SUBSCRIBERS_URL}/123456`);
+    assert.equal(init.method, "DELETE");
+    assert.equal(init.headers.Authorization, "Bearer key-123");
+    assert.equal(init.body, undefined);
+  });
+
+  test("treats 404 (already gone) as success", async () => {
+    const { impl } = fakeFetch(404);
+    const result = await deleteSubscriber({
+      apiKey: "key-123",
+      subscriberId: "123456",
+      fetchImpl: impl,
+    });
+    assert.deepEqual(result, { ok: true, status: 404 });
+  });
+
+  test("classifies 429 and 5xx as transient", async () => {
+    for (const status of [429, 500]) {
+      const { impl } = fakeFetch(status);
+      await assert.rejects(
+        deleteSubscriber({ apiKey: "key-123", subscriberId: "1", fetchImpl: impl }),
+        (error) => {
+          assert.equal(error.permanent, false);
+          assert.equal(error.status, status);
+          return true;
+        },
+      );
+    }
   });
 });
 

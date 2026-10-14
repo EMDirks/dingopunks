@@ -22,22 +22,42 @@ export function planFieldValue(plan) {
   return plan === "all-access" ? "all-access" : "starter";
 }
 
-async function upsertSubscriber({
-  apiKey,
-  body,
-  fetchImpl = fetch,
-  timeoutMs = MAILERLITE_TIMEOUT_MS,
-}) {
-  let response;
+/**
+ * Whether an account should be added to MailerLite right now. Only accounts
+ * still pending and whose address Firebase reports as verified qualify; an
+ * unverified address stays pending and is retried on a later profile load.
+ */
+export function shouldSubscribe({ mailerliteStatus, emailVerified, email }) {
+  return (
+    mailerliteStatus === "pending" &&
+    emailVerified === true &&
+    typeof email === "string" &&
+    email.length > 0
+  );
+}
+
+function classifyResponse(response) {
+  return response.status >= 400 && response.status < 500 && response.status !== 429;
+}
+
+async function responseDetail(response) {
   try {
-    response = await fetchImpl(MAILERLITE_SUBSCRIBERS_URL, {
-      method: "POST",
+    return (await response.text()).slice(0, 500);
+  } catch {
+    return "";
+  }
+}
+
+async function mailerliteRequest({ apiKey, url, method, body, fetchImpl, timeoutMs }) {
+  try {
+    return await fetchImpl(url, {
+      method,
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(body),
+      body: body === undefined ? undefined : JSON.stringify(body),
       signal: AbortSignal.timeout(timeoutMs),
     });
   } catch (error) {
@@ -45,20 +65,85 @@ async function upsertSubscriber({
       permanent: false,
     });
   }
+}
+
+/**
+ * Look up a subscriber by email. Resolves to `{ id, email, status }` or null
+ * when MailerLite has no record of the address.
+ */
+export async function findSubscriber({
+  apiKey,
+  email,
+  fetchImpl = fetch,
+  timeoutMs = MAILERLITE_TIMEOUT_MS,
+}) {
+  const response = await mailerliteRequest({
+    apiKey,
+    url: `${MAILERLITE_SUBSCRIBERS_URL}/${encodeURIComponent(email)}`,
+    method: "GET",
+    fetchImpl,
+    timeoutMs,
+  });
+  if (response.status === 404) return null;
+  if (!response.ok) {
+    throw new MailerLiteError(
+      `MailerLite responded ${response.status}: ${await responseDetail(response)}`,
+      { permanent: classifyResponse(response), status: response.status },
+    );
+  }
+  const payload = await response.json();
+  const data = payload?.data ?? payload;
+  if (!data?.id) return null;
+  return { id: String(data.id), email: data.email ?? email, status: data.status ?? null };
+}
+
+/**
+ * Delete a subscriber by MailerLite id. A 404 means they are already gone and
+ * is treated as success.
+ */
+export async function deleteSubscriber({
+  apiKey,
+  subscriberId,
+  fetchImpl = fetch,
+  timeoutMs = MAILERLITE_TIMEOUT_MS,
+}) {
+  const response = await mailerliteRequest({
+    apiKey,
+    url: `${MAILERLITE_SUBSCRIBERS_URL}/${encodeURIComponent(subscriberId)}`,
+    method: "DELETE",
+    fetchImpl,
+    timeoutMs,
+  });
+  if (response.ok || response.status === 404) {
+    return { ok: true, status: response.status };
+  }
+  throw new MailerLiteError(
+    `MailerLite responded ${response.status}: ${await responseDetail(response)}`,
+    { permanent: classifyResponse(response), status: response.status },
+  );
+}
+
+async function upsertSubscriber({
+  apiKey,
+  body,
+  fetchImpl = fetch,
+  timeoutMs = MAILERLITE_TIMEOUT_MS,
+}) {
+  const response = await mailerliteRequest({
+    apiKey,
+    url: MAILERLITE_SUBSCRIBERS_URL,
+    method: "POST",
+    body,
+    fetchImpl,
+    timeoutMs,
+  });
 
   if (response.ok) return { ok: true, status: response.status };
 
-  const permanent = response.status >= 400 && response.status < 500 && response.status !== 429;
-  let detail = "";
-  try {
-    detail = (await response.text()).slice(0, 500);
-  } catch {
-    // Body is diagnostic only.
-  }
-  throw new MailerLiteError(`MailerLite responded ${response.status}: ${detail}`, {
-    permanent,
-    status: response.status,
-  });
+  throw new MailerLiteError(
+    `MailerLite responded ${response.status}: ${await responseDetail(response)}`,
+    { permanent: classifyResponse(response), status: response.status },
+  );
 }
 
 /**

@@ -17,6 +17,8 @@ These are the remaining post-launch stabilization tasks. Finish these, then move
 
 Do these after P1, but don't let them delay Elsewhere Post or regular escape-room production.
 
+-[ ] **Add ability for users to change their own emails**
+
 - [ ] **Add a small automated browser smoke suite.** Cover:
   - Public signup/sign-in.
   - Free sharing.
