@@ -437,7 +437,7 @@
 
 .dpaam-auth-consent {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--dpaam-pad-sm);
   margin: 0;
   text-align: left;
@@ -451,7 +451,8 @@
   flex: 0 0 auto;
   width: calc(1rem + 4px);
   height: calc(1rem + 4px);
-  margin: 0.1rem 0 0;
+  margin: 0;
+  transform: translateY(-1px);
   border: 1px solid var(--dpaam-border-strong);
   border-radius: 3px;
   background-color: var(--dpaam-light-gray);
@@ -481,11 +482,6 @@
 #dpaam-auth .dpaam-auth-consent.is-error .dpaam-auth-consent-checkbox:not(:checked) {
   border-color: var(--dpaam-salmon-dark);
   background-color: var(--dpaam-salmon-light);
-}
-
-.dpaam-auth-consent > span {
-  position: relative;
-  top: 4px;
 }
 
 #dpaam-auth #dpaam-auth-reset-back,
@@ -973,10 +969,6 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
 
   .dpaam-auth-card {
     --dpaam-auth-card-pad-x: var(--dpaam-pad-md);
-  }
-
-  .dpaam-auth-consent > span {
-    top: 6px;
   }
 
   .dpaam-auth .dpaam-topbar {
