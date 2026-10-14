@@ -136,14 +136,14 @@
     if (unlocked) {
       createModal(
         'What\'s a bonus mission?',
-        'Think you\'re done? Think again. Bonus Missions are extra challenges you can take on after you escape. First up: <em>Enter the Undermurk:</em> a dangerous assignment from J.J. Dingo!<br>',
+        'Think you\'re done? Think again. Bonus missions are extra challenges you can take on after you escape. First up: <em>Enter the Undermurk:</em> a dangerous assignment from J.J. Dingo!<br>',
         'Close'
       );
       return;
     }
     createModal(
       'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
-      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! Bonus Missions are unlocked when your teacher has a Dingo Punks All-Access account.',
+      '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! Bonus missions are unlocked when your teacher has a Dingo Punks All-Access account.',
       'Close'
     );
   }

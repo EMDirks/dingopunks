@@ -168,7 +168,11 @@ function serializeGroups(groups) {
   return lines.join("\n");
 }
 
-const gamesContent = fs.readFileSync(gamesPath, "utf8");
+function stripBlockComments(text) {
+  return text.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
+const gamesContent = stripBlockComments(fs.readFileSync(gamesPath, "utf8"));
 const games = parseGamesFromCatalog(gamesContent);
 
 if (games.length === 0) {

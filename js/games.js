@@ -2423,6 +2423,26 @@ export const games = [
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
   },
+  /* {
+    id: "yeti-and-the-yams-story-elements-2-3",
+    isNew: true,
+    title: "The Yeti and the Yams",
+    color: "blue",
+    season: "winter",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "story-elements",
+    skills: [
+      "Main Topic and Details",
+      "Characters",
+      "Structure",
+      "Theme",
+    ],
+    thumbnail: "assets/branding/placeholder/need-image.png",
+    path: "resource/the-yeti-and-the-yam/topic/reading/story-elements/storyElements_2nd3rdGrade.js",
+    badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
+    main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
+  }, */
   {
     id: "yeti-and-the-yams-story-elements-4-5",
     title: "The Yeti and the Yams",
