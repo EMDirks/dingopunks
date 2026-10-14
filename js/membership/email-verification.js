@@ -1,7 +1,8 @@
 // Email verification for email/password accounts.
 //
 // Verification is a soft gate: unverified users still reach the dashboard
-// and can check out; only share-code creation waits on a verified address.
+// and can check out; only share-code creation and printables wait on a
+// verified address.
 // This module owns what the auth flow and the dashboard share — sending the link
 // (with a continue URL back to this page), the resend cooldown, and the
 // background watch that notices when the link was clicked.

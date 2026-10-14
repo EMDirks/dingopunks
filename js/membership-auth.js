@@ -144,8 +144,8 @@ function formIsValid(form) {
 }
 
 // Email verification is a soft gate: any signed-in user reaches the dashboard,
-// which shows a verify banner and withholds share-code creation until the
-// link is clicked (see membership/email-verification.js).
+// which shows a verify banner and withholds share-code creation and
+// printables until the link is clicked (see membership/email-verification.js).
 export function userCanAccessDashboard(user) {
   return Boolean(user);
 }

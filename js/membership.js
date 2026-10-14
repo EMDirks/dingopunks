@@ -2120,8 +2120,8 @@ function openShareModal(gameId, { pending = false } = {}) {
 async function activateAndShare(gameId) {
   const needsCreate = !activeCodeFor(gameId);
 
-  // Creating a share code is the one action held back until the email is
-  // verified. Check this before the access paywall so a new unverified user
+  // Creating a share code is held back until the email is verified (as are
+  // printables; see openPrintablesModal). Check this before the access paywall so a new unverified user
   // gets the verification prompt even when the selected room is locked.
   if (needsCreate && userNeedsEmailVerification(currentUser)) {
     openVerifyEmailModal();
@@ -2224,6 +2224,10 @@ function openAccountModal() {
 }
 
 function openPrintablesModal() {
+  if (userNeedsEmailVerification(currentUser)) {
+    openVerifyEmailModal();
+    return;
+  }
   track("view_printables");
   showExclusiveModal(els.printablesModal);
 }
@@ -2261,7 +2265,8 @@ async function logoutAccount() {
 // ---------- email verification (soft gate) ----------
 //
 // Unverified email/password users get the full dashboard plus a banner; only
-// share-code creation waits (see activateAndShare). A background watch flips
+// share-code creation and printables wait (see activateAndShare and
+// openPrintablesModal). A background watch flips
 // everything the moment the link is clicked, so nobody has to press
 // "Continue" or refresh.
 
