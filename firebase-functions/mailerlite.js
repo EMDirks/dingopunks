@@ -1,6 +1,8 @@
 // MailerLite subscriber sync. Kept separate from index.js so it can be unit
 // tested with a fake fetch — no emulator, no network.
 
+import { readFileSync } from "node:fs";
+
 export const MAILERLITE_SUBSCRIBERS_URL = "https://connect.mailerlite.com/api/subscribers";
 export const MAILERLITE_TIMEOUT_MS = 5000;
 export const MAILERLITE_PLAN_FIELD = "plan";
@@ -22,17 +24,43 @@ export function planFieldValue(plan) {
   return plan === "all-access" ? "all-access" : "starter";
 }
 
+// Refresh with `npm run update:disposable`.
+export const DISPOSABLE_EMAIL_DOMAINS = new Set(
+  JSON.parse(readFileSync(new URL("./disposable-email-domains.json", import.meta.url), "utf8")),
+);
+
+/**
+ * Whether an address belongs to a throwaway-inbox provider. Subdomains of a
+ * listed domain match too (`x.mailinator.com` matches `mailinator.com`).
+ */
+export function isDisposableEmail(email, domains = DISPOSABLE_EMAIL_DOMAINS) {
+  if (typeof email !== "string") return false;
+  const at = email.lastIndexOf("@");
+  if (at < 0) return false;
+
+  const labels = email.slice(at + 1).trim().toLowerCase().split(".");
+  for (let i = 0; i < labels.length - 1; i++) {
+    if (domains.has(labels.slice(i).join("."))) return true;
+  }
+  return false;
+}
+
 /**
  * Whether an account should be added to MailerLite right now. Only accounts
  * still pending and whose address Firebase reports as verified qualify; an
  * unverified address stays pending and is retried on a later profile load.
+ * Disposable addresses never qualify.
  */
-export function shouldSubscribe({ mailerliteStatus, emailVerified, email }) {
+export function shouldSubscribe(
+  { mailerliteStatus, emailVerified, email },
+  domains = DISPOSABLE_EMAIL_DOMAINS,
+) {
   return (
     mailerliteStatus === "pending" &&
     emailVerified === true &&
     typeof email === "string" &&
-    email.length > 0
+    email.length > 0 &&
+    !isDisposableEmail(email, domains)
   );
 }
 

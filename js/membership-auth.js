@@ -6,6 +6,7 @@ import {
   ensureUserProfile,
   googleProvider,
   onAuthStateChanged,
+  preloadRecaptchaConfig,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -204,6 +205,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   const modals = Array.from(section.querySelectorAll("[data-auth-view]"));
   const messages = section.querySelector(".dpaam-auth-messages");
   if (modals.length === 0) return;
+
+  preloadRecaptchaConfig();
 
   let signedOutView = consumeRequestedAuthView();
 

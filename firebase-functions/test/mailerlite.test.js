@@ -5,10 +5,12 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
 import {
+  DISPOSABLE_EMAIL_DOMAINS,
   MAILERLITE_SUBSCRIBERS_URL,
   MailerLiteError,
   deleteSubscriber,
   findSubscriber,
+  isDisposableEmail,
   planFieldValue,
   planSyncForChange,
   shouldSubscribe,
@@ -56,6 +58,53 @@ describe("shouldSubscribe", () => {
   test("ignores accounts without an email", () => {
     assert.equal(shouldSubscribe({ ...verifiedPending, email: null }), false);
     assert.equal(shouldSubscribe({ ...verifiedPending, email: "" }), false);
+  });
+
+  test("never subscribes a disposable address, even when verified", () => {
+    const domains = new Set(["mailinator.com"]);
+    assert.equal(
+      shouldSubscribe({ ...verifiedPending, email: "bot@mailinator.com" }, domains),
+      false,
+    );
+    assert.equal(shouldSubscribe(verifiedPending, domains), true);
+  });
+});
+
+describe("isDisposableEmail", () => {
+  const domains = new Set(["mailinator.com", "temp-mail.org"]);
+
+  test("matches a listed domain, case-insensitively", () => {
+    assert.equal(isDisposableEmail("bot@mailinator.com", domains), true);
+    assert.equal(isDisposableEmail("Bot@MAILINATOR.com", domains), true);
+    assert.equal(isDisposableEmail("bot@temp-mail.org", domains), true);
+  });
+
+  test("matches subdomains of a listed domain", () => {
+    assert.equal(isDisposableEmail("bot@x.mailinator.com", domains), true);
+  });
+
+  test("does not match unlisted or look-alike domains", () => {
+    assert.equal(isDisposableEmail("teacher@example.com", domains), false);
+    assert.equal(isDisposableEmail("teacher@notmailinator.com", domains), false);
+    assert.equal(isDisposableEmail("teacher@mailinator.com.au", domains), false);
+    assert.equal(isDisposableEmail("mailinator.com@school.org", domains), false);
+  });
+
+  test("returns false for missing or malformed addresses", () => {
+    assert.equal(isDisposableEmail(null, domains), false);
+    assert.equal(isDisposableEmail(undefined, domains), false);
+    assert.equal(isDisposableEmail("no-at-sign", domains), false);
+  });
+
+  test("the committed list is well-formed and spares major providers", () => {
+    assert.ok(DISPOSABLE_EMAIL_DOMAINS.size > 1000);
+    for (const domain of DISPOSABLE_EMAIL_DOMAINS) {
+      assert.equal(domain, domain.toLowerCase());
+      assert.doesNotMatch(domain, /[\s@]/);
+    }
+    for (const provider of ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "icloud.com"]) {
+      assert.equal(DISPOSABLE_EMAIL_DOMAINS.has(provider), false, provider);
+    }
   });
 });
 

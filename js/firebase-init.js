@@ -7,6 +7,7 @@ import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
+  initializeRecaptchaConfig,
   onAuthStateChanged,
   reload,
   sendEmailVerification,
@@ -119,8 +120,11 @@ async function emulatorSuiteRunning() {
   }
 }
 
+let emulatorConnected = false;
+
 if (isLocal) {
   if (await emulatorSuiteRunning()) {
+    emulatorConnected = true;
     connectAuthEmulator(auth, "http://127.0.0.1:9099", {
       disableWarnings: true,
     });
@@ -133,6 +137,16 @@ if (isLocal) {
         "Sign-ins, favorites, and share codes are real. Start emulators with `npm run serve` in firebase-functions/.",
     );
   }
+}
+
+// Fetches the Identity Platform reCAPTCHA config up front so the first
+// sign-up or log-in doesn't wait on it. Never blocks: on failure the SDK
+// fetches the config lazily on the first email/password call.
+function preloadRecaptchaConfig() {
+  if (emulatorConnected) return;
+  initializeRecaptchaConfig(auth).catch((error) => {
+    console.warn("reCAPTCHA config preload failed", error);
+  });
 }
 
 export {
@@ -150,6 +164,7 @@ export {
   getUserProfileForBootstrap,
   googleProvider,
   onAuthStateChanged,
+  preloadRecaptchaConfig,
   reload,
   resolveGameCode,
   sendEmailVerification,

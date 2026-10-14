@@ -20,6 +20,7 @@ import {
   handleStripeEvent,
 } from "./stripe-billing.js";
 import {
+  isDisposableEmail,
   planFieldValue,
   planSyncForChange,
   shouldSubscribe,
@@ -170,7 +171,21 @@ export const ensureUserProfile = onCall(
       email,
     });
 
-    if (shouldSubscribe({ mailerliteStatus, emailVerified, email })) {
+    // "skipped" is terminal: nothing else acts on it, so the account is never
+    // retried and never reaches MailerLite. The account itself is unaffected.
+    if (mailerliteStatus === "pending" && isDisposableEmail(email)) {
+      await getFirestore()
+        .collection("users")
+        .doc(request.auth.uid)
+        .update({ mailerliteStatus: "skipped" })
+        .catch((error) => {
+          logger.warn("Failed to mark disposable account skipped", {
+            uid: request.auth.uid,
+            errorMessage: error?.message,
+          });
+        });
+      logger.info("MailerLite skipped disposable email domain", { uid: request.auth.uid });
+    } else if (shouldSubscribe({ mailerliteStatus, emailVerified, email })) {
       const name =
         typeof request.auth.token.name === "string" ? request.auth.token.name : null;
       await syncMailerLite(request.auth.uid, email, name, plan);

@@ -44,7 +44,7 @@ Three top-level collections. Billing/entitlement data is **server-written only**
   status:           "active" | "canceling" | "lapsed" | null,   // derived from Stripe
   currentPeriodEnd: timestamp | null,
   rebate:           { platform, orderNumber, appliedAt } | null,
-  mailerliteStatus: "pending" | "subscribed" | "rejected",
+  mailerliteStatus: "pending" | "subscribed" | "rejected" | "skipped",  // skipped = disposable email domain
   mailerlitePlan:   "starter" | "all-access" | null
 }
 ```

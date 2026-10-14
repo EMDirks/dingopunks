@@ -436,9 +436,11 @@
 }
 
 .dpaam-auth-consent {
-  display: flex;
+  --dpaam-auth-consent-checkbox-nudge-y: -4px; /* tweak: negative = up, positive = down */
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: var(--dpaam-pad-sm);
+  column-gap: var(--dpaam-pad-md);
   margin: 0;
   text-align: left;
   text-wrap: initial;
@@ -448,11 +450,11 @@
 .dpaam-auth-consent-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  flex: 0 0 auto;
+  display: block;
   width: calc(1rem + 4px);
   height: calc(1rem + 4px);
   margin: 0;
-  transform: translateY(-1px);
+  transform: translateY(var(--dpaam-auth-consent-checkbox-nudge-y));
   border: 1px solid var(--dpaam-border-strong);
   border-radius: 3px;
   background-color: var(--dpaam-light-gray);
@@ -969,6 +971,10 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
 
   .dpaam-auth-card {
     --dpaam-auth-card-pad-x: var(--dpaam-pad-md);
+  }
+
+  .dpaam-auth-consent {
+    --dpaam-auth-consent-checkbox-nudge-y: 0px;
   }
 
   .dpaam-auth .dpaam-topbar {

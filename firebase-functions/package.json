@@ -10,6 +10,7 @@
   "scripts": {
     "serve": "firebase emulators:start --config ../firebase.json --only auth,firestore,functions",
     "deploy": "firebase deploy --only functions",
+    "update:disposable": "node ../scripts/update-disposable-domains.mjs",
     "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rules --only firestore \"node --test test/firestore.rules.test.js\"",
     "test:codes": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-codes --only firestore \"node --test test/share-codes.test.js\"",
     "test:ratelimit": "firebase emulators:exec --config ../firebase.json --project demo-dpaam-rate-limits --only firestore \"node --test test/rate-limit.test.js\"",

@@ -29,6 +29,18 @@ Email/password calls `identitytoolkit.googleapis.com` with the browser API key f
 
 **Verify:** On `https://account.dingopunks.com`, sign in with a wrong password — you should see **Incorrect email or password**, not a generic error and not a 403 in the network tab.
 
+## 3b. reCAPTCHA for email/password auth
+
+Identity Platform runs invisible reCAPTCHA Enterprise inside email/password sign-up and log-in. No widget; `preloadRecaptchaConfig()` in [`js/firebase-init.js`](../js/firebase-init.js) fetches the config when the auth screen loads (skipped against the emulator).
+
+1. [Google Cloud Console → Identity Platform → Settings → Security](https://console.cloud.google.com/customer-identity/settings?project=dpaam-8864d) → enable **reCAPTCHA** for email/password.
+2. Start in **Audit** mode (scores only, blocks nothing). After about a week, review the score distribution in the [reCAPTCHA console](https://console.cloud.google.com/security/recaptcha?project=dpaam-8864d) and switch to **Enforce**.
+3. If the browser API key is restricted to a list of APIs, add **reCAPTCHA Enterprise API** to it.
+
+**Current mode:** _not yet enabled_ (update this line when it changes).
+
+**Verify:** On `https://account.dingopunks.com`, a `getRecaptchaConfig` request appears in the network tab on load, and sign-up / log-in still succeed.
+
 ## 4. Firebase Functions — Stripe return URLs
 
 Deployed logic in [`firebase-functions/stripe-billing.js`](../firebase-functions/stripe-billing.js) allowlists:
