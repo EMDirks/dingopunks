@@ -620,7 +620,7 @@ function updateElementHeight() {
     ['.activity-node-image',1],
     ['.code-box-button',0.18],
     ['.code-input-flash',1.05],
-    ['.splash-code-entry', 0.48],
+    /* -container-wrapper',0.48], */
     ['.promo-container',0.15],
     ['.promo-container__resource',0.3],
     ['.promo-container__single-image',0.65],
@@ -753,7 +753,7 @@ function updateElementSize() {
     ['.cutscene-text', 0.047],
     ['.keyboard-button', 0.03],
     ['.keyboard-button--splash', 0.125],
-    ['.keyboard-button--splash-alphabet', 0.045],
+    ['.keyboard-button--splash-alphabet', 0.05],
     ['.activity-button-done', 0.03],
 
     ['.code-node-input', 0.11],

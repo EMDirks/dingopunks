@@ -147,27 +147,6 @@ function appendLocationSearch(href) {
 }
 
 function buildGlobalMenuHTML(state) {
-  const teachersHTML = `
-    <div class="global-menu__teachers">
-      <div class="global-menu__teachers-links">
-        <a class="global-menu__teachers-link" href="https://dingopunks.com">
-          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-home.png" alt="" aria-hidden="true">
-          Home
-        </a>
-        <!--
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/collections/all">
-          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-shop.png" alt="" aria-hidden="true">
-          Shop
-        </a>
-        -->
-        <a class="global-menu__teachers-link" href="https://dingopunks.com/pages/teacher-portal">
-          <img class="global-menu__teachers-link-icon" src="assets/global/modal-icon-teachers.png" alt="" aria-hidden="true">
-          Teachers
-        </a>
-      </div>
-    </div>
-  `;
-
   const playHomeHref = getPlayHomeHref();
   const quitHomeHref = getQuitHomeHref();
 
@@ -203,7 +182,6 @@ function buildGlobalMenuHTML(state) {
       <div class="global-menu__kids">
         <div class="global-menu__kids-links">${kidsLinks}</div>
       </div>
-      ${teachersHTML}
     </div>
   `;
 }
