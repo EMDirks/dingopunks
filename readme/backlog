@@ -12,6 +12,19 @@ These are the remaining post-launch stabilization tasks. Finish these, then move
 
 - [X] **Add Google Analytics**
 
+- [ ] **Block student emails from signing up.** Membership accounts are for teachers; reject school-issued student addresses (those with "student" or a long string of numbers)
+
+## P1 — Post-launch audit (scheduled)
+
+Target **~30 days after public launch** (early November 2026). Review only — no implementation unless the audit finds real problems.
+
+- [ ] **Audit signup security, email verification, and MailerLite integration after additional real-world usage.**
+  - Review actual signup patterns, verification completion rates, blocked student/disposable addresses, bot protection, and MailerLite enrollment.
+  - Verify legitimate teachers can register while invalid or unverified accounts stay out of marketing emails.
+  - Examine Firebase logs, MailerLite subscriber records, and campaign bounce rates for unexpected behavior.
+  - Identify false positives, bypasses, or unnecessary friction from the verified-email / MailerLite changes.
+  - Make targeted improvements only if the audit reveals actual problems.
+
 
 ## P2 — Next / High-Value Improvements
 
@@ -55,6 +68,8 @@ Do these after P1, but don't let them delay Elsewhere Post or regular escape-roo
 
 - [ ] **Clean up game-code rate limiting.** The local 5-attempt lockout and server `resource-exhausted` response should feel intentional and consistent. The server lockout is already capped at 60 seconds, so this is primarily UX cleanup.
 
+- [ ] **Clean up inactive users in the database.** Reduce Firestore/Auth clutter from dormant accounts: define what counts as inactive, exclusions (All-Access, disputes, support holds), and retention; then run safe batch archival or deletion with audit logging. Align with the policy notes under P3 **Inactive account cleanup** before scheduling jobs.
+
 
 ## P3 — Later / Deferred
 
@@ -79,6 +94,8 @@ Valid improvements, but not current priorities.
 - [ ] **Customize Firebase password-management branding if possible.** Investigate serving password-management flows on a Dingo Punks URL and/or applying brand styling. Handle this alongside the custom email action handler rather than as a separate project.
 
 - [ ] **Plan upgrade UI — SaaS-style comparison table.** Rework upgrade surfaces into a clearer pricing-table / feature-matrix layout if customer behavior or feedback shows the current upgrade experience is confusing.
+
+- [ ] **Refine analytics collection and display.** Audit what we send to Google Analytics (and any internal metrics): trim noisy or duplicate events, fill gaps on key teacher flows, align naming across account site and play surfaces, and make reports easier to read for product and support decisions.
 
 - [ ] **Inactive account cleanup.** Define:
   - Inactivity threshold.
@@ -135,6 +152,8 @@ Keep these documented, but do not spend development time on them unless they bec
 - [x] Add Google Analytics to the account site.
 
 - [x] Create MailerLite segments for Starter and All-Access and keep plan status synchronized.
+
+- [x] **MailerLite unverified-subscriber incident (P0 remediation complete).** First marketing campaign hard-bounced because `ensureUserProfile` subscribed new accounts to MailerLite as `status: "active"` without checking Firebase `email_verified`. **Root cause:** marketing enrollment ran on account creation, not on verified email. **Corrective measures (2026-10-13, deployed):** `shouldSubscribe` in `firebase-functions/mailerlite.js` gates subscribe on the verified claim (Google sign-in treated as verified); unverified accounts stay `mailerliteStatus: "pending"` until verification on a later account-page load. One-off prod cleanup (`mailerlite-unverified-cleanup.js`): 168 unverified subscribers removed from MailerLite and reset to `pending`, 400 verified kept, 0 failures. **Outcome:** subsequent campaign on the cleaned list — **0 bounces**. No further P0 work for this incident; do not duplicate the original launch validation checklist.
 
 - [x] Run backend tests automatically on pushes/PRs to `main`. `.github/workflows/backend-tests.yml` added with Node 22, `npm ci`, Firebase CLI, emulator caching, and `npm --prefix firebase-functions test`.
 

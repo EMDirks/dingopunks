@@ -717,6 +717,12 @@ const analyticsArray = [
 
             // Poetry
             {
+                level: ['2nd', '3rd'],
+                topic: 'Poetry',
+                resourceJS: 'topic/reading/poetry/poetry_2nd3rdGrade.js',
+                googleAnalyticsID: '37159-YetiPoetry-Rd'
+            },
+            {
                 level: ['4th', '5th'],
                 topic: 'Poetry',
                 resourceJS: 'topic/reading/poetry/poetry_4th5thGrade.js',

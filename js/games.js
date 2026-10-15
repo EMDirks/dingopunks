@@ -2481,6 +2481,26 @@ export const games = [
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
   },
+  /* {
+    id: "yeti-and-the-yams-poetry-2-3",
+    isNew: true,
+    title: "The Yeti and the Yams",
+    color: "blue",
+    season: "winter",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "poetry",
+    skills: [
+      "Elements and Structure",
+      "Comprehension",
+      "Language and Vocabulary",
+      "Theme and Author's Purpose",
+    ],
+    thumbnail: "assets/branding/placeholder/need-image.png",
+    path: "resource/the-yeti-and-the-yam/topic/reading/poetry/poetry_2nd3rdGrade.js",
+    badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
+    main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
+  }, */
   {
     id: "yeti-and-the-yams-making-inferences-4-5",
     title: "The Yeti and the Yams",

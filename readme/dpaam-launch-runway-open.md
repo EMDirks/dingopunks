@@ -161,11 +161,11 @@ Smoke journey for each device:
 
 ### After 7 days
 
-- [ ] Reconcile subscriptions and entitlements again.
-- [ ] Review conversion, rebate use/rejection, cancellations, refunds, disputes, and support themes.
-- [ ] Confirm TTL cleanup and Firestore growth are healthy.
-- [ ] Decide whether Firebase App Check or stricter authenticated-callable limits are justified by observed abuse or cost.
-- [ ] Run a short launch retrospective and update this checklist with anything that escaped.
+- [X] Reconcile subscriptions and entitlements again.
+- [X] Review conversion, rebate use/rejection, cancellations, refunds, disputes, and support themes.
+- [X] Confirm TTL cleanup and Firestore growth are healthy.
+- [X] Decide whether Firebase App Check or stricter authenticated-callable limits are justified by observed abuse or cost.
+- [X] Run a short launch retrospective and update this checklist with anything that escaped.
 
 ---
 
