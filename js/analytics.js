@@ -52,7 +52,7 @@ const analyticsArray = [
                 level: ['4th','5th'],
                 topic: 'Context Clues',
                 resourceJS: 'topic/reading/context-clues/contextClues_4th5thGrade.js',
-                googleAnalyticsID: '19457'
+                googleAnalyticsID: 'Cii1ZQR-p94i5sc-ZZvB7gc'
             },
 
             // Story Elements
@@ -242,7 +242,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Making Inferences',
                 resourceJS: 'topic/reading/making-inferences/makingInferences_2nd3rdGrade.js',
-                googleAnalyticsID: '21674'
+                googleAnalyticsID: 'ZNX2W1a-io6eSdA-Nzr7t4h'
             },
             {
                 level: ['4th', '5th'],
@@ -426,7 +426,7 @@ const analyticsArray = [
                 level: ['4th', '5th'],
                 topic: 'Figurative Language',
                 resourceJS: 'topic/reading/figurative-language/figurativeLanguage_4th5thGrade.js',
-                googleAnalyticsID: 'kPahyDm-sAkdyes-437E92a'
+                googleAnalyticsID: '4sfh3uj-eW7pr9x-wom2Zef'
             },
 
             // Context Clues
@@ -448,7 +448,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Story Elements',
                 resourceJS: 'topic/reading/story-elements/storyElements_2nd3rdGrade.js',
-                googleAnalyticsID: 'Ks8d23Sids5rr-S6NNJer'
+                googleAnalyticsID: '8MAb2ex-VMSV3tD-vXUj56x'
             },
             {
                 level: ['4th', '5th'],
@@ -670,7 +670,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Main Idea',
                 resourceJS: 'topic/reading/main-idea/mainIdea_2nd3rdGrade.js',
-                googleAnalyticsID: 'Y5e6t5i7y8a-msnowcone'
+                googleAnalyticsID: 'F5chyxU-6tMYh5D-oy7UL8K'
             },
             {
                 level: ['4th', '5th'],
@@ -692,7 +692,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Context Clues',
                 resourceJS: 'topic/reading/context-clues/contextClues_2nd3rdGrade.js',
-                googleAnalyticsID: '91937-YetiYams-Clues'
+                googleAnalyticsID: 'x919MPw-heww3Di-nVgo7FW'
             },
             {
                 level: ['4th', '5th'],
@@ -706,7 +706,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Story Elements',
                 resourceJS: 'topic/reading/story-elements/storyElements_2nd3rdGrade.js',
-                googleAnalyticsID: '3Y4t9h9e3-YetiStoryEl'
+                googleAnalyticsID: 'EA3Lyhq-4Bbw9jW-VZtQm93'
             },
             {
                 level: ['4th', '5th'],
@@ -720,7 +720,7 @@ const analyticsArray = [
                 level: ['2nd', '3rd'],
                 topic: 'Poetry',
                 resourceJS: 'topic/reading/poetry/poetry_2nd3rdGrade.js',
-                googleAnalyticsID: '37159-YetiPoetry-Rd'
+                googleAnalyticsID: 'AJYYh3h-U7sNEnZ-N15i9Hq'
             },
             {
                 level: ['4th', '5th'],
@@ -730,6 +730,12 @@ const analyticsArray = [
             },
 
             // Making Inferences
+            {
+                level: ['2nd', '3rd'],
+                topic: 'Making Inferences',
+                resourceJS: 'topic/reading/making-inferences/makingInferences_2nd3rdGrade.js',
+                googleAnalyticsID: '4DjoQrT-y6Wc3r9-fY9eKNG'
+            },
             {
                 level: ['4th', '5th'],
                 topic: 'Making Inferences',
@@ -1004,7 +1010,7 @@ const analyticsArray = [
                 level: ['4th'],
                 topic: 'Multiplication',
                 resourceJS: 'topic/math/multiplication/multiplication_4thGrade.js',
-                googleAnalyticsID: 'iUjskad-d4637s5-YsnayIa'
+                googleAnalyticsID: 'Wh46h3N-KPgQ7Hw-mYTr5sz'
             },
 
             // Order of Operations
@@ -1371,20 +1377,4 @@ const analyticsArray = [
         ]
     },
 
-    // Test
-    {
-    title: 'Test', 
-        path: 'escape-the-midnight-mall',
-        season: 'Test',
-        resources: [
-            /* Math */
-            {
-                level: ['3rd'],
-                topic: 'Reading Comprehension',
-                resourceJS: 'topic/test/test.js',
-                googleAnalyticsID: '00100'
-            },
-        ]
-    },
-    
 ]

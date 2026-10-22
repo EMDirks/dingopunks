@@ -2520,6 +2520,26 @@ export const games = [
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
   },
+  /* {
+    id: "yeti-and-the-yams-making-inferences-2-3",
+    isNew: true,
+    title: "The Yeti and the Yams",
+    color: "blue",
+    season: "winter",
+    grades: [2, 3],
+    subject: "reading",
+    topic: "making-inferences",
+    skills: [
+      "Making Inferences About Fiction",
+      "Making Inferences About Nonfiction",
+      "Making Inferences About Related Texts",
+      "Solving Riddles",
+    ],
+    thumbnail: "assets/branding/placeholder/need-image.png",
+    path: "resource/the-yeti-and-the-yam/topic/reading/making-inferences/makingInferences_2nd3rdGrade.js",
+    badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
+    main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
+  }, */
   {
     id: "yeti-and-the-yams-grammar-4-5",
     title: "The Yeti and the Yams",

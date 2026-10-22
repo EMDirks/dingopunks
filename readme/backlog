@@ -12,18 +12,18 @@ These are the remaining post-launch stabilization tasks. Finish these, then move
 
 - [X] **Add Google Analytics**
 
-- [ ] **Block student emails from signing up.** Membership accounts are for teachers; reject school-issued student addresses (those with "student" or a long string of numbers)
-
 ## P1 — Post-launch audit (scheduled)
 
 Target **~30 days after public launch** (early November 2026). Review only — no implementation unless the audit finds real problems.
 
-- [ ] **Audit signup security, email verification, and MailerLite integration after additional real-world usage.**
+- [X] **Audit signup security, email verification, and MailerLite integration after additional real-world usage.**
   - Review actual signup patterns, verification completion rates, blocked student/disposable addresses, bot protection, and MailerLite enrollment.
   - Verify legitimate teachers can register while invalid or unverified accounts stay out of marketing emails.
   - Examine Firebase logs, MailerLite subscriber records, and campaign bounce rates for unexpected behavior.
   - Identify false positives, bypasses, or unnecessary friction from the verified-email / MailerLite changes.
   - Make targeted improvements only if the audit reveals actual problems.
+
+- [ ] **Block student emails from signing up.** Membership accounts are for teachers; reject school-issued student addresses (those with "student" or a long string of numbers)
 
 
 ## P2 — Next / High-Value Improvements

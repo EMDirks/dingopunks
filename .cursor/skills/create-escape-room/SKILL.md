@@ -515,6 +515,40 @@ Insert in the theme's block, ordered by grade:
 So to ship the code `64442`, build an ID whose digits are exactly `6,4,4,4,2`. Note
 `resourceJS` here is **relative to the theme dir**, unlike `path` in `games.js`.
 
+#### Obfuscate the ID — never write the code in plain sight
+
+The ID is light obfuscation: someone reading `analytics.js` shouldn't be able to spot
+the code at a glance. Match the established pattern:
+
+- **Three groups of 7 characters joined by dashes** (`XXXXXXX-XXXXXXX-XXXXXXX`).
+- Fill with **random mixed-case letters**; no words, theme names, or topic hints.
+- **Scatter the 5 code digits across all three groups**, in order, at irregular
+  positions. Split them unevenly (e.g. 2/2/1, 1/3/1, 2/1/2). Don't put them all in one
+  group, and don't start the ID with the full code.
+- Use **no other digits**. Every digit in the ID is part of the code.
+
+```javascript
+googleAnalyticsID: 'Jak3J5D-cb9Ps62-MahfPkx'   // ✅ digits → 35962
+googleAnalyticsID: 'Lp58H5d-A4ddYaU-2shYuwk'   // ✅ digits → 58542
+googleAnalyticsID: '46399-YetiInfer-Rd'         // ❌ code in plain sight, readable words
+googleAnalyticsID: '21674'                      // ❌ bare code
+```
+
+To generate one, run this with the code as the argument:
+
+```bash
+node -e "
+const code=process.argv[1], L='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+let slots;
+do { slots=[...Array(21).keys()].sort(()=>Math.random()-.5).slice(0,5).sort((a,b)=>a-b); }
+while ([0,1,2].some(i=>!slots.some(s=>Math.floor(s/7)===i)));
+const chars=[...Array(21)].map(()=>L[Math.floor(Math.random()*L.length)]);
+slots.forEach((s,i)=>chars[s]=code[i]);
+const id=[0,7,14].map(i=>chars.slice(i,i+7).join('')).join('-');
+console.log(id, '→', id.replace(/\D/g,''));
+" 64442
+```
+
 Every code must be exactly 5 digits and unique across the whole file. Check before
 committing:
 
