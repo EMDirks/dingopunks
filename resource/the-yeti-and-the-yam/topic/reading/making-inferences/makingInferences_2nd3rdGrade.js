@@ -65,9 +65,9 @@ const resource = {
                                     text: "A Strange Light",
                                 },
                                 passage: {
-                                    text: "On Frostbite Island, people tell stories about a strange light that shows up during snowstorms. It looks like a golden lantern moving through the dark forest.\
+                                    text: "On Frostbite Island, people tell stories about a strange light that shows up during snowstorms. It looks like a golden lantern moving in the forest.\
                                     <br>\
-                                    People say the lantern is magical. If you follow it, it will lead you to what you want most. Some people say they found lost pets. Others say they found chests filled with gold and jewels.\
+                                    People say the lantern is magical: if you follow it, it will lead you to what you want most. Some people say they found lost pets. Others say they found chests filled with gold and jewels.\
                                     <br>\
                                     But no one has ever proved that the lantern is real. Still, every winter, people look out their windows, hoping to see a golden light moving through the snowy woods."
                                 }
@@ -76,7 +76,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "0%",
-                                translateY: "2%",
+                                translateY: "0%",
                                 rotate: "-2deg",
                             }
                         }
@@ -179,7 +179,7 @@ const resource = {
                 asset: "dr-seraphina.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read Dr. Seraphina\'s notes, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read Dr. Seraphina\'s note, then answer the questions to fill in the crossword. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -209,7 +209,7 @@ const resource = {
                 character: "Dr. Seraphina",
                 asset: "dr-seraphina.png",
                 dialogue : {
-                    incomplete: "I came here looking for a rare sugar beet, and I found one! Can you check my notes to see if they make sense? As thanks, I\'d be happy to share some sugar with you.",
+                    incomplete: "I came here looking for a rare sugar beet, and I found one! Can you check my note to see it makes sense? As thanks, I\'d be happy to share some sugar with you.",
                     complete: "Perfect. I knew my notes looked good! Here\'s some sugar for all your help."
                 },
             },
@@ -230,7 +230,7 @@ const resource = {
                                     text: "By Dr. Seraphina",
                                 },
                                 passage: {
-                                    text: "Sugar beets are large, pale vegetables that grow underground. You can make sugar from them, and here\'s how!\
+                                    text: "Sugar beets are big veggies that grow underground. You can make sugar from them, and here\'s how!\
                                     <br>\
                                     [<hi>First, pull the beets up from the ground and wash them.] Then, cut them into small pieces and toss them in water to boil. This helps bring out the juice.\
                                     <br>\
@@ -256,7 +256,7 @@ const resource = {
                             padding: "double"
                         },
                         dimension: {
-                            width: "percent55",
+                            width: "percent60",
                             height: "auto",
                         },
                         flexbox: {
@@ -300,8 +300,8 @@ const resource = {
                     title: "Answer the questions to fill in the crossword puzzle.",
                     paragraph: [
                         'A. Is Dr. Seraphina trying to [<u>teach] or [<u>scold] the reader?',
-                        'B. Read the highlighted sentence. What can you infer must be washed off the beets: [<u>snow] or [<u>dirt]?',
-                        'C. Which word from paragraph four lets us know that this is the last step: [<u>first], [<u>next], or [<u>finally]?',
+                        'B. Read the highlighted sentence. What can you infer must be washed off the beets: [<u>moss] or [<u>dirt]?',
+                        'C. Which word from paragraph four lets us know that this is the last step?',
                         'D. [<u>Yes] or [<u>no]: the “little crystals” in the last paragraph are actually sugar.',
                     ],
                     puzzle: [
@@ -395,8 +395,8 @@ const resource = {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "-2%",
+                                translateX: "-2%",
+                                translateY: "-7%",
                                 rotate: "-2deg",
                             }
                         }
@@ -425,8 +425,8 @@ const resource = {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "2%",
+                                translateX: "-4%",
+                                translateY: "5%",
                                 rotate: "2deg",
                             }
                         }
@@ -439,7 +439,7 @@ const resource = {
                             padding: "default"
                         },
                         dimension: {
-                            width: "percent38",
+                            width: "percent45",
                             height: "auto",
                         },
                         flexbox: {
@@ -506,7 +506,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>4.] How can you tell Pippo and Amelia might be family?",
+                        title: "[<g>4.] How can you tell Pippo and Amelia are family?",
                         correctIndex: 2,
                         paragraph: [
                             "They bo{t}h know about the yeti",
@@ -583,7 +583,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "A knight holds me tight. I help keep them safe.\
+                                    text: "My knight holds me close. I keep her safe.\
                                     <br>\
                                     When a sword comes close, I get in its way.\
                                     <br>\
@@ -639,8 +639,8 @@ const resource = {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
-                                translateY: "0%",
+                                translateX: "-8%",
+                                translateY: "2%",
                                 rotate: "2deg",
                             }
                         }
@@ -654,7 +654,7 @@ const resource = {
                                 passage: {
                                     text: "I stand in the forest. My roots are down low.\
                                     <br>\
-                                    My branches reach high, as they grow and grow!\
+                                    My branches reach up as they grow and grow.\
                                     <br>\
                                     What am I?"
                                 },
@@ -662,7 +662,7 @@ const resource = {
                         ],
                         style: {
                             transform: {
-                                translateX: "0%",
+                                translateX: "7%",
                                 translateY: "0%",
                                 rotate: "1deg",
                             }
@@ -692,12 +692,12 @@ const resource = {
                         },
                         tag: {
                             font: 'default',
-                            size: 'medium',
+                            size: 'mediumSmall',
                             align: 'left',
                             padding: 'default'
                         },
                         dimension: {
-                            width: "auto",
+                            width: "percent40",
                             height: "auto",
                         },
                         flexbox: {
@@ -713,8 +713,8 @@ const resource = {
                             },
                             passage: {
                                 font: 'default',
-                                size: 'mediumSmall',
-                                align: 'left'
+                                size: 'small',
+                                align: 'center'
                             },
                             cryptogram: {
                                 font1: {
@@ -745,7 +745,7 @@ const resource = {
                         word: "S[U]N",
                     },
                     {
-                        title: "[<g>3.] [<u>Right] or [<u>wrong]: the answer to Riddle #3 is a curtain.",
+                        title: "[<g>3.] [<u>Right] or [<u>wrong]: Riddle #3's answer is a curtain.",
                         word: "WRO[N]G",
                     },
                     {

@@ -55,7 +55,7 @@ const resource = {
                 asset: "tater-drift.png",
                 dialogue : {
                     incomplete: "Hey, bro-tato! I just wrote the BEST poem ever! Can you read it and tell me what you think? If you do, I\'ll give you as many yams as you need.",
-                    complete: "Woah, bro! My poem is even better now! You really know your poetry."
+                    complete: "Woah, bro! My poem is even better now! You really know your stuff, huh?"
                 },
             },
 
@@ -84,13 +84,13 @@ const resource = {
                                     my favorite snack, my favorite treat!\
                                     <br>\
                                     <br>\
-                                    Each little fry is shaped just right —\
+                                    Each little fry is shaped just right.\
                                     <br>\
                                     I dream of waffle fries at night.\
                                     <br>\
-                                    I love their crunch, I love their taste,\
+                                    I love their crunch. I love their taste.\
                                     <br>\
-                                    not one small fry will go to waste!\""
+                                    Not one small fry will go to waste!\""
                                 }
                             }
                         ],
@@ -300,7 +300,7 @@ const resource = {
                         style: {
                             transform: {
                                 translateX: "-3%",
-                                translateY: "15%",
+                                translateY: "20%",
                                 rotate: "2deg",
                             }
                         }
@@ -360,9 +360,9 @@ const resource = {
                         'D. When did Fishbeard\'s crew steal his gold?',
                     ],
                     puzzle: [
-                        ["0","(B)1C","R","E","W","0","0"],
-                        ["0","0","0","0","0","(D)4N","0"],
-                        ["0","0","0","0","0","I","0"],
+                        ["0","(B)1C","0","0","0","0","0"],
+                        ["0","R","0","0","0","(D)4N","0"],
+                        ["0","E","0","0","0","I","0"],
                         ["0","(A)W","R","2O","N","G","0"],
                         ["0","0","0","0","0","H","0"],
                         ["0","(C)R","3I","G","H","T","0"],
@@ -487,7 +487,7 @@ const resource = {
                 style: {
                     block: {
                         misc: {
-                            material: 'metal',
+                            material: 'paper',
                             padding: "double"
                         },
                         dimension: {
@@ -642,7 +642,7 @@ const resource = {
                                     text: "By Topsy",
                                 },
                                 passage: {
-                                    text:   "Want to build something new?\
+                                    text:   "Do you want to build something new?\
                                     <br>\
                                     Just have fun in all you do!\
                                     <br>\

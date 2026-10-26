@@ -1935,13 +1935,13 @@ a.dpaam-topbar-btn {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--dpaam-pad-sm);
 }
 
 .dpaam-printables-list > li {
-  flex: 0 0 calc((100% - (4 * var(--dpaam-pad-sm))) / 5);
-  width: calc((100% - (4 * var(--dpaam-pad-sm))) / 5);
+  flex: 0 0 calc((100% - (3 * var(--dpaam-pad-sm))) / 4);
+  width: calc((100% - (3 * var(--dpaam-pad-sm))) / 4);
   min-width: 0;
 }
 

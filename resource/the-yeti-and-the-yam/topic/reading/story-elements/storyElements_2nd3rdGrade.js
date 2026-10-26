@@ -56,7 +56,7 @@ const resource = {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue: {
-                    incomplete: "Hey, look! A poster just blew in! But I\'m too busy fixing my plane to read it. Can you let me know what it\'s all about? As a thank you, I\'ll use my plane\'s engine to bake those yams!",
+                    incomplete: "Hey, look! A poster just blew in! But I\'m too busy fixing my plane to read it. Can you let me know what it\'s all about? As a thank you, I\'ll use my engine to bake those yams.",
                     complete: "Well, that\'s not good. Anyway... let me turn on this engine. Those yams won\'t bake themselves!"
                 },
             },
@@ -79,11 +79,11 @@ const resource = {
                                 passage: {
                                     text:   "[<tal>-------------------------------]\
                                     <br>\
-                                    Pippo Fizzlepop is wanted, dead or alive! Why? He stole every single clock in the city.\
+                                    Pippo Fizzlepop is wanted, dead or alive. Why? He stole every single clock in the city!\
                                     <br>\
-                                    Pippo flew away in an airplane before anyone could catch him. Just last week, a broken piece of his airplane was found on a snowy island.\
+                                    Pippo flew away in an airplane before anyone could catch him. And just last week, a broken piece of his airplane was found on a snowy island.\
                                     <br>\
-                                    Some people think he is hiding on the island. Others think Pippo left the piece there to trick people into looking for him in the wrong place.\
+                                    Some people think Pippo is hiding on the island. Others think he left the piece there to trick people into looking for him in the wrong place.\
                                     <br>\
                                     If you see Pippo Fizzlepop, tell the police right away. Help us catch him!"
                                 }
@@ -159,7 +159,7 @@ const resource = {
                         title: "[<g>2.] What was Pippo\'s crime?",
                         correctIndex: 0,
                         paragraph: [
-                            "He stole every single cl{a}ck in the city",
+                            "He stole {a}ll the clocks in the city",
                             "Going to scho{o}l late",
                             "Flying a broken ai{r}plane",
                         ],
@@ -271,7 +271,7 @@ const resource = {
                                     <br>\
                                     Icy rain reached deep underground.\
                                     <br>\
-                                    Tim froze with fear and cold.\
+                                    Tim froze with fear.\
                                     <br>\
                                     <br>\
                                     But Pam stayed calm and cozy.\
@@ -343,7 +343,7 @@ const resource = {
                     paragraph: [
                         'A. Which potato is calm and prepared: [<u>Pam] or [<u>Tim]?',
                         'B. Is Potato Tim [<u>happy] or [<u>afraid]?',
-                        'C. [<u>Right] or [<u>wrong]: Pam and Tim felt the same way when the storm began.',
+                        'C. [<u>Right] or [<u>wrong]: Pam and Tim feel the same way when the storm begins.',
                         'D. Which word best describes Potato Pam when she helps Tim: [<u>kind] or [<u>mean]?',
                     ],
                     puzzle: [
@@ -373,7 +373,7 @@ const resource = {
                 asset: "fishbeard.png",
                 state: "incomplete",
                 hint: {
-                    text: "Put the story puzzle together, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Put the puzzle together, read the story, and answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -405,7 +405,7 @@ const resource = {
                 character: "Captain Fishbeard",
                 asset: "fishbeard.png",
                 dialogue: {
-                    incomplete: "Arrr, matey! I found an old story written on a map, but it\'s torn to pieces! Can ye put it back together and read it? I\'ll give ye some butter as thanks!",
+                    incomplete: "Arrr, matey! I found an old story written on a map, but it\'s torn to pieces! Can ye put it back together? I\'ll give ye some butter as thanks!",
                     complete: "Har har! Ye did it, matey! The story\'s back together! Here\'s that barrel o\' butter I promised."
                 },
             },
@@ -598,7 +598,7 @@ const resource = {
                         title: "[<g>4.] How is the story\'s problem solved?",
                         correctIndex: 2,
                         paragraph: [
-                            "The whole town gets covere{d} in snow",
+                            "It never snow{s} ever again",
                             "The trolls and the knight become frien{d}s",
                             "The {k}night brings back the Snow King\'s crown",
                         ],
@@ -655,7 +655,7 @@ const resource = {
                 character: "The Frozen Knight",
                 asset: "the-frozen-knight.png",
                 dialogue: {
-                    incomplete: "King Kevin sent me to hunt the yeti, but now I have heard her side of the story too. Read both versions and tell me what lesson they teach. I will share my sugar rations if you help.",
+                    incomplete: "King Kevin sent me to hunt the yeti, but now I fear my quest was wrong! Read my story and hers. What can we learn from both? Help me, and I shall share my sugar rations!",
                     complete: "Perhaps we both made mistakes. Thank you for helping me think for myself."
                 },
             },
@@ -675,7 +675,7 @@ const resource = {
                                 passage: {
                                     text:   "King Kevin ordered me to hunt the yeti. I did not ask why. A good knight always follows the King\'s orders.\
                                     <br>\
-                                    But it all went wrong! I got lost and fell into a deep hole hidden under the snow!\
+                                    But it all went wrong! I got lost and fell into a deep hole hidden under the snow.\
                                     <br>\
                                     Now I am trapped. The yeti was only protecting her home, and had done nothing wrong. That day, I learned that following orders isn\'t always right. I should have thought for myself!"
                                 }
