@@ -56,7 +56,7 @@ const resource = {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue: {
-                    incomplete: "Hey, look! A poster just blew in! But I\'m too busy fixing my plane to read it. Can you let me know what it\'s all about? As a thank you, I\'ll use my engine to bake those yams.",
+                    incomplete: "Hey, look! A poster just blew in! But I\'m too busy fixing my plane to read it. Can you let me know what it\'s all about? If you do, I\'ll use my engine to bake those yams.",
                     complete: "Well, that\'s not good. Anyway... let me turn on this engine. Those yams won\'t bake themselves!"
                 },
             },
@@ -79,11 +79,11 @@ const resource = {
                                 passage: {
                                     text:   "[<tal>-------------------------------]\
                                     <br>\
-                                    Pippo Fizzlepop is wanted, dead or alive. Why? He stole every single clock in the city!\
+                                    Pippo Fizzlepop is wanted by the police. Why? He stole every single clock in the city!\
                                     <br>\
-                                    Pippo flew away in an airplane before anyone could catch him. And just last week, a broken piece of his airplane was found on a snowy island.\
+                                    Pippo flew away in an airplane before anyone could catch him. And just last week, a broken piece of his airplane was found near a snowy cave.\
                                     <br>\
-                                    Some people think Pippo is hiding on the island. Others think he left the piece there to trick people into looking for him in the wrong place.\
+                                    Some folks think Pippo is hiding in the cave. Others think he left the piece there to trick people into looking for him in the wrong place.\
                                     <br>\
                                     If you see Pippo Fizzlepop, tell the police right away. Help us catch him!"
                                 }
@@ -169,7 +169,7 @@ const resource = {
                         correctIndex: 1,
                         paragraph: [
                             "Woke up earl{y}",
-                            "{F}lew away on an airplane",
+                            "{F}lew away in an airplane",
                             "Turned him{s}elf in",
                         ],
                     },
@@ -232,7 +232,7 @@ const resource = {
                 character: "Tater Durant",
                 asset: "tater-drift.png",
                 dialogue: {
-                    incomplete: "Hey, dude! I wrote a poem about potatoes! Read it and tell me what you think, okay? If you do, I\'ll give you some yams. I\'ve always got extra yams.",
+                    incomplete: "Hey, dude! I wrote a poem about potatoes! Read it and tell me what you think, okay? As thanks, I\'ll give you some yams. I\'ve always got yams.",
                     complete: "Thanks, bro-tato! Glad you liked my poem. Here are those yams, as promised."
                 },
             },
@@ -249,25 +249,18 @@ const resource = {
                                 title: {
                                     text: "Pam\'s Silver Blanket",
                                 },
-                                subtitle: {
-                                    text: "By Tater Durant",
-                                },
                                 passage: {
-                                    text:   "Potato Pam lay wrapped\
+                                    text:   "<br>\
+                                    Potato Pam lay wrapped in a blanket of foil.\
                                     <br>\
-                                    in a blanket of silver foil.\
-                                    <br>\
-                                    She had planned ahead and felt safe.\
-                                    <br>\
+                                    She had planned for winter and felt safe.\
                                     <br>\
                                     Nearby, Potato Tim shivered.\
                                     <br>\
-                                    He worried all winter,\
-                                    <br>\
-                                    but was too scared to make a plan.\
+                                    He was too worried to make a plan.\
                                     <br>\
                                     <br>\
-                                    Then a great storm shook the earth!\
+                                    Then, a great storm shook the earth!\
                                     <br>\
                                     Icy rain reached deep underground.\
                                     <br>\
@@ -276,9 +269,8 @@ const resource = {
                                     <br>\
                                     But Pam stayed calm and cozy.\
                                     <br>\
-                                    She lifted her silver blanket,\
+                                    She lifted her silver blanket, making room for one more.\
                                     <br>\
-                                    making room for one more potato.\
                                     <br>\
                                     Together, they waited for spring."
                                 }
@@ -315,14 +307,9 @@ const resource = {
                                 size: 'medium',
                                 align: 'center'
                             },
-                            subtitle: {
-                                font: 'default',
-                                size: 'small',
-                                align: 'center'
-                            },
                             passage: {
                                 font: 'default',
-                                size: 'small',
+                                size: 'mediumSmall',
                                 align: 'center',
                             },
                             dimension: {
@@ -344,7 +331,7 @@ const resource = {
                         'A. Which potato is calm and prepared: [<u>Pam] or [<u>Tim]?',
                         'B. Is Potato Tim [<u>happy] or [<u>afraid]?',
                         'C. [<u>Right] or [<u>wrong]: Pam and Tim feel the same way when the storm begins.',
-                        'D. Which word best describes Potato Pam when she helps Tim: [<u>kind] or [<u>mean]?',
+                        'D. Which word best describes Potato Pam when she helps Potato Tim: [<u>kind] or [<u>mean]?',
                     ],
                     puzzle: [
                         ["0","(B)A","0","(D)K","0","0","(A)P"],
@@ -445,7 +432,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "C. Luckily, a knight said she could help find the crown.",
+                                    text: "C. Luckily, a pirate said she could find the crown.",
                                 },
                                 backgroundImage: {
                                     file: "3.png"
@@ -481,7 +468,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "F. The knight ran right at the trolls, scaring them off!",
+                                    text: "F. The pirate ran right at the trolls, scaring them off!",
                                 },
                                 backgroundImage: {
                                     file: "6.png"
@@ -493,7 +480,7 @@ const resource = {
                         contentArray: [
                             {
                                 passage: {
-                                    text: "G. So, she picked up the crown and went back home.",
+                                    text: "G. So she picked up the crown and went home.",
                                 },
                                 backgroundImage: {
                                     file: "7.png"
@@ -572,7 +559,7 @@ const resource = {
                         correctIndex: 0,
                         paragraph: [
                             "Trolls steal the {S}now King\'s crown",
-                            "The knigh{t} finds trolls in a cave",
+                            "The pira{t}e finds trolls in a cave",
                             "None of the a{b}ove",
                         ],
                     },
@@ -591,16 +578,16 @@ const resource = {
                         paragraph: [
                             "The trolls c{a}n\'t find a lightbulb",
                             "The Snow King can\'t mak{e} snow",
-                            "The knig{h}t gets lost in a cave",
+                            "The pi{r}ate gets lost in a cave",
                         ],
                     },
                     {
                         title: "[<g>4.] How is the story\'s problem solved?",
                         correctIndex: 2,
                         paragraph: [
-                            "It never snow{s} ever again",
-                            "The trolls and the knight become frien{d}s",
-                            "The {k}night brings back the Snow King\'s crown",
+                            "It never snow{s} again",
+                            "The trolls and the pirate become frien{d}s",
+                            "The pirate brings back the Snow {K}ing\'s crown",
                         ],
                     },
                 ],
@@ -655,7 +642,7 @@ const resource = {
                 character: "The Frozen Knight",
                 asset: "the-frozen-knight.png",
                 dialogue: {
-                    incomplete: "King Kevin sent me to hunt the yeti, but now I fear my quest was wrong! Read my story and hers. What can we learn from both? Help me, and I shall share my sugar rations!",
+                    incomplete: "King Kevin sent me to hunt the yeti, but now I fear my quest was wrong! Read both our stories. What can we learn from them? Help me, and I shall share my sugar rations!",
                     complete: "Perhaps we both made mistakes. Thank you for helping me think for myself."
                 },
             },
@@ -677,7 +664,7 @@ const resource = {
                                     <br>\
                                     But it all went wrong! I got lost and fell into a deep hole hidden under the snow.\
                                     <br>\
-                                    Now I am trapped. The yeti was only protecting her home, and had done nothing wrong. That day, I learned that following orders isn\'t always right. I should have thought for myself!"
+                                    Now I am trapped. The yeti was only protecting her home, and had done nothing wrong. I now know that following orders isn\'t always right. I should have thought for myself!"
                                 }
                             }
                         ],
@@ -761,7 +748,7 @@ const resource = {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
                         'A. The knight learned this lesson: following orders isn\'t always ___.',
-                        'B. Whom did the knight listen to without thinking for herself: the [<u>king] or the [<u>yeti]?',
+                        'B. Who did the knight listen to without thinking for herself: the [<u>king] or the [<u>yeti]?',
                         'C. [<u>True] or [<u>false]: the yeti believes that being different makes her bad.',
                         'D. Does the yeti want [<u>peace] or [<u>glory]?',
                     ],

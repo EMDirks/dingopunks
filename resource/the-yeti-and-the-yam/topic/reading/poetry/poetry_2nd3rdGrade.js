@@ -55,7 +55,7 @@ const resource = {
                 asset: "tater-drift.png",
                 dialogue : {
                     incomplete: "Hey, bro-tato! I just wrote the BEST poem ever! Can you read it and tell me what you think? If you do, I\'ll give you as many yams as you need.",
-                    complete: "Woah, bro! My poem is even better now! You really know your stuff, huh?"
+                    complete: "Whoa, bro! My poem is even better now! You really know your stuff, huh?"
                 },
             },
 
@@ -355,7 +355,7 @@ const resource = {
                     title: "Answer the questions to fill in the crossword.",
                     paragraph: [
                         'A. [<u>Right] or [<u>wrong]: \"Off With His Gold\" is mostly about a crew stealing their captain\'s silver coins.',
-                        'B. In \"A Sailor\'s Warning,\" does First Mate Banzo warn Fishbeard to watch out for his [<u>cook] or [<u>crew] ?',
+                        'B. In \"A Sailor\'s Warning,\" does First Mate Banzo warn Fishbeard to watch out for his [<u>cook] or [<u>crew]?',
                         'C. [<u>Right] or [<u>wrong]: the advice in \"A Sailor\'s Warning\" could have helped Fishbeard.',
                         'D. When did Fishbeard\'s crew steal his gold?',
                     ],
@@ -431,7 +431,7 @@ const resource = {
                 character: "The Frozen Knight",
                 asset: "the-frozen-knight.png",
                 dialogue : {
-                    incomplete: "The King has forgotten me... All I have left is this poem from my squire. Please read it and help me understand the words. If you help me, I\'ll share the last of my marshmallows with you.",
+                    incomplete: "The King has forgotten me... All I have left is this poem from my squire. Please read it and help me understand its words. If you can help, I\'ll share the last of my marshmallows with you.",
                     complete: "Your words have given me hope! Perhaps I have not been forgotten after all..."
                 },
             },
@@ -653,7 +653,7 @@ const resource = {
                                     <br>\
                                     Glue the parts and twist the springs.\
                                     <br>\
-                                    See what joy your new plan brings!\
+                                    See what joy your new plan brings.\
                                     <br>\
                                     If it breaks, just try once more.\
                                     <br>\

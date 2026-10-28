@@ -126,12 +126,14 @@ const resource = {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] What kind of plants grow on Frostbite Island?",
+                        title: "[<g>1.] What kind of plants most likely grow on Frostbite Island?",
                         correctIndex: 2,
+                        columns: 2,
                         paragraph: [
                             "F{l}owers",
                             "C{a}cti",
                             "Tree{s}",
+                            "Seawee{d}"
                         ],
                     },
                     {
@@ -144,7 +146,7 @@ const resource = {
                         ],
                     },
                     {
-                        title: "[<g>3.] True or false: the “strange light” and the “golden lantern” are the same thing.",
+                        title: "[<g>3.] True or false: the \"strange light\" and the \"golden lantern\" are the same thing.",
                         correctIndex: 0,
                         columns: 2,
                         paragraph: [
@@ -209,8 +211,8 @@ const resource = {
                 character: "Dr. Seraphina",
                 asset: "dr-seraphina.png",
                 dialogue : {
-                    incomplete: "I came here looking for a rare sugar beet, and I found one! Can you check my note to see it makes sense? As thanks, I\'d be happy to share some sugar with you.",
-                    complete: "Perfect. I knew my notes looked good! Here\'s some sugar for all your help."
+                    incomplete: "I came here looking for a rare sugar beet, and I found one! Can you check my note to see if it makes sense? As thanks, I\'d be happy to share some sugar with you.",
+                    complete: "Perfect. I knew my note looked good! Here\'s some sugar for all your help."
                 },
             },
 
@@ -300,9 +302,9 @@ const resource = {
                     title: "Answer the questions to fill in the crossword puzzle.",
                     paragraph: [
                         'A. Is Dr. Seraphina trying to [<u>teach] or [<u>scold] the reader?',
-                        'B. Read the highlighted sentence. What can you infer must be washed off the beets: [<u>moss] or [<u>dirt]?',
+                        'B. Read the highlighted sentence. What can you guess must be washed off the beets: [<u>rust] or [<u>dirt]?',
                         'C. Which word from paragraph four lets us know that this is the last step?',
-                        'D. [<u>Yes] or [<u>no]: the “little crystals” in the last paragraph are actually sugar.',
+                        'D. [<u>Yes] or [<u>no]: the \"little crystals\" in the last paragraph are actually sugar.',
                     ],
                     puzzle: [
                         ["0","0","0","(A)T","0","0","0"],
@@ -330,7 +332,7 @@ const resource = {
                 asset: "pippo-fizzlepop.png",
                 state: "incomplete",
                 hint: {
-                    text: "Read the journal entry and the letter, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
+                    text: "Read the passages, then answer the multiple-choice questions. The yellow letters, in order, spell out the secret four-letter code word.",
                     isUsed: false
                 },
                 education: {
@@ -361,7 +363,7 @@ const resource = {
                 character: "Pippo Fizzlepop",
                 asset: "pippo-fizzlepop.png",
                 dialogue : {
-                    incomplete: "Oops! I crashed my plane on this island! Now I\'m stuck here with a yeti, and I can\'t tell if she\'s friendly or hungry. Can you help me figure it out? I\'ll cook those yams for you!",
+                    incomplete: "Oops! I crashed my plane on this island! Now I\'m stuck here with a yeti, and I can\'t tell if she\'s friendly or hungry. Can you help me figure it out? If you do, I\'ll cook those yams!",
                     complete: "Wait... the yeti wants to EAT me?! Yikes! That can\'t be right!"
                 },
             },
@@ -491,9 +493,9 @@ const resource = {
                         title: "[<g>2.] Which clue suggests the yeti wants to eat Pippo?",
                         correctIndex: 0,
                         paragraph: [
-                            "She puts salt and pepper on his h{e}ad",
-                            "She lives {i}n a cave",
-                            "Sh{e} broke Pippo\'s plane",
+                            "The yeti puts salt and pepper on his h{e}ad",
+                            "The yeti lives {i}n a cave",
+                            "Th{e} yeti breaks Pippo\'s plane",
                         ],
                     },
                     {
@@ -578,7 +580,7 @@ const resource = {
                 blockArray: [
                     {
                         tag: {
-                            text: "Riddle #1",
+                            text: "Riddle 1",
                         },
                         contentArray: [
                             {
@@ -601,7 +603,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Riddle #2",
+                            text: "Riddle 2",
                         },
                         contentArray: [
                             {
@@ -624,7 +626,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Riddle #3",
+                            text: "Riddle 3",
                         },
                         contentArray: [
                             {
@@ -647,7 +649,7 @@ const resource = {
                     },
                     {
                         tag: {
-                            text: "Riddle #4",
+                            text: "Riddle 4",
                         },
                         contentArray: [
                             {
@@ -737,19 +739,19 @@ const resource = {
                 },
                 contentArray: [
                     {
-                        title: "[<g>1.] [<u>Right] or [<u>wrong]: the answer to Riddle #1 is a shield.",
+                        title: "[<g>1.] [<u>Right] or [<u>wrong]: the answer to Riddle 1 is a [<i>shield].",
                         word: "RIG[H]T",
                     },
                     {
-                        title: "[<g>2.] The answer to Riddle #2 is the ___ .",
+                        title: "[<g>2.] The answer to Riddle 2 is the ___ .",
                         word: "S[U]N",
                     },
                     {
-                        title: "[<g>3.] [<u>Right] or [<u>wrong]: Riddle #3's answer is a curtain.",
+                        title: "[<g>3.] [<u>Right] or [<u>wrong]: Riddle 3's answer is a [<i>curtain].",
                         word: "WRO[N]G",
                     },
                     {
-                        title: "[<g>4.] The answer to Riddle #4 is a ___ .",
+                        title: "[<g>4.] The answer to Riddle 4 is a ___ .",
                         word: "[T]REE",
                     },
                 ],

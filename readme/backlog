@@ -64,8 +64,6 @@ Do these after P1, but don't let them delay Elsewhere Post or regular escape-roo
   - General modal attractiveness.
   - Modal scroll cutoffs / visible top and bottom borders.
 
-- [ ] **Add a sticky customer-support control** to the bottom-right of the membership platform.
-
 - [ ] **Clean up game-code rate limiting.** The local 5-attempt lockout and server `resource-exhausted` response should feel intentional and consistent. The server lockout is already capped at 60 seconds, so this is primarily UX cleanup.
 
 - [ ] **Clean up inactive users in the database.** Reduce Firestore/Auth clutter from dormant accounts: define what counts as inactive, exclusions (All-Access, disputes, support holds), and retention; then run safe batch archival or deletion with audit logging. Align with the policy notes under P3 **Inactive account cleanup** before scheduling jobs.
