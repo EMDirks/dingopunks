@@ -160,7 +160,7 @@
       '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! Bonus missions are unlocked when your teacher has a Dingo Punks All-Access account.',
       'Close',
       null,
-      teacherFooter('box')
+      teacherFooter('section')
     );
   }
 
