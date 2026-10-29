@@ -244,6 +244,9 @@ function openGlobalMenu(state = 'unfinished') {
     return;
   }
   modalPopup.classList.add('modal__popup--global-menu');
+  // Two cards instead of three: narrow the popup so they keep their size
+  // without wide empty margins.
+  modalPopup.classList.toggle('modal__popup--global-menu-compact', isUndermurkHidden());
   const modalVersionEl = document.querySelector('.modal-version');
   if (modalVersionEl) {
     const versionText = typeof version !== 'undefined'

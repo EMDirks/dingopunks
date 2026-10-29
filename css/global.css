@@ -384,6 +384,13 @@ button, input[type="submit"], input[type="reset"] {
 	filter: brightness(0.92);
 }
 
+/* Plain-text footer: looks the same, but isn't clickable. With no pointer
+   events the hover falls through to the popup, so the normal cursor shows. */
+.modal__teacher-help.modal__teacher-help--static {
+	pointer-events: none;
+	filter: none;
+}
+
 .modal__teacher-help-underline {
 	text-decoration: underline;
 	text-underline-offset: 2px;
@@ -596,6 +603,25 @@ button, input[type="submit"], input[type="reset"] {
 	position: relative;
 	border: 2.5px solid rgba(var(--off-black), 1);
 	background-color: rgba(var(--off-black), 1);
+}
+
+/* Bonus Missions hidden: two cards. The popup shrinks to two thirds of the
+   three-card content width (plus one gap and padding), and each card takes half
+   the row, so cards stay exactly the three-card size. Widths mirror .modal__popup:
+   min(100% - 64px, 600px) with 32px padding and a 12px gap. */
+.modal__popup--global-menu.modal__popup--global-menu-compact {
+	width: calc((min(100% - 64px, 600px) - 64px - 24px) * 2 / 3 + 12px + 64px);
+}
+
+.modal__popup--global-menu-compact .global-menu__kids-link {
+	flex-basis: calc((100% - var(--global-menu-kids-gap)) / 2);
+}
+
+/* Small screens: the popup is 380px with 16px padding and an 8px gap. */
+@media (max-width: 600px), (max-height: 600px) {
+	.modal__popup--global-menu.modal__popup--global-menu-compact {
+		width: calc((380px - 32px - 16px) * 2 / 3 + 8px + 32px);
+	}
 }
 
 .modal__popup--global-menu .global-menu__kids-link {

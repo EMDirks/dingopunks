@@ -136,18 +136,31 @@
       return;
     }
     const unlocked = typeof isUndermurkUnlocked === 'function' && isUndermurkUnlocked();
+    // Same footer style as the "That code didn't work" modal, as plain text
+    // (no link) pointing teachers at the Bonus Missions switch in Settings.
+    const teacherFooter = function (thing) {
+      return {
+        teacherHelp: true,
+        teacherHelpStatic: true,
+        teacherHelpHtml: 'Teachers: you can disable this ' + thing + ' in your account settings.',
+      };
+    };
     if (unlocked) {
       createModal(
         'What\'s a bonus mission?',
         'Think you\'re done? Think again. Bonus missions are extra challenges you can take on after you escape. First up: <em>Enter the Undermurk:</em> a dangerous assignment from J.J. Dingo!<br>',
-        'Close'
+        'Close',
+        null,
+        teacherFooter('feature')
       );
       return;
     }
     createModal(
       'Bonus missions require <span class="dpaam-debrief-all-access-pill">All-Access</span>',
       '<em>Enter the Undermurk</em> is an extra challenge you can take on after you escape! Bonus missions are unlocked when your teacher has a Dingo Punks All-Access account.',
-      'Close'
+      'Close',
+      null,
+      teacherFooter('box')
     );
   }
 

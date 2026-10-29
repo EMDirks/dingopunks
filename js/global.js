@@ -1724,6 +1724,8 @@ function getModalTeacherHelpDefaultHtml() {
 function setModalTeacherHelpVisible(show, html, tone, href) {
   const teacherHelpEl = document.querySelector('.modal__teacher-help');
   if (!teacherHelpEl || !modalPopup) return;
+  // Cache the markup default before a custom footer can overwrite it.
+  getModalTeacherHelpDefaultHtml();
   if (show) {
     const useCustomHtml = typeof html === 'string';
     teacherHelpEl.innerHTML = useCustomHtml ? html : getModalTeacherHelpDefaultHtml();

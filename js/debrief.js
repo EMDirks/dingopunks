@@ -1,4 +1,4 @@
-const version = '4.0.62';
+const version = '4.0.63';
 
 const teamSize = document.querySelector(".debrief-stat-teamSize");
 const hintsUsed = document.querySelector(".debrief-stat-hintsUsed");
@@ -337,10 +337,18 @@ function getModalTeacherHelpDefaultHtml() {
   return modalTeacherHelpDefaultHtml;
 }
 
-function setModalTeacherHelpVisible(show, html, tone, href) {
+// isStatic shows the footer as plain text: no href, so it isn't a link at all.
+function setModalTeacherHelpVisible(show, html, tone, href, isStatic) {
   const teacherHelpEl = document.querySelector('.modal__teacher-help');
   if (!teacherHelpEl || !modalPopup) return;
-  if (show) {
+  // Cache the markup default before a custom footer can overwrite it.
+  getModalTeacherHelpDefaultHtml();
+  const staticFooter = Boolean(show && isStatic);
+  teacherHelpEl.classList.toggle('modal__teacher-help--static', staticFooter);
+  if (staticFooter) {
+    teacherHelpEl.innerHTML = typeof html === 'string' ? html : getModalTeacherHelpDefaultHtml();
+    teacherHelpEl.removeAttribute('href');
+  } else if (show) {
     const useCustomHtml = typeof html === 'string';
     teacherHelpEl.innerHTML = useCustomHtml ? html : getModalTeacherHelpDefaultHtml();
     const nextHref =
@@ -373,7 +381,8 @@ function createModal(title, paragraph, button, onButtonClose, options) {
     options && typeof options.teacherHelpHtml === 'string' ? options.teacherHelpHtml : undefined;
   const teacherHelpTone = options && options.teacherHelpTone;
   const teacherHelpHref = options && options.teacherHelpHref;
-  setModalTeacherHelpVisible(teacherHelp, teacherHelpHtml, teacherHelpTone, teacherHelpHref);
+  const teacherHelpStatic = Boolean(options && options.teacherHelpStatic);
+  setModalTeacherHelpVisible(teacherHelp, teacherHelpHtml, teacherHelpTone, teacherHelpHref, teacherHelpStatic);
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {
