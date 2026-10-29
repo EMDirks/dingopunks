@@ -414,9 +414,6 @@
         </div>
         <div class="dpaam-topbar-buttons">
           <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
-          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
-          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
-          <div class="dpaam-skeleton-block dpaam-skeleton-block--on-blue dpaam-skeleton-topbar-btn"></div>
         </div>
       </header>
 
@@ -490,33 +487,58 @@
         >All-Access</span>
       </div>
       <div class="dpaam-topbar-buttons">
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
-          onclick="window.open('https://play.dingopunks.com', '_blank', 'noopener,noreferrer')"
-        >Play</button>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-account-btn"
-        >Account</button>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-settings-btn"
-        >Settings</button>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-printables-btn"
-        >Printables</button>
-        <a
-          class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-help-btn"
-          href="https://dingopunks.com/pages/help"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Help</a>
+        <div class="dpaam-topbar-dropdown" id="dpaam-topbar-dropdown">
+          <button
+            type="button"
+            class="dpaam-btn dpaam-topbar-btn dpaam-topbar-dropdown-toggle"
+            id="dpaam-topbar-menu-btn"
+            aria-expanded="false"
+            aria-controls="dpaam-topbar-dropdown-menu"
+          >Menu<span class="dpaam-topbar-dropdown-caret" aria-hidden="true">▾</span></button>
+          <div class="dpaam-topbar-dropdown-menu" id="dpaam-topbar-dropdown-menu" hidden>
+            <a
+              class="dpaam-topbar-dropdown-item"
+              href="https://play.dingopunks.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-play.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Play</span>
+            </a>
+            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-account-btn">
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-account.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Account</span>
+            </button>
+            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-printables-btn">
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Printables</span>
+            </button>
+            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-settings-btn">
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Settings</span>
+            </button>
+            <a
+              class="dpaam-topbar-dropdown-item"
+              id="dpaam-help-btn"
+              href="https://dingopunks.com/pages/help"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-help.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Help</span>
+            </a>
+          </div>
+        </div>
         <div
           class="dpaam-topbar-upgrade"
           data-action="upgrade-all-access"
@@ -601,23 +623,23 @@
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-settings-btn-mobile"
-        >
-          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
-          </div>
-          <span class="dpaam-mobile-menu-btn-label">Settings</span>
-          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-printables-btn-mobile"
         >
           <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
             <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
           </div>
           <span class="dpaam-mobile-menu-btn-label">Printables</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-settings-btn-mobile"
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Settings</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </button>
         <a
@@ -1093,7 +1115,8 @@
             <div class="dpaam-settings-row-text">
               <p class="dpaam-settings-row-title" id="dpaam-settings-bonus-missions-label">Bonus Missions</p>
               <p class="dpaam-settings-row-desc" id="dpaam-settings-bonus-missions-desc">
-                After students escape, their score screen offers <em>Enter the Undermurk</em>, a bonus mission for fast finishers. Turn this off to hide it from your students.
+                <span id="dpaam-settings-bonus-missions-desc-member">After completing an escape room, students can play <em>Enter the Undermurk</em>, a bonus game for fast finishers. Turn this off to hide it from students.</span>
+                <span id="dpaam-settings-bonus-missions-desc-free" hidden>After completing an escape room, students may see a promotion for <em>Enter the Undermurk</em>, a bonus game available with All-Access. Turn this off to hide the promotion from students.</span>
               </p>
             </div>
             <label class="dpaam-switch">

@@ -765,6 +765,8 @@ button.dpaam-pill.dpaam-topbar-upgrade-btn {
   margin-left: 0;
   font-weight: 600;
   background-color: var(--dpaam-white);
+  border-bottom: 0;
+  border-radius: var(--dpaam-radius-lg);
 }
 
 .dpaam-topbar-upgrade--menu {
@@ -787,6 +789,107 @@ a.dpaam-topbar-btn {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+}
+
+/* Desktop header menu: Play, Account, Settings, Printables, Help. The hamburger
+   menu replaces it at the mobile breakpoint, where .dpaam-topbar-buttons hides. */
+.dpaam-topbar-dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dpaam-topbar-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* !important beats the white text that .dpaam-topbar-btn forces. */
+#dpaam-dashboard .dpaam-topbar-dropdown-toggle {
+  background: var(--dpaam-white);
+  color: var(--dpaam-black) !important;
+}
+
+.dpaam-topbar-dropdown-caret {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  transition: transform var(--dpaam-transition);
+}
+
+.dpaam-topbar-dropdown-toggle[aria-expanded="true"] .dpaam-topbar-dropdown-caret {
+  transform: rotate(180deg);
+}
+
+.dpaam-topbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + var(--dpaam-pad-sm));
+  right: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+  padding: var(--dpaam-pad-sm);
+  background: var(--dpaam-white);
+  border-radius: var(--dpaam-radius-lg);
+  box-shadow: var(--dpaam-shadow-md);
+  animation: dpaam-topbar-dropdown-in 0.15s ease;
+}
+
+.dpaam-topbar-dropdown-menu[hidden] {
+  display: none;
+}
+
+@keyframes dpaam-topbar-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dpaam-topbar-dropdown-menu {
+    animation: none;
+  }
+}
+
+.dpaam-topbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--dpaam-pad-md);
+  width: 100%;
+  margin: 0;
+  padding: var(--dpaam-pad-sm);
+  border: 0;
+  border-radius: var(--dpaam-radius-sm);
+  background: transparent;
+  color: var(--dpaam-black);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .dpaam-topbar-dropdown-item:hover {
+    background: var(--dpaam-light-gray);
+    color: var(--dpaam-black);
+  }
+}
+
+.dpaam-topbar-dropdown-item:focus-visible {
+  outline: 2px solid var(--dpaam-teal-accessible);
+  outline-offset: 0;
+}
+
+.dpaam-topbar-dropdown-label {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ---------- Tab bar ---------- */

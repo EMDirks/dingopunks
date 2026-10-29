@@ -2233,6 +2233,10 @@ function openSettingsModal() {
   if (els.settingsBonusMissionsToggle) {
     els.settingsBonusMissionsToggle.checked = state.showBonusMissions;
   }
+  // Starter students only ever see the locked All-Access promotion.
+  const isFree = state.membershipAccess === "free";
+  if (els.settingsBonusMissionsDescMember) els.settingsBonusMissionsDescMember.hidden = isFree;
+  if (els.settingsBonusMissionsDescFree) els.settingsBonusMissionsDescFree.hidden = !isFree;
   track("view_settings");
   showExclusiveModal(els.settingsModal);
 }
@@ -3101,6 +3105,50 @@ function wireMobileMenu({ toggle, menu, backdrop, skipCloseOn = [] }) {
   return controller;
 }
 
+// Desktop header menu. A disclosure, not an ARIA menu: Tab moves through the
+// items, and it closes on an item click, an outside click, Escape, or focus
+// leaving it.
+function initTopbarDropdown() {
+  const wrap = els.topbarDropdown;
+  const toggle = els.topbarMenuBtn;
+  const menu = els.topbarDropdownMenu;
+  if (!wrap || !toggle || !menu) return;
+
+  function isOpen() {
+    return toggle.getAttribute("aria-expanded") === "true";
+  }
+
+  function setOpen(open) {
+    toggle.setAttribute("aria-expanded", String(open));
+    menu.hidden = !open;
+  }
+
+  toggle.addEventListener("click", () => setOpen(!isOpen()));
+
+  menu.querySelectorAll(".dpaam-topbar-dropdown-item").forEach((item) => {
+    item.addEventListener("click", () => setOpen(false));
+  });
+
+  document.addEventListener("pointerdown", (e) => {
+    if (isOpen() && !wrap.contains(e.target)) setOpen(false);
+  });
+
+  wrap.addEventListener("focusout", (e) => {
+    if (isOpen() && e.relatedTarget && !wrap.contains(e.relatedTarget)) setOpen(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || !isOpen()) return;
+    const hadFocus = wrap.contains(document.activeElement);
+    setOpen(false);
+    if (hadFocus) toggle.focus();
+  });
+
+  MOBILE_MENU_MQL.addEventListener("change", () => {
+    if (MOBILE_MENU_MQL.matches) setOpen(false);
+  });
+}
+
 function initMobileMenus() {
   dashboardMobileMenu = wireMobileMenu({
     toggle: els.mobileMenuToggle,
@@ -3282,6 +3330,7 @@ function init() {
     updateAccountModal(user);
     syncEmailVerification();
   });
+  initTopbarDropdown();
   initMobileMenus();
   initStickyTabbar();
   initQuickStartGuide();

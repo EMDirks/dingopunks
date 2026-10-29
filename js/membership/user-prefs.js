@@ -34,12 +34,14 @@ function normalizeFavorites(raw) {
 }
 
 // Writes the whole prefs doc from state, so a favorites save never drops the
-// Bonus Missions setting and vice versa.
+// Bonus Missions setting and vice versa. The setting is stored only when off
+// (missing means on), so favorites-only writes still pass the older rules.
 function persistPrefs(uid) {
-  return setDoc(doc(db, "userPrefs", uid), {
-    favorites: state.favorites.slice(),
-    showBonusMissions: state.showBonusMissions,
-  });
+  const prefs = { favorites: state.favorites.slice() };
+  if (state.showBonusMissions === false) {
+    prefs.showBonusMissions = false;
+  }
+  return setDoc(doc(db, "userPrefs", uid), prefs);
 }
 
 async function persistFavorites(uid) {

@@ -369,6 +369,7 @@ function launchMembershipGame(game, notBefore, skipAccessStep) {
   // Rides the debrief URL: undermurk=1 unlocks the bonus mission (All-Access),
   // no flag shows it locked, and undermurk=0 hides it because the teacher
   // turned Bonus Missions off. Legacy codes and free-play never pass through here.
+  delete debriefStats.undermurk;
   if (game.bonusMissions === false) {
     debriefStats.undermurk = 0;
   } else if (game.plan === 'all-access') {
