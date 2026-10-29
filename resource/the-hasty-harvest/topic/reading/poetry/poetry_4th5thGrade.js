@@ -1247,8 +1247,8 @@ const resource =  {
                         title: "[<g>4.] Which line supports the intent of Label #192?",
                         correctIndex: 2,
                         paragraph: [
-                            '\"I\'m a farmer; all I do is grow.\"',
-                            '\"Sharing fresh fruit is all that I know.\"',
+                            '\"I\'m {a} farmer; all I do is grow.\"',
+                            '\"{S}haring fresh fruit is all that I know.\"',
                             '\"Supporting well{n}ess, they\'re the real deal.\"',
                         ]
                     },

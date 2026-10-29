@@ -56,7 +56,7 @@ Fix these first — each instance below has **2 or more** flagged errors (questi
 
 ## 1. Escape the Midnight Mall
 
-**Priority 1 (17)** · **Priority 2 (4)**
+**Priority 1 (18)** · **Priority 2 (4)**
 
 ### Priority 1 — Question errors
 
@@ -77,6 +77,7 @@ Fix these first — each instance below has **2 or more** flagged errors (questi
 - **Escape the Midnight Mall** · **Critterwerks** (Reading 3rd / 4th / 5th / Main Idea) — Squix-1000 passage missing article ("tank" → "a tank"); 5th grade also missing "to" in "have give."
 - **Escape the Midnight Mall** · **Critterwerks** (Context Clues) — Squix-1000 passage grammar ("creating a such an"); Bananatron passage ("ALL time" → "all the time").
 - **Escape the Midnight Mall** · **Prismatica** (Math Multiplication 3rd / 4th) — Distributive-property example wrong sum (`12 + 15 = 24` → 27); `education.topic` misspells "Mutiplication."
+- **Escape the Midnight Mall** · **Prismatica** (Character Traits) — Crossword clue C had no starting cell in the grid. Fixed in code; game code 75439.
 
 ### Priority 2 — Passage errors
 
@@ -87,7 +88,29 @@ Fix these first — each instance below has **2 or more** flagged errors (questi
 
 ---
 
-## 2. Camp Calamari
+## 2. Pickles Playground
+
+**Priority 1 (13)** · **Priority 2 (0)**
+
+### Priority 1 — Question errors
+
+- **Pickles Playground** · **Ball Pit** (Reading 4th) — MC Q4 option quotes text not in passage ("dreaming about something sad").
+- **Pickles Playground** · **Ball Pit** (Reading 3rd) — MC Q2 option A misquotes passage ("I felt something touch my leg" vs "I felt it touch my leg").
+- **Pickles Playground** · **Play Palace** (Grammar) — MC Q3 stem typo ("how may periods" → "how many periods").
+- **Pickles Playground** · **Tunnel Slide** (Grammar) — Decoder Q4 stem grammar ("word is 'Smells' should be" → "word in 'Smells' should be").
+- **Pickles Playground** · **Swing Set** (Main Idea) — MC Q2 keyed option misquotes passage ("so here's how to keep them working!" vs "here are three steps").
+- **Pickles Playground** · **Monkey Bars** (Main Idea) — MC Q2 option duplicate word ("puzzle piece piece").
+- **Pickles Playground** · **Ball Pit** (Main Idea) — MC Q2 option typo ("monke{y} bars" → "monkey bars").
+- **Pickles Playground** · **Ball Pit** (Poetry) — MC Q3 option uses smart quote that will render incorrectly.
+- **Pickles Playground** · **Monkey Bars** (Poetry) — Decoder Q3 stem misspells "judgemental" → "judgmental."
+- **Pickles Playground** · **Ball Pit** (Story Elements) — Crossword clue labeled "4." instead of "D."
+- **Pickles Playground** · **Swing Set** (Reading 5th) — Crossword code letters spelled "EAN" instead of the code word "EARN." Fixed in code; game code 41865.
+- **Pickles Playground** · **Ball Pit** (Context Clues) — Crossword cell `"B(D)"` malformed, so clue D had no starting cell. Fixed in code; game code 19457.
+- **Pickles Playground** · **Swing Set** (Main Idea) — Seesaw step E passage missing article ("give each seesaw little test bounce" → "a little test bounce").
+
+---
+
+## 3. Camp Calamari
 
 **Priority 1 (12)** · **Priority 2 (2)**
 
@@ -110,26 +133,6 @@ Fix these first — each instance below has **2 or more** flagged errors (questi
 
 - **Camp Calamari** · **Madame Mystica** (Poetry) — Vision "Ships" passage misspells "sales" → "sails."
 - **Camp Calamari** · **Dining Hall** (Story Elements) — Passage misspells "breath" → "breathe."
-
----
-
-## 3. Pickles Playground
-
-**Priority 1 (11)** · **Priority 2 (0)**
-
-### Priority 1 — Question errors
-
-- **Pickles Playground** · **Ball Pit** (Reading 4th) — MC Q4 option quotes text not in passage ("dreaming about something sad").
-- **Pickles Playground** · **Ball Pit** (Reading 3rd) — MC Q2 option A misquotes passage ("I felt something touch my leg" vs "I felt it touch my leg").
-- **Pickles Playground** · **Play Palace** (Grammar) — MC Q3 stem typo ("how may periods" → "how many periods").
-- **Pickles Playground** · **Tunnel Slide** (Grammar) — Decoder Q4 stem grammar ("word is 'Smells' should be" → "word in 'Smells' should be").
-- **Pickles Playground** · **Swing Set** (Main Idea) — MC Q2 keyed option misquotes passage ("so here's how to keep them working!" vs "here are three steps").
-- **Pickles Playground** · **Monkey Bars** (Main Idea) — MC Q2 option duplicate word ("puzzle piece piece").
-- **Pickles Playground** · **Ball Pit** (Main Idea) — MC Q2 option typo ("monke{y} bars" → "monkey bars").
-- **Pickles Playground** · **Ball Pit** (Poetry) — MC Q3 option uses smart quote that will render incorrectly.
-- **Pickles Playground** · **Monkey Bars** (Poetry) — Decoder Q3 stem misspells "judgemental" → "judgmental."
-- **Pickles Playground** · **Ball Pit** (Story Elements) — Crossword clue labeled "4." instead of "D."
-- **Pickles Playground** · **Swing Set** (Main Idea) — Seesaw step E passage missing article ("give each seesaw little test bounce" → "a little test bounce").
 
 ---
 
@@ -218,13 +221,14 @@ Fix these first — each instance below has **2 or more** flagged errors (questi
 
 ## 8. The Hasty Harvest
 
-**Priority 1 (3)** · **Priority 2 (8)**
+**Priority 1 (4)** · **Priority 2 (8)**
 
 ### Priority 1 — Question errors
 
 - **The Hasty Harvest** · **Mallow Maze** (Main Idea) — Q4 option misspells "unnatractive" → "unattractive."
 - **The Hasty Harvest** · **Applegrim Orchard** (Story Elements) — Q3 option 2 misquotes poem ("Goblin Joe" vs "Goblin Jo").
 - **The Hasty Harvest** · **Camp Gnomad** (Grammar) — Crossword clue D typo ("puzzles pieces" → "puzzle pieces").
+- **The Hasty Harvest** · **Frantic Factory** (Poetry) — MC Q4 options had no code letters. Fixed in code; game code 94668.
 
 ### Priority 2 — Passage errors
 

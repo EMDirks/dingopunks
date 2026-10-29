@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Escape Room Editor</title>
+	<link rel="icon" type="image/png" href="/assets/website/favicon-192x192.png">
+	<link rel="stylesheet" href="/editor/editor.css">
+</head>
+<body>
+	<header class="topbar">
+		<div class="brand">Escape Room Editor</div>
+		<div class="topbar-room" id="topbar-room"></div>
+		<div class="topbar-actions" id="topbar-actions"></div>
+	</header>
+	<main class="layout">
+		<aside class="sidebar" id="sidebar"></aside>
+		<section class="editor" id="editor"></section>
+		<section class="preview" id="preview">
+			<div class="preview-toolbar" id="preview-toolbar"></div>
+			<div class="preview-stage" id="preview-stage">
+				<iframe id="preview-frame" title="Live preview"></iframe>
+			</div>
+			<div class="preview-status" id="preview-status"></div>
+		</section>
+	</main>
+	<div class="modal-root" id="modal-root"></div>
+	<div class="toast-root" id="toast-root"></div>
+	<script type="module" src="/editor/editor.js"></script>
+</body>
+</html>

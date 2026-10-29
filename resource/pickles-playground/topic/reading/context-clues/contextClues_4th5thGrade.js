@@ -225,7 +225,7 @@ const resource =  {
                         'D. This poem contains a word meaning [<i>something so neat, that there\'s nothing wrong with it.]',                    
                     ],
                     puzzle: [
-                        ["0","0","B(D)","O","2O","K","(A)S"],
+                        ["0","0","(D)B","O","2O","K","(A)S"],
                         ["0","0","0","0","0","0","P"],
                         ["(C)G","H","3O","S","T","0","I"],
                         ["0","0","0","0","0","0","1D"],

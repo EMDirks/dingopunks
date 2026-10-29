@@ -587,13 +587,6 @@ const resource =  {
                                 passage: {
                                     text:   "First, I awake at dawn and shout my name to the sky. After that, I polish my legendary helmet. Then, I eat twelve eggs and ten chunks of meat. Finally, I strike a heroic pose and whisper, \"You\'re welcome, world.\""
                                 },
-    
-                            },
-                            {
-                                image: {
-                                    type: "",
-                                    file: "",
-                                },
                             },
                         ],
                         style: {
@@ -614,12 +607,6 @@ const resource =  {
                                     text:   "My legendary helmet is made of thick steel. It has protected me in hundreds of battles. The surface is covered in marks from swords, claws, and fire \u2014 but it never breaks. Only a true hero can wear it!"
                                 },
                             },
-                            {
-                                image: {
-                                    type: "",
-                                    file: "",
-                                },
-                            },
                         ],
                         style: {
                             transform: {
@@ -635,14 +622,13 @@ const resource =  {
                         },
                         contentArray: [
                             {
-                                passage: {
-                                    text: "",
-                                },
-                            },
-                            {
                                 image: {
                                     type: "local",
                                     file: "mm22_2.png",
+                                },
+                                dimension: {
+                                    width: "percent70",
+                                    height: "auto",
                                 },
                             },
                         ],
@@ -660,14 +646,13 @@ const resource =  {
                         },
                         contentArray: [
                             {
-                                passage: {
-                                    text: "",
-                                },
-                            },
-                            {
                                 image: {
                                     type: "local",
                                     file: "mm22_3.png",
+                                },
+                                dimension: {
+                                    width: "percent70",
+                                    height: "auto",
                                 },
                             },
                         ],
