@@ -155,6 +155,16 @@ function isUndermurkHidden() {
   }
 }
 
+function isIndexPage() {
+  return /(?:^|\/)(?:index(?:\.html)?)?$/.test(window.location.pathname);
+}
+
+// index.html's code-entry step never shows the Undermurk card; the Bonus
+// Missions toggle only governs what comes after.
+function isIndexCodeEntryMenu(state) {
+  return state === 'unfinished' && isIndexPage();
+}
+
 function withoutHiddenUndermurk(cards) {
   if (!isUndermurkHidden()) {
     return cards;
@@ -177,8 +187,10 @@ function buildGlobalMenuHTML(state) {
     unfinished: buildKidsLinksHTML([
       { href: playHomeHref, label: 'Play an<br>Escape Room', imageKey: 'play' },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
-      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
-    ]),
+      isIndexCodeEntryMenu('unfinished')
+        ? null
+        : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
+    ].filter(Boolean)),
     active: buildKidsLinksHTML([
       { href: quitHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
@@ -246,7 +258,10 @@ function openGlobalMenu(state = 'unfinished') {
   modalPopup.classList.add('modal__popup--global-menu');
   // Two cards instead of three: narrow the popup so they keep their size
   // without wide empty margins.
-  modalPopup.classList.toggle('modal__popup--global-menu-compact', isUndermurkHidden());
+  modalPopup.classList.toggle(
+    'modal__popup--global-menu-compact',
+    isUndermurkHidden() || isIndexCodeEntryMenu(state)
+  );
   const modalVersionEl = document.querySelector('.modal-version');
   if (modalVersionEl) {
     const versionText = typeof version !== 'undefined'
