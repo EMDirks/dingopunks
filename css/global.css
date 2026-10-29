@@ -499,6 +499,7 @@ button, input[type="submit"], input[type="reset"] {
 		margin-top: -6px !important;
 	}
 	.global-menu__kids-links {
+		--global-menu-kids-gap: 8px !important;
 		gap: 8px !important;
 	}
 	.global-menu__kids-link {
@@ -562,20 +563,24 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .global-menu__kids-links {
+	--global-menu-kids-gap: 12px;
 	display: flex;
 	flex-direction: row;
-	gap: 12px;
+	justify-content: center;
+	gap: var(--global-menu-kids-gap);
 	width: 100%;
 	box-sizing: border-box;
 	padding-top: 12px;
 }
 
+/* Cards are always a third of the row, so when Bonus Missions are hidden the
+   remaining two keep their size and sit centered instead of stretching. */
 .global-menu__kids-link {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 	justify-content: flex-start;
-	flex: 1;
+	flex: 0 0 calc((100% - 2 * var(--global-menu-kids-gap)) / 3);
 	min-width: 0;
 	box-sizing: border-box;
 	text-align: center;

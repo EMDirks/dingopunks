@@ -85,7 +85,7 @@ export async function saveShowBonusMissions(value) {
     return previous;
   }
 
-  showToast(value ? "Bonus Missions on" : "Bonus Missions off");
+  showToast(value ? "Bonus Missions are turned on" : "Bonus Missions are turned off");
   return value;
 }
 
