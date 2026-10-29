@@ -1,16 +1,16 @@
-# Escape Room Editor
+# DingoEdit
 
 A local tool for writing escape rooms with a live preview rendered by the real game.
 
 ## Start it
 
-Double-click **Escape Room Editor.command** in the project folder. A Terminal window opens
+Double-click **DingoEdit.command** in the project folder. A Terminal window opens
 and the editor opens in your browser at http://localhost:8766/editor/. Keep the Terminal
 window open while you work; close it to stop the editor.
 
 (First time only: if macOS says the file can't be opened, right-click it → **Open** → **Open**.)
 
-From a terminal instead: `node tools/room-editor/server.mjs --open`
+From a terminal instead: `node tools/dingoedit/server.mjs --open`
 
 ## Writing a room
 
@@ -52,7 +52,7 @@ Switch to **Admin** (top right), then open **Catalog & go live**:
   `js/reference/activity.txt`, theme asset lists, known standards.
 - The live preview is `preview.html?editor=1` in an iframe; `js/preview.js` receives
   the room object over `postMessage`.
-- `node tools/room-editor/test/roundtrip.mjs` — proves every room survives load → save
+- `node tools/dingoedit/test/roundtrip.mjs` — proves every room survives load → save
   with no data change. Run it after changing the serializer.
 
 Saving reformats a room file into the standard layout (long passages become one line,

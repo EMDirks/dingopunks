@@ -2,7 +2,7 @@
 // loaded, serialized, re-evaluated, and compared field-for-field with the
 // original. Also flags values JSON can't carry (undefined, functions, NaN).
 //
-// Usage: node tools/room-editor/test/roundtrip.mjs
+// Usage: node tools/dingoedit/test/roundtrip.mjs
 
 import { readdirSync, statSync, readFileSync } from "node:fs";
 import path from "node:path";

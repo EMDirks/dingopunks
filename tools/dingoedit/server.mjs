@@ -1,6 +1,6 @@
-// Escape Room Editor — local server.
+// DingoEdit — local server.
 //
-//   node tools/room-editor/server.mjs        (or double-click "Escape Room Editor.command")
+//   node tools/dingoedit/server.mjs        (or double-click "DingoEdit.command")
 //
 // Serves the repo root (so preview.html and the real renderer work unchanged),
 // the editor UI at /editor/, and a small JSON API that reads and writes room
@@ -296,7 +296,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, "127.0.0.1", () => {
   const address = `http://localhost:${PORT}/editor/`;
-  console.log(`Escape Room Editor running at ${address}`);
+  console.log(`DingoEdit running at ${address}`);
   console.log("Leave this window open while you work. Close it (or press Ctrl+C) to stop.");
   if (process.argv.includes("--open")) exec(`open ${address}`);
 });

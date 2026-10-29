@@ -55,7 +55,7 @@ function bootstrapPreviewRoom() {
   cutsceneDiv.appendChild(cutsceneScript);
 }
 
-// Escape Room Editor (tools/room-editor) live preview. Only runs when this page
+// DingoEdit (tools/dingoedit) live preview. Only runs when this page
 // is framed by the editor with ?editor=1: the editor posts the in-progress room
 // object instead of a file path, and the page jumps straight to the map (or to
 // one challenge) with answers filled in, the same as the answer-key view.

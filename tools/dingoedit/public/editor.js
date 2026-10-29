@@ -1,4 +1,4 @@
-// Escape Room Editor UI. Vanilla JS, no build step.
+// DingoEdit UI. Vanilla JS, no build step.
 //
 // State lives in `state`; the working copy of the room is `state.resource`.
 // Inputs write straight into that object and call changed(), which re-validates,
@@ -542,7 +542,7 @@ function renderEditor() {
 
 function welcome() {
   return h("div", { class: "welcome" },
-    h("h1", { text: "Escape Room Editor" }),
+    h("h1", { text: "DingoEdit" }),
     h("p", { text: "Open a room on the left, or start a new one. Everything you type shows up in the preview on the right, rendered by the real game." }),
     h("ol", {},
       h("li", { text: "Write each challenge: who the character is, what they say, the documents to read, and the questions." }),
