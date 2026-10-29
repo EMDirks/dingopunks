@@ -1754,7 +1754,6 @@ export const games = [
 
   {
     id: "the-hasty-harvest-mixed-reading-skills-2",
-    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1835,7 +1834,6 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-main-idea-and-supporting-details-2-3",
-    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -1893,7 +1891,6 @@ export const games = [
   },
   {
     id: "the-hasty-harvest-context-clues-2-3",
-    isNew: true,
     title: "The Hasty Harvest",
     color: "gold",
     season: "fall",
@@ -2245,7 +2242,7 @@ export const games = [
   // The Yeti and the Yams
   // ─────────────────────────────────────────────
 
-  /* {
+  {
     id: "yeti-and-the-yams-mixed-reading-skills-2",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2261,11 +2258,11 @@ export const games = [
       "Text Features",
       "Story Elements",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/all/thumbnail-2nd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/all/reading_2ndGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  }, */
+  },
   {
     id: "yeti-and-the-yams-mixed-reading-skills-3",
     title: "The Yeti and the Yams",
@@ -2326,7 +2323,7 @@ export const games = [
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
   },
-  /* {
+  {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-2-3",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2341,12 +2338,12 @@ export const games = [
       "Multiple Main Ideas",
       "Main Idea of and Details of Multiple Texts",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/main-idea/thumbnail-2nd-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/main-idea/mainIdea_2nd3rdGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  }, */
-  /* {
+  },
+  {
     id: "yeti-and-the-yams-context-clues-and-vocabulary-2-3",
     isNew: true,
     title: "The Yeti and the Yams",
@@ -2361,11 +2358,11 @@ export const games = [
       "Context Clues as Examples",
       "Roots, Prefixes, and Suffixes",
     ],
-    thumbnail: "assets/branding/placeholder/need-image.png",
+    thumbnail: "resource/the-yeti-and-the-yam/assets/branding/reading/context-clues/thumbnail-2nd-3rd-grade.png",
     path: "resource/the-yeti-and-the-yam/topic/reading/context-clues/contextClues_2nd3rdGrade.js",
     badguy: "resource/the-yeti-and-the-yam/assets/cutscene/badguy.png",
     main: "resource/the-yeti-and-the-yam/assets/cutscene/main.png",
-  }, */
+  },
   {
     id: "yeti-and-the-yams-main-idea-and-supporting-details-4-5",
     title: "The Yeti and the Yams",
