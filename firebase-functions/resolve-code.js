@@ -151,7 +151,7 @@ function expandIpv6(ip) {
  * test whether a code exists. Parallel misses can overshoot the limit by
  * however many are in flight; the overshoot only ever learns "not found".
  *
- * @returns {Promise<{gameId: string, plan: "all-access" | "free"}>}
+ * @returns {Promise<{gameId: string, plan: "all-access" | "free", bonusMissions: boolean}>}
  */
 export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
   const {
@@ -215,14 +215,23 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
   // Current plan, not the plan at code-creation time: a downgrade locks the
   // Undermurk bonus on the next launch, and existing codes need no migration.
   // Anything other than an explicit all-access profile counts as free.
+  // The teacher's Bonus Missions setting is read the same way, so turning it
+  // off applies to codes already shared. Only an explicit false hides them.
   const uid = snap.get("uid");
   let plan = "free";
+  let bonusMissions = true;
   if (typeof uid === "string" && uid) {
-    const userSnap = await db.collection("users").doc(uid).get();
+    const [userSnap, prefsSnap] = await Promise.all([
+      db.collection("users").doc(uid).get(),
+      db.collection("userPrefs").doc(uid).get(),
+    ]);
     if (userSnap.exists && userSnap.get("plan") === "all-access") {
       plan = "all-access";
     }
+    if (prefsSnap.exists && prefsSnap.get("showBonusMissions") === false) {
+      bonusMissions = false;
+    }
   }
 
-  return { gameId, plan };
+  return { gameId, plan, bonusMissions };
 }

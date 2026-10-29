@@ -58,6 +58,7 @@ import { ALL_ACCESS_PRICE_USD, setAnalyticsPlan, track } from "./membership/anal
 import {
   loadUserPrefs,
   resetUserPrefs,
+  saveShowBonusMissions,
   scheduleFavoritesSave,
 } from "./membership/user-prefs.js";
 import {
@@ -1083,6 +1084,7 @@ const DPAAM_MODALS = [
   els.upgradeModal,
   els.rebateModal,
   els.accountModal,
+  els.settingsModal,
   els.printablesModal,
   els.loginRequiredModal,
 ];
@@ -2223,6 +2225,29 @@ function openAccountModal() {
   showExclusiveModal(els.accountModal);
 }
 
+function openSettingsModal() {
+  if (!isDashboardVisible()) {
+    openLoginRequiredModal("Log in to change your settings.");
+    return;
+  }
+  if (els.settingsBonusMissionsToggle) {
+    els.settingsBonusMissionsToggle.checked = state.showBonusMissions;
+  }
+  track("view_settings");
+  showExclusiveModal(els.settingsModal);
+}
+
+async function onBonusMissionsToggleChange() {
+  const toggle = els.settingsBonusMissionsToggle;
+  if (!toggle) return;
+
+  toggle.disabled = true;
+  const saved = await saveShowBonusMissions(toggle.checked);
+  toggle.checked = saved;
+  toggle.disabled = false;
+  track("change_setting", { setting: "bonus_missions", value: saved ? "on" : "off" });
+}
+
 function openPrintablesModal() {
   if (userNeedsEmailVerification(currentUser)) {
     openVerifyEmailModal();
@@ -2867,6 +2892,15 @@ function wireEvents() {
     dashboardMobileMenu?.setOpen(false);
     openAccountModal();
   });
+  wireAnimatedModal(els.settingsModal, runPendingModalOpen);
+  els.settingsBtn?.addEventListener("click", () => {
+    openSettingsModal();
+  });
+  els.settingsBtnMobile?.addEventListener("click", () => {
+    dashboardMobileMenu?.setOpen(false);
+    openSettingsModal();
+  });
+  els.settingsBonusMissionsToggle?.addEventListener("change", onBonusMissionsToggleChange);
   wireAnimatedModal(els.printablesModal, runPendingModalOpen);
   els.printablesBtn?.addEventListener("click", () => {
     openPrintablesModal();
@@ -3072,7 +3106,7 @@ function initMobileMenus() {
     toggle: els.mobileMenuToggle,
     menu: els.mobileMenu,
     backdrop: els.mobileMenuBackdrop,
-    skipCloseOn: [els.accountBtnMobile, els.printablesBtnMobile].filter(Boolean),
+    skipCloseOn: [els.accountBtnMobile, els.settingsBtnMobile, els.printablesBtnMobile].filter(Boolean),
   });
 
   if (mobileMenuControllers.length === 0) return;

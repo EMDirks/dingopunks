@@ -28,7 +28,7 @@ function notFound(reason, context) {
  * Resolve a membership share code to the resource the play page should load.
  *
  * @param {string} code Uppercased 5-character share code.
- * @returns {Promise<{gameId: string, theme: string, script: string, plan: string}>}
+ * @returns {Promise<{gameId: string, theme: string, script: string, plan: string, bonusMissions: boolean}>}
  */
 export async function lookupShareCode(code) {
   const response = await resolveGameCode({ code });
@@ -44,5 +44,12 @@ export async function lookupShareCode(code) {
     throw notFound("Game has an unusable resource path", game.path);
   }
 
-  return { gameId, theme: parts[1], script: parts[2], plan: response?.data?.plan };
+  return {
+    gameId,
+    theme: parts[1],
+    script: parts[2],
+    plan: response?.data?.plan,
+    // An older server omits the field, which means Bonus Missions stay on.
+    bonusMissions: response?.data?.bonusMissions !== false,
+  };
 }

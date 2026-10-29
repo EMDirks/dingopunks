@@ -77,6 +77,7 @@ function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, lockLabel
 }
 
 function buildKidsLinksHTML(cards) {
+  cards = withoutHiddenUndermurk(cards);
   let html = '';
   for (let i = 0; i < cards.length; i++) {
     html += buildKidsLinkCard({ ...cards[i], staggerIndex: i });
@@ -139,6 +140,28 @@ function isUndermurkUnlocked() {
   } catch (e) {
     return false;
   }
+}
+
+// undermurk=0 means the teacher turned Bonus Missions off. During play there is
+// no slug yet, so the live debriefStats set at launch is checked too.
+function isUndermurkHidden() {
+  if (typeof debriefStats !== 'undefined' && debriefStats.undermurk === 0) {
+    return true;
+  }
+  try {
+    return new URLSearchParams(window.location.search).get('undermurk') === '0';
+  } catch (e) {
+    return false;
+  }
+}
+
+function withoutHiddenUndermurk(cards) {
+  if (!isUndermurkHidden()) {
+    return cards;
+  }
+  return cards.filter(function (card) {
+    return card.imageKey !== 'undermurk';
+  });
 }
 
 function appendLocationSearch(href) {

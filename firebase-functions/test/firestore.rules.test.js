@@ -158,6 +158,24 @@ describe("userPrefs", () => {
         favorites: Array.from({ length: 501 }, (_, index) => `game-${index}`),
       }),
     );
+    await assertFails(setDoc(ownPrefs, { showBonusMissions: false }));
+    await assertFails(
+      setDoc(ownPrefs, { favorites: [], showBonusMissions: "false" }),
+    );
+    await assertFails(
+      setDoc(ownPrefs, { favorites: [], showBonusMissions: 0 }),
+    );
+  });
+
+  test("allows a boolean Bonus Missions setting alongside favorites", async () => {
+    const ownerDb = authenticatedDb(OWNER_UID);
+    const ownPrefs = doc(ownerDb, "userPrefs", OWNER_UID);
+
+    await assertSucceeds(
+      setDoc(ownPrefs, { favorites: ["game-a"], showBonusMissions: false }),
+    );
+    await assertSucceeds(updateDoc(ownPrefs, { showBonusMissions: true }));
+    await assertSucceeds(setDoc(ownPrefs, { favorites: [] }));
   });
 
   test("denies listing the preferences collection", async () => {

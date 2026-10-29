@@ -21,8 +21,8 @@
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=4.0.60" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.60" />
+  <link rel="stylesheet" href="css/membership.css?version=4.0.61" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.61" />
   <!-- Google Analytics (same property as play.dingopunks.com). Disabled on
        localhost unless the URL has ?ga_debug=1, which also turns on DebugView. -->
   <script>
@@ -503,6 +503,11 @@
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-settings-btn"
+        >Settings</button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-printables-btn"
         >Printables</button>
         <a
@@ -591,6 +596,17 @@
             <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-account.png" alt="" />
           </div>
           <span class="dpaam-mobile-menu-btn-label">Account</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-settings-btn-mobile"
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Settings</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </button>
         <button
@@ -1061,6 +1077,42 @@
       </form>
     </dialog>
 
+    <!-- Settings modal -->
+    <dialog
+      class="dpaam-modal dpaam-modal--compact dpaam-settings-modal"
+      id="dpaam-settings-modal"
+      aria-labelledby="dpaam-settings-modal-title"
+    >
+      <form method="dialog" class="dpaam-modal-form">
+        <header class="dpaam-modal-header">
+          <h3 class="dpaam-modal-title" id="dpaam-settings-modal-title">Settings</h3>
+          <button type="submit" class="dpaam-modal-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <div class="dpaam-modal-body">
+          <section class="dpaam-settings-row" aria-labelledby="dpaam-settings-bonus-missions-label">
+            <div class="dpaam-settings-row-text">
+              <p class="dpaam-settings-row-title" id="dpaam-settings-bonus-missions-label">Bonus Missions</p>
+              <p class="dpaam-settings-row-desc" id="dpaam-settings-bonus-missions-desc">
+                After students escape, their score screen offers <em>Enter the Undermurk</em>, a bonus mission for fast finishers. Turn this off to hide it from your students.
+              </p>
+            </div>
+            <label class="dpaam-switch">
+              <input
+                type="checkbox"
+                role="switch"
+                class="dpaam-switch-input"
+                id="dpaam-settings-bonus-missions"
+                aria-labelledby="dpaam-settings-bonus-missions-label"
+                aria-describedby="dpaam-settings-bonus-missions-desc"
+                checked
+              />
+              <span class="dpaam-switch-track" aria-hidden="true"><span class="dpaam-switch-thumb"></span></span>
+            </label>
+          </section>
+        </div>
+      </form>
+    </dialog>
+
     <!-- Printables modal -->
     <dialog
       class="dpaam-modal dpaam-modal--compact dpaam-printables-modal"
@@ -1520,6 +1572,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=4.0.60"></script>
+  <script type="module" src="js/membership.js?version=4.0.61"></script>
 </body>
 </html>

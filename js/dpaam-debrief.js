@@ -40,12 +40,15 @@
   }
 
   const dpaamContainer = document.querySelector('.dpaam-debrief-container');
+  // The teacher turned Bonus Missions off: the panel is detached below and never
+  // revealed, so the score stays centered on its own.
+  const undermurkHidden = typeof isUndermurkHidden === 'function' && isUndermurkHidden();
   const minigamePanel = document.querySelector('.dpaam-debrief-minigame-panel');
-  const minigameEl = document.querySelector('.dpaam-debrief-minigame');
+  const minigameEl = undermurkHidden ? null : document.querySelector('.dpaam-debrief-minigame');
 
   // Title lives on the panel (sibling of the clickable tile) so help / tooltip
   // clicks never hit UNDERMURK_BUTTON handlers on .dpaam-debrief-minigame.
-  if (minigamePanel && !minigamePanel.querySelector('.p-title')) {
+  if (minigamePanel && !undermurkHidden && !minigamePanel.querySelector('.p-title')) {
     const minigameTitle = document.createElement('p');
     minigameTitle.classList.add('p-title');
     minigameTitle.appendChild(document.createTextNode('Bonus Mission'));
@@ -509,7 +512,7 @@
   }
 
   function revealMinigame() {
-    if (!dpaamContainer || !minigamePanel || minigamePanel.parentNode) {
+    if (undermurkHidden || !dpaamContainer || !minigamePanel || minigamePanel.parentNode) {
       return;
     }
 
