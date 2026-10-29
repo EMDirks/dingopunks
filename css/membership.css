@@ -892,6 +892,13 @@ a.dpaam-topbar-btn {
   min-width: 0;
 }
 
+/* Bleeds through the menu's side padding. */
+.dpaam-topbar-dropdown-divider {
+  margin: 6px calc(-1 * var(--dpaam-pad-sm));
+  border: 0;
+  border-top: 1px solid var(--dpaam-border);
+}
+
 /* ---------- Tab bar ---------- */
 
 .dpaam-tabbar {
@@ -3897,7 +3904,6 @@ dd a {
   .dpaam-mobile-menu .dpaam-btn[hidden] {
     display: none !important;
   }
-
   #dpaam-dashboard:not(.dpaam-dashboard--free) #dpaam-upgrade-btn-mobile {
     display: none !important;
   }

@@ -100,6 +100,8 @@ const els = {
   accountBtnMobile: document.getElementById("dpaam-account-btn-mobile"),
   settingsBtn: document.getElementById("dpaam-settings-btn"),
   settingsBtnMobile: document.getElementById("dpaam-settings-btn-mobile"),
+  logoutBtn: document.getElementById("dpaam-logout-btn"),
+  logoutBtnMobile: document.getElementById("dpaam-logout-btn-mobile"),
   settingsModal: document.getElementById("dpaam-settings-modal"),
   settingsBonusMissionsToggle: document.getElementById("dpaam-settings-bonus-missions"),
   settingsBonusMissionsDescMember: document.getElementById("dpaam-settings-bonus-missions-desc-member"),

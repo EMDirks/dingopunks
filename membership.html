@@ -21,8 +21,8 @@
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
-  <link rel="stylesheet" href="css/membership.css?version=4.0.64" />
-  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.64" />
+  <link rel="stylesheet" href="css/membership.css?version=4.0.65" />
+  <link rel="stylesheet" href="css/membership-auth.css?version=4.0.65" />
   <!-- Google Analytics (same property as play.dingopunks.com). Disabled on
        localhost unless the URL has ?ga_debug=1, which also turns on DebugView. -->
   <script>
@@ -513,17 +513,17 @@
               </span>
               <span class="dpaam-topbar-dropdown-label">Account</span>
             </button>
-            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-printables-btn">
-              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
-              </span>
-              <span class="dpaam-topbar-dropdown-label">Printables</span>
-            </button>
             <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-settings-btn">
               <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
                 <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
               </span>
               <span class="dpaam-topbar-dropdown-label">Settings</span>
+            </button>
+            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-printables-btn">
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Printables</span>
             </button>
             <a
               class="dpaam-topbar-dropdown-item"
@@ -537,6 +537,13 @@
               </span>
               <span class="dpaam-topbar-dropdown-label">Help</span>
             </a>
+            <hr class="dpaam-topbar-dropdown-divider" />
+            <button type="button" class="dpaam-topbar-dropdown-item" id="dpaam-logout-btn">
+              <span class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+                <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-logout.png" alt="" />
+              </span>
+              <span class="dpaam-topbar-dropdown-label">Log out</span>
+            </button>
           </div>
         </div>
         <div
@@ -623,23 +630,23 @@
         <button
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
-          id="dpaam-printables-btn-mobile"
-        >
-          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
-            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
-          </div>
-          <span class="dpaam-mobile-menu-btn-label">Printables</span>
-          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-settings-btn-mobile"
         >
           <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
             <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-settings.png" alt="" />
           </div>
           <span class="dpaam-mobile-menu-btn-label">Settings</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-printables-btn-mobile"
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/tab-library.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Printables</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </button>
         <a
@@ -655,6 +662,17 @@
           <span class="dpaam-mobile-menu-btn-label">Help</span>
           <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
         </a>
+        <button
+          type="button"
+          class="dpaam-btn dpaam-topbar-btn"
+          id="dpaam-logout-btn-mobile"
+        >
+          <div class="dpaam-mobile-menu-btn-icon" aria-hidden="true">
+            <img class="dpaam-mobile-menu-btn-icon-img" src="assets/dpaam/menu-logout.png" alt="" />
+          </div>
+          <span class="dpaam-mobile-menu-btn-label">Log out</span>
+          <img class="dpaam-mobile-menu-btn-caret" src="assets/dpaam/menu-caret.png" alt="" aria-hidden="true" />
+        </button>
       </nav>
     </header>
     <button
@@ -1595,6 +1613,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/membership.js?version=4.0.64"></script>
+  <script type="module" src="js/membership.js?version=4.0.65"></script>
 </body>
 </html>

@@ -2276,10 +2276,10 @@ async function sendAccountPasswordReset() {
   }
 }
 
-async function logoutAccount() {
-  if (!els.accountLogout) return;
-
-  setButtonLoading(els.accountLogout, true, "Logging out…");
+// The header menus pass no button: they close on click, and
+// setButtonLoading would flatten its icon markup to plain text.
+async function logoutAccount(loadingButton = null) {
+  setButtonLoading(loadingButton, true, "Logging out…");
   try {
     await signOut(auth);
     closeAnimatedModal(els.accountModal);
@@ -2287,7 +2287,7 @@ async function logoutAccount() {
   } catch (error) {
     showToast(authErrorMessage(error));
   } finally {
-    setButtonLoading(els.accountLogout, false, "Logging out…");
+    setButtonLoading(loadingButton, false, "Logging out…");
   }
 }
 
@@ -2929,6 +2929,12 @@ function wireEvents() {
     sendAccountPasswordReset();
   });
   els.accountLogout?.addEventListener("click", () => {
+    logoutAccount(els.accountLogout);
+  });
+  els.logoutBtn?.addEventListener("click", () => {
+    logoutAccount();
+  });
+  els.logoutBtnMobile?.addEventListener("click", () => {
     logoutAccount();
   });
 
