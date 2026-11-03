@@ -118,6 +118,7 @@
 
     minigameEl.addEventListener('click', function () {
       if (undermurkLocked) {
+        typeof Sound !== 'undefined' && Sound.event('ui.locked');
         const lockIcon = minigameEl.querySelector('.dpaam-debrief-coming-soon__lock');
         if (lockIcon) {
           lockIcon.classList.remove('global-menu__kids-link-lock-icon--wiggle');

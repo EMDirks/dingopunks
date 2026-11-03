@@ -362,6 +362,7 @@ function openGlobalMenu(state = 'unfinished') {
 }
 
 function playInactiveKidsLinkWiggle(link) {
+  typeof Sound !== 'undefined' && Sound.event('ui.locked');
   const lockIcon = link.querySelector('.global-menu__kids-link-lock-icon');
   const lockLabel = link.querySelector('.global-menu__kids-link-lock-label');
 
