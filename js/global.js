@@ -1804,7 +1804,10 @@ modalX.addEventListener("click", function() {
 });
 
 function toggleModalVisibility(){
-  typeof Sound !== 'undefined' && Sound.event(isModalVisible ? 'modal.close' : 'modal.open');
+  if (typeof Sound !== 'undefined') {
+    const isMenu = modalPopup.classList.contains('modal__popup--global-menu');
+    Sound.event(isMenu ? (isModalVisible ? 'menu.close' : 'menu.open') : (isModalVisible ? 'modal.close' : 'modal.open'));
+  }
   if (isModalVisible === false){
     toggleClass(modal,"modal--hidden","modal--visible");
     toggleClass(modalPopup,"modal__popup--hidden","modal__popup--visible");
