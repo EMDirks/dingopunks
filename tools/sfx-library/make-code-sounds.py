@@ -1,5 +1,5 @@
-"""Generates assets/audio/sfx/correct.wav and wrong.wav, the game code entry
-sounds (the Kenney UI pack has none). Run from the repo root:
+"""Generates assets/audio/sfx/correct.wav, wrong.wav and select.wav, the game
+code entry sounds (the Kenney UI pack has none). Run from the repo root:
     python3 tools/sfx-library/make-code-sounds.py
 Tweak the notes below and rerun to change them."""
 import math, struct, wave
@@ -20,6 +20,21 @@ def tone(freq, length, wave_shape="sine", volume=1.0):
         attack = min(1.0, i / (RATE * 0.005))
         decay = math.exp(-5.0 * t / length)
         samples.append(value * attack * decay * volume)
+    return samples
+
+
+def glide(start_freq, end_freq, length, volume=1.0):
+    """A sine that slides in pitch, with a fast decay: a soft "pop"."""
+    samples = []
+    count = int(RATE * length)
+    phase = 0.0
+    for i in range(count):
+        t = i / RATE
+        freq = start_freq + (end_freq - start_freq) * (i / count)
+        phase += 2 * math.pi * freq / RATE
+        attack = min(1.0, i / (RATE * 0.003))
+        decay = math.exp(-7.0 * t / length)
+        samples.append((math.sin(phase) + 0.15 * math.sin(2 * phase)) * attack * decay * volume)
     return samples
 
 
@@ -45,3 +60,5 @@ def write(path, parts):
 write("assets/audio/sfx/correct.wav", [(0.0, tone(659.25, 0.18)), (0.09, tone(987.77, 0.32))])
 # Wrong: a soft low two-note "uh-oh" (A3 then F3).
 write("assets/audio/sfx/wrong.wav", [(0.0, tone(220.0, 0.16, "square", 0.8)), (0.13, tone(174.61, 0.26, "square", 0.8))])
+# Select: a quick soft rising pop for tapping a game code box.
+write("assets/audio/sfx/select.wav", [(0.0, glide(520.0, 900.0, 0.09))])
