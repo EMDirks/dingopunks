@@ -250,6 +250,7 @@ function setManualCodeCheckingState(isChecking) {
 
 // The only feedback a rejected code gets: flash the cells red and clear them.
 function flashAccessInputs() {
+  typeof Sound !== 'undefined' && Sound.event('access.wrong');
   const cells = document.querySelectorAll('.access-input');
   for (let i = 0; i < cells.length; i++) {
     toggleClass(cells[i], 'access-input--no-flash', 'access-input--flash');
@@ -335,6 +336,8 @@ function submitMembershipCode(code) {
     .then(function(game) {
       // Stays pending: the inputs are on their way out either way.
       launchMembershipGame(game, 0);
+      // After the launch has read the teacher's Audio setting, so it's silent when off.
+      typeof Sound !== 'undefined' && Sound.event('access.correct');
     })
     .catch(function(error) {
       membershipLookupPending = false;
@@ -924,6 +927,7 @@ function checkIfAccessInputIsFilled() {
             analyticsArray[matchIndexMain].resources[matchIndexSub]
               .googleAnalyticsID.match(/\d+/g).join('')
           ) {
+            typeof Sound !== 'undefined' && Sound.event('access.correct');
             loadResourceGame(
               analyticsArray[matchIndexMain].path,
               analyticsArray[matchIndexMain].resources[matchIndexSub].resourceJS,

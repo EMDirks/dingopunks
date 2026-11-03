@@ -25,6 +25,9 @@ const Sound = (function () {
   let lettersSinceBlip = 0;
   let lastBlipAt = 0;
   let pendingClick = null;       // a click's event, held until the click is handled
+  let lastSoundAt = -Infinity;   // performance.now() of the last sound started
+  let lastGameSoundAt = -Infinity; // same, for sounds the game fired (not click sounds)
+  let playingClick = false;
 
   const buffers = new Map();     // sound name → AudioBuffer[]
   const loading = new Set();     // sound names being fetched or decoded
@@ -117,9 +120,11 @@ const Sound = (function () {
     ctx.resume().then(unlock).catch(function () {});
   }
 
+  // A src with its own extension (e.g. 'correct.wav') is used as is.
   function fileUrl(cfg, base) {
     const cacheBust = typeof version !== 'undefined' ? '?v=' + version : '';
-    return (cfg.basePath || '') + base + '.' + format + cacheBust;
+    const file = /\.[a-z0-9]+$/i.test(base) ? base : base + '.' + format;
+    return (cfg.basePath || '') + file + cacheBust;
   }
 
   // Older Safari only supports the callback form of decodeAudioData.
@@ -219,6 +224,7 @@ const Sound = (function () {
     gain.connect(master);
 
     voices.set(name, live + 1);
+    lastSoundAt = performance.now();
     source.onended = function () {
       voices.set(name, Math.max(0, (voices.get(name) || 1) - 1));
       gain.disconnect();
@@ -239,14 +245,23 @@ const Sound = (function () {
     return true;
   }
 
+  // An event maps to a sound name, or to { sound, skipAfterMs } to stay quiet
+  // when another sound started within that many ms (e.g. a popup that opens
+  // right after the wrong-code sound).
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events || muted) return;
-    const name = cfg.events[eventName];
+    const mapping = cfg.events[eventName];
+    const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
     if (typeof name !== 'string') return;
+    if (mapping.skipAfterMs && performance.now() - lastSoundAt < mapping.skipAfterMs) {
+      pendingClick = null;
+      return;
+    }
     if (eventName === 'dialogue.letter' && !shouldBlip(cfg, detail)) return;
     // A sound fired while a click is being handled replaces its plain click.
     pendingClick = null;
+    if (!playingClick && eventName !== 'dialogue.letter') lastGameSoundAt = performance.now();
     play(name);
   }
 
@@ -265,10 +280,20 @@ const Sound = (function () {
   // click, so it can't interfere with the game's own handlers. The sound waits
   // until the click has been handled: if a handler plays its own sound during
   // the click (a modal, an activity or the hint opening), that one plays instead.
+  // Some controls (the code keyboard) act on pointerdown, before the click, so
+  // a game sound that started a moment ago belongs to this same tap.
+  const SAME_TAP_MS = 250;
+
   function flushClick() {
     const eventName = pendingClick;
     pendingClick = null;
-    if (eventName) event(eventName);
+    if (!eventName || performance.now() - lastGameSoundAt < SAME_TAP_MS) return;
+    playingClick = true;
+    try {
+      event(eventName);
+    } finally {
+      playingClick = false;
+    }
   }
 
   function holdClick(eventName) {

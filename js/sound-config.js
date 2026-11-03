@@ -7,7 +7,8 @@ const SOUND_CONFIG = {
   basePath: 'assets/audio/sfx/',
   formats: ['ogg'],              // later: ['m4a', 'ogg'] — the first one the browser can play wins
 
-  // name → file(s) + mix. src are base names (no extension). Several = random pick per play.
+  // name → file(s) + mix. src are base names (the extension comes from `formats`), or a
+  // full file name like 'correct.wav' to use that file as is. Several = random pick per play.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   sounds: {
     click:   { src: ['click1'],                     volume: 0.5 },
@@ -19,11 +20,12 @@ const SOUND_CONFIG = {
     open:    { src: ['switch2'],                    volume: 0.45 },
     close:   { src: ['switch3'],                    volume: 0.4 },
     hint:    { src: ['switch18'],                   volume: 0.5 },
-    correct: { src: [],                             volume: 0.6 },                 // not in the Kenney UI pack yet
-    wrong:   { src: [],                             volume: 0.5 },                 // not in the Kenney UI pack yet
+    correct: { src: ['correct.wav'],                volume: 0.5 },                 // made by tools/sfx-library/make-code-sounds.py
+    wrong:   { src: ['wrong.wav'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
   },
 
   // Game events → sound name. null = silent on purpose. Unknown events are ignored.
+  // { sound, skipAfterMs } stays quiet if another sound started within skipAfterMs.
   events: {
     'ui.click':          'click',
     'ui.key':            'key',
@@ -36,12 +38,15 @@ const SOUND_CONFIG = {
     'activity.close':    'close',
     'hint.open':         'hint',
     'hint.close':        'close',
-    'modal.open':        'open',
+    'modal.open':        { sound: 'open', skipAfterMs: 150 },  // quiet when it follows another sound
     'modal.close':       'close',
-    'code.correct':      null,       // → 'correct' once a sound is chosen
-    'code.wrong':        null,       // → 'wrong' once a sound is chosen
+    'menu.open':         'click',    // the global menu (it opens as a modal, instead of modal.open)
+    'menu.close':        'close',
+    'access.correct':    'correct',  // game code accepted on the code-entry screen
+    'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
+    'code.correct':      null,       // activity code inputs; → 'correct' to turn on
+    'code.wrong':        null,       // activity code inputs; → 'wrong' to turn on
     'code.lockout':      null,       // reserved
-    'menu.open':         null,       // the menu is a modal, so modal.open already plays
     'debrief.victory':   null,       // reserved
     'debrief.fail':      null,       // reserved
     'undermurk.tier':    null,       // reserved
@@ -50,12 +55,21 @@ const SOUND_CONFIG = {
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:
   // onPinInput, onSettings, onCharacterSelect, onCutsceneStart, onGameStart,
   // onGameEnd, onDebrief, onUndermurkPage. onPageLoad is fired by sound.js itself
-  // for pages that never call handlePreloading (debrief.html), keyed by page.
+  // as soon as a page opens, keyed by page. Already-loaded sounds aren't fetched again.
   // sounds: '*' = everything in `sounds`, or a list of names. delay in ms.
+  // The teacher's Audio setting isn't known until a code is entered, so the
+  // code-entry screen plays sound; a code from a teacher with Audio off is silent
+  // from then on.
   preload: {
-    onPinInput:      { sounds: '*', delay: 0 },   // first screen; all SFX together are ~70 KB
+    onPageLoad: {
+      // just what the code-entry / room-choice screen needs; the rest loads at onPinInput
+      'index.html':      { sounds: ['click', 'key', 'open', 'close', 'correct', 'wrong'], delay: 0 },
+      'answer-key.html': { sounds: ['click', 'key', 'open', 'close', 'correct', 'wrong'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close'], delay: 0 },
+      'debrief.html':    { sounds: '*', delay: 0 },
+    },
+    onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     onUndermurkPage: { sounds: '*', delay: 0 },
-    onPageLoad:      { 'debrief.html': { sounds: '*', delay: 0 } },
     // later, music: onCutsceneStart: { music: ['theme'], delay: 500 },
   },
 
