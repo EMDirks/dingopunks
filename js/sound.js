@@ -288,12 +288,7 @@ const Sound = (function () {
     const eventName = pendingClick;
     pendingClick = null;
     if (!eventName || performance.now() - lastGameSoundAt < SAME_TAP_MS) return;
-    playingClick = true;
-    try {
-      event(eventName);
-    } finally {
-      playingClick = false;
-    }
+    playClickNow(eventName);
   }
 
   function holdClick(eventName) {
@@ -303,16 +298,29 @@ const Sound = (function () {
     setTimeout(safe('click', flushClick), 0);
   }
 
-  function onDocumentClick(e) {
+  function playClickNow(eventName) {
+    playingClick = true;
+    try {
+      event(eventName);
+    } finally {
+      playingClick = false;
+    }
+  }
+
+  // Finds the sound for a tap. Rules with on: 'press' sound on pointerdown
+  // (before the game reacts) and are skipped on the click that follows.
+  function onDocumentTap(e) {
     const cfg = config();
     if (!cfg || muted || !isAvailable()) return;
+    const isPress = e.type === 'pointerdown';
+    if (isPress && e.button !== 0) return;
     const target = e.target instanceof Element ? e.target : e.target && e.target.parentElement;
     if (!target) return;
 
     const override = target.closest('[data-sfx]');
     if (override) {
       const value = override.getAttribute('data-sfx');
-      if (value !== 'none' && !isDisabledControl(override)) holdClick(value);
+      if (!isPress && value !== 'none' && !isDisabledControl(override)) holdClick(value);
       return;
     }
 
@@ -320,13 +328,19 @@ const Sound = (function () {
     for (let i = 0; i < rules.length; i++) {
       const control = target.closest(rules[i].match);
       if (control) {
-        if (!isDisabledControl(control)) holdClick(rules[i].event);
+        if (isPress !== (rules[i].on === 'press') || isDisabledControl(control)) return;
+        if (isPress) {
+          playClickNow(rules[i].event);
+        } else {
+          holdClick(rules[i].event);
+        }
         return;
       }
     }
   }
 
-  document.addEventListener('click', safe('click', onDocumentClick), true);
+  document.addEventListener('pointerdown', safe('click', onDocumentTap), true);
+  document.addEventListener('click', safe('click', onDocumentTap), true);
   window.addEventListener('click', safe('click', flushClick));
 
   document.addEventListener('visibilitychange', safe('visibility', function () {

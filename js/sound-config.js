@@ -12,7 +12,7 @@ const SOUND_CONFIG = {
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   sounds: {
     click:   { src: ['click1'],                     volume: 0.5 },
-    key:     { src: ['click3', 'click4', 'click5'], volume: 0.35 },                // code keyboard
+    key:     { src: ['click3'], volume: 0.35 },                // code keyboard
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // setup tabs, character pick
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
@@ -78,8 +78,10 @@ const SOUND_CONFIG = {
   // [disabled], *--disabled and *--inactive elements are ignored.
   // One sound per tap: if the click itself fires a sound (a modal, an activity or
   // the hint opening), that sound replaces the plain click.
+  // on: 'press' plays as soon as the control is pressed and is never replaced, so
+  // every key clicks, including the last one before a correct/wrong code sound.
   clicks: [
-    { match: '.keyboard-button',                      event: 'ui.key' },
+    { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
     { match: '.tab-button, .character-select-button', event: 'ui.tab' },
     { match: 'button, .button, .splash-button, .cutscene-next-button, ' +
              '.activity-button-done, .activity-scene-button-start, ' +
