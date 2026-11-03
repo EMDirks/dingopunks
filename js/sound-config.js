@@ -13,27 +13,32 @@ const SOUND_CONFIG = {
   sounds: {
 
     // Use for toggled systems with an open/close state
-    open:    { src: ['switch1'],                    volume: 0.45 },
-    close:   { src: ['switch2'],                    volume: 0.4 },
+    open:    { src: ['switch1'],                    volume: 0.4 },
+    close:   { src: ['switch2'],                    volume: 0.3 },
 
+    // Use for selecting an item with focus state
+    select:  { src: ['switch3'],                 volume: 0.2 },
 
     click:   { src: ['click3'],                     volume: 0.5 },
     key:     { src: ['click3'], volume: 0.35 },                // code keyboard
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // setup tabs, character pick
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
-    whoosh:  { src: ['switch22'],                   volume: 0.45 },
+    whoosh:  { src: ['card-slide-4'],                   volume: 0.3 },
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
-    correct: { src: ['correct.wav'],                volume: 0.5 },                 // made by tools/sfx-library/make-code-sounds.py
-    wrong:   { src: ['wrong.wav'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
+    lock:    { src: ['switch_005'],                    volume: 0.2 },                 // placeholder until a lock sound is added
+    correct: { src: ['confirmation_001'],                volume: 0.3 },                 // made by tools/sfx-library/make-code-sounds.py
+    wrong:   { src: ['error_005'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
   },
 
   // Game events → sound name. null = silent on purpose. Unknown events are ignored.
   // { sound, skipAfterMs } stays quiet if another sound started within skipAfterMs.
+  // { sound, delay } plays that many ms after the event fires.
   events: {
     'ui.click':          'click',
     'ui.key':            'key',
+    'ui.input':          'select',   // tapping a game code box
     'ui.tab':            'tab',
     'ui.toggle':         'toggle',
     'splash.transition': 'whoosh',
@@ -43,14 +48,16 @@ const SOUND_CONFIG = {
     'activity.close':    'close',
     'hint.open':         'hint',
     'hint.close':        'close',
+    'ui.locked':         'lock',     // tapping a locked item (menu cards, the score page's Undermurk card)
 
     'modal.open':        'open',
     'modal.close':       'close',
+    'modal.open.wrongCode': null,    // "That code didn't work" popup: only the wrong sound plays
 
     'menu.open':         'open',
     'menu.close':        'close',
     
-    'access.correct':    'correct',  // game code accepted on the code-entry screen
+    'access.correct':    { sound: 'correct', delay: 0 },  // fires as the code boxes pop gold; delay fine-tunes it
     'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
     'code.correct':      null,       // activity code inputs; → 'correct' to turn on
     'code.wrong':        null,       // activity code inputs; → 'wrong' to turn on
@@ -71,9 +78,9 @@ const SOUND_CONFIG = {
   preload: {
     onPageLoad: {
       // just what the code-entry / room-choice screen needs; the rest loads at onPinInput
-      'index.html':      { sounds: ['click', 'key', 'open', 'close', 'correct', 'wrong'], delay: 0 },
-      'answer-key.html': { sounds: ['click', 'key', 'open', 'close', 'correct', 'wrong'], delay: 0 },
-      'free-play.html':  { sounds: ['click', 'open', 'close'], delay: 0 },
+      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong'], delay: 0 },
+      'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock'], delay: 0 },
       'debrief.html':    { sounds: '*', delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
@@ -90,11 +97,19 @@ const SOUND_CONFIG = {
   // every key clicks, including the last one before a correct/wrong code sound.
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
+    { match: '.access-input',                         event: 'ui.input', on: 'press' },
     { match: '.tab-button, .character-select-button', event: 'ui.tab' },
     { match: 'button, .button, .splash-button, .cutscene-next-button, ' +
              '.activity-button-done, .activity-scene-button-start, ' +
              '.code-box-button, .footer-button-menu, .global-menu__kids-link, ' +
              '.icon-clickable--splash, .button-close-modal',  event: 'ui.click' },
+  ],
+
+  // Hardware keyboard typing: first matching selector wins. Only keys the game
+  // accepts (letters, digits, Backspace/Delete) sound; shortcuts and held-down
+  // repeats don't.
+  typing: [
+    { match: '.access-input, .code-input', event: 'ui.key' },
   ],
 
   // Typewriter throttle: a blip every N visible letters, never closer than minGapMs
