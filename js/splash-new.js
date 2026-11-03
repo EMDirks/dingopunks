@@ -289,7 +289,8 @@ function showBadCodeModal(code) {
     "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
     "Close",
     focusFirstAccessInput,
-    { teacherHelp: isPlaySplash }
+    // The wrong-code sound has already played; the popup opens quietly.
+    { teacherHelp: isPlaySplash, openSound: 'modal.open.wrongCode' }
   );
 }
 

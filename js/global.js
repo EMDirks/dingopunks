@@ -1711,6 +1711,8 @@ function styleText(input) {
 
 // Optional work for the modal's own button (not the X or the backdrop).
 let modalButtonCloseCallback = null;
+// Sound event for the next modal open (options.openSound); modal.open when unset.
+let modalOpenSoundEvent = null;
 
 // modal
 let modalTeacherHelpDefaultHtml = null;
@@ -1765,6 +1767,7 @@ function createModal(title,paragraph,button,onButtonClose,options){
   const teacherHelpTone = options && options.teacherHelpTone;
   const teacherHelpHref = options && options.teacherHelpHref;
   setModalTeacherHelpVisible(teacherHelp, teacherHelpHtml, teacherHelpTone, teacherHelpHref);
+  modalOpenSoundEvent = (options && options.openSound) || null;
   if (!modalPopup.classList.contains('modal__popup--global-menu')) {
     const modalVersionEl = document.querySelector('.modal-version');
     if (modalVersionEl) {
@@ -1806,8 +1809,10 @@ modalX.addEventListener("click", function() {
 function toggleModalVisibility(){
   if (typeof Sound !== 'undefined') {
     const isMenu = modalPopup.classList.contains('modal__popup--global-menu');
-    Sound.event(isMenu ? (isModalVisible ? 'menu.close' : 'menu.open') : (isModalVisible ? 'modal.close' : 'modal.open'));
+    const openEvent = modalOpenSoundEvent || 'modal.open';
+    Sound.event(isMenu ? (isModalVisible ? 'menu.close' : 'menu.open') : (isModalVisible ? 'modal.close' : openEvent));
   }
+  modalOpenSoundEvent = null;
   if (isModalVisible === false){
     toggleClass(modal,"modal--hidden","modal--visible");
     toggleClass(modalPopup,"modal__popup--hidden","modal__popup--visible");
