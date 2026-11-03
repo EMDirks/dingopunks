@@ -151,7 +151,7 @@ function expandIpv6(ip) {
  * test whether a code exists. Parallel misses can overshoot the limit by
  * however many are in flight; the overshoot only ever learns "not found".
  *
- * @returns {Promise<{gameId: string, plan: "all-access" | "free", bonusMissions: boolean}>}
+ * @returns {Promise<{gameId: string, plan: "all-access" | "free", bonusMissions: boolean, audio: boolean}>}
  */
 export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
   const {
@@ -217,9 +217,11 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
   // Anything other than an explicit all-access profile counts as free.
   // The teacher's Bonus Missions setting is read the same way, so turning it
   // off applies to codes already shared. Only an explicit false hides them.
+  // The Audio setting works the same way: only an explicit false silences.
   const uid = snap.get("uid");
   let plan = "free";
   let bonusMissions = true;
+  let audio = true;
   if (typeof uid === "string" && uid) {
     const [userSnap, prefsSnap] = await Promise.all([
       db.collection("users").doc(uid).get(),
@@ -231,7 +233,10 @@ export async function resolveGameCode(db, rawCode, clientIp, options = {}) {
     if (prefsSnap.exists && prefsSnap.get("showBonusMissions") === false) {
       bonusMissions = false;
     }
+    if (prefsSnap.exists && prefsSnap.get("playAudio") === false) {
+      audio = false;
+    }
   }
 
-  return { gameId, plan, bonusMissions };
+  return { gameId, plan, bonusMissions, audio };
 }

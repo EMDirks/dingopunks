@@ -58,6 +58,7 @@ import { ALL_ACCESS_PRICE_USD, setAnalyticsPlan, track } from "./membership/anal
 import {
   loadUserPrefs,
   resetUserPrefs,
+  savePlayAudio,
   saveShowBonusMissions,
   scheduleFavoritesSave,
 } from "./membership/user-prefs.js";
@@ -2230,6 +2231,9 @@ function openSettingsModal() {
     openLoginRequiredModal("Log in to change your settings.");
     return;
   }
+  if (els.settingsAudioToggle) {
+    els.settingsAudioToggle.checked = state.playAudio;
+  }
   if (els.settingsBonusMissionsToggle) {
     els.settingsBonusMissionsToggle.checked = state.showBonusMissions;
   }
@@ -2250,6 +2254,17 @@ async function onBonusMissionsToggleChange() {
   toggle.checked = saved;
   toggle.disabled = false;
   track("change_setting", { setting: "bonus_missions", value: saved ? "on" : "off" });
+}
+
+async function onAudioToggleChange() {
+  const toggle = els.settingsAudioToggle;
+  if (!toggle) return;
+
+  toggle.disabled = true;
+  const saved = await savePlayAudio(toggle.checked);
+  toggle.checked = saved;
+  toggle.disabled = false;
+  track("change_setting", { setting: "audio", value: saved ? "on" : "off" });
 }
 
 function openPrintablesModal() {
@@ -2904,6 +2919,7 @@ function wireEvents() {
     dashboardMobileMenu?.setOpen(false);
     openSettingsModal();
   });
+  els.settingsAudioToggle?.addEventListener("change", onAudioToggleChange);
   els.settingsBonusMissionsToggle?.addEventListener("change", onBonusMissionsToggleChange);
   wireAnimatedModal(els.printablesModal, runPendingModalOpen);
   els.printablesBtn?.addEventListener("click", () => {

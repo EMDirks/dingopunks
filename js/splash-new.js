@@ -375,6 +375,12 @@ function launchMembershipGame(game, notBefore, skipAccessStep) {
   } else if (game.plan === 'all-access') {
     debriefStats.undermurk = 1;
   }
+  // audio=0 rides the same URL when the teacher turned Audio off, so the
+  // debrief and Undermurk pages stay silent too.
+  delete debriefStats.audio;
+  if (game.audio === false) {
+    debriefStats.audio = 0;
+  }
   loadResourceGame(game.theme, game.script, function() {
     setTimeout(function() {
       handlePreloading('onPinInput');

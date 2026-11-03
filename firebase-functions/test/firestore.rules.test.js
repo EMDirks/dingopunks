@@ -165,6 +165,13 @@ describe("userPrefs", () => {
     await assertFails(
       setDoc(ownPrefs, { favorites: [], showBonusMissions: 0 }),
     );
+    await assertFails(setDoc(ownPrefs, { playAudio: false }));
+    await assertFails(
+      setDoc(ownPrefs, { favorites: [], playAudio: "false" }),
+    );
+    await assertFails(
+      setDoc(ownPrefs, { favorites: [], playAudio: 0 }),
+    );
   });
 
   test("allows a boolean Bonus Missions setting alongside favorites", async () => {
@@ -176,6 +183,19 @@ describe("userPrefs", () => {
     );
     await assertSucceeds(updateDoc(ownPrefs, { showBonusMissions: true }));
     await assertSucceeds(setDoc(ownPrefs, { favorites: [] }));
+  });
+
+  test("allows a boolean Audio setting alongside favorites", async () => {
+    const ownerDb = authenticatedDb(OWNER_UID);
+    const ownPrefs = doc(ownerDb, "userPrefs", OWNER_UID);
+
+    await assertSucceeds(
+      setDoc(ownPrefs, { favorites: ["game-a"], playAudio: false }),
+    );
+    await assertSucceeds(updateDoc(ownPrefs, { playAudio: true }));
+    await assertSucceeds(
+      setDoc(ownPrefs, { favorites: [], showBonusMissions: false, playAudio: false }),
+    );
   });
 
   test("denies listing the preferences collection", async () => {

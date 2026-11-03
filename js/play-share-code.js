@@ -28,7 +28,7 @@ function notFound(reason, context) {
  * Resolve a membership share code to the resource the play page should load.
  *
  * @param {string} code Uppercased 5-character share code.
- * @returns {Promise<{gameId: string, theme: string, script: string, plan: string, bonusMissions: boolean}>}
+ * @returns {Promise<{gameId: string, theme: string, script: string, plan: string, bonusMissions: boolean, audio: boolean}>}
  */
 export async function lookupShareCode(code) {
   const response = await resolveGameCode({ code });
@@ -51,5 +51,7 @@ export async function lookupShareCode(code) {
     plan: response?.data?.plan,
     // An older server omits the field, which means Bonus Missions stay on.
     bonusMissions: response?.data?.bonusMissions !== false,
+    // Same for Audio: an older server omits it, and sound stays on.
+    audio: response?.data?.audio !== false,
   };
 }

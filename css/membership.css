@@ -2041,6 +2041,12 @@ a.dpaam-topbar-btn {
   gap: var(--dpaam-pad-lg);
 }
 
+.dpaam-settings-row + .dpaam-settings-row {
+  margin-top: var(--dpaam-pad-lg);
+  padding-top: var(--dpaam-pad-lg);
+  border-top: 1px solid var(--dpaam-border);
+}
+
 .dpaam-settings-row-text {
   flex: 1 1 auto;
   min-width: 0;

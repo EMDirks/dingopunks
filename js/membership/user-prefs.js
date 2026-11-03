@@ -34,12 +34,15 @@ function normalizeFavorites(raw) {
 }
 
 // Writes the whole prefs doc from state, so a favorites save never drops the
-// Bonus Missions setting and vice versa. The setting is stored only when off
-// (missing means on), so favorites-only writes still pass the older rules.
+// Bonus Missions or Audio setting and vice versa. Each setting is stored only
+// when off (missing means on), so favorites-only writes still pass the older rules.
 function persistPrefs(uid) {
   const prefs = { favorites: state.favorites.slice() };
   if (state.showBonusMissions === false) {
     prefs.showBonusMissions = false;
+  }
+  if (state.playAudio === false) {
+    prefs.playAudio = false;
   }
   return setDoc(doc(db, "userPrefs", uid), prefs);
 }
@@ -62,6 +65,7 @@ export async function loadUserPrefs(uid) {
   state.favorites = normalizeFavorites(data.favorites);
   // Missing means on: only an explicit false hides Bonus Missions.
   state.showBonusMissions = data.showBonusMissions !== false;
+  state.playAudio = data.playAudio !== false;
 
   prefsLoaded = true;
 }
@@ -86,6 +90,29 @@ export async function saveShowBonusMissions(value) {
   }
 
   showToast(value ? "Bonus Missions are turned on" : "Bonus Missions are turned off");
+  return value;
+}
+
+/**
+ * Save the Audio setting right away (no debounce). Resolves to the value that
+ * is now saved: the new one, or the previous one if the write failed.
+ */
+export async function savePlayAudio(value) {
+  if (!prefsLoaded || !activeUid) return state.playAudio;
+
+  const previous = state.playAudio;
+  state.playAudio = value;
+
+  try {
+    await persistPrefs(activeUid);
+  } catch (error) {
+    console.error("Failed to save Audio setting", error);
+    state.playAudio = previous;
+    showToast(SETTINGS_SAVE_ERROR);
+    return previous;
+  }
+
+  showToast(value ? "Audio is turned on" : "Audio is turned off");
   return value;
 }
 
@@ -114,6 +141,7 @@ export function resetUserPrefs() {
   saveTimer = null;
   state.favorites = [];
   state.showBonusMissions = true;
+  state.playAudio = true;
 }
 
 window.addEventListener("pagehide", flushFavoritesSave);

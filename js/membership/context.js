@@ -32,6 +32,7 @@ const LIBRARY_THEME_ORDER_BY_SEASON = games.reduce((map, game) => {
 const state = {
   favorites: [],            // ordered array of game ids
   showBonusMissions: true,  // teacher setting; false hides Enter the Undermurk from students
+  playAudio: true,          // teacher setting; false silences sound effects for students
   activeCodes: [],          // [{ gameId, code, expiresAt, createdAt }]
   filters: { season: "all", grade: "all", subject: "all" },
   guideFaqOpen: false,
@@ -103,6 +104,7 @@ const els = {
   logoutBtn: document.getElementById("dpaam-logout-btn"),
   logoutBtnMobile: document.getElementById("dpaam-logout-btn-mobile"),
   settingsModal: document.getElementById("dpaam-settings-modal"),
+  settingsAudioToggle: document.getElementById("dpaam-settings-audio"),
   settingsBonusMissionsToggle: document.getElementById("dpaam-settings-bonus-missions"),
   settingsBonusMissionsDescMember: document.getElementById("dpaam-settings-bonus-missions-desc-member"),
   settingsBonusMissionsDescFree: document.getElementById("dpaam-settings-bonus-missions-desc-free"),

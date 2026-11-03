@@ -1,23 +1,23 @@
 # Sound effects (SFX) implementation plan
 
-Branch: `sound-effects`. Target release: next patch after 4.0.65.
+Branch: `sound-effects` (rebased onto main at 4.0.68). Target release: 4.0.69.
 
-Add a dependency-free Web Audio sound layer for button clicks, transitions, dialogue blips, correct/wrong feedback, hints, modals and the global menu, with one config file where every sound is assigned. Teachers get an **Audio** switch in the dashboard Settings modal (above Bonus Missions) that silences the whole game for their students. Music comes later and plugs into the same module.
+Add a dependency-free Web Audio sound layer for button clicks, transitions, dialogue blips, correct/wrong feedback, hints, modals and the global menu. **Everything about sound — which file plays, how loud, for which event, and when it loads — lives in one file, `js/sound-config.js`.** Teachers get an **Audio** switch in the dashboard Settings modal (above Bonus Missions) that silences the whole game for their students. When the teacher leaves it on, students get a small **Sound** toggle in the global menu that mutes the current game. Music comes later and plugs into the same module and the same config.
 
 Nothing in the game may depend on audio working. Every hook is a one-line, fire-and-forget call that is a no-op when the module is missing, audio is off, the browser lacks Web Audio, or a file fails to load.
 
 ---
 
-## 0. Decisions to confirm before starting
+## 0. Decisions
 
-| # | Decision | Recommendation |
-|---|----------|----------------|
-| 1 | Default state of the teacher switch | **On** (missing = on), same shape as Bonus Missions. Teachers who run 30 Chromebooks can turn it off once and it sticks for every code they share. |
-| 2 | Audio file format | **Decided: Ogg Vorbis as shipped** (Kenney UI Audio pack, no conversion). Known gap: Safari only plays Ogg Vorbis from iOS/iPadOS 18.4 and macOS 15.4 (March 2025), so older iPads and Macs get silence. The engine already treats a failed decode as "no sound", so nothing breaks. Revisit with GA iPadOS version data or when music lands; an `.mp3` fallback would slot into `src` without touching game code. |
-| 3 | What ships | Only the sounds actually mapped in the config. Move the full 53-file Kenney library out of `assets/` (e.g. `tools/sfx-library/`, not copied by `scripts/build-pages.mjs`) so unused files aren't deployed. |
-| 4 | Pages with sound | Play (`index.html`), `free-play.html`, `preview.html`, `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`. Not `membership.html` (teacher dashboard) and not `404.html`. |
-| 5 | Hover ("rollover") sounds | Off. They would fire constantly on desktop and never on touch; config supports them if wanted later. |
-| 6 | Student-side mute | Out of scope for this pass. The engine exposes `Sound.setMuted()`, so a mute button in the global menu is a small follow-up. |
+| # | Decision | Outcome |
+|---|----------|---------|
+| 1 | Default state of the teacher switch | **On** (missing = on), same shape as Bonus Missions. Turning it off applies to every code the teacher has already shared. |
+| 2 | Audio file format | **Ogg Vorbis as shipped for now.** iPads/Macs below iPadOS 18.4 / macOS 15.4 get silence; nothing breaks (a failed decode = no sound). Converting to a second format is planned for later: `src` entries are written as base names so a fallback slots in without touching game code (§3). |
+| 3 | What ships | Only the sounds mapped in the config. Move the rest of the 51-file Kenney library to `tools/sfx-library/` (not copied by `scripts/build-pages.mjs`). |
+| 4 | Pages with sound | Play (`index.html`), `free-play.html`, `preview.html` (**fully wired, same as play**), `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`. Not `membership.html` or `404.html`. |
+| 5 | Hover ("rollover") sounds | Off. Config supports them if wanted later. |
+| 6 | Student mute | **In scope.** A simple Sound on/off toggle in the global menu, per game (§6). Only shown when the teacher hasn't turned Audio off. |
 
 ---
 
@@ -33,15 +33,15 @@ Tests in `firebase-functions/test/firestore.rules.test.js` (~line 155–180): co
 
 ### 1b. Share-code resolution — `firebase-functions/resolve-code.js`
 
-Lines 216–236: alongside `bonusMissions`, read `prefsSnap.get("playAudio") === false` → `audio = false`; return `{ gameId, plan, bonusMissions, audio }`. Update the JSDoc at line 154.
+Lines 216–236: alongside `bonusMissions`, read `prefsSnap.get("playAudio") === false` → `audio = false`; return `{ gameId, plan, bonusMissions, audio }`. Update the JSDoc at line 154. The callable in `index.js:226` returns the whole object, so no change is needed there.
 
-Tests in `firebase-functions/test/resolve-code.test.js`: every `assert.deepEqual(await resolve(...), {...})` compares the whole object, so all ~14 expectations gain `audio: true`. Add two tests modelled on lines 229–250: "returns the owner's Audio setting on any plan" and "keeps Audio on unless the setting is explicitly false".
+Tests in `firebase-functions/test/resolve-code.test.js`: all 13 `assert.deepEqual(await resolve(...), {...})` expectations gain `audio: true`. Add two tests modelled on lines 229–250: "returns the owner's Audio setting on any plan" and "keeps Audio on unless the setting is explicitly false".
 
 Run with the emulator jar per the memory note (`FIRESTORE_EMULATOR_HOST`, `node --test`), or `npx -y firebase-tools@15.34.2 emulators:exec`.
 
 ### 1c. Dashboard state and persistence — `js/membership/`
 
-- `context.js` line 34: `playAudio: true,  // teacher setting; false silences sound effects for students`. Lines ~106: add `settingsAudioToggle: document.getElementById("dpaam-settings-audio")`.
+- `context.js` line 34: `playAudio: true,  // teacher setting; false silences sound effects for students`. Line ~106: add `settingsAudioToggle: document.getElementById("dpaam-settings-audio")`.
 - `user-prefs.js`:
   - `persistPrefs()`: `if (state.playAudio === false) prefs.playAudio = false;`
   - `loadUserPrefs()`: `state.playAudio = data.playAudio !== false;`
@@ -52,30 +52,28 @@ Run with the emulator jar per the memory note (`FIRESTORE_EMULATOR_HOST`, `node 
 
 `membership.html` line 1132: insert a new `<section class="dpaam-settings-row">` **before** the Bonus Missions row, same markup, ids `dpaam-settings-audio-label`, `-desc`, `-audio` (the checkbox). No member/free variant.
 
-Copy:
-
 | Element | Text |
 |---------|------|
 | Title | Audio |
-| Description | Students hear sound effects for buttons, dialogue, and transitions while they play. Turn this off to keep escape rooms silent. |
+| Description | Students hear sound effects for buttons, dialogue, and transitions while they play, and can mute them from the game menu. Turn this off to keep escape rooms silent for everyone. |
 
-Two stacked rows need a divider: add `.dpaam-settings-row + .dpaam-settings-row { margin-top: var(--dpaam-pad-lg); padding-top: var(--dpaam-pad-lg); border-top: 1px solid var(--dpaam-border); }` in `css/membership.css` next to `.dpaam-settings-row` (~line 2036). `--dpaam-border` is an existing token in that file.
+Two stacked rows need a divider: add `.dpaam-settings-row + .dpaam-settings-row { margin-top: var(--dpaam-pad-lg); padding-top: var(--dpaam-pad-lg); border-top: 1px solid var(--dpaam-border); }` in `css/membership.css` next to `.dpaam-settings-row` (line 2037).
 
 `js/membership.js`:
 - `openSettingsModal()` (line 2228): `els.settingsAudioToggle.checked = state.playAudio;`
-- New `onAudioToggleChange()` — copy `onBonusMissionsToggleChange`, calling `savePlayAudio`, `track("change_setting", { setting: "audio", value })`.
+- New `onAudioToggleChange()` — copy `onBonusMissionsToggleChange` (2244), calling `savePlayAudio`, `track("change_setting", { setting: "audio", value })`.
 - Line ~2907: `els.settingsAudioToggle?.addEventListener("change", onAudioToggleChange);`
-- Import `savePlayAudio` wherever `saveShowBonusMissions` is imported.
+- Import `savePlayAudio` next to `saveShowBonusMissions` (line 61).
 
 ### 1e. Play page bridge — `js/play-share-code.js` + `js/splash-new.js`
 
-- `lookupShareCode()` return: `audio: response?.data?.audio !== false,` (comment: older server omits it, audio stays on). Update the JSDoc.
-- `launchMembershipGame()` line 368: next to the `undermurk` block,
+- `lookupShareCode()` return (line 53): `audio: response?.data?.audio !== false,` (comment: older server omits it, audio stays on). Update the JSDoc at line 31.
+- `launchMembershipGame()` line 368, next to the `undermurk` block (it runs before `handlePreloading('onPinInput')`, so the flag is set before any sound loads):
   ```js
   delete debriefStats.audio;
   if (game.audio === false) { debriefStats.audio = 0; }
   ```
-  `debriefStats` is serialised into the debrief URL (line 1662), and the debrief passes `window.location.search` on to Enter the Undermurk (`dpaam-debrief.js` 130, `global-menu.js` 167). So `audio=0` reaches all three pages with no further plumbing, exactly like `undermurk=0`.
+  `debriefStats` is serialised into the debrief URL (`splash-new.js:1664`), and the debrief passes `window.location.search` on to Enter the Undermurk (`dpaam-debrief.js:130`, `appendLocationSearch()` in `global-menu.js:177`). So `audio=0` reaches all three pages with no further plumbing, exactly like `undermurk=0`.
 
 Legacy purchase codes, free-play, preview and answer-key never set the flag → audio on.
 
@@ -83,28 +81,31 @@ Phase 1 is deployable on its own: nothing listens to the flag yet.
 
 ---
 
-## 2. Sound engine — `js/sound.js` (new, ~150 lines, classic script, no imports)
+## 2. Sound engine — `js/sound.js` (new, ~180 lines, classic script, no imports)
 
-Global `Sound` object. Loaded immediately after `config.js` on the six pages in §0.4, with `?version=4.0.65` so `scripts/bump-version.mjs` picks it up (it rewrites every `?version=` in the listed HTML files). `_headers` already makes `/js/*` revalidate.
+Global `Sound` object. Contains **no sound names, file names, volumes or timings** — all of that comes from `SOUND_CONFIG`. Loaded on the six pages in §0.4 (see §7). Must not depend on `global.js` (debrief.html doesn't load it). Reads `debriefStats` and `version` only via `typeof` guards.
 
-Must not depend on `global.js` (debrief.html doesn't load it). Reads `debriefStats` and `version` only via `typeof` guards.
+### Two separate "off" switches
 
-### Enabled check (runs once on `DOMContentLoaded`)
+| | Teacher off | Student muted |
+|---|---|---|
+| Set by | Dashboard Audio setting (§1) | Global menu Sound toggle (§6) |
+| Carried as | `debriefStats.audio = 0` / `?audio=0` | `debriefStats.mute = 1` / `?mute=1` |
+| Effect | Engine **unavailable**: no `AudioContext`, no fetches, toggle hidden | Engine available but master gain at 0; sounds still preload so unmuting is instant |
+| Query | `Sound.isAvailable()` → false | `Sound.isMuted()` → true |
 
-Audio is **off** when any of:
-- `typeof debriefStats !== 'undefined' && debriefStats.audio === 0` (set during play by §1e)
-- `new URLSearchParams(location.search).get('audio') === '0'` (debrief / Undermurk pages)
+`isAvailable()` is a function evaluated on each call, not a cached boolean, because `debriefStats.audio` is set inside `launchMembershipGame` after `DOMContentLoaded`. It returns false when any of:
+- `typeof debriefStats !== 'undefined' && debriefStats.audio === 0`
+- `new URLSearchParams(location.search).get('audio') === '0'`
 - `!(window.AudioContext || window.webkitAudioContext)`
 - `SOUND_CONFIG` missing or `SOUND_CONFIG.enabled === false`
 
-When off: no `AudioContext`, no fetches, every public method returns immediately. Zero cost.
-
-Note: `debriefStats.audio` is set inside `launchMembershipGame`, after `DOMContentLoaded`. So the check must be lazy: evaluate on first `play()`/`preload()` call *and* re-check `debriefStats.audio` on every `play()` (cheap). Simplest: `isEnabled()` is a function, not a cached boolean, and `preload` is only triggered by `handlePreloading('onPinInput')`, which runs after the flag is set.
+Muted starts true when `debriefStats.mute === 1` or `?mute=1`.
 
 ### Pipeline
 
 ```
-AudioContext (created suspended on first preload)
+AudioContext (created on first preload)
   fetch(url) → arrayBuffer → decodeAudioData → buffers Map (name → AudioBuffer[])
   unlock: pointerdown / touchend / keydown / click on document (capture, passive)
           → ctx.resume() — keep listeners until ctx.state === 'running'
@@ -116,165 +117,243 @@ AudioContext (created suspended on first preload)
 
 | Method | Behaviour |
 |--------|-----------|
-| `Sound.preload(names?)` | Fetch + decode. No arg = every sound in `SOUND_CONFIG.sounds`. Idempotent; a failed fetch logs once and marks the name missing (never retried, never throws). |
-| `Sound.play(name, opts?)` | Picks a random `src` if several, applies volume/pitch, respects `maxVoices` (drops the play if that many instances of the sound are already live). Silent no-op before unlock, when disabled, or when the buffer isn't decoded yet (no queuing). |
-| `Sound.event(eventName, detail?)` | Looks up `SOUND_CONFIG.events[eventName]` → sound name (or `null` = silent) and calls `play`. **All game code calls this, never `play` directly**, so remapping is config-only. For `dialogue.letter` applies the throttle in `SOUND_CONFIG.dialogue`. |
-| `Sound.setMuted(bool)` / `Sound.setVolume(0–1)` | Master gain. Persist in `localStorage` (try/catch) for the follow-up student mute. |
-| `Sound.isEnabled()` | For UI. |
+| `Sound.onPreloadEvent(eventName)` | Called from `handlePreloading` (§4). Looks up `SOUND_CONFIG.preload[eventName]` and preloads what it lists, honouring `delay`. Unknown events are ignored. |
+| `Sound.preload(names?)` | Fetch + decode. `'*'` or no arg = every sound in `SOUND_CONFIG.sounds`. Idempotent; a failed fetch logs once and marks the name missing (never retried, never throws). |
+| `Sound.event(eventName, detail?)` | Looks up `SOUND_CONFIG.events[eventName]` → sound name (`null` = silent) and plays it. **All game code calls this, never a sound name directly**, so remapping is config-only. Applies the `SOUND_CONFIG.dialogue` throttle for `dialogue.letter`. |
+| `Sound.setMuted(bool)` / `Sound.isMuted()` | Master gain to 0 / back. Per game only: no `localStorage` (§6). |
+| `Sound.isAvailable()` | False when the teacher turned Audio off or the browser can't play audio. The menu uses it to decide whether to show the toggle. |
+
+Internal `play(name)`: picks a random `src` if several, applies volume/pitch, respects `maxVoices` (drops the play if that many instances are already live). Silent no-op when unavailable, when the sound name is unknown, when its `src` is empty, or when the buffer isn't decoded yet (no queuing). **If the context is still suspended (the student's first tap on iPad), it calls `ctx.resume()` and still starts the sound**, which plays as soon as the context resumes a few ms later — so the first tap is never silent.
+
+### Per-game overrides (for later)
+
+If a game's resource script defines `localSoundConfig` (same idea as the existing `localAssetArrays`), the engine merges its `sounds`, `events` and `preload` over `SOUND_CONFIG` when first used. Nothing defines it in this pass; it's how per-game music will be configured.
 
 ### Safety rules
 
 - Every public method body is wrapped in `try { … } catch (e) { /* log once */ }`.
 - Call sites use `typeof Sound !== 'undefined' && Sound.event('x')` so a 404 on `sound.js` can't throw `ReferenceError` in game code.
-- Delegated click listener on `document` in the **capture** phase, no `preventDefault`/`stopPropagation`, so it fires before and regardless of any handler (e.g. the global-menu document listener at `global-menu.js:285`).
+- Delegated click listener on `document` in the **capture** phase, no `preventDefault`/`stopPropagation`, so it fires before and regardless of any handler (e.g. the global-menu document listener at `global-menu.js:300`).
 - `visibilitychange`: `ctx.suspend()` when hidden, `ctx.resume().catch(()=>{})` when visible (only if previously unlocked).
 - iPad side switch on mute silences Web Audio by default; leave that (expected in classrooms).
-- Cache-busting: append `?v=<version>` to audio URLs when a global `version` const exists (defined by `splash-new.js`/`debrief.js`, which load before preload runs). Lets a replaced file with the same name reach students.
-
-### Preload timing
-
-All mapped SFX together are ~100 KB; decoding a dozen short buffers is a few ms. So `handlePreloading` triggers it on the existing `onPinInput` event (first user screen, well before any sound is needed) — see §4. On `debrief.html` and `enter-the-undermurk.html` (no `onPinInput`), `sound.js` self-preloads on `DOMContentLoaded` via `setTimeout(…, 0)`.
+- Cache-busting: append `?v=<version>` to audio URLs when a global `version` const exists (`splash-new.js:19`, `debrief.js:1`), so a replaced file with the same name reaches students.
 
 ---
 
 ## 3. Sound config — `js/sound-config.js` (new; the one file to edit)
 
-Loaded right before `sound.js`. Plain object, no code. Proposed defaults, pointing straight at the Kenney `.ogg` files in `assets/audio/sfx/` (filenames kept as shipped; the config gives them meaningful names):
+Loaded right before `sound.js`. Plain object, no code. **Rule: if it's a decision about sound, it goes here.** Any `data-sfx` attribute used in game code must also be listed in the comment at the bottom of this file so nothing is hidden elsewhere.
 
 ```js
 const SOUND_CONFIG = {
-  enabled: true,
+  enabled: true,                 // master switch for the whole site
   basePath: 'assets/audio/sfx/',
+  formats: ['ogg'],              // later: ['m4a', 'ogg'] — engine picks the first the browser can play
 
-  // name → file(s) + mix. Several src = random pick per play.
+  // name → file(s) + mix. src are base names (no extension). Several = random pick per play.
   sounds: {
-    click:      { src: ['click1.ogg'],                          volume: 0.5 },               // from click1
-    key:        { src: ['click3.ogg', 'click4.ogg', 'click5.ogg'],   volume: 0.35 },              // click3/4/5 — code keyboard
-    tab:        { src: ['switch12.ogg'],                            volume: 0.5 },               // switch12 — setup tabs, character pick
-    blip:       { src: ['click2.ogg'],  volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 },       // click2 — typewriter
-    whoosh:     { src: ['switch22.ogg'],                            volume: 0.45 },              // switch22-ish; audition
-    open:       { src: ['switch2.ogg'],                        volume: 0.45 },              // switch2
-    close:      { src: ['switch3.ogg'],                       volume: 0.4 },               // switch3
-    correct:    { src: [],                           volume: 0.6 },               // NEW: not in the Kenney UI pack — see note
-    wrong:      { src: [],                             volume: 0.5 },               // NEW
-    hint:       { src: ['switch18.ogg'],                              volume: 0.5 },               // switch18
+    click:   { src: ['click1'],                     volume: 0.5 },
+    key:     { src: ['click3', 'click4', 'click5'], volume: 0.35 },              // code keyboard
+    tab:     { src: ['switch12'],                   volume: 0.5 },               // setup tabs, character pick
+    toggle:  { src: ['switch9'],                    volume: 0.45 },              // global menu Sound toggle (audition)
+    blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
+    whoosh:  { src: ['switch22'],                   volume: 0.45 },              // audition
+    open:    { src: ['switch2'],                    volume: 0.45 },
+    close:   { src: ['switch3'],                    volume: 0.4 },
+    hint:    { src: ['switch18'],                   volume: 0.5 },
+    correct: { src: [],                             volume: 0.6 },               // not in the Kenney UI pack yet
+    wrong:   { src: [],                             volume: 0.5 },               // not in the Kenney UI pack yet
   },
 
-  // Game events → sound name. null = silent. Add keys freely; unknown events are ignored.
+  // Game events → sound name. null = silent on purpose. Unknown events are ignored.
   events: {
-    'ui.click':            'click',
-    'ui.key':              'key',
-    'ui.tab':              'tab',
-    'splash.transition':   'whoosh',
-    'cutscene.next':       'click',
-    'dialogue.letter':     'blip',
-    'scene.open':          'open',
-    'activity.open':       'open',
-    'activity.close':      'close',
-    'hint.open':           'hint',
-    'hint.close':          'close',
-    'code.correct':        'correct',
-    'code.wrong':          'wrong',
-    'modal.open':          'open',
-    'modal.close':         'close',
-    'menu.open':           'open',
-    'menu.close':          'close',
-    'debrief.victory':     null,      // phase 5
-    'debrief.fail':        null,
-    'undermurk.tier':      null,
+    'ui.click':          'click',
+    'ui.key':            'key',
+    'ui.tab':            'tab',
+    'ui.toggle':         'toggle',
+    'splash.transition': 'whoosh',
+    'dialogue.letter':   'blip',
+    'scene.open':        'open',
+    'activity.open':     'open',
+    'activity.close':    'close',
+    'hint.open':         'hint',
+    'hint.close':        'close',
+    'modal.open':        'open',
+    'modal.close':       'close',
+    'code.correct':      null,       // → 'correct' once a sound is chosen
+    'code.wrong':        null,       // → 'wrong' once a sound is chosen
+    'code.lockout':      null,       // reserved
+    'menu.open':         null,       // the menu is a modal, so modal.open already plays
+    'debrief.victory':   null,       // reserved
+    'debrief.fail':      null,       // reserved
+    'undermurk.tier':    null,       // reserved
+  },
+
+  // When sounds load. Keys are the existing handlePreloading() moments:
+  // onPinInput, onSettings, onCharacterSelect, onCutsceneStart, onGameStart,
+  // onGameEnd, onDebrief, onUndermurkPage. onPageLoad is fired by sound.js itself
+  // for pages that never call handlePreloading (debrief.html), keyed by page.
+  // sounds: '*' = everything in `sounds`, or a list of names. delay in ms.
+  preload: {
+    onPinInput:      { sounds: '*', delay: 0 },   // first screen; all SFX together are ~100 KB
+    onUndermurkPage: { sounds: '*', delay: 0 },
+    onPageLoad:      { 'debrief.html': { sounds: '*', delay: 0 } },
+    // later, music: onCutsceneStart: { music: ['theme'], delay: 500 },
   },
 
   // Delegated clicks: first matching selector wins. Element attr data-sfx="name"
-  // overrides; data-sfx="none" silences. Elements with [disabled] are ignored.
+  // overrides; data-sfx="none" silences. [disabled] and *--inactive elements are ignored.
+  // Elements that fire an explicit event (activity nodes, hint button, menu button)
+  // are deliberately left out so each action plays exactly one sound.
   clicks: [
-    { match: '.keyboard-button',                                   event: 'ui.key' },
-    { match: '.tab-button, .character-select-button',              event: 'ui.tab' },
-    { match: 'button, .button, .splash-button, .cutscene-next-button, .activity-node, ' +
-             '.activity-button-done, .activity-button-hint, .activity-scene-button-start, ' +
-             '.code-box-button, .button-menu-global, .footer-button-menu, .global-menu__kids-link, ' +
-             '.icon-clickable--splash, .button-close-modal',          event: 'ui.click' },
+    { match: '.keyboard-button',                      event: 'ui.key' },
+    { match: '.tab-button, .character-select-button', event: 'ui.tab' },
+    { match: 'button, .button, .splash-button, .cutscene-next-button, ' +
+             '.activity-button-done, .activity-scene-button-start, ' +
+             '.code-box-button, .footer-button-menu, .global-menu__kids-link, ' +
+             '.icon-clickable--splash, .button-close-modal',  event: 'ui.click' },
   ],
 
   // Typewriter throttle: a blip every N visible letters, never closer than minGapMs
-  // (preview mode runs the typewriter at 5 ms/letter — the gap keeps it from buzzing).
+  // (preview runs the typewriter at 5 ms/letter — the gap keeps it from buzzing).
   dialogue: { every: 2, skip: ' .,!?\'"', minGapMs: 45 },
+
+  // data-sfx used in game code (keep this list current):
+  //   global-menu.js  .global-menu__sound-toggle  data-sfx="none"  (plays ui.toggle itself, §6)
+  //   activity.js     .activity-button-hint        data-sfx="none"  (plays hint.open/close)
+  //   global-menu.js  .button-menu-global          data-sfx="none"  (plays modal.open)
 };
 ```
 
 Notes:
-- `correct` / `wrong` need two sounds the Kenney UI pack doesn't have. Options: Kenney "Digital Audio" or "Interface Sounds" packs (CC0), or generate with jsfxr. Until chosen, map both to `null` — the engine ignores nulls.
-- Verified classes: `.splash-button` (`splash-new.js:500`, a real `<button>`), `.activity-node` (`home.js:49`, a `div`), `.global-menu__kids-link` (`global-menu.js:37`, an `<a>`; inactive cards are `span`s with `--inactive` and should be excluded). `.character-select-button` (`splash-new.js:1466`, a `<button>`). Grep the CSS button list: `.activity-button-*`, `.activity-scene-button*`, `.button`, `.button-close-modal`, `.button-menu-global`, `.code-box-button`, `.cutscene-next-button`, `.footer-button-menu`, `.keyboard-button`, `.menu-button`, `.tab-button`.
-- Elements that both have a delegated click sound *and* trigger an explicit event (e.g. the hint button → `ui.click` + `hint.open`) would double up. Rule: anything with an explicit event gets `data-sfx="none"` at creation, or its selector is left out of `clicks`. Decide per element while implementing; list them in the PR.
+- `correct` / `wrong`: pick from Kenney "Digital Audio" / "Interface Sounds" (CC0) or generate with jsfxr, then point `code.correct` / `code.wrong` at them. No code change.
+- Verified classes on 4.0.68: `.splash-button` (`splash-new.js:500`), `.character-select-button` (`splash-new.js:1466`), `.tab-button` (`splash-new.js:1265`, `enter-the-undermurk.js:56`), `.global-menu__kids-link` (`global-menu.js:37`, inactive cards are `span`s with `--inactive`, ignored by the rule above).
 
 ---
 
 ## 4. Explicit hooks in game code (small, auditable edits)
 
-Every insertion is the single line `typeof Sound !== 'undefined' && Sound.event('…');`. Clicks need no edits (delegation).
+Every insertion is the single line `typeof Sound !== 'undefined' && Sound.…;`. Clicks need no edits (delegation).
 
-| Where | Event |
-|-------|-------|
-| `js/global.js` `handlePreloading()` ~2077: after the image branches, `if (eventName === 'onPinInput' && typeof Sound !== 'undefined') Sound.preload();` — plus forward an optional `sound: [...]` list on any event's asset entry to `Sound.preload(list)` (future music). | — |
-| `js/splash-new.js` `transitionSplash()` 554, top of function | `splash.transition` |
-| `js/splash-new.js` `addTextByTypewriter()` ~1975, inside the per-letter `setTimeout` | `dialogue.letter`, pass the letter |
-| `js/splash-new.js` cutscene next button handler 1606 | covered by delegation (`.cutscene-next-button`) |
-| `js/scene.js` `addText()` 175 and 337, inside the per-letter `setTimeout` (the `opacity = 1` callback) | `dialogue.letter`, pass the letter |
-| `js/scene.js` 113 and ~283, when the dialogue wrapper opens (`setTimeout(toggleClass, 1300, …--open)`) — wrap in a tiny function that also fires the event | `scene.open` |
+| Where | Call |
+|-------|------|
+| `js/global.js` `handlePreloading()` line 2062, first line of the function | `Sound.onPreloadEvent(eventName)` — the **only** preload hook; which sounds load at which moment is decided in `SOUND_CONFIG.preload`. Covers play, free-play, preview, answer-key and Undermurk (all call `handlePreloading`). |
+| `js/splash-new.js` `transitionSplash()` 554, top of function | `Sound.event('splash.transition')` |
+| `js/splash-new.js` `addTextByTypewriter()` 1956, inside the per-letter `setTimeout` | `Sound.event('dialogue.letter', letter)` |
+| `js/scene.js` `addText()` 175 and 337, inside the per-letter `setTimeout` (the `opacity = 1` callback) | `Sound.event('dialogue.letter', letter)` |
+| `js/scene.js` 113 and 283, the `setTimeout(toggleClass, 1300, …--open)` — wrap in a tiny function that also fires the event | `Sound.event('scene.open')` |
 | `js/activity.js` `openActivityModal()` 654 / `closeActivityModal()` 766 | `activity.open` / `activity.close` |
-| `js/activity.js` `openHintModal()` 620, in the open/close branches | `hint.open` / `hint.close` |
-| `js/activity.js` `setComplete()`: in `findNonIdenticalIndices` before the loop (349 and the mirror ~471) and in the "answer matches" branch (389 and mirror). The wrong branch fires once per *check*, not per letter: put the call just inside `if (…answer !== userArray… && numInputsFilled == …)`. Guard the correct branch so it fires only on the transition to complete (inside `if (state !== "complete")`), not on every subsequent `syncUpdates`. | `code.wrong` / `code.correct` |
-| `js/global.js` `createModal()` 1752 and its close handlers 1784–1796 | `modal.open` / `modal.close` |
-| `js/global-menu.js` `openGlobalMenu()` 232 | `menu.open` (the menu is a `createModal` popup, so its close already fires `modal.close`; drop the `menu.close` event or map it to `null`) |
+| `js/activity.js` `openHintModal()` 620, in the open/close branches. Pass a flag from `closeActivityModal()` (line 768, which closes an open hint) so closing an activity plays only `activity.close`. | `hint.open` / `hint.close` |
+| `js/activity.js` `setComplete()`: wrong — just inside `if (…answer !== userArray… && numInputsFilled == …)` at 349 and the mirror at 471, so it fires once per check, not per letter. Correct — inside `if (state !== "complete")` at 390 and the mirror, so the re-checks `syncUpdates` triggers don't repeat it. | `code.wrong` / `code.correct` |
+| `js/global.js` `toggleModalVisibility()` 1801 **and** `js/debrief.js` `toggleModalVisibility()` 412 (debrief has its own copy), branching on `isModalVisible` | `modal.open` / `modal.close` — one site per file covers every way a modal opens or closes (button, X, blackout, global menu) |
 
-Keep `enter-the-undermurk.js` and `debrief.js` untouched in this pass apart from delegation (events are mapped to `null`).
+`openGlobalMenu()` needs no sound hook: the menu opens through `createModal` → `toggleModalVisibility`.
+
+Leave `enter-the-undermurk.js` and `dpaam-debrief.js` untouched in this pass apart from delegation.
 
 ---
 
-## 5. Page wiring
+## 5. Teacher switch × student toggle
 
-Add to each of `index.html`, `free-play.html`, `preview.html`, `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`, directly after `js/config.js`:
-
-```html
-<script type="text/javascript" src="js/sound-config.js?version=4.0.65"></script>
-<script type="text/javascript" src="js/sound.js?version=4.0.65"></script>
+```
+Teacher Audio OFF  → audio=0 → Sound unavailable → no sound, toggle not shown
+Teacher Audio ON   → Sound available → toggle shown in global menu
+                       ├─ Sound On  (default for every new game)
+                       └─ Sound Off → mute=1 for the rest of this game
 ```
 
-Both files are copied by `scripts/build-pages.mjs` (`js/` is a public directory). `assets/audio/` ships automatically.
+---
+
+## 6. Student Sound toggle — `js/global-menu.js` + `css/global.css`
+
+A simple on/off switch in the global menu, below the kid cards. Per game: muting lasts through this game's play, debrief and Undermurk pages; the next game starts with sound on.
+
+**When it shows:** only when `typeof Sound !== 'undefined' && Sound.isAvailable()`. If the teacher turned Audio off (or sound can't play), the toggle isn't rendered at all. `preview.html` doesn't load `global-menu.js`, so it has sound but no toggle (teachers use device volume there).
+
+**Markup** (appended inside `.global-menu` in `buildGlobalMenuHTML()`, line 182):
+
+```html
+<button type="button" class="global-menu__sound-toggle" role="switch"
+        aria-checked="true" data-sfx="none">
+  <span class="global-menu__sound-toggle-label">Sound</span>
+  <span class="global-menu__sound-toggle-track"><span class="global-menu__sound-toggle-thumb"></span></span>
+</button>
+```
+
+`aria-checked` reflects `!Sound.isMuted()` each time the menu is built.
+
+**Behaviour** (one delegated click handler next to the existing one at `global-menu.js:300`):
+1. Flip `Sound.setMuted(!Sound.isMuted())` and update `aria-checked`.
+2. Record it for the rest of the game:
+   - Play pages: `debriefStats.mute = 1` when muted, `delete debriefStats.mute` when unmuted — it then rides the debrief URL like `undermurk`.
+   - `debrief.html` / `enter-the-undermurk.html`: update `mute=1` in the URL with `history.replaceState`, so links built from `location.search` (`appendLocationSearch`, `dpaam-debrief.js:130`) carry it.
+3. When turning sound **on**, play `Sound.event('ui.toggle')` as confirmation (it's `data-sfx="none"`, so muting is silent).
+
+No `localStorage`: a new game, a page refresh, or "Play Another Escape Room" (fresh `debriefStats`, no `mute` in the URL) starts with sound on.
+
+**CSS** (`css/global.css`, next to `.global-menu` at line 558): a small pill switch, centred under the cards, matching the menu's existing colours; thumb slides right and track fills when on. Include the mobile block at line 502. Keep it visually quiet — it's secondary to the cards.
 
 ---
 
-## 6. Order of work (each step leaves `main`-mergeable state)
+## 7. Page wiring
 
-1. **Audio assets**: audition and adjust the picks in `sound-config.js` (especially `whoosh`), then move unmapped files to `tools/sfx-library/` so they aren't deployed.
-2. **Teacher setting** (§1): rules + tests → resolve-code + tests → `user-prefs` / `context` → modal markup + CSS → `membership.js` handlers → `play-share-code` / `launchMembershipGame`. Run `npm test` in `firebase-functions/`. Deploy backend before site when publishing (`firestore:rules,functions`).
-3. **Engine + config + page wiring** (§2, §3, §5) with only delegated clicks active. Verify zero console errors on all six pages, with audio on and with `?audio=0`.
+On each of `index.html`, `free-play.html`, `preview.html`, `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`, add these as the **first two classic scripts** in the body script list (before `global.js`; on `debrief.html` before `debrief.js`). `preview.html` has no `config.js`, so "after `config.js`" doesn't work everywhere.
+
+```html
+<script type="text/javascript" src="js/sound-config.js?version=4.0.68"></script>
+<script type="text/javascript" src="js/sound.js?version=4.0.68"></script>
+```
+
+`scripts/bump-version.mjs` rewrites these with the others. `scripts/build-pages.mjs` copies `js/` and `assets/`, so the new files and `assets/audio/` ship automatically.
+
+---
+
+## 8. Order of work (each step leaves `main`-mergeable state)
+
+1. **Audio assets**: audition and adjust the picks in `sound-config.js` (especially `whoosh` and `toggle`), then move unmapped files to `tools/sfx-library/`.
+2. **Teacher setting** (§1): rules + tests → resolve-code + tests → `user-prefs` / `context` → modal markup + CSS → `membership.js` handlers → `play-share-code` / `launchMembershipGame`. Run `npm test` in `firebase-functions/`. Deploy backend before site (`firestore:rules,functions`).
+3. **Engine + config + page wiring** (§2, §3, §7) with only delegated clicks and the `handlePreloading` hook active. Verify zero console errors on all six pages, with audio on and with `?audio=0`.
 4. **Explicit hooks** (§4), one file at a time, re-testing the flow after each.
-5. **QA matrix** (§7), then `node scripts/bump-version.mjs`, `node scripts/build-pages.mjs`, publish per the usual sequence.
+5. **Student toggle** (§6).
+6. **QA** (§9), then `node scripts/bump-version.mjs`, `node scripts/build-pages.mjs`, publish per the usual sequence.
 
 Commit after each numbered step with a message in the repo's style.
 
 ---
 
-## 7. QA checklist
+## 9. QA checklist
 
-Functional
-- [ ] Share code from an account with Audio **on**: clicks, keyboard, tabs, transitions, dialogue blips, correct/wrong, hint, modals, menu all sound; debrief and Undermurk pages too.
-- [ ] Toggle Audio **off** in dashboard → new launch of the *same existing* code is silent on play, debrief and Undermurk; URL carries `audio=0`; no network requests for `assets/audio/`.
-- [ ] Toggle back on → sound returns without re-sharing the code.
-- [ ] Dashboard: toggle state persists across reload; Bonus Missions toggle still saves; a favorites save doesn't clobber either setting (`persistPrefs` writes both).
-- [ ] Legacy purchase code, `free-play.html`, `preview.html`, `answer-key.html`: audio on, nothing else changed.
+Teacher switch
+- [ ] Share code from an account with Audio **on**: clicks, keyboard, tabs, transitions, dialogue blips, hint, modals, menu all sound; debrief and Undermurk pages too.
+- [ ] Toggle Audio **off** in dashboard → new launch of the *same existing* code is silent on play, debrief and Undermurk; URL carries `audio=0`; no network requests for `assets/audio/`; **no Sound toggle in the global menu**.
+- [ ] Toggle back on → sound and the menu toggle return without re-sharing the code.
+- [ ] Dashboard: toggle state persists across reload; Bonus Missions toggle still saves; a favorites save doesn't clobber either setting.
+
+Student toggle
+- [ ] Menu shows Sound On by default; switching off silences everything immediately; switching on plays the confirmation sound.
+- [ ] Muted during play → debrief and Undermurk stay muted; URL carries `mute=1`; toggle shows Off there.
+- [ ] Muted on the debrief page → going to Undermurk stays muted.
+- [ ] "Play Another Escape Room" and a fresh code launch start with sound on.
+- [ ] Toggle is keyboard-operable and announced as a switch by VoiceOver.
+
+Pages and preloading
+- [ ] Legacy purchase code, `free-play.html`, `answer-key.html`: sound on, nothing else changed.
+- [ ] `preview.html`: fully wired — clicks, dialogue blips (throttled at 5 ms/letter, no buzz), hint, modals.
+- [ ] Network tab: audio loads at the moments in `SOUND_CONFIG.preload`; changing a key there (e.g. `onPinInput` → `onSettings`) moves it with no code change.
 - [ ] Rename `sound.js` temporarily (simulate 404): game fully playable, no errors.
 - [ ] Rename one audio file: single console warning, everything else plays.
-- [ ] Preview mode (typewriter at 5 ms): blips throttled, no buzz; player reply text also blips.
-- [ ] Rapid clicks / fast typing on the code keyboard: sounds overlap cleanly, no clipping.
-- [ ] Wrong code: one `wrong` per check, not per flashing cell; correct code: one `correct`.
-- [ ] Hint button: not doubled (`ui.click` + `hint.open`).
+
+Single sounds
+- [ ] Global menu button: exactly one sound (`modal.open`).
+- [ ] Activity node: one `activity.open`, no extra click.
+- [ ] Hint button: one `hint.open` / `hint.close`; closing an activity with the hint open plays only `activity.close`.
+- [ ] Rapid clicks / fast typing on the code keyboard: overlap cleanly, no clipping.
 - [ ] Tab hidden → sounds stop; tab visible → resume on next interaction.
 
 Browsers / devices
-- [ ] Chrome (desktop + Chromebook), Firefox, Safari macOS 15.4+, iPad Safari 18.4+ (with side switch both ways), Android Chrome.
-- [ ] An iPad or Mac below 18.4 / 15.4: silent, no errors, game fully playable.
-- [ ] First sound plays on the very first tap on iPad (unlock via `touchend`).
+- [ ] Chrome (desktop + Chromebook), Firefox, Safari macOS 15.4+, iPad Safari 18.4+ (side switch both ways), Android Chrome.
+- [ ] **First tap on iPad plays its sound** (not silent).
+- [ ] iPad/Mac below 18.4 / 15.4: silent, no errors, game fully playable (known gap, §0.2).
 
 Backend
 - [ ] `npm test` in `firebase-functions/` green (rules + resolve updated).
@@ -282,9 +361,9 @@ Backend
 
 ---
 
-## 8. Later (not in this branch)
+## 10. Later (not in this branch)
 
-- **Music**: `Sound.music.play(name, { fade })` streaming through an `<audio>` element + `createMediaElementSource` into the master gain (no decoding of multi-MB buffers); ducking under dialogue; preload via the `sound:` list on `handlePreloading` events. The teacher Audio switch covers it automatically.
-- **Student mute** in the global menu (`Sound.setMuted`, `localStorage`).
-- Debrief outcome stings and Undermurk tier transitions (events already reserved as `null`).
-- Hover sounds on desktop if ever wanted (`rollover*.ogg` kept in `tools/sfx-library/`).
+- **Second audio format** for older iPads: convert the mapped files, set `formats: ['m4a', 'ogg']`. Config-only.
+- **Music**: `Sound.music.play(name, { fade })` streaming through an `<audio>` element + `createMediaElementSource` into the master gain (no decoding of multi-MB buffers); ducking under dialogue; loaded per moment via `music:` entries in `SOUND_CONFIG.preload`, per game via `localSoundConfig`. The teacher switch and student toggle cover it automatically.
+- `correct` / `wrong` sounds, debrief outcome stings and Undermurk tier transitions (events already reserved as `null`).
+- Hover sounds on desktop if ever wanted (`rollover*` kept in `tools/sfx-library/`).

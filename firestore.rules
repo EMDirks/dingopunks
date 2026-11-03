@@ -11,11 +11,13 @@ service cloud.firestore {
     }
 
     function isValidUserPrefs() {
-      return request.resource.data.keys().hasOnly(['favorites', 'showBonusMissions'])
+      return request.resource.data.keys().hasOnly(['favorites', 'showBonusMissions', 'playAudio'])
         && request.resource.data.favorites is list
         && request.resource.data.favorites.size() <= 500
         && (!('showBonusMissions' in request.resource.data)
-          || request.resource.data.showBonusMissions is bool);
+          || request.resource.data.showBonusMissions is bool)
+        && (!('playAudio' in request.resource.data)
+          || request.resource.data.playAudio is bool);
     }
 
     // Profiles and entitlement fields are written only through the Admin SDK.
