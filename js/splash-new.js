@@ -558,6 +558,7 @@ function drawSplash(){
 
 // transition splash
 function transitionSplash(){
+  typeof Sound !== 'undefined' && Sound.event('splash.transition');
   if (splashIndex !== splashOrder.length-1){
     toggleClass(splashVersion,'splash-version--visible','splash-version--hidden');
     toggleClass(splashNav,'splash-nav--visible','splash-nav--hidden');
@@ -1984,6 +1985,7 @@ function addCutscene(cutsceneIndex,section){
             elementClass.appendChild(span);
             setTimeout(() => {
               span.style.opacity = 1;
+              typeof Sound !== 'undefined' && Sound.event('dialogue.letter', letter);
             }, speed * index);
           });
         }

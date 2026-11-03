@@ -24,6 +24,7 @@ const Sound = (function () {
   let format;                    // undefined = not checked yet, null = nothing playable
   let lettersSinceBlip = 0;
   let lastBlipAt = 0;
+  let pendingClick = null;       // a click's event, held until the click is handled
 
   const buffers = new Map();     // sound name → AudioBuffer[]
   const loading = new Set();     // sound names being fetched or decoded
@@ -244,6 +245,8 @@ const Sound = (function () {
     const name = cfg.events[eventName];
     if (typeof name !== 'string') return;
     if (eventName === 'dialogue.letter' && !shouldBlip(cfg, detail)) return;
+    // A sound fired while a click is being handled replaces its plain click.
+    pendingClick = null;
     play(name);
   }
 
@@ -259,7 +262,22 @@ const Sound = (function () {
   }
 
   // Delegated click sounds. Capture phase, and it never stops or prevents the
-  // click, so it can't interfere with the game's own handlers.
+  // click, so it can't interfere with the game's own handlers. The sound waits
+  // until the click has been handled: if a handler plays its own sound during
+  // the click (a modal, an activity or the hint opening), that one plays instead.
+  function flushClick() {
+    const eventName = pendingClick;
+    pendingClick = null;
+    if (eventName) event(eventName);
+  }
+
+  function holdClick(eventName) {
+    pendingClick = eventName;
+    // Normally flushed by the window listener below; this covers a handler
+    // that stops the click from bubbling.
+    setTimeout(safe('click', flushClick), 0);
+  }
+
   function onDocumentClick(e) {
     const cfg = config();
     if (!cfg || muted || !isAvailable()) return;
@@ -269,7 +287,7 @@ const Sound = (function () {
     const override = target.closest('[data-sfx]');
     if (override) {
       const value = override.getAttribute('data-sfx');
-      if (value !== 'none' && !isDisabledControl(override)) event(value);
+      if (value !== 'none' && !isDisabledControl(override)) holdClick(value);
       return;
     }
 
@@ -277,13 +295,14 @@ const Sound = (function () {
     for (let i = 0; i < rules.length; i++) {
       const control = target.closest(rules[i].match);
       if (control) {
-        if (!isDisabledControl(control)) event(rules[i].event);
+        if (!isDisabledControl(control)) holdClick(rules[i].event);
         return;
       }
     }
   }
 
   document.addEventListener('click', safe('click', onDocumentClick), true);
+  window.addEventListener('click', safe('click', flushClick));
 
   document.addEventListener('visibilitychange', safe('visibility', function () {
     if (!ctx) return;

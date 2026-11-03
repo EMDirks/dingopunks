@@ -348,6 +348,7 @@ function setComplete(activityArrayIndex){
     let userArray = resource.challengeArray[activityArrayIndex].questions.code.userArray;
     if (resource.challengeArray[activityArrayIndex].questions.code.answer !== userArray.join('').toUpperCase() && numInputsFilled == resource.challengeArray[activityArrayIndex].questions.code.answer.length) {
       if (!wouldTriggerLockout(activityArrayIndex)) { findNonIdenticalIndices(answerArray,userArray); }
+      typeof Sound !== 'undefined' && Sound.event('code.wrong');
       registerWrongCodeAttempt(activityArrayIndex);
     }
 
@@ -393,6 +394,7 @@ function setComplete(activityArrayIndex){
       // set state
       if (resource.challengeArray[activityArrayIndex].info.state !== "complete"){
         debriefStats.activitiesCompleted = debriefStats.activitiesCompleted + 1;    
+        typeof Sound !== 'undefined' && Sound.event('code.correct');
       }
       resource.challengeArray[activityArrayIndex].info.state = "complete";  
 
@@ -470,6 +472,7 @@ function setComplete(activityArrayIndex){
     let userArray = resource.activityArray[activityArrayIndex-1].userCode;
     if (resource.activityArray[activityArrayIndex-1].code !== userArray.join('').toUpperCase() && numInputsFilled == resource.activityArray[activityArrayIndex-1].code.length) {
       if (!wouldTriggerLockout(activityArrayIndex - 1)) { findNonIdenticalIndices(answerArray,userArray); }
+      typeof Sound !== 'undefined' && Sound.event('code.wrong');
       registerWrongCodeAttempt(activityArrayIndex - 1);
     }
 
@@ -515,6 +518,7 @@ function setComplete(activityArrayIndex){
       // set state
       if (resource.activityArray[activityArrayIndex-1].state !== "complete"){
         debriefStats.activitiesCompleted = debriefStats.activitiesCompleted + 1;    
+        typeof Sound !== 'undefined' && Sound.event('code.correct');
       }
       resource.activityArray[activityArrayIndex-1].state = "complete";  
 
@@ -641,12 +645,17 @@ function openHintModal(parameter){
   }
   // ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌
 
+  // Closing an activity also closes its hint; only the activity's close sound plays then.
   if (openState.hint === false){
     toggleClass(activityModalHint, 'activity-modal-hint--hidden', 'activity-modal-hint--visible');
     openState.hint = true;
+    typeof Sound !== 'undefined' && Sound.event('hint.open');
   } else if (openState.hint === true){
     toggleClass(activityModalHint, 'activity-modal-hint--visible', 'activity-modal-hint--hidden');
     openState.hint = false;
+    if (parameter !== 'closingActivity') {
+      typeof Sound !== 'undefined' && Sound.event('hint.close');
+    }
   } 
 }
 
@@ -673,6 +682,7 @@ function openActivityModal(i) {
         });
       }
       toggleClass(activity, "state-display-none", "state-display-block");
+      typeof Sound !== 'undefined' && Sound.event('activity.open');
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -746,6 +756,7 @@ function openActivityModal(i) {
         });
       }
       toggleClass(activity, "state-display-none", "state-display-block");
+      typeof Sound !== 'undefined' && Sound.event('activity.open');
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -765,7 +776,7 @@ function openActivityModal(i) {
 }
 function closeActivityModal(){
   if (openState.hint === true){
-    setTimeout(openHintModal,300);
+    setTimeout(openHintModal,300,'closingActivity');
   }
   setTimeout(scrollToTop,300,activityModalWrapper);
   toggleClass(activityModal, "activity-modal--open", "activity-modal--close");

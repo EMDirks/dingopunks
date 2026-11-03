@@ -443,6 +443,11 @@ const machineContainer = document.querySelector('.machine-container');
 const machineColumnLeft = document.querySelector('.machine-column-left');
 const machineColumnRight = document.querySelector('.machine-column-right');
 const activityModalHintButton = document.querySelector('.activity-modal-hint-button');
+// These close the activity 50ms after the click, so they play its close sound
+// directly instead of a click followed by a second sound (see js/sound-config.js).
+[buttonCloseModal, activityButtonDone].forEach(function(button) {
+  if (button) button.setAttribute('data-sfx', 'activity.close');
+});
 const scrollUp = document.querySelector('.scroll-up');
 const body = document.querySelector('body');
 const background = document.querySelector('.background');
@@ -1799,6 +1804,7 @@ modalX.addEventListener("click", function() {
 });
 
 function toggleModalVisibility(){
+  typeof Sound !== 'undefined' && Sound.event(isModalVisible ? 'modal.close' : 'modal.open');
   if (isModalVisible === false){
     toggleClass(modal,"modal--hidden","modal--visible");
     toggleClass(modalPopup,"modal__popup--hidden","modal__popup--visible");

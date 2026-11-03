@@ -110,7 +110,7 @@ function drawScene(activityArrayIndex) {
   
       // modify elements
       setTimeout(toggleClass, 900, activitySceneCharacter, "activity-scene-character--hidden", "activity-scene-character--visible");
-      setTimeout(toggleClass, 1300, activityScenedialogueWrapper, "activity-scene-dialogue-wrapper--close", "activity-scene-dialogue-wrapper--open");
+      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);
       activitySceneButtonStart.addEventListener('click', myFunction);
       function myFunction() {
         toggleClass(activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
@@ -181,6 +181,10 @@ function drawScene(activityArrayIndex) {
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
+                  // Text from a closed activity keeps typing off-screen; keep it silent.
+                  if (characterSpan.isConnected && characterSpan.offsetParent !== null) {
+                    typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
+                  }
               }, i * typewriterDelay);
           }
           element.appendChild(characterSpan);
@@ -280,7 +284,7 @@ function drawScene(activityArrayIndex) {
   
       // modify elements
       setTimeout(toggleClass, 900, activitySceneCharacter, "activity-scene-character--hidden", "activity-scene-character--visible");
-      setTimeout(toggleClass, 1300, activityScenedialogueWrapper, "activity-scene-dialogue-wrapper--close", "activity-scene-dialogue-wrapper--open");
+      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);
       activitySceneButtonStart.addEventListener('click', myFunction);
       function myFunction() {
         toggleClass(activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
@@ -343,6 +347,10 @@ function drawScene(activityArrayIndex) {
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
+                  // Text from a closed activity keeps typing off-screen; keep it silent.
+                  if (characterSpan.isConnected && characterSpan.offsetParent !== null) {
+                    typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
+                  }
               }, i * typewriterDelay);
           }
           element.appendChild(characterSpan);
@@ -357,4 +365,8 @@ function drawScene(activityArrayIndex) {
 }
 
 
-
+// Opens an activity scene's dialogue box and plays its sound.
+function openSceneDialogue(wrapper) {
+  toggleClass(wrapper, "activity-scene-dialogue-wrapper--close", "activity-scene-dialogue-wrapper--open");
+  typeof Sound !== 'undefined' && Sound.event('scene.open');
+}

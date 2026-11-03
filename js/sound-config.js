@@ -62,8 +62,8 @@ const SOUND_CONFIG = {
   // Delegated clicks: first matching selector wins. An element (or ancestor) with
   // data-sfx="<event>" plays that event instead; data-sfx="none" silences it.
   // [disabled], *--disabled and *--inactive elements are ignored.
-  // Elements that fire an explicit event (activity nodes, hint button, menu button)
-  // are deliberately left out so each action plays exactly one sound.
+  // One sound per tap: if the click itself fires a sound (a modal, an activity or
+  // the hint opening), that sound replaces the plain click.
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key' },
     { match: '.tab-button, .character-select-button', event: 'ui.tab' },
@@ -78,4 +78,6 @@ const SOUND_CONFIG = {
   dialogue: { every: 2, skip: ' .,!?\'"', minGapMs: 45 },
 
   // data-sfx used in game code (keep this list current):
+  //   js/global.js       .button-close-modal, .activity-button-done  "activity.close"
+  //                      (they close the activity 50ms after the click)
 };
