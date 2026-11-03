@@ -419,7 +419,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     const email = signUpEmailInput.value.trim();
 
     if (isStudentEmail(email)) {
-      showAuthMessage("error", "You cannot sign up with a student email.");
+      showAuthMessage("error", "You can't sign up with a student email address. Please use a different one.");
       signUpEmailInput.focus();
       return;
     }
