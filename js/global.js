@@ -2060,6 +2060,9 @@ function preloadImages(imagePathsArray, priority) {
 }
 
 function handlePreloading(eventName) {
+  // Which sounds load at which moment is set in SOUND_CONFIG.preload.
+  typeof Sound !== 'undefined' && Sound.onPreloadEvent(eventName);
+
   // Function to preload assets with a delay
   function preloadAssetsWithDelay(eventAssets, priorityLevel) {
     if (eventAssets) {
