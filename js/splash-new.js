@@ -336,8 +336,6 @@ function submitMembershipCode(code) {
     .then(function(game) {
       // Stays pending: the inputs are on their way out either way.
       launchMembershipGame(game, 0);
-      // After the launch has read the teacher's Audio setting, so it's silent when off.
-      typeof Sound !== 'undefined' && Sound.event('access.correct');
     })
     .catch(function(error) {
       membershipLookupPending = false;
@@ -927,7 +925,6 @@ function checkIfAccessInputIsFilled() {
             analyticsArray[matchIndexMain].resources[matchIndexSub]
               .googleAnalyticsID.match(/\d+/g).join('')
           ) {
-            typeof Sound !== 'undefined' && Sound.event('access.correct');
             loadResourceGame(
               analyticsArray[matchIndexMain].path,
               analyticsArray[matchIndexMain].resources[matchIndexSub].resourceJS,
@@ -962,6 +959,9 @@ function removeAccessInputs(){
   for (var i = 0; i < accessElements.length; i++) {
     accessElements[i].classList.add('access-input--verified');
   }
+  // Plays as the boxes pop gold. By now a share code's launch has read the
+  // teacher's Audio setting, so it's silent when that's off.
+  typeof Sound !== 'undefined' && Sound.event('access.correct');
 
 
   let j = 0;

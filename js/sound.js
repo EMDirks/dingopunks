@@ -245,9 +245,10 @@ const Sound = (function () {
     return true;
   }
 
-  // An event maps to a sound name, or to { sound, skipAfterMs } to stay quiet
-  // when another sound started within that many ms (e.g. a popup that opens
-  // right after the wrong-code sound).
+  // An event maps to a sound name, or to { sound, skipAfterMs, delay }:
+  // skipAfterMs stays quiet when another sound started within that many ms
+  // (e.g. a popup that opens right after the wrong-code sound); delay plays the
+  // sound that many ms later, to line it up with an animation.
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events || muted) return;
@@ -262,6 +263,10 @@ const Sound = (function () {
     // A sound fired while a click is being handled replaces its plain click.
     pendingClick = null;
     if (!playingClick && eventName !== 'dialogue.letter') lastGameSoundAt = performance.now();
+    if (mapping.delay > 0) {
+      setTimeout(safe('event', function () { play(name); }), mapping.delay);
+      return;
+    }
     play(name);
   }
 
