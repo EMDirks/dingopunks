@@ -632,7 +632,7 @@ button, input[type="submit"], input[type="reset"] {
 	height: 24px;
 	border-radius: 12px;
 	border: 2px solid rgba(var(--off-black), 1);
-	background-color: rgba(var(--metal-gray-light), 1);
+	background-color: rgba(var(--off-white), 1);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease;
 }
