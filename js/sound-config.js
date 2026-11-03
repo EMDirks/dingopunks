@@ -80,4 +80,5 @@ const SOUND_CONFIG = {
   // data-sfx used in game code (keep this list current):
   //   js/global.js       .button-close-modal, .activity-button-done  "activity.close"
   //                      (they close the activity 50ms after the click)
+  //   js/global-menu.js  .global-menu__sound-toggle  "none"  (plays ui.toggle itself when turned on)
 };

@@ -512,6 +512,9 @@ button, input[type="submit"], input[type="reset"] {
 	.global-menu__kids-link {
 		border-width: 1.5px !important;
 	}
+	.global-menu__sound-toggle {
+		font-size: 16px;
+	}
 	.global-menu__kids-link--inactive .global-menu__kids-link-content {
 		border-width: 1.5px !important;
 	}
@@ -603,6 +606,60 @@ button, input[type="submit"], input[type="reset"] {
 	position: relative;
 	border: 2.5px solid rgba(var(--off-black), 1);
 	background-color: rgba(var(--off-black), 1);
+}
+
+/* Student Sound toggle: a small switch under the cards. Only rendered when the
+   teacher hasn't turned Audio off. */
+.global-menu__sound-toggle {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	align-self: center;
+	margin: 0;
+	padding: 4px 6px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: 20px;
+	line-height: 1;
+	color: rgba(var(--off-black), 1);
+}
+
+.global-menu__sound-toggle-track {
+	position: relative;
+	width: 44px;
+	height: 24px;
+	border-radius: 12px;
+	border: 2px solid rgba(var(--off-black), 1);
+	background-color: rgba(var(--metal-gray-light), 1);
+	box-sizing: border-box;
+	transition: background-color 0.15s ease;
+}
+
+.global-menu__sound-toggle-thumb {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: rgba(var(--off-black), 1);
+	transition: transform 0.15s ease;
+}
+
+.global-menu__sound-toggle[aria-checked="true"] .global-menu__sound-toggle-track {
+	background-color: rgba(var(--teal), 1);
+}
+
+.global-menu__sound-toggle[aria-checked="true"] .global-menu__sound-toggle-thumb {
+	transform: translateX(20px);
+}
+
+.global-menu__sound-toggle:focus-visible {
+	outline: 2px solid rgba(var(--off-black), 1);
+	outline-offset: 2px;
+	border-radius: 6px;
 }
 
 /* Bonus Missions hidden: two cards. The popup shrinks to two thirds of the
