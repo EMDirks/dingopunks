@@ -339,6 +339,31 @@ const Sound = (function () {
     }
   }
 
+  // The same keys the game's own input handler accepts (js/global.js), so a
+  // rejected key stays silent. Falls back to letters and digits on pages without it.
+  function isTypingKey(e) {
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return false;
+    if (typeof allowedKeys !== 'undefined' && typeof allowedLetters !== 'undefined') {
+      return allowedKeys.includes(e.key) || allowedLetters.test(e.key);
+    }
+    return /^[a-z0-9]$/i.test(e.key) || e.key === 'Backspace' || e.key === 'Delete';
+  }
+
+  // Hardware keyboard sounds. Capture phase, so the key sounds before the game
+  // checks the code and plays correct/wrong.
+  function onDocumentKeydown(e) {
+    const cfg = config();
+    if (!cfg || muted || !isAvailable() || !(e.target instanceof Element)) return;
+    const rules = cfg.typing || [];
+    for (let i = 0; i < rules.length; i++) {
+      if (e.target.matches(rules[i].match)) {
+        if (!isDisabledControl(e.target) && isTypingKey(e)) playClickNow(rules[i].event);
+        return;
+      }
+    }
+  }
+
+  document.addEventListener('keydown', safe('keydown', onDocumentKeydown), true);
   document.addEventListener('pointerdown', safe('click', onDocumentTap), true);
   document.addEventListener('click', safe('click', onDocumentTap), true);
   window.addEventListener('click', safe('click', flushClick));
