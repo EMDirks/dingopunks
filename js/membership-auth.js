@@ -144,6 +144,20 @@ function formIsValid(form) {
   return false;
 }
 
+// School-issued student addresses ("student" anywhere, or an all-digit local
+// part like 74892@cuisd.com) bounce and hurt deliverability, so sign-up turns
+// them away. Mirrors isStudentEmail in firebase-functions/mailerlite.js, which
+// also keeps Google sign-ups with such addresses out of MailerLite.
+function isStudentEmail(email) {
+  if (typeof email !== "string") return false;
+  const at = email.lastIndexOf("@");
+  if (at < 0) return false;
+
+  const normalized = email.trim().toLowerCase();
+  if (normalized.includes("student")) return true;
+  return /^\d+$/.test(normalized.slice(0, normalized.lastIndexOf("@")));
+}
+
 // Email verification is a soft gate: any signed-in user reaches the dashboard,
 // which shows a verify banner and withholds share-code creation and
 // printables until the link is clicked (see membership/email-verification.js).
@@ -403,6 +417,12 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     const passwordInput = document.getElementById("dpaam-auth-signup-password");
     const submit = document.getElementById("dpaam-auth-signup-submit");
     const email = signUpEmailInput.value.trim();
+
+    if (isStudentEmail(email)) {
+      showAuthMessage("error", "You cannot sign up with a student email.");
+      signUpEmailInput.focus();
+      return;
+    }
 
     clearAuthMessages();
     setButtonLoading(submit, true, "Creating account…");

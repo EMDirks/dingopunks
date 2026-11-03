@@ -11,6 +11,7 @@ import {
   deleteSubscriber,
   findSubscriber,
   isDisposableEmail,
+  isStudentEmail,
   planFieldValue,
   planSyncForChange,
   shouldSubscribe,
@@ -60,6 +61,14 @@ describe("shouldSubscribe", () => {
     assert.equal(shouldSubscribe({ ...verifiedPending, email: "" }), false);
   });
 
+  test("never subscribes a student address, even when verified", () => {
+    assert.equal(shouldSubscribe({ ...verifiedPending, email: "74892@cuisd.com" }), false);
+    assert.equal(
+      shouldSubscribe({ ...verifiedPending, email: "jsmith@student.cuisd.org" }),
+      false,
+    );
+  });
+
   test("never subscribes a disposable address, even when verified", () => {
     const domains = new Set(["mailinator.com"]);
     assert.equal(
@@ -67,6 +76,33 @@ describe("shouldSubscribe", () => {
       false,
     );
     assert.equal(shouldSubscribe(verifiedPending, domains), true);
+  });
+});
+
+describe("isStudentEmail", () => {
+  test("matches 'student' anywhere in the address, case-insensitively", () => {
+    assert.equal(isStudentEmail("student123@cuisd.org"), true);
+    assert.equal(isStudentEmail("jsmith@student.cuisd.org"), true);
+    assert.equal(isStudentEmail("JSmith@Students.CUISD.org"), true);
+  });
+
+  test("matches an all-digit local part", () => {
+    assert.equal(isStudentEmail("74892@cuisd.com"), true);
+    assert.equal(isStudentEmail("  74892@cuisd.com  "), true);
+  });
+
+  test("does not match teacher-looking addresses", () => {
+    assert.equal(isStudentEmail("teacher@cuisd.org"), false);
+    assert.equal(isStudentEmail("msmith1987@cuisd.org"), false);
+    assert.equal(isStudentEmail("s1234567@cuisd.org"), false);
+    assert.equal(isStudentEmail("jane.doe@gmail.com"), false);
+  });
+
+  test("returns false for missing or malformed addresses", () => {
+    assert.equal(isStudentEmail(null), false);
+    assert.equal(isStudentEmail(undefined), false);
+    assert.equal(isStudentEmail("no-at-sign"), false);
+    assert.equal(isStudentEmail("12345"), false);
   });
 });
 

@@ -46,10 +46,27 @@ export function isDisposableEmail(email, domains = DISPOSABLE_EMAIL_DOMAINS) {
 }
 
 /**
+ * Whether an address looks school-issued to a student: "student" anywhere in
+ * it (`jsmith@student.cuisd.org`) or an all-digit local part (`74892@cuisd.com`).
+ * Student inboxes often bounce, so they never reach MailerLite. Deliberately
+ * not widened to letter+digits (`s1234567@`): that starts catching teachers.
+ * Mirrored client-side in js/membership-auth.js — keep the two in sync.
+ */
+export function isStudentEmail(email) {
+  if (typeof email !== "string") return false;
+  const at = email.lastIndexOf("@");
+  if (at < 0) return false;
+
+  const normalized = email.trim().toLowerCase();
+  if (normalized.includes("student")) return true;
+  return /^\d+$/.test(normalized.slice(0, normalized.lastIndexOf("@")));
+}
+
+/**
  * Whether an account should be added to MailerLite right now. Only accounts
  * still pending and whose address Firebase reports as verified qualify; an
  * unverified address stays pending and is retried on a later profile load.
- * Disposable addresses never qualify.
+ * Disposable and student addresses never qualify.
  */
 export function shouldSubscribe(
   { mailerliteStatus, emailVerified, email },
@@ -60,7 +77,8 @@ export function shouldSubscribe(
     emailVerified === true &&
     typeof email === "string" &&
     email.length > 0 &&
-    !isDisposableEmail(email, domains)
+    !isDisposableEmail(email, domains) &&
+    !isStudentEmail(email)
   );
 }
 

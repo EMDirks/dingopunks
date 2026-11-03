@@ -23,12 +23,16 @@ Target **~30 days after public launch** (early November 2026). Review only — n
   - Identify false positives, bypasses, or unnecessary friction from the verified-email / MailerLite changes.
   - Make targeted improvements only if the audit reveals actual problems.
 
-- [ ] **Block student emails from signing up.** Membership accounts are for teachers; reject school-issued student addresses (those with "student" or a long string of numbers)
+- [x] **Block student emails from signing up.** Membership accounts are for teachers; reject school-issued student addresses (those with "student" anywhere, or an all-digit local part like 74892@cuisd.com). The email sign-up form rejects them with an in-modal error. Google sign-ups can't be intercepted before the account exists, so `ensureUserProfile` marks such accounts `mailerliteStatus: "skipped"` (same gate as disposable domains) and they never reach MailerLite — which is where the bounces came from.
 
 
 ## P2 — Next / High-Value Improvements
 
 Do these after P1, but don't let them delay Elsewhere Post or regular escape-room production.
+
+- [ ]**Recapture failed payments** https://www.reddit.com/r/SaaS/comments/1sfnkaj/saas_founders_whats_your_current_process_for/
+
+-[ ] **Intentional technology commitment page**
 
 -[ ] **Add ability for users to change their own emails**
 
