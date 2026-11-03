@@ -15,6 +15,8 @@ let pinLockoutTimeoutId = null;
 let pinLockoutIntervalId = null;
 const PIN_MAX_ATTEMPTS = 5;
 const PIN_LOCKOUT_SECONDS = 60;
+// Matches the access-shake animation in splash.css (0.2s x 2).
+const ACCESS_FLASH_MS = 400;
 const splashTransitionDuration = 170;
 const version = '4.0.68';
 
@@ -254,7 +256,7 @@ function flashAccessInputs() {
   const cells = document.querySelectorAll('.access-input');
   for (let i = 0; i < cells.length; i++) {
     toggleClass(cells[i], 'access-input--no-flash', 'access-input--flash');
-    setTimeout(clearCells, 400, cells[i], i);
+    setTimeout(clearCells, ACCESS_FLASH_MS, cells[i], i);
   }
 
   function clearCells(cell, i) {
@@ -284,7 +286,8 @@ function showBadCodeModal(code) {
     (pathname === '/' ||
       pathname.endsWith('/index.html') ||
       pathname.endsWith('/index'));
-  createModal(
+  // Held until the cells finish shaking (and are cleared) before the popup opens.
+  setTimeout(createModal, ACCESS_FLASH_MS,
     "That code didn't work.",
     "Game code <span class = 'p--highlight'>" + displayCode + "</span> is either incorrect or expired. " + suffix,
     "Close",
