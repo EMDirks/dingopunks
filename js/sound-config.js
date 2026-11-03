@@ -11,14 +11,19 @@ const SOUND_CONFIG = {
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   sounds: {
-    click:   { src: ['click1'],                     volume: 0.5 },
+
+    // Use for toggled systems with an open/close state
+    open:    { src: ['switch1'],                    volume: 0.45 },
+    close:   { src: ['switch2'],                    volume: 0.4 },
+
+
+    click:   { src: ['click3'],                     volume: 0.5 },
     key:     { src: ['click3'], volume: 0.35 },                // code keyboard
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // setup tabs, character pick
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
     whoosh:  { src: ['switch22'],                   volume: 0.45 },
-    open:    { src: ['switch2'],                    volume: 0.45 },
-    close:   { src: ['switch3'],                    volume: 0.4 },
+
     hint:    { src: ['switch18'],                   volume: 0.5 },
     correct: { src: ['correct.wav'],                volume: 0.5 },                 // made by tools/sfx-library/make-code-sounds.py
     wrong:   { src: ['wrong.wav'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
@@ -38,10 +43,13 @@ const SOUND_CONFIG = {
     'activity.close':    'close',
     'hint.open':         'hint',
     'hint.close':        'close',
-    'modal.open':        { sound: 'open', skipAfterMs: 150 },  // quiet when it follows another sound
+
+    'modal.open':        'open',
     'modal.close':       'close',
-    'menu.open':         'click',    // the global menu (it opens as a modal, instead of modal.open)
+
+    'menu.open':         'open',
     'menu.close':        'close',
+    
     'access.correct':    'correct',  // game code accepted on the code-entry screen
     'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
     'code.correct':      null,       // activity code inputs; → 'correct' to turn on

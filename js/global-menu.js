@@ -33,11 +33,13 @@ const kidsCardImages = {
 
 const KIDS_LINK_ENTER_BASE_DELAY_MS = 200;
 const KIDS_LINK_ENTER_STAGGER_MS = 100;
+// Student cards wait this long before navigating, so their click sound plays.
+const KIDS_LINK_NAVIGATE_DELAY_MS = 200;
 
 function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, lockLabel, staggerIndex = 0 }) {
   const tag = inactive ? 'span' : 'a';
   const hrefAttr = !inactive && refresh
-    ? ' href="#" onclick="window.location.reload(); return false;"'
+    ? ' href="#" data-reload'
     : !inactive && href ? ` href="${href}"` : '';
   const inactiveClass = inactive ? ' global-menu__kids-link--inactive' : '';
   const imageKeyClass = imageKey ? ` global-menu__kids-link--${imageKey}` : '';
@@ -258,6 +260,33 @@ function rememberSoundMuted(muted) {
     }
   }
 }
+
+(function initGlobalMenuKidsLinkDelay() {
+  let navigating = false;
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a.global-menu__kids-link');
+    if (!link || !link.closest('.modal__popup--global-menu')) {
+      return;
+    }
+    // Leave new-tab / new-window clicks to the browser.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
+    e.preventDefault();
+    if (navigating) {
+      return;
+    }
+    navigating = true;
+    const href = link.getAttribute('href');
+    setTimeout(function() {
+      if (link.hasAttribute('data-reload')) {
+        window.location.reload();
+      } else {
+        window.location.href = href;
+      }
+    }, KIDS_LINK_NAVIGATE_DELAY_MS);
+  });
+})();
 
 (function initGlobalMenuSoundToggle() {
   document.addEventListener('click', function(e) {
