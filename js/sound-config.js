@@ -21,14 +21,15 @@ const SOUND_CONFIG = {
 
     click:   { src: ['click3'],                     volume: 0.5 },
     key:     { src: ['click3'], volume: 0.35 },                // code keyboard
-    tab:     { src: ['switch12'],                   volume: 0.5 },                 // setup tabs, character pick
+    clickWood: { src: ['click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
+    tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs, character pick
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
-    whoosh:  { src: ['card-slide-4'],                   volume: 0.3 },
+    whoosh:  { src: ['swing1'],                     volume: 0.4 },                 // splash swipe-out transitions
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
-    lock:    { src: ['switch_005'],                    volume: 0.2 },                 // placeholder until a lock sound is added
-    correct: { src: ['confirmation_001'],                volume: 0.3 },                 // made by tools/sfx-library/make-code-sounds.py
+    lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
+    correct: { src: ['coin'],                volume: 0.13 },                 // made by tools/sfx-library/make-code-sounds.py
     wrong:   { src: ['error_005'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
   },
 
@@ -56,6 +57,7 @@ const SOUND_CONFIG = {
 
     'menu.open':         'open',
     'menu.close':        'close',
+    'menu.cardIn':       'clickWood', // once per student card, as it starts sliding in
     
     'access.correct':    { sound: 'correct', delay: 0 },  // fires as the code boxes pop gold; delay fine-tunes it
     'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
@@ -77,10 +79,12 @@ const SOUND_CONFIG = {
   // from then on.
   preload: {
     onPageLoad: {
-      // just what the code-entry / room-choice screen needs; the rest loads at onPinInput
-      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong'], delay: 0 },
-      'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong'], delay: 0 },
-      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock'], delay: 0 },
+      // just what the code-entry / room-choice screen needs; the rest loads at onPinInput.
+      // whoosh is here because the first splash swipe-out can come only 200ms after onPinInput.
+      // clickWood is here because the menu can open before a code is entered.
+      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood'], delay: 0 },
+      'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood'], delay: 0 },
       'debrief.html':    { sounds: '*', delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
@@ -98,10 +102,13 @@ const SOUND_CONFIG = {
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
     { match: '.access-input',                         event: 'ui.input', on: 'press' },
+    { match: '.splash-button, .cutscene-next-button, .code-box-button', event: null }, // Next and Finish: no click (the splash button keeps its swipe-out sound)
+    { match: '.tab-button-player-count-, .tab-button-activity-count-, ' +
+             '.tab-button-time-limit-, .tab-button-hints-',   event: 'ui.click' }, // "Set up your escape room" tabs
     { match: '.tab-button, .character-select-button', event: 'ui.tab' },
-    { match: 'button, .button, .splash-button, .cutscene-next-button, ' +
+    { match: 'button, .button, ' +
              '.activity-button-done, .activity-scene-button-start, ' +
-             '.code-box-button, .footer-button-menu, .global-menu__kids-link, ' +
+             '.footer-button-menu, .global-menu__kids-link, ' +
              '.icon-clickable--splash, .button-close-modal',  event: 'ui.click' },
   ],
 

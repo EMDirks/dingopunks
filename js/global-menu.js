@@ -398,6 +398,16 @@ function playInactiveKidsLinkWiggle(link) {
   });
 })();
 
+// Each student card plays its sound as it starts sliding in, so the sounds
+// follow the stagger set by animation-delay in buildKidsLinkCard.
+(function initGlobalMenuCardSound() {
+  document.addEventListener('animationstart', function(e) {
+    if (e.animationName === 'global-menu-kids-link-in') {
+      typeof Sound !== 'undefined' && Sound.event('menu.cardIn');
+    }
+  });
+})();
+
 // Wires the menu button (no-op on pages without one).
 (function initGlobalMenuButton() {
   const buttonMenuGlobal = document.querySelector('.button-menu-global');
