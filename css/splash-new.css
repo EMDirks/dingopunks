@@ -18,6 +18,65 @@
     opacity: 0.1;
 }
 
+/* CRT power-on: a white dot spreads into a scanline, opens to the full panel,
+   then fades to show the cutscene. Only transform and opacity animate, so it
+   stays on the compositor. js/splash-new.js removes the element when it ends.
+   Timed against this: the static's delayMs and the tvOn delay in js/sound-config.js. */
+.cutscene-tv-on {
+    position: absolute;
+    inset: 0;
+    z-index: 1001;
+    background-color: rgba(var(--off-black), 1);
+    pointer-events: none;
+    animation: cutscene-tv-on-fade 0.7s linear 0.2s both;
+}
+
+.cutscene-tv-on::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(var(--off-white), 1);
+    animation: cutscene-tv-on-beam 0.7s 0.2s both;
+}
+
+@keyframes cutscene-tv-on-beam {
+    0% {
+        transform: scale(0, 0);
+        animation-timing-function: ease-out;
+    }
+    12%, 22% {
+        transform: scale(0.012, 0.02);
+        animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    }
+    45% {
+        transform: scale(1, 0.012);
+        animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+    }
+    70%, 100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes cutscene-tv-on-fade {
+    0%, 70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cutscene-tv-on {
+        animation-duration: 0.01s;
+        animation-delay: 0s;
+    }
+    .cutscene-tv-on::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
 .cutscene-static-overlay {
     width: 100%;
     height: 100%;

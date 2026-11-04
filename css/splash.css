@@ -159,6 +159,37 @@
     .splash-container--off-left {
         transform: translate(-10%, 0%);
         opacity: 0;
+        animation: splash-step-out 0.3s both;
+    }
+
+    /* Winds up to the right and toward the viewer, then whips off to the left.
+       Shared with .keyboard-splash--off-left; vmin keeps the two moving the same distance.
+       Length matches splashExitDuration in js/splash-new.js. */
+    @keyframes splash-step-out {
+        0% {
+            opacity: 1;
+            transform: translate(0%, 0%) scale(1);
+            animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+        }
+        35% {
+            opacity: 1;
+            transform: translate(2vmin, 0%) scale(1.02);
+            animation-timing-function: cubic-bezier(0.7, 0, 0.9, 0.5);
+        }
+        75% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50vmin, 0%) scale(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .splash-container--off-left,
+        .keyboard-splash--off-left {
+            animation: none;
+        }
     }
 
     .splash-container--center-opacity-0 {
@@ -178,11 +209,9 @@
         top: 0%;
         right: 50%;
         transform: translate(50%, 0%);
-        box-shadow: 0 0.3vmin 1vmin rgba(var(--off-black), 0.3);
         border-radius: 2vmin;
         box-sizing: border-box;
         display: block;
-        transition: opacity 0.25s, transform 0.25s;
     }
 
     .splash-logo--hidden {
@@ -193,6 +222,42 @@
     .splash-logo--visible {
         opacity: 1;
         transform: translate(50%, 0%) rotate(0deg) scale(1);
+        animation: splash-logo-toss-in 0.7s both;
+    }
+
+    /* Tossed up from below: overshoots, wobbles, settles. The 50% keeps it centered. */
+    @keyframes splash-logo-toss-in {
+        0% {
+            opacity: 0;
+            transform: translate(50%, 35%) rotate(-14deg) scale(0.55);
+            animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        15% {
+            opacity: 1;
+        }
+        45% {
+            transform: translate(50%, -4%) rotate(3deg) scale(1.07);
+            animation-timing-function: ease-in-out;
+        }
+        70% {
+            transform: translate(50%, 1%) rotate(-1.2deg) scale(0.985);
+            animation-timing-function: ease-in-out;
+        }
+        100% {
+            opacity: 1;
+            transform: translate(50%, 0%) rotate(0deg) scale(1);
+        }
+    }
+
+    @keyframes splash-logo-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .splash-logo--visible {
+            animation: splash-logo-fade-in 0.25s both;
+        }
     }
 
     .splash-button {
@@ -334,6 +399,7 @@
     .keyboard-splash--off-left {
         transform: translate(-30%, 0%);
         opacity: 0;
+        animation: splash-step-out 0.3s both;
     }
 
     .keyboard-button--splash {

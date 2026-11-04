@@ -112,8 +112,26 @@
 .activity-node--visible {
     opacity: 1;
     transform: translateY(0%);
-    /* animation: node-bounce 0.1s ease-in-out 1; */
-    animation-delay: 0.2s;
+    animation: activity-node-in 0.18s;
+}
+
+/* First reveal only: --visible comes off when an activity opens and isn't added
+   back, so hover and press keep their own transition. */
+@keyframes activity-node-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%);
+        animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+    }
+    65% {
+        opacity: 1;
+        transform: translateY(4%);
+        animation-timing-function: ease-out;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
 }
 
 .activity-node--unclickable {
