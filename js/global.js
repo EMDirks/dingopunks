@@ -479,7 +479,10 @@ function createFooter(){
   
   setTimeout(bringInFooter,200);
   function bringInFooter(){
-    setTimeout(toggleClass,500,footer, 'footer--hidden', 'footer--visible');
+    setTimeout(function() {
+      toggleClass(footer, 'footer--hidden', 'footer--visible');
+      typeof Sound !== 'undefined' && Sound.event('timer.in');
+    },500);
     startTimer();
   }
   

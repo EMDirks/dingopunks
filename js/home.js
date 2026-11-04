@@ -2,6 +2,12 @@
 // create activity nodes
 ////////////////////////
 
+// First reveal only. Nodes returning after an activity closes stay silent.
+function slideInActivityNode(activityNode){
+    toggleClass(activityNode, "activity-node--hidden", "activity-node--visible");
+    typeof Sound !== 'undefined' && Sound.event('activity.nodeIn');
+}
+
 function createActivityNodes(timeSelection){
 
     handlePreloading('onGameStart');
@@ -82,14 +88,14 @@ function createActivityNodes(timeSelection){
                 activityNodeContainer.classList.add("activity-node-container--center");
                 activityModal.classList.add("activity-modal--center");
                 nodeDelay = 800;
-                nodeTimeFactor = 300;
+                nodeTimeFactor = 180;
             } else {
                 activityNodeContainer.classList.add("activity-node-container--right");
                 activityModal.classList.add("activity-modal--right");
                 nodeDelay = 1700;
-                nodeTimeFactor = 300;
+                nodeTimeFactor = 180;
             }
-            setTimeout(toggleClass, (nodeDelay + i * nodeTimeFactor), activityNode, "activity-node--hidden", "activity-node--visible");
+            setTimeout(slideInActivityNode, (nodeDelay + i * nodeTimeFactor), activityNode);
             setTimeout(toggleClass, (nodeDelay + (nodeTimeFactor * (resource.challengeArray.length + 1))), activityNode, "activity-node--unclickable", "activity-node--clickable");
         }
     }
@@ -144,15 +150,15 @@ function createActivityNodes(timeSelection){
                 activityNodeContainer.classList.add("activity-node-container--center");
                 activityModal.classList.add("activity-modal--center");
                 nodeDelay = 800;
-                nodeTimeFactor = 300;
+                nodeTimeFactor = 180;
             } else {
                 activityNodeContainer.classList.add("activity-node-container--right");
                 activityModal.classList.add("activity-modal--right");
                 nodeDelay = 1700;
-                nodeTimeFactor = 300;
+                nodeTimeFactor = 180;
             }
         
-            setTimeout(toggleClass, (nodeDelay + i * nodeTimeFactor), activityNode, "activity-node--hidden", "activity-node--visible");
+            setTimeout(slideInActivityNode, (nodeDelay + i * nodeTimeFactor), activityNode);
             setTimeout(toggleClass, (nodeDelay + (nodeTimeFactor * (resource.activityArray.length + 1))), activityNode, "activity-node--unclickable", "activity-node--clickable");
         }
         

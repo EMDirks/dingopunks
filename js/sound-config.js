@@ -19,32 +19,51 @@ const SOUND_CONFIG = {
     // Use for selecting an item with focus state
     select:  { src: ['switch3'],                 volume: 0.2 },
 
-    click:   { src: ['click3'],                     volume: 0.5 },
+    click:   { src: ['click3'],                     volume: 0.4 },
     key:     { src: ['click3'], volume: 0.35 },                // code keyboard
     clickWood: { src: ['click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
-    tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs, character pick
+    slapPaper: { src: ['card-slide-2'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
+    slapMetal: { src: ['match-wood-1'],        volume: 0.05 },                 // game timer landing
+    tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
-    blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
-    whoosh:  { src: ['swing1'],                     volume: 0.4 },                 // splash swipe-out transitions
+    blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
+    typewriter: { src: ['ken-blip-1'], volume: 0.1, pitch: [1.4, 1.5], maxVoices: 4 }, // cutscene text
+    whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
+    chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
+    static:  { src: ['free-static-2.wav'],                 volume: 0.1 },                // cutscene background loop
+    tvOn:    { src: ['free-tvOn.wav'],               volume: 0.1 },                 // cutscene coming in
+    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // cutscene Next, moving to the next scene
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
-    correct: { src: ['coin'],                volume: 0.13 },                 // made by tools/sfx-library/make-code-sounds.py
+    correct: { src: ['coin'],                volume: 0.1 },                 // made by tools/sfx-library/make-code-sounds.py
     wrong:   { src: ['error_005'],                  volume: 0.45 },                // made by tools/sfx-library/make-code-sounds.py
   },
 
   // Game events → sound name. null = silent on purpose. Unknown events are ignored.
   // { sound, skipAfterMs } stays quiet if another sound started within skipAfterMs.
   // { sound, delay } plays that many ms after the event fires.
+  // { sound, skipIfLocked: true } stays quiet until the player has tapped, for sounds
+  // that aren't caused by a tap and would otherwise play late, on the first tap.
   events: {
     'ui.click':          'click',
     'ui.key':            'key',
     'ui.input':          'select',   // tapping a game code box
     'ui.tab':            'tab',
+    'ui.setting':        'select',   // escape room setup tabs
+    'ui.character':      'select',   // choosing a character
+    'character.allReady': 'chime',   // last character picked, with "All punks ready!"
     'ui.toggle':         'toggle',
-    'splash.transition': 'whoosh',
-    'dialogue.letter':   'blip',
+    'splash.transition': { sound: 'whoosh', delay: 230 },  // tuned by ear against the fly-out
+    'splash.thumbnail':  { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
+    'dialogue.letter':   'blip',     // activity scene dialogue
+    'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
+    'cutscene.next':     'clickGlitch', // Next to the following scene; the last Next stays silent
+    'cutscene.skip':     'clickGlitch', // SKIP INTRO
+    'cutscene.letter':   'typewriter', // intro and outro cutscenes
     'scene.open':        'open',
+    'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
+    'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
     'activity.open':     'open',
     'activity.close':    'close',
     'hint.open':         'hint',
@@ -69,6 +88,13 @@ const SOUND_CONFIG = {
     'undermurk.tier':    null,       // reserved
   },
 
+  // Looping sounds. Game code calls Sound.startLoop(key) and Sound.stopLoop(key).
+  // The volume comes from the sound in `sounds`; remove a key to silence that loop.
+  loops: {
+    // delayMs: the CRT scanline reaches full panel 690ms in (cutscene-tv-on-beam in css/splash-new.css)
+    cutscene: { sound: 'static', delayMs: 690, fadeInMs: 150, fadeOutMs: 400 },  // whole cutscene: intro, outro, fail, Undermurk
+  },
+
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:
   // onPinInput, onSettings, onCharacterSelect, onCutsceneStart, onGameStart,
   // onGameEnd, onDebrief, onUndermurkPage. onPageLoad is fired by sound.js itself
@@ -80,11 +106,11 @@ const SOUND_CONFIG = {
   preload: {
     onPageLoad: {
       // just what the code-entry / room-choice screen needs; the rest loads at onPinInput.
-      // whoosh is here because the first splash swipe-out can come only 200ms after onPinInput.
+      // whoosh and slapPaper are here because the splash can reach them soon after onPinInput.
       // clickWood is here because the menu can open before a code is entered.
-      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood'], delay: 0 },
-      'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood'], delay: 0 },
-      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood'], delay: 0 },
+      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
+      'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
       'debrief.html':    { sounds: '*', delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
@@ -104,8 +130,9 @@ const SOUND_CONFIG = {
     { match: '.access-input',                         event: 'ui.input', on: 'press' },
     { match: '.splash-button, .cutscene-next-button, .code-box-button', event: null }, // Next and Finish: no click (the splash button keeps its swipe-out sound)
     { match: '.tab-button-player-count-, .tab-button-activity-count-, ' +
-             '.tab-button-time-limit-, .tab-button-hints-',   event: 'ui.click' }, // "Set up your escape room" tabs
-    { match: '.tab-button, .character-select-button', event: 'ui.tab' },
+             '.tab-button-time-limit-, .tab-button-hints-',   event: 'ui.setting' }, // "Set up your escape room" tabs
+    { match: '.character-select-button',              event: 'ui.character' },
+    { match: '.tab-button',                           event: 'ui.tab' },
     { match: 'button, .button, ' +
              '.activity-button-done, .activity-scene-button-start, ' +
              '.footer-button-menu, .global-menu__kids-link, ' +

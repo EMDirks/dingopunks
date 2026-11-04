@@ -18,6 +18,8 @@ const PIN_LOCKOUT_SECONDS = 60;
 // Matches the access-shake animation in splash.css (0.2s x 2).
 const ACCESS_FLASH_MS = 400;
 const splashTransitionDuration = 170;
+// How long a step takes to wind up and slide out; keep in step with splash-step-out in css/splash.css.
+const splashExitDuration = 300;
 const version = '4.0.68';
 
 const promoDelay = 2000;
@@ -571,7 +573,7 @@ function transitionSplash(){
     toggleClass(splashContainer,'splash-container--center','splash-container--off-left');
     toggleClass(keyboardSplash,'keyboard-splash--center','keyboard-splash--off-left');
     // clear container
-    setTimeout(clearSplashScreenContainer,splashTransitionDuration);
+    setTimeout(clearSplashScreenContainer,splashExitDuration);
     function clearSplashScreenContainer(){
       const childrenToRemove = splashContainerWrapper.querySelectorAll("*");
       childrenToRemove.forEach(child => child.remove());   
@@ -584,7 +586,7 @@ function transitionSplash(){
   else {
     toggleClass(splashContainer,'splash-container--center','splash-container--off-left');
     toggleClass(keyboardSplash,'keyboard-splash--center','keyboard-splash--off-left');
-    setTimeout(clearSplashScreenContainer,splashTransitionDuration);
+    setTimeout(clearSplashScreenContainer,splashExitDuration);
     function clearSplashScreenContainer(){
       const childrenToRemove = splashContainerWrapper.querySelectorAll("*");
       childrenToRemove.forEach(child => child.remove());   
@@ -592,10 +594,10 @@ function transitionSplash(){
     }
 
     if (isUndermurkPage){
-      setTimeout(enterUndermurk,splashTransitionDuration);
+      setTimeout(enterUndermurk,splashExitDuration);
     }
     else if (gameMode === "preview" && isPreviewPage && !isAnswersMode){
-      setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'introNoLimit');
+      setTimeout(addCutscene,splashExitDuration,cutsceneIntroIndex,'introNoLimit');
     }
     else if (gameMode === "preview"){
       toggleClass(splash,'splash--visible','splash--hidden');
@@ -606,10 +608,10 @@ function transitionSplash(){
     }
     else {
       if (settings.timeLimit == "No limit"){
-        setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'introNoLimit');
+        setTimeout(addCutscene,splashExitDuration,cutsceneIntroIndex,'introNoLimit');
       }
       else {
-        setTimeout(addCutscene,splashTransitionDuration,cutsceneIntroIndex,'intro');
+        setTimeout(addCutscene,splashExitDuration,cutsceneIntroIndex,'intro');
       }
     }
 
@@ -1011,7 +1013,10 @@ function addTitle(){
     const splashLogo = createElement('img', ['splash-logo', 'splash-logo--hidden'], splashContent);
     splashLogo.setAttribute('src', resource.info.logo);
     // toggle button on delay
-    setTimeout(toggleClass,400,splashLogo,'splash-logo--hidden','splash-logo--visible');
+    setTimeout(function() {
+      toggleClass(splashLogo,'splash-logo--hidden','splash-logo--visible');
+      typeof Sound !== 'undefined' && Sound.event('splash.thumbnail');
+    },400);
     if (directLinkLoader) {
       setTimeout(hideDirectLinkLoader, 400);
     }
@@ -1456,6 +1461,7 @@ function addCharacter(){
   }
   function changeText(){
     splashTitle.textContent = "All punks ready!";
+    typeof Sound !== 'undefined' && Sound.event('character.allReady');
   }
 
   function enterReadyState(){
@@ -1547,9 +1553,11 @@ function addCutscene(cutsceneIndex,section){
   else {
     cutsceneSection = cutscene[section];
   }
+  typeof Sound !== 'undefined' && Sound.event('cutscene.start');
+  typeof Sound !== 'undefined' && Sound.startLoop('cutscene');
   let sceneDelay = 100;
   let initialSceneDelay = 0;
-  let initialTextDelay = 300;
+  let initialTextDelay = 400; // applied twice before typing starts, so typing waits about 970ms
   let performanceDelay = 10;
   const intervalTime = 80;
 
@@ -1564,6 +1572,14 @@ function addCutscene(cutsceneIndex,section){
       }   
     }
   }
+
+  // CRT power-on over the cutscene: dot, scanline, full panel (css/splash-new.css)
+  const cutsceneTvOn = createElement('div',['cutscene-tv-on'],splashContainerWrapper);
+  cutsceneTvOn.addEventListener('animationend', function(event) {
+    if (event.animationName === 'cutscene-tv-on-fade') {
+      cutsceneTvOn.remove();
+    }
+  });
 
   // create html
   let cutsceneTextBox = createElement('div',['cutscene-text-box','cutscene-text-box--hidden--new'],splashContainer);
@@ -1619,7 +1635,11 @@ function addCutscene(cutsceneIndex,section){
 
   // next button click
   cutsceneNextButton.addEventListener('click', function(event) {
+    if (cutsceneIndex >= cutsceneSection.length-1){
+      typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
+    }
     if (cutsceneIndex < cutsceneSection.length-1){
+      typeof Sound !== 'undefined' && Sound.event('cutscene.next');
       toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden--out');
       setTimeout(() => toggleClass(cutsceneNextButton, 'cutscene-next-button--hidden--out', 'cutscene-next-button--hidden'),50);
       cutsceneIndex = cutsceneIndex + 1;
@@ -1695,6 +1715,8 @@ function addCutscene(cutsceneIndex,section){
     cutsceneSkipText = createElement('p',['cutscene-skip-text', 'cutscene-skip-text--hidden'],splashContainer);
     cutsceneSkipText.textContent = "SKIP INTRO";
     cutsceneSkipText.addEventListener('click', function(event) {
+      typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
+      typeof Sound !== 'undefined' && Sound.event('cutscene.skip');
       cutsceneSkipText.style.transition = "opacity 0.1s";
       toggleClass(cutsceneSkipText, 'cutscene-skip-text--visible', 'cutscene-skip-text--hidden');
       
@@ -1993,7 +2015,7 @@ function addCutscene(cutsceneIndex,section){
             elementClass.appendChild(span);
             setTimeout(() => {
               span.style.opacity = 1;
-              typeof Sound !== 'undefined' && Sound.event('dialogue.letter', letter);
+              typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter);
             }, speed * index);
           });
         }

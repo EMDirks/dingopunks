@@ -32,6 +32,8 @@ const Sound = (function () {
   const buffers = new Map();     // sound name → AudioBuffer[]
   const loading = new Set();     // sound names being fetched or decoded
   const missing = new Set();     // sound names that failed or have no files
+  const wantedLoops = new Map(); // loop key → performance.now() when it was asked for
+  const liveLoops = new Map();   // loop key → { source, gain } while playing
   const voices = new Map();      // sound name → how many are sounding now
   const logged = new Set();
 
@@ -153,6 +155,9 @@ const Sound = (function () {
     }))
       .then(function (decoded) {
         buffers.set(name, decoded);
+        wantedLoops.forEach(function (askedAt, key) {
+          if (cfg.loops[key].sound === name) playLoop(key);
+        });
       })
       .catch(function (error) {
         missing.add(name);
@@ -248,7 +253,8 @@ const Sound = (function () {
   // An event maps to a sound name, or to { sound, skipAfterMs, delay }:
   // skipAfterMs stays quiet when another sound started within that many ms
   // (e.g. a popup that opens right after the wrong-code sound); delay plays the
-  // sound that many ms later, to line it up with an animation.
+  // sound that many ms later, to line it up with an animation; skipIfLocked
+  // stays quiet while the browser still has audio locked (no tap yet).
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events || muted) return;
@@ -259,15 +265,73 @@ const Sound = (function () {
       pendingClick = null;
       return;
     }
-    if (eventName === 'dialogue.letter' && !shouldBlip(cfg, detail)) return;
+    if (mapping.skipIfLocked && (!ctx || ctx.state !== 'running')) return;
+    const isLetter = eventName === 'dialogue.letter' || eventName === 'cutscene.letter';
+    if (isLetter && !shouldBlip(cfg, detail)) return;
     // A sound fired while a click is being handled replaces its plain click.
     pendingClick = null;
-    if (!playingClick && eventName !== 'dialogue.letter') lastGameSoundAt = performance.now();
+    if (!playingClick && !isLetter) lastGameSoundAt = performance.now();
     if (mapping.delay > 0) {
       setTimeout(safe('event', function () { play(name); }), mapping.delay);
       return;
     }
     play(name);
+  }
+
+  // Looping sounds, keyed by SOUND_CONFIG.loops. They run through the master
+  // gain, so muting silences them and unmuting mid-loop brings them back. A loop
+  // started before its file has loaded begins when the file arrives, if still wanted.
+  // delayMs counts from startLoop, so a slow load doesn't push the loop back further.
+  function startLoop(key) {
+    const cfg = config();
+    const def = cfg && cfg.loops && cfg.loops[key];
+    if (!def || !isAvailable()) return;
+    if (!wantedLoops.has(key)) wantedLoops.set(key, performance.now());
+    if (buffers.has(def.sound)) {
+      playLoop(key);
+    } else {
+      preload([def.sound]);
+    }
+  }
+
+  function playLoop(key) {
+    if (liveLoops.has(key) || !wantedLoops.has(key)) return;
+    const cfg = config();
+    const def = cfg.loops[key];
+    const soundDef = cfg.sounds[def.sound] || {};
+    const volume = typeof soundDef.volume === 'number' ? soundDef.volume : 1;
+    if (ctx.state !== 'running') ctx.resume().catch(function () {});
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffers.get(def.sound)[0];
+    source.loop = true;
+    const gain = ctx.createGain();
+    const waitMs = Math.max(0, (def.delayMs || 0) - (performance.now() - wantedLoops.get(key)));
+    const startAt = ctx.currentTime + waitMs / 1000;
+    gain.gain.setValueAtTime(0, startAt);
+    gain.gain.linearRampToValueAtTime(volume, startAt + (def.fadeInMs || 0) / 1000);
+    source.connect(gain);
+    gain.connect(master);
+    source.onended = function () {
+      gain.disconnect();
+    };
+    source.start(startAt);
+    liveLoops.set(key, { source: source, gain: gain });
+  }
+
+  function stopLoop(key) {
+    wantedLoops.delete(key);
+    const live = liveLoops.get(key);
+    if (!live) return;
+    liveLoops.delete(key);
+    const cfg = config();
+    const def = cfg && cfg.loops && cfg.loops[key];
+    const fade = ((def && def.fadeOutMs) || 0) / 1000;
+    const now = ctx.currentTime;
+    live.gain.gain.cancelScheduledValues(now);
+    live.gain.gain.setValueAtTime(live.gain.gain.value, now);
+    live.gain.gain.linearRampToValueAtTime(0, now + fade);
+    live.source.stop(now + fade);
   }
 
   function setMuted(value) {
@@ -388,6 +452,8 @@ const Sound = (function () {
 
   return {
     preload: safe('preload', preload),
+    startLoop: safe('startLoop', startLoop),
+    stopLoop: safe('stopLoop', stopLoop),
     onPreloadEvent: safe('onPreloadEvent', onPreloadEvent),
     event: safe('event', event),
     setMuted: safe('setMuted', setMuted),
