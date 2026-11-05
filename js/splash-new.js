@@ -1906,6 +1906,8 @@ function addCutscene(cutsceneIndex,section){
         function removeStart(){
           imageElement.classList.add(imageObject.animation.duration);
           toggleClass(imageElement,imageObject.animation.start,imageObject.animation.end)
+          // A cutscene file can tag an animation with sfx: '<event>' to fire it as the move starts
+          if (imageObject.animation.sfx) { typeof Sound !== 'undefined' && Sound.event(imageObject.animation.sfx); }
         }
       }
 

@@ -41,6 +41,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                 },
                 
             },
@@ -64,6 +65,7 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-500ms',
+                    sfx: 'cutscene.move',
                 },
 
             },
@@ -88,6 +90,7 @@ let cutscene = {
                     start: 'transform-translate_-100_0',
                     end: 'transform-translate_-25_0',
                     duration: 'transition-transform-500ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -119,6 +122,7 @@ let cutscene = {
                     start: 'transform-translate_-25_0',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-1000ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -137,6 +141,7 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-2000ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -164,6 +169,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundColor: 'background-color-salmon'
@@ -191,6 +197,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                 }, 
             },
             backgroundImage1: {
@@ -214,6 +221,7 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-2000ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
