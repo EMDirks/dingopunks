@@ -19,16 +19,20 @@
 }
 
 /* CRT power-on: a white dot spreads into a scanline, opens to the full panel,
-   then fades to show the cutscene. Only transform and opacity animate, so it
-   stays on the compositor. js/splash-new.js removes the element when it ends.
-   Timed against this: the static's delayMs and the tvOn delay in js/sound-config.js. */
+   then the picture warms up: the white drops fast and lingers as a haze, and
+   the background settles to full size.
+   Only transform and opacity animate, so it all stays on the compositor (no
+   filters). js/splash-new.js removes the overlay when it ends.
+   The panel is full at 0.69s (0.2s delay + 70% of the 0.7s beam), and the
+   warm-up starts there. Timed against this: the static's delayMs and the tvOn
+   delay in js/sound-config.js. */
 .cutscene-tv-on {
     position: absolute;
     inset: 0;
     z-index: 1001;
     background-color: rgba(var(--off-black), 1);
     pointer-events: none;
-    animation: cutscene-tv-on-fade 0.7s linear 0.2s both;
+    animation: cutscene-tv-on-fade 0.45s cubic-bezier(0.16, 0.8, 0.3, 1) 0.69s both;
 }
 
 .cutscene-tv-on::after {
@@ -58,11 +62,29 @@
 }
 
 @keyframes cutscene-tv-on-fade {
-    0%, 70% {
+    from {
         opacity: 1;
     }
-    100% {
+    to {
         opacity: 0;
+    }
+}
+
+/* Holds the background layers so the settle can't clash with their own
+   cutscene transforms. z-index keeps them under the character sprite. */
+.cutscene-background-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    animation: cutscene-background-settle 1s cubic-bezier(0.22, 1, 0.36, 1) 0.69s backwards;
+}
+
+@keyframes cutscene-background-settle {
+    from {
+        transform: scale(1.05);
+    }
+    to {
+        transform: scale(1);
     }
 }
 
@@ -74,6 +96,9 @@
     .cutscene-tv-on::after {
         animation: none;
         opacity: 0;
+    }
+    .cutscene-background-stage {
+        animation: none;
     }
 }
 
@@ -352,6 +377,39 @@
     left: 50%;
     transform: translate(-50%, -50%);
     position: fixed;
+}
+
+.harper-bumper {
+    width: 200vw;
+    height: 200vh;
+    background-color: #fff;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 300ms; /* keep in step with HARPER_BUMPER_FADE_MS in js/splash-new.js */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+}
+
+.harper-bumper--out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.harper-bumper__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 33.75vmin;
+    height: auto;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
+.harper-bumper__logo--visible {
+    opacity: 1;
 }
 
 .bumper-container--visible {

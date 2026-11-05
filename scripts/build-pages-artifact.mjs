@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, rmSync } from "node:fs";
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -19,6 +19,10 @@ const rootFiles = [
 
 const rootDirs = ["assets", "css", "js", "resource"];
 
+// Local testing panel; never published.
+const debugPanelScript = join(root, "js", "debug-panel.js");
+const debugPanelTag = /[ \t]*<!-- debug-panel:start[\s\S]*?<!-- debug-panel:end -->\r?\n/;
+
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 
@@ -27,7 +31,17 @@ for (const file of rootFiles) {
 }
 
 for (const dir of rootDirs) {
-  cpSync(join(root, dir), join(outDir, dir), { recursive: true });
+  cpSync(join(root, dir), join(outDir, dir), {
+    recursive: true,
+    filter: (source) => source !== debugPanelScript,
+  });
 }
+
+const indexPath = join(outDir, "index.html");
+const indexHtml = readFileSync(indexPath, "utf8").replace(debugPanelTag, "");
+if (indexHtml.includes("debug-panel")) {
+  throw new Error("index.html still references the debug panel after stripping it.");
+}
+writeFileSync(indexPath, indexHtml);
 
 console.log(`Wrote static Pages artifact to ${outDir}`);

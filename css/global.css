@@ -611,7 +611,7 @@ button, input[type="submit"], input[type="reset"] {
 /* Student Sound toggle: a small switch under the cards. Only rendered when the
    teacher hasn't turned Audio off. */
 .global-menu__sound-toggle {
-	display: flex;
+	display: none; /* Hidden for now; set back to flex to show it again. */
 	align-items: center;
 	gap: 10px;
 	align-self: flex-start;
