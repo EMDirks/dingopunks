@@ -28,7 +28,7 @@ const SOUND_CONFIG = {
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['ken-blip-1'], volume: 0.1, pitch: [1.4, 1.5], maxVoices: 4 }, // cutscene text
-    whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
+    whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions, Midnight Mall intro character moves
     chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
     static:  { src: ['free-static-2.wav'],                 volume: 0.1 },                // cutscene background loop
     tvOn:    { src: ['free-tvOn.wav'],               volume: 0.1 },                 // cutscene coming in
@@ -61,6 +61,7 @@ const SOUND_CONFIG = {
     'cutscene.next':     'clickGlitch', // Next to the following scene; the last Next stays silent
     'cutscene.skip':     'clickGlitch', // SKIP INTRO
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
+    'cutscene.move':     'whoosh',   // animations tagged sfx: 'cutscene.move' in a cutscene file (Midnight Mall intro)
     'scene.open':        'open',
     'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
     'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
