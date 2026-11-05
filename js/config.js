@@ -14,3 +14,7 @@ const WHOLE_CLASS = true;
 // Splash code-entry keypad: true = A–Z plus digits (share codes on touch devices);
 // false = digits 1–9 only (legacy purchase codes).
 const ALPHABET_KEYBOARD = true;
+
+// Shows a white logo-harper.png screen before the Dingo Punks bumper on the
+// play and free-play pages.
+const HARPER_BUMPER = false;

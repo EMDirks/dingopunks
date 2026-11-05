@@ -24,6 +24,12 @@ const version = '4.0.68';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
+// Harper bumper timing, counted from when the logo has loaded. The fade must match
+// .harper-bumper's opacity transition in css/splash-new.css.
+const HARPER_BUMPER_HOLD_MS = 1200;
+const HARPER_BUMPER_FADE_MS = 300;
+// Don't let a slow or stalled logo hold the page on a white screen.
+const HARPER_BUMPER_LOAD_TIMEOUT_MS = 1500;
 const isAnswersMode = new URLSearchParams(window.location.search).get('answers') === '1';
 
 // set order
@@ -1587,9 +1593,10 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneCharacterName = createElement('p',['cutscene-character-name',],cutsceneTextBox);
   let cutsceneNextButton = createElement('button',['cutscene-next-button', 'cutscene-next-button--hidden'],cutsceneTextBox);
   let cutsceneCharacterSprite = createElement('div',['cutscene-character-sprite'],splashContainer);
-  let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],splashContainer);
-  let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],splashContainer);
-  let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],splashContainer);
+  const cutsceneBackgroundStage = createElement('div',['cutscene-background-stage'],splashContainer);
+  let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],cutsceneBackgroundStage);
+  let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],cutsceneBackgroundStage);
+  let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],cutsceneBackgroundStage);
   let cutsceneStaticOverlay = createElement('div',['cutscene-static-overlay','cutscene-static-overlay--hidden'],splashContainer);
 
   updateLineThickness();
@@ -2078,9 +2085,44 @@ document.addEventListener("DOMContentLoaded", function() {
     autoLaunchCode = membershipCodeFromUrl();
   }
 
+  if (HARPER_BUMPER && gameMode !== 'preview' && !isUndermurkPage) {
+    playHarperBumper(startSplash);
+  } else {
+    startSplash();
+  }
+});
+
+function startSplash() {
   if (autoLaunchCode) showDirectLinkLoader();
   drawSplash();
 
   if (autoLaunchCode) startAutoLaunch();
-});
+}
+
+// Covers the page in white with the Harper logo, then calls onFadeStart as it
+// fades, so the Dingo Punks bumper starts underneath it.
+function playHarperBumper(onFadeStart) {
+  const bumper = createElement('div', ['harper-bumper'], document.body);
+  const logo = createElement('img', ['harper-bumper__logo'], bumper);
+  let started = false;
+
+  function start() {
+    if (started) return;
+    started = true;
+    logo.classList.add('harper-bumper__logo--visible');
+    setTimeout(finish, HARPER_BUMPER_HOLD_MS);
+  }
+
+  function finish() {
+    bumper.classList.add('harper-bumper--out');
+    onFadeStart();
+    setTimeout(function() { bumper.remove(); }, HARPER_BUMPER_FADE_MS);
+  }
+
+  logo.addEventListener('load', start);
+  logo.addEventListener('error', start);
+  setTimeout(start, HARPER_BUMPER_LOAD_TIMEOUT_MS);
+  logo.alt = 'Harper';
+  logo.src = 'assets/branding/logo/logo-harper.png';
+}
 

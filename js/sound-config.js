@@ -27,12 +27,12 @@ const SOUND_CONFIG = {
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['ken-blip-1'], volume: 0.1, pitch: [1.4, 1.5], maxVoices: 4 }, // cutscene text
+    typewriter: { src: ['ken-blip-1'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
     whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions, Midnight Mall intro character moves
     chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
     static:  { src: ['free-static-2.wav'],                 volume: 0.1 },                // cutscene background loop
     tvOn:    { src: ['free-tvOn.wav'],               volume: 0.1 },                 // cutscene coming in
-    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // cutscene Next, moving to the next scene
+    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.05 },                 // cutscene Next, moving to the next scene
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
