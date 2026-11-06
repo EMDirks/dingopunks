@@ -153,7 +153,7 @@
   function resetStage() {
     cutsceneTimers.forEach(clearTimeout);
     cutsceneTimers.clear();
-    typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
+    stopCutsceneLoops();
 
     // A running game sits above the splash and would cover the cutscene.
     document.querySelectorAll('.activity-node-container, .activity, .footer').forEach(function(element) {

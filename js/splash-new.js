@@ -20,6 +20,8 @@ const ACCESS_FLASH_MS = 400;
 const splashTransitionDuration = 170;
 // How long a step takes to wind up and slide out; keep in step with splash-step-out in css/splash.css.
 const splashExitDuration = 300;
+// Pause after the splash button is clicked, so its click is heard before the slide-out.
+const splashButtonDelay = 200;
 const version = '4.0.68';
 
 const promoDelay = 2000;
@@ -35,6 +37,7 @@ const BUMPER_BACKGROUND_FADE_MS = 1850;
 // there.
 const BUMPER_START_IN_MS = 700;
 const BUMPER_START_FADE_DELAY_MS = BUMPER_BACKGROUND_FADE_MS - BUMPER_LOGO_EXIT_MS;
+const BUMPER_START_FALL_DELAY_MS = 200; // pause after START before the logo comes loose
 const BUMPER_START_REMOVE_MS = 200;
 // Harper bumper timing, counted from when the logo has loaded. The fade must match
 // .harper-bumper's opacity transition in css/splash-new.css.
@@ -586,7 +589,7 @@ function drawSplash(){
   // click button
   splashButton.addEventListener("click", function() { 
     toggleClass(splashButton,'splash-button--visible','splash-button--hidden');
-    transitionSplash();  
+    setTimeout(transitionSplash, splashButtonDelay);
   });
 
   // update html element line thicknetss
@@ -697,6 +700,8 @@ function addBumperStartButton(bumperContainer, onStart) {
     awaitingBumperStart = false;
     toggleClass(startButton, 'bumper-start--visible', 'bumper-start--pressed');
     activeInput__codeInput.focus({ preventScroll: true });
+    // The dangle in onStart would otherwise replace the plain click (js/sound.js)
+    typeof Sound !== 'undefined' && Sound.event('ui.click');
     onStart();
     setTimeout(function() { startButton.remove(); }, BUMPER_START_REMOVE_MS);
   });
@@ -730,12 +735,18 @@ function addAccess(){
     // A direct link has no code to type, so it plays straight through to the game.
     if (autoLaunchCode) {
       setTimeout(hideBumperContainer,BUMPER_BACKGROUND_FADE_MS);
-      setTimeout(bringOutBumperLogo,BUMPER_LOGO_EXIT_MS);
+      setTimeout(function() {
+        bringOutBumperLogo();
+        typeof Sound !== 'undefined' && Sound.event('bumper.dangleAuto');
+      },BUMPER_LOGO_EXIT_MS);
       return;
     }
     addBumperStartButton(bumperContainer, function() {
-      bringOutBumperLogo();
-      setTimeout(hideBumperContainer,BUMPER_START_FADE_DELAY_MS);
+      setTimeout(function() {
+        bringOutBumperLogo();
+        typeof Sound !== 'undefined' && Sound.event('bumper.dangle');
+      },BUMPER_START_FALL_DELAY_MS);
+      setTimeout(hideBumperContainer,BUMPER_START_FALL_DELAY_MS + BUMPER_START_FADE_DELAY_MS);
     });
   }
   function addTheme(){
@@ -1141,7 +1152,10 @@ function addFree(){
     function bringInBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--hidden','bumper-logo--visible');
     }
-    setTimeout(bringOutBumperLogo,BUMPER_LOGO_EXIT_MS);
+    setTimeout(function() {
+      bringOutBumperLogo();
+      typeof Sound !== 'undefined' && Sound.event('bumper.dangleAuto');
+    },BUMPER_LOGO_EXIT_MS);
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
@@ -1622,6 +1636,44 @@ function addCharacter(){
 /////////
 
 // add cutscene view
+// Loops started by a cutscene file's animations, which end with the cutscene at the
+// latest. False once it ends: SKIP INTRO can land while a line is still typing, and
+// that line's afterText animations still run.
+const cutsceneSceneLoops = new Set();
+let cutsceneLoopsAllowed = false;
+
+function stopCutsceneLoops() {
+  cutsceneLoopsAllowed = false;
+  if (typeof Sound === 'undefined') return;
+  cutsceneSceneLoops.forEach(function(key) { Sound.stopLoop(key); });
+  cutsceneSceneLoops.clear();
+}
+
+// Extra hold on the blank off-black screen once an intro ends (final Next or SKIP INTRO),
+// added to the timing the nodes and timer already have. The timer starts counting after it.
+const introExitHold = 500;
+
+// The scaling normally runs on a window click, but these build after the click has passed.
+function scaleNewGameElements(){
+  updateElementSize();
+  updateElementHeight();
+  updateLineThickness();
+  updateAbsoluteElements();
+}
+
+function startTimedGame(){
+  createActivityNodes();
+  createCodeBox();
+  createFooter();
+  scaleNewGameElements();
+}
+
+function startNoLimitGame(){
+  createActivityNodes("noLimit");
+  createCodeBox();
+  scaleNewGameElements();
+}
+
 function addCutscene(cutsceneIndex,section){
 
   // define variables 
@@ -1634,7 +1686,7 @@ function addCutscene(cutsceneIndex,section){
     cutsceneSection = cutscene[section];
   }
   typeof Sound !== 'undefined' && Sound.event('cutscene.start');
-  typeof Sound !== 'undefined' && Sound.startLoop('cutscene');
+  cutsceneLoopsAllowed = true;
   let sceneDelay = 100;
   let initialSceneDelay = 0;
   let initialTextDelay = 400; // applied twice before typing starts, so typing waits about 970ms
@@ -1675,14 +1727,6 @@ function addCutscene(cutsceneIndex,section){
 
   updateLineThickness();
 
-  if (section === 'intro' || section === 'introNoLimit' || section === 'undermurkIntro'){
-    let splashTVOverlay = createElement('div',['splash-tv-overlay','splash-tv-overlay--hidden'],splashContainer);
-    setTimeout(fadeInSplash,sceneDelay + initialTextDelay + initialSceneDelay);
-    function fadeInSplash(){
-      toggleClass(splashTVOverlay, 'splash-tv-overlay--hidden', 'splash-tv-overlay--visible');
-    }
-  }
-  
 /*
   let images = [
     'assets/interface/scene/overlay/tv-on/1.png',
@@ -1718,7 +1762,14 @@ function addCutscene(cutsceneIndex,section){
   cutsceneNextButton.addEventListener('click', function(event) {
     cutsceneText.textContent = '';
     if (cutsceneIndex >= cutsceneSection.length-1){
-      typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
+      stopCutsceneLoops();
+      if (section === 'outro' || section === 'debugOutro') {
+        typeof Sound !== 'undefined' && Sound.event('cutscene.next');
+      }
+      if (section === 'intro' || section === 'introNoLimit') {
+        typeof Sound !== 'undefined' && Sound.event('cutscene.finish');
+        typeof Sound !== 'undefined' && Sound.event('cutscene.finishChime');
+      }
     }
     if (cutsceneIndex < cutsceneSection.length-1){
       typeof Sound !== 'undefined' && Sound.event('cutscene.next');
@@ -1736,9 +1787,7 @@ function addCutscene(cutsceneIndex,section){
         toggleClass(splash,'splash--visible','splash--hidden');
         setTimeout(removeSplash,2000);
         setTimeout(clearSplashContainer,2100);
-        createActivityNodes();
-        createCodeBox();
-        createFooter();
+        setTimeout(startTimedGame,introExitHold);
       }
     }
     else if (section === "introNoLimit") {
@@ -1750,8 +1799,7 @@ function addCutscene(cutsceneIndex,section){
         toggleClass(splash,'splash--visible','splash--hidden');
         setTimeout(removeSplash,2000);
         setTimeout(clearSplashContainer,2100);
-        createActivityNodes("noLimit");
-        createCodeBox();
+        setTimeout(startNoLimitGame,introExitHold);
       }
     }
     else if (section === 'undermurkIntro') {
@@ -1797,8 +1845,12 @@ function addCutscene(cutsceneIndex,section){
     cutsceneSkipText = createElement('p',['cutscene-skip-text', 'cutscene-skip-text--hidden'],splashContainer);
     cutsceneSkipText.textContent = "SKIP INTRO";
     cutsceneSkipText.addEventListener('click', function(event) {
-      typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
+      stopCutsceneLoops();
       typeof Sound !== 'undefined' && Sound.event('cutscene.skip');
+      if (section === 'intro' || section === 'introNoLimit') {
+        typeof Sound !== 'undefined' && Sound.event('cutscene.finish');
+        typeof Sound !== 'undefined' && Sound.event('cutscene.finishChime');
+      }
       cutsceneSkipText.style.transition = "opacity 0.1s";
       toggleClass(cutsceneSkipText, 'cutscene-skip-text--visible', 'cutscene-skip-text--hidden');
       
@@ -1807,17 +1859,14 @@ function addCutscene(cutsceneIndex,section){
         toggleClass(splash,'splash--visible','splash--hidden');
         setTimeout(removeSplash,2000);
         setTimeout(clearSplashContainer,2100);
-        createActivityNodes();
-        createCodeBox();
-        createFooter();
+        setTimeout(startTimedGame,introExitHold);
       }
       else if (section === "introNoLimit") {
         toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
         toggleClass(splash,'splash--visible','splash--hidden');
         setTimeout(removeSplash,2000);
         setTimeout(clearSplashContainer,2100);
-        createActivityNodes("noLimit");
-        createCodeBox();
+        setTimeout(startNoLimitGame,introExitHold);
       }
       else if (section === 'undermurkIntro') {
         finishUndermurkIntroCutscene({
@@ -1986,7 +2035,13 @@ function addCutscene(cutsceneIndex,section){
 
       function scheduleAnimation(imageElement,imageObject,className,delay){
         if (imageObject.animation.afterText) {
-          animationsAfterText.push(() => addAnimation(imageElement,imageObject,className));
+          // Held at its start position while the line types, so it can't show early. delay
+          // counts from the line finishing, to run one after another.
+          removeAllClassesExcept(imageElement,className);
+          imageElement.classList.add(imageObject.animation.start);
+          animationsAfterText.push(() => {
+            setTimeout(() => addAnimation(imageElement,imageObject,className), imageObject.animation.delay || 0);
+          });
         }
         else {
           setTimeout(() => addAnimation(imageElement,imageObject,className), delay);
@@ -2002,6 +2057,16 @@ function addCutscene(cutsceneIndex,section){
           toggleClass(imageElement,imageObject.animation.start,imageObject.animation.end)
           // A cutscene file can tag an animation with sfx: '<event>' to fire it as the move starts
           if (imageObject.animation.sfx) { typeof Sound !== 'undefined' && Sound.event(imageObject.animation.sfx); }
+          // or with startLoop: '<key>' / stopLoop: '<key>' for a loop that lasts across scenes
+          const { startLoop, stopLoop } = imageObject.animation;
+          if (startLoop && cutsceneLoopsAllowed && typeof Sound !== 'undefined') {
+            cutsceneSceneLoops.add(startLoop);
+            Sound.startLoop(startLoop);
+          }
+          if (stopLoop && typeof Sound !== 'undefined') {
+            cutsceneSceneLoops.delete(stopLoop);
+            Sound.stopLoop(stopLoop);
+          }
         }
       }
 
@@ -2085,11 +2150,11 @@ function addCutscene(cutsceneIndex,section){
       cutsceneCharacterName.textContent = sc_characterSprite && sc_characterSprite.name ? sc_characterSprite.name : '';
 
      // text
-     // Bad guy lines and J.J.'s intro lines play one voice sound instead of a sound per letter.
-     const isIntroSection = section === 'intro' || section === 'introNoLimit' || section === 'undermurkIntro';
+     // Bad guy lines and J.J.'s intro and outro lines play one voice sound instead of a sound per letter.
+     const hasJJVoice = ['intro', 'introNoLimit', 'undermurkIntro', 'outro', 'debugOutro'].includes(section);
      let voiceEvent = null;
      if (cutsceneSection[index].textStyle === 'badguy') voiceEvent = 'cutscene.voiceBadguy';
-     else if (isIntroSection && sc_characterSprite?.name === 'J.J. DINGO') voiceEvent = 'cutscene.voiceJJDingo';
+     else if (hasJJVoice && sc_characterSprite?.name === 'J.J. DINGO') voiceEvent = 'cutscene.voiceJJDingo';
      setTimeout(() => addTextByTypewriter(cutsceneText, sc_text, typewriterDelay), initialTextDelay);
       function addTextByTypewriter(elementClass, text, speed) {
         

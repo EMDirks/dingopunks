@@ -17,7 +17,7 @@ Nothing in the game may depend on audio working. Every hook is a one-line, fire-
 | 3 | What ships | Only the sounds mapped in the config. Move the rest of the 51-file Kenney library to `tools/sfx-library/` (not copied by `scripts/build-pages.mjs`). |
 | 4 | Pages with sound | Play (`index.html`), `free-play.html`, `preview.html` (**fully wired, same as play**), `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`. Not `membership.html` or `404.html`. |
 | 5 | Hover ("rollover") sounds | Off. Config supports them if wanted later. |
-| 6 | Student mute | **In scope.** A simple Sound on/off toggle in the global menu, per game (§6). Only shown when the teacher hasn't turned Audio off. |
+| 6 | Student mute | **In scope.** Separate Sound and Music on/off toggles in the global menu, per game (§6). Only shown when the teacher hasn't turned Audio off. |
 
 ---
 
@@ -54,8 +54,8 @@ Run with the emulator jar per the memory note (`FIRESTORE_EMULATOR_HOST`, `node 
 
 | Element | Text |
 |---------|------|
-| Title | Audio |
-| Description | Students hear sound effects for buttons, dialogue, and transitions while they play, and can mute them from the game menu. Turn this off to keep escape rooms silent for everyone. |
+| Title | Sound |
+| Description | Students hear sound effects and music while they play, and can turn each one off from the game menu. Turn this off to keep escape rooms silent for everyone. |
 
 Two stacked rows need a divider: add `.dpaam-settings-row + .dpaam-settings-row { margin-top: var(--dpaam-pad-lg); padding-top: var(--dpaam-pad-lg); border-top: 1px solid var(--dpaam-border); }` in `css/membership.css` next to `.dpaam-settings-row` (line 2037).
 
@@ -264,7 +264,9 @@ Teacher Audio ON   → Sound available → toggle shown in global menu
 
 ---
 
-## 6. Student Sound toggle — `js/global-menu.js` + `css/global.css`
+## 6. Student Sound and Music toggles — `js/global-menu.js` + `css/global.css`
+
+> **Update:** there are now two switches side by side. **Sound** works as described below. **Music** does the same for every sound marked `music: true` in `SOUND_CONFIG` (just the music: today, the Wiggleworm song; background loops like the Midnight Mall crickets count as sound effects), using `Sound.setMusicMuted()` / `Sound.isMusicMuted()` and `debriefStats.muteMusic = 1` / `?muteMusic=1`. Each has its own gain bus into the master gain, so `Sound.setMuted()` only touches sound effects. Both switches play `ui.toggle` after a change, which stays silent while Sound is off. The teacher's single dashboard setting still turns off both.
 
 A simple on/off switch in the global menu, below the kid cards. Per game: muting lasts through this game's play, debrief and Undermurk pages; the next game starts with sound on.
 

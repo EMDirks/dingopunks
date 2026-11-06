@@ -15,6 +15,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'background-crickets',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -42,7 +43,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.move',
+                    sfx: 'cutscene.moveIn',
                 },
                 
             },
@@ -96,7 +97,7 @@ let cutscene = {
                     start: 'transform-translate_-100_0',
                     end: 'transform-translate_-25_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.move',
+                    sfx: 'cutscene.moveIn',
                 },
             },
             backgroundImage1: {
@@ -182,7 +183,9 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.moveBadguy',
+                    sfx: 'cutscene.moveBadguyIn',
+                    stopLoop: 'background-crickets',
+                    startLoop: 'background-creepy',
                 },
             },
             backgroundColor: 'background-color-salmon'
@@ -212,7 +215,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.move',
+                    sfx: 'cutscene.moveIn',
                 }, 
             },
             backgroundImage1: {
@@ -223,6 +226,17 @@ let cutscene = {
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-300ms',
                     sfx: 'cutscene.moveBadguy',
+                    stopLoop: 'background-creepy',
+                    startLoop: 'background-crickets',
+                },
+            },
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+                animation: {
+                    start: 'opacity-0',
+                    end: 'opacity-1',
+                    duration: 'transition-opacity-1000ms',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -242,15 +256,9 @@ let cutscene = {
                     sfx: 'cutscene.move',
                 },
             },
-            backgroundImage1: {
+            backgroundImage2: {
                 path: 'main.png',
                 scope: 'local',
-                animation: {
-                    start: 'opacity-0',
-                    end: 'opacity-1',
-                    duration: 'transition-opacity-1000ms',
-                    afterText: true,
-                },
             },
             backgroundColor: 'background-color-black'
         },
@@ -269,7 +277,7 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.move',
+                    sfx: 'cutscene.moveIn',
                     delay: 500
                 },
             },
@@ -280,6 +288,7 @@ let cutscene = {
                     start: 'opacity-0',
                     end: 'opacity-1',
                     duration: 'transition-opacity-1000ms',
+                    startLoop: 'background-crickets',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -311,7 +320,6 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                     afterText: true,
                     sfx: 'cutscene.move',
-                    delay: 200
                 },
             },
             backgroundImage1: {
@@ -322,6 +330,7 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     afterText: true,
+                    delay: 300,
                 },
             },    
             backgroundImage2: {
@@ -352,7 +361,8 @@ let cutscene = {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.moveBadguy',
+                    sfx: 'cutscene.moveBadguyFail',
+                    startLoop: 'background-creepy',
                 },
             },
             backgroundColor: 'background-color-black'

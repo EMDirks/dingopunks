@@ -3,11 +3,13 @@
 // js/sound-config.js. Every public method is a silent no-op when sound is
 // unavailable or something fails, so the game never depends on audio.
 //
-// Two separate "off" switches:
+// Three separate "off" switches:
 //   - Teacher off (dashboard Audio setting): debriefStats.audio = 0 / ?audio=0.
-//     Sound is unavailable: nothing loads and the menu toggle is hidden.
-//   - Student muted (global menu toggle): debriefStats.mute = 1 / ?mute=1.
-//     Sounds still load so unmuting is instant; nothing plays.
+//     Sound is unavailable: nothing loads and the menu toggles are hidden.
+//   - Student Sound off (global menu toggle): debriefStats.mute = 1 / ?mute=1.
+//     Sound effects stay silent; they still load so turning them on is instant.
+//   - Student Music off (global menu toggle): debriefStats.muteMusic = 1 /
+//     ?muteMusic=1. The same, for sounds marked music: true in SOUND_CONFIG.
 const Sound = (function () {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const FORMAT_TYPES = {
@@ -19,8 +21,11 @@ const Sound = (function () {
 
   let ctx = null;
   let master = null;
+  let sfxBus = null;             // gain for sound effects, into master
+  let musicBus = null;           // gain for sounds marked music: true, into master
   let unlocked = false;
   let muted = new URLSearchParams(window.location.search).get('mute') === '1';
+  let musicMuted = new URLSearchParams(window.location.search).get('muteMusic') === '1';
   let format;                    // undefined = not checked yet, null = nothing playable
   let lettersSinceBlip = 0;
   let lastBlipAt = 0;
@@ -97,9 +102,16 @@ const Sound = (function () {
   }
 
   function masterLevel() {
-    if (muted) return 0;
     const cfg = config();
     return cfg && typeof cfg.masterVolume === 'number' ? cfg.masterVolume : 1;
+  }
+
+  function isSilenced(def) {
+    return def && def.music ? musicMuted : muted;
+  }
+
+  function busFor(def) {
+    return def && def.music ? musicBus : sfxBus;
   }
 
   function getContext() {
@@ -108,6 +120,12 @@ const Sound = (function () {
     master = ctx.createGain();
     master.gain.value = masterLevel();
     master.connect(ctx.destination);
+    sfxBus = ctx.createGain();
+    sfxBus.gain.value = muted ? 0 : 1;
+    sfxBus.connect(master);
+    musicBus = ctx.createGain();
+    musicBus.gain.value = musicMuted ? 0 : 1;
+    musicBus.connect(master);
     UNLOCK_EVENTS.forEach(function (type) {
       document.addEventListener(type, unlock, { capture: true, passive: true });
     });
@@ -175,12 +193,14 @@ const Sound = (function () {
       });
   }
 
-  // names: '*' or omitted = every sound in the config, or an array of names.
+  // names: '*' or omitted = every sound in the config except lazy ones, or an array of names.
   function preload(names) {
     if (!isAvailable()) return;
     const cfg = config();
     getContext();
-    const list = !names || names === '*' ? Object.keys(cfg.sounds || {}) : names;
+    const list = !names || names === '*'
+      ? Object.keys(cfg.sounds || {}).filter(function (name) { return !cfg.sounds[name].lazy; })
+      : names;
     list.forEach(function (name) {
       load(cfg, name);
     });
@@ -224,10 +244,11 @@ const Sound = (function () {
   }
 
   function play(name) {
-    if (muted || !isAvailable()) return;
+    if (!isAvailable()) return;
     const decoded = buffers.get(name);
     if (!decoded) return;
     const def = config().sounds[name] || {};
+    if (isSilenced(def)) return;
     const live = voices.get(name) || 0;
     if (def.maxVoices && live >= def.maxVoices) return;
 
@@ -243,7 +264,7 @@ const Sound = (function () {
     const gain = ctx.createGain();
     gain.gain.value = typeof def.volume === 'number' ? def.volume : 1;
     source.connect(gain);
-    gain.connect(master);
+    gain.connect(busFor(def));
 
     voices.set(name, live + 1);
     lastSoundAt = performance.now();
@@ -274,10 +295,10 @@ const Sound = (function () {
   // stays quiet while the browser still has audio locked (no tap yet).
   function event(eventName, detail) {
     const cfg = config();
-    if (!cfg || !cfg.events || muted) return;
+    if (!cfg || !cfg.events) return;
     const mapping = cfg.events[eventName];
     const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
-    if (typeof name !== 'string') return;
+    if (typeof name !== 'string' || isSilenced(cfg.sounds && cfg.sounds[name])) return;
     if (mapping.skipAfterMs && performance.now() - lastSoundAt < mapping.skipAfterMs) {
       pendingClick = null;
       return;
@@ -295,8 +316,8 @@ const Sound = (function () {
     play(name);
   }
 
-  // Looping sounds, keyed by SOUND_CONFIG.loops. They run through the master
-  // gain, so muting silences them and unmuting mid-loop brings them back. A loop
+  // Looping sounds, keyed by SOUND_CONFIG.loops. They run through the sound or
+  // music bus, so muting silences them and unmuting mid-loop brings them back. A loop
   // started before its file has loaded begins when the file arrives, if still wanted.
   // delayMs counts from startLoop, so a slow load doesn't push the loop back further.
   function startLoop(key) {
@@ -328,7 +349,7 @@ const Sound = (function () {
     gain.gain.setValueAtTime(0, startAt);
     gain.gain.linearRampToValueAtTime(volume, startAt + (def.fadeInMs || 0) / 1000);
     source.connect(gain);
-    gain.connect(master);
+    gain.connect(busFor(soundDef));
     source.onended = function () {
       gain.disconnect();
     };
@@ -353,8 +374,14 @@ const Sound = (function () {
 
   function setMuted(value) {
     muted = Boolean(value);
-    if (master) master.gain.value = masterLevel();
+    if (sfxBus) sfxBus.gain.value = muted ? 0 : 1;
     return muted;
+  }
+
+  function setMusicMuted(value) {
+    musicMuted = Boolean(value);
+    if (musicBus) musicBus.gain.value = musicMuted ? 0 : 1;
+    return musicMuted;
   }
 
   function isDisabledControl(el) {
@@ -475,6 +502,8 @@ const Sound = (function () {
     event: safe('event', event),
     setMuted: safe('setMuted', setMuted),
     isMuted: function () { return muted; },
+    setMusicMuted: safe('setMusicMuted', setMusicMuted),
+    isMusicMuted: function () { return musicMuted; },
     isAvailable: safe('isAvailable', isAvailable),
   };
 })();

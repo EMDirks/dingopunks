@@ -6,11 +6,11 @@
 // Character voice clips. Each character's voice-* sound below picks from these at
 // random and sets its own pitch.
 const VOICE_CLIPS = [
-  'voice-1',
-  'voice-2',
-  'voice-3',
-  'voice-4',
-  'voice-5',
+  '554017__dodrio__dialogue_mumble_huh',
+  '554018__dodrio__dialogue_mumble_heh',
+  '554019__dodrio__dialogue_mumble_hah',
+  '554020__dodrio__dialogue_mumble_haeh',
+  '554023__dodrio__dialogue_mumble_huuh',
 ];
 
 const SOUND_CONFIG = {
@@ -22,33 +22,41 @@ const SOUND_CONFIG = {
   // name → file(s) + mix. src are base names (the extension comes from `formats`), or a
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
+  // lazy: true leaves a big file out of sounds: '*', so it only loads where `preload` names it.
+  // music: true puts a sound under the global menu's Music toggle instead of its Sound toggle.
   sounds: {
 
     // Use for toggled systems with an open/close state
-    open:    { src: ['switch1'],                    volume: 0.4 },
-    close:   { src: ['switch2'],                    volume: 0.3 },
+    open:    { src: ['switch1'],                    volume: 0.3 },
+    close:   { src: ['switch2'],                    volume: 0.225 },
 
     // Use for selecting an item with focus state
     select:  { src: ['switch3'],                 volume: 0.2 },
 
-    click:   { src: ['click3'],                     volume: 0.4 },
-    key:     { src: ['click3'], volume: 0.35 },                // code keyboard
+    click:   { src: ['switch3'],                     volume: 0.2 },
+    key:     { src: ['switch3'], volume: 0.35 },                // code keyboard
     clickWood: { src: ['click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
     slapPaper: { src: ['card-slide-2'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
     slapMetal: { src: ['match-wood-1'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
-    toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
+    toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound and Music toggles
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['ken-blip-2'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
-    'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.4, pitch: [0.8,1] },              // J.J. Dingo's lines in intro cutscenes; pitch: [min, max], 1 = normal
-    'voice-badguy': { src: VOICE_CLIPS, volume: 0.4, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
+    typewriter: { src: ['ken-blip-3'], volume: 0.15, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
+    'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo's lines in intro and outro cutscenes; pitch: [min, max], 1 = normal
+    'voice-badguy': { src: VOICE_CLIPS, volume: 0.6, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
     whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
     'whoosh-cutscene': { src: ['ken-whoosh-1'],           volume: 0.15 },                // Midnight Mall intro character moves
-    'whoosh-badguy': { src: ['match-noise-17'],        volume: 0.07 },                 // Midnight Mall bad guy moves
+    'whoosh-badguy': { src: ['match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
     chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
-    static:  { src: ['free-radio-1.wav'],                 volume: 0.2 },                // cutscene background loop
+    'background-creepy': { src: ['background-creepy'], volume: 0.1 },                // Midnight Mall bad guy loop
+    'background-crickets': { src: ['free-crickets'],   volume: 0.3 },                // Midnight Mall background loop
+    dangle:  { src: ['match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     tvOn:    { src: ['match-power-15'],               volume: 0.1 },                 // cutscene coming in
-    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.05 },                 // cutscene Next, moving to the next scene
+    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.2 },                 // SKIP INTRO
+    clickNext: { src: ['match-glitch-1.wav'],       volume: 0.2 },                // cutscene Next, moving to the next scene
+
+    'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true, music: true },   // song, looping on the debrief page
+    wiggleworm: { src: ['dingo-punks-theme'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
@@ -70,17 +78,25 @@ const SOUND_CONFIG = {
     'ui.character':      'select',   // choosing a character
     'character.allReady': 'chime',   // last character picked, with "All punks ready!"
     'ui.toggle':         'toggle',
-    'splash.transition': { sound: 'whoosh', delay: 230 },  // tuned by ear against the fly-out
+    'splash.transition': { sound: 'whoosh', delay: 280 },  // tuned by ear against the fly-out
     'splash.thumbnail':  { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
     'dialogue.letter':   'blip',     // activity scene dialogue
+    'bumper.dangle':     { sound: 'dangle', delay: 200 },  // START pressed; 120 + the sound's 160ms clink lands just after the bottom of the logo's first swing (200ms)
+    'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
     'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
-    'cutscene.next':     'clickGlitch', // Next to the following scene; the last Next stays silent
+    'cutscene.next':     'clickNext', // Next to the following scene; an intro's last Next stays silent
     'cutscene.skip':     'clickGlitch', // SKIP INTRO
+    'cutscene.finish':   'wiggleworm', // an intro's last Next or SKIP INTRO, every theme except Undermurk
+    'cutscene.finishChime': 'chime', // with cutscene.finish; the same chime as the last character picked
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
-    'cutscene.voiceJJDingo': 'voice-JJDingo', // once per J.J. Dingo line in an intro, replacing the letter sounds
-    'cutscene.voiceBadguy': 'voice-badguy', // once per textStyle: 'badguy' line, replacing the letter sounds
-    'cutscene.move':     'whoosh-cutscene', // animations tagged sfx: 'cutscene.move' in a cutscene file (Midnight Mall intro)
-    'cutscene.moveBadguy': 'whoosh-badguy', // animations tagged sfx: 'cutscene.moveBadguy' (Midnight Mall bad guy)
+    'cutscene.voiceJJDingo': { sound: 'voice-JJDingo', delay: 50 }, // once per J.J. Dingo line in an intro or outro, replacing the letter sounds
+    'cutscene.voiceBadguy': { sound: 'voice-badguy', delay: 50 }, // once per textStyle: 'badguy' line, replacing the letter sounds
+    // Animations tagged sfx: '<event>' in a cutscene file (Midnight Mall). In = coming from off screen.
+    'cutscene.moveIn':   { sound: 'whoosh-cutscene', delay: 100 },
+    'cutscene.move':     { sound: 'whoosh-cutscene', delay: 50 },  // on-screen moves and exits
+    'cutscene.moveBadguyIn': { sound: 'whoosh-badguy', delay: 100 },
+    'cutscene.moveBadguy': { sound: 'whoosh-badguy', delay: 50 },  // bad guy on-screen moves and exits
+    'cutscene.moveBadguyFail': 'whoosh-badguy',  // the fail cutscene, no delay
     'scene.open':        'open',
     'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
     'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
@@ -110,9 +126,11 @@ const SOUND_CONFIG = {
 
   // Looping sounds. Game code calls Sound.startLoop(key) and Sound.stopLoop(key).
   // The volume comes from the sound in `sounds`; remove a key to silence that loop.
+  // A cutscene file can also tag an animation with startLoop: '<key>' or stopLoop: '<key>'.
   loops: {
-    // delayMs: the CRT scanline reaches full panel 690ms in (cutscene-tv-on-beam in css/splash-new.css)
-    cutscene: { sound: 'static', delayMs: 690, fadeInMs: 150, fadeOutMs: 400 },  // whole cutscene: intro, outro, fail, Undermurk
+    'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen, intro and fail
+    debrief: { sound: 'dingo-punks-end', delayMs: 500, fadeInMs: 300, fadeOutMs: 500 },  // whole debrief page; delayMs lines up with the outcome image coming in
+    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro and outro, except while the bad guys are on screen
   },
 
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:
@@ -128,14 +146,15 @@ const SOUND_CONFIG = {
       // just what the code-entry / room-choice screen needs; the rest loads at onPinInput.
       // whoosh and slapPaper are here because the splash can reach them soon after onPinInput.
       // clickWood is here because the menu can open before a code is entered.
-      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
+      // dangle is here because the bumper plays before a code is entered.
+      'index.html':      { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
       'answer-key.html': { sounds: ['click', 'key', 'select', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
-      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
       'debrief.html':    { sounds: '*', delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     onUndermurkPage: { sounds: '*', delay: 0 },
-    // later, music: onCutsceneStart: { music: ['theme'], delay: 500 },
+    onCutsceneStart: { sounds: ['wiggleworm'], delay: 0 },  // fired as an intro starts, so the song is ready by its end
   },
 
   // Delegated clicks: first matching selector wins. An element (or ancestor) with
@@ -148,7 +167,7 @@ const SOUND_CONFIG = {
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
     { match: '.access-input',                         event: 'ui.input', on: 'press' },
-    { match: '.splash-button, .cutscene-next-button, .code-box-button', event: null }, // Next and Finish: no click (the splash button keeps its swipe-out sound)
+    { match: '.cutscene-next-button, .code-box-button', event: null }, // Next and Finish: no click
     { match: '.tab-button-player-count-, .tab-button-activity-count-, ' +
              '.tab-button-time-limit-, .tab-button-hints-',   event: 'ui.setting' }, // "Set up your escape room" tabs
     { match: '.character-select-button',              event: 'ui.character' },
@@ -173,5 +192,5 @@ const SOUND_CONFIG = {
   // data-sfx used in game code (keep this list current):
   //   js/global.js       .button-close-modal, .activity-button-done  "activity.close"
   //                      (they close the activity 50ms after the click)
-  //   js/global-menu.js  .global-menu__sound-toggle  "none"  (plays ui.toggle itself when turned on)
+  //   js/global-menu.js  .global-menu__sound-toggle  "none"  (plays ui.toggle itself)
 };

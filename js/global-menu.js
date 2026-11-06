@@ -219,44 +219,54 @@ function buildGlobalMenuHTML(state) {
       <div class="global-menu__kids">
         <div class="global-menu__kids-links">${kidsLinks}</div>
       </div>
-      ${buildSoundToggleHTML()}
+      ${buildSoundTogglesHTML()}
     </div>
   `;
 }
 
-// Students can mute the current game, unless the teacher turned Audio off in
-// the dashboard (Sound is then unavailable and the toggle isn't shown).
-function buildSoundToggleHTML() {
+// Students can mute sound effects and music separately for the current game,
+// unless the teacher turned Audio off in the dashboard (Sound is then
+// unavailable and the toggles aren't shown).
+function buildSoundTogglesHTML() {
   if (typeof Sound === 'undefined' || !Sound.isAvailable()) {
     return '';
   }
-  const on = !Sound.isMuted();
   return `
-    <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-sfx="none">
-      <span class="global-menu__sound-toggle-label">Sound</span>
+    <div class="global-menu__sound-toggles">
+      ${buildSoundToggleHTML('sound', 'Sound', !Sound.isMuted())}
+      ${buildSoundToggleHTML('music', 'Music', !Sound.isMusicMuted())}
+    </div>
+  `;
+}
+
+function buildSoundToggleHTML(channel, label, on) {
+  return `
+    <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-sound-channel="${channel}" data-sfx="none">
+      <span class="global-menu__sound-toggle-label">${label}</span>
       <span class="global-menu__sound-toggle-track" aria-hidden="true"><span class="global-menu__sound-toggle-thumb"></span></span>
     </button>
   `;
 }
 
-// Muting lasts for the rest of this game: mute=1 rides the debrief URL from the
-// play page, and on the debrief and Undermurk pages it's kept in the URL so the
-// links between them carry it. A new game starts with sound on.
-function rememberSoundMuted(muted) {
+// Muting lasts for the rest of this game: mute=1 (Sound) and muteMusic=1 (Music)
+// ride the debrief URL from the play page, and on the debrief and Undermurk pages
+// they're kept in the URL so the links between them carry them. A new game starts
+// with both on.
+function rememberSoundMuted(key, muted) {
   if (isDebriefPage() || isEnterTheUndermurkPage()) {
     const params = new URLSearchParams(window.location.search);
     if (muted) {
-      params.set('mute', '1');
+      params.set(key, '1');
     } else {
-      params.delete('mute');
+      params.delete(key);
     }
     const search = params.toString();
     history.replaceState(history.state, '', window.location.pathname + (search ? '?' + search : '') + window.location.hash);
   } else if (typeof debriefStats !== 'undefined') {
     if (muted) {
-      debriefStats.mute = 1;
+      debriefStats[key] = 1;
     } else {
-      delete debriefStats.mute;
+      delete debriefStats[key];
     }
   }
 }
@@ -294,12 +304,12 @@ function rememberSoundMuted(muted) {
     if (!toggle || typeof Sound === 'undefined') {
       return;
     }
-    const muted = Sound.setMuted(!Sound.isMuted());
+    const isMusic = toggle.getAttribute('data-sound-channel') === 'music';
+    const muted = isMusic ? Sound.setMusicMuted(!Sound.isMusicMuted()) : Sound.setMuted(!Sound.isMuted());
     toggle.setAttribute('aria-checked', String(!muted));
-    rememberSoundMuted(muted);
-    if (!muted) {
-      Sound.event('ui.toggle');
-    }
+    rememberSoundMuted(isMusic ? 'muteMusic' : 'mute', muted);
+    // Silent while Sound is off, so turning Sound off makes no noise.
+    Sound.event('ui.toggle');
   });
 })();
 

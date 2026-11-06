@@ -62,6 +62,7 @@ if (UNDERMURK) {
 
 // Runs regardless of UNDERMURK — sets and animates the victory/fail image
 function initOutcomeImage(){
+  typeof Sound !== 'undefined' && Sound.startLoop('debrief');
   if (retrievedDebriefStats.outcome === 'fail'){
     imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/fail.png)";
   } else if (retrievedDebriefStats.outcome === 'victory'){

@@ -24,8 +24,8 @@
    Only transform and opacity animate, so it all stays on the compositor (no
    filters). js/splash-new.js removes the overlay when it ends.
    The panel is full at 0.69s (0.2s delay + 70% of the 0.7s beam), and the
-   warm-up starts there. Timed against this: the static's delayMs and the tvOn
-   delay in js/sound-config.js. */
+   warm-up starts there. Timed against this: the tvOn delay in
+   js/sound-config.js. */
 .cutscene-tv-on {
     position: absolute;
     inset: 0;
