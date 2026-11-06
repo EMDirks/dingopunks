@@ -41,7 +41,7 @@ const SOUND_CONFIG = {
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound and Music toggles
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['ken-blip-3'], volume: 0.15, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
+    typewriter: { src: ['match-pi67.wav'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
     'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo's lines in intro and outro cutscenes; pitch: [min, max], 1 = normal
     'voice-badguy': { src: VOICE_CLIPS, volume: 0.6, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
     whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
@@ -52,8 +52,8 @@ const SOUND_CONFIG = {
     'background-crickets': { src: ['free-crickets'],   volume: 0.3 },                // Midnight Mall background loop
     dangle:  { src: ['match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     tvOn:    { src: ['match-power-15'],               volume: 0.1 },                 // cutscene coming in
-    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.2 },                 // SKIP INTRO
-    clickNext: { src: ['match-glitch-1.wav'],       volume: 0.2 },                // cutscene Next, moving to the next scene
+    clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // SKIP INTRO
+    clickNext: { src: ['switch3'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
     'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true, music: true },   // song, looping on the debrief page
     wiggleworm: { src: ['dingo-punks-theme'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes
@@ -92,10 +92,10 @@ const SOUND_CONFIG = {
     'cutscene.voiceJJDingo': { sound: 'voice-JJDingo', delay: 50 }, // once per J.J. Dingo line in an intro or outro, replacing the letter sounds
     'cutscene.voiceBadguy': { sound: 'voice-badguy', delay: 50 }, // once per textStyle: 'badguy' line, replacing the letter sounds
     // Animations tagged sfx: '<event>' in a cutscene file (Midnight Mall). In = coming from off screen.
-    'cutscene.moveIn':   { sound: 'whoosh-cutscene', delay: 100 },
-    'cutscene.move':     { sound: 'whoosh-cutscene', delay: 50 },  // on-screen moves and exits
-    'cutscene.moveBadguyIn': { sound: 'whoosh-badguy', delay: 100 },
-    'cutscene.moveBadguy': { sound: 'whoosh-badguy', delay: 50 },  // bad guy on-screen moves and exits
+    'cutscene.moveIn':   { sound: 'whoosh-cutscene', delay: 200 },
+    'cutscene.move':     { sound: 'whoosh-cutscene', delay: 75 },  // on-screen moves and exits
+    'cutscene.moveBadguyIn': { sound: 'whoosh-badguy', delay: 200 },
+    'cutscene.moveBadguy': { sound: 'whoosh-badguy', delay: 75 },  // bad guy on-screen moves and exits
     'cutscene.moveBadguyFail': 'whoosh-badguy',  // the fail cutscene, no delay
     'scene.open':        'open',
     'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
