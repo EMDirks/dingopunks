@@ -43,6 +43,10 @@ function bootstrapPreviewRoom() {
 
   function nextStep() {
     handlePreloading("onPinInput");
+    // Preview goes from the title straight to the intro, so nothing else fires
+    // the moments that load the intro's images.
+    handlePreloading("onSettings");
+    handlePreloading("onCharacterSelect");
     drawSplash();
   }
 

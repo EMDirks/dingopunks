@@ -15,6 +15,11 @@ const WHOLE_CLASS = true;
 // false = digits 1–9 only (legacy purchase codes).
 const ALPHABET_KEYBOARD = true;
 
-// Shows a white logo-harper.png screen before the Dingo Punks bumper on the
+// Shows a white animated Harper logo screen before the Dingo Punks bumper on the
 // play and free-play pages.
 const HARPER_BUMPER = false;
+
+// Shows the Dingo Punks logo bumper on the play and free-play pages, and its START
+// button on the play page. false skips both and opens straight on the splash. The
+// answer key's bumper isn't affected.
+const DINGO_PUNKS_BUMPER = false;

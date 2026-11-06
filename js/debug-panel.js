@@ -83,6 +83,7 @@
       select.add(new Option(theme.title, theme.main.split('/')[1]));
     });
     if (debugGameTheme) select.value = debugGameTheme;
+    select.addEventListener('change', function() { preloadTheme(select.value); });
     panel.appendChild(select);
 
     [['Intro', 'intro'], ['Outro', 'outro']].forEach(function([label, section]) {
@@ -112,13 +113,35 @@
     location.search = params.toString();
   }
 
-  async function loadCutscene(theme) {
+  async function fetchCutscene(theme) {
     const response = await fetch('resource/' + theme + '/cutscene/cutscene.js');
     if (!response.ok) throw new Error('No cutscene for ' + theme);
     // cutscene.js declares its data with top-level `let`, which can only run once
     // on a page. Evaluating it in a function scope allows switching themes.
     const source = await response.text();
-    const loaded = new Function(source + '\nreturn { cutscene, localAssetArrays };')();
+    return new Function(source + '\nreturn { cutscene, localAssetArrays };')();
+  }
+
+  // The panel skips the splash steps that load cutscene images, so load the
+  // selected theme's ahead of a click, as a real run would have by then. This
+  // reads the lists directly: handlePreloading needs a loaded resource for
+  // 'preview-logo', and the theme's globals must stay put under a running game.
+  async function preloadTheme(theme) {
+    try {
+      const loaded = await fetchCutscene(theme);
+      ['onPinInput', 'onSettings', 'onCharacterSelect', 'onCutsceneStart', 'onGameFinish'].forEach(function(moment) {
+        [globalAssetArrays, loaded.localAssetArrays].forEach(function(assets) {
+          const entry = assets.priority.low[moment];
+          if (entry) preloadImages(entry.asset.filter(function(path) { return path !== 'preview-logo'; }), 'low');
+        });
+      });
+    } catch (error) {
+      console.error('Debug panel: could not preload ' + theme, error);
+    }
+  }
+
+  async function loadCutscene(theme) {
+    const loaded = await fetchCutscene(theme);
 
     // Deliberately bare: these update the game's globals, whether or not a
     // real game has already declared them on this page.
@@ -166,5 +189,6 @@
     // Most sounds normally load when a game code is accepted, which the panel
     // skips. Without this, cutscene sound events are silently dropped.
     typeof Sound !== 'undefined' && Sound.onPreloadEvent('onPinInput');
+    preloadTheme(select.value);
   });
 })();

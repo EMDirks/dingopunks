@@ -92,6 +92,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite4.png',
         scope: 'undermurk',
+        popOnSpeak: true,
         animation: {
           start: 'transform-translate_-100_0',
           end: 'transform-translate_0_0',
@@ -115,6 +116,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite1.png',
         scope: 'undermurk',
+        popOnSpeak: true,
       },
       backgroundImage1: {
         path: 'main1.png',
@@ -130,6 +132,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite2.png',
         scope: 'undermurk',
+        popOnSpeak: true,
         animation: {
           start: 'transform-translate_0_100',
           end: 'transform-translate_0_0',
@@ -155,6 +158,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite3.png',
         scope: 'undermurk',
+        popOnSpeak: true,
         animation: {
           start: 'transform-translate_0_-100',
           end: 'transform-translate_0_0',
@@ -178,6 +182,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite3.png',
         scope: 'undermurk',
+        popOnSpeak: true,
         animation: {
           start: 'transform-translate_0_0__opacity_1',
           end: 'transform-translate_0_50__opacity_0',

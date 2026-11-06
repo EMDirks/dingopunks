@@ -24,10 +24,32 @@ const version = '4.0.68';
 
 const promoDelay = 2000;
 const hidethemeDelay = 3000;
+// Dingo Punks bumper timing, counted from its start. The logo comes in at 400ms,
+// settles by 820ms (bumper-logo-slam in css/splash-new.css), and holds for about
+// 400ms. It then starts bumper-logo-hang-fall, and the background fades as it drops.
+// AUTO_LAUNCH_MIN_MS allows for this.
+const BUMPER_LOGO_EXIT_MS = 1200;
+const BUMPER_BACKGROUND_FADE_MS = 1850;
+// When START pops in on the code entry bumper, just before the logo settles at
+// 820ms. Its click starts the logo's exit, so the background fade is counted from
+// there.
+const BUMPER_START_IN_MS = 700;
+const BUMPER_START_FADE_DELAY_MS = BUMPER_BACKGROUND_FADE_MS - BUMPER_LOGO_EXIT_MS;
+const BUMPER_START_REMOVE_MS = 200;
 // Harper bumper timing, counted from when the logo has loaded. The fade must match
 // .harper-bumper's opacity transition in css/splash-new.css.
-const HARPER_BUMPER_HOLD_MS = 1200;
+const HARPER_BUMPER_HOLD_MS = 1400;
 const HARPER_BUMPER_FADE_MS = 300;
+// How long each logo and "presents..." frame shows before swapping to the next.
+const HARPER_BUMPER_FRAME_MS = 300;
+const HARPER_BUMPER_FRAMES = [
+  'assets/branding/logo/logo-harper-frame-1.png',
+  'assets/branding/logo/logo-harper-frame-2.png',
+];
+const HARPER_BUMPER_PRESENTS_FRAMES = [
+  'assets/branding/logo/presents-frame-1.png',
+  'assets/branding/logo/presents-frame-2.png',
+];
 // Don't let a slow or stalled logo hold the page on a white screen.
 const HARPER_BUMPER_LOAD_TIMEOUT_MS = 1500;
 const isAnswersMode = new URLSearchParams(window.location.search).get('answers') === '1';
@@ -117,7 +139,7 @@ function extractPastedCode(text) {
 }
 
 function handleAccessCodePaste(event) {
-  if (!isAccess || isPinLockedOut() || membershipLookupPending) return;
+  if (awaitingBumperStart || !isAccess || isPinLockedOut() || membershipLookupPending) return;
 
   const cells = document.querySelectorAll('.access-input');
   if (!cells.length || cells[0].disabled) return;
@@ -158,10 +180,13 @@ const MEMBERSHIP_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{5}$/;
 
 // Hold an auto-launch until the opening bumper has played out, so a fast
 // lookup doesn't transition the splash out from under the logo animation.
-const AUTO_LAUNCH_MIN_MS = 1600;
+const AUTO_LAUNCH_MIN_MS = 2450;
 
 // Set once, before drawSplash, when the page was opened as play.dingopunks.com/?CODE.
 let autoLaunchCode = null;
+
+// True while the code entry screen is built but still behind the START bumper.
+let awaitingBumperStart = false;
 // Blocks typed entry while a lookup is in flight or a game is already loading.
 let membershipLookupPending = false;
 let shareCodeModulePromise = null;
@@ -357,7 +382,7 @@ function submitMembershipCode(code) {
 }
 
 function startAutoLaunch() {
-  const notBefore = Date.now() + AUTO_LAUNCH_MIN_MS;
+  const notBefore = DINGO_PUNKS_BUMPER ? Date.now() + AUTO_LAUNCH_MIN_MS : 0;
   const linkCode = autoLaunchCode;
   membershipLookupPending = true;
 
@@ -572,6 +597,11 @@ function drawSplash(){
 // transition splash
 function transitionSplash(){
   typeof Sound !== 'undefined' && Sound.event('splash.transition');
+  const harperLogo = document.querySelector('.splash-harper-logo');
+  if (harperLogo) {
+    harperLogo.classList.add('splash-harper-logo--hidden');
+    setTimeout(function() { harperLogo.remove(); }, splashExitDuration);
+  }
   if (splashIndex !== splashOrder.length-1){
     toggleClass(splashVersion,'splash-version--visible','splash-version--hidden');
     toggleClass(splashNav,'splash-nav--visible','splash-nav--hidden');
@@ -642,11 +672,41 @@ function transitionSplash(){
 // BUMPER
 /////////
 
+// Holds the code entry bumper on the logo until START is pressed. It sits beside
+// the logo, not inside it, so it doesn't swing with the logo on the way out.
+function addBumperStartButton(bumperContainer, onStart) {
+  awaitingBumperStart = true;
+  bumperContainer.classList.add('bumper-container--start');
+  const startButton = createElement('button', ['bumper-start', 'bumper-start--hidden'], bumperContainer);
+  startButton.textContent = 'START';
+  setIpadActiveState(startButton);
+
+  setTimeout(function() {
+    toggleClass(startButton, 'bumper-start--hidden', 'bumper-start--visible');
+    startButton.focus({ preventScroll: true });
+  }, BUMPER_START_IN_MS);
+
+  // js/global.js cancels Enter on every keydown, so it never clicks a button. This
+  // waits for keyup so the key's release doesn't land on the code box taking focus.
+  startButton.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') startButton.click();
+  });
+
+  startButton.addEventListener('click', function() {
+    if (!awaitingBumperStart) return;
+    awaitingBumperStart = false;
+    toggleClass(startButton, 'bumper-start--visible', 'bumper-start--pressed');
+    activeInput__codeInput.focus({ preventScroll: true });
+    onStart();
+    setTimeout(function() { startButton.remove(); }, BUMPER_START_REMOVE_MS);
+  });
+}
+
 // game code
 function addAccess(){
 
   if (gameMode !== "preview"){
-    addBumper();
+    if (DINGO_PUNKS_BUMPER) addBumper();
     /*
     addTheme();
     */
@@ -657,7 +717,6 @@ function addAccess(){
   function addBumper(){
     let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], document.body);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
-    setTimeout(hideBumperContainer,1000);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
     }
@@ -665,10 +724,19 @@ function addAccess(){
     function bringInBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--hidden','bumper-logo--visible');
     }
-    setTimeout(bringOutBumperLogo,1000);
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
+    // A direct link has no code to type, so it plays straight through to the game.
+    if (autoLaunchCode) {
+      setTimeout(hideBumperContainer,BUMPER_BACKGROUND_FADE_MS);
+      setTimeout(bringOutBumperLogo,BUMPER_LOGO_EXIT_MS);
+      return;
+    }
+    addBumperStartButton(bumperContainer, function() {
+      bringOutBumperLogo();
+      setTimeout(hideBumperContainer,BUMPER_START_FADE_DELAY_MS);
+    });
   }
   function addTheme(){
     const themeContainer = createElement('div', ['theme-container', 'theme-container--visible'], splash);
@@ -737,7 +805,7 @@ function addAccess(){
     let bumperContainer = createElement('div', ['bumper-container--preview', 'bumper-container--visible'], document.body);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     bumperLogo.style.backgroundImage = "url('assets/branding/logo/logo-answer-key.png')";
-    setTimeout(hideBumperContainer,1000);
+    setTimeout(hideBumperContainer,BUMPER_BACKGROUND_FADE_MS);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
     }
@@ -745,7 +813,7 @@ function addAccess(){
     function bringInBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--hidden','bumper-logo--visible');
     }
-    setTimeout(bringOutBumperLogo,1000);
+    setTimeout(bringOutBumperLogo,BUMPER_LOGO_EXIT_MS);
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
@@ -849,7 +917,8 @@ function buildAccessCodeEntry() {
       accessInput.value = autoLaunchCode ? autoLaunchCode.charAt(i) : '';
     } 
     if (i === 0) {
-      accessInput.focus();
+      // Typing waits for START; it takes focus back then.
+      if (!awaitingBumperStart) accessInput.focus();
       activeInput__codeInput = accessInput; 
     }
     
@@ -861,6 +930,11 @@ function buildAccessCodeEntry() {
   toggleClass(splashTitle, 'splash-title--hidden', 'splash-title--visible');
   toggleClass(splashSubtitle, 'splash-subtitle--hidden', 'splash-subtitle--visible');
   updateElementSize();
+
+  // On the page itself, outside .site-container, like the global menu button.
+  const harperLogo = createElement('img', ['splash-harper-logo'], document.body);
+  harperLogo.alt = 'Harper';
+  harperLogo.src = 'assets/branding/logo/logo-harper-small.png';
 
   addPromo();
   function addPromo() {
@@ -1055,11 +1129,11 @@ function addTitle(){
 function addFree(){
 
   // add bumper
-  addBumper();
+  if (DINGO_PUNKS_BUMPER) addBumper();
   function addBumper(){
     let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], document.body);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
-    setTimeout(hideBumperContainer,1000);
+    setTimeout(hideBumperContainer,BUMPER_BACKGROUND_FADE_MS);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
     }
@@ -1067,7 +1141,7 @@ function addFree(){
     function bringInBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--hidden','bumper-logo--visible');
     }
-    setTimeout(bringOutBumperLogo,1000);
+    setTimeout(bringOutBumperLogo,BUMPER_LOGO_EXIT_MS);
     function bringOutBumperLogo(){
       toggleClass(bumperLogo,'bumper-logo--visible','bumper-logo--out');
     }
@@ -1642,6 +1716,7 @@ function addCutscene(cutsceneIndex,section){
 
   // next button click
   cutsceneNextButton.addEventListener('click', function(event) {
+    cutsceneText.textContent = '';
     if (cutsceneIndex >= cutsceneSection.length-1){
       typeof Sound !== 'undefined' && Sound.stopLoop('cutscene');
     }
@@ -1813,6 +1888,9 @@ function addCutscene(cutsceneIndex,section){
       flashCutsceneStatic(cutsceneSection[index]);
     }
 
+    // Animations tagged afterText wait for the line to finish typing (see bringInNextButton)
+    const animationsAfterText = [];
+
     // add image
     addSprite();
     function addSprite(){
@@ -1851,7 +1929,7 @@ function addCutscene(cutsceneIndex,section){
               setTimeout(() => addBackgroundImage(imageElement,imageObject), delay);
             }
             if (imageObject.animation){
-              setTimeout(() => addAnimation(imageElement,imageObject,className), delay);
+              scheduleAnimation(imageElement,imageObject,className,delay);
             }
           }
 
@@ -1872,7 +1950,7 @@ function addCutscene(cutsceneIndex,section){
 
             // if there is a transform-start
             if (imageObject.animation){
-              setTimeout(() => addAnimation(imageElement,imageObject,className), delay);
+              scheduleAnimation(imageElement,imageObject,className,delay);
             }
 
           }
@@ -1903,6 +1981,15 @@ function addCutscene(cutsceneIndex,section){
         }
         if (imageObject.path && imageObject.scope === 'undermurk'){
           imageElement.style.backgroundImage = "url(assets/enter-the-undermurk/cutscene/" + imageObject.path + ")";
+        }
+      }
+
+      function scheduleAnimation(imageElement,imageObject,className,delay){
+        if (imageObject.animation.afterText) {
+          animationsAfterText.push(() => addAnimation(imageElement,imageObject,className));
+        }
+        else {
+          setTimeout(() => addAnimation(imageElement,imageObject,className), delay);
         }
       }
 
@@ -1998,6 +2085,11 @@ function addCutscene(cutsceneIndex,section){
       cutsceneCharacterName.textContent = sc_characterSprite && sc_characterSprite.name ? sc_characterSprite.name : '';
 
      // text
+     // Bad guy lines and J.J.'s intro lines play one voice sound instead of a sound per letter.
+     const isIntroSection = section === 'intro' || section === 'introNoLimit' || section === 'undermurkIntro';
+     let voiceEvent = null;
+     if (cutsceneSection[index].textStyle === 'badguy') voiceEvent = 'cutscene.voiceBadguy';
+     else if (isIntroSection && sc_characterSprite?.name === 'J.J. DINGO') voiceEvent = 'cutscene.voiceJJDingo';
      setTimeout(() => addTextByTypewriter(cutsceneText, sc_text, typewriterDelay), initialTextDelay);
       function addTextByTypewriter(elementClass, text, speed) {
         
@@ -2016,6 +2108,16 @@ function addCutscene(cutsceneIndex,section){
       
         function continueFunction() {
           elementClass.style.visibility = "visible";
+          if (voiceEvent) { typeof Sound !== 'undefined' && Sound.event(voiceEvent); }
+          // A cutscene file can tag a sprite or background image (some speakers are drawn
+          // as one) with popOnSpeak: true to pop it as the line starts
+          const popElement = sc_characterSprite?.popOnSpeak ? cutsceneCharacterSprite
+            : sc_backgroundImage1?.popOnSpeak ? cutsceneBackgroundImage1 : null;
+          if (popElement) {
+            popElement.classList.remove('cutscene-character-sprite--bounce');
+            void popElement.offsetWidth; // restart the pop when the element carries over between lines
+            popElement.classList.add('cutscene-character-sprite--bounce');
+          }
           const letters = text.split('');
           letters.forEach((letter, index) => {
             const span = document.createElement('span');
@@ -2024,7 +2126,7 @@ function addCutscene(cutsceneIndex,section){
             elementClass.appendChild(span);
             setTimeout(() => {
               span.style.opacity = 1;
-              typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter);
+              if (!voiceEvent) { typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter); }
             }, speed * index);
           });
         }
@@ -2048,6 +2150,8 @@ function addCutscene(cutsceneIndex,section){
     }
     setTimeout(bringInNextButton,sc_textDelay + initialSceneDelay + sc_text.length*typewriterDelay + initialTextDelay + 200);
     function bringInNextButton(){
+      // Started here so a Next click can never land before them
+      animationsAfterText.forEach(play => play());
       toggleClass(cutsceneNextButton,'cutscene-next-button--hidden--out','cutscene-next-button--visible');
       toggleClass(cutsceneNextButton,'cutscene-next-button--hidden','cutscene-next-button--visible');
       if (cutsceneIndex === 0){
@@ -2099,30 +2203,71 @@ function startSplash() {
   if (autoLaunchCode) startAutoLaunch();
 }
 
-// Covers the page in white with the Harper logo, then calls onFadeStart as it
-// fades, so the Dingo Punks bumper starts underneath it.
+// Covers the page in white with the animated Harper logo and "presents...", then
+// calls onFadeStart as it fades, so the Dingo Punks bumper starts underneath it.
+// The frames are stacked and shown one at a time, so a swap can never flash blank.
 function playHarperBumper(onFadeStart) {
   const bumper = createElement('div', ['harper-bumper'], document.body);
-  const logo = createElement('img', ['harper-bumper__logo'], bumper);
+  const logo = createElement('div', ['harper-bumper__logo'], bumper);
+  logo.setAttribute('role', 'img');
+  logo.setAttribute('aria-label', 'Harper presents');
+  let imagesLoading = HARPER_BUMPER_FRAMES.length + HARPER_BUMPER_PRESENTS_FRAMES.length;
+  let frameIndex = 0;
+  let frameTimer = null;
   let started = false;
+
+  const frames = addFrames(logo, HARPER_BUMPER_FRAMES);
+
+  // White panel over the frames; sliding it away reveals the signature.
+  createElement('div', ['harper-bumper__wipe'], logo);
+
+  const presents = createElement('div', ['harper-bumper__presents'], logo);
+  const presentsFrames = addFrames(presents, HARPER_BUMPER_PRESENTS_FRAMES);
+
+  function addFrames(parent, sources) {
+    return sources.map(function(src, index) {
+      const frame = createElement('img', ['harper-bumper__frame'], parent);
+      frame.alt = '';
+      frame.classList.toggle('harper-bumper__frame--active', index === 0);
+      frame.addEventListener('load', onImageSettled);
+      frame.addEventListener('error', onImageSettled);
+      frame.src = src;
+      return frame;
+    });
+  }
+
+  function onImageSettled() {
+    imagesLoading -= 1;
+    if (imagesLoading === 0) start();
+  }
+
+  function showNextFrame() {
+    const nextIndex = (frameIndex + 1) % frames.length;
+    [frames, presentsFrames].forEach(function(frameSet) {
+      frameSet[frameIndex].classList.remove('harper-bumper__frame--active');
+      frameSet[nextIndex].classList.add('harper-bumper__frame--active');
+    });
+    frameIndex = nextIndex;
+  }
 
   function start() {
     if (started) return;
     started = true;
     logo.classList.add('harper-bumper__logo--visible');
+    // Starts with the signature and keeps looping until the bumper is gone.
+    frameTimer = setInterval(showNextFrame, HARPER_BUMPER_FRAME_MS);
     setTimeout(finish, HARPER_BUMPER_HOLD_MS);
   }
 
   function finish() {
     bumper.classList.add('harper-bumper--out');
     onFadeStart();
-    setTimeout(function() { bumper.remove(); }, HARPER_BUMPER_FADE_MS);
+    setTimeout(function() {
+      clearInterval(frameTimer);
+      bumper.remove();
+    }, HARPER_BUMPER_FADE_MS);
   }
 
-  logo.addEventListener('load', start);
-  logo.addEventListener('error', start);
   setTimeout(start, HARPER_BUMPER_LOAD_TIMEOUT_MS);
-  logo.alt = 'Harper';
-  logo.src = 'assets/branding/logo/logo-harper.png';
 }
 

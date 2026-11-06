@@ -193,6 +193,23 @@ button, input[type="submit"], input[type="reset"] {
 	filter: brightness(0.85);
 }
 
+/* On the page like .button-menu-global, outside .site-container. Sized to 7% of
+   .site-container's width, so it doesn't grow on ultrawide screens. */
+.splash-harper-logo {
+	position: absolute;
+	bottom: 12px;
+	left: 16px;
+	width: min(7vw, 12.6vh);
+	height: auto;
+	z-index: 998;
+	transition: opacity 0.15s;
+	pointer-events: none;
+}
+
+.splash-harper-logo--hidden {
+	opacity: 0;
+}
+
 .site-container {
     width: 100vw;
     height: 100vh;
@@ -463,6 +480,11 @@ button, input[type="submit"], input[type="reset"] {
 		border: 2.5px solid rgba(var(--off-black), 1);
 	}
 
+	.splash-harper-logo {
+		bottom: 6px;
+		left: 6px;
+	}
+
 	.modal__popup {
 		padding: 16px;
 		max-width: calc(100%-32px);
@@ -611,7 +633,7 @@ button, input[type="submit"], input[type="reset"] {
 /* Student Sound toggle: a small switch under the cards. Only rendered when the
    teacher hasn't turned Audio off. */
 .global-menu__sound-toggle {
-	display: none; /* Hidden for now; set back to flex to show it again. */
+	display: flex;
 	align-items: center;
 	gap: 10px;
 	align-self: flex-start;

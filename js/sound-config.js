@@ -2,13 +2,25 @@
 // for which game event, and when it loads. js/sound.js only does what this
 // file says. Game code fires events (Sound.event('ui.click')); it never names
 // a sound file, so remapping or silencing anything is an edit here.
+
+// Character voice clips. Each character's voice-* sound below picks from these at
+// random and sets its own pitch.
+const VOICE_CLIPS = [
+  'voice-1',
+  'voice-2',
+  'voice-3',
+  'voice-4',
+  'voice-5',
+];
+
 const SOUND_CONFIG = {
   enabled: true,                 // master switch for the whole site
+  masterVolume: 1.5625,          // multiplies every sound and loop; 1 = the mix below as written
   basePath: 'assets/audio/sfx/',
   formats: ['ogg'],              // later: ['m4a', 'ogg'] — the first one the browser can play wins
 
   // name → file(s) + mix. src are base names (the extension comes from `formats`), or a
-  // full file name like 'correct.wav' to use that file as is. Several = random pick per play.
+  // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   sounds: {
 
@@ -27,11 +39,15 @@ const SOUND_CONFIG = {
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound toggle
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['ken-blip-1'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
-    whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions, Midnight Mall intro character moves
+    typewriter: { src: ['ken-blip-2'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
+    'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.4, pitch: [0.8,1] },              // J.J. Dingo's lines in intro cutscenes; pitch: [min, max], 1 = normal
+    'voice-badguy': { src: VOICE_CLIPS, volume: 0.4, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
+    whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
+    'whoosh-cutscene': { src: ['ken-whoosh-1'],           volume: 0.15 },                // Midnight Mall intro character moves
+    'whoosh-badguy': { src: ['match-noise-17'],        volume: 0.07 },                 // Midnight Mall bad guy moves
     chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
-    static:  { src: ['free-static-2.wav'],                 volume: 0.1 },                // cutscene background loop
-    tvOn:    { src: ['free-tvOn.wav'],               volume: 0.1 },                 // cutscene coming in
+    static:  { src: ['free-radio-1.wav'],                 volume: 0.2 },                // cutscene background loop
+    tvOn:    { src: ['match-power-15'],               volume: 0.1 },                 // cutscene coming in
     clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.05 },                 // cutscene Next, moving to the next scene
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
@@ -61,7 +77,10 @@ const SOUND_CONFIG = {
     'cutscene.next':     'clickGlitch', // Next to the following scene; the last Next stays silent
     'cutscene.skip':     'clickGlitch', // SKIP INTRO
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
-    'cutscene.move':     'whoosh',   // animations tagged sfx: 'cutscene.move' in a cutscene file (Midnight Mall intro)
+    'cutscene.voiceJJDingo': 'voice-JJDingo', // once per J.J. Dingo line in an intro, replacing the letter sounds
+    'cutscene.voiceBadguy': 'voice-badguy', // once per textStyle: 'badguy' line, replacing the letter sounds
+    'cutscene.move':     'whoosh-cutscene', // animations tagged sfx: 'cutscene.move' in a cutscene file (Midnight Mall intro)
+    'cutscene.moveBadguy': 'whoosh-badguy', // animations tagged sfx: 'cutscene.moveBadguy' (Midnight Mall bad guy)
     'scene.open':        'open',
     'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
     'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam

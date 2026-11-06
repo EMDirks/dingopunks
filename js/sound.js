@@ -35,6 +35,7 @@ const Sound = (function () {
   const wantedLoops = new Map(); // loop key → performance.now() when it was asked for
   const liveLoops = new Map();   // loop key → { source, gain } while playing
   const voices = new Map();      // sound name → how many are sounding now
+  const lastFileIndex = new Map(); // sound name → index of the file it played last
   const logged = new Set();
 
   function logOnce(key, error) {
@@ -95,11 +96,17 @@ const Sound = (function () {
     return pickFormat(cfg) !== null;
   }
 
+  function masterLevel() {
+    if (muted) return 0;
+    const cfg = config();
+    return cfg && typeof cfg.masterVolume === 'number' ? cfg.masterVolume : 1;
+  }
+
   function getContext() {
     if (ctx) return ctx;
     ctx = new AudioContextClass();
     master = ctx.createGain();
-    master.gain.value = muted ? 0 : 1;
+    master.gain.value = masterLevel();
     master.connect(ctx.destination);
     UNLOCK_EVENTS.forEach(function (type) {
       document.addEventListener(type, unlock, { capture: true, passive: true });
@@ -206,6 +213,16 @@ const Sound = (function () {
     }
   }
 
+  // A random file for this sound, never the one it played last.
+  function pickFileIndex(name, count) {
+    const last = lastFileIndex.get(name);
+    const hasLast = last !== undefined && count > 1;
+    let index = Math.floor(Math.random() * (hasLast ? count - 1 : count));
+    if (hasLast && index >= last) index += 1;
+    lastFileIndex.set(name, index);
+    return index;
+  }
+
   function play(name) {
     if (muted || !isAvailable()) return;
     const decoded = buffers.get(name);
@@ -219,7 +236,7 @@ const Sound = (function () {
     if (ctx.state !== 'running') ctx.resume().catch(function () {});
 
     const source = ctx.createBufferSource();
-    source.buffer = decoded[Math.floor(Math.random() * decoded.length)];
+    source.buffer = decoded[pickFileIndex(name, decoded.length)];
     if (Array.isArray(def.pitch)) {
       source.playbackRate.value = def.pitch[0] + Math.random() * (def.pitch[1] - def.pitch[0]);
     }
@@ -336,7 +353,7 @@ const Sound = (function () {
 
   function setMuted(value) {
     muted = Boolean(value);
-    if (master) master.gain.value = muted ? 0 : 1;
+    if (master) master.gain.value = masterLevel();
     return muted;
   }
 

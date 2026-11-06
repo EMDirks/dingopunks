@@ -35,6 +35,7 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
@@ -59,12 +60,14 @@ let cutscene = {
             text: 'The shopkeepers of the Midnight Mall are in terrible trouble.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
                     sfx: 'cutscene.move',
                 },
 
@@ -76,20 +79,23 @@ let cutscene = {
                     start: 'transform-scale_1_1__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-500ms__opacity-500ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
         },
         {
             text: 'Each one has a task to complete before the clock strikes twelve.',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-100_0',
                     end: 'transform-translate_-25_0',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
                     sfx: 'cutscene.move',
                 },
             },
@@ -103,6 +109,7 @@ let cutscene = {
             text: 'Use your code-breaking skills to help, but beware!',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
             },
@@ -114,14 +121,16 @@ let cutscene = {
         },
         {
             text: 'At the stroke of midnight, the Mallcrawlers will emerge from the Undermurk.',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-25_0',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
                     sfx: 'cutscene.move',
                 },
             },
@@ -135,12 +144,14 @@ let cutscene = {
             text: 'Anyone still inside the mall will become their prisoner... forever!',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
                     sfx: 'cutscene.move',
                 },
             },
@@ -151,6 +162,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
@@ -163,13 +175,14 @@ let cutscene = {
                 name: "MALLCRAWLERS",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
-                    sfx: 'cutscene.move',
+                    sfx: 'cutscene.moveBadguy',
                 },
             },
             backgroundColor: 'background-color-salmon'
@@ -181,6 +194,7 @@ let cutscene = {
                 name: "MALLCRAWLERS",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -191,6 +205,7 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
@@ -207,6 +222,7 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguy',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -215,12 +231,14 @@ let cutscene = {
             text: 'The clock is ticking...',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
                     sfx: 'cutscene.move',
                 },
             },
@@ -231,6 +249,7 @@ let cutscene = {
                     start: 'opacity-0',
                     end: 'opacity-1',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
@@ -243,12 +262,14 @@ let cutscene = {
             textDelay: 700,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                     delay: 500
                 },
             },
@@ -267,6 +288,7 @@ let cutscene = {
             text: 'The Mallcrawlers are almost here. Let\'s get you out of there.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -280,12 +302,15 @@ let cutscene = {
             text: 'Come aboard! Your mission is complete.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                     delay: 200
                 },
             },
@@ -295,7 +320,8 @@ let cutscene = {
                 animation: {
                     start: 'transform-translate_0_-100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
                 },
             },    
             backgroundImage2: {
@@ -305,6 +331,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             }, 
             backgroundColor: 'background-color-black'
@@ -318,12 +345,14 @@ let cutscene = {
             textDelay: 550,
             characterSprite: {
                 name: "MALLCRAWLERS",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguy',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -333,6 +362,7 @@ let cutscene = {
             textStyle: 'badguy',
             characterSprite: {
                 name: "MALLCRAWLERS",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
