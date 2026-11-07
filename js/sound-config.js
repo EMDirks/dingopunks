@@ -41,7 +41,7 @@ const SOUND_CONFIG = {
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound and Music toggles
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['match-pi67.wav'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
+    typewriter: { src: ['ken-blip-3'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
     'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo's lines in intro and outro cutscenes; pitch: [min, max], 1 = normal
     'voice-badguy': { src: VOICE_CLIPS, volume: 0.6, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
     whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
@@ -49,14 +49,15 @@ const SOUND_CONFIG = {
     'whoosh-badguy': { src: ['match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
     chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
     'background-creepy': { src: ['background-creepy'], volume: 0.1 },                // Midnight Mall bad guy loop
-    'background-crickets': { src: ['free-crickets'],   volume: 0.3 },                // Midnight Mall background loop
+    'background-crickets': { src: ['free-crickets'],   volume: 0.4 },                // Midnight Mall background loop
     dangle:  { src: ['match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     tvOn:    { src: ['match-power-15'],               volume: 0.1 },                 // cutscene coming in
     clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // SKIP INTRO
     clickNext: { src: ['switch3'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
     'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true, music: true },   // song, looping on the debrief page
-    wiggleworm: { src: ['dingo-punks-theme'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes
+    'dingo-punks-loop': { src: ['dingo-punks-loop'], volume: 0.3, lazy: true, music: true },   // song, looping in the Midnight Mall intro; lazy, so it loads when the loop starts
+    wiggleworm: { src: ['dingo-punks-end'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
@@ -84,10 +85,10 @@ const SOUND_CONFIG = {
     'bumper.dangle':     { sound: 'dangle', delay: 200 },  // START pressed; 120 + the sound's 160ms clink lands just after the bottom of the logo's first swing (200ms)
     'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
     'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
-    'cutscene.next':     'clickNext', // Next to the following scene; an intro's last Next stays silent
+    'cutscene.next':     'clickNext', // Next to the following scene; no click on the last Next of any cutscene
     'cutscene.skip':     'clickGlitch', // SKIP INTRO
     'cutscene.finish':   'wiggleworm', // an intro's last Next or SKIP INTRO, every theme except Undermurk
-    'cutscene.finishChime': 'chime', // with cutscene.finish; the same chime as the last character picked
+    'cutscene.finishChime': 'chime', // SKIP INTRO, with cutscene.finish; the same chime as the last character picked
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
     'cutscene.voiceJJDingo': { sound: 'voice-JJDingo', delay: 50 }, // once per J.J. Dingo line in an intro or outro, replacing the letter sounds
     'cutscene.voiceBadguy': { sound: 'voice-badguy', delay: 50 }, // once per textStyle: 'badguy' line, replacing the letter sounds
@@ -128,9 +129,10 @@ const SOUND_CONFIG = {
   // The volume comes from the sound in `sounds`; remove a key to silence that loop.
   // A cutscene file can also tag an animation with startLoop: '<key>' or stopLoop: '<key>'.
   loops: {
+    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 200, fadeOutMs: 50 },  // Midnight Mall intro, from J.J. Dingo coming in until the bad guys crash in (or SKIP INTRO); 50ms cuts it off without a pop
     'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen, intro and fail
     debrief: { sound: 'dingo-punks-end', delayMs: 500, fadeInMs: 300, fadeOutMs: 500 },  // whole debrief page; delayMs lines up with the outcome image coming in
-    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro and outro, except while the bad guys are on screen
+    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro from J.J. Dingo's return after the bad guys, and outro
   },
 
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:

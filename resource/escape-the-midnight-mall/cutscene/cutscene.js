@@ -15,7 +15,6 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
-                    startLoop: 'background-crickets',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -44,6 +43,7 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     sfx: 'cutscene.moveIn',
+                    startLoop: 'dingo-punks-loop',
                 },
                 
             },
@@ -184,7 +184,7 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     sfx: 'cutscene.moveBadguyIn',
-                    stopLoop: 'background-crickets',
+                    stopLoop: 'dingo-punks-loop',
                     startLoop: 'background-creepy',
                 },
             },

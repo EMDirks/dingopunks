@@ -1763,12 +1763,8 @@ function addCutscene(cutsceneIndex,section){
     cutsceneText.textContent = '';
     if (cutsceneIndex >= cutsceneSection.length-1){
       stopCutsceneLoops();
-      if (section === 'outro' || section === 'debugOutro') {
-        typeof Sound !== 'undefined' && Sound.event('cutscene.next');
-      }
       if (section === 'intro' || section === 'introNoLimit') {
         typeof Sound !== 'undefined' && Sound.event('cutscene.finish');
-        typeof Sound !== 'undefined' && Sound.event('cutscene.finishChime');
       }
     }
     if (cutsceneIndex < cutsceneSection.length-1){
