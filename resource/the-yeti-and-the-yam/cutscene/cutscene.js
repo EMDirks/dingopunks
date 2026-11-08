@@ -282,7 +282,7 @@ let cutscene = {
                 animation: {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
-                    duration: 'transition-transform-500ms__opacity-500ms',
+                    duration: 'transition-transform-200ms__opacity-200ms',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -329,18 +329,29 @@ let cutscene = {
         {
             text: 'Arrrrbleggg grroooop skarrg!',
             textStyle: 'badguy',
-            textDelay: 550,
+            textDelay: 700,
             characterSprite: {
                 name: "YETI",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
+                    afterReveal: true,
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    delay: 500,
                 },
             },
-            backgroundColor: 'background-color-salmon'
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+                animation: {
+                    start: 'transform-scale_0__opacity_0',
+                    end: 'transform-scale_1__opacity_1',
+                    duration: 'transition-transform-200ms__opacity-200ms',
+                },
+            },
+            backgroundColor: 'background-color-black'
         },
         {
             text: 'Hruuuggglep ugraash klog gurambooo!',
@@ -350,7 +361,11 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-salmon'
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+            },
+            backgroundColor: 'background-color-black'
         },
     ],
 

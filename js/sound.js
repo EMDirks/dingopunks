@@ -35,6 +35,7 @@ const Sound = (function () {
   let playingClick = false;
 
   const buffers = new Map();     // sound name → AudioBuffer[]
+  const fileBuffers = new Map(); // file base name → Promise<AudioBuffer>, shared by every sound that lists the file
   const loading = new Set();     // sound names being fetched or decoded
   const missing = new Set();     // sound names that failed or have no files
   const wantedLoops = new Map(); // loop key → performance.now() when it was asked for
@@ -107,11 +108,15 @@ const Sound = (function () {
     return cfg && typeof cfg.masterVolume === 'number' ? cfg.masterVolume : 1;
   }
 
+  // ignoreMute: true plays a sound even while the student has its channel off
+  // (the global menu toggles, so turning a channel off still clicks).
   function isSilenced(def) {
+    if (def && def.ignoreMute) return false;
     return def && def.music ? musicMuted : muted;
   }
 
   function busFor(def) {
+    if (def && def.ignoreMute) return master;
     return def && def.music ? musicBus : sfxBus;
   }
 
@@ -163,6 +168,24 @@ const Sound = (function () {
     });
   }
 
+  // One fetch and decode per file, however many sounds list it (every voice-* sound
+  // shares the same clips). A failed load is forgotten so a later preload can retry.
+  function loadFile(cfg, base) {
+    if (fileBuffers.has(base)) return fileBuffers.get(base);
+    const promise = fetch(fileUrl(cfg, base))
+      .then(function (response) {
+        if (!response.ok) throw new Error(response.status + ' ' + response.url);
+        return response.arrayBuffer();
+      })
+      .then(decode)
+      .catch(function (error) {
+        fileBuffers.delete(base);
+        throw error;
+      });
+    fileBuffers.set(base, promise);
+    return promise;
+  }
+
   function load(cfg, name) {
     if (buffers.has(name) || loading.has(name) || missing.has(name)) return;
     const def = cfg.sounds && cfg.sounds[name];
@@ -171,14 +194,7 @@ const Sound = (function () {
       return;
     }
     loading.add(name);
-    Promise.all(def.src.map(function (base) {
-      return fetch(fileUrl(cfg, base))
-        .then(function (response) {
-          if (!response.ok) throw new Error(response.status + ' ' + response.url);
-          return response.arrayBuffer();
-        })
-        .then(decode);
-    }))
+    Promise.all(def.src.map(function (base) { return loadFile(cfg, base); }))
       .then(function (decoded) {
         buffers.set(name, decoded);
         wantedLoops.forEach(function (askedAt, key) {
@@ -289,15 +305,23 @@ const Sound = (function () {
     return true;
   }
 
-  // An event maps to a sound name, or to { sound, skipAfterMs, delay }:
-  // skipAfterMs stays quiet when another sound started within that many ms
-  // (e.g. a popup that opens right after the wrong-code sound); delay plays the
-  // sound that many ms later, to line it up with an animation; skipIfLocked
-  // stays quiet while the browser still has audio locked (no tap yet).
+  // Plays a game event from SOUND_CONFIG.events.
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events) return;
-    const mapping = cfg.events[eventName];
+    const isLetter = eventName === 'dialogue.letter' || eventName === 'cutscene.letter';
+    fireMapping(cfg, cfg.events[eventName], isLetter, detail);
+  }
+
+  // mapping is an `events` or `characterVoices` value: a sound name, or
+  // { sound, skipAfterMs, delay, skipIfLocked }. skipAfterMs stays quiet when
+  // another sound started within that many ms (e.g. a popup that opens right
+  // after the wrong-code sound); delay plays the sound that many ms later, to
+  // line it up with an animation; skipIfLocked stays quiet while the browser
+  // still has audio locked (no tap yet).
+  // keepsClicks: true for sounds no tap causes (character voices), so they never
+  // replace a tap's click sound.
+  function fireMapping(cfg, mapping, isLetter, detail, keepsClicks) {
     const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
     if (typeof name !== 'string' || isSilenced(cfg.sounds && cfg.sounds[name])) return;
     if (mapping.skipAfterMs && performance.now() - lastSoundAt < mapping.skipAfterMs) {
@@ -305,16 +329,28 @@ const Sound = (function () {
       return;
     }
     if (mapping.skipIfLocked && (!ctx || ctx.state !== 'running')) return;
-    const isLetter = eventName === 'dialogue.letter' || eventName === 'cutscene.letter';
     if (isLetter && !shouldBlip(cfg, detail)) return;
     // A sound fired while a click is being handled replaces its plain click.
-    pendingClick = null;
-    if (!playingClick && !isLetter) lastGameSoundAt = performance.now();
+    if (!keepsClicks) {
+      pendingClick = null;
+      if (!playingClick && !isLetter) lastGameSoundAt = performance.now();
+    }
     if (mapping.delay > 0) {
       setTimeout(safe('event', function () { play(name); }), mapping.delay);
       return;
     }
     play(name);
+  }
+
+  // A character's voice from SOUND_CONFIG.characterVoices[theme][key]. Plays it (honouring
+  // delay) and returns true when the character has an entry, even a null one, so the caller
+  // skips its letter blips. false = no entry: the caller keeps the blips.
+  function voice(theme, key) {
+    const cfg = config();
+    const table = cfg && cfg.characterVoices && cfg.characterVoices[theme];
+    if (!table || typeof key !== 'string' || !Object.prototype.hasOwnProperty.call(table, key)) return false;
+    fireMapping(cfg, table[key], false, undefined, true);
+    return true;
   }
 
   // Looping sounds, keyed by SOUND_CONFIG.loops. Every loop counts as music & ambient
@@ -527,6 +563,7 @@ const Sound = (function () {
     setLoopFaded: safe('setLoopFaded', setLoopFaded),
     onPreloadEvent: safe('onPreloadEvent', onPreloadEvent),
     event: safe('event', event),
+    voice: safe('voice', voice),
     setMuted: safe('setMuted', setMuted),
     isMuted: function () { return muted; },
     setMusicMuted: safe('setMusicMuted', setMusicMuted),

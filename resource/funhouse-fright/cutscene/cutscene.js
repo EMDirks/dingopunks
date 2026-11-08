@@ -248,6 +248,7 @@ let cutscene = {
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
+                    afterReveal: true,
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-500ms',
@@ -258,9 +259,9 @@ let cutscene = {
                 path: 'main.png',
                 scope: 'local',
                 animation: {
-                    start: 'opacity-0',
-                    end: 'opacity-1',
-                    duration: 'transition-opacity-1000ms',
+                    start: 'transform-scale_0__opacity_0',
+                    end: 'transform-scale_1__opacity_1',
+                    duration: 'transition-transform-200ms__opacity-200ms',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -317,18 +318,29 @@ let cutscene = {
         {
             text: 'Ladies and gentlemen, your time is up!',
             textStyle: 'badguy',
-            textDelay: 550,
+            textDelay: 700,
             characterSprite: {
                 name: "FREDERICK",
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
+                    afterReveal: true,
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    delay: 500,
                 },
             },
-            backgroundColor: 'background-color-salmon'
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+                animation: {
+                    start: 'transform-scale_0__opacity_0',
+                    end: 'transform-scale_1__opacity_1',
+                    duration: 'transition-transform-200ms__opacity-200ms',
+                },
+            },
+            backgroundColor: 'background-color-black'
         },
         {
             text: 'Now you\'re locked inside my funhouse... forever!',
@@ -338,7 +350,11 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-salmon'
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+            },
+            backgroundColor: 'background-color-black'
         },
     ],
     

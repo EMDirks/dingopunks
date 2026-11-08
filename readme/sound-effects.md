@@ -120,10 +120,13 @@ AudioContext (created on first preload)
 | `Sound.onPreloadEvent(eventName)` | Called from `handlePreloading` (§4). Looks up `SOUND_CONFIG.preload[eventName]` and preloads what it lists, honouring `delay`. Unknown events are ignored. |
 | `Sound.preload(names?)` | Fetch + decode. `'*'` or no arg = every sound in `SOUND_CONFIG.sounds`. Idempotent; a failed fetch logs once and marks the name missing (never retried, never throws). |
 | `Sound.event(eventName, detail?)` | Looks up `SOUND_CONFIG.events[eventName]` → sound name (`null` = silent) and plays it. **All game code calls this, never a sound name directly**, so remapping is config-only. Applies the `SOUND_CONFIG.dialogue` throttle for `dialogue.letter`. |
+| `Sound.voice(theme, key)` | Looks up `SOUND_CONFIG.characterVoices[theme][key]` (§3, Character voices) and plays it, honouring `delay`. Returns `true` when the character has an entry (even `null`), so the caller skips its letter blips; `false` = no entry, keep the blips. A voice never replaces a tap's click sound. Used by `js/scene.js` (theme folder + portrait file) and `js/splash-new.js` (`'cutscene'` + speaker name or `'badguy'`). |
 | `Sound.setMuted(bool)` / `Sound.isMuted()` | Master gain to 0 / back. Per game only: no `localStorage` (§6). |
 | `Sound.isAvailable()` | False when the teacher turned Audio off or the browser can't play audio. The menu uses it to decide whether to show the toggle. |
 
 Internal `play(name)`: picks a random `src` if several, applies volume/pitch, respects `maxVoices` (drops the play if that many instances are already live). Silent no-op when unavailable, when the sound name is unknown, when its `src` is empty, or when the buffer isn't decoded yet (no queuing). **If the context is still suspended (the student's first tap on iPad), it calls `ctx.resume()` and still starts the sound**, which plays as soon as the context resumes a few ms later — so the first tap is never silent.
+
+Files are fetched and decoded **once per file**, not once per sound: `loadFile()` keeps a promise per file name, and every sound that lists the file shares the decoded buffer. The `voice-*` sounds all list the same five mumble clips, so adding characters costs no memory or download.
 
 ### Per-game overrides (for later)
 
@@ -228,6 +231,15 @@ const SOUND_CONFIG = {
 Notes:
 - `correct` / `wrong`: pick from Kenney "Digital Audio" / "Interface Sounds" (CC0) or generate with jsfxr, then point `code.correct` / `code.wrong` at them. No code change.
 - Verified classes on 4.0.68: `.splash-button` (`splash-new.js:500`), `.character-select-button` (`splash-new.js:1466`), `.tab-button` (`splash-new.js:1265`, `enter-the-undermurk.js:56`), `.global-menu__kids-link` (`global-menu.js:37`, inactive cards are `span`s with `--inactive`, ignored by the rule above).
+
+### Character voices — `characterVoices`
+
+One sound as a character's line starts, in place of the letter blips. Plan and rationale: `readme/character-voices.md`.
+
+- `characterVoices.cutscene`: keyed by `characterSprite.name` exactly as the cutscene file writes it (`'J.J. DINGO'`), plus `'badguy'` for any `textStyle: 'badguy'` line. Named speakers are voiced in intro and outro cutscenes only, not fail (the rule lives in `js/splash-new.js`).
+- `characterVoices['<theme folder>']`: challenge characters in the activity scene, keyed by the challenge's `intro.asset` portrait file (`assets.characterShopkeeper` in the older `activityArray` format). The portrait, not the name, because names vary between challenges ("Terrible Topsy" / "Topsy").
+- Values take the same shapes as `events`: a sound name, `{ sound, delay }`, or `null` for a speaker that is silent with no blips. A character left out keeps the blips. The player's reply line always blips.
+- **To add a character:** add a `voice-<name>` entry to `sounds` (usually `src: VOICE_CLIPS` with its own `pitch`), then map it here.
 
 ---
 

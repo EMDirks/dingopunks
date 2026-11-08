@@ -4,7 +4,7 @@
 // a sound file, so remapping or silencing anything is an edit here.
 
 // Character voice clips. Each character's voice-* sound below picks from these at
-// random and sets its own pitch.
+// random and sets its own pitch. Which character uses which sound is set in `characterVoices`.
 const VOICE_CLIPS = [
   '554017__dodrio__dialogue_mumble_huh',
   '554018__dodrio__dialogue_mumble_heh',
@@ -23,6 +23,7 @@ const SOUND_CONFIG = {
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   // lazy: true leaves a big file out of sounds: '*', so it only loads where `preload` names it.
+  // ignoreMute: true plays it even while the student has Sound effects or Music & ambience off.
   // Two categories, each with its own global menu toggle:
   //   Sound effects: everything not listed below.
   //   Music & ambience: every loop in `loops` (always, no flag needed), plus the
@@ -37,22 +38,28 @@ const SOUND_CONFIG = {
     select:  { src: ['switch3'],                 volume: 0.2 },
 
     click:   { src: ['switch3'],                     volume: 0.2 },
-    key:     { src: ['switch3'], volume: 0.35 },                // code keyboard
+    key:     { src: ['switch3'], volume: 0.2 },                // code keyboard
     clickWood: { src: ['click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
     slapPaper: { src: ['card-slide-2'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
     slapMetal: { src: ['match-wood-1'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
-    toggle:  { src: ['switch9'],                    volume: 0.1 },                // global menu Sound effects and Music & ambience toggles
+    toggle:  { src: ['switch9'],                    volume: 0.1, ignoreMute: true }, // global menu Sound effects and Music & ambience toggles; ignoreMute, so they click on and off
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['ken-blip-3'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
-    'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo's lines in intro and outro cutscenes; pitch: [min, max], 1 = normal
-    'voice-badguy': { src: VOICE_CLIPS, volume: 0.6, pitch: [0.5,0.6] },              // lines with textStyle: 'badguy' in any cutscene; pitch: [min, max], 1 = normal
+    'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    'voice-badguy': { src: VOICE_CLIPS, volume: 0.6, pitch: [0.5,0.6] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    // Midnight Mall challenge characters (activity scene). Starting pitches, to tune by ear.
+    'voice-topsy':     { src: VOICE_CLIPS, volume: 0.5, pitch: [1.2, 1.4] },   // Terrible Topsy
+    'voice-robustus':  { src: VOICE_CLIPS, volume: 0.5, pitch: [0.65, 0.8] },  // Robustus the Great
+    'voice-shortnose': { src: VOICE_CLIPS, volume: 0.5, pitch: [1.0, 1.15] },  // Martin Shortnose
+    'voice-prisma':    { src: VOICE_CLIPS, volume: 0.5, pitch: [1.05, 1.2] },  // Prisma
+    'voice-zeeb':      { src: VOICE_CLIPS, volume: 0.5, pitch: [0.9, 1.05] },  // Zeeb
     whoosh:  { src: ['swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
     'whoosh-cutscene': { src: ['ken-whoosh-1'],           volume: 0.15 },                // Midnight Mall intro character moves
     'whoosh-badguy': { src: ['match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
-    chime:   { src: ['zap-chime.mp3'],           volume: 0.05 },                 // all characters selected
-    'background-creepy': { src: ['background-creepy'], volume: 0.1 },                // Midnight Mall bad guy loop
-    'background-crickets': { src: ['free-crickets'],   volume: 0.4 },                // Midnight Mall background loop
+    chime:   { src: ['zap-chime.mp3'],           volume: 0.04 },                 // all characters selected
+    'background-creepy': { src: ['background-creepy'], volume: 0.1 },                // Midnight Mall fail cutscene bad guy loop
+    'background-crickets': { src: ['free-crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
     dangle:  { src: ['match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     tvOn:    { src: ['match-power-15'],               volume: 0.1 },                 // cutscene coming in
     clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // SKIP INTRO
@@ -60,7 +67,6 @@ const SOUND_CONFIG = {
 
     'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true },   // song, looping on the debrief page
     'dingo-punks-loop': { src: ['dingo-punks-loop'], volume: 0.3, lazy: true },   // song, looping in the Midnight Mall intro from its first scene; lazy, so it loads when the loop starts
-    wiggleworm: { src: ['dingo-punks-start'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes and the game starts
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
@@ -90,11 +96,9 @@ const SOUND_CONFIG = {
     'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
     'cutscene.next':     'clickNext', // Next to the following scene; no click on the last Next of any cutscene
     'cutscene.skip':     null,       // SKIP INTRO: no click (was 'clickGlitch')
-    'cutscene.finish':   'wiggleworm', // an intro's last Next or SKIP INTRO, every theme except Undermurk
+    'cutscene.finish':   null,       // an intro's last Next or SKIP INTRO: no one-shot; the intro song fades out instead (its loop's fadeOutMs)
     'cutscene.finishChime': null,    // SKIP INTRO, with cutscene.finish: no chime (was 'chime')
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
-    'cutscene.voiceJJDingo': { sound: 'voice-JJDingo', delay: 50 }, // once per J.J. Dingo line in an intro or outro, replacing the letter sounds
-    'cutscene.voiceBadguy': { sound: 'voice-badguy', delay: 50 }, // once per textStyle: 'badguy' line, replacing the letter sounds
     // Animations tagged sfx: '<event>' in a cutscene file (Midnight Mall). In = coming from off screen.
     'cutscene.moveIn':   { sound: 'whoosh-cutscene', delay: 200 },
     'cutscene.move':     { sound: 'whoosh-cutscene', delay: 75 },  // on-screen moves and exits
@@ -128,14 +132,40 @@ const SOUND_CONFIG = {
     'undermurk.tier':    null,       // reserved
   },
 
+  // Character voices: one sound as a line starts, in place of the letter blips.
+  // Keyed by where the character speaks, then by the character:
+  //   cutscene: characterSprite.name exactly as the cutscene file writes it, or 'badguy'
+  //             for any line with textStyle: 'badguy' (checked before the name).
+  //   <theme folder>: the challenge's intro.asset file name (assets.characterShopkeeper in
+  //             the older activityArray format). The portrait, not the name, because the same
+  //             character is named differently across challenges ("Terrible Topsy" / "Topsy").
+  // Values take the same shapes as `events`: a sound name, { sound, delay }, or null for a
+  // speaker that is silent and also gets no letter blips. A character left out keeps the blips.
+  characterVoices: {
+    cutscene: {
+      'J.J. DINGO': { sound: 'voice-JJDingo', delay: 50 }, // intro and outro cutscenes only (not fail); js/splash-new.js keeps that rule
+      badguy:       { sound: 'voice-badguy', delay: 50 },  // any cutscene
+    },
+    'escape-the-midnight-mall': {
+      'topsy.png':              'voice-topsy',
+      'robustus-the-great.png': 'voice-robustus',
+      'noah-shortnose.png':     'voice-shortnose',
+      'prisma.png':             'voice-prisma',
+      'zeeb.png':               'voice-zeeb',
+    },
+  },
+
   // Looping sounds. Game code calls Sound.startLoop(key) and Sound.stopLoop(key).
   // The volume comes from the sound in `sounds`; remove a key to silence that loop.
   // A cutscene file can also tag an animation with startLoop: '<key>' or stopLoop: '<key>'.
   loops: {
-    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 500, fadeOutMs: 50 },  // Midnight Mall intro, from the first scene until the bad guys crash in (or SKIP INTRO); 50ms cuts it off without a pop
-    'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen, intro and fail
+    // An intro song plays from the first scene through the last; when the intro ends (last
+    // Next or SKIP INTRO) it keeps playing under the map view and fades out over fadeOutMs.
+    // Every theme's intro song follows this pattern.
+    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 500, fadeOutMs: 5000 },  // Midnight Mall intro song
+    'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen in the fail cutscene
     debrief: { sound: 'dingo-punks-end', delayMs: 500, fadeInMs: 300, fadeOutMs: 500 },  // whole debrief page; delayMs lines up with the outcome image coming in
-    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro from J.J. Dingo's return after the bad guys, the map view, and outro
+    'background-crickets': { sound: 'background-crickets', fadeInMs: 300, fadeOutMs: 1000 },  // Midnight Mall map view and outro; snappy fade-in under the intro song's fade-out
   },
 
   // The map view (the challenge nodes and timer) loops one of `loops` per theme folder.
@@ -168,7 +198,6 @@ const SOUND_CONFIG = {
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     onUndermurkPage: { sounds: '*', delay: 0 },
-    onCutsceneStart: { sounds: ['wiggleworm'], delay: 0 },  // fired as an intro starts, so the song is ready by its end
   },
 
   // Delegated clicks: first matching selector wins. An element (or ancestor) with

@@ -169,20 +169,26 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
   
-      setTimeout(addText,delay__addText2,dialogueText, activityScenedialogue);
+      setTimeout(addText, delay__addText2, dialogueText, activityScenedialogue, resource.challengeArray[activityArrayIndex].intro.asset);
       setTimeout(addText, activitySceneButtonTimer + delay__addText, activitySceneButtonText, activityScenePlayerText);
-      // add text typewriter-style
-      function addText(text, element){
+      // add text typewriter-style. voiceKey: the speaking character's portrait file; a character
+      // with a voice in SOUND_CONFIG.characterVoices plays one sound per line in place of the blips.
+      function addText(text, element, voiceKey){
+        let voiced = false;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
-          characterSpan.innerText = text[i]; 
-          characterSpan.style.opacity = 0;       
+          characterSpan.innerText = text[i];
+          characterSpan.style.opacity = 0;
           setTimeout(addText,delay__addText3);
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
                   // Text from a closed activity keeps typing off-screen; keep it silent.
-                  if (characterSpan.isConnected && characterSpan.offsetParent !== null) {
+                  const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  if (i === 0 && voiceKey !== undefined && onScreen) {
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(resourceTheme, voiceKey) === true;
+                  }
+                  if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
                   }
               }, i * typewriterDelay);
@@ -335,20 +341,26 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + 2000, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + 2000 + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
   
-      setTimeout(addText,800,dialogueText, activityScenedialogue);
+      setTimeout(addText, 800, dialogueText, activityScenedialogue, resource.activityArray[activityArrayIndex-1].assets.characterShopkeeper);
       setTimeout(addText, activitySceneButtonTimer + 700, activitySceneButtonText, activityScenePlayerText);
-      // add text typewriter-style
-      function addText(text, element){
+      // add text typewriter-style. voiceKey: the speaking character's portrait file; a character
+      // with a voice in SOUND_CONFIG.characterVoices plays one sound per line in place of the blips.
+      function addText(text, element, voiceKey){
+        let voiced = false;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
-          characterSpan.innerText = text[i]; 
-          characterSpan.style.opacity = 0;       
+          characterSpan.innerText = text[i];
+          characterSpan.style.opacity = 0;
           setTimeout(addText,1000);
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
                   // Text from a closed activity keeps typing off-screen; keep it silent.
-                  if (characterSpan.isConnected && characterSpan.offsetParent !== null) {
+                  const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  if (i === 0 && voiceKey !== undefined && onScreen) {
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(resourceTheme, voiceKey) === true;
+                  }
+                  if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
                   }
               }, i * typewriterDelay);

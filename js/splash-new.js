@@ -1748,6 +1748,7 @@ function addCutscene(cutsceneIndex,section){
 
   // CRT power-on over the cutscene: dot, scanline, full panel (css/splash-new.css)
   const cutsceneTvOn = createElement('div',['cutscene-tv-on'],splashContainerWrapper);
+  const cutsceneOpenedAt = performance.now();
   cutsceneTvOn.addEventListener('animationend', function(event) {
     if (event.animationName === 'cutscene-tv-on-fade') {
       cutsceneTvOn.remove();
@@ -1916,12 +1917,14 @@ function addCutscene(cutsceneIndex,section){
   }
 
   // draw scene
-  // End cutscenes open straight into their first entrance, so hold them until
-  // the CRT power-on panel starts fading (0.69s in css/splash-new.css).
+  // Every cutscene draws its first scene behind the CRT power-on panel, so the
+  // power-on reveals the background. Entrances tagged afterReveal wait for the
+  // panel to start fading (0.69s in css/splash-new.css).
   // Reduced motion skips the power-on, so there's nothing to wait for.
-  const endCutsceneBootDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 700;
-  const isEndCutscene = ['outro', 'fail', 'debugOutro', 'debugFail'].includes(section);
-  setTimeout(() => drawScene(cutsceneIndex),initialTextDelay + (isEndCutscene ? endCutsceneBootDelay : 0));
+  const cutsceneBootDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 700;
+  // Time left until the power-on panel starts fading, for afterReveal animations.
+  const msUntilReveal = () => Math.max(0, cutsceneOpenedAt + cutsceneBootDelay - performance.now());
+  setTimeout(() => drawScene(cutsceneIndex),initialTextDelay);
   function drawScene(index){
 
     // get aliases
@@ -2085,6 +2088,13 @@ function addCutscene(cutsceneIndex,section){
             setTimeout(() => addAnimation(imageElement,imageObject,className), imageObject.animation.delay || 0);
           });
         }
+        else if (imageObject.animation.afterReveal && cutsceneIndex === 0) {
+          // Held at its start position behind the CRT power-on, so it enters once the
+          // picture shows. delay counts from the panel starting to fade.
+          removeAllClassesExcept(imageElement,className);
+          imageElement.classList.add(imageObject.animation.start);
+          setTimeout(() => addAnimation(imageElement,imageObject,className), msUntilReveal() + (imageObject.animation.delay || 0));
+        }
         else {
           setTimeout(() => addAnimation(imageElement,imageObject,className), delay);
         }
@@ -2192,11 +2202,13 @@ function addCutscene(cutsceneIndex,section){
       cutsceneCharacterName.textContent = sc_characterSprite && sc_characterSprite.name ? sc_characterSprite.name : '';
 
      // text
-     // Bad guy lines and J.J.'s intro and outro lines play one voice sound instead of a sound per letter.
-     const hasJJVoice = ['intro', 'introNoLimit', 'undermurkIntro', 'outro', 'debugOutro'].includes(section);
-     let voiceEvent = null;
-     if (cutsceneSection[index].textStyle === 'badguy') voiceEvent = 'cutscene.voiceBadguy';
-     else if (hasJJVoice && sc_characterSprite?.name === 'J.J. DINGO') voiceEvent = 'cutscene.voiceJJDingo';
+     // A speaker with an entry in SOUND_CONFIG.characterVoices.cutscene plays one voice sound per
+     // line instead of a sound per letter: bad guy lines in any cutscene, named speakers only in
+     // intro and outro cutscenes (not fail).
+     const voicedSection = ['intro', 'introNoLimit', 'undermurkIntro', 'outro', 'debugOutro'].includes(section);
+     const voiceKey = cutsceneSection[index].textStyle === 'badguy' ? 'badguy'
+       : voicedSection ? sc_characterSprite?.name : undefined;
+     let voiced = false;
      setTimeout(() => addTextByTypewriter(cutsceneText, sc_text, typewriterDelay), initialTextDelay);
       function addTextByTypewriter(elementClass, text, speed) {
         
@@ -2215,7 +2227,7 @@ function addCutscene(cutsceneIndex,section){
       
         function continueFunction() {
           elementClass.style.visibility = "visible";
-          if (voiceEvent) { typeof Sound !== 'undefined' && Sound.event(voiceEvent); }
+          if (voiceKey !== undefined) { voiced = typeof Sound !== 'undefined' && Sound.voice('cutscene', voiceKey) === true; }
           // A cutscene file can tag a sprite or background image (some speakers are drawn
           // as one) with popOnSpeak: true to pop it as the line starts
           const popElement = sc_characterSprite?.popOnSpeak ? cutsceneCharacterSprite
@@ -2233,7 +2245,7 @@ function addCutscene(cutsceneIndex,section){
             elementClass.appendChild(span);
             setTimeout(() => {
               span.style.opacity = 1;
-              if (!voiceEvent) { typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter); }
+              if (!voiced) { typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter); }
             }, speed * index);
           });
         }

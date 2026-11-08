@@ -254,8 +254,8 @@ function buildGlobalMenuLinkHTML(key, label, icon) {
 function buildSettingsHTML() {
   return `
     <div class="global-menu__sound-toggles">
-      ${buildSoundToggleHTML('sound', 'Sound effects', 'Clicks, whooshes and character voices.', !Sound.isMuted())}
-      ${buildSoundToggleHTML('music', 'Music & ambience', 'Songs and looping background sounds.', !Sound.isMusicMuted())}
+      ${buildSoundToggleHTML('sound', 'Sound effects', 'Play clicks, whooshes and character voices.', !Sound.isMuted())}
+      ${buildSoundToggleHTML('music', 'Music & ambience', 'Play songs and looping background sounds.', !Sound.isMusicMuted())}
     </div>
   `;
 }
@@ -267,7 +267,7 @@ function buildSoundToggleHTML(channel, label, description, on) {
         <span class="global-menu__sound-toggle-label">${label}</span>
         <span class="global-menu__sound-toggle-description">${description}</span>
       </span>
-      <span class="global-menu__sound-toggle-track" aria-hidden="true"><span class="global-menu__sound-toggle-thumb"></span></span>
+      <span class="global-menu__sound-toggle-state" aria-hidden="true">${on ? 'ON' : 'OFF'}</span>
     </button>
   `;
 }
@@ -394,8 +394,9 @@ function rememberSoundMuted(key, muted) {
     const isMusic = toggle.getAttribute('data-sound-channel') === 'music';
     const muted = isMusic ? Sound.setMusicMuted(!Sound.isMusicMuted()) : Sound.setMuted(!Sound.isMuted());
     toggle.setAttribute('aria-checked', String(!muted));
+    toggle.querySelector('.global-menu__sound-toggle-state').textContent = muted ? 'OFF' : 'ON';
     rememberSoundMuted(isMusic ? 'muteMusic' : 'mute', muted);
-    // Silent while Sound is off, so turning Sound off makes no noise.
+    // Clicks either way, even with Sound effects off (ignoreMute in SOUND_CONFIG).
     Sound.event('ui.toggle');
   });
 })();
