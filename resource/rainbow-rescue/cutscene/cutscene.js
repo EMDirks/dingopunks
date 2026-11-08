@@ -344,7 +344,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             }, 
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'I hope you can handle a world without color...',
@@ -354,7 +354,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
     

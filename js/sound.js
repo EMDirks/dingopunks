@@ -6,10 +6,10 @@
 // Three separate "off" switches:
 //   - Teacher off (dashboard Audio setting): debriefStats.audio = 0 / ?audio=0.
 //     Sound is unavailable: nothing loads and the menu toggles are hidden.
-//   - Student Sound off (global menu toggle): debriefStats.mute = 1 / ?mute=1.
+//   - Student Sound effects off (global menu toggle): debriefStats.mute = 1 / ?mute=1.
 //     Sound effects stay silent; they still load so turning them on is instant.
-//   - Student Music off (global menu toggle): debriefStats.muteMusic = 1 /
-//     ?muteMusic=1. The same, for sounds marked music: true in SOUND_CONFIG.
+//   - Student Music & ambience off (global menu toggle): debriefStats.muteMusic = 1 /
+//     ?muteMusic=1. The same, for every loop and the one-shots marked music: true.
 const Sound = (function () {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const FORMAT_TYPES = {
@@ -22,7 +22,7 @@ const Sound = (function () {
   let ctx = null;
   let master = null;
   let sfxBus = null;             // gain for sound effects, into master
-  let musicBus = null;           // gain for sounds marked music: true, into master
+  let musicBus = null;           // gain for music & ambience (loops, music: true), into master
   let unlocked = false;
   let muted = new URLSearchParams(window.location.search).get('mute') === '1';
   let musicMuted = new URLSearchParams(window.location.search).get('muteMusic') === '1';
@@ -39,6 +39,7 @@ const Sound = (function () {
   const missing = new Set();     // sound names that failed or have no files
   const wantedLoops = new Map(); // loop key → performance.now() when it was asked for
   const liveLoops = new Map();   // loop key → { source, gain } while playing
+  const fadedLoops = new Set();  // loop keys faded out by setLoopFaded, still running silently
   const voices = new Map();      // sound name → how many are sounding now
   const lastFileIndex = new Map(); // sound name → index of the file it played last
   const logged = new Set();
@@ -316,8 +317,9 @@ const Sound = (function () {
     play(name);
   }
 
-  // Looping sounds, keyed by SOUND_CONFIG.loops. They run through the sound or
-  // music bus, so muting silences them and unmuting mid-loop brings them back. A loop
+  // Looping sounds, keyed by SOUND_CONFIG.loops. Every loop counts as music & ambient
+  // sound and runs through the music bus, so muting silences it and unmuting mid-loop
+  // brings it back. A loop
   // started before its file has loaded begins when the file arrives, if still wanted.
   // delayMs counts from startLoop, so a slow load doesn't push the loop back further.
   function startLoop(key) {
@@ -347,9 +349,9 @@ const Sound = (function () {
     const waitMs = Math.max(0, (def.delayMs || 0) - (performance.now() - wantedLoops.get(key)));
     const startAt = ctx.currentTime + waitMs / 1000;
     gain.gain.setValueAtTime(0, startAt);
-    gain.gain.linearRampToValueAtTime(volume, startAt + (def.fadeInMs || 0) / 1000);
+    if (!fadedLoops.has(key)) gain.gain.linearRampToValueAtTime(volume, startAt + (def.fadeInMs || 0) / 1000);
     source.connect(gain);
-    gain.connect(busFor(soundDef));
+    gain.connect(musicBus);
     source.onended = function () {
       gain.disconnect();
     };
@@ -359,6 +361,7 @@ const Sound = (function () {
 
   function stopLoop(key) {
     wantedLoops.delete(key);
+    fadedLoops.delete(key);
     const live = liveLoops.get(key);
     if (!live) return;
     liveLoops.delete(key);
@@ -370,6 +373,28 @@ const Sound = (function () {
     live.gain.gain.setValueAtTime(live.gain.gain.value, now);
     live.gain.gain.linearRampToValueAtTime(0, now + fade);
     live.source.stop(now + fade);
+  }
+
+  // Fades a loop out (faded = true) or back in without stopping it, so it picks up
+  // where it has got to. Fade lengths come from SOUND_CONFIG.loopFade.
+  function setLoopFaded(key, faded) {
+    if (faded) fadedLoops.add(key); else fadedLoops.delete(key);
+    const live = liveLoops.get(key);
+    if (!live) return;
+    const cfg = config();
+    const fade = (cfg.loopFade && cfg.loopFade[faded ? 'outMs' : 'inMs']) || 0;
+    const soundDef = cfg.sounds[cfg.loops[key].sound] || {};
+    const volume = typeof soundDef.volume === 'number' ? soundDef.volume : 1;
+    const now = ctx.currentTime;
+    live.gain.gain.cancelScheduledValues(now);
+    live.gain.gain.setValueAtTime(live.gain.gain.value, now);
+    live.gain.gain.linearRampToValueAtTime(faded ? 0 : volume, now + fade / 1000);
+  }
+
+  // The map view's background loop for a theme (SOUND_CONFIG.mapLoops), or null.
+  function mapLoopFor(theme) {
+    const cfg = config();
+    return (cfg && cfg.mapLoops && cfg.mapLoops[theme]) || null;
   }
 
   function setMuted(value) {
@@ -498,6 +523,8 @@ const Sound = (function () {
     preload: safe('preload', preload),
     startLoop: safe('startLoop', startLoop),
     stopLoop: safe('stopLoop', stopLoop),
+    mapLoopFor: safe('mapLoopFor', mapLoopFor),
+    setLoopFaded: safe('setLoopFaded', setLoopFaded),
     onPreloadEvent: safe('onPreloadEvent', onPreloadEvent),
     event: safe('event', event),
     setMuted: safe('setMuted', setMuted),

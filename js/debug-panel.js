@@ -1,4 +1,4 @@
-// Local testing panel: pick a theme and watch its intro or outro cutscene, or
+// Local testing panel: pick a theme and watch its intro, outro or fail cutscene, or
 // launch its 4th grade mixed reading escape room.
 // scripts/build-pages.mjs leaves this file and its index.html tag out of the
 // production build. The host check is a backstop if the site is ever served
@@ -55,6 +55,7 @@
       createActivityNodes();
       createCodeBox();
       createFooter();
+      startMapLoop();
     });
   }
 
@@ -86,7 +87,7 @@
     select.addEventListener('change', function() { preloadTheme(select.value); });
     panel.appendChild(select);
 
-    [['Intro', 'intro'], ['Outro', 'outro']].forEach(function([label, section]) {
+    [['Intro', 'intro'], ['Outro', 'outro'], ['Fail', 'fail']].forEach(function([label, section]) {
       const button = document.createElement('button');
       button.textContent = label;
       button.addEventListener('click', function() {
@@ -154,6 +155,7 @@
     cutsceneTimers.forEach(clearTimeout);
     cutsceneTimers.clear();
     stopCutsceneLoops();
+    stopMapLoop();
 
     // A running game sits above the splash and would cover the cutscene.
     document.querySelectorAll('.activity-node-container, .activity, .footer').forEach(function(element) {
@@ -176,11 +178,14 @@
       createActivityNodes = resetStage;
       createCodeBox = function() {};
       addCutscene(0, 'introNoLimit');
-    } else {
-      // The 'outro' section ends by leaving for the debrief, so play the same
-      // scenes under another name. The last Next click then just stays put.
+    } else if (section === 'outro') {
+      // The 'outro' and 'fail' sections end by leaving for the debrief, so play
+      // the same scenes under another name. The last Next click then just stays put.
       cutscene.debugOutro = cutscene.outro;
       addCutscene(0, 'debugOutro');
+    } else {
+      cutscene.debugFail = cutscene.fail;
+      addCutscene(0, 'debugFail');
     }
   }
 

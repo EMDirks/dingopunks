@@ -219,36 +219,123 @@ function buildGlobalMenuHTML(state) {
       <div class="global-menu__kids">
         <div class="global-menu__kids-links">${kidsLinks}</div>
       </div>
-      ${buildSoundTogglesHTML()}
+      <div class="global-menu__links">
+        ${buildSettingsButtonHTML()}
+        ${buildGlobalMenuLinkHTML('information', 'Information', 'modal-icon-information.png')}
+      </div>
     </div>
   `;
 }
 
-// Students can mute sound effects and music separately for the current game,
-// unless the teacher turned Audio off in the dashboard (Sound is then
-// unavailable and the toggles aren't shown).
-function buildSoundTogglesHTML() {
-  if (typeof Sound === 'undefined' || !Sound.isAvailable()) {
+// Students can mute sound effects and music & ambience separately for the current game
+// from the Settings modal, unless the teacher turned Audio off in the dashboard (Sound is
+// then unavailable and the Settings button isn't shown).
+function isSoundSettingsAvailable() {
+  return typeof Sound !== 'undefined' && Sound.isAvailable();
+}
+
+function buildSettingsButtonHTML() {
+  if (!isSoundSettingsAvailable()) {
     return '';
   }
+  return buildGlobalMenuLinkHTML('settings', 'Settings', 'modal-icon-settings.png');
+}
+
+// Full-width menu row with a small icon on a colored square (color set per key in CSS).
+function buildGlobalMenuLinkHTML(key, label, icon) {
+  return `
+    <button type="button" class="global-menu__link global-menu__link--${key} global-menu__${key}-button">
+      <img class="global-menu__link-icon" src="assets/global/${icon}" alt="" aria-hidden="true">
+      ${label}
+    </button>
+  `;
+}
+
+function buildSettingsHTML() {
   return `
     <div class="global-menu__sound-toggles">
-      ${buildSoundToggleHTML('sound', 'Sound', !Sound.isMuted())}
-      ${buildSoundToggleHTML('music', 'Music', !Sound.isMusicMuted())}
+      ${buildSoundToggleHTML('sound', 'Sound effects', 'Clicks, whooshes and character voices.', !Sound.isMuted())}
+      ${buildSoundToggleHTML('music', 'Music & ambience', 'Songs and looping background sounds.', !Sound.isMusicMuted())}
     </div>
   `;
 }
 
-function buildSoundToggleHTML(channel, label, on) {
+function buildSoundToggleHTML(channel, label, description, on) {
   return `
     <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-sound-channel="${channel}" data-sfx="none">
-      <span class="global-menu__sound-toggle-label">${label}</span>
+      <span class="global-menu__sound-toggle-text">
+        <span class="global-menu__sound-toggle-label">${label}</span>
+        <span class="global-menu__sound-toggle-description">${description}</span>
+      </span>
       <span class="global-menu__sound-toggle-track" aria-hidden="true"><span class="global-menu__sound-toggle-thumb"></span></span>
     </button>
   `;
 }
 
-// Muting lasts for the rest of this game: mute=1 (Sound) and muteMusic=1 (Music)
+// Information modal: links to the Terms of Service, Privacy Policy, Licensing and Credits (each
+// opens in a new tab), with the version number in the footer beside Close.
+function buildInformationHTML() {
+  return `
+    <div class="global-menu__information">
+      <div class="global-menu__information-links">
+        <a class="global-menu__information-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a class="global-menu__information-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a class="global-menu__information-link" href="https://dingopunks.com/pages/licensing" target="_blank" rel="noopener noreferrer">Licensing</a>
+        <a class="global-menu__information-link" href="https://dingopunks.com/pages/credits" target="_blank" rel="noopener noreferrer">Credits</a>
+      </div>
+    </div>
+  `;
+}
+
+// Closes the menu, then opens a modal from it (Settings or Information) once the
+// menu has finished closing, so it gets its own opening animation (same as
+// openGlobalMenu()).
+function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML) {
+  if (pendingGlobalMenuOpen) {
+    return;
+  }
+  if (isModalVisible) {
+    toggleModalVisibility();
+    pendingGlobalMenuOpen = setTimeout(function() {
+      pendingGlobalMenuOpen = null;
+      openModalFromGlobalMenu(title, buildHTML, buildFooterHTML);
+    }, MODAL_CLOSE_DURATION_MS);
+    return;
+  }
+  // Back arrow before the title returns to the menu (like the membership Theme modal).
+  const titleHTML = `<button type="button" class="modal__back global-menu__back" aria-label="Back to menu">←</button>${title}`;
+  createModal(titleHTML, buildHTML(), 'Close');
+  // createModal() clears the footer, so fill it in afterwards.
+  const modalVersionEl = document.querySelector('.modal-version');
+  if (modalVersionEl && buildFooterHTML) {
+    modalVersionEl.innerHTML = buildFooterHTML();
+  }
+}
+
+function buildVersionFooterHTML() {
+  return typeof version !== 'undefined'
+    ? `<span class="modal-version__number"> VERSION ${version}</span>`
+    : '';
+}
+
+(function initGlobalMenuButtons() {
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.global-menu__back')) {
+      openGlobalMenu(getGlobalMenuState());
+      return;
+    }
+    if (!e.target.closest('.modal__popup--global-menu')) {
+      return;
+    }
+    if (e.target.closest('.global-menu__settings-button')) {
+      openModalFromGlobalMenu('Settings', buildSettingsHTML);
+    } else if (e.target.closest('.global-menu__information-button')) {
+      openModalFromGlobalMenu('Information', buildInformationHTML, buildVersionFooterHTML);
+    }
+  });
+})();
+
+// Muting lasts for the rest of this game: mute=1 (Sound effects) and muteMusic=1 (Music & ambience)
 // ride the debrief URL from the play page, and on the debrief and Undermurk pages
 // they're kept in the URL so the links between them carry them. A new game starts
 // with both on.
@@ -354,20 +441,6 @@ function openGlobalMenu(state = 'unfinished') {
     'modal__popup--global-menu-compact',
     isUndermurkHidden() || isIndexCodeEntryMenu(state)
   );
-  const modalVersionEl = document.querySelector('.modal-version');
-  if (modalVersionEl) {
-    const versionText = typeof version !== 'undefined'
-      ? `<span class="modal-version__number"> VERSION ${version}</span>`
-      : '';
-    modalVersionEl.innerHTML = `
-      ${versionText}
-      <!--
-      <a class="modal-version__link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
-      <a class="modal-version__link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy</a>
-      <a class="modal-version__link" href="https://dingopunks.com/pages/help" target="_blank" rel="noopener noreferrer">Help Center</a>
-      -->
-    `;
-  }
   createModal('Menu', buildGlobalMenuHTML(state), 'Close');
 }
 

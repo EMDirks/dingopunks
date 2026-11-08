@@ -408,7 +408,7 @@
     top: calc(50% - 5vh);
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 33.75vmin;
+    width: 28.6875vmin;
     aspect-ratio: 1024 / 385;
 }
 

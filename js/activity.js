@@ -683,6 +683,7 @@ function openActivityModal(i) {
       }
       toggleClass(activity, "state-display-none", "state-display-block");
       typeof Sound !== 'undefined' && Sound.event('activity.open');
+      fadeMapLoop(true);
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -757,6 +758,7 @@ function openActivityModal(i) {
       }
       toggleClass(activity, "state-display-none", "state-display-block");
       typeof Sound !== 'undefined' && Sound.event('activity.open');
+      fadeMapLoop(true);
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -775,6 +777,7 @@ function openActivityModal(i) {
 
 }
 function closeActivityModal(){
+  fadeMapLoop(false);
   if (openState.hint === true){
     setTimeout(openHintModal,300,'closingActivity');
   }

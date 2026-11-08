@@ -317,7 +317,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'I bet you\'d taste great in a pumpkin pie...',
@@ -327,7 +327,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
 

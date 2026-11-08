@@ -330,7 +330,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'That\'s okay. You can stay here with me.',
@@ -340,7 +340,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'Forever and ever and ever!',
@@ -350,7 +350,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
     

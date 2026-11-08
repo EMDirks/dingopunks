@@ -340,7 +340,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'Hruuuggglep ugraash klog gurambooo!',
@@ -350,7 +350,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
 

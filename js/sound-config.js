@@ -23,7 +23,10 @@ const SOUND_CONFIG = {
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
   // lazy: true leaves a big file out of sounds: '*', so it only loads where `preload` names it.
-  // music: true puts a sound under the global menu's Music toggle instead of its Sound toggle.
+  // Two categories, each with its own global menu toggle:
+  //   Sound effects: everything not listed below.
+  //   Music & ambience: every loop in `loops` (always, no flag needed), plus the
+  //   one-shots that play as a game starts or finishes, which are marked music: true.
   sounds: {
 
     // Use for toggled systems with an open/close state
@@ -39,7 +42,7 @@ const SOUND_CONFIG = {
     slapPaper: { src: ['card-slide-2'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
     slapMetal: { src: ['match-wood-1'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
-    toggle:  { src: ['switch9'],                    volume: 0.45 },                // global menu Sound and Music toggles
+    toggle:  { src: ['switch9'],                    volume: 0.1 },                // global menu Sound effects and Music & ambience toggles
     blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['ken-blip-3'], volume: 0.1, pitch: [1,1.1], maxVoices: 4 }, // cutscene text
     'voice-JJDingo': { src: VOICE_CLIPS, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo's lines in intro and outro cutscenes; pitch: [min, max], 1 = normal
@@ -55,9 +58,9 @@ const SOUND_CONFIG = {
     clickGlitch: { src: ['match-glitch-1.wav'],     volume: 0.1 },                 // SKIP INTRO
     clickNext: { src: ['switch3'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
-    'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true, music: true },   // song, looping on the debrief page
-    'dingo-punks-loop': { src: ['dingo-punks-loop'], volume: 0.3, lazy: true, music: true },   // song, looping in the Midnight Mall intro; lazy, so it loads when the loop starts
-    wiggleworm: { src: ['dingo-punks-end'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes
+    'dingo-punks-end': { src: ['dingo-punks-end'], volume: 0.2, lazy: true },   // song, looping on the debrief page
+    'dingo-punks-loop': { src: ['dingo-punks-loop'], volume: 0.3, lazy: true },   // song, looping in the Midnight Mall intro from its first scene; lazy, so it loads when the loop starts
+    wiggleworm: { src: ['dingo-punks-start'], volume: 0.3, maxVoices: 1, lazy: true, music: true },   // song, once as an intro finishes and the game starts
 
     hint:    { src: ['switch18'],                   volume: 0.5 },
     lock:    { src: ['switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
@@ -86,9 +89,9 @@ const SOUND_CONFIG = {
     'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
     'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
     'cutscene.next':     'clickNext', // Next to the following scene; no click on the last Next of any cutscene
-    'cutscene.skip':     'clickGlitch', // SKIP INTRO
+    'cutscene.skip':     null,       // SKIP INTRO: no click (was 'clickGlitch')
     'cutscene.finish':   'wiggleworm', // an intro's last Next or SKIP INTRO, every theme except Undermurk
-    'cutscene.finishChime': 'chime', // SKIP INTRO, with cutscene.finish; the same chime as the last character picked
+    'cutscene.finishChime': null,    // SKIP INTRO, with cutscene.finish: no chime (was 'chime')
     'cutscene.letter':   'typewriter', // intro and outro cutscenes
     'cutscene.voiceJJDingo': { sound: 'voice-JJDingo', delay: 50 }, // once per J.J. Dingo line in an intro or outro, replacing the letter sounds
     'cutscene.voiceBadguy': { sound: 'voice-badguy', delay: 50 }, // once per textStyle: 'badguy' line, replacing the letter sounds
@@ -129,11 +132,20 @@ const SOUND_CONFIG = {
   // The volume comes from the sound in `sounds`; remove a key to silence that loop.
   // A cutscene file can also tag an animation with startLoop: '<key>' or stopLoop: '<key>'.
   loops: {
-    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 200, fadeOutMs: 50 },  // Midnight Mall intro, from J.J. Dingo coming in until the bad guys crash in (or SKIP INTRO); 50ms cuts it off without a pop
+    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 500, fadeOutMs: 50 },  // Midnight Mall intro, from the first scene until the bad guys crash in (or SKIP INTRO); 50ms cuts it off without a pop
     'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen, intro and fail
     debrief: { sound: 'dingo-punks-end', delayMs: 500, fadeInMs: 300, fadeOutMs: 500 },  // whole debrief page; delayMs lines up with the outcome image coming in
-    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro from J.J. Dingo's return after the bad guys, and outro
+    'background-crickets': { sound: 'background-crickets', fadeInMs: 1000, fadeOutMs: 1000 },  // Midnight Mall intro from J.J. Dingo's return after the bad guys, the map view, and outro
   },
+
+  // The map view (the challenge nodes and timer) loops one of `loops` per theme folder.
+  // It starts as the map builds and ends when the outro or fail cutscene starts; if that
+  // cutscene starts the same loop, it carries straight on instead. A theme left out is quiet.
+  // It fades out while a challenge is open and back in on return to the map (loopFade).
+  mapLoops: {
+    'escape-the-midnight-mall': 'background-crickets',
+  },
+  loopFade: { outMs: 500, inMs: 1000 },
 
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:
   // onPinInput, onSettings, onCharacterSelect, onCutsceneStart, onGameStart,

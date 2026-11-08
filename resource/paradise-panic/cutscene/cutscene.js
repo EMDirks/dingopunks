@@ -329,7 +329,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'Hope you like urchin. You\'re going to be eating a lot of it.',
@@ -339,7 +339,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
     

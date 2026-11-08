@@ -327,7 +327,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'Want to know what 300 million volts feels like?',
@@ -337,7 +337,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
 

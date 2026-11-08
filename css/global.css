@@ -429,7 +429,8 @@ button, input[type="submit"], input[type="reset"] {
 	display: none;
 }
 
-.modal__popup--global-menu .modal-version {
+.modal__popup--global-menu .modal-version,
+.modal-version:has(.modal-version__number) {
 	display: flex;
 }
 
@@ -535,6 +536,12 @@ button, input[type="submit"], input[type="reset"] {
 		border-width: 1.5px !important;
 	}
 	.global-menu__sound-toggle {
+		font-size: 20px;
+	}
+	.global-menu__sound-toggles {
+		gap: 12px;
+	}
+	.global-menu__sound-toggle-description {
 		font-size: 16px;
 	}
 	.global-menu__kids-link--inactive .global-menu__kids-link-content {
@@ -630,48 +637,167 @@ button, input[type="submit"], input[type="reset"] {
 	background-color: rgba(var(--off-black), 1);
 }
 
-/* Student Sound and Music toggles: small switches under the cards. Only rendered
-   when the teacher hasn't turned Audio off. */
-.global-menu__sound-toggles {
+/* Settings and Information rows under the student cards: full width, with a
+   small icon on a colored square at the left. */
+.global-menu__links {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	align-self: flex-start;
+	width: 100%;
+}
+
+.global-menu__link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	text-align: left;
+	font-family: 'Primer Print Bold', sans-serif;
+	font-size: 24px;
+	line-height: normal;
+	color: rgba(var(--off-black), 1);
+	border-radius: 4px;
+	background-color: rgba(var(--off-white), 1);
+	cursor: pointer;
+}
+
+.global-menu__link-icon {
+	width: 19px;
+	height: 19px;
+	flex-shrink: 0;
+	display: block;
+	padding: 6px;
+	border-radius: 4px;
+	background-color: rgba(var(--gold), 1);
+}
+
+
+
+.global-menu__link:hover {
+	filter: brightness(0.92);
+}
+
+.global-menu__link:active {
+	filter: brightness(0.85);
+}
+
+.global-menu__link:focus-visible {
+	outline: 2px solid rgba(var(--off-black), 1);
+	outline-offset: 2px;
+}
+
+@media (max-width: 600px), (max-height: 600px) {
+	.global-menu__links {
+		gap: 4px;
+	}
+	.global-menu__link {
+		font-size: 16px;
+		gap: 6px;
+	}
+	.global-menu__link-icon {
+		width: 12px;
+		height: 12px;
+	}
+}
+
+/* Back arrow before the Settings and Information titles; returns to the menu. */
+.modal__back {
+	background: none;
+	border: none;
+	margin: 0 6px 0 -6px;
+	padding: 0 6px;
+	font: inherit;
+	line-height: 1;
+	color: rgba(var(--off-black), 1);
+	cursor: pointer;
+	vertical-align: baseline;
+}
+
+@media (hover: hover) {
+	.modal__back:hover {
+		opacity: 0.7;
+	}
+}
+
+/* Information modal: Terms of Service, Privacy Policy, Licensing and Credits as
+   stacked underlined links (open in a new tab). The version is in the footer. */
+.global-menu__information {
+	margin-top: 8px;
+}
+
+.global-menu__information-links {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.global-menu__information-link {
+	font-family: 'Primer Print Bold', sans-serif;
+	color: rgba(var(--off-black), 1);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.global-menu__information-link:hover {
+	opacity: 0.7;
+}
+
+@media (max-width: 600px), (max-height: 600px) {
+	.global-menu__information-links {
+		gap: 6px;
+	}
+}
+
+/* Settings modal: Sound effects and Music & ambience toggles. Each row stretches
+   the full width: label and explanation on the left, switch on the right. */
+.global-menu__sound-toggles {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 8px;
 }
 
 .global-menu__sound-toggle {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 10px;
+	gap: 16px;
+	width: 100%;
 	margin: 0;
 	padding: 4px 0;
 	border: none;
 	background: none;
 	cursor: pointer;
 	font-family: 'Primer Print Bold', sans-serif;
-	font-size: 20px;
+	font-size: 24px;
 	line-height: 1;
 	color: rgba(var(--off-black), 1);
 }
 
 .global-menu__sound-toggle-track {
 	position: relative;
-	width: 44px;
-	height: 24px;
-	border-radius: 12px;
-	border: 2px solid rgba(var(--off-black), 1);
-	background-color: rgba(var(--off-white), 1);
+	flex-shrink: 0;
+	width: 49.5px;
+	height: 27px;
+	border-radius: 13.5px;
+	/* Off: tan. On: teal (see aria-checked below). */
+	background-color: var(--dpaam-tan);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease;
 }
 
 .global-menu__sound-toggle-thumb {
 	position: absolute;
-	top: 2px;
-	left: 2px;
-	width: 16px;
-	height: 16px;
+	top: 50%;
+	left: 3px;
+	width: 21px;
+	height: 21px;
+	transform: translateY(-50%);
 	border-radius: 50%;
 	background-color: rgba(var(--off-black), 1);
 	transition: transform 0.15s ease;
@@ -682,7 +808,21 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .global-menu__sound-toggle[aria-checked="true"] .global-menu__sound-toggle-thumb {
-	transform: translateX(20px);
+	/* track width less the 3px gap on each side and the thumb */
+	transform: translate(calc(49.5px - 6px - 21px), -50%);
+}
+
+.global-menu__sound-toggle-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	text-align: left;
+}
+
+.global-menu__sound-toggle-description {
+	font-size: 20px;
+	line-height: 1.3;
+	opacity: 0.75;
 }
 
 .global-menu__sound-toggle:focus-visible {

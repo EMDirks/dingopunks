@@ -15,6 +15,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'dingo-punks-loop',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -43,7 +44,6 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     sfx: 'cutscene.moveIn',
-                    startLoop: 'dingo-punks-loop',
                 },
                 
             },
@@ -365,7 +365,7 @@ let cutscene = {
                     startLoop: 'background-creepy',
                 },
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
         {
             text: 'You\'re coming with us!',
@@ -376,7 +376,7 @@ let cutscene = {
                 path: 'badguy.png',
                 scope: 'local',
             },
-            backgroundColor: 'background-color-black'
+            backgroundColor: 'background-color-salmon'
         },
     ],
     

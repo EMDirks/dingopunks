@@ -1666,12 +1666,52 @@ function startTimedGame(){
   createCodeBox();
   createFooter();
   scaleNewGameElements();
+  startMapLoop();
 }
 
 function startNoLimitGame(){
   createActivityNodes("noLimit");
   createCodeBox();
   scaleNewGameElements();
+  startMapLoop();
+}
+
+// The map view's background loop, set per theme in SOUND_CONFIG.mapLoops.
+let mapLoopKey = null;
+
+function startMapLoop(){
+  if (typeof Sound === 'undefined') return;
+  stopMapLoop();
+  mapLoopKey = Sound.mapLoopFor(resourceTheme);
+  if (mapLoopKey) Sound.startLoop(mapLoopKey);
+}
+
+// Opening a challenge fades the map's loop out; returning to the map fades it back in.
+function fadeMapLoop(faded){
+  if (mapLoopKey && typeof Sound !== 'undefined') Sound.setLoopFaded(mapLoopKey, faded);
+}
+
+function stopMapLoop(){
+  if (mapLoopKey && typeof Sound !== 'undefined') Sound.stopLoop(mapLoopKey);
+  mapLoopKey = null;
+}
+
+// An end cutscene that starts the map's loop itself takes it over, so it carries on
+// without restarting and stops with the cutscene's other loops. Otherwise it stops here.
+function handOffMapLoop(cutsceneSection){
+  if (!mapLoopKey) return;
+  const startsMapLoop = cutsceneSection.some(function(scene) {
+    return [scene.characterSprite, scene.backgroundImage1, scene.backgroundImage2].some(function(element) {
+      return element && element.animation && element.animation.startLoop === mapLoopKey;
+    });
+  });
+  if (startsMapLoop) {
+    fadeMapLoop(false);
+    cutsceneSceneLoops.add(mapLoopKey);
+    mapLoopKey = null;
+  } else {
+    stopMapLoop();
+  }
 }
 
 function addCutscene(cutsceneIndex,section){
@@ -1685,6 +1725,7 @@ function addCutscene(cutsceneIndex,section){
   else {
     cutsceneSection = cutscene[section];
   }
+  if (['outro', 'fail', 'debugOutro', 'debugFail'].includes(section)) handOffMapLoop(cutsceneSection);
   typeof Sound !== 'undefined' && Sound.event('cutscene.start');
   cutsceneLoopsAllowed = true;
   let sceneDelay = 100;
@@ -1875,7 +1916,12 @@ function addCutscene(cutsceneIndex,section){
   }
 
   // draw scene
-  setTimeout(() => drawScene(cutsceneIndex),initialTextDelay);
+  // End cutscenes open straight into their first entrance, so hold them until
+  // the CRT power-on panel starts fading (0.69s in css/splash-new.css).
+  // Reduced motion skips the power-on, so there's nothing to wait for.
+  const endCutsceneBootDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 700;
+  const isEndCutscene = ['outro', 'fail', 'debugOutro', 'debugFail'].includes(section);
+  setTimeout(() => drawScene(cutsceneIndex),initialTextDelay + (isEndCutscene ? endCutsceneBootDelay : 0));
   function drawScene(index){
 
     // get aliases
