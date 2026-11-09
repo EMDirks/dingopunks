@@ -223,12 +223,17 @@ const Sound = (function () {
     });
   }
 
+  // also: a list of extra names, so '*' can bring lazy sounds with it.
   function runPreloadEntry(entry) {
     if (!entry || !entry.sounds) return;
-    if (entry.delay > 0) {
-      setTimeout(safe('preload', function () { preload(entry.sounds); }), entry.delay);
-    } else {
+    const run = function () {
       preload(entry.sounds);
+      if (Array.isArray(entry.also)) preload(entry.also);
+    };
+    if (entry.delay > 0) {
+      setTimeout(safe('preload', run), entry.delay);
+    } else {
+      run();
     }
   }
 
@@ -260,14 +265,16 @@ const Sound = (function () {
     return index;
   }
 
-  function play(name) {
+  // offsetSec: start that far ahead on the audio clock (exact spacing, unlike timers).
+  // A scheduled sound skips the maxVoices check, since its run never overlaps itself.
+  function play(name, offsetSec) {
     if (!isAvailable()) return;
     const decoded = buffers.get(name);
     if (!decoded) return;
     const def = config().sounds[name] || {};
     if (isSilenced(def)) return;
     const live = voices.get(name) || 0;
-    if (def.maxVoices && live >= def.maxVoices) return;
+    if (def.maxVoices && live >= def.maxVoices && offsetSec === undefined) return;
 
     // On the first tap the context may still be resuming. A source started
     // now plays as soon as it does, so that first tap isn't silent.
@@ -289,7 +296,16 @@ const Sound = (function () {
       voices.set(name, Math.max(0, (voices.get(name) || 1) - 1));
       gain.disconnect();
     };
-    source.start(0);
+    const startAt = offsetSec > 0 ? ctx.currentTime + offsetSec : ctx.currentTime;
+    source.start(startAt);
+    // fadeOutMs cuts a one-shot short: full volume for fadeOutAfterMs, then a fade to silence.
+    if (def.fadeOutMs) {
+      const fadeFrom = startAt + (def.fadeOutAfterMs || 0) / 1000;
+      const fadeTo = fadeFrom + def.fadeOutMs / 1000;
+      gain.gain.setValueAtTime(gain.gain.value, fadeFrom);
+      gain.gain.linearRampToValueAtTime(0, fadeTo);
+      source.stop(fadeTo);
+    }
   }
 
   // The dialogue typewriter fires per letter; blip only every few letters.
@@ -341,6 +357,17 @@ const Sound = (function () {
       return;
     }
     play(name);
+  }
+
+  // Plays an event's sound `count` times, `gapMs` apart, scheduled on the audio clock.
+  // setTimeout runs bunch up while the page is busy (a cutscene scene building), which
+  // stacked blips together and dropped the ones past maxVoices.
+  function eventRun(eventName, count, gapMs) {
+    const cfg = config();
+    const mapping = cfg && cfg.events && cfg.events[eventName];
+    const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
+    if (typeof name !== 'string' || isSilenced(cfg.sounds && cfg.sounds[name])) return;
+    for (let i = 0; i < count; i++) play(name, (i * gapMs) / 1000);
   }
 
   // A character's voice from SOUND_CONFIG.characterVoices[theme][key]. Plays it (honouring
@@ -578,6 +605,7 @@ const Sound = (function () {
     setLoopFaded: safe('setLoopFaded', setLoopFaded),
     onPreloadEvent: safe('onPreloadEvent', onPreloadEvent),
     event: safe('event', event),
+    eventRun: safe('eventRun', eventRun),
     voice: safe('voice', voice),
     setMuted: safe('setMuted', setMuted),
     isMuted: function () { return muted; },

@@ -26,7 +26,7 @@
     flex-direction: column;
     flex-shrink: 0;
     margin-left: 0;
-    transition: margin-left 0.3s ease-out;
+    transition: margin-left 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);  /* in step with the Bonus Mission panel coming in */
     border: 0.25vmin solid var(--dpaam-white);
     border-radius: 2vmin;
     background-color: var(--dpaam-black) !important;
@@ -46,7 +46,7 @@
     flex-shrink: 0;
     opacity: 1;
     transform: translateX(0);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease-out;  /* snappy: a fast start that settles (was 0.3s ease-out) */
     border: 0.25vmin solid var(--dpaam-white);
     border-radius: 2vmin;
     background-color: var(--dpaam-black) !important;
@@ -138,6 +138,11 @@
     background-color: var(--dpaam-white);
     border-radius: 1cqi;
     border: 0.35vmin solid var(--dpaam-black);
+}
+
+/* PLAY NOW pressed: gone at once, while the page holds before Enter the Undermurk opens. */
+.dpaam-debrief-minigame > .dpaam-debrief-coming-soon.dpaam-debrief-coming-soon--hidden {
+    visibility: hidden;
 }
 
 .dpaam-debrief-coming-soon > .dpaam-debrief-coming-soon__title {

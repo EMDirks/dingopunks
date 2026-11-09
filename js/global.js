@@ -822,6 +822,7 @@ function bringInInputs(focusFirstInput){
   const comingIn = codeInputLine && codeInputLine.classList.contains('code-input-line--hidden');
   toggleClass(codeInputLine,'code-input-line--hidden','code-input-line--visible');
   if (focusFirstInput === true && comingIn && gameMode !== "preview") {
+    typeof Sound !== 'undefined' && Sound.event('code.inputsIn');
     const codeInputs = Array.from(codeInputLine.querySelectorAll('.code-input'));
     const firstInput = codeInputs.find(input => input.value === '') || codeInputs[0];
     if (firstInput) {

@@ -92,20 +92,23 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite4.png',
         scope: 'undermurk',
-        popOnSpeak: true,
+        loop: 'flak-shake-hard',  // inside the plane, so he takes the flak harder than the view
         animation: {
           start: 'transform-translate_-100_0',
           end: 'transform-translate_0_0',
           duration: 'transition-transform-300ms',
+          sfx: 'cutscene.moveIn',
         },
       },
       backgroundImage1: {
         path: 'main1.png',
         scope: 'undermurk',
+        loop: 'flak-shake',  // flying low through flak
         animation: {
           start: 'transform-scale_1_1__opacity_0',
           end: 'transform-scale_1__opacity_1',
           duration: 'transition-transform-500ms__opacity-500ms',
+          startLoop: 'enter-the-undermurk-loop',  // the intro song, from the first scene, like every theme's intro
         },
       },
       backgroundColor: 'background-color-black',
@@ -116,11 +119,12 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite1.png',
         scope: 'undermurk',
-        popOnSpeak: true,
+        loop: 'flak-shake-hard',  // inside the plane, so he takes the flak harder than the view
       },
       backgroundImage1: {
         path: 'main1.png',
         scope: 'undermurk',
+        loop: 'flak-shake',  // flying low through flak
       },
       backgroundColor: 'background-color-black',
     },
@@ -132,21 +136,18 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite2.png',
         scope: 'undermurk',
-        popOnSpeak: true,
+        loop: 'grasp-frantic',  // hands grasping at nothing
         animation: {
           start: 'transform-translate_0_100',
           end: 'transform-translate_0_0',
-          duration: 'transition-transform-500ms',
+          duration: 'transition-transform-300ms',
+          sfx: 'cutscene.moveIn',
         },
       },
       backgroundImage1: {
         path: 'main2.png',
         scope: 'undermurk',
-        animation: {
-          start: 'transform-scale_2',
-          end: 'transform-scale_1',
-          duration: 'transition-transform-500ms',
-        },
+        loop: 'slow-zoom-out',  // starts 1.5x zoomed in and drifts out once, no repeat
       },
       backgroundColor: 'background-color-black',
     },
@@ -158,11 +159,12 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite3.png',
         scope: 'undermurk',
-        popOnSpeak: true,
+        loop: 'paraglide-sway',
         animation: {
           start: 'transform-translate_0_-100',
           end: 'transform-translate_0_0',
-          duration: 'transition-transform-500ms',
+          duration: 'transition-transform-300ms',
+          sfx: 'cutscene.moveIn',
         },
       },
       backgroundImage1: {
@@ -182,7 +184,7 @@ let cutscene = {
         name: 'J.J. DINGO',
         path: 'sprite3.png',
         scope: 'undermurk',
-        popOnSpeak: true,
+        loop: 'paraglide-sway',
         animation: {
           start: 'transform-translate_0_0__opacity_1',
           end: 'transform-translate_0_50__opacity_0',
@@ -268,6 +270,49 @@ let umEndOutcomeTimeoutIds = [];
 
 const umEls = {};
 
+// ---- Sound ----
+// Every sound, delay and level is in SOUND_CONFIG (js/sound-config.js): the undermurk.* events,
+// and loops['undermurk-end'] (the end screen's song). The minigame itself has no ambient loop.
+
+let umSfxTimeoutIds = [];
+
+function umSfx(eventName) {
+  typeof Sound !== 'undefined' && Sound.event(eventName);
+}
+
+// For sounds lined up with an animation that starts later (the entrance's daisy chain).
+function umSfxAt(eventName, delayMs) {
+  umSfxTimeoutIds.push(setTimeout(function () {
+    umSfx(eventName);
+  }, delayMs));
+}
+
+function umClearSfxTimeouts() {
+  umSfxTimeoutIds.forEach(function (timeoutId) {
+    clearTimeout(timeoutId);
+  });
+  umSfxTimeoutIds = [];
+}
+
+// The player's own voice (SOUND_CONFIG.characterVoices.player), as First Up / Next Up names them.
+function umVoice(player, extraDelay) {
+  if (typeof Sound !== 'undefined' && player && player.asset) {
+    Sound.voice('player', player.asset, extraDelay);
+  }
+}
+
+function umStartLoop(key) {
+  typeof Sound !== 'undefined' && Sound.startLoop(key);
+}
+
+function umStopLoop(key) {
+  typeof Sound !== 'undefined' && Sound.stopLoop(key);
+}
+
+// A boss beaten: the next tier transition is a new level (it chimes), not just a turn
+// passing to a player on another level.
+let umTierUpPending = false;
+
 // Entrance animation timing (ms). Applied in umAnimateEntrance().
 // Daisy chain: each step starts after the previous step finishes, plus its *Delay value.
 // Order: frame → player strip → player cards → tier background → tier block → player indicator → First Up.
@@ -291,6 +336,7 @@ const umEntranceTiming = {
 };
 
 const umQuestionTiming = {
+  startHold: 300, // Start's press lands (the button shrinks away) before the panel slides out, like the activity scene's START
   startDelay: 200, // wait after Start before the question slides in
   wrongInterstitialDelay: 200, // wait after a wrong answer before the Next Up overlay slides in
   interstitialOutDuration: 200,
@@ -315,8 +361,9 @@ const umEndOutcomeTiming = {
   slamDelay: 500,
   outcomeExitDelay: 2300,
   resultsFadeInDelay: 300,
-  outcomeExitDuration: 500,
+  outcomeExitDuration: 250,
   resultsFadeInDuration: 500,
+  playAgainHold: 200, // Play Again shrinks away (0.1s, --pressed-fast) and the game resets 200ms after the tap
 };
 
 // Staged results reveal timing (ms). Applied in umRevealEndResults().
@@ -781,6 +828,11 @@ function umPlayTierTransition(tier, done) {
     bg.classList.add('undermurk-tier-background--enter');
     bg.style.animationDuration = t.artInDuration + 'ms';
     bg.style.animationDelay = '0ms';
+    umSfx('undermurk.tierArtIn');
+    if (umTierUpPending) {
+      umTierUpPending = false;
+      umSfx('undermurk.tier');
+    }
 
     umFadeInTierBlockText(tier, t.textInDuration);
     umScheduleTierTransitionHudUpdate();
@@ -908,6 +960,7 @@ function umRevealPlayerIndicator() {
   umEls.playerIndicator.style.animationDelay = '0ms';
   umEls.playerIndicator.style.animationDuration = umEntranceTiming.indicatorDuration + 'ms';
   umIndicatorPositioned = true;
+  umSfx('undermurk.indicatorIn');
 
   function onEnterEnd() {
     umEls.playerIndicator.removeEventListener('animationend', onEnterEnd);
@@ -984,7 +1037,14 @@ function umPlayerIndicatorCenterX(playerIndex) {
 }
 
 function umApplyPlayerIndicatorPosition(centerX, instant) {
+  // Only a real slide to another card sounds: not the first placement, a resize or an instant jump.
+  const previousLeft = parseFloat(umEls.playerIndicator.style.left);
+  const slides = !instant && !umIndicatorEntrancePending && umIndicatorPositioned
+    && !isNaN(previousLeft) && Math.abs(previousLeft - centerX) > 2;
   umEls.playerIndicator.style.left = centerX + 'px';
+  if (slides) {
+    umSfx('undermurk.indicatorMove');
+  }
   if (!umTierTransitionHudDelayPending) {
     umLastIndicatorPlayerIndex = umState.currentIndex;
   }
@@ -1399,6 +1459,7 @@ function umTickEndScore(scoreEl, done) {
   function advance() {
     current += 1;
     scoreEl.textContent = umFormatPoints(current);
+    umSfx('undermurk.scoreTick');
     if (current >= target) {
       finish();
       return;
@@ -1420,8 +1481,10 @@ function umRevealEndPlayers(targets, index) {
       umStartEndRevealElement(targets.equals, 0, t.equalsDuration);
       umScheduleEndOutcomeTimeout(function () {
         umStartEndRevealElement(targets.teamTotal, 0, t.teamTotalDuration);
+        umSfx('undermurk.resultIn');
         umScheduleEndOutcomeTimeout(function () {
           umTickEndScore(umEls.endTeamScore, function () {
+            umSfx('undermurk.teamTotal');
             umScheduleEndOutcomeTimeout(function () {
               umStartEndRevealElement(targets.actions, 0, t.actionsDuration);
             }, t.actionsDelay);
@@ -1433,6 +1496,7 @@ function umRevealEndPlayers(targets, index) {
   }
 
   umStartEndRevealElement(entry, 0, t.playerDuration);
+  umSfx('undermurk.resultIn');
   umScheduleEndOutcomeTimeout(function () {
     umTickEndScore(entry.querySelector('.undermurk-end__score'), function () {
       umScheduleEndOutcomeTimeout(function () {
@@ -1448,6 +1512,8 @@ function umRevealEndResults() {
   const targets = umEndRevealTargets();
 
   umScheduleEndOutcomeTimeout(function () {
+    // The end song waits for VICTORY / FAIL to leave and comes in with the "Your team..." line.
+    umStartLoop('undermurk-end');
     umStartEndRevealElement(targets.subtitle, 0, t.subtitleDuration);
     umStartEndRevealElement(umEls.endLevels, 0, t.subtitleDuration);
     umScheduleEndOutcomeTimeout(function () {
@@ -1537,9 +1603,11 @@ function umPlayEndOutcome(victory) {
   umScheduleEndOutcomeTimeout(function () {
     umSizeOutcomeImage();
     toggleClass(umEls.outcome, 'undermurk-outcome--out', 'undermurk-outcome--in');
+    umSfx(victory ? 'undermurk.outcomeVictory' : 'undermurk.outcomeFail');
   }, umEndOutcomeTiming.slamDelay);
 
   umScheduleEndOutcomeTimeout(function () {
+    umSfx('undermurk.outcomeOut');
     umEls.outcome.classList.remove('undermurk-outcome--in');
     umEls.outcome.classList.add('undermurk-outcome--exit');
     umEls.outcome.style.setProperty('--um-outcome-exit-duration', umEndOutcomeTiming.outcomeExitDuration + 'ms');
@@ -1585,6 +1653,7 @@ function umShowEndScreen(victory) {
   umHideOverlay('interstitial');
   umEls.questionArea.classList.add('undermurk-question--hidden');
 
+  umSfx('undermurk.hudOut');
   umFadeOutTierBackgroundForEnd();
   umAnimateHudExitForEnd();
   umPopulateEndResults(victory);
@@ -1604,6 +1673,7 @@ function umAdvanceTier(callback) {
   player.tier += 1;
   player.cleared = 0;
   player.isBossRoundComplete = false;
+  umTierUpPending = true;
   umBeginTierTransitionHudDelay(player.tier);
   umUpdateHUD();
   if (callback) {
@@ -1677,23 +1747,36 @@ function umShowInterstitialPanel(heading, player, callback) {
   }
   umUpdateHUD();
   umDimTierBackground();
+  umEls.interstitialStart.classList.remove('undermurk-overlay__button--pressed');
 
   function onStart() {
     umEls.interstitialStart.removeEventListener('click', onStart);
-    umSlideOutInterstitialPanel(function () {
-      umHideOverlay('interstitial');
-      umClearStartDelayTimeout();
-      umStartDelayTimeoutId = setTimeout(function () {
-        umStartDelayTimeoutId = null;
-        if (callback) {
-          callback();
-        }
-      }, umQuestionTiming.startDelay);
-    });
+    // Like the activity scene's START: the button shrinks away and the press holds startHold
+    // before the panel leaves (undermurk.start whooshes as it does).
+    umEls.interstitialStart.classList.add('undermurk-overlay__button--pressed');
+    umSfx('undermurk.start');
+    umClearStartDelayTimeout();
+    umStartDelayTimeoutId = setTimeout(function () {
+      umStartDelayTimeoutId = null;
+      umSlideOutInterstitialPanel(function () {
+        umHideOverlay('interstitial');
+        umClearStartDelayTimeout();
+        umStartDelayTimeoutId = setTimeout(function () {
+          umStartDelayTimeoutId = null;
+          if (callback) {
+            callback();
+          }
+        }, umQuestionTiming.startDelay);
+      });
+    }, umQuestionTiming.startHold);
   }
 
   umEls.interstitialStart.addEventListener('click', onStart);
   umSlideInInterstitialPanel();
+  umSfx('undermurk.panelIn');
+  // The player's voice as the panel arrives: 200ms into its 300ms slide, on top of the
+  // voice's own delay.
+  umVoice(player, 200);
 }
 
 function umShowFirstUp(player, callback) {
@@ -1728,6 +1811,10 @@ function umStartTimer() {
   umState.timerTickId = setInterval(function () {
     umState.timeLeft -= 1;
     umUpdateTimerAppearance();
+    // A tick a second through the last quarter (not at 0: the timeout's own sound plays then).
+    if (umState.timeLeft > 0 && umState.timeLeft / umState.timeTotal <= 0.25) {
+      umSfx('undermurk.timerTick');
+    }
   }, 1000);
 
   umState.timerId = setTimeout(function () {
@@ -1823,6 +1910,10 @@ function umSlideInQuestion(callback) {
   umEls.questionArea.classList.remove('undermurk-question--hidden');
   umEls.questionArea.classList.add('undermurk-question--enter');
   umEls.questionArea.style.animationDuration = umQuestionTiming.enterDuration + 'ms';
+  umSfx('undermurk.questionIn');
+  if (umEls.options && umEls.options.classList.contains('undermurk-options--boss')) {
+    umSfx('undermurk.bossIn');
+  }
 
   function onEnterEnd(event) {
     if (event.target !== umEls.questionArea || event.animationName !== 'undermurk-question-in') {
@@ -2005,6 +2096,9 @@ function umHandleAnswer(selectedWord) {
   const isBoss = player.cleared >= 5;
   const correct = selectedWord === umState.currentEntry.word;
 
+  // Fired during the option's click, so it replaces the plain click (js/sound.js).
+  umSfx(correct ? 'undermurk.correct' : 'undermurk.wrong');
+
   if (correct) {
     const points = isBoss ? 2 : 1;
     player.score += points;
@@ -2013,6 +2107,7 @@ function umHandleAnswer(selectedWord) {
     if (isBoss) {
       player.isBossRoundComplete = true;
       if (player.tier >= umMaxTier) {
+        umSfx('undermurk.playerFinished');
         umFinishPlayer();
         return;
       }
@@ -2032,6 +2127,7 @@ function umHandleAnswer(selectedWord) {
   player.lives -= 1;
   if (player.lives <= 0) {
     player.eliminated = true;
+    umSfx('undermurk.eliminated');
   }
 
   umNeedsInterstitial = settings.playerCount > 1;
@@ -2049,11 +2145,13 @@ function umHandleTimeout() {
   umLocked = true;
   umStopTimer();
   umPauseTimerFill();
+  umSfx('undermurk.timeout');
 
   const player = umCurrentPlayer();
   player.lives -= 1;
   if (player.lives <= 0) {
     player.eliminated = true;
+    umSfx('undermurk.eliminated');
   }
 
   umNeedsInterstitial = settings.playerCount > 1;
@@ -2129,8 +2227,11 @@ function umBuildDOM() {
 
   umEls.frame = createElement('div', ['undermurk-frame'], splashContainerWrapper);
 
+  // Play Again shrinks away like START (undermurk-overlay__button--pressed, which also blocks a
+  // second tap), then the game resets after playAgainHold.
   umEls.playAgain.addEventListener('click', function () {
-    umReturnToSetup();
+    umEls.playAgain.classList.add('undermurk-overlay__button--pressed', 'undermurk-overlay__button--pressed-fast');
+    umScheduleEndOutcomeTimeout(umReturnToSetup, umEndOutcomeTiming.playAgainHold);
   });
 }
 
@@ -2147,6 +2248,8 @@ function umResetState(characters) {
   umTierBackgroundRevealed = false;
   umTierTransitionHudDelayPending = false;
   umTierTransitionIndicatorSlide = false;
+  umTierUpPending = false;
+  umClearSfxTimeouts();
   umClearTierBlockTextAnimation();
 
   if (umIndicatorEntranceTimeoutId) {
@@ -2189,6 +2292,18 @@ function umAnimateEntrance(onComplete) {
   }
 
   requestAnimationFrame(function () {
+    // Each piece's sound, at the moment its animation starts (the delays below).
+    const cardCount = umEls.playerStripCards.querySelectorAll('.undermurk-player-card').length;
+    umSfxAt('undermurk.frameIn', umFrameEntranceStartMs());
+    umSfxAt('undermurk.stripIn', umStripEntranceStartMs());
+    for (let i = 0; i < cardCount; i++) {
+      umSfxAt('undermurk.cardIn', umCardEntranceStartMs(i));
+    }
+    if (umEls.tierBackground) {
+      umSfxAt('undermurk.tierArtIn', umTierBackgroundEntranceStartMs(cardCount));
+    }
+    umSfxAt('undermurk.tierBlockIn', umTierBlockEntranceStartMs(cardCount));
+
     umEls.frame.classList.add('undermurk-frame--enter');
     umEls.frame.style.animationDelay = umFrameEntranceStartMs() + 'ms';
     umEls.frame.style.animationDuration = umEntranceTiming.frameDuration + 'ms';
@@ -2258,7 +2373,10 @@ function umReturnToSetup() {
   umClearTierTransitionHudDelayTimeout();
   umClearTierTransitionHudWatchdogTimeout();
   umClearEndOutcomeTimeouts();
+  umClearSfxTimeouts();
   umResetOutcomeImage();
+  umStopLoop('undermurk-end');
+  umSfx('undermurk.playAgain');
 
   if (umIndicatorEntranceTimeoutId) {
     clearTimeout(umIndicatorEntranceTimeoutId);

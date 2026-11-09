@@ -1,5 +1,5 @@
-// Local testing panel: pick a theme and watch its intro, outro or fail cutscene, or
-// launch its 4th grade mixed reading escape room.
+// Local testing panel: pick a theme and watch its intro, outro or fail cutscene,
+// launch its 4th grade mixed reading escape room, or jump to a victory debrief.
 // scripts/build-pages.mjs leaves this file and its index.html tag out of the
 // production build. The host check is a backstop if the site is ever served
 // straight from the repo.
@@ -103,7 +103,38 @@
     gameButton.addEventListener('click', launchGame);
     panel.appendChild(gameButton);
 
+    const debriefButton = document.createElement('button');
+    debriefButton.textContent = 'Debrief';
+    debriefButton.addEventListener('click', launchDebrief);
+    panel.appendChild(debriefButton);
+
     document.body.appendChild(panel);
+  }
+
+  // A strong win: 2 players, every challenge done, no hints, 40 of 50 minutes left.
+  // That scores 958 (all 5 medals), so the whole scoring sequence plays.
+  const DEBUG_DEBRIEF_VICTORY = {
+    teamSize: 2,
+    hintsUsed: 0,
+    activitiesCompleted: 5,
+    timeStarting: 3000,
+    timeRemaining: 2400,
+    outcome: 'victory',
+  };
+
+  function launchDebrief() {
+    canRefresh = true;
+    // Starts from debriefStats so the student's sound settings (mute, muteMusic) carry over.
+    const stats = Object.assign({}, debriefStats, DEBUG_DEBRIEF_VICTORY, {
+      characters: characterArray.slice(0, DEBUG_DEBRIEF_VICTORY.teamSize).map(function(character) {
+        return character.name;
+      }).join(','),
+    });
+    const queryString = Object.entries(stats)
+      .filter(function([, value]) { return value !== null && value !== undefined; })
+      .map(function([key, value]) { return encodeURIComponent(key) + '=' + encodeURIComponent(value); })
+      .join('&');
+    location.href = 'debrief.html?' + queryString;
   }
 
   function launchGame() {

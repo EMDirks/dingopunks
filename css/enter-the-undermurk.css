@@ -973,6 +973,18 @@ body {
     transform: scale(0.95);
 }
 
+/* First Up / Next Up START pressed: shrinks away during the hold, like the activity scene's START. */
+.undermurk-overlay__button.undermurk-overlay__button--pressed {
+    transform: scale(0);
+    transition: transform 0.2s ease-in;
+    pointer-events: none;
+}
+
+/* Play Again pressed: the same shrink, twice as fast. */
+.undermurk-overlay__button.undermurk-overlay__button--pressed-fast {
+    transition-duration: 0.1s;
+}
+
 .undermurk-overlay__button--secondary {
     background-color: transparent;
     color: rgba(var(--gold), 1);
@@ -1186,9 +1198,10 @@ body {
 .undermurk-outcome--exit {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
+    /* A quick pull back, then a fast shrink away (back-in). */
     transition:
-        transform var(--um-outcome-exit-duration, 500ms) ease-in,
-        opacity var(--um-outcome-exit-duration, 500ms) ease-in;
+        transform var(--um-outcome-exit-duration, 250ms) cubic-bezier(0.6, -0.28, 0.735, 0.045),
+        opacity var(--um-outcome-exit-duration, 250ms) cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 .undermurk-outcome--out {

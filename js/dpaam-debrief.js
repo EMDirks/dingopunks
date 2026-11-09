@@ -64,6 +64,9 @@
 
   // The minigame tile launches Enter the Undermurk!, carrying over the full
   // debrief URL slug so score data and character preselection are preserved.
+  const playNowHoldMs = 200;
+  let launchingUndermurk = false;
+
   if (minigameEl) {
     // Same CRT static overlay used on the promo container and intro cutscenes.
     if (!minigameEl.querySelector('.splash-tv-overlay')) {
@@ -128,7 +131,20 @@
         openBonusMissionModal();
         return;
       }
-      window.location.href = 'enter-the-undermurk.html' + window.location.search;
+      if (launchingUndermurk) {
+        return;
+      }
+      launchingUndermurk = true;
+      // The tile isn't a button, so it plays the standard click itself. The PLAY NOW bar goes
+      // at once; the page waits playNowHoldMs so the press lands before Enter the Undermurk opens.
+      typeof Sound !== 'undefined' && Sound.event('ui.click');
+      const comingSoonBar = minigameEl.querySelector('.dpaam-debrief-coming-soon');
+      if (comingSoonBar) {
+        comingSoonBar.classList.add('dpaam-debrief-coming-soon--hidden');
+      }
+      setTimeout(function () {
+        window.location.href = 'enter-the-undermurk.html' + window.location.search;
+      }, playNowHoldMs);
     });
   }
 
@@ -431,10 +447,16 @@
     }, { once: true });
   }
 
+  function sfx(eventName) {
+    typeof Sound !== 'undefined' && Sound.event(eventName);
+  }
+
   function setFinalMedal(index) {
     if (index === displayedMedalIndex) {
       return;
     }
+    // Each new medal flying in steps up in pitch: debrief.medal1 … debrief.medal5.
+    sfx('debrief.medal' + index);
 
     const previousIndex = displayedMedalIndex;
     const oldSrc = finalMedalImg.src;
@@ -453,8 +475,17 @@
     setFinalMedal(medalCountForScore(value));
   }
 
+  // The count-up ticks each time the number changes, at most once per scoreTickGapMs,
+  // so it rattles while the count is fast and slows to single ticks as it eases out.
+  const scoreTickGapMs = 70;
+  // Each tick fires this far ahead of the number it belongs to, so it lands on the
+  // number after audio output latency instead of ~50ms behind it.
+  const scoreTickLeadMs = 50;
+
   function animateFinalScore(element, target, duration, onValue, onComplete) {
     const startTime = performance.now();
+    let lastTickValue = 0;
+    let lastTickAt = -Infinity;
 
     function easeOutQuart(progress) {
       return 1 - Math.pow(1 - progress, 4);
@@ -465,6 +496,13 @@
       const easedProgress = easeOutQuart(progress);
       const value = Math.round(easedProgress * target);
       element.textContent = String(value);
+      const upcomingProgress = Math.min((now + scoreTickLeadMs - startTime) / duration, 1);
+      const upcomingValue = Math.round(easeOutQuart(upcomingProgress) * target);
+      if (upcomingValue !== lastTickValue && now - lastTickAt >= scoreTickGapMs) {
+        lastTickAt = now;
+        lastTickValue = upcomingValue;
+        sfx('debrief.scoreTick');
+      }
 
       if (onValue) {
         onValue(value);
@@ -496,11 +534,15 @@
     let delay = 0;
 
     for (let i = 0; i < regularStats.length; i++) {
-      setTimeout(toggleClass, delay, regularStats[i], 'stat--hidden', 'stat--visible');
+      setTimeout(() => {
+        toggleClass(regularStats[i], 'stat--hidden', 'stat--visible');
+        sfx('debrief.statIn');
+      }, delay);
       delay += cardToCapsuleDelay;
       const capsuleDelay = delay;
       setTimeout(() => {
         toggleClass(capsuleElements[i], 'stat-tier-capsule--hidden', 'stat-tier-capsule--visible');
+        sfx('debrief.tierIn');
       }, capsuleDelay);
       delay += revealStep;
     }
@@ -509,6 +551,7 @@
 
     setTimeout(() => {
       toggleClass(statScore, 'stat--hidden', 'stat--visible');
+      sfx('debrief.scoreIn');
       finalScoreValue.classList.add('dpaam-debrief-finalScore--tick');
     }, finalScoreRevealDelay);
 
@@ -518,6 +561,7 @@
           finalScoreValue.classList.remove('dpaam-debrief-finalScore--tick');
           setFinalMedal(earnedMedalCount);
           toggleClass(finalScoreRankGroup, 'dpaam-debrief-final-rank-group--hidden', 'dpaam-debrief-final-rank-group--visible');
+          sfx('debrief.rank');
           finalMedalImg.classList.add('dpaam-debrief-final-medal--emphasis');
           finishStatsDisplay();
         }, finalScoreRevealAfterTickDelay);
@@ -531,6 +575,7 @@
     }
 
     minigamePanel.classList.add('dpaam-debrief-minigame-panel--enter');
+    sfx('debrief.bonusIn');
     dpaamContainer.appendChild(minigamePanel);
     dpaamContainer.classList.remove('dpaam-debrief-container--stats-centered');
 

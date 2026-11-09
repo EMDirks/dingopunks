@@ -41,10 +41,12 @@ let retrievedDebriefStats = {};
 queryString.split('&').forEach(function (param) {
   let [key, value] = param.split('=');
   retrievedDebriefStats[decodeURIComponent(key)] = decodeURIComponent(value);
-  if (!UNDERMURK) {
-    setTimeout(updateDebrief,10);
-  }
 });
+// Once, after every param is read (this used to be scheduled once per param, which ran
+// the whole scoring sequence, and its sounds, several times over).
+if (!UNDERMURK) {
+  setTimeout(updateDebrief,10);
+}
 
 // Show the active container and hide the inactive one
 const debriefContainer = document.querySelector('.debrief-container');
@@ -208,8 +210,12 @@ function updateDebrief(){
 
 
     function bringInStats(){
-        for (let i = 0; i <= statElements.length; i++){
-            setTimeout(toggleClass,(i * 300),statElements[i],"stat--hidden","stat--visible");
+        for (let i = 0; i < statElements.length; i++){
+            setTimeout(function(){
+                toggleClass(statElements[i],"stat--hidden","stat--visible");
+                // The last card is the total score; it lands with its own sound.
+                typeof Sound !== 'undefined' && Sound.event(statElements[i] === statScore ? 'debrief.scoreIn' : 'debrief.statIn');
+            },(i * 300));
         }      
     }
 
@@ -218,6 +224,7 @@ function updateDebrief(){
         updateElementHeight();
 
         toggleClass(scoreContainer,"score-container--hidden","score-container--visible");
+        typeof Sound !== 'undefined' && Sound.event('debrief.meterIn');
         setTimeout(toggleClass,200,medalContainer,"medal-container--hidden","medal-container--visible");
         let calculatedRank;
 
@@ -262,10 +269,13 @@ function updateDebrief(){
                     let rank = document.querySelector(".debrief-stat-rank-" + i);
                     rank.textContent = rankArray[i-1];
                     toggleClass(rank,"debrief-stat-rank--light-brown","debrief-stat-rank--black");
+                    // Each medal lighting up steps up in pitch: debrief.medal1 … debrief.medal5.
+                    typeof Sound !== 'undefined' && Sound.event('debrief.medal' + i);
                     if (i == array.length){
                         let divMedalContainer = document.getElementById("div-medal-container-" + i);
                         setTimeout(addEmphasis,400);
                         function addEmphasis(){
+                            typeof Sound !== 'undefined' && Sound.event('debrief.rank');
                             divMedalContainer.classList.add("div-medal-container--hidden"); 
                             setTimeout(toggleClass,0,divMedalContainer,"div-medal-container--hidden","div-medal-container--visible");
                             setTimeout(toggleClass,0,divMedalContainer,"div-medal-container--visible","div-medal-container--emphasis");

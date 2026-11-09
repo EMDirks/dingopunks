@@ -190,6 +190,144 @@
     }
 }
 
+/* Ambient loops a cutscene file turns on with loop: '<name>' on a sprite or background
+   image (js/splash-new.js sets data-cutscene-loop). They animate the individual translate,
+   rotate and scale properties, so they stack on the element's own transform entrances
+   and exits instead of replacing them. */
+
+/* Inside a plane flying low through flak: a steady rumble with two hard jolts.
+   Scaled up a little so the shake never shows the frame's edge. */
+[data-cutscene-loop="flak-shake"] {
+    scale: 1.05;
+    animation: cutscene-loop-flak-shake 2.8s linear infinite;
+}
+
+@keyframes cutscene-loop-flak-shake {
+    0%, 100% { translate: 0 0; rotate: 0deg; }
+    4% { translate: -0.25vmin 0.2vmin; }
+    8% { translate: 0.2vmin -0.15vmin; }
+    12% { translate: -0.15vmin -0.2vmin; }
+    16% { translate: 0.25vmin 0.15vmin; }
+    20% { translate: -0.1vmin 0.1vmin; }
+    24% { translate: 0.15vmin -0.1vmin; rotate: 0deg; }
+    /* jolt */
+    26% { translate: 1.3vmin -1vmin; rotate: 0.7deg; }
+    29% { translate: -0.9vmin 0.7vmin; rotate: -0.5deg; }
+    32% { translate: 0.5vmin -0.4vmin; rotate: 0.25deg; }
+    36% { translate: -0.25vmin 0.2vmin; rotate: -0.1deg; }
+    40% { translate: 0.15vmin -0.1vmin; rotate: 0deg; }
+    44% { translate: -0.2vmin -0.15vmin; }
+    48% { translate: 0.2vmin 0.2vmin; }
+    52% { translate: -0.15vmin 0.1vmin; }
+    56% { translate: 0.25vmin -0.2vmin; }
+    60% { translate: -0.2vmin 0.15vmin; }
+    64% { translate: 0.1vmin -0.1vmin; }
+    68% { translate: -0.15vmin 0.1vmin; rotate: 0deg; }
+    /* bigger jolt the other way */
+    70% { translate: -1.6vmin 1.2vmin; rotate: -0.9deg; }
+    73% { translate: 1.1vmin -0.8vmin; rotate: 0.6deg; }
+    76% { translate: -0.6vmin 0.5vmin; rotate: -0.3deg; }
+    80% { translate: 0.3vmin -0.25vmin; rotate: 0.1deg; }
+    84% { translate: -0.2vmin 0.15vmin; rotate: 0deg; }
+    88% { translate: 0.2vmin -0.2vmin; }
+    92% { translate: -0.25vmin 0.1vmin; }
+    96% { translate: 0.15vmin 0.2vmin; }
+}
+
+/* J.J. Dingo inside the plane during the flak: the same 2.8s timeline as
+   flak-shake, so the jolts land together, but about twice as hard. Both start
+   in the same frame (js/splash-new.js sets the attributes together). */
+[data-cutscene-loop="flak-shake-hard"] {
+    scale: 1.06;
+    animation: cutscene-loop-flak-shake-hard 2.8s linear infinite;
+}
+
+@keyframes cutscene-loop-flak-shake-hard {
+    0%, 100% { translate: 0 0; rotate: 0deg; }
+    4% { translate: -0.5vmin 0.4vmin; }
+    8% { translate: 0.45vmin -0.35vmin; }
+    12% { translate: -0.35vmin -0.4vmin; }
+    16% { translate: 0.5vmin 0.35vmin; }
+    20% { translate: -0.25vmin 0.25vmin; }
+    24% { translate: 0.35vmin -0.25vmin; rotate: 0deg; }
+    /* jolt */
+    26% { translate: 2.6vmin -2vmin; rotate: 1.6deg; }
+    29% { translate: -1.9vmin 1.5vmin; rotate: -1.1deg; }
+    32% { translate: 1.1vmin -0.9vmin; rotate: 0.6deg; }
+    36% { translate: -0.55vmin 0.45vmin; rotate: -0.25deg; }
+    40% { translate: 0.35vmin -0.25vmin; rotate: 0deg; }
+    44% { translate: -0.45vmin -0.35vmin; }
+    48% { translate: 0.45vmin 0.45vmin; }
+    52% { translate: -0.35vmin 0.25vmin; }
+    56% { translate: 0.5vmin -0.45vmin; }
+    60% { translate: -0.45vmin 0.35vmin; }
+    64% { translate: 0.25vmin -0.25vmin; }
+    68% { translate: -0.35vmin 0.25vmin; rotate: 0deg; }
+    /* bigger jolt the other way */
+    70% { translate: -3.2vmin 2.4vmin; rotate: -2deg; }
+    73% { translate: 2.3vmin -1.7vmin; rotate: 1.3deg; }
+    76% { translate: -1.3vmin 1.1vmin; rotate: -0.7deg; }
+    80% { translate: 0.65vmin -0.55vmin; rotate: 0.25deg; }
+    84% { translate: -0.45vmin 0.35vmin; rotate: 0deg; }
+    88% { translate: 0.45vmin -0.45vmin; }
+    92% { translate: -0.5vmin 0.25vmin; }
+    96% { translate: 0.35vmin 0.45vmin; }
+}
+
+/* Hands reaching up after the jump, grasping frantically at nothing: quick,
+   uneven lurches side to side. The arms come in from the bottom corners, so it
+   pivots on the bottom edge and is scaled up enough that a tilt never lifts
+   them off the frame. Every keyframe sits 4vmin below the resting spot, so the
+   lurches and tilts never lift the image's bottom edge into view. */
+[data-cutscene-loop="grasp-frantic"] {
+    transform-origin: 50% 100%;
+    scale: 1.1;
+    animation: cutscene-loop-grasp-frantic 1.3s ease-in-out infinite;
+}
+
+@keyframes cutscene-loop-grasp-frantic {
+    0%, 100% { translate: 0 4vmin; rotate: 0deg; }
+    12% { translate: -2.2vmin 2.8vmin; rotate: -1.8deg; }
+    24% { translate: 1.4vmin 4.4vmin; rotate: 1.2deg; }
+    34% { translate: 2.6vmin 2.4vmin; rotate: 2deg; }
+    46% { translate: -0.8vmin 4.6vmin; rotate: -0.6deg; }
+    58% { translate: -2.8vmin 3vmin; rotate: -2.2deg; }
+    70% { translate: 0.6vmin 2.2vmin; rotate: 0.4deg; }
+    82% { translate: 2vmin 4.2vmin; rotate: 1.6deg; }
+    92% { translate: -0.6vmin 3.4vmin; rotate: -0.4deg; }
+}
+
+/* Plays once rather than looping: the picture starts 1.5x zoomed in and
+   slowly drifts out to full frame, then holds. */
+[data-cutscene-loop="slow-zoom-out"] {
+    animation: cutscene-loop-slow-zoom-out 2s ease-out forwards;
+}
+
+@keyframes cutscene-loop-slow-zoom-out {
+    from { scale: 1.5; }
+    to { scale: 1; }
+}
+
+/* Paragliding in a breeze: the rider swings gently under the canopy
+   (the pivot sits about where the canopy is drawn) and drifts side to side. */
+[data-cutscene-loop="paraglide-sway"] {
+    transform-origin: 50% 15%;
+    animation: cutscene-loop-paraglide-sway 4.2s ease-in-out infinite;
+}
+
+@keyframes cutscene-loop-paraglide-sway {
+    0%, 100% { rotate: -3deg; translate: -0.8vmin 0; }
+    25% { translate: 0 -0.5vmin; }
+    50% { rotate: 3deg; translate: 0.8vmin 0; }
+    75% { translate: 0 0.5vmin; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-cutscene-loop] {
+        animation: none;
+    }
+}
+
 .icon-clickable--splash {
     color: rgba(var(--off-black), 1);
     background-color: rgba(var(--gold), 1);

@@ -2098,6 +2098,19 @@ function addCutscene(cutsceneIndex,section){
     addSprite();
     function addSprite(){
 
+      // A cutscene file can give a sprite or background image loop: '<name>' for an ambient
+      // animation that runs while the scene shows (css/splash-new.css, [data-cutscene-loop]).
+      // It's an attribute, not a class, so entrance and exit animations don't strip it, and a
+      // loop that carries over to the next scene keeps going without a restart.
+      [
+        [cutsceneCharacterSprite, sc_characterSprite],
+        [cutsceneBackgroundImage1, sc_backgroundImage1],
+        [cutsceneBackgroundImage2, sc_backgroundImage2],
+      ].forEach(([element, imageObject]) => {
+        if (imageObject && imageObject.loop) element.dataset.cutsceneLoop = imageObject.loop;
+        else delete element.dataset.cutsceneLoop;
+      });
+
       if (sc_characterSprite){
         updateCutsceneElement(cutsceneCharacterSprite, sc_characterSprite, 'characterSprite', 'cutscene-character-sprite', initialSceneDelay + performanceDelay);
       }
@@ -2352,9 +2365,7 @@ function addCutscene(cutsceneIndex,section){
           const runTypewriter = Boolean(typewriterRun && typewriterRun.sections.includes(section));
           if (runTypewriter && !voiced && text.length > 0 && typeof Sound !== 'undefined') {
             const runCount = (typewriterRun.counts && typewriterRun.counts[cutsceneIndex]) || typewriterRun.count;
-            for (let i = 0; i < runCount; i++) {
-              setTimeout(() => Sound.event('cutscene.typewriterRun'), i * typewriterRun.gapMs);
-            }
+            Sound.eventRun('cutscene.typewriterRun', runCount, typewriterRun.gapMs);
           }
           const letters = text.split('');
           letters.forEach((letter, index) => {
