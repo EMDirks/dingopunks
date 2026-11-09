@@ -314,11 +314,12 @@ const Sound = (function () {
   }
 
   // mapping is an `events` or `characterVoices` value: a sound name, or
-  // { sound, skipAfterMs, delay, skipIfLocked }. skipAfterMs stays quiet when
+  // { sound, skipAfterMs, delay, skipIfLocked, keepClick }. skipAfterMs stays quiet when
   // another sound started within that many ms (e.g. a popup that opens right
   // after the wrong-code sound); delay plays the sound that many ms later, to
   // line it up with an animation; skipIfLocked stays quiet while the browser
-  // still has audio locked (no tap yet).
+  // still has audio locked (no tap yet); keepClick plays alongside the tap's
+  // click sound instead of replacing it.
   // keepsClicks: true for sounds no tap causes (character voices), so they never
   // replace a tap's click sound.
   function fireMapping(cfg, mapping, isLetter, detail, keepsClicks) {
@@ -331,7 +332,7 @@ const Sound = (function () {
     if (mapping.skipIfLocked && (!ctx || ctx.state !== 'running')) return;
     if (isLetter && !shouldBlip(cfg, detail)) return;
     // A sound fired while a click is being handled replaces its plain click.
-    if (!keepsClicks) {
+    if (!keepsClicks && !mapping.keepClick) {
       pendingClick = null;
       if (!playingClick && !isLetter) lastGameSoundAt = performance.now();
     }
@@ -345,11 +346,18 @@ const Sound = (function () {
   // A character's voice from SOUND_CONFIG.characterVoices[theme][key]. Plays it (honouring
   // delay) and returns true when the character has an entry, even a null one, so the caller
   // skips its letter blips. false = no entry: the caller keeps the blips.
-  function voice(theme, key) {
+  // extraDelay: ms added to the entry's own delay (the caller's animation timing).
+  function voice(theme, key, extraDelay) {
     const cfg = config();
     const table = cfg && cfg.characterVoices && cfg.characterVoices[theme];
     if (!table || typeof key !== 'string' || !Object.prototype.hasOwnProperty.call(table, key)) return false;
-    fireMapping(cfg, table[key], false, undefined, true);
+    let mapping = table[key];
+    if (mapping && extraDelay > 0) {
+      mapping = typeof mapping === 'object'
+        ? Object.assign({}, mapping, { delay: (mapping.delay || 0) + extraDelay })
+        : { sound: mapping, delay: extraDelay };
+    }
+    fireMapping(cfg, mapping, false, undefined, true);
     return true;
   }
 
@@ -380,7 +388,7 @@ const Sound = (function () {
 
     const source = ctx.createBufferSource();
     source.buffer = buffers.get(def.sound)[0];
-    source.loop = true;
+    source.loop = !def.once;   // once: true plays the file through one time, still on the music bus
     const gain = ctx.createGain();
     const waitMs = Math.max(0, (def.delayMs || 0) - (performance.now() - wantedLoops.get(key)));
     const startAt = ctx.currentTime + waitMs / 1000;
@@ -388,11 +396,18 @@ const Sound = (function () {
     if (!fadedLoops.has(key)) gain.gain.linearRampToValueAtTime(volume, startAt + (def.fadeInMs || 0) / 1000);
     source.connect(gain);
     gain.connect(musicBus);
+    const live = { source: source, gain: gain };
     source.onended = function () {
       gain.disconnect();
+      // A once: true track that played to its end is done; forget it so startLoop can play it again.
+      if (liveLoops.get(key) === live) {
+        liveLoops.delete(key);
+        wantedLoops.delete(key);
+        fadedLoops.delete(key);
+      }
     };
     source.start(startAt);
-    liveLoops.set(key, { source: source, gain: gain });
+    liveLoops.set(key, live);
   }
 
   function stopLoop(key) {

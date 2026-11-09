@@ -202,7 +202,37 @@
 .activity-modal--open {
     opacity: 1;
     transform: translate(50%, -50%) scale(1);
-    /* animation: pop-in-modal 0.2s ease-out; */
+    animation: activity-modal-pop-in 0.48s both;
+}
+
+/* Weighty pop: rises from slightly low and small, overshoots ~3%, dips back under, then settles. */
+@keyframes activity-modal-pop-in {
+    0% {
+        opacity: 0;
+        transform: translate(50%, -47%) scale(0.86);
+        animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+    18% {
+        opacity: 1;
+    }
+    45% {
+        transform: translate(50%, -50.6%) scale(1.03);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    72% {
+        transform: translate(50%, -49.85%) scale(0.992);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(50%, -50%) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .activity-modal--open {
+        animation: none;
+    }
 }
 
 .activity-modal-wrapper {
@@ -474,6 +504,25 @@
 
 .activity-node--gameEnd {
     opacity: 0;
+    animation: activity-node-out 0.18s forwards;
+}
+
+/* Finish: activity-node-in played backwards, a small dip then a quick whip up and out. */
+@keyframes activity-node-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0%);
+        animation-timing-function: ease-in;
+    }
+    35% {
+        opacity: 1;
+        transform: translateY(4%);
+        animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
 }
 
 .activity-node-complete-banner {

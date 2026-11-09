@@ -15,6 +15,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'dingo-punks-loop',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -35,12 +36,14 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 },
                 
             },
@@ -58,12 +61,15 @@ let cutscene = {
             text: '...but a mysterious playground appeared in the middle of nowhere.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
 
             },
@@ -74,20 +80,24 @@ let cutscene = {
                     start: 'transform-scale_1_1__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-500ms__opacity-500ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
         },
         {
             text: 'It\'s huge! And none of us can remember how we got inside.',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-100_0',
                     end: 'transform-translate_-25_0',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 },
             },
             backgroundImage1: {
@@ -100,6 +110,7 @@ let cutscene = {
             text: 'Just watch out. It\'s run by some lonely creature called \"Pickle.\"',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },
@@ -111,14 +122,17 @@ let cutscene = {
         },
         {
             text: 'He locked the gates, and he wants YOU to solve his puzzles.',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-25_0',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -131,12 +145,15 @@ let cutscene = {
             text: 'If you play along, he might show you the way out.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -146,6 +163,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
@@ -158,12 +176,14 @@ let cutscene = {
                 name: "PICKLE",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguyIn',
                 },
             },
             backgroundColor: 'background-color-salmon'
@@ -175,6 +195,7 @@ let cutscene = {
                 name: "PICKLE",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -187,6 +208,7 @@ let cutscene = {
                 name: "PICKLE",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -197,12 +219,14 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-0.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 }, 
             },
             backgroundImage1: {
@@ -212,6 +236,16 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguy',
+                },
+            },
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+                animation: {
+                    start: 'opacity-0',
+                    end: 'opacity-1',
+                    duration: 'transition-opacity-1000ms',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -220,22 +254,20 @@ let cutscene = {
             text: 'My advice? Finish the puzzles and get out. Fast!',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-0.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
-            backgroundImage1: {
+            backgroundImage2: {
                 path: 'main.png',
                 scope: 'local',
-                animation: {
-                    start: 'opacity-0',
-                    end: 'opacity-1',
-                    duration: 'transition-opacity-1000ms',
-                },
             },
             backgroundColor: 'background-color-black'
         },
@@ -247,14 +279,16 @@ let cutscene = {
             textDelay: 700,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     afterReveal: true,
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-500ms',
-                    delay: 500
+                    duration: 'transition-transform-300ms',
+                    delay: 500,
+                    sfx: 'cutscene.moveIn',
                 },
             },
             backgroundImage2: {
@@ -264,6 +298,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'background-pickles-playground',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -272,6 +307,7 @@ let cutscene = {
             text: 'Quick \u2014 the playground gates are open!',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -285,13 +321,15 @@ let cutscene = {
             text: 'Let\'s get outta here.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-1000ms',
-                    delay: 200
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -300,7 +338,9 @@ let cutscene = {
                 animation: {
                     start: 'transform-translate_0_-100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    delay: 300,
                 },
             },    
             backgroundImage2: {
@@ -310,6 +350,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             }, 
             backgroundColor: 'background-color-black'
@@ -323,6 +364,7 @@ let cutscene = {
             textDelay: 700,
             characterSprite: {
                 name: "PICKLE",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -331,6 +373,8 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     delay: 500,
+                    sfx: 'cutscene.moveBadguyFail',
+                    startLoop: 'background-creepy',
                 },
             },
             backgroundImage2: {
@@ -349,6 +393,7 @@ let cutscene = {
             textStyle: 'badguy',
             characterSprite: {
                 name: "PICKLE",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -363,6 +408,7 @@ let cutscene = {
             textStyle: 'badguy',
             characterSprite: {
                 name: "PICKLE",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },

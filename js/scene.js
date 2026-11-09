@@ -109,18 +109,24 @@ function drawScene(activityArrayIndex) {
       setIpadActiveState(activitySceneButtonStart);
   
       // modify elements
-      setTimeout(toggleClass, 900, activitySceneCharacter, "activity-scene-character--hidden", "activity-scene-character--visible");
-      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);
+      setTimeout(slideInSceneCharacter, 1000, activitySceneCharacter);
+      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);  // 300ms after the character, like the player's box
       activitySceneButtonStart.addEventListener('click', myFunction);
+      let sceneStarted = false;
       function myFunction() {
-        toggleClass(activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
-        setTimeout(toggleClass, 500, activitySceneWrapper, null, 'state-display-none');
-        setTimeout(toggleClass, 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--hidden", "activity-modal-content-container-toggle--visible");
+        if (sceneStarted) return; // a second tap during the hold would slide out and whoosh twice
+        sceneStarted = true;
+        toggleClass(activitySceneButtonStart, "activity-scene-button-start--visible", "activity-scene-button-start--hidden"); // shrinks away during the hold
+        const startHold = 300; // the press lands before the intro view slides out
+        setTimeout(toggleClass, startHold, activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
+        typeof Sound !== 'undefined' && Sound.event('scene.startWhoosh');
+        setTimeout(toggleClass, startHold + 500, activitySceneWrapper, null, 'state-display-none');
+        setTimeout(toggleClass, startHold + 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--hidden", "activity-modal-content-container-toggle--visible");
         if (gameMode !== "preview"){
           const draggableElements = document.querySelectorAll('.drag-and-drop');
           draggableElements.forEach(function(el) {
             el.classList.add('draggable--hidden');
-            setTimeout(makeVisible,700);
+            setTimeout(makeVisible, startHold + 500);
             function makeVisible(){
               toggleClass(el,"draggable--hidden","draggable--visible");
             }
@@ -142,9 +148,9 @@ function drawScene(activityArrayIndex) {
       }
       /* activitySceneInstructions.innerHTML = "<strong>Directions:</strong> " + resource.activityArray[activityArrayIndex-1].instructions; */
 
-      let delay__sceneButton = 500;
+      let delay__sceneButton = 300;  // the player's turn, after the character's text (was 500, moved with delay__addText2)
       let delay__addText = 700;
-      let delay__addText2 = 800;
+      let delay__addText2 = 600;  // + delay__addText3: the character's text starts at 1600ms, just after its box lands (was 800)
       let delay__addText3 = 1000;
       let delay__sceneTopic = 1700;
       let delay__closeButton = 2000;
@@ -165,15 +171,21 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activityScenePlayerFrame, "activity-scene-player-frame--hidden", "activity-scene-player-frame--visible");
       /* setTimeout(toggleClass, activitySceneButtonTimer + 1100, activitySceneCharacter, null, "activity-scene-character--pushed-left"); */
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activityScenePlayer, "activity-scene-player--close", "activity-scene-player--open");
+      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + delay__sceneTopic);
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activitySceneCharacter, null, "activity-scene-characater--blackout");
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
   
       setTimeout(addText, delay__addText2, dialogueText, activityScenedialogue, resource.challengeArray[activityArrayIndex].intro.asset);
-      setTimeout(addText, activitySceneButtonTimer + delay__addText, activitySceneButtonText, activityScenePlayerText);
+      // The player's text types from delay__addText + delay__addText3 but its box only opens at
+      // delay__closeButton, so the player's voice waits for the box.
+      const playerVoiceDelay = delay__closeButton - (delay__addText + delay__addText3);
+      setTimeout(addText, activitySceneButtonTimer + delay__addText, activitySceneButtonText, activityScenePlayerText, playerImage, 'player', playerVoiceDelay);
       // add text typewriter-style. voiceKey: the speaking character's portrait file; a character
       // with a voice in SOUND_CONFIG.characterVoices plays one sound per line in place of the blips.
-      function addText(text, element, voiceKey){
+      // voiceTable: the characterVoices table to look in ('player' for the player's reply).
+      // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
+      function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
@@ -185,8 +197,15 @@ function drawScene(activityArrayIndex) {
                   characterSpan.style.opacity = 1;
                   // Text from a closed activity keeps typing off-screen; keep it silent.
                   const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  if (i === 0 && onScreen && element === activityScenedialogue) {
+                    popSceneCharacter(activitySceneCharacter);
+                  }
+                  if (i === 0 && onScreen && element === activityScenePlayerText) {
+                    // the player's reply types before its box opens, so pop with its voice
+                    setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
+                  }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
-                    voiced = typeof Sound !== 'undefined' && Sound.voice(resourceTheme, voiceKey) === true;
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
@@ -289,18 +308,24 @@ function drawScene(activityArrayIndex) {
   
   
       // modify elements
-      setTimeout(toggleClass, 900, activitySceneCharacter, "activity-scene-character--hidden", "activity-scene-character--visible");
-      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);
+      setTimeout(slideInSceneCharacter, 1000, activitySceneCharacter);
+      setTimeout(openSceneDialogue, 1300, activityScenedialogueWrapper);  // 300ms after the character, like the player's box
       activitySceneButtonStart.addEventListener('click', myFunction);
+      let sceneStarted = false;
       function myFunction() {
-        toggleClass(activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
-        setTimeout(toggleClass, 500, activitySceneWrapper, null, 'state-display-none');
-        setTimeout(toggleClass, 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--hidden", "activity-modal-content-container-toggle--visible");
+        if (sceneStarted) return; // a second tap during the hold would slide out and whoosh twice
+        sceneStarted = true;
+        toggleClass(activitySceneButtonStart, "activity-scene-button-start--visible", "activity-scene-button-start--hidden"); // shrinks away during the hold
+        const startHold = 300; // the press lands before the intro view slides out
+        setTimeout(toggleClass, startHold, activitySceneContainer, "activity-scene-container--open", "activity-scene-container--close");
+        typeof Sound !== 'undefined' && Sound.event('scene.startWhoosh');
+        setTimeout(toggleClass, startHold + 500, activitySceneWrapper, null, 'state-display-none');
+        setTimeout(toggleClass, startHold + 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--hidden", "activity-modal-content-container-toggle--visible");
         if (gameMode !== "preview"){
           const draggableElements = document.querySelectorAll('.draggable');
           draggableElements.forEach(function(el) {
             el.classList.add('draggable--hidden');
-            setTimeout(makeVisible,600);
+            setTimeout(makeVisible, startHold + 400);
             function makeVisible(){
               toggleClass(el,"draggable--hidden","draggable--visible");
             }
@@ -328,7 +353,7 @@ function drawScene(activityArrayIndex) {
       }
   
       // open scene button when text is finished
-      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + 500;
+      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + 300;  // was 500, moved with the character's text
       let activitySceneStartButtonTimer = (activitySceneButtonText.length * typewriterDelay);
       /* setTimeout(toggleClass, activitySceneButtonTimer + 500, activitySceneInstructions, "opacity-0", "opacity-1"); */
       if (resource.activityArray[activityArrayIndex-1].state === "incomplete") {
@@ -337,15 +362,20 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activityScenePlayerFrame, "activity-scene-player-frame--hidden", "activity-scene-player-frame--visible");
       /* setTimeout(toggleClass, activitySceneButtonTimer + 1100, activitySceneCharacter, null, "activity-scene-character--pushed-left"); */
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activityScenePlayer, "activity-scene-player--close", "activity-scene-player--open");
+      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + 1700);
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activitySceneCharacter, null, "activity-scene-characater--blackout");
       setTimeout(toggleClass, activitySceneButtonTimer + 2000, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + 2000 + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
   
-      setTimeout(addText, 800, dialogueText, activityScenedialogue, resource.activityArray[activityArrayIndex-1].assets.characterShopkeeper);
-      setTimeout(addText, activitySceneButtonTimer + 700, activitySceneButtonText, activityScenePlayerText);
+      setTimeout(addText, 600, dialogueText, activityScenedialogue,  // types from 1600ms, just after its box lands (was 800)
+        resource.activityArray[activityArrayIndex-1].assets.characterShopkeeper);
+      // The player's text types from +1700 but its box only opens at +2000, so the voice waits 300ms for it.
+      setTimeout(addText, activitySceneButtonTimer + 700, activitySceneButtonText, activityScenePlayerText, playerImage, 'player', 300);
       // add text typewriter-style. voiceKey: the speaking character's portrait file; a character
       // with a voice in SOUND_CONFIG.characterVoices plays one sound per line in place of the blips.
-      function addText(text, element, voiceKey){
+      // voiceTable: the characterVoices table to look in ('player' for the player's reply).
+      // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
+      function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
@@ -357,8 +387,15 @@ function drawScene(activityArrayIndex) {
                   characterSpan.style.opacity = 1;
                   // Text from a closed activity keeps typing off-screen; keep it silent.
                   const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  if (i === 0 && onScreen && element === activityScenedialogue) {
+                    popSceneCharacter(activitySceneCharacter);
+                  }
+                  if (i === 0 && onScreen && element === activityScenePlayerText) {
+                    // the player's reply types before its box opens, so pop with its voice
+                    setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
+                  }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
-                    voiced = typeof Sound !== 'undefined' && Sound.voice(resourceTheme, voiceKey) === true;
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
@@ -376,6 +413,24 @@ function drawScene(activityArrayIndex) {
 
 }
 
+
+// Slides an activity scene's character in from off screen and plays its whoosh.
+function slideInSceneCharacter(character) {
+  toggleClass(character, "activity-scene-character--hidden", "activity-scene-character--visible");
+  typeof Sound !== 'undefined' && Sound.event('scene.characterIn');
+}
+
+// Pops an activity scene's character or player as its line starts, like a cutscene speaker's popOnSpeak.
+function popSceneCharacter(character) {
+  character.classList.remove('activity-scene-pop');
+  void character.offsetWidth; // restart the pop if it is still running
+  character.classList.add('activity-scene-pop');
+}
+
+// The player's graphic sliding in from off screen.
+function playScenePlayerIn() {
+  typeof Sound !== 'undefined' && Sound.event('scene.playerIn');
+}
 
 // Opens an activity scene's dialogue box and plays its sound.
 function openSceneDialogue(wrapper) {

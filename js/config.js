@@ -17,9 +17,13 @@ const ALPHABET_KEYBOARD = true;
 
 // Shows a white animated Harper logo screen before the Dingo Punks bumper on the
 // play and free-play pages.
-const HARPER_BUMPER = true;
+const HARPER_BUMPER = false;
 
 // Shows the Dingo Punks logo bumper on the play and free-play pages, and its START
 // button on the play page. false skips both and opens straight on the splash. The
 // answer key's bumper isn't affected.
-const DINGO_PUNKS_BUMPER = true;
+const DINGO_PUNKS_BUMPER = false;
+
+// Shows a back arrow (left of NEXT) on each splash step after the first. On the
+// "You're playing" step it reloads the page to an empty code entry.
+const SPLASH_BACK_BUTTON = false;

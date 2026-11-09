@@ -124,6 +124,23 @@
     opacity: 1;
 }
 
+/* Off-white frame around intro, outro and fail cutscenes, matching the
+   character screens (.activity-scene-container in css/activity.css). Sits over
+   the static overlay; the CRT power-on covers it until the picture warms up.
+   It overshoots the .splash-container-wrapper clip by 1px on every side (and
+   the border is 1px wider to keep 0.3vmin visible), so the wrapper's clip
+   draws the outer edge. Otherwise the two rounded edges anti-alias
+   separately and a hairline of the scene peeks out near the corners. */
+.cutscene-frame {
+    position: absolute;
+    inset: -1px;
+    z-index: 1001;
+    border: calc(0.3vmin + 1px) solid rgba(var(--off-white), 1);
+    border-radius: calc(2vmin + 1px);
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
 
 .typewriter-letter {
     opacity: 0;
@@ -408,8 +425,8 @@
     top: calc(50% - 5vh);
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 28.6875vmin;
-    aspect-ratio: 1024 / 385;
+    width: 33.615vmin;
+    aspect-ratio: 800 / 382;
 }
 
 .harper-bumper__frame {
@@ -442,22 +459,6 @@
     animation: harper-bumper-sign 500ms ease-in-out both;
 }
 
-.harper-bumper__presents {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 32%; /* same scale as the frames: 327px / 1024px */
-    aspect-ratio: 327 / 59;
-    margin-top: 1vmin;
-    transform: translateX(-50%) rotate(-2deg);
-    opacity: 0;
-}
-
-/* The delay matches harper-bumper-sign's length, so this starts as the signature finishes. */
-.harper-bumper__logo--visible .harper-bumper__presents {
-    animation: bumper-logo-appear 150ms 500ms linear both;
-}
-
 @keyframes harper-bumper-sign {
     from {
         transform: translateX(0);
@@ -470,11 +471,6 @@
 @media (prefers-reduced-motion: reduce) {
     .harper-bumper__wipe {
         display: none;
-    }
-
-    .harper-bumper__logo--visible .harper-bumper__presents {
-        animation: none;
-        opacity: 1;
     }
 }
 

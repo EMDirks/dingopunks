@@ -50,17 +50,18 @@ function createCodeBox(){
             // Apply the new class to the current node
             toggleClass(node, 'activity-node--visible', 'activity-node--hidden');
             node.classList.add("activity-node--gameEnd");
-          }, 200 * index); // Delay the execution based on the index
+            typeof Sound !== 'undefined' && Sound.event('activity.nodeOut');
+          }, 180 * index); // the same 180ms stagger as the slide-in
         }
         activityNodeContainer.classList.add('state-pointer-events-none');
       }
       
       // toggle splash screen
       toggleClass(splash,'state-display-none','state-display-block');
-      setTimeout(toggleClass,((activityNodes.length * 200) + 500),splash,'splash--hidden','splash--visible');
+      setTimeout(toggleClass,((activityNodes.length * 180) + 500),splash,'splash--hidden','splash--visible');
 
       // toggle cutscene
-      setTimeout(addCutscene,((activityNodes.length * 200) + 500),cutsceneOutroIndex,'outro',500);
+      setTimeout(addCutscene,((activityNodes.length * 180) + 500),cutsceneOutroIndex,'outro',500);
       debriefStats.outcome = 'victory';
   });
 

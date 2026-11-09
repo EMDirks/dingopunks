@@ -15,6 +15,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'dingo-punks-loop',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -35,12 +36,14 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 },
                 
             },
@@ -58,6 +61,7 @@ let cutscene = {
             text: 'I hope you brought a swimsuit, because we\'re heading to the beach.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 
@@ -68,12 +72,15 @@ let cutscene = {
             text: 'Welcome to Camp Calamari!',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-closeup.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
 
             },
@@ -84,20 +91,24 @@ let cutscene = {
                     start: 'transform-scale_1_1__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-500ms__opacity-500ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
         },
         {
             text: 'A place of friendship, smiles, and a great big secret.',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-1.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-100_0',
                     end: 'transform-translate_-25_0',
-                    duration: 'transition-transform-500ms',
+                    duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 },
             },
             backgroundImage1: {
@@ -110,6 +121,7 @@ let cutscene = {
             text: 'You see, legend says there\'s treasure buried beneath the sand.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
             },
@@ -121,14 +133,17 @@ let cutscene = {
         },
         {
             text: 'But the secret is out, and the pirates are coming!',
+            textDelay: 300,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_-25_0',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -141,12 +156,15 @@ let cutscene = {
             text: 'Called the Red Tide, they\'re known far and wide for their greed and cruelty.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -156,6 +174,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             },
             backgroundColor: 'background-color-black'
@@ -168,12 +187,14 @@ let cutscene = {
                 name: "THE RED TIDE",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguyIn',
                 },
             },
             backgroundColor: 'background-color-salmon'
@@ -185,6 +206,7 @@ let cutscene = {
                 name: "THE RED TIDE",
             },
             backgroundImage1: {
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },
@@ -195,12 +217,14 @@ let cutscene = {
             textDelay: 500,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveIn',
                 }, 
             },
             backgroundImage1: {
@@ -210,6 +234,16 @@ let cutscene = {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
                     duration: 'transition-transform-300ms',
+                    sfx: 'cutscene.moveBadguy',
+                },
+            },
+            backgroundImage2: {
+                path: 'main.png',
+                scope: 'local',
+                animation: {
+                    start: 'opacity-0',
+                    end: 'opacity-1',
+                    duration: 'transition-opacity-1000ms',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -218,22 +252,20 @@ let cutscene = {
             text: 'The Red Tide will be here soon...',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-2000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
-            backgroundImage1: {
+            backgroundImage2: {
                 path: 'main.png',
                 scope: 'local',
-                animation: {
-                    start: 'opacity-0',
-                    end: 'opacity-1',
-                    duration: 'transition-opacity-1000ms',
-                },
             },
             backgroundColor: 'background-color-black'
         },
@@ -245,14 +277,16 @@ let cutscene = {
             textDelay: 700,
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-3.png',
                 scope: 'global',
                 animation: {
                     afterReveal: true,
                     start: 'transform-translate_0_100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-500ms',
-                    delay: 500
+                    duration: 'transition-transform-300ms',
+                    delay: 500,
+                    sfx: 'cutscene.moveIn',
                 },
             },
             backgroundImage2: {
@@ -262,6 +296,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
+                    startLoop: 'background-camp-calamari',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -270,6 +305,7 @@ let cutscene = {
             text: 'Those Red Tide pirates don\'t stand a chance.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
             },  
@@ -283,12 +319,15 @@ let cutscene = {
             text: 'Let\'s get you out of there! Your job is done.',
             characterSprite: {
                 name: "J.J. DINGO",
+                popOnSpeak: true,
                 path: 'jjcrispy-2.png',
                 scope: 'global',
                 animation: {
                     start: 'transform-translate_0_0',
                     end: 'transform-translate_0_100',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    sfx: 'cutscene.move',
                 },
             },
             backgroundImage1: {
@@ -297,7 +336,9 @@ let cutscene = {
                 animation: {
                     start: 'transform-translate_0_-100',
                     end: 'transform-translate_0_0',
-                    duration: 'transition-transform-1000ms',
+                    duration: 'transition-transform-300ms',
+                    afterText: true,
+                    delay: 300,
                 },
             },    
             backgroundImage2: {
@@ -307,6 +348,7 @@ let cutscene = {
                     start: 'opacity-1',
                     end: 'opacity-0',
                     duration: 'transition-opacity-1000ms',
+                    afterText: true,
                 },
             }, 
             backgroundColor: 'background-color-black'
@@ -320,6 +362,7 @@ let cutscene = {
             textDelay: 700,
             characterSprite: {
                 name: "THE RED TIDE",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
                 animation: {
@@ -328,6 +371,8 @@ let cutscene = {
                     end: 'transform-translate_0_0',
                     duration: 'transition-transform-300ms',
                     delay: 500,
+                    sfx: 'cutscene.moveBadguyFail',
+                    startLoop: 'background-creepy',
                 },
             },
             backgroundImage2: {
@@ -346,6 +391,7 @@ let cutscene = {
             textStyle: 'badguy',
             characterSprite: {
                 name: "THE RED TIDE",
+                popOnSpeak: true,
                 path: 'badguy.png',
                 scope: 'local',
             },

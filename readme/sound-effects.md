@@ -120,7 +120,7 @@ AudioContext (created on first preload)
 | `Sound.onPreloadEvent(eventName)` | Called from `handlePreloading` (§4). Looks up `SOUND_CONFIG.preload[eventName]` and preloads what it lists, honouring `delay`. Unknown events are ignored. |
 | `Sound.preload(names?)` | Fetch + decode. `'*'` or no arg = every sound in `SOUND_CONFIG.sounds`. Idempotent; a failed fetch logs once and marks the name missing (never retried, never throws). |
 | `Sound.event(eventName, detail?)` | Looks up `SOUND_CONFIG.events[eventName]` → sound name (`null` = silent) and plays it. **All game code calls this, never a sound name directly**, so remapping is config-only. Applies the `SOUND_CONFIG.dialogue` throttle for `dialogue.letter`. |
-| `Sound.voice(theme, key)` | Looks up `SOUND_CONFIG.characterVoices[theme][key]` (§3, Character voices) and plays it, honouring `delay`. Returns `true` when the character has an entry (even `null`), so the caller skips its letter blips; `false` = no entry, keep the blips. A voice never replaces a tap's click sound. Used by `js/scene.js` (theme folder + portrait file) and `js/splash-new.js` (`'cutscene'` + speaker name or `'badguy'`). |
+| `Sound.voice(theme, key)` | Looks up `SOUND_CONFIG.characterVoices[theme][key]` (§3, Character voices) and plays it, honouring `delay`. Returns `true` when the character has an entry (even `null`), so the caller skips its letter blips; `false` = no entry, keep the blips. A voice never replaces a tap's click sound. Used by `js/scene.js` (theme folder + portrait file, or `'player'` + the player character's asset file) and `js/splash-new.js` (`'cutscene'` + speaker name or `'badguy'`). |
 | `Sound.setMuted(bool)` / `Sound.isMuted()` | Master gain to 0 / back. Per game only: no `localStorage` (§6). |
 | `Sound.isAvailable()` | False when the teacher turned Audio off or the browser can't play audio. The menu uses it to decide whether to show the toggle. |
 
@@ -150,20 +150,20 @@ Loaded right before `sound.js`. Plain object, no code. **Rule: if it's a decisio
 ```js
 const SOUND_CONFIG = {
   enabled: true,                 // master switch for the whole site
-  basePath: 'assets/audio/sfx/',
+  basePath: 'assets/audio/',     // src names start with their folder: sfx/ or loop/
   formats: ['ogg'],              // later: ['m4a', 'ogg'] — engine picks the first the browser can play
 
-  // name → file(s) + mix. src are base names (no extension). Several = random pick per play.
+  // name → file(s) + mix. src are folder/base names (no extension), e.g. 'sfx/click1'. Several = random pick per play.
   sounds: {
-    click:   { src: ['click1'],                     volume: 0.5 },
-    key:     { src: ['click3', 'click4', 'click5'], volume: 0.35 },              // code keyboard
-    tab:     { src: ['switch12'],                   volume: 0.5 },               // setup tabs, character pick
-    toggle:  { src: ['switch9'],                    volume: 0.45 },              // global menu Sound toggle (audition)
-    blip:    { src: ['click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
-    whoosh:  { src: ['switch22'],                   volume: 0.45 },              // audition
-    open:    { src: ['switch2'],                    volume: 0.45 },
-    close:   { src: ['switch3'],                    volume: 0.4 },
-    hint:    { src: ['switch18'],                   volume: 0.5 },
+    click:   { src: ['sfx/click1'],                     volume: 0.5 },
+    key:     { src: ['sfx/click3', 'sfx/click4', 'sfx/click5'], volume: 0.35 },              // code keyboard
+    tab:     { src: ['sfx/switch12'],                   volume: 0.5 },               // setup tabs, character pick
+    toggle:  { src: ['sfx/switch9'],                    volume: 0.45 },              // global menu Sound toggle (audition)
+    blip:    { src: ['sfx/click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // typewriter
+    whoosh:  { src: ['sfx/switch22'],                   volume: 0.45 },              // audition
+    open:    { src: ['sfx/switch2'],                    volume: 0.45 },
+    close:   { src: ['sfx/switch3'],                    volume: 0.4 },
+    hint:    { src: ['sfx/switch18'],                   volume: 0.5 },
     correct: { src: [],                             volume: 0.6 },               // not in the Kenney UI pack yet
     wrong:   { src: [],                             volume: 0.5 },               // not in the Kenney UI pack yet
   },
@@ -237,6 +237,7 @@ Notes:
 One sound as a character's line starts, in place of the letter blips. Plan and rationale: `readme/character-voices.md`.
 
 - `characterVoices.cutscene`: keyed by `characterSprite.name` exactly as the cutscene file writes it (`'J.J. DINGO'`), plus `'badguy'` for any `textStyle: 'badguy'` line. Named speakers are voiced in intro and outro cutscenes only, not fail (the rule lives in `js/splash-new.js`).
+- `characterVoices.player`: the player-selected characters, keyed by their `asset` file in `characterArray` (`js/global.js`), e.g. `'mint.png'`. Voices the player's reply in every theme's activity scene, in place of the letter blips.
 - `characterVoices['<theme folder>']`: challenge characters in the activity scene, keyed by the challenge's `intro.asset` portrait file (`assets.characterShopkeeper` in the older `activityArray` format). The portrait, not the name, because names vary between challenges ("Terrible Topsy" / "Topsy").
 - Values take the same shapes as `events`: a sound name, `{ sound, delay }`, or `null` for a speaker that is silent with no blips. A character left out keeps the blips. The player's reply line always blips.
 - **To add a character:** add a `voice-<name>` entry to `sounds` (usually `src: VOICE_CLIPS` with its own `pitch`), then map it here.

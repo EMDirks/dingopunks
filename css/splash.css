@@ -121,6 +121,8 @@
     right: 50%;
     border-radius: 2vmin;
     transform: translate(50%, -50%);
+    /* Sizes the cqi in .keyboard-splash--off-right */
+    container-type: inline-size;
 }
 
     .splash-container {
@@ -185,8 +187,42 @@
         }
     }
 
+    /* BACK: the step comes in from the left... */
+    .splash-container--off-left-start {
+        transform: translate(-10%, 0%);
+        opacity: 0;
+    }
+
+    /* ...and the one it leaves goes out to the right, mirroring splash-step-out. */
+    .splash-container--off-right-exit {
+        transform: translate(10%, 0%);
+        opacity: 0;
+        animation: splash-step-out-back 0.3s both;
+    }
+
+    @keyframes splash-step-out-back {
+        0% {
+            opacity: 1;
+            transform: translate(0%, 0%) scale(1);
+            animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+        }
+        35% {
+            opacity: 1;
+            transform: translate(-2vmin, 0%) scale(1.02);
+            animation-timing-function: cubic-bezier(0.7, 0, 0.9, 0.5);
+        }
+        75% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(50vmin, 0%) scale(1);
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .splash-container--off-left,
+        .splash-container--off-right-exit,
         .keyboard-splash--off-left {
             animation: none;
         }
@@ -279,6 +315,15 @@
     .splash-button:active {
         transform: scale(0.95);
     } 
+
+    /* BACK: a bare arrow on NEXT's row, at the left. */
+    .splash-button--back {
+        right: auto;
+        left: 0;
+        padding-left: 0;
+        background-color: transparent;
+        color: rgba(var(--off-white), 1);
+    }
 
     .splash-button--visible {
         transform: scale(1);
@@ -386,8 +431,13 @@
         top: 35% !important;
     }
 
+    /* Starts the same distance right as .splash-container--off-right (10% of the
+       wrapper), so the two slide in as one. cqi measures the wrapper, not the
+       keyboard, whose width changes with the alphabet layout. The % is a fallback
+       for browsers without container units. */
     .keyboard-splash--off-right {
         transform: translate(30%, 0%);
+        transform: translate(10cqi, 0%);
         opacity: 0; 
     }
 
@@ -1128,6 +1178,10 @@
     .splash-button:hover {
         background-color: rgba(var(--off-white), 1);
     } 
+    .splash-button--back:hover {
+        background-color: transparent;
+        color: rgba(var(--gold), 1);
+    }
     .tab-button:hover {
         background-color: rgba(var(--gold), 0.3);
     }

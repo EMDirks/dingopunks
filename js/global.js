@@ -800,7 +800,8 @@ function setIpadActiveState(button){
 }
 
 // check inputs
-function countCheckedRadiosByClass() {
+// focusCodeInput: true when a student's answer triggers the check, so the code boxes come in focused
+function countCheckedRadiosByClass(focusCodeInput) {
   let count = 0;
   let machineRadioButton = document.querySelectorAll('.machine-radio-button');
   let machineItemMultipleChoice = document.querySelectorAll('.machine-item-multiple-choice');
@@ -810,13 +811,24 @@ function countCheckedRadiosByClass() {
     }
   });
   if (machineItemMultipleChoice.length == count){
-    setTimeout(bringInInputs,100);
+    setTimeout(bringInInputs,100,focusCodeInput);
   }
 }
 
-function bringInInputs(){
+// Shows the secret code boxes. focusFirstInput: when they come in (not when they were already
+// showing), focus the first empty box so the student can type the code straight away.
+function bringInInputs(focusFirstInput){
   let codeInputLine = document.querySelector('.code-input-line');
+  const comingIn = codeInputLine && codeInputLine.classList.contains('code-input-line--hidden');
   toggleClass(codeInputLine,'code-input-line--hidden','code-input-line--visible');
+  if (focusFirstInput === true && comingIn && gameMode !== "preview") {
+    const codeInputs = Array.from(codeInputLine.querySelectorAll('.code-input'));
+    const firstInput = codeInputs.find(input => input.value === '') || codeInputs[0];
+    if (firstInput) {
+      firstInput.focus({ preventScroll: true });
+      activeInput__codeInput = firstInput;
+    }
+  }
 }
 
 // toggle class
@@ -1007,12 +1019,12 @@ function setHardwareKeyboardFunctionality(inputElement,inputClass,parentClass,ac
       if (inputClass == "machine-item-cryptogram-input"){
         activeInput__codeInput = inputElement;
         userInput["decoder" + activityIndex]["word" + i][j] = event.key.toUpperCase();
-        checkIfDecoderIsFilled();
+        checkIfDecoderIsFilled(true);
       }
       if (inputClass == "machine-crossword-input"){
         activeInput__codeInput = inputElement;
         userInput["crossword" + activityIndex]["row" + i][j] = event.key.toUpperCase();
-        checkIfCrosswordIsFilled();
+        checkIfCrosswordIsFilled(true);
       }
       if (inputClass == "access-input"){
         activeInput__codeInput = inputElement;
@@ -1121,7 +1133,7 @@ function setSoftwareKeyboardFunctionality(inputClass,parentClass,activityIndex){
       if (inputClass == "machine-item-cryptogram-input"){
         updateInputElementValue(activeInput__codeInput,event.target.innerText);    
         if (activeInput__codeInput && activeInput__codeInput.classList.contains("machine-item-cryptogram-input")){
-          checkIfDecoderIsFilled();  
+          checkIfDecoderIsFilled(true);  
 
           // iterate through cryptogram inputs and save them
 
@@ -1154,7 +1166,7 @@ function setSoftwareKeyboardFunctionality(inputClass,parentClass,activityIndex){
       if (inputClass == "machine-crossword-input"){
         updateInputElementValue(activeInput__codeInput,event.target.innerText);
         if (activeInput__codeInput && activeInput__codeInput.classList.contains("machine-crossword-input")){
-          checkIfCrosswordIsFilled();  
+          checkIfCrosswordIsFilled(true);  
 
           // iterate through cryptogram inputs and save them
 
@@ -1284,7 +1296,9 @@ function focusNextInput(event, inputClass, inputElement, parentElement, keyboard
     // Stop and blur all inputs once you reach the end
     if (nextIndex >= inputElements.length) {
       inputElements.forEach(input => input.blur());
-      activeInput__codeInput = null;
+      // only clear the active input if it's one of these; the secret code row may have just
+      // focused its first box (the last cell's keyup can land after that)
+      if (!activeInput__codeInput || parentElement.contains(activeInput__codeInput)) activeInput__codeInput = null;
       return;
     }
 

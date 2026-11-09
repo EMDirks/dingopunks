@@ -162,7 +162,7 @@ function drawActivity_decoder(activityIndex) {
 }
 // ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌
 
-function checkIfDecoderIsFilled(){
+function checkIfDecoderIsFilled(focusCodeInput){
   var filledCells = document.querySelectorAll('.machine-item-cryptogram-input');
   var allFilled = true;
   for (var i = 0; i < filledCells.length; i++) {
@@ -172,7 +172,7 @@ function checkIfDecoderIsFilled(){
     }
   }
   if (allFilled) {
-    setTimeout(bringInInputs,100);
+    setTimeout(bringInInputs,100,focusCodeInput);
   } else {
     // Not all filled cells have a value entered
     return false;

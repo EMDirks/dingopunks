@@ -899,7 +899,7 @@
     background-size: 99%;
     background-repeat: no-repeat;
     background-position: center;
-    transition: transform 0.3s;   
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);  /* snappy ease-out */
     transform-origin: center bottom; 
     will-change: transform;
 }
@@ -910,6 +910,18 @@
 
 .activity-scene-character--visible {
     transform: translate(-5%,0%);
+}
+
+/* Pops the character or player as their line starts, with the cutscene speakers' dialogueBounce (splash-new.css). */
+.activity-scene-pop {
+    transform-origin: center bottom;
+    animation: dialogueBounce 240ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .activity-scene-pop {
+        animation: none;
+    }
 }
 
 .activity-scene-dialogue-trail-player {
@@ -935,7 +947,7 @@
     z-index: 5;
     bottom: 0;
     right: 0;
-    transition: transform 0.2s;
+    transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .activity-scene-player-frame--hidden {
@@ -960,7 +972,7 @@
     bottom: 0%;
     right: 0;
     z-index: 8;
-    transition: transform 0.2s;
+    transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
     background-size: cover;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -989,7 +1001,7 @@
     border-radius: 1vmin;
     border: 0.35vmin solid rgba(var(--off-black), 1);
     transform-origin: left bottom;
-    transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.2s, opacity 0.2s;  /* matches the player's box */
     transform: rotate(3deg);
     opacity: 1;
 }

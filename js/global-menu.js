@@ -254,8 +254,8 @@ function buildGlobalMenuLinkHTML(key, label, icon) {
 function buildSettingsHTML() {
   return `
     <div class="global-menu__sound-toggles">
-      ${buildSoundToggleHTML('sound', 'Sound effects', 'Play clicks, whooshes and character voices.', !Sound.isMuted())}
-      ${buildSoundToggleHTML('music', 'Music & ambience', 'Play songs and looping background sounds.', !Sound.isMusicMuted())}
+      ${buildSoundToggleHTML('sound', 'Sound effects', 'Voices, button clicks, and simple effects.', !Sound.isMuted())}
+      ${buildSoundToggleHTML('music', 'Music & ambience', 'Songs and other looping background sounds.', !Sound.isMusicMuted())}
     </div>
   `;
 }

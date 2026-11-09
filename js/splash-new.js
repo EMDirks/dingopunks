@@ -2,12 +2,30 @@
 let splashContainer;
 let splashContent;
 let splashButton;
+let splashBackButton;
 let splashTitle;
 let splashSubtitle;
 
 // set variables
 let splashIndex = 0;
 let isAccess = true;
+// Which way the next step comes in from: 'forward' (from the right) or 'back' (from the left).
+let splashEntryDirection = 'forward';
+// Set once Next or Back is clicked, so the other button can't start a second transition.
+let splashNavigating = false;
+// Set by BACK on the "You're playing" step, which reloads the page to an empty
+// code entry (or the free game picker). The reload skips the bumpers.
+const SPLASH_BACK_RELOAD_KEY = 'dingoPunksSplashBack';
+const splashReturnedBack = (function() {
+  try {
+    const value = sessionStorage.getItem(SPLASH_BACK_RELOAD_KEY);
+    sessionStorage.removeItem(SPLASH_BACK_RELOAD_KEY);
+    return value === '1';
+  } catch (e) {
+    return false;
+  }
+})();
+if (splashReturnedBack) splashEntryDirection = 'back';
 
 // rate limiting
 let pinFailedAttempts = 0;
@@ -43,15 +61,11 @@ const BUMPER_START_REMOVE_MS = 200;
 // .harper-bumper's opacity transition in css/splash-new.css.
 const HARPER_BUMPER_HOLD_MS = 1400;
 const HARPER_BUMPER_FADE_MS = 300;
-// How long each logo and "presents..." frame shows before swapping to the next.
+// How long each logo frame shows before swapping to the next.
 const HARPER_BUMPER_FRAME_MS = 300;
 const HARPER_BUMPER_FRAMES = [
   'assets/branding/logo/logo-harper-frame-1.png',
   'assets/branding/logo/logo-harper-frame-2.png',
-];
-const HARPER_BUMPER_PRESENTS_FRAMES = [
-  'assets/branding/logo/presents-frame-1.png',
-  'assets/branding/logo/presents-frame-2.png',
 ];
 // Don't let a slow or stalled logo hold the page on a white screen.
 const HARPER_BUMPER_LOAD_TIMEOUT_MS = 1500;
@@ -333,12 +347,26 @@ function showBadCodeModal(code) {
   );
 }
 
+// Usually a school web filter blocking Firebase (gstatic.com or
+// cloudfunctions.net), so the footer points teachers at the help center.
 function showConnectionErrorModal() {
+  const pathname = window.location.pathname;
+  const isAnswerKeyPage =
+    pathname.endsWith('answer-key.html') || pathname.endsWith('/answer-key');
   createModal(
-    "We can't check your code right now.",
-    "We’re having trouble connecting. Wait a few minutes, then try your game code again.",
+    "Can't Connect to Dingo Punks",
+    isAnswerKeyPage
+      ? "We are unable to check your game code."
+      : "We are unable to check your game code. Please ask your teacher for help.",
     "Close",
-    shareCodeModuleFailed ? function() { window.location.reload(); } : focusFirstAccessInput
+    shareCodeModuleFailed ? function() { window.location.reload(); } : focusFirstAccessInput,
+    {
+      teacherHelp: true,
+      teacherHelpHtml:
+        "Teachers: your school or district may be blocking Dingo Punks. " +
+        "<span class=\"modal__teacher-help-underline\">Click here for help →</span>",
+      teacherHelpHref: 'https://dingopunks.com/pages/help-center-escape-rooms'
+    }
   );
 }
 
@@ -504,6 +532,18 @@ function loadResourceGame(theme, scriptPath, onReady) {
   cutsceneDiv.appendChild(cutsceneScript);
 }
 
+function canGoBackFromSplashStep(index){
+  if (typeof SPLASH_BACK_BUTTON === 'undefined' || !SPLASH_BACK_BUTTON) return false;
+  return index > 0;
+}
+
+// Code entry and the free game picker load the game's scripts, which can't be
+// loaded twice on one page, so going back to them reloads the page instead.
+function splashBackNeedsReload(index){
+  const previousStep = splashOrder[index - 1];
+  return previousStep === addAccess || previousStep === addFree;
+}
+
 // draw splash
 function drawSplash(){
 
@@ -540,11 +580,21 @@ function drawSplash(){
   }
 
   // create html
-  splashContainer = createElement('div', ['splash-container', 'splash-container--off-right'], splashContainerWrapper);
+  const entryClass = splashEntryDirection === 'back' ? 'splash-container--off-left-start' : 'splash-container--off-right';
+  splashEntryDirection = 'forward';
+  splashNavigating = false;
+  splashContainer = createElement('div', ['splash-container', entryClass], splashContainerWrapper);
   splashTitle = createElement("p", ["splash-title","splash-title--hidden"],splashContainer); 
   splashSubtitle = createElement("p", ["splash-subtitle","splash-subtitle--hidden"],splashContainer); 
   splashContent = createElement('div', ['splash-content'], splashContainer);
   splashButton = createElement('button', ['splash-button', 'splash-button--hidden'], splashContainer);
+  splashBackButton = null;
+  if (canGoBackFromSplashStep(splashIndex)){
+    splashBackButton = createElement('button', ['splash-button', 'splash-button--back', 'splash-button--visible'], splashContainer);
+    splashBackButton.textContent = '\u2190';
+    splashBackButton.setAttribute('aria-label', 'Back');
+    setIpadActiveState(splashBackButton);
+  }
 
   // create version and navigation
   if (splashIndex === 0){
@@ -579,7 +629,7 @@ function drawSplash(){
 
   
   // transition splash container and title in
-  toggleClass(splashContainer,'splash-container--off-right','splash-container--center');
+  toggleClass(splashContainer,entryClass,'splash-container--center');
   // A direct link shows only the logo bumper while the code resolves.
   if (!autoLaunchCode || splashIndex !== 0) {
     setTimeout(toggleClass,splashTransitionDuration,splashTitle,'splash-title--hidden','splash-title--visible');
@@ -588,9 +638,21 @@ function drawSplash(){
 
   // click button
   splashButton.addEventListener("click", function() { 
+    if (splashNavigating) return;
+    splashNavigating = true;
     toggleClass(splashButton,'splash-button--visible','splash-button--hidden');
+    if (splashBackButton) toggleClass(splashBackButton,'splash-button--visible','splash-button--hidden');
     setTimeout(transitionSplash, splashButtonDelay);
   });
+  if (splashBackButton){
+    splashBackButton.addEventListener("click", function() {
+      if (splashNavigating) return;
+      splashNavigating = true;
+      toggleClass(splashBackButton,'splash-button--visible','splash-button--hidden');
+      toggleClass(splashButton,'splash-button--visible','splash-button--hidden');
+      setTimeout(splashBackNeedsReload(splashIndex) ? reloadToFirstSplashStep : transitionSplashBack, splashButtonDelay);
+    });
+  }
 
   // update html element line thicknetss
   updateLineThickness();
@@ -600,11 +662,6 @@ function drawSplash(){
 // transition splash
 function transitionSplash(){
   typeof Sound !== 'undefined' && Sound.event('splash.transition');
-  const harperLogo = document.querySelector('.splash-harper-logo');
-  if (harperLogo) {
-    harperLogo.classList.add('splash-harper-logo--hidden');
-    setTimeout(function() { harperLogo.remove(); }, splashExitDuration);
-  }
   if (splashIndex !== splashOrder.length-1){
     toggleClass(splashVersion,'splash-version--visible','splash-version--hidden');
     toggleClass(splashNav,'splash-nav--visible','splash-nav--hidden');
@@ -667,6 +724,33 @@ function transitionSplash(){
 }
 
 
+// transition back to the previous step: the mirror of transitionSplash
+function transitionSplashBack(){
+  typeof Sound !== 'undefined' && Sound.event('splash.transition');
+  toggleClass(splashContainer,'splash-container--center','splash-container--off-right-exit');
+  setTimeout(function clearSplashScreenContainer(){
+    splashContainerWrapper.querySelectorAll("*").forEach(child => child.remove());
+    splashIndex = splashIndex - 1;
+    splashEntryDirection = 'back';
+    setContainerSize();
+    setTimeout(drawSplash,200);
+  },splashExitDuration);
+}
+
+// Back from the "You're playing" step: slide out, then reload to the first step.
+// A direct link's code is dropped from the URL so it lands on an empty code entry.
+function reloadToFirstSplashStep(){
+  typeof Sound !== 'undefined' && Sound.event('splash.transition');
+  toggleClass(splashContainer,'splash-container--center','splash-container--off-right-exit');
+  canRefresh = true;
+  try { sessionStorage.setItem(SPLASH_BACK_RELOAD_KEY, '1'); } catch (e) {}
+  setTimeout(function() {
+    const search = autoLaunchCode ? '' : window.location.search;
+    window.location.replace(window.location.pathname + search);
+  },splashExitDuration);
+}
+
+
 /////////
 // STEP 0
 /////////
@@ -710,7 +794,10 @@ function addBumperStartButton(bumperContainer, onStart) {
 // game code
 function addAccess(){
 
-  if (gameMode !== "preview"){
+  if (splashReturnedBack){
+    // Coming back from the "You're playing" step: no bumper.
+  }
+  else if (gameMode !== "preview"){
     if (DINGO_PUNKS_BUMPER) addBumper();
     /*
     addTheme();
@@ -917,11 +1004,12 @@ function buildAccessCodeEntry() {
   });
   splashButton.textContent = 'Next';
   const accessInputContainer = createElement('div', ['access-input-container'], splashContent);
+  // Slides in with the splash container in drawSplash; the matching distance is in css/splash.css.
+  toggleClass(keyboardSplash,'keyboard-splash--off-right','keyboard-splash--center');
   for (let i = 0; i < 5; i++) {
     let accessInput = createElement('input', ['access-input', 'access-input--no-flash','input-functionality-default'], accessInputContainer);
     accessInput.type = "text";
     accessInput.maxLength = 1;
-    toggleClass(keyboardSplash,'keyboard-splash--off-right','keyboard-splash--center');
     setHardwareKeyboardFunctionality(accessInput,"access-input","access-input-container"); 
     setTimeout(setAccessInputValue,10);
     function setAccessInputValue(){
@@ -941,11 +1029,6 @@ function buildAccessCodeEntry() {
   toggleClass(splashTitle, 'splash-title--hidden', 'splash-title--visible');
   toggleClass(splashSubtitle, 'splash-subtitle--hidden', 'splash-subtitle--visible');
   updateElementSize();
-
-  // On the page itself, outside .site-container, like the global menu button.
-  const harperLogo = createElement('img', ['splash-harper-logo'], document.body);
-  harperLogo.alt = 'Harper';
-  harperLogo.src = 'assets/branding/logo/logo-harper-small.png';
 
   addPromo();
   function addPromo() {
@@ -1140,7 +1223,7 @@ function addTitle(){
 function addFree(){
 
   // add bumper
-  if (DINGO_PUNKS_BUMPER) addBumper();
+  if (DINGO_PUNKS_BUMPER && !splashReturnedBack) addBumper();
   function addBumper(){
     let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], document.body);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
@@ -1308,11 +1391,31 @@ function addFree(){
 /////////
 
 // setup
+// The setup step's starting tab values, and whether the save has been set up.
+// Back can bring the step in again, so it starts from these each time.
+let setupDefaults = null;
+let splashSaveInitialized = false;
+
 function addSetup(){
   let activityCount;
-  handlePreloading('onSettings');
+  if (!setupDefaults) {
+    setupDefaults = { playerCount: setup.playerCount.slice(), timeLimit: setup.timeLimit.slice() };
+    handlePreloading('onSettings');
+  }
+  else {
+    setup.playerCount = setupDefaults.playerCount.slice();
+    setup.timeLimit = setupDefaults.timeLimit.slice();
+  }
+  settings.playerCount = null;
+  settings.activityCount = null;
+  settings.timeLimit = null;
+  settings.hints = null;
+  settings.wholeClass = false;
   // init save
-  initializeSave();
+  if (!splashSaveInitialized) {
+    splashSaveInitialized = true;
+    initializeSave();
+  }
   // add text content
   splashTitle.innerHTML = 'Set up your escape room.';
   // add elements
@@ -1766,6 +1869,7 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],cutsceneBackgroundStage);
   let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],cutsceneBackgroundStage);
   let cutsceneStaticOverlay = createElement('div',['cutscene-static-overlay','cutscene-static-overlay--hidden'],splashContainer);
+  createElement('div',['cutscene-frame'],splashContainer);
 
   updateLineThickness();
 
@@ -1802,8 +1906,13 @@ function addCutscene(cutsceneIndex,section){
 
   // next button click
   cutsceneNextButton.addEventListener('click', function(event) {
+    // Hide before clearing: Safari repaints only part of the text box's composited layer when the
+    // letter spans are removed, so the first letter vanished a frame before the rest. A visibility
+    // change repaints the whole element. addTextByTypewriter makes it visible again.
+    cutsceneText.style.visibility = 'hidden';
     cutsceneText.textContent = '';
     if (cutsceneIndex >= cutsceneSection.length-1){
+      typeof Sound !== 'undefined' && Sound.event('cutscene.nextLast');
       stopCutsceneLoops();
       if (section === 'intro' || section === 'introNoLimit') {
         typeof Sound !== 'undefined' && Sound.event('cutscene.finish');
@@ -2237,6 +2346,16 @@ function addCutscene(cutsceneIndex,section){
             void popElement.offsetWidth; // restart the pop when the element carries over between lines
             popElement.classList.add('cutscene-character-sprite--bounce');
           }
+          // Intro cutscenes play a fixed run of typewriter sounds per line (SOUND_CONFIG.cutsceneTypewriter)
+          // instead of one per letter.
+          const typewriterRun = typeof SOUND_CONFIG !== 'undefined' && SOUND_CONFIG.cutsceneTypewriter;
+          const runTypewriter = Boolean(typewriterRun && typewriterRun.sections.includes(section));
+          if (runTypewriter && !voiced && text.length > 0 && typeof Sound !== 'undefined') {
+            const runCount = (typewriterRun.counts && typewriterRun.counts[cutsceneIndex]) || typewriterRun.count;
+            for (let i = 0; i < runCount; i++) {
+              setTimeout(() => Sound.event('cutscene.typewriterRun'), i * typewriterRun.gapMs);
+            }
+          }
           const letters = text.split('');
           letters.forEach((letter, index) => {
             const span = document.createElement('span');
@@ -2245,7 +2364,7 @@ function addCutscene(cutsceneIndex,section){
             elementClass.appendChild(span);
             setTimeout(() => {
               span.style.opacity = 1;
-              if (!voiced) { typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter); }
+              if (!voiced && !runTypewriter) { typeof Sound !== 'undefined' && Sound.event('cutscene.letter', letter); }
             }, speed * index);
           });
         }
@@ -2308,7 +2427,7 @@ document.addEventListener("DOMContentLoaded", function() {
     autoLaunchCode = membershipCodeFromUrl();
   }
 
-  if (HARPER_BUMPER && gameMode !== 'preview' && !isUndermurkPage) {
+  if (HARPER_BUMPER && gameMode !== 'preview' && !isUndermurkPage && !splashReturnedBack) {
     playHarperBumper(startSplash);
   } else {
     startSplash();
@@ -2322,15 +2441,15 @@ function startSplash() {
   if (autoLaunchCode) startAutoLaunch();
 }
 
-// Covers the page in white with the animated Harper logo and "presents...", then
+// Covers the page in white with the animated Harper logo, then
 // calls onFadeStart as it fades, so the Dingo Punks bumper starts underneath it.
 // The frames are stacked and shown one at a time, so a swap can never flash blank.
 function playHarperBumper(onFadeStart) {
   const bumper = createElement('div', ['harper-bumper'], document.body);
   const logo = createElement('div', ['harper-bumper__logo'], bumper);
   logo.setAttribute('role', 'img');
-  logo.setAttribute('aria-label', 'Harper presents');
-  let imagesLoading = HARPER_BUMPER_FRAMES.length + HARPER_BUMPER_PRESENTS_FRAMES.length;
+  logo.setAttribute('aria-label', 'Harper');
+  let imagesLoading = HARPER_BUMPER_FRAMES.length;
   let frameIndex = 0;
   let frameTimer = null;
   let started = false;
@@ -2339,9 +2458,6 @@ function playHarperBumper(onFadeStart) {
 
   // White panel over the frames; sliding it away reveals the signature.
   createElement('div', ['harper-bumper__wipe'], logo);
-
-  const presents = createElement('div', ['harper-bumper__presents'], logo);
-  const presentsFrames = addFrames(presents, HARPER_BUMPER_PRESENTS_FRAMES);
 
   function addFrames(parent, sources) {
     return sources.map(function(src, index) {
@@ -2362,10 +2478,8 @@ function playHarperBumper(onFadeStart) {
 
   function showNextFrame() {
     const nextIndex = (frameIndex + 1) % frames.length;
-    [frames, presentsFrames].forEach(function(frameSet) {
-      frameSet[frameIndex].classList.remove('harper-bumper__frame--active');
-      frameSet[nextIndex].classList.add('harper-bumper__frame--active');
-    });
+    frames[frameIndex].classList.remove('harper-bumper__frame--active');
+    frames[nextIndex].classList.add('harper-bumper__frame--active');
     frameIndex = nextIndex;
   }
 

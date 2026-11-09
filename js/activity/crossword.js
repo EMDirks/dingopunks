@@ -124,7 +124,7 @@ function drawCrossword(activityIndex){
 }
 
 // check if filled
-function checkIfCrosswordIsFilled(){
+function checkIfCrosswordIsFilled(focusCodeInput){
   var filledCells = document.querySelectorAll('.machine-crossword-cell-filled');
   var allFilled = true;
   for (var i = 0; i < filledCells.length; i++) {
@@ -135,7 +135,7 @@ function checkIfCrosswordIsFilled(){
     }
   }
   if (allFilled) {
-    setTimeout(bringInInputs,100);
+    setTimeout(bringInInputs,100,focusCodeInput);
   } else {
     return false;
   }

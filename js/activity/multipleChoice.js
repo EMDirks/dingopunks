@@ -71,8 +71,9 @@ function drawMultipleChoice(activityIndex) {
 
             // display code input once all radios are checked
             if (event.target.checked) {
-                
-              countCheckedRadiosByClass(activitymultipleChoice.length);
+              typeof Sound !== 'undefined' && Sound.event('ui.choice');
+
+              countCheckedRadiosByClass(true);
 
               // If there is a special answer type
               if (activitymultipleChoice[i].answerType && activitymultipleChoice[i].answerType === "numerals"){
@@ -183,8 +184,9 @@ function drawMultipleChoice(activityIndex) {
 
             // display code input once all radios are checked
             if (event.target.checked) {
-                
-              countCheckedRadiosByClass(activitymultipleChoice.length);
+              typeof Sound !== 'undefined' && Sound.event('ui.choice');
+
+              countCheckedRadiosByClass(true);
 
               // Apply the styling to the corresponding paragraph
               machineParagraph.innerHTML = activitymultipleChoice[i].paragraph[j].replace(/\[(\w)\]/g, '<span class="machine-highlight-yellow">$1</span>');
