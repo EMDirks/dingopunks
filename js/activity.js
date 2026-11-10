@@ -404,9 +404,11 @@ function setComplete(activityArrayIndex){
       let completionDelay = (resource.challengeArray[activityArrayIndex].questions.code.answer.length) * 50 + 50;
       setTimeout(toggleClass,completionDelay,activityButtonDone, "activity-button-done--close","activity-button-done--open");
       activityButtonDone.addEventListener("click", function() {
-        setTimeout(toggleClass, 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");     
-        setTimeout(closeActivityModal,50);
-        clearActivity();
+        hideButtonThenClose(activityButtonDone, function() {
+          setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
+          closeActivityModal();
+          setTimeout(clearActivity,250);  // once the modal has popped out
+        });
       });
 
       // remove hint
@@ -528,9 +530,11 @@ function setComplete(activityArrayIndex){
       let completionDelay = (resource.activityArray[activityArrayIndex - 1].code.length) * 50 + 50;
       setTimeout(toggleClass,completionDelay,activityButtonDone, "activity-button-done--close","activity-button-done--open");
       activityButtonDone.addEventListener("click", function() {
-        setTimeout(toggleClass, 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");     
-        setTimeout(closeActivityModal,50);
-        clearActivity();
+        hideButtonThenClose(activityButtonDone, function() {
+          setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
+          closeActivityModal();
+          setTimeout(clearActivity,250);  // once the modal has popped out
+        });
       });
 
       // remove hint
@@ -597,11 +601,28 @@ function setComplete(activityArrayIndex){
 
 // event listeners
 buttonCloseModal.addEventListener("click", function() {
-  toggleClass(activityModalWrapper,"overflow-y-hidden","overflow-y-scroll");
-  setTimeout(toggleClass, 500, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
-  setTimeout(closeActivityModal,50);
-  setTimeout(clearActivity,300);
+  hideButtonThenClose(buttonCloseModal, function() {
+    toggleClass(activityModalWrapper,"overflow-y-hidden","overflow-y-scroll");
+    setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
+    closeActivityModal();
+    setTimeout(clearActivity,250);  // once the modal has popped out
+  });
 });
+
+// DONE and X vanish on click and the modal closes back to the map right away.
+// A button that's gone can't be clicked again, so the close runs once.
+// Opening a challenge brings them back and clears the modal's closing pop-out
+// (showActivityCloseButtons).
+function hideButtonThenClose(button, close) {
+  if (button.classList.contains('activity-close-button--gone')) return;
+  button.classList.add('activity-close-button--gone');
+  close();
+}
+function showActivityCloseButtons() {
+  activityModal.classList.remove('activity-modal--closing');
+  buttonCloseModal.classList.remove('activity-close-button--gone');
+  activityButtonDone.classList.remove('activity-close-button--gone');
+}
 activityButtonHint.addEventListener('click', (event) => {
   openHintModal("incrementHintCount");
 });
@@ -685,6 +706,7 @@ function openActivityModal(i) {
       typeof Sound !== 'undefined' && Sound.event('activity.open');
       typeof Sound !== 'undefined' && Sound.event('activity.openWhoosh');
       fadeMapLoop(true);
+      showActivityCloseButtons();
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -761,6 +783,7 @@ function openActivityModal(i) {
       typeof Sound !== 'undefined' && Sound.event('activity.open');
       typeof Sound !== 'undefined' && Sound.event('activity.openWhoosh');
       fadeMapLoop(true);
+      showActivityCloseButtons();
       setTimeout(toggleClass, 600, activityModal, "activity-modal--close", "activity-modal--open");
       setTimeout(addTopBackgroundImage,2000);
       function addTopBackgroundImage(){
@@ -787,6 +810,7 @@ function closeActivityModal(){
   }
   setTimeout(scrollToTop,300,activityModalWrapper);
   toggleClass(activityModal, "activity-modal--open", "activity-modal--close");
+  activityModal.classList.add("activity-modal--closing");  // its pop-out (css/home.css)
   /* toggleClass(activityBlackout, "activity-blackout--open", "activity-blackout--close"); */
   setTimeout(toggleClass, 300, activity, "state-display-block", "state-display-none");
   setTimeout(removeTopBackgroundImage,2000);

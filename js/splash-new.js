@@ -38,6 +38,9 @@ const ACCESS_FLASH_MS = 400;
 const splashTransitionDuration = 170;
 // How long a step takes to wind up and slide out; keep in step with splash-step-out in css/splash.css.
 const splashExitDuration = 300;
+// Bad guy slide in during cutscenes; keep in step with .cutscene-badguy-move in
+// css/splash-new.css and the cutscene.moveBadguyIn/Fail delays in js/sound-config.js.
+const BADGUY_MOVE_MS = 150;
 // Pause after the splash button is clicked, so its click is heard before the slide-out.
 const splashButtonDelay = 200;
 const version = '4.0.68';
@@ -2312,6 +2315,13 @@ function addCutscene(cutsceneIndex,section){
         setTimeout(removeStart,performanceDelay);
         function removeStart(){
           imageElement.classList.add(imageObject.animation.duration);
+          // The bad guy's entrances (cutscene.moveBadguyIn / moveBadguyFail) slam in faster than
+          // the file's duration and shake the screen as the crash lands. Exits slide out as written.
+          const sfx = imageObject.animation.sfx;
+          if (sfx === 'cutscene.moveBadguyIn' || sfx === 'cutscene.moveBadguyFail') {
+            imageElement.classList.add('cutscene-badguy-move');
+            setTimeout(shakeCutsceneScreen, BADGUY_MOVE_MS);
+          }
           toggleClass(imageElement,imageObject.animation.start,imageObject.animation.end)
           // A cutscene file can tag an animation with sfx: '<event>' to fire it as the move starts
           if (imageObject.animation.sfx) { typeof Sound !== 'undefined' && Sound.event(imageObject.animation.sfx); }
@@ -2326,6 +2336,19 @@ function addCutscene(cutsceneIndex,section){
             Sound.stopLoop(stopLoop);
           }
         }
+      }
+
+      // Restarts the shake if a second crash lands before the first one settles.
+      function shakeCutsceneScreen(){
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        splashContainerWrapper.classList.remove('cutscene-screen-shake');
+        void splashContainerWrapper.offsetWidth;
+        splashContainerWrapper.classList.add('cutscene-screen-shake');
+        splashContainerWrapper.addEventListener('animationend', function(event) {
+          if (event.animationName === 'cutscene-screen-shake') {
+            splashContainerWrapper.classList.remove('cutscene-screen-shake');
+          }
+        }, { once: true });
       }
 
       function removeSpecificClasses(element, classesToRemove) {

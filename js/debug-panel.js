@@ -308,7 +308,7 @@
     const table = SOUND_CONFIG.characterVoices.debug = {};
     sets.forEach(function(set) {
       const name = 'debug-voice-' + set;
-      SOUND_CONFIG.sounds[name] = { src: VOICE_CLIPS[set], volume: 0.375, pitch: [0.9, 1.1], vocalize: true, lazy: true };
+      SOUND_CONFIG.sounds[name] = { src: VOICE_CLIPS[set], volume: 0.32, pitch: [0.9, 1.1], vocalize: true, lazy: true };
       table[set] = name;
     });
 

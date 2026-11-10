@@ -229,10 +229,42 @@
     }
 }
 
+/* Closing back to the map (js/activity.js, closeActivityModal adds it with --close).
+   Its own class, not --close, so the pop-out doesn't play on page load. A small lift,
+   then it sinks, shrinks and fades; .activity hides 300ms in, after it ends. */
+.activity-modal--closing {
+    animation: activity-modal-pop-out 0.24s both;
+}
+
+@keyframes activity-modal-pop-out {
+    0% {
+        opacity: 1;
+        transform: translate(50%, -50%) scale(1);
+        animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1);
+    }
+    30% {
+        opacity: 1;
+        transform: translate(50%, -50.5%) scale(1.015);
+        animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(50%, -47%) scale(0.88);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .activity-modal--open {
         animation: none;
     }
+    .activity-modal--closing {
+        animation: activity-modal-fade-out 0.2s both;
+    }
+}
+
+@keyframes activity-modal-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 .activity-modal-wrapper {
@@ -439,6 +471,12 @@
 .activity-button-done--open {
     /* animation: pop-in-start-button 0.2s ease-out; */
     transform: scale(1);
+}
+
+/* DONE or X just clicked: gone at once while the modal waits to close (js/activity.js,
+   hideButtonThenClose). visibility also stops a second click. */
+.activity-close-button--gone {
+    visibility: hidden;
 }
 
 @keyframes pop-in-start-button {

@@ -443,7 +443,7 @@ const machineContainer = document.querySelector('.machine-container');
 const machineColumnLeft = document.querySelector('.machine-column-left');
 const machineColumnRight = document.querySelector('.machine-column-right');
 const activityModalHintButton = document.querySelector('.activity-modal-hint-button');
-// These close the activity 50ms after the click, so they play its close sound
+// These close the activity (hideButtonThenClose in js/activity.js), so they play its close sound
 // directly instead of a click followed by a second sound (see js/sound-config.js).
 [buttonCloseModal, activityButtonDone].forEach(function(button) {
   if (button) button.setAttribute('data-sfx', 'activity.close');

@@ -125,9 +125,9 @@ const resource =  {
                         title: "{4.} All three of these passages are:",
                         correctIndex: 1,
                         paragraph: [
-                            "Instructions on how to make snow cones",
+                            "Instructions on how to make sn[o]w cones",
                             "Descriptions of how snow cones tas[t]e",
-                            "Reasons to avoid eating snow cones"
+                            "Reasons to avoi[d] eating snow cones"
                         ]
                     },
                 ],

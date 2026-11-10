@@ -277,7 +277,7 @@ function buildGlobalMenuLinkHTML(key, label, icon) {
 function buildSettingsHTML() {
   const rows = [];
   if (isSoundSettingsAvailable()) {
-    rows.push(buildSettingToggleHTML('audio', 'Audio', 'Play sound & music. Does not work in older versions of Safari.', !Sound.isMuted() && !Sound.isMusicMuted()));
+    rows.push(buildSettingToggleHTML('audio', 'Audio', 'Play sound effects, voices, ambience, and music.', !Sound.isMuted() && !Sound.isMusicMuted()));
   }
   if (isUndermurkSettingAvailable()) {
     rows.push(buildSettingToggleHTML('undermurk', 'Bonus Missions', 'Show Enter the Undermurk, a fast-finisher minigame.', !isUndermurkStudentOff()));
