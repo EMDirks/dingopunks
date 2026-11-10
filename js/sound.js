@@ -113,12 +113,23 @@ const Sound = (function () {
   // (the global menu toggles, so turning a channel off still clicks).
   function isSilenced(def) {
     if (def && def.ignoreMute) return false;
-    return def && def.music ? musicMuted : muted;
+    return isMusic(def) ? musicMuted : muted;
   }
 
   function busFor(def) {
     if (def && def.ignoreMute) return master;
-    return def && def.music ? musicBus : sfxBus;
+    return isMusic(def) ? musicBus : sfxBus;
+  }
+
+  // Music & ambience: every sound that loops, and one-shots marked music: true.
+  function isMusic(def) {
+    return Boolean(def && (def.music || def.loop));
+  }
+
+  // The loop settings of a sound that loops (sounds[name].loop), or null.
+  function loopDef(cfg, name) {
+    const def = cfg && cfg.sounds && cfg.sounds[name];
+    return def && def.loop ? def.loop : null;
   }
 
   function getContext() {
@@ -198,9 +209,7 @@ const Sound = (function () {
     Promise.all(def.src.map(function (base) { return loadFile(cfg, base); }))
       .then(function (decoded) {
         buffers.set(name, decoded);
-        wantedLoops.forEach(function (askedAt, key) {
-          if (cfg.loops[key].sound === name) playLoop(key);
-        });
+        if (wantedLoops.has(name)) playLoop(name);
       })
       .catch(function (error) {
         missing.add(name);
@@ -453,33 +462,32 @@ const Sound = (function () {
     return true;
   }
 
-  // Looping sounds, keyed by SOUND_CONFIG.loops. Every loop counts as music & ambient
-  // sound and runs through the music bus, so muting silences it and unmuting mid-loop
-  // brings it back. A loop
-  // started before its file has loaded begins when the file arrives, if still wanted.
-  // delayMs counts from startLoop, so a slow load doesn't push the loop back further.
+  // Looping sounds: a sound with a `loop` field in SOUND_CONFIG.sounds, keyed by its name.
+  // Every loop counts as music & ambience and runs through the music bus, so muting
+  // silences it and unmuting mid-loop brings it back. A loop started before its file has
+  // loaded begins when the file arrives, if still wanted. loop.delayMs counts from
+  // startLoop, so a slow load doesn't push the loop back further.
   function startLoop(key) {
     const cfg = config();
-    const def = cfg && cfg.loops && cfg.loops[key];
-    if (!def || !isAvailable()) return;
+    if (!loopDef(cfg, key) || !isAvailable()) return;
     if (!wantedLoops.has(key)) wantedLoops.set(key, performance.now());
-    if (buffers.has(def.sound)) {
+    if (buffers.has(key)) {
       playLoop(key);
     } else {
-      preload([def.sound]);
+      preload([key]);
     }
   }
 
   function playLoop(key) {
     if (liveLoops.has(key) || !wantedLoops.has(key)) return;
     const cfg = config();
-    const def = cfg.loops[key];
-    const soundDef = cfg.sounds[def.sound] || {};
+    const soundDef = cfg.sounds[key];
+    const def = soundDef.loop;
     const volume = typeof soundDef.volume === 'number' ? soundDef.volume : 1;
     if (ctx.state !== 'running') ctx.resume().catch(function () {});
 
     const source = ctx.createBufferSource();
-    source.buffer = buffers.get(def.sound)[0];
+    source.buffer = buffers.get(key)[0];
     source.loop = !def.once;   // once: true plays the file through one time, still on the music bus
     const gain = ctx.createGain();
     const waitMs = Math.max(0, (def.delayMs || 0) - (performance.now() - wantedLoops.get(key)));
@@ -509,7 +517,7 @@ const Sound = (function () {
     if (!live) return;
     liveLoops.delete(key);
     const cfg = config();
-    const def = cfg && cfg.loops && cfg.loops[key];
+    const def = loopDef(cfg, key);
     const fade = ((def && def.fadeOutMs) || 0) / 1000;
     const now = ctx.currentTime;
     live.gain.gain.cancelScheduledValues(now);
@@ -526,7 +534,7 @@ const Sound = (function () {
     if (!live) return;
     const cfg = config();
     const fade = (cfg.loopFade && cfg.loopFade[faded ? 'outMs' : 'inMs']) || 0;
-    const soundDef = cfg.sounds[cfg.loops[key].sound] || {};
+    const soundDef = cfg.sounds[key] || {};
     const volume = typeof soundDef.volume === 'number' ? soundDef.volume : 1;
     const now = ctx.currentTime;
     live.gain.gain.cancelScheduledValues(now);
@@ -534,7 +542,7 @@ const Sound = (function () {
     live.gain.gain.linearRampToValueAtTime(faded ? 0 : volume, now + fade / 1000);
   }
 
-  // The map view's background loop for a theme (SOUND_CONFIG.mapLoops), or null.
+  // The map view's background loop for a theme (SOUND_CONFIG.mapLoops): a sound name, or null.
   function mapLoopFor(theme) {
     const cfg = config();
     return (cfg && cfg.mapLoops && cfg.mapLoops[theme]) || null;

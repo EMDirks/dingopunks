@@ -1,5 +1,7 @@
 # Character voices: implementation plan
 
+> Superseded in part by `readme/sound-cleanup.md`: loops now live on the sound (a `loop` field, no `loops` table), and sound names and loop keys are hyphenated.
+
 Branch: `sound-effects`. Builds on `readme/sound-effects.md` (the sound engine and config this plan extends).
 
 ## What this changes

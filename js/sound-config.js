@@ -21,11 +21,15 @@ const VOICE_CLIPS = {
   old:     voiceSet('old', 5),
 };
 
+// A theme's map view and outro loop: lazy (a big file, loaded as the theme's intro starts, see
+// mapLoops), fading 300ms in and 1s out.
+const ambience = (file, volume) => ({ src: ['ambience/' + file], volume, lazy: true, loop: { fadeInMs: 300, fadeOutMs: 1000 } });
+
 const SOUND_CONFIG = {
   enabled: true,                 // master switch for the whole site
   masterVolume: 1.5625,          // multiplies every sound and loop; 1 = the mix below as written
   basePath: 'assets/audio/',     // src names start with their folder: sfx/<ui|feedback|motion|cutscene>/ for one-shots, voice/ for character voices, music/ for songs, ambience/ for background loops
-  formats: ['ogg'],              // later: ['m4a', 'ogg'] — the first one the browser can play wins
+  formats: ['ogg'],              // ogg only (readme/sound-cleanup.md, Decision 1); a browser that can't decode it gets no sound
   vocalizeEveryMs: 100,           // default ms between clips for a vocalize: true voice; a sound's own vocalizeEveryMs overrides it
   vocalizeInGame: true,         // every in-game (activity scene) character voice vocalizes, as if it had vocalize: true; vocalize: false on a sound opts it out. Cutscene voices only vocalize with their own vocalize: true
 
@@ -39,8 +43,8 @@ const SOUND_CONFIG = {
   // fadeOutMs: cut a one-shot short, fading to silence over this long after fadeOutAfterMs at full volume.
   // Two categories, each with its own global menu toggle:
   //   Sound effects: everything not listed below.
-  //   Music & ambience: every loop in `loops` (always, no flag needed), plus the
-  //   one-shots that play as a game starts or finishes, which are marked music: true.
+  //   Music & ambience: every sound with a `loop` field (always, no flag needed), plus any
+  //   one-shot marked music: true.
   sounds: {
 
     // Use for toggled systems with an open/close state
@@ -51,19 +55,19 @@ const SOUND_CONFIG = {
     select:  { src: ['sfx/ui/click'],                 volume: 0.2 },
 
     click:   { src: ['sfx/ui/click'],                     volume: 0.2 },
-    codeBox: { src: ['sfx/ui/close'],                      volume: 0.2 },                 // tapping a game code box (splash) or a secret code box (in-game)
-    codeBoxSoft: { src: ['sfx/ui/close'],                  volume: 0.15 },                // codeBox 25% softer: tapping a crossword or cryptogram cell (in-game)
+    'code-box': { src: ['sfx/ui/close'],                      volume: 0.2 },                 // tapping a game code box (splash) or a secret code box (in-game)
+    'code-box-soft': { src: ['sfx/ui/close'],                  volume: 0.15 },                // code-box 25% softer: tapping a crossword or cryptogram cell (in-game)
     choice:  { src: ['sfx/ui/toggle'],                     volume: 0.1 },                 // picking a multiple choice answer: the settings ON / OFF sound (toggle), but it respects mute
     key:     { src: ['sfx/ui/click'], volume: 0.2 },                // code keyboard
-    clickWood: { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
-    'clickWood-soft': { src: ['sfx/ui/click-wood'],        volume: 0.075 },               // Undermurk player arrow: clickWood, 25% quieter
-    slapPaper: { src: ['sfx/motion/card-slide'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
-    slapMetal: { src: ['sfx/motion/wood-slam'],        volume: 0.05 },                 // game timer landing
+    'click-wood': { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
+    'click-wood-soft': { src: ['sfx/ui/click-wood'],        volume: 0.075 },               // Undermurk player arrow: click-wood, 25% quieter
+    'slap-paper': { src: ['sfx/motion/card-slide'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
+    'slap-metal': { src: ['sfx/motion/wood-slam'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['sfx/ui/tab'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
     blip:    { src: ['sfx/ui/blip'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['sfx/cutscene/typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text
-    'voice-JJDingo': { src: VOICE_CLIPS.mumble, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    'voice-jj-dingo': { src: VOICE_CLIPS.mumble, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
     'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.6, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
     // In-game (activity scene) voices from here to voice-lavender are at 0.375: 25% under the 0.5 the cutscene voices use.
     // Midnight Mall challenge characters (activity scene). Starting pitches, to tune by ear.
@@ -148,29 +152,10 @@ const SOUND_CONFIG = {
     'whoosh-cutscene': { src: ['sfx/motion/whoosh-soft'],           volume: 0.15 },                // Midnight Mall intro character moves
     'whoosh-badguy': { src: ['sfx/motion/crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
     chime:   { src: ['sfx/feedback/chime.mp3'],           volume: 0.04 },                 // all characters selected
-    'background-creepy': { src: ['ambience/creepy'], volume: 0.1 },                // Midnight Mall fail cutscene bad guy loop
-    'background-crickets': { src: ['ambience/crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
-    // Each theme's own map view and outro ambient loop. lazy: these are big files, so each loads only when its loop starts.
-    'background-beehive-blitz':         { src: ['ambience/beehive-blitz.wav'], volume: 0.4, lazy: true },
-    'background-camp-calamari':         { src: ['ambience/camp-calamari.wav'], volume: 0.2, lazy: true },
-    'background-cupids-countdown':      { src: ['ambience/cupids-countdown.wav'], volume: 0.4, lazy: true },
-    'background-eggworld-emergency':    { src: ['ambience/eggworld-emergency.wav'], volume: 0.15, lazy: true },
-    'background-final-bell-breakout':   { src: ['ambience/final-bell-breakout.wav'], volume: 0.3, lazy: true },
-    'background-funhouse-fright':       { src: ['ambience/funhouse-fright.wav'], volume: 0.08, lazy: true },
-    'background-paradise-panic':        { src: ['ambience/paradise-panic.wav'], volume: 0.1, lazy: true },
-    'background-pickles-playground':    { src: ['ambience/pickles-playground.wav'], volume: 0.3, lazy: true },
-    'background-rainbow-rescue':        { src: ['ambience/rainbow-rescue.mp3'], volume: 0.4, lazy: true },
-    'background-the-hasty-harvest':     { src: ['ambience/the-hasty-harvest.wav'], volume: 0.3, lazy: true },
-    'background-the-yeti-and-the-yam':  { src: ['ambience/the-yeti-and-the-yam'], volume: 0.25, lazy: true },
-    'background-turkey-takedown':       { src: ['ambience/turkey-takedown.wav'], volume: 0.12, lazy: true },
-    'background-wacky-workshop':        { src: ['ambience/wacky-workshop'], volume: 0.12, lazy: true },
     dangle:  { src: ['sfx/motion/metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     'whoosh-node': { src: ['sfx/motion/whoosh-node.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
-    tvOn:    { src: ['sfx/cutscene/tv-on'],               volume: 0.1 },                 // cutscene coming in
-    clickNext: { src: ['sfx/ui/click'],       volume: 0.2 },                // cutscene Next, moving to the next scene
-
-    'dingo-punks-end': { src: ['music/dingo-punks-debrief'], volume: 0.2, lazy: true },   // song, played once on the debrief page (loops.debrief, once: true)
-    'dingo-punks-loop': { src: ['music/dingo-punks-intro'], volume: 0.225, lazy: true },   // song, looping in every theme's intro from its first scene (was 0.3); lazy, so it loads when the loop starts
+    'tv-on':    { src: ['sfx/cutscene/tv-on'],               volume: 0.1 },                 // cutscene coming in
+    'click-next': { src: ['sfx/ui/click'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
     lock:    { src: ['sfx/ui/locked'],                    volume: 0.3 },                 // placeholder until a lock sound is added
     correct: { src: ['sfx/feedback/coin'],                volume: 0.1 },
@@ -182,15 +167,41 @@ const SOUND_CONFIG = {
     'medal-3': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.125, 1.125] },
     'medal-4': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.2, 1.2] },
     'medal-5': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.35, 1.35] },
-    rankChime: { src: ['sfx/feedback/chime.mp3'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
-    'rankChime-soft': { src: ['sfx/feedback/chime.mp3'], volume: 0.03 },          // Undermurk new level: rankChime at half volume
-    scoreTick: { src: ['sfx/ui/blip'], volume: 0.06, pitch: [0.95, 1.05], maxVoices: 2 },  // debrief: the total score counting up
+    'rank-chime': { src: ['sfx/feedback/chime.mp3'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
+    'rank-chime-soft': { src: ['sfx/feedback/chime.mp3'], volume: 0.03 },          // Undermurk new level: rank-chime at half volume
+    'score-tick': { src: ['sfx/ui/blip'], volume: 0.06, pitch: [0.95, 1.05], maxVoices: 2 },  // debrief: the total score counting up
     wrong:   { src: ['sfx/feedback/error'],                  volume: 0.45 },
 
     // Enter the Undermurk (js/enter-the-undermurk.js). Starting levels, to tune by ear.
-    'enter-the-undermurk-end':  { src: ['music/undermurk-end'], volume: 0.1, lazy: true },   // Undermurk end screen song (loops['undermurk-end']), at dingo-punks-end's level; lazy, preloaded on the Undermurk page
-    'enter-the-undermurk-loop': { src: ['music/undermurk-intro'], volume: 0.15, lazy: true },  // Undermurk intro song (loops['enter-the-undermurk-loop']), at dingo-punks-loop's level; lazy, preloaded on the Undermurk page
     tick:    { src: ['sfx/ui/tick'], volume: 0.15 },                                   // Undermurk: the question timer's last quarter, once a second
+
+    // Songs and ambience. A sound with `loop` is started with Sound.startLoop(name), runs on the
+    // music bus (Music & ambience) and is stopped with Sound.stopLoop(name). A cutscene file can
+    // also tag an animation with startLoop: '<name>' or stopLoop: '<name>'.
+    //   loop: { fadeInMs, fadeOutMs, delayMs, once }. delayMs counts from startLoop; once: true plays
+    //   the file through one time instead of looping.
+    // An intro song plays from the first scene through the last; when the intro ends (last Next or
+    // SKIP INTRO) it keeps playing under the map view and fades out over fadeOutMs.
+    'music-dingo-punks-intro':   { src: ['music/dingo-punks-intro'],   volume: 0.225, lazy: true, loop: { delayMs: 500, fadeOutMs: 5000 } },  // every theme's intro, from its first scene
+    'music-dingo-punks-debrief': { src: ['music/dingo-punks-debrief'], volume: 0.2,   lazy: true, loop: { delayMs: 700, fadeOutMs: 500, once: true } },  // the debrief page, once through, hard start 700ms after the VIEW SCORE press (js/debrief.js)
+    'music-undermurk-intro':     { src: ['music/undermurk-intro'],     volume: 0.15,  lazy: true, loop: { delayMs: 500, fadeOutMs: 5000 } },  // Enter the Undermurk's intro, fading out under the minigame's entrance
+    'music-undermurk-end':       { src: ['music/undermurk-end'],       volume: 0.1,   lazy: true, loop: { fadeOutMs: 500, once: true } },  // the Undermurk end screen, from the "Your team..." line, after VICTORY / FAIL has left
+    'ambience-creepy':           { src: ['ambience/creepy'],           volume: 0.1,   loop: { fadeInMs: 300, fadeOutMs: 500 } },  // the bad guys on screen in every fail cutscene; small, so not lazy
+    // Each theme's map view and outro loop (mapLoops). The Enter the Undermurk minigame has none.
+    'ambience-crickets':               ambience('crickets', 0.4),  // Escape the Midnight Mall
+    'ambience-beehive-blitz':          ambience('beehive-blitz.wav', 0.4),
+    'ambience-camp-calamari':          ambience('camp-calamari.wav', 0.2),
+    'ambience-cupids-countdown':       ambience('cupids-countdown.wav', 0.4),
+    'ambience-eggworld-emergency':     ambience('eggworld-emergency.wav', 0.15),
+    'ambience-final-bell-breakout':    ambience('final-bell-breakout.wav', 0.3),
+    'ambience-funhouse-fright':        ambience('funhouse-fright.wav', 0.08),
+    'ambience-paradise-panic':         ambience('paradise-panic.wav', 0.1),
+    'ambience-pickles-playground':     ambience('pickles-playground.wav', 0.3),
+    'ambience-rainbow-rescue':         ambience('rainbow-rescue.mp3', 0.4),
+    'ambience-the-hasty-harvest':      ambience('the-hasty-harvest.wav', 0.3),
+    'ambience-the-yeti-and-the-yam':   ambience('the-yeti-and-the-yam', 0.25),
+    'ambience-turkey-takedown':        ambience('turkey-takedown.wav', 0.12),
+    'ambience-wacky-workshop':         ambience('wacky-workshop', 0.12),
   },
 
   // Game events → sound name. null = silent on purpose. Unknown events are ignored.
@@ -202,8 +213,8 @@ const SOUND_CONFIG = {
     'ui.click':          'click',
     'ui.choice':         'choice',   // a multiple choice answer selected (not re-tapping the one already picked)
     'ui.key':            'key',
-    'ui.input':          'codeBox',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
-    'ui.inputPuzzle':    'codeBoxSoft', // tapping a crossword or cryptogram cell (in-game)
+    'ui.input':          'code-box',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
+    'ui.inputPuzzle':    'code-box-soft', // tapping a crossword or cryptogram cell (in-game)
     'ui.tab':            'tab',
     'ui.setting':        'select',   // escape room setup tabs
     'ui.character':      'select',   // choosing a character
@@ -212,13 +223,13 @@ const SOUND_CONFIG = {
     'game.finish':       'click',    // the map's Finish button (launches the outro): the standard button click (was 'chime')
     'ui.toggle':         'toggle',
     'splash.transition': { sound: 'whoosh', delay: 280 },  // tuned by ear against the fly-out
-    'splash.thumbnail':  { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
+    'splash.thumbnail':  { sound: 'slap-paper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
     'dialogue.letter':   'blip',     // activity scene dialogue
     'bumper.dangle':     { sound: 'dangle', delay: 200 },  // START pressed; 120 + the sound's 160ms clink lands just after the bottom of the logo's first swing (200ms)
     'bumper.dangleUndermurk': { sound: 'dangle', delay: 50 },  // START pressed on Enter the Undermurk's bumper; 50ms into the logo's pop-and-slam
     'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
-    'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
-    'cutscene.next':     'clickNext', // Next to the following scene
+    'cutscene.start':    { sound: 'tv-on', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
+    'cutscene.next':     'click-next', // Next to the following scene
     'cutscene.nextLast': 'click',    // the last Next of any cutscene: the standard button click
     'cutscene.skip':     'click',    // SKIP INTRO: the standard button click
     'cutscene.finish':   null,       // an intro's last Next or SKIP INTRO: no one-shot; the intro song fades out instead (its loop's fadeOutMs)
@@ -234,9 +245,9 @@ const SOUND_CONFIG = {
     'scene.characterIn': { sound: 'whoosh-scene', delay: 50 },  // a challenge character sliding in from off screen (a 200ms slide)
     'scene.playerIn':    { sound: 'whoosh-scene', delay: 60 },  // the player's graphic sliding in (a 160ms slide)
     'scene.open':        null,  // a challenge character's dialogue box sliding in: silent, the voice clip carries it
-    'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
-    'activity.nodeOut':  { sound: 'slapPaper', delay: 100 },  // each node sliding out after Finish: the slide-in sound, 100ms after the node starts moving
-    'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
+    'activity.nodeIn':   { sound: 'slap-paper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
+    'activity.nodeOut':  { sound: 'slap-paper', delay: 100 },  // each node sliding out after Finish: the slide-in sound, 100ms after the node starts moving
+    'timer.in':          { sound: 'slap-metal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
     'activity.open':     'open',
     'scene.startWhoosh': { sound: 'whoosh-node', delay: 350, keepClick: true },  // the intro view's START (NEXT in preview), with its click: the node-open whoosh 50ms after the view starts sliding away (it holds 300ms first)
     'activity.close':    'close',
@@ -252,7 +263,7 @@ const SOUND_CONFIG = {
 
     'menu.open':         'open',
     'menu.close':        'close',
-    'menu.cardIn':       'clickWood', // once per student card, as it starts sliding in
+    'menu.cardIn':       'click-wood', // once per student card, as it starts sliding in
     
     'access.correct':    { sound: 'correct', delay: 0 },  // fires as the code boxes pop gold; delay fine-tunes it
     'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
@@ -265,29 +276,29 @@ const SOUND_CONFIG = {
     // older js/debrief.js updateDebrief (UNDERMURK off). None of these come from a tap, so
     // skipIfLocked keeps them from all playing late on the first tap if audio is still locked.
     'debrief.outcomeOut': { sound: 'whoosh', delay: 240, keepClick: true },  // VICTORY / FAIL popping and shrinking away after VIEW SCORE (.image-outcome--leave, 320ms): 240ms in, 150ms after the shrink starts; keepClick keeps the button's own click
-    'debrief.statIn':    { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each stat card dropping in (a 0.3s slide): the node slide-in sound, 100ms in
-    'debrief.tierIn':    { sound: 'slapMetal', delay: 50, skipIfLocked: true },   // each card's tier capsule (Oof … Perfect) stamping on (0.2s): a thud that peaks (150ms into the sound) as it lands
-    'debrief.scoreIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // the total score card dropping in
-    'debrief.scoreTick': { sound: 'scoreTick', skipIfLocked: true, pitchRamp: [1, 1.5] },  // the total counting up; dpaam-debrief.js spaces these at least 70ms apart. pitchRamp: climbs from 1x to 1.5x pitch as the number rises
+    'debrief.statIn':    { sound: 'slap-paper', delay: 100, skipIfLocked: true },  // each stat card dropping in (a 0.3s slide): the node slide-in sound, 100ms in
+    'debrief.tierIn':    { sound: 'slap-metal', delay: 50, skipIfLocked: true },   // each card's tier capsule (Oof … Perfect) stamping on (0.2s): a thud that peaks (150ms into the sound) as it lands
+    'debrief.scoreIn':   { sound: 'slap-paper', delay: 100, skipIfLocked: true },  // the total score card dropping in
+    'debrief.scoreTick': { sound: 'score-tick', skipIfLocked: true, pitchRamp: [1, 1.5] },  // the total counting up; dpaam-debrief.js spaces these at least 70ms apart. pitchRamp: climbs from 1x to 1.5x pitch as the number rises
     'debrief.medal1':    { sound: 'medal-1', delay: 150, skipIfLocked: true },  // each new medal as the count passes its score: lands at the end of the 0.15s fly-in
     'debrief.medal2':    { sound: 'medal-2', delay: 150, skipIfLocked: true },
     'debrief.medal3':    { sound: 'medal-3', delay: 150, skipIfLocked: true },
     'debrief.medal4':    { sound: 'medal-4', delay: 150, skipIfLocked: true },
     'debrief.medal5':    { sound: 'medal-5', delay: 150, skipIfLocked: true },
-    'debrief.rank':      { sound: 'rankChime', delay: 50, skipIfLocked: true },  // the rank (ROOKIE … BRAINWAVE) popping in once the count finishes (0.2s)
+    'debrief.rank':      { sound: 'rank-chime', delay: 50, skipIfLocked: true },  // the rank (ROOKIE … BRAINWAVE) popping in once the count finishes (0.2s)
     'debrief.bonusIn':   { sound: 'whoosh-scene', skipIfLocked: true },  // the Bonus Mission panel sliding in, 1s after the rank
     'debrief.rankClap':  { sound: 'clap', delay: 350, skipIfLocked: true },  // with debrief.rank: 300ms after the rank chime starts (chime at 50ms)
     'debrief.meterIn':   { sound: 'whoosh-scene', delay: 50, skipIfLocked: true }, // older debrief only: score meter and medal row sliding in
     // Enter the Undermurk (js/enter-the-undermurk.js). The setup, character select and intro
     // cutscene use the main game's events above; these are the minigame's own.
     // Entrance (umAnimateEntrance), each fired as its piece starts moving:
-    'undermurk.frameIn':     { sound: 'slapMetal', delay: 50 },      // the frame slamming in from 2× (200ms): peaks as it lands, like timer.in
+    'undermurk.frameIn':     { sound: 'slap-metal', delay: 50 },      // the frame slamming in from 2× (200ms): peaks as it lands, like timer.in
     'undermurk.stripIn':     { sound: 'whoosh-scene', delay: 50 },   // the player strip sliding down (200ms)
-    'undermurk.cardIn':      { sound: 'slapPaper', delay: 50 },      // each player card sliding in (200ms)
+    'undermurk.cardIn':      { sound: 'slap-paper', delay: 50 },      // each player card sliding in (200ms)
     'undermurk.tierArtIn':   { sound: 'whoosh-node', delay: 100 },   // a level's art zooming in from 2× (500ms), at the entrance and on every level change
-    'undermurk.tierBlockIn': { sound: 'slapPaper', delay: 50 },      // the level badge sliding up (200ms)
-    'undermurk.indicatorIn': { sound: 'clickWood-soft', delay: 100 },   // the player indicator sliding in (300ms)
-    'undermurk.indicatorMove': { sound: 'clickWood-soft', delay: 100 }, // the indicator sliding to the next player (0.35s)
+    'undermurk.tierBlockIn': { sound: 'slap-paper', delay: 50 },      // the level badge sliding up (200ms)
+    'undermurk.indicatorIn': { sound: 'click-wood-soft', delay: 100 },   // the player indicator sliding in (300ms)
+    'undermurk.indicatorMove': { sound: 'click-wood-soft', delay: 100 }, // the indicator sliding to the next player (0.35s)
     // Turns:
     'undermurk.panelIn':     { sound: 'whoosh-scene', delay: 50 },   // First Up / Next Up sliding in (300ms); no player voice in Enter the Undermurk
     'undermurk.start':       { sound: 'whoosh-node', delay: 350, keepClick: true },  // First Up / Next Up START, with its click: held 300ms like the activity scene's START, then the whoosh as the panel leaves
@@ -298,16 +309,16 @@ const SOUND_CONFIG = {
     'undermurk.timeout':     'wrong',                                // the timer running out
     'undermurk.eliminated':  null,                                   // last life lost: silent
     'undermurk.timerTick':   'tick',                                 // once a second while the timer is in its last quarter
-    'undermurk.tier':        { sound: 'rankChime-soft', delay: 300 },     // a new level reached (boss beaten): with the new level's name coming in
-    'undermurk.playerFinished': { sound: 'rankChime', delay: 100 },  // a player beats the last level's boss
+    'undermurk.tier':        { sound: 'rank-chime-soft', delay: 300 },     // a new level reached (boss beaten): with the new level's name coming in
+    'undermurk.playerFinished': { sound: 'rank-chime', delay: 100 },  // a player beats the last level's boss
     // End (umShowEndScreen and the results reveal):
     'undermurk.hudOut':      'whoosh-scene',                         // the player strip and level badge leaving
-    'undermurk.outcomeVictory': { sound: 'slapMetal', delay: 50 },   // VICTORY smashing in. Placeholder until a Success sound is added
-    'undermurk.outcomeFail': { sound: 'slapMetal', delay: 50 },      // FAIL smashing in: the same sound as VICTORY, no bad guy crash
-    // The end song (loops['undermurk-end']) starts with the "Your team..." line, after VICTORY / FAIL leaves.
+    'undermurk.outcomeVictory': { sound: 'slap-metal', delay: 50 },   // VICTORY smashing in. Placeholder until a Success sound is added
+    'undermurk.outcomeFail': { sound: 'slap-metal', delay: 50 },      // FAIL smashing in: the same sound as VICTORY, no bad guy crash
+    // The end song (music-undermurk-end) starts with the "Your team..." line, after VICTORY / FAIL leaves.
     'undermurk.outcomeOut':  'whoosh-scene',                         // the outcome image shrinking away before the results
-    'undermurk.resultIn':    { sound: 'slapPaper', delay: 100 },     // each player's column and the team total rising in (300ms), like debrief.statIn
-    'undermurk.scoreTick':   { sound: 'scoreTick', pitchRamp: [1, 1.5] },  // each point as a score counts up (at least 45ms apart), climbing from 1x to 1.5x pitch from the first point to the last; each score (and the team total) climbs on its own
+    'undermurk.resultIn':    { sound: 'slap-paper', delay: 100 },     // each player's column and the team total rising in (300ms), like debrief.statIn
+    'undermurk.scoreTick':   { sound: 'score-tick', pitchRamp: [1, 1.5] },  // each point as a score counts up (at least 45ms apart), climbing from 1x to 1.5x pitch from the first point to the last; each score (and the team total) climbs on its own
     'undermurk.teamTotal':   null,                                   // the team total finishing its count, 200ms before Play Again rises: silent, so only Play Again's chime marks the end
     'undermurk.playAgainIn': 'chime',                                // Play Again rising in (300ms) at the end of the results
     'undermurk.playAgain':   { sound: 'whoosh', keepClick: true },   // Play Again, with its click: the setup step sliding back in, after the button's 200ms shrink (playAgainHold). Only with UNDERMURK_BUMPER off; with it on, Play Again goes to the bumper with just the click
@@ -336,7 +347,7 @@ const SOUND_CONFIG = {
       'lavender.png': { sound: 'voice-lavender', delay: 50, clips: 2 },
     },
     cutscene: {
-      'J.J. DINGO': { sound: 'voice-JJDingo', delay: 50 }, // intro and outro cutscenes only (not fail); js/splash-new.js keeps that rule
+      'J.J. DINGO': { sound: 'voice-jj-dingo', delay: 50 }, // intro and outro cutscenes only (not fail); js/splash-new.js keeps that rule
       badguy:       { sound: 'voice-badguy', delay: 50 },  // any cutscene
     },
     'escape-the-midnight-mall': {
@@ -439,57 +450,27 @@ const SOUND_CONFIG = {
     },
   },
 
-  // Looping sounds. Game code calls Sound.startLoop(key) and Sound.stopLoop(key).
-  // The volume comes from the sound in `sounds`; remove a key to silence that loop.
-  // A cutscene file can also tag an animation with startLoop: '<key>' or stopLoop: '<key>'.
-  // once: true plays the file through one time instead of looping; it is still music & ambience.
-  loops: {
-    // An intro song plays from the first scene through the last; when the intro ends (last
-    // Next or SKIP INTRO) it keeps playing under the map view and fades out over fadeOutMs.
-    // Every theme's intro song follows this pattern.
-    'dingo-punks-loop': { sound: 'dingo-punks-loop', delayMs: 500, fadeOutMs: 5000 },  // Midnight Mall intro song
-    'background-creepy': { sound: 'background-creepy', fadeInMs: 300, fadeOutMs: 500 },  // while the Midnight Mall bad guys are on screen in the fail cutscene
-    debrief: { sound: 'dingo-punks-end', delayMs: 700, fadeOutMs: 500, once: true },  // debrief page song, played once through (once: true, no loop), hard start (no fadeInMs); still music & ambience; starts 300ms after the VIEW SCORE press (js/debrief.js)
-    'background-crickets': { sound: 'background-crickets', fadeInMs: 300, fadeOutMs: 1000 },  // Midnight Mall map view and outro; snappy fade-in under the intro song's fade-out
-    // Every other theme's map view and outro loop, the same way as Midnight Mall's crickets.
-    'background-beehive-blitz':         { sound: 'background-beehive-blitz', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-camp-calamari':         { sound: 'background-camp-calamari', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-cupids-countdown':      { sound: 'background-cupids-countdown', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-eggworld-emergency':    { sound: 'background-eggworld-emergency', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-final-bell-breakout':   { sound: 'background-final-bell-breakout', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-funhouse-fright':       { sound: 'background-funhouse-fright', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-paradise-panic':        { sound: 'background-paradise-panic', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-pickles-playground':    { sound: 'background-pickles-playground', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-rainbow-rescue':        { sound: 'background-rainbow-rescue', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-the-hasty-harvest':     { sound: 'background-the-hasty-harvest', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-the-yeti-and-the-yam':  { sound: 'background-the-yeti-and-the-yam', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-turkey-takedown':       { sound: 'background-turkey-takedown', fadeInMs: 300, fadeOutMs: 1000 },
-    'background-wacky-workshop':        { sound: 'background-wacky-workshop', fadeInMs: 300, fadeOutMs: 1000 },
-    // Enter the Undermurk. Its intro song follows every theme's pattern: from the first scene, then
-    // fading out under the minigame's entrance. The minigame has no ambient loop of its own.
-    'enter-the-undermurk-loop': { sound: 'enter-the-undermurk-loop', delayMs: 500, fadeOutMs: 5000 },  // Undermurk intro song
-    'undermurk-end': { sound: 'enter-the-undermurk-end', fadeOutMs: 500, once: true },  // the end screen: starts with the "Your team..." line rising, after VICTORY / FAIL has left
-  },
-
-  // The map view (the challenge nodes and timer) loops one of `loops` per theme folder.
+  // The map view (the challenge nodes and timer) loops one sound with a `loop` field per theme
+  // folder; the values are sound names. Each theme's loop is preloaded as its intro cutscene
+  // starts (addCutscene in js/splash-new.js), so it is ready when the map appears.
   // It starts as the map builds and ends when the outro or fail cutscene starts; if that
   // cutscene starts the same loop, it carries straight on instead. A theme left out is quiet.
   // It fades out while a challenge is open and back in on return to the map (loopFade).
   mapLoops: {
-    'escape-the-midnight-mall': 'background-crickets',
-    'beehive-blitz':        'background-beehive-blitz',
-    'camp-calamari':        'background-camp-calamari',
-    'cupids-countdown':     'background-cupids-countdown',
-    'eggworld-emergency':   'background-eggworld-emergency',
-    'final-bell-breakout':  'background-final-bell-breakout',
-    'funhouse-fright':      'background-funhouse-fright',
-    'paradise-panic':       'background-paradise-panic',
-    'pickles-playground':   'background-pickles-playground',
-    'rainbow-rescue':       'background-rainbow-rescue',
-    'the-hasty-harvest':    'background-the-hasty-harvest',
-    'the-yeti-and-the-yam': 'background-the-yeti-and-the-yam',
-    'turkey-takedown':      'background-turkey-takedown',
-    'wacky-workshop':       'background-wacky-workshop',
+    'escape-the-midnight-mall': 'ambience-crickets',
+    'beehive-blitz':        'ambience-beehive-blitz',
+    'camp-calamari':        'ambience-camp-calamari',
+    'cupids-countdown':     'ambience-cupids-countdown',
+    'eggworld-emergency':   'ambience-eggworld-emergency',
+    'final-bell-breakout':  'ambience-final-bell-breakout',
+    'funhouse-fright':      'ambience-funhouse-fright',
+    'paradise-panic':       'ambience-paradise-panic',
+    'pickles-playground':   'ambience-pickles-playground',
+    'rainbow-rescue':       'ambience-rainbow-rescue',
+    'the-hasty-harvest':    'ambience-the-hasty-harvest',
+    'the-yeti-and-the-yam': 'ambience-the-yeti-and-the-yam',
+    'turkey-takedown':      'ambience-turkey-takedown',
+    'wacky-workshop':       'ambience-wacky-workshop',
   },
   loopFade: { outMs: 2000, inMs: 1000 },
 
@@ -504,17 +485,17 @@ const SOUND_CONFIG = {
   preload: {
     onPageLoad: {
       // just what the code-entry / room-choice screen needs; the rest loads at onPinInput.
-      // whoosh and slapPaper are here because the splash can reach them soon after onPinInput.
-      // clickWood is here because the menu can open before a code is entered.
+      // whoosh and slap-paper are here because the splash can reach them soon after onPinInput.
+      // click-wood is here because the menu can open before a code is entered.
       // dangle is here because the bumper plays before a code is entered.
-      'index.html':      { sounds: ['click', 'key', 'select', 'codeBox', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
-      'answer-key.html': { sounds: ['click', 'key', 'select', 'codeBox', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
-      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
+      'index.html':      { sounds: ['click', 'key', 'select', 'code-box', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'click-wood', 'slap-paper', 'dangle'], delay: 0 },
+      'answer-key.html': { sounds: ['click', 'key', 'select', 'code-box', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'click-wood', 'slap-paper'], delay: 0 },
+      'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'click-wood', 'slap-paper', 'dangle'], delay: 0 },
       'debrief.html':    { sounds: '*', also: ['clap'], delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     // also: lazy sounds to load with '*' (the intro and end songs, so neither waits on its file)
-    onUndermurkPage: { sounds: '*', also: ['enter-the-undermurk-loop', 'enter-the-undermurk-end'], delay: 0 },
+    onUndermurkPage: { sounds: '*', also: ['music-undermurk-intro', 'music-undermurk-end'], delay: 0 },
   },
 
   // Delegated clicks: first matching selector wins. An element (or ancestor) with

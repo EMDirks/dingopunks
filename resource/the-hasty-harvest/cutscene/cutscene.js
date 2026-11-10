@@ -15,7 +15,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
-                    startLoop: 'dingo-punks-loop',
+                    startLoop: 'music-dingo-punks-intro',
                 },
             },
             backgroundColor: 'background-color-black'
@@ -285,7 +285,7 @@ let cutscene = {
                     start: 'transform-scale_0__opacity_0',
                     end: 'transform-scale_1__opacity_1',
                     duration: 'transition-transform-200ms__opacity-200ms',
-                    startLoop: 'background-the-hasty-harvest',
+                    startLoop: 'ambience-the-hasty-harvest',
                 },
             },    
             backgroundColor: 'background-color-black'
@@ -361,7 +361,7 @@ let cutscene = {
                     duration: 'transition-transform-300ms',
                     delay: 500,
                     sfx: 'cutscene.moveBadguyFail',
-                    startLoop: 'background-creepy',
+                    startLoop: 'ambience-creepy',
                 },
             },
             backgroundImage2: {

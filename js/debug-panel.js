@@ -126,7 +126,7 @@
   // game, so these are the ones in js/sound-config.js. A voice missing here is named
   // after its picture's file.
   const VOICE_NAMES = {
-    'voice-JJDingo': 'J.J. Dingo', 'voice-badguy': 'Bad guy',
+    'voice-jj-dingo': 'J.J. Dingo', 'voice-badguy': 'Bad guy',
     'voice-mint': 'Mint', 'voice-antares': 'Antares', 'voice-tubu': 'Tu-Bu', 'voice-jelly': 'Jelly',
     'voice-targ': 'T.O.R.G.', 'voice-winston': 'Winston', 'voice-hydrax': 'Hydrax', 'voice-lavender': 'Lavender',
     'voice-topsy': 'Terrible Topsy', 'voice-robustus': 'Robustus the Great', 'voice-shortnose': 'Martin Shortnose',

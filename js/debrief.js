@@ -108,9 +108,9 @@ function addViewScoreButton(){
     scoreViewed = true;
     toggleClass(viewScoreButton, 'bumper-start--visible', 'bumper-start--pressed');
     viewScoreButton.blur();
-    // The debrief song starts from the press (after loops.debrief's delayMs), so
+    // The debrief song starts from the press (after its loop.delayMs in js/sound-config.js), so
     // it's never held back by the browser.
-    typeof Sound !== 'undefined' && Sound.startLoop('debrief');
+    typeof Sound !== 'undefined' && Sound.startLoop('music-dingo-punks-debrief');
     setTimeout(function(){
       // The badge pops and shrinks away (.image-outcome--leave) with a whoosh as the
       // screen fades behind it.

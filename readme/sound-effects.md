@@ -1,5 +1,7 @@
 # Sound effects (SFX) implementation plan
 
+> Superseded in part by `readme/sound-cleanup.md`: loops now live on the sound (a `loop` field, no `loops` table), and sound names and loop keys are hyphenated.
+
 Branch: `sound-effects` (rebased onto main at 4.0.68). Target release: 4.0.69.
 
 Add a dependency-free Web Audio sound layer for button clicks, transitions, dialogue blips, correct/wrong feedback, hints, modals and the global menu. **Everything about sound — which file plays, how loud, for which event, and when it loads — lives in one file, `js/sound-config.js`.** Teachers get an **Audio** switch in the dashboard Settings modal (above Bonus Missions) that silences the whole game for their students. When the teacher leaves it on, students get a small **Sound** toggle in the global menu that mutes the current game. Music comes later and plugs into the same module and the same config.

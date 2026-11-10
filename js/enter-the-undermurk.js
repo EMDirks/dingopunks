@@ -117,7 +117,7 @@ let cutscene = {
           start: 'transform-scale_1_1__opacity_0',
           end: 'transform-scale_1__opacity_1',
           duration: 'transition-transform-500ms__opacity-500ms',
-          startLoop: 'enter-the-undermurk-loop',  // the intro song, from the first scene, like every theme's intro
+          startLoop: 'music-undermurk-intro',  // the intro song, from the first scene, like every theme's intro
         },
       },
       backgroundColor: 'background-color-black',
@@ -281,7 +281,7 @@ const umEls = {};
 
 // ---- Sound ----
 // Every sound, delay and level is in SOUND_CONFIG (js/sound-config.js): the undermurk.* events,
-// and loops['undermurk-end'] (the end screen's song). The minigame itself has no ambient loop.
+// and music-undermurk-end (the end screen's song). The minigame itself has no ambient loop.
 
 let umSfxTimeoutIds = [];
 
@@ -1535,7 +1535,7 @@ function umRevealEndResults() {
 
   umScheduleEndOutcomeTimeout(function () {
     // The end song waits for VICTORY / FAIL to leave and comes in with the "Your team..." line.
-    umStartLoop('undermurk-end');
+    umStartLoop('music-undermurk-end');
     umStartEndRevealElement(targets.subtitle, 0, t.subtitleDuration);
     umStartEndRevealElement(umEls.endLevels, 0, t.subtitleDuration);
     umScheduleEndOutcomeTimeout(function () {
@@ -2394,7 +2394,7 @@ function umReturnToSetup() {
   umClearEndOutcomeTimeouts();
   umClearSfxTimeouts();
   umResetOutcomeImage();
-  umStopLoop('undermurk-end');
+  umStopLoop('music-undermurk-end');
 
   // Play Again opens on the bumper again, with the setup step drawn behind it. The
   // setup's whoosh would play unseen under the bumper, so only the tap's click plays.

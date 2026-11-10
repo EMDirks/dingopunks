@@ -84,7 +84,7 @@
   // Whatever is on screen (bumper, setup, intro cutscene, a game, an end screen) is cleared.
   function clearStage() {
     umStopTimer();
-    umStopLoop('undermurk-end');
+    umStopLoop('music-undermurk-end');
     typeof stopCutsceneLoops === 'function' && stopCutsceneLoops();
     // A cutscene's last Next or SKIP INTRO still pending would start a real game over this one.
     umCutsceneFinishing = true;
