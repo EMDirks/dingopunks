@@ -109,8 +109,189 @@
     panel.appendChild(debriefButton);
 
     buildVoiceControls(panel);
+    buildCharacterVoices(panel, themes);
 
     document.body.appendChild(panel);
+  }
+
+  // Every character voice in the game, from SOUND_CONFIG.characterVoices: the player
+  // characters, the cutscene speakers and each theme's challenge characters, as tiles
+  // with the character's name over their picture. Clicking a tile loops that voice
+  // through the real Sound.voice path (same table and key the game uses), so it sounds
+  // as it does in play; clicking it again, or closing the gallery, stops it. A character
+  // in more than one theme shows under each, sharing one voice.
+  const CHARACTER_LINE_MS = 2000;
+
+  // Display names, keyed by voice sound. Names in the theme files vary from game to
+  // game, so these are the ones in js/sound-config.js. A voice missing here is named
+  // after its picture's file.
+  const VOICE_NAMES = {
+    'voice-JJDingo': 'J.J. Dingo', 'voice-badguy': 'Bad guy',
+    'voice-mint': 'Mint', 'voice-antares': 'Antares', 'voice-tubu': 'Tu-Bu', 'voice-jelly': 'Jelly',
+    'voice-targ': 'T.O.R.G.', 'voice-winston': 'Winston', 'voice-hydrax': 'Hydrax', 'voice-lavender': 'Lavender',
+    'voice-topsy': 'Terrible Topsy', 'voice-robustus': 'Robustus the Great', 'voice-shortnose': 'Martin Shortnose',
+    'voice-prisma': 'Prisma', 'voice-zeeb': 'Zeeb',
+    'voice-basil-rabbit': 'Basil Rabbit', 'voice-grumblegrub': 'Grumblegrub', 'voice-queen-bella': 'Queen Bella',
+    'voice-riff-wingman': 'Riff Wingman', 'voice-sunny-snap': 'Sunny Snap',
+    'voice-chef-gumbo': 'Chef Gumbo', 'voice-driftwood-dan': 'Driftwood Dan', 'voice-fishbeard': 'Fishbeard',
+    'voice-madame-mystica': 'Madame Mystica', 'voice-melodina': 'Melodina',
+    'voice-broken-animatronic': 'Broken Animatronic', 'voice-stefan-sage': 'Stefan Sage', 'voice-tater-durant': 'Tater Durant',
+    'voice-cornelius-rabbit': 'Cornelius Rabbit', 'voice-eva': 'E.V.A.', 'voice-shelly-sunny-and-yoko': 'Shelly, Sunny and Yoko',
+    'voice-sir-eggbert': 'Sir Eggbert', 'voice-ziggy-voss': 'Ziggy Voss',
+    'voice-final-bell-1': 'Student Mystica', 'voice-final-bell-2': 'Student Pippo', 'voice-final-bell-3': 'Student Robustus',
+    'voice-final-bell-4': 'Student Mabel', 'voice-final-bell-5': 'Student Kevin',
+    'voice-boiler-belle': 'Boiler Belle', 'voice-count-visage': 'Count Visage', 'voice-miss-tally': 'Miss Tally',
+    'voice-pippo-fizzlepop': 'Pippo Fizzlepop', 'voice-plucky-the-clown': 'Plucky the Clown',
+    'voice-paradise-1': 'Demi Voss', 'voice-paradise-2': 'Old Stavros', 'voice-paradise-3': 'Thessaly Tidewater',
+    'voice-paradise-4': "Kastor's Ghost", 'voice-paradise-5': 'Ned',
+    'voice-banana-gunk-jr': 'Banana Gunk Jr.', 'voice-gribba': 'Gribba', 'voice-king-kevin': 'King Kevin',
+    'voice-merriwig': 'Merriwig', 'voice-twisted-tori': 'Twisted Tori',
+    'voice-charm': 'C.H.A.R.M.', 'voice-sparklepants': 'Sparklepants',
+    'voice-candlewick': 'Candlewick', 'voice-crispin-the-cider-sage': 'Crispin the Cider Sage', 'voice-hollow-jack': 'Hollow Jack',
+    'voice-mabel-mallow': 'Mabel Mallow', 'voice-the-gnomads': 'The Gnomads',
+    'voice-dr-seraphina': 'Dr. Seraphina', 'voice-tater-drift': 'Tater Drift', 'voice-the-frozen-knight': 'The Frozen Knight',
+    'voice-bix-gribble': 'Bix Gribble', 'voice-ched-muckley': 'Ched Muckley', 'voice-dale': 'Dale',
+    'voice-lady-thistledown': 'Lady Thistledown',
+    'voice-mister-lump': 'Mister Lump', 'voice-patchpaw': 'Patchpaw', 'voice-seaweed-sally': 'Seaweed Sally',
+    'voice-sir-bobble': 'Sir Bobble', 'voice-yo-yeti': 'Yo Yeti',
+  };
+
+  // The picture for a characterVoices entry: player portraits, the cutscene speakers'
+  // art (the bad guy voice is shared by every theme; Midnight Mall's is shown), or the
+  // theme's challenge character art.
+  function voiceImage(table, key) {
+    if (table === 'player') return 'assets/player/' + key;
+    if (table === 'cutscene') {
+      return key === 'badguy' ? 'resource/escape-the-midnight-mall/assets/cutscene/badguy.png' : 'assets/cutscene/jjcrispy-0.png';
+    }
+    return 'resource/' + table + '/assets/activity/character/' + key;
+  }
+
+  function voiceSound(mapping) {
+    return typeof mapping === 'object' ? mapping.sound : mapping;
+  }
+
+  function voiceName(mapping, key) {
+    return VOICE_NAMES[voiceSound(mapping)] || key.replace(/\.png$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  }
+
+  function buildCharacterVoices(panel, themes) {
+    if (typeof SOUND_CONFIG === 'undefined' || !SOUND_CONFIG.characterVoices || typeof Sound === 'undefined') return;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .debug-voices {
+        position: fixed; inset: 48px 8px 8px; z-index: 10001;
+        overflow-y: auto; padding: 10px 14px 16px; border-radius: 8px;
+        background: rgba(10, 10, 14, 0.94); color: #fff;
+        font: 12px/1.2 system-ui, sans-serif;
+      }
+      .debug-voices[hidden] { display: none; }
+      .debug-voices__bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      .debug-voices__bar button { font: inherit; padding: 3px 8px; }
+      .debug-voices h3 { margin: 14px 0 6px; font-size: 13px; font-weight: 600; opacity: 0.8; }
+      .debug-voices__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+      .debug-voices__tile {
+        position: relative; aspect-ratio: 1; padding: 0; overflow: hidden; cursor: pointer;
+        border: 2px solid transparent; border-radius: 6px;
+        background: #2a2a33 center 20% / contain no-repeat; color: #fff; font: inherit;
+      }
+      .debug-voices__tile:hover { border-color: rgba(255, 255, 255, 0.4); }
+      .debug-voices__tile--on { border-color: #4be37a; box-shadow: 0 0 0 2px rgba(75, 227, 122, 0.35); }
+      .debug-voices__name {
+        position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 4px 5px;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+        font-weight: 700; text-align: center; text-shadow: 0 1px 2px #000;
+      }
+      .debug-voices__tile--on .debug-voices__name::before { content: '\\25B6  '; color: #4be37a; }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'debug-voices';
+    overlay.hidden = true;
+
+    const bar = document.createElement('div');
+    bar.className = 'debug-voices__bar';
+    const heading = document.createElement('strong');
+    heading.textContent = 'Character voices: click one to loop it';
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    bar.append(heading, closeButton);
+    overlay.appendChild(bar);
+
+    const themeTitles = {};
+    themes.forEach(function(theme) { themeTitles[theme.main.split('/')[1]] = theme.title; });
+    const sectionTitle = function(table) {
+      if (table === 'player') return 'Player characters';
+      if (table === 'cutscene') return 'Cutscenes';
+      return themeTitles[table] || table;
+    };
+
+    let timer = null;
+    let activeTile = null;
+
+    function stop() {
+      clearInterval(timer);
+      timer = null;
+      Sound.stopVocalize();
+      if (activeTile) activeTile.classList.remove('debug-voices__tile--on');
+      activeTile = null;
+    }
+
+    function start(tile, table, key, sound) {
+      stop();
+      activeTile = tile;
+      tile.classList.add('debug-voices__tile--on');
+      Sound.preload([sound]);
+      const talk = function() { Sound.voice(table, key, 0, CHARACTER_LINE_MS); };
+      talk();
+      timer = setInterval(talk, CHARACTER_LINE_MS);
+    }
+
+    Object.keys(SOUND_CONFIG.characterVoices).forEach(function(table) {
+      if (table === 'debug') return;   // the clip set looper's own entries
+      const voices = SOUND_CONFIG.characterVoices[table];
+      const section = document.createElement('h3');
+      section.textContent = sectionTitle(table);
+      const grid = document.createElement('div');
+      grid.className = 'debug-voices__grid';
+      Object.keys(voices).forEach(function(key) {
+        const mapping = voices[key];
+        const sound = voiceSound(mapping);
+        const tile = document.createElement('button');
+        tile.className = 'debug-voices__tile';
+        tile.style.backgroundImage = 'url("' + voiceImage(table, key) + '")';
+        tile.title = sound;
+        const name = document.createElement('span');
+        name.className = 'debug-voices__name';
+        name.textContent = voiceName(mapping, key);
+        tile.appendChild(name);
+        tile.addEventListener('click', function() {
+          activeTile === tile ? stop() : start(tile, table, key, sound);
+        });
+        grid.appendChild(tile);
+      });
+      overlay.append(section, grid);
+    });
+
+    document.body.appendChild(overlay);
+
+    function close() {
+      stop();
+      overlay.hidden = true;
+    }
+
+    const openButton = document.createElement('button');
+    openButton.textContent = 'Voices';
+    openButton.addEventListener('click', function() {
+      overlay.hidden ? (overlay.hidden = false) : close();
+    });
+    panel.appendChild(openButton);
+    closeButton.addEventListener('click', close);
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && !overlay.hidden) close();
+    });
   }
 
   // Voice clip sets (VOICE_CLIPS in js/sound-config.js), looped the way an in-game

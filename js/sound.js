@@ -6,10 +6,11 @@
 // Three separate "off" switches:
 //   - Teacher off (dashboard Audio setting): debriefStats.audio = 0 / ?audio=0.
 //     Sound is unavailable: nothing loads and the menu toggles are hidden.
-//   - Student Sound effects off (global menu toggle): debriefStats.mute = 1 / ?mute=1.
+//   - Student Sound effects off: debriefStats.mute = 1 / ?mute=1.
 //     Sound effects stay silent; they still load so turning them on is instant.
-//   - Student Music & ambience off (global menu toggle): debriefStats.muteMusic = 1 /
-//     ?muteMusic=1. The same, for every loop and the one-shots marked music: true.
+//   - Student Music & ambience off: debriefStats.muteMusic = 1 / ?muteMusic=1.
+//     The same, for every loop and the one-shots marked music: true.
+//   The global menu's single Audio toggle sets both student switches together.
 const Sound = (function () {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const FORMAT_TYPES = {

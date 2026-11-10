@@ -532,7 +532,10 @@
     width: 200vw;
     height: 200vh;
     background-color: rgba(var(--teal), 1);
-    z-index: 999;
+    /* Under .modal__blackout (999) and the popup (1000) in css/global.css. The START
+       bumper sits in .site-container (addStartBumper in js/splash-new.js), so the
+       menu button stays above it too. */
+    z-index: 998;
     transition: opacity 0.5s;
     top: 50%;
     left: 50%;
@@ -784,12 +787,11 @@
 }
 
 /* Enter the Undermurk's bumper (addStartBumper in js/splash-new.js): the same
-   bumper on blue, with the Undermurk logo. That logo is taller for its width, and
-   its box is 69vmin (the main logo's is 65vmin). The hang point is
-   the top left corner of its wooden plank, and START moves down to keep the same
+   bumper on off-black, with the Undermurk logo. That logo is taller for its width, and
+   its box is 69vmin (the main logo's is 65vmin). START moves down to keep the same
    gap below the sign's arrow. */
 .bumper-container--undermurk {
-    background-color: rgba(var(--blue), 1);
+    background-color: rgba(var(--off-black), 1);
 }
 
 .bumper-container--undermurk .bumper-logo {
@@ -798,8 +800,26 @@
     height: 69vmin;
 }
 
+/* The Undermurk logo doesn't hang: it pops up, then slams down off the screen. */
 .bumper-container--undermurk .bumper-logo--out {
-    transform-origin: 8% 25%;
+    transform-origin: 50% 50%;
+    animation: bumper-logo-pop-slam 350ms both;
+}
+
+/* Only transform animates. It eases up and swells a little, holds at the top for a
+   beat, then falls with a hard ease-in so it's at full speed as it leaves the frame. */
+@keyframes bumper-logo-pop-slam {
+    0% {
+        transform: translate(-50%, -50%) translateY(0) scale(1);
+        animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+    35%, 42% {
+        transform: translate(-50%, -50%) translateY(-10vh) scale(1.08);
+        animation-timing-function: cubic-bezier(0.6, 0, 1, 0.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(130vh) scale(1);
+    }
 }
 
 .bumper-container--undermurk .bumper-start {
@@ -880,7 +900,8 @@
         transition: opacity 200ms;
     }
 
-    .bumper-logo--out {
+    .bumper-logo--out,
+    .bumper-container--undermurk .bumper-logo--out {
         animation: none;
         opacity: 0;
         transition: opacity 200ms;

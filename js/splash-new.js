@@ -798,7 +798,12 @@ function addBumperStartButton(bumperContainer, onStart) {
 function addStartBumper(variantClass){
     const containerClasses = ['bumper-container', 'bumper-container--visible'];
     if (variantClass) containerClasses.push(variantClass);
-    let bumperContainer = createElement('div', containerClasses, document.body);
+    // Inside .site-container, just before the modal, so the global menu's blackout
+    // and popup cover it while the menu button (above .site-container) stays on top.
+    const siteContainerEl = document.querySelector('.site-container');
+    const modalSection = siteContainerEl && siteContainerEl.querySelector(':scope > .modal');
+    let bumperContainer = createElement('div', containerClasses, siteContainerEl || document.body);
+    if (modalSection) siteContainerEl.insertBefore(bumperContainer, modalSection);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
@@ -822,7 +827,7 @@ function addStartBumper(variantClass){
     addBumperStartButton(bumperContainer, function() {
       setTimeout(function() {
         bringOutBumperLogo();
-        typeof Sound !== 'undefined' && Sound.event('bumper.dangle');
+        typeof Sound !== 'undefined' && Sound.event(variantClass === 'bumper-container--undermurk' ? 'bumper.dangleUndermurk' : 'bumper.dangle');
       },BUMPER_START_FALL_DELAY_MS);
       setTimeout(hideBumperContainer,BUMPER_START_FALL_DELAY_MS + BUMPER_START_FADE_DELAY_MS);
     });

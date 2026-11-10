@@ -304,13 +304,6 @@ function umClearSfxTimeouts() {
   umSfxTimeoutIds = [];
 }
 
-// The player's own voice (SOUND_CONFIG.characterVoices.player), as First Up / Next Up names them.
-function umVoice(player, extraDelay) {
-  if (typeof Sound !== 'undefined' && player && player.asset) {
-    Sound.voice('player', player.asset, extraDelay);
-  }
-}
-
 function umStartLoop(key) {
   typeof Sound !== 'undefined' && Sound.startLoop(key);
 }
@@ -1802,10 +1795,7 @@ function umShowInterstitialPanel(heading, player, callback) {
 
   umEls.interstitialStart.addEventListener('click', onStart);
   umSlideInInterstitialPanel();
-  umSfx('undermurk.panelIn');
-  // The player's voice as the panel arrives: 200ms into its 300ms slide, on top of the
-  // voice's own delay.
-  umVoice(player, 200);
+  umSfx('undermurk.panelIn');  // no player voice here: Enter the Undermurk plays no voice clips
 }
 
 function umShowFirstUp(player, callback) {

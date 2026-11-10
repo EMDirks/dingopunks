@@ -123,7 +123,9 @@ button,input {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        z-index: 999;
+        /* Under .modal__blackout (999) and the popup (1000) in css/global.css, so
+           the global menu's dimming covers the outcome screen too. */
+        z-index: 998;
         position: absolute;
         background-color: rgba(var(--off-black),1);
         transition: opacity 1s;

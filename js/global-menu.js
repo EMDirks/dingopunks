@@ -146,7 +146,7 @@ function isUndermurkUnlocked() {
 
 // undermurk=0 means the teacher turned Bonus Missions off. During play there is
 // no slug yet, so the live debriefStats set at launch is checked too.
-function isUndermurkHidden() {
+function isUndermurkTeacherHidden() {
   if (typeof debriefStats !== 'undefined' && debriefStats.undermurk === 0) {
     return true;
   }
@@ -155,6 +155,23 @@ function isUndermurkHidden() {
   } catch (e) {
     return false;
   }
+}
+
+// hideUndermurk=1 means the student turned Enter the Undermurk off from the
+// Settings modal for the rest of this game (it rides like mute; see rememberGameSetting()).
+function isUndermurkStudentOff() {
+  if (typeof debriefStats !== 'undefined' && debriefStats.hideUndermurk === 1) {
+    return true;
+  }
+  try {
+    return new URLSearchParams(window.location.search).get('hideUndermurk') === '1';
+  } catch (e) {
+    return false;
+  }
+}
+
+function isUndermurkHidden() {
+  return isUndermurkTeacherHidden() || isUndermurkStudentOff();
 }
 
 function isIndexPage() {
@@ -227,15 +244,21 @@ function buildGlobalMenuHTML(state) {
   `;
 }
 
-// Students can mute sound effects and music & ambience separately for the current game
-// from the Settings modal, unless the teacher turned Audio off in the dashboard (Sound is
-// then unavailable and the Settings button isn't shown).
+// Students can turn audio off for the current game from the Settings modal (one Audio
+// toggle drives both Sound's sound effects and music channels), unless the teacher turned
+// Audio off in the dashboard (Sound is then unavailable and the row isn't shown).
 function isSoundSettingsAvailable() {
   return typeof Sound !== 'undefined' && Sound.isAvailable();
 }
 
+// The Enter the Undermurk row shows unless the teacher turned Bonus Missions off, and
+// not while playing it.
+function isUndermurkSettingAvailable() {
+  return !isUndermurkTeacherHidden() && !isEnterTheUndermurkPage();
+}
+
 function buildSettingsButtonHTML() {
-  if (!isSoundSettingsAvailable()) {
+  if (!isSoundSettingsAvailable() && !isUndermurkSettingAvailable()) {
     return '';
   }
   return buildGlobalMenuLinkHTML('settings', 'Settings', 'modal-icon-settings.png');
@@ -252,17 +275,25 @@ function buildGlobalMenuLinkHTML(key, label, icon) {
 }
 
 function buildSettingsHTML() {
+  const rows = [];
+  if (isSoundSettingsAvailable()) {
+    rows.push(buildSettingToggleHTML('audio', 'Audio', 'Play sound and music (requires Safari 18.4 or later).', !Sound.isMuted() && !Sound.isMusicMuted()));
+  }
+  if (isUndermurkSettingAvailable()) {
+    rows.push(buildSettingToggleHTML('undermurk', 'Bonus Missions', 'Show Enter the Undermurk, a fast-finisher minigame.', !isUndermurkStudentOff()));
+  }
   return `
     <div class="global-menu__sound-toggles">
-      ${buildSoundToggleHTML('sound', 'Sound effects', 'Voices, button clicks, and simple effects.', !Sound.isMuted())}
-      ${buildSoundToggleHTML('music', 'Music & ambience', 'Songs and other looping background sounds.', !Sound.isMusicMuted())}
+      ${rows.join('')}
     </div>
   `;
 }
 
-function buildSoundToggleHTML(channel, label, description, on) {
+const SETTINGS_TEACHER_FOOTER_HTML = 'Teachers: you can also manage these settings from your account.';
+
+function buildSettingToggleHTML(setting, label, description, on) {
   return `
-    <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-sound-channel="${channel}" data-sfx="none">
+    <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-setting="${setting}" data-sfx="none">
       <span class="global-menu__sound-toggle-text">
         <span class="global-menu__sound-toggle-label">${label}</span>
         <span class="global-menu__sound-toggle-description">${description}</span>
@@ -290,7 +321,7 @@ function buildInformationHTML() {
 // Closes the menu, then opens a modal from it (Settings or Information) once the
 // menu has finished closing, so it gets its own opening animation (same as
 // openGlobalMenu()).
-function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML) {
+function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML, modalOptions) {
   if (pendingGlobalMenuOpen) {
     return;
   }
@@ -298,13 +329,13 @@ function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML) {
     toggleModalVisibility();
     pendingGlobalMenuOpen = setTimeout(function() {
       pendingGlobalMenuOpen = null;
-      openModalFromGlobalMenu(title, buildHTML, buildFooterHTML);
+      openModalFromGlobalMenu(title, buildHTML, buildFooterHTML, modalOptions);
     }, MODAL_CLOSE_DURATION_MS);
     return;
   }
   // Back arrow before the title returns to the menu (like the membership Theme modal).
   const titleHTML = `<button type="button" class="modal__back global-menu__back" aria-label="Back to menu">←</button>${title}`;
-  createModal(titleHTML, buildHTML(), 'Close');
+  createModal(titleHTML, buildHTML(), 'Close', null, modalOptions);
   // createModal() clears the footer, so fill it in afterwards.
   const modalVersionEl = document.querySelector('.modal-version');
   if (modalVersionEl && buildFooterHTML) {
@@ -328,21 +359,25 @@ function buildVersionFooterHTML() {
       return;
     }
     if (e.target.closest('.global-menu__settings-button')) {
-      openModalFromGlobalMenu('Settings', buildSettingsHTML);
+      openModalFromGlobalMenu('Settings', buildSettingsHTML, null, {
+        teacherHelp: true,
+        teacherHelpHtml: SETTINGS_TEACHER_FOOTER_HTML,
+        teacherHelpStatic: true,
+      });
     } else if (e.target.closest('.global-menu__information-button')) {
       openModalFromGlobalMenu('Information', buildInformationHTML, buildVersionFooterHTML);
     }
   });
 })();
 
-// Muting lasts for the rest of this game: mute=1 (Sound effects) and muteMusic=1 (Music & ambience)
-// ride the debrief URL from the play page, and on the debrief and Undermurk pages
-// they're kept in the URL so the links between them carry them. A new game starts
-// with both on.
-function rememberSoundMuted(key, muted) {
+// Settings last for the rest of this game: mute=1 and muteMusic=1 (both set by Audio)
+// and hideUndermurk=1 (Enter the Undermurk) ride the debrief URL from the play page, and on the
+// debrief and Undermurk pages they're kept in the URL so the links between them carry them.
+// A new game starts with all of them on.
+function rememberGameSetting(key, off) {
   if (isDebriefPage() || isEnterTheUndermurkPage()) {
     const params = new URLSearchParams(window.location.search);
-    if (muted) {
+    if (off) {
       params.set(key, '1');
     } else {
       params.delete(key);
@@ -350,7 +385,7 @@ function rememberSoundMuted(key, muted) {
     const search = params.toString();
     history.replaceState(history.state, '', window.location.pathname + (search ? '?' + search : '') + window.location.hash);
   } else if (typeof debriefStats !== 'undefined') {
-    if (muted) {
+    if (off) {
       debriefStats[key] = 1;
     } else {
       delete debriefStats[key];
@@ -385,19 +420,39 @@ function rememberSoundMuted(key, muted) {
   });
 })();
 
-(function initGlobalMenuSoundToggle() {
+(function initGlobalMenuSettingToggles() {
   document.addEventListener('click', function(e) {
     const toggle = e.target.closest('.global-menu__sound-toggle');
-    if (!toggle || typeof Sound === 'undefined') {
+    if (!toggle) {
       return;
     }
-    const isMusic = toggle.getAttribute('data-sound-channel') === 'music';
-    const muted = isMusic ? Sound.setMusicMuted(!Sound.isMusicMuted()) : Sound.setMuted(!Sound.isMuted());
-    toggle.setAttribute('aria-checked', String(!muted));
-    toggle.querySelector('.global-menu__sound-toggle-state').textContent = muted ? 'OFF' : 'ON';
-    rememberSoundMuted(isMusic ? 'muteMusic' : 'mute', muted);
-    // Clicks either way, even with Sound effects off (ignoreMute in SOUND_CONFIG).
-    Sound.event('ui.toggle');
+    const setting = toggle.getAttribute('data-setting');
+    let off;
+    if (setting === 'undermurk') {
+      off = !isUndermurkStudentOff();
+      rememberGameSetting('hideUndermurk', off);
+      // The debrief may already be showing the Bonus Mission panel.
+      if (typeof window.updateDebriefUndermurkVisibility === 'function') {
+        window.updateDebriefUndermurkVisibility();
+      }
+    } else {
+      if (typeof Sound === 'undefined') {
+        return;
+      }
+      // Audio: shows ON only while both channels are on, so a press from a
+      // half-muted state (an older link) turns everything off.
+      off = toggle.getAttribute('aria-checked') === 'true';
+      Sound.setMuted(off);
+      Sound.setMusicMuted(off);
+      rememberGameSetting('mute', off);
+      rememberGameSetting('muteMusic', off);
+    }
+    toggle.setAttribute('aria-checked', String(!off));
+    toggle.querySelector('.global-menu__sound-toggle-state').textContent = off ? 'OFF' : 'ON';
+    // Clicks either way, even with Audio off (ignoreMute in SOUND_CONFIG).
+    if (typeof Sound !== 'undefined') {
+      Sound.event('ui.toggle');
+    }
   });
 })();
 

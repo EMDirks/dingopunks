@@ -6,82 +6,25 @@
 // Character voice clip sets. Each character's voice-* sound below picks one set
 // (src: VOICE_CLIPS.<set>), plays a clip from it at random and sets its own pitch.
 // Which character uses which sound is set in `characterVoices`. To add a set, drop its
-// files in a folder under sfx/ and list them here.
+// files in assets/audio/voice/<set>/ as <set>-1, <set>-2, … and list it here.
+const voiceSet = (name, count) => Array.from({ length: count }, (_, i) => `voice/${name}/${name}-${i + 1}`);
 const VOICE_CLIPS = {
-  dodrio: [   // the default mumbles
-    'sfx/554017__dodrio__dialogue_mumble_huh',
-    'sfx/554018__dodrio__dialogue_mumble_heh',
-    'sfx/554019__dodrio__dialogue_mumble_hah',
-    'sfx/554020__dodrio__dialogue_mumble_haeh',
-    'sfx/554023__dodrio__dialogue_mumble_huuh',
-  ],
-  woman: [
-    'sfx/voice-clips-woman/voice-clip-woman-1',
-    'sfx/voice-clips-woman/voice-clip-woman-2',
-    'sfx/voice-clips-woman/voice-clip-woman-3',
-    'sfx/voice-clips-woman/voice-clip-woman-4',
-    'sfx/voice-clips-woman/voice-clip-woman-5',
-  ],
-  man: [
-    'sfx/voice-clips-man/voice-clip-man-1',
-    'sfx/voice-clips-man/voice-clip-man-2',
-    'sfx/voice-clips-man/voice-clip-man-3',
-    'sfx/voice-clips-man/voice-clip-man-4',
-    'sfx/voice-clips-man/voice-clip-man-5',
-  ],
-  andro: [
-    'sfx/voice-clip-andro/voice-clip-andro-1',
-    'sfx/voice-clip-andro/voice-clip-andro-2',
-    'sfx/voice-clip-andro/voice-clip-andro-3',
-    'sfx/voice-clip-andro/voice-clip-andro-4',
-    'sfx/voice-clip-andro/voice-clip-andro-5',
-  ],
-  monster: [
-    'sfx/voice-clips-monster/voice-clip-monster-1',
-    'sfx/voice-clips-monster/voice-clip-monster-2',
-    'sfx/voice-clips-monster/voice-clip-monster-3',
-    'sfx/voice-clips-monster/voice-clip-monster-4',
-    'sfx/voice-clips-monster/voice-clip-monster-5',
-  ],
-  girl: [
-    'sfx/voice-clips-girl/voice-clip-girl-1',
-    'sfx/voice-clips-girl/voice-clip-girl-2',
-    'sfx/voice-clips-girl/voice-clip-girl-3',
-    'sfx/voice-clips-girl/voice-clip-girl-4',
-    'sfx/voice-clips-girl/voice-clip-girl-5',
-  ],
-  boy: [
-    'sfx/voice-clips-boy/voice-clip-boy-1',
-    'sfx/voice-clips-boy/voice-clip-boy-2',
-    'sfx/voice-clips-boy/voice-clip-boy-3',
-    'sfx/voice-clips-boy/voice-clip-boy-4',
-    'sfx/voice-clips-boy/voice-clip-boy-5',
-  ],
-  robot: [
-    'sfx/voice-clips-robot/voice-clip-robot-1',
-    'sfx/voice-clips-robot/voice-clip-robot-2',
-    'sfx/voice-clips-robot/voice-clip-robot-3',
-    'sfx/voice-clips-robot/voice-clip-robot-4',
-    'sfx/voice-clips-robot/voice-clip-robot-5',
-  ],
-  woof: [
-    'sfx/voice-clips-woof/voice-clip-woof-1',
-    'sfx/voice-clips-woof/voice-clip-woof-2',
-    'sfx/voice-clips-woof/voice-clip-woof-3',
-  ],
-  old: [
-    'sfx/voice-clips-old/voice-clips-old-1',
-    'sfx/voice-clips-old/voice-clips-old-2',
-    'sfx/voice-clips-old/voice-clips-old-3',
-    'sfx/voice-clips-old/voice-clips-old-4',
-    'sfx/voice-clips-old/voice-clips-old-5',
-  ],
+  mumble: ['huh', 'heh', 'hah', 'haeh', 'huuh'].map((m) => `voice/mumble/free-mumble-${m}`),   // the default mumbles
+  woman:   voiceSet('woman', 5),
+  man:     voiceSet('man', 5),
+  andro:   voiceSet('andro', 5),
+  monster: voiceSet('monster', 5),
+  girl:    voiceSet('girl', 5),
+  boy:     voiceSet('boy', 5),
+  robot:   voiceSet('robot', 5),
+  woof:    voiceSet('woof', 3),
+  old:     voiceSet('old', 5),
 };
 
 const SOUND_CONFIG = {
   enabled: true,                 // master switch for the whole site
   masterVolume: 1.5625,          // multiplies every sound and loop; 1 = the mix below as written
-  basePath: 'assets/audio/',     // src names start with their folder: sfx/ for one-shots, loop/ for looping music and ambience
+  basePath: 'assets/audio/',     // src names start with their folder: sfx/<ui|feedback|motion|cutscene>/ for one-shots, voice/ for character voices, music/ for songs, ambience/ for background loops
   formats: ['ogg'],              // later: ['m4a', 'ogg'] — the first one the browser can play wins
   vocalizeEveryMs: 100,           // default ms between clips for a vocalize: true voice; a sound's own vocalizeEveryMs overrides it
   vocalizeInGame: true,         // every in-game (activity scene) character voice vocalizes, as if it had vocalize: true; vocalize: false on a sound opts it out. Cutscene voices only vocalize with their own vocalize: true
@@ -101,92 +44,93 @@ const SOUND_CONFIG = {
   sounds: {
 
     // Use for toggled systems with an open/close state
-    open:    { src: ['sfx/switch1'],                    volume: 0.3 },
-    close:   { src: ['sfx/switch2'],                    volume: 0.225 },
+    open:    { src: ['sfx/ui/open'],                    volume: 0.3 },
+    close:   { src: ['sfx/ui/close'],                    volume: 0.225 },
 
     // Use for selecting an item with focus state
-    select:  { src: ['sfx/switch3'],                 volume: 0.2 },
+    select:  { src: ['sfx/ui/click'],                 volume: 0.2 },
 
-    click:   { src: ['sfx/switch3'],                     volume: 0.2 },
-    codeBox: { src: ['sfx/switch2'],                      volume: 0.2 },                 // tapping a game code box (splash) or a secret code box (in-game)
-    choice:  { src: ['sfx/switch9'],                     volume: 0.1 },                 // picking a multiple choice answer: the settings ON / OFF sound (toggle), but it respects mute
-    key:     { src: ['sfx/switch3'], volume: 0.2 },                // code keyboard
-    clickWood: { src: ['sfx/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
-    'clickWood-soft': { src: ['sfx/click-wood'],        volume: 0.075 },               // Undermurk player arrow: clickWood, 25% quieter
-    slapPaper: { src: ['sfx/card-slide-2'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
-    slapMetal: { src: ['sfx/match-wood-1'],        volume: 0.05 },                 // game timer landing
-    tab:     { src: ['sfx/switch12'],                   volume: 0.5 },                 // Undermurk setup tabs
-    toggle:  { src: ['sfx/switch9'],                    volume: 0.1, ignoreMute: true }, // global menu Sound effects and Music & ambience toggles; ignoreMute, so they click on and off
-    blip:    { src: ['sfx/click2'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['sfx/ken-blip-3'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text
-    'voice-JJDingo': { src: VOICE_CLIPS.dodrio, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
-    'voice-badguy': { src: VOICE_CLIPS.dodrio, volume: 0.6, pitch: [0.5,0.6] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    click:   { src: ['sfx/ui/click'],                     volume: 0.2 },
+    codeBox: { src: ['sfx/ui/close'],                      volume: 0.2 },                 // tapping a game code box (splash) or a secret code box (in-game)
+    codeBoxSoft: { src: ['sfx/ui/close'],                  volume: 0.15 },                // codeBox 25% softer: tapping a crossword or cryptogram cell (in-game)
+    choice:  { src: ['sfx/ui/toggle'],                     volume: 0.1 },                 // picking a multiple choice answer: the settings ON / OFF sound (toggle), but it respects mute
+    key:     { src: ['sfx/ui/click'], volume: 0.2 },                // code keyboard
+    clickWood: { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
+    'clickWood-soft': { src: ['sfx/ui/click-wood'],        volume: 0.075 },               // Undermurk player arrow: clickWood, 25% quieter
+    slapPaper: { src: ['sfx/motion/card-slide'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
+    slapMetal: { src: ['sfx/motion/match-wood-slam'],        volume: 0.05 },                 // game timer landing
+    tab:     { src: ['sfx/ui/tab'],                   volume: 0.5 },                 // Undermurk setup tabs
+    toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
+    blip:    { src: ['sfx/ui/blip'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
+    typewriter: { src: ['sfx/cutscene/ken-typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text
+    'voice-JJDingo': { src: VOICE_CLIPS.mumble, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.6, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
     // In-game (activity scene) voices from here to voice-lavender are at 0.375: 25% under the 0.5 the cutscene voices use.
     // Midnight Mall challenge characters (activity scene). Starting pitches, to tune by ear.
-    'voice-topsy':     { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [0.9, 1.1] },   // Terrible Topsy
+    'voice-topsy':     { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [0.8, 1.2] },   // Terrible Topsy
     'voice-robustus':  { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [0.9, 1.1] },  // Robustus the Great
-    'voice-shortnose': { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1], vocalize: true },  // Martin Shortnose
+    'voice-shortnose': { src: VOICE_CLIPS.man, volume: 0.375, pitch: [1.1, 1.2], vocalize: true },  // Martin Shortnose
     'voice-prisma':    { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.9, 1.1], vocalize: true},  // Prisma
     'voice-zeeb':      { src: VOICE_CLIPS.andro,  volume: 0.375, pitch: [0.9, 1.1] },  // Zeeb
     // Every other theme's challenge characters. Placeholder pitches, to tune by ear. A character in
     // more than one theme shares one voice.
-    'voice-basil-rabbit':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.9, 1.05] },  // Basil Rabbit
-    'voice-grumblegrub':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.6, 0.75] },  // Grumblegrub (Beehive Blitz, Cupid's Countdown)
-    'voice-queen-bella':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.1, 1.25] },  // Queen Bella
-    'voice-riff-wingman':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.95, 1.1] },  // Riff Wingman
-    'voice-sunny-snap':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Sunny Snap (Beehive Blitz, Rainbow Rescue)
-    'voice-chef-gumbo':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.7, 0.85] },  // Chef Gumbo
-    'voice-driftwood-dan':          { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.8, 0.95] },  // Driftwood Dan
-    'voice-fishbeard':              { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.65, 0.8] },  // Fishbeard (Camp Calamari, The Yeti and the Yam)
-    'voice-madame-mystica':         { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.0, 1.15] },  // Madame Mystica (Camp Calamari, Rainbow Rescue)
-    'voice-melodina':               { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.25, 1.4] },  // Melodina
-    'voice-broken-animatronic':     { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.55, 0.7] },  // Broken Animatronic
-    'voice-stefan-sage':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.85, 1.0] },  // Stefan Sage
-    'voice-tater-durant':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.9, 1.05] },  // Tater Durant
-    'voice-cornelius-rabbit':       { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.85, 1.0] },  // Cornelius Rabbit
-    'voice-eva':                    { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.15, 1.3] },  // Eva
-    'voice-shelly-sunny-and-yoko':  { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.3, 1.45] },  // Shelly, Sunny and Yoko
-    'voice-sir-eggbert':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.75, 0.9] },  // Sir Eggbert (Eggworld Emergency, Rainbow Rescue)
-    'voice-ziggy-voss':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.0, 1.15] },  // Ziggy Voss
-    'voice-final-bell-1':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.8, 0.95] },  // Final Bell Breakout character-1
-    'voice-final-bell-2':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.1, 1.25] },  // Final Bell Breakout character-2
-    'voice-final-bell-3':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.65, 0.8] },  // Final Bell Breakout character-3
-    'voice-final-bell-4':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Final Bell Breakout character-4
-    'voice-final-bell-5':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.95, 1.1] },  // Final Bell Breakout character-5
-    'voice-boiler-belle':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.05, 1.2] },  // Boiler Belle
-    'voice-count-visage':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.6, 0.75] },  // Count Visage
-    'voice-miss-tally':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.15, 1.3] },  // Miss Tally
-    'voice-pippo-fizzlepop':        { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.3, 1.45] },  // Pippo Fizzlepop (Funhouse Fright, The Yeti and the Yam)
-    'voice-plucky-the-clown':       { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Plucky the Clown
-    'voice-paradise-1':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.8, 0.95] },  // Paradise Panic character1
-    'voice-paradise-2':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.1, 1.25] },  // Paradise Panic character2
-    'voice-paradise-3':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.65, 0.8] },  // Paradise Panic character3
-    'voice-paradise-4':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Paradise Panic character4
-    'voice-paradise-5':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.95, 1.1] },  // Paradise Panic character5
-    'voice-banana-gunk-jr':         { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Banana Gunk Jr.
-    'voice-gribba':                 { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.7, 0.85] },  // Gribba
-    'voice-king-kevin':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.8, 0.95] },  // King Kevin
-    'voice-merriwig':               { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.05, 1.2] },  // Merriwig
-    'voice-twisted-tori':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.1, 1.25] },  // Twisted Tori
-    'voice-charm':                  { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.25, 1.4] },  // Charm
-    'voice-sparklepants':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.15, 1.3] },  // Sparklepants (Rainbow Rescue, Turkey Takedown)
-    'voice-candlewick':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.0, 1.15] },  // Candlewick
-    'voice-crispin-the-cider-sage': { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.75, 0.9] },  // Crispin the Cider Sage
-    'voice-hollow-jack':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.6, 0.75] },  // Hollow Jack
-    'voice-mabel-mallow':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.15, 1.3] },  // Mabel Mallow
-    'voice-the-gnomads':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.3, 1.45] },  // The Gnomads
-    'voice-dr-seraphina':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.05, 1.2] },  // Dr. Seraphina
-    'voice-tater-drift':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.9, 1.05] },  // Tater Drift
-    'voice-the-frozen-knight':      { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.6, 0.75] },  // The Frozen Knight
-    'voice-bix-gribble':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.2, 1.35] },  // Bix Gribble
-    'voice-ched-muckley':           { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.75, 0.9] },  // Ched Muckley
-    'voice-dale':                   { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.85, 1.0] },  // Dale
-    'voice-lady-thistledown':       { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.1, 1.25] },  // Lady Thistledown
-    'voice-mister-lump':            { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.65, 0.8] },  // Mister Lump
-    'voice-patchpaw':               { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.0, 1.15] },  // Patchpaw
-    'voice-seaweed-sally':          { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [1.15, 1.3] },  // Seaweed Sally
-    'voice-sir-bobble':             { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.85, 1.0] },  // Sir Bobble
-    'voice-yo-yeti':                { src: VOICE_CLIPS.dodrio, volume: 0.375, pitch: [0.6, 0.75] },  // Yo Yeti
+    'voice-basil-rabbit':           { src: VOICE_CLIPS.man, volume: 0.375, pitch: [1.2, 1.4] },  // Basil Rabbit
+    'voice-grumblegrub':            { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [0.9, 1] },  // Grumblegrub (Beehive Blitz, Cupid's Countdown)
+    'voice-queen-bella':            { src: VOICE_CLIPS.old, volume: 0.375, pitch: [1, 1.1] },  // Queen Bella
+    'voice-riff-wingman':           { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1] },  // Riff Wingman
+    'voice-sunny-snap':             { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [1, 1.2] },  // Sunny Snap (Beehive Blitz, Rainbow Rescue)
+    'voice-chef-gumbo':             { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [1.2, 1.4] },  // Chef Gumbo
+    'voice-driftwood-dan':          { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [1, 1.2] },  // Driftwood Dan
+    'voice-fishbeard':              { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [1, 1.2] },  // Fishbeard (Camp Calamari, The Yeti and the Yam)
+    'voice-madame-mystica':         { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.9, 1.2] },  // Madame Mystica (Camp Calamari, Rainbow Rescue)
+    'voice-melodina':               { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [1.3, 1.7] },  // Melodina
+    'voice-broken-animatronic':     { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [1.3, 1.7] },  // Broken Animatronic
+    'voice-stefan-sage':            { src: VOICE_CLIPS.old, volume: 0.375, pitch: [0.6, 0.9] },  // Stefan Sage
+    'voice-tater-durant':           { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1] },  // Tater Durant
+    'voice-cornelius-rabbit':       { src: VOICE_CLIPS.man, volume: 0.375, pitch: [1.2, 1.4] },  // Cornelius Rabbit
+    'voice-eva':                    { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [1.1, 1.3] },  // Eva
+    'voice-shelly-sunny-and-yoko':  { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [1.2, 1.7] },  // Shelly, Sunny and Yoko
+    'voice-sir-eggbert':            { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.8, 1] },  // Sir Eggbert (Eggworld Emergency, Rainbow Rescue)
+    'voice-ziggy-voss':             { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [1.0, 1.3] },  // Ziggy Voss
+    'voice-final-bell-1':           { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.9, 1.2] },  // Final Bell Breakout character-1
+    'voice-final-bell-2':           { src: VOICE_CLIPS.boy, volume: 0.375, pitch: [0.8, 1.2] },  // Final Bell Breakout character-2
+    'voice-final-bell-3':           { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [0.9, 1.1] },  // Final Bell Breakout character-3
+    'voice-final-bell-4':           { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [1.3, 1.5] },  // Final Bell Breakout character-4
+    'voice-final-bell-5':           { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [1.8, 2] },  // Final Bell Breakout character-5
+    'voice-boiler-belle':           { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.8, 1] },  // Boiler Belle
+    'voice-count-visage':           { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.8, 1] },  // Count Visage
+    'voice-miss-tally':             { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [1, 1.3] },  // Miss Tally
+    'voice-pippo-fizzlepop':        { src: VOICE_CLIPS.boy, volume: 0.375, pitch: [0.8, 1.2] },  // Pippo Fizzlepop (Funhouse Fright, The Yeti and the Yam)
+    'voice-plucky-the-clown':       { src: VOICE_CLIPS.old, volume: 0.375, pitch: [0.9, 1.1] },  // Plucky the Clown
+    'voice-paradise-1':             { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [1, 1.3] },  // Paradise Panic character1
+    'voice-paradise-2':             { src: VOICE_CLIPS.old, volume: 0.375, pitch: [0.8, 1] },  // Paradise Panic character2
+    'voice-paradise-3':             { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.9, 1.1] },  // Paradise Panic character3
+    'voice-paradise-4':             { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1] },  // Paradise Panic character4
+    'voice-paradise-5':             { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [1.1, 1.3] },  // Paradise Panic character5
+    'voice-banana-gunk-jr':         { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [0.8, 1] },  // Banana Gunk Jr.
+    'voice-gribba':                 { src: VOICE_CLIPS.old, volume: 0.375, pitch: [1, 1.2] },  // Gribba
+    'voice-king-kevin':             { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [1.8, 2] },  // King Kevin
+    'voice-merriwig':               { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [0.9, 1.1] },  // Merriwig
+    'voice-twisted-tori':           { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.9, 1.1] },  // Twisted Tori
+    'voice-charm':                  { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [0.8, 1.2] },  // Charm
+    'voice-sparklepants':           { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [1.2, 1.4] },  // Sparklepants (Rainbow Rescue, Turkey Takedown)
+    'voice-candlewick':             { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.7, 0.9] },  // Candlewick
+    'voice-crispin-the-cider-sage': { src: VOICE_CLIPS.old, volume: 0.375, pitch: [0.6, 0.9] },  // Crispin the Cider Sage
+    'voice-hollow-jack':             { src: VOICE_CLIPS.robot, volume: 0.375, pitch: [0.8, 1.2] },  // Hollow Jack
+    'voice-mabel-mallow':           { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [1.3, 1.5] },  // Mabel Mallow
+    'voice-the-gnomads':            { src: VOICE_CLIPS.boy, volume: 0.375, pitch: [1, 1.4] },  // The Gnomads
+    'voice-dr-seraphina':           { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.8, 1.1] },  // Dr. Seraphina
+    'voice-tater-drift':            { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1] },  // Tater Drift
+    'voice-the-frozen-knight':      { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [0.7, 0.9] },  // The Frozen Knight
+    'voice-bix-gribble':            { src: VOICE_CLIPS.woman, volume: 0.375, pitch: [1.2, 1.4] },  // Bix Gribble
+    'voice-ched-muckley':           { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1] },  // Ched Muckley
+    'voice-dale':                   { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [0.7, 0.8] },  // Dale
+    'voice-lady-thistledown':       { src: VOICE_CLIPS.old, volume: 0.375, pitch: [1.1, 1.3] },  // Lady Thistledown
+    'voice-mister-lump':            { src: VOICE_CLIPS.boy, volume: 0.375, pitch: [0.6, 0.8] },  // Mister Lump
+    'voice-patchpaw':               { src: VOICE_CLIPS.andro, volume: 0.375, pitch: [1.0, 1.2] },  // Patchpaw
+    'voice-seaweed-sally':          { src: VOICE_CLIPS.girl, volume: 0.375, pitch: [0.9, 1.1] },  // Seaweed Sally
+    'voice-sir-bobble':             { src: VOICE_CLIPS.man, volume: 0.375, pitch: [0.9, 1.1] },  // Sir Bobble
+    'voice-yo-yeti':                { src: VOICE_CLIPS.monster, volume: 0.375, pitch: [0.9, 1.1] },  // Yo Yeti
     // The player-selected characters (characterVoices.player): one random clip when picked at
     // character select, and the vocalize engine for their replies in the activity scene.
     // Two pairs share a clip set, split by pitch (Mint/Hydrax, Antares/Lavender).
@@ -198,57 +142,56 @@ const SOUND_CONFIG = {
     'voice-winston':  { src: VOICE_CLIPS.monster,     volume: 0.375, pitch: [0.9, 1.1] },  // Winston
     'voice-hydrax':   { src: VOICE_CLIPS.andro,   volume: 0.375, pitch: [0.9, 1.1] },    // Hydrax
     'voice-lavender': { src: VOICE_CLIPS.woof,    volume: 0.375, pitch: [0.9, 1.1] },    // Lavender
-    whoosh:  { src: ['sfx/swing1'],                     volume: 0.3 },                 // splash swipe-out transitions
-    'whoosh-scene': { src: ['sfx/swing1'],              volume: 0.225 },               // activity scene character and player sliding in: whoosh, 25% quieter
-    'whoosh-cutscene': { src: ['sfx/ken-whoosh-1'],           volume: 0.15 },                // Midnight Mall intro character moves
-    'whoosh-badguy': { src: ['sfx/match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
-    chime:   { src: ['sfx/zap-chime.mp3'],           volume: 0.04 },                 // all characters selected
-    'background-creepy': { src: ['loop/background-creepy'], volume: 0.1 },                // Midnight Mall fail cutscene bad guy loop
-    'background-crickets': { src: ['loop/free-crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
+    whoosh:  { src: ['sfx/motion/whoosh'],                     volume: 0.3 },                 // splash swipe-out transitions
+    'whoosh-scene': { src: ['sfx/motion/whoosh'],              volume: 0.225 },               // activity scene character and player sliding in: whoosh, 25% quieter
+    clap:    { src: ['sfx/feedback/match-clap.wav'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy (a 4.9s wav), preloaded on the debrief only
+    'whoosh-cutscene': { src: ['sfx/motion/ken-whoosh'],           volume: 0.15 },                // Midnight Mall intro character moves
+    'whoosh-badguy': { src: ['sfx/motion/match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
+    chime:   { src: ['sfx/feedback/chime.mp3'],           volume: 0.04 },                 // all characters selected
+    'background-creepy': { src: ['ambience/creepy'], volume: 0.1 },                // Midnight Mall fail cutscene bad guy loop
+    'background-crickets': { src: ['ambience/free-crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
     // Each theme's own map view and outro ambient loop. lazy: these are big files, so each loads only when its loop starts.
-    'background-beehive-blitz':         { src: ['loop/beehive-blitz.wav'], volume: 0.4, lazy: true },
-    'background-camp-calamari':         { src: ['loop/camp-calamari.wav'], volume: 0.2, lazy: true },
-    'background-cupids-countdown':      { src: ['loop/cupids-countdown.wav'], volume: 0.4, lazy: true },
-    'background-eggworld-emergency':    { src: ['loop/eggworld-emergency.wav'], volume: 0.15, lazy: true },
-    'background-final-bell-breakout':   { src: ['loop/final-bell-breakout.wav'], volume: 0.3, lazy: true },
-    'background-funhouse-fright':       { src: ['loop/funhouse-fright.wav'], volume: 0.08, lazy: true },
-    'background-paradise-panic':        { src: ['loop/paradise-panic.wav'], volume: 0.1, lazy: true },
-    'background-pickles-playground':    { src: ['loop/pickles-playground.wav'], volume: 0.3, lazy: true },
-    'background-rainbow-rescue':        { src: ['loop/rainbow-rescue.mp3'], volume: 0.4, lazy: true },
-    'background-the-hasty-harvest':     { src: ['loop/the-hasty-harvest.wav'], volume: 0.3, lazy: true },
-    'background-the-yeti-and-the-yam':  { src: ['loop/the-yeti-and-the-yam'], volume: 0.25, lazy: true },
-    'background-turkey-takedown':       { src: ['loop/turkey-takedown.wav'], volume: 0.2, lazy: true },
-    'background-wacky-workshop':        { src: ['loop/wacky-workshop.mp3'], volume: 0.15, lazy: true },
-    dangle:  { src: ['sfx/match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
-    'whoosh-node': { src: ['sfx/match-call-2.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
-    dialogueOpen: { src: ['sfx/match-open'],           volume: 0.2 },                 // challenge character's dialogue box sliding in
-    tvOn:    { src: ['sfx/match-power-15'],               volume: 0.1 },                 // cutscene coming in
-    clickGlitch: { src: ['sfx/match-glitch-1.wav'],     volume: 0.1 },                 // SKIP INTRO
-    clickNext: { src: ['sfx/switch3'],       volume: 0.2 },                // cutscene Next, moving to the next scene
+    'background-beehive-blitz':         { src: ['ambience/beehive-blitz.wav'], volume: 0.4, lazy: true },
+    'background-camp-calamari':         { src: ['ambience/camp-calamari.wav'], volume: 0.2, lazy: true },
+    'background-cupids-countdown':      { src: ['ambience/cupids-countdown.wav'], volume: 0.4, lazy: true },
+    'background-eggworld-emergency':    { src: ['ambience/eggworld-emergency.wav'], volume: 0.15, lazy: true },
+    'background-final-bell-breakout':   { src: ['ambience/final-bell-breakout.wav'], volume: 0.3, lazy: true },
+    'background-funhouse-fright':       { src: ['ambience/funhouse-fright.wav'], volume: 0.08, lazy: true },
+    'background-paradise-panic':        { src: ['ambience/paradise-panic.wav'], volume: 0.1, lazy: true },
+    'background-pickles-playground':    { src: ['ambience/pickles-playground.wav'], volume: 0.3, lazy: true },
+    'background-rainbow-rescue':        { src: ['ambience/rainbow-rescue.mp3'], volume: 0.4, lazy: true },
+    'background-the-hasty-harvest':     { src: ['ambience/the-hasty-harvest.wav'], volume: 0.3, lazy: true },
+    'background-the-yeti-and-the-yam':  { src: ['ambience/the-yeti-and-the-yam'], volume: 0.25, lazy: true },
+    'background-turkey-takedown':       { src: ['ambience/turkey-takedown.wav'], volume: 0.12, lazy: true },
+    'background-wacky-workshop':        { src: ['ambience/wacky-workshop'], volume: 0.12, lazy: true },
+    dangle:  { src: ['sfx/motion/match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
+    'whoosh-node': { src: ['sfx/motion/match-whoosh.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
+    tvOn:    { src: ['sfx/cutscene/match-tv-on'],               volume: 0.1 },                 // cutscene coming in
+    clickGlitch: { src: ['sfx/cutscene/match-glitch.wav'],     volume: 0.1 },                 // SKIP INTRO
+    clickNext: { src: ['sfx/ui/click'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
-    'dingo-punks-end': { src: ['loop/dingo-punks-end'], volume: 0.2, lazy: true },   // song, played once on the debrief page (loops.debrief, once: true)
-    'dingo-punks-loop': { src: ['loop/dingo-punks-loop'], volume: 0.225, lazy: true },   // song, looping in every theme's intro from its first scene (was 0.3); lazy, so it loads when the loop starts
+    'dingo-punks-end': { src: ['music/dingo-punks-debrief'], volume: 0.2, lazy: true },   // song, played once on the debrief page (loops.debrief, once: true)
+    'dingo-punks-loop': { src: ['music/dingo-punks-intro'], volume: 0.225, lazy: true },   // song, looping in every theme's intro from its first scene (was 0.3); lazy, so it loads when the loop starts
 
-    hint:    { src: ['sfx/switch18'],                   volume: 0.5 },
-    lock:    { src: ['sfx/switch_005'],                    volume: 0.3 },                 // placeholder until a lock sound is added
-    correct: { src: ['sfx/coin'],                volume: 0.1 },
-    bell:    { src: ['sfx/match-bell.wav'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct); .wav until converted
+    lock:    { src: ['sfx/ui/locked'],                    volume: 0.3 },                 // placeholder until a lock sound is added
+    correct: { src: ['sfx/feedback/coin'],                volume: 0.1 },
+    bell:    { src: ['sfx/feedback/match-bell.wav'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct); .wav until converted
     // Debrief medals lighting up one by one as the score meter fills: the correct coin,
     // a step higher each time (fixed pitch, so the run always climbs the same way).
-    'medal-1': { src: ['sfx/coin'], volume: 0.1, pitch: [0.9, 0.9] },
-    'medal-2': { src: ['sfx/coin'], volume: 0.1, pitch: [1.01, 1.01] },
-    'medal-3': { src: ['sfx/coin'], volume: 0.1, pitch: [1.125, 1.125] },
-    'medal-4': { src: ['sfx/coin'], volume: 0.1, pitch: [1.2, 1.2] },
-    'medal-5': { src: ['sfx/coin'], volume: 0.1, pitch: [1.35, 1.35] },
-    rankChime: { src: ['sfx/zap-chime.mp3'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
-    'rankChime-soft': { src: ['sfx/zap-chime.mp3'], volume: 0.03 },          // Undermurk new level: rankChime at half volume
-    scoreTick: { src: ['sfx/click2'], volume: 0.06, pitch: [0.95, 1.05], maxVoices: 2 },  // debrief: the total score counting up
-    wrong:   { src: ['sfx/error_005'],                  volume: 0.45 },
+    'medal-1': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [0.9, 0.9] },
+    'medal-2': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.01, 1.01] },
+    'medal-3': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.125, 1.125] },
+    'medal-4': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.2, 1.2] },
+    'medal-5': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.35, 1.35] },
+    rankChime: { src: ['sfx/feedback/chime.mp3'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
+    'rankChime-soft': { src: ['sfx/feedback/chime.mp3'], volume: 0.03 },          // Undermurk new level: rankChime at half volume
+    scoreTick: { src: ['sfx/ui/blip'], volume: 0.06, pitch: [0.95, 1.05], maxVoices: 2 },  // debrief: the total score counting up
+    wrong:   { src: ['sfx/feedback/error'],                  volume: 0.45 },
 
     // Enter the Undermurk (js/enter-the-undermurk.js). Starting levels, to tune by ear.
-    'enter-the-undermurk-end':  { src: ['loop/enter-the-undermurk-end'], volume: 0.1, lazy: true },   // Undermurk end screen song (loops['undermurk-end']), at dingo-punks-end's level; lazy, preloaded on the Undermurk page
-    'enter-the-undermurk-loop': { src: ['loop/enter-the-undermurk-loop'], volume: 0.225, lazy: true },  // Undermurk intro song (loops['enter-the-undermurk-loop']), at dingo-punks-loop's level; lazy, preloaded on the Undermurk page
-    tick:    { src: ['sfx/click3'], volume: 0.15 },                                   // Undermurk: the question timer's last quarter, once a second
+    'enter-the-undermurk-end':  { src: ['music/undermurk-end'], volume: 0.1, lazy: true },   // Undermurk end screen song (loops['undermurk-end']), at dingo-punks-end's level; lazy, preloaded on the Undermurk page
+    'enter-the-undermurk-loop': { src: ['music/undermurk-intro'], volume: 0.15, lazy: true },  // Undermurk intro song (loops['enter-the-undermurk-loop']), at dingo-punks-loop's level; lazy, preloaded on the Undermurk page
+    tick:    { src: ['sfx/ui/tick'], volume: 0.15 },                                   // Undermurk: the question timer's last quarter, once a second
   },
 
   // Game events → sound name. null = silent on purpose. Unknown events are ignored.
@@ -261,6 +204,7 @@ const SOUND_CONFIG = {
     'ui.choice':         'choice',   // a multiple choice answer selected (not re-tapping the one already picked)
     'ui.key':            'key',
     'ui.input':          'codeBox',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
+    'ui.inputPuzzle':    'codeBoxSoft', // tapping a crossword or cryptogram cell (in-game)
     'ui.tab':            'tab',
     'ui.setting':        'select',   // escape room setup tabs
     'ui.character':      'select',   // choosing a character
@@ -272,6 +216,7 @@ const SOUND_CONFIG = {
     'splash.thumbnail':  { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
     'dialogue.letter':   'blip',     // activity scene dialogue
     'bumper.dangle':     { sound: 'dangle', delay: 200 },  // START pressed; 120 + the sound's 160ms clink lands just after the bottom of the logo's first swing (200ms)
+    'bumper.dangleUndermurk': { sound: 'dangle', delay: 50 },  // START pressed on Enter the Undermurk's bumper; 50ms into the logo's pop-and-slam
     'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
     'cutscene.start':    { sound: 'tvOn', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
     'cutscene.next':     'clickNext', // Next to the following scene
@@ -289,7 +234,7 @@ const SOUND_CONFIG = {
     'cutscene.moveBadguyFail': 'whoosh-badguy',  // the fail cutscene, no delay
     'scene.characterIn': { sound: 'whoosh-scene', delay: 50 },  // a challenge character sliding in from off screen (a 200ms slide)
     'scene.playerIn':    { sound: 'whoosh-scene', delay: 60 },  // the player's graphic sliding in (a 160ms slide)
-    'scene.open':        null,  // a challenge character's dialogue box sliding in: silent, the voice clip carries it (was { sound: 'dialogueOpen', delay: 50 })
+    'scene.open':        null,  // a challenge character's dialogue box sliding in: silent, the voice clip carries it
     'activity.nodeIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each challenge node's first slide-in
     'activity.nodeOut':  { sound: 'slapPaper', delay: 100 },  // each node sliding out after Finish: the slide-in sound, 100ms after the node starts moving
     'timer.in':          { sound: 'slapMetal', delay: 50 },  // peaks as the timer lands; 50 + the sound's 150ms peak = the 200ms slam
@@ -298,7 +243,7 @@ const SOUND_CONFIG = {
     'activity.close':    'close',
     'activity.openWhoosh':  { sound: 'whoosh-node', delay: 650 },  // node opened: just after the challenge modal starts scaling in (600ms after the tap)
     'activity.closeWhoosh': null,      // challenge modal closing back to the map; → 'whoosh' to turn on
-    'hint.open':         'click',    // the hint button: the standard button click (was 'hint')
+    'hint.open':         'click',    // the hint button: the standard button click
     'hint.close':        'close',
     'ui.locked':         'lock',     // tapping a locked item (menu cards, the score page's Undermurk card)
 
@@ -320,7 +265,7 @@ const SOUND_CONFIG = {
     // The debrief's scoring sequence: js/dpaam-debrief.js (the live debrief, UNDERMURK on), and the
     // older js/debrief.js updateDebrief (UNDERMURK off). None of these come from a tap, so
     // skipIfLocked keeps them from all playing late on the first tap if audio is still locked.
-    'debrief.outcomeOut': { sound: 'whoosh', delay: 90, keepClick: true },  // VICTORY / FAIL popping and shrinking away after VIEW SCORE (.image-outcome--leave, 320ms): lands as the shrink starts, 90ms in; keepClick keeps the button's own click
+    'debrief.outcomeOut': { sound: 'whoosh', delay: 240, keepClick: true },  // VICTORY / FAIL popping and shrinking away after VIEW SCORE (.image-outcome--leave, 320ms): 240ms in, 150ms after the shrink starts; keepClick keeps the button's own click
     'debrief.statIn':    { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // each stat card dropping in (a 0.3s slide): the node slide-in sound, 100ms in
     'debrief.tierIn':    { sound: 'slapMetal', delay: 50, skipIfLocked: true },   // each card's tier capsule (Oof … Perfect) stamping on (0.2s): a thud that peaks (150ms into the sound) as it lands
     'debrief.scoreIn':   { sound: 'slapPaper', delay: 100, skipIfLocked: true },  // the total score card dropping in
@@ -332,6 +277,7 @@ const SOUND_CONFIG = {
     'debrief.medal5':    { sound: 'medal-5', delay: 150, skipIfLocked: true },
     'debrief.rank':      { sound: 'rankChime', delay: 50, skipIfLocked: true },  // the rank (ROOKIE … BRAINWAVE) popping in once the count finishes (0.2s)
     'debrief.bonusIn':   { sound: 'whoosh-scene', skipIfLocked: true },  // the Bonus Mission panel sliding in, 1s after the rank
+    'debrief.rankClap':  { sound: 'clap', delay: 350, skipIfLocked: true },  // with debrief.rank: 300ms after the rank chime starts (chime at 50ms)
     'debrief.meterIn':   { sound: 'whoosh-scene', delay: 50, skipIfLocked: true }, // older debrief only: score meter and medal row sliding in
     // Enter the Undermurk (js/enter-the-undermurk.js). The setup, character select and intro
     // cutscene use the main game's events above; these are the minigame's own.
@@ -344,7 +290,7 @@ const SOUND_CONFIG = {
     'undermurk.indicatorIn': { sound: 'clickWood-soft', delay: 100 },   // the player indicator sliding in (300ms)
     'undermurk.indicatorMove': { sound: 'clickWood-soft', delay: 100 }, // the indicator sliding to the next player (0.35s)
     // Turns:
-    'undermurk.panelIn':     { sound: 'whoosh-scene', delay: 50 },   // First Up / Next Up sliding in (300ms); the player's voice (characterVoices.player) plays with it
+    'undermurk.panelIn':     { sound: 'whoosh-scene', delay: 50 },   // First Up / Next Up sliding in (300ms); no player voice in Enter the Undermurk
     'undermurk.start':       { sound: 'whoosh-node', delay: 350, keepClick: true },  // First Up / Next Up START, with its click: held 300ms like the activity scene's START, then the whoosh as the panel leaves
     'undermurk.questionIn':  { sound: 'click', delay: 30 },          // each question card sliding in (180ms): the standard click, not a whoosh
     'undermurk.bossIn':      null,                                   // a BOSS ROUND question sliding in: no extra sound, just questionIn like any other round
@@ -546,7 +492,7 @@ const SOUND_CONFIG = {
     'turkey-takedown':      'background-turkey-takedown',
     'wacky-workshop':       'background-wacky-workshop',
   },
-  loopFade: { outMs: 500, inMs: 1000 },
+  loopFade: { outMs: 2000, inMs: 1000 },
 
   // When sounds load. Keys are the handlePreloading() moments in js/global.js:
   // onPinInput, onSettings, onCharacterSelect, onCutsceneStart, onGameStart,
@@ -565,7 +511,7 @@ const SOUND_CONFIG = {
       'index.html':      { sounds: ['click', 'key', 'select', 'codeBox', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
       'answer-key.html': { sounds: ['click', 'key', 'select', 'codeBox', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'clickWood', 'slapPaper'], delay: 0 },
       'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'clickWood', 'slapPaper', 'dangle'], delay: 0 },
-      'debrief.html':    { sounds: '*', delay: 0 },
+      'debrief.html':    { sounds: '*', also: ['clap'], delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     // also: lazy sounds to load with '*' (the intro and end songs, so neither waits on its file)
@@ -581,7 +527,8 @@ const SOUND_CONFIG = {
   // every key clicks, including the last one before a correct/wrong code sound.
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
-    { match: '.access-input, .code-input, .machine-crossword-input, .machine-item-cryptogram-input', event: 'ui.input' }, // game code boxes (splash), secret code boxes, crossword and cryptogram cells (in-game) sound the same, on release
+    { match: '.machine-crossword-input, .machine-item-cryptogram-input', event: 'ui.inputPuzzle' }, // crossword and cryptogram cells (in-game): the code box sound, 25% softer, on release
+    { match: '.access-input, .code-input', event: 'ui.input' }, // game code boxes (splash) and secret code boxes (in-game), on release
     { match: '.cutscene-next-button',                 event: null }, // cutscene Next: its sounds come from cutscene.next / cutscene.nextLast
     { match: '.code-box-button',                      event: 'game.finish' }, // the map's Finish (launches the outro)
     { match: '.tab-button-player-count-, .tab-button-activity-count-, ' +
@@ -604,7 +551,7 @@ const SOUND_CONFIG = {
   ],
 
   // Intro cutscenes: instead of a sound per letter, each line plays cutscene.typewriterRun
-  // a set number of times in a row, `gapMs` apart (ken-blip-3 is 70ms, so at 60ms each blip overlaps the last by 10ms),
+  // a set number of times in a row, `gapMs` apart (ken-typewriter is 70ms, so at 60ms each blip overlaps the last by 10ms),
   // starting as the text appears. Lines with a character voice play the voice instead.
   // counts: per scene, first scene first ([7, 10] = 7 in scene 1, 10 in scene 2); scenes past the list use `count`.
   cutsceneTypewriter: { sections: ['intro', 'introNoLimit', 'undermurkIntro'], counts: [7, 10], count: 7, gapMs: 60 },

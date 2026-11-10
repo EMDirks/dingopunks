@@ -186,7 +186,7 @@ button, input[type="submit"], input[type="reset"] {
 	right: 12px;
 	font-size: 20px;
 	z-index: 998;
-	border: 2.5px solid rgba(var(--off-black), 1);
+	border: none;
 }
 
 .button-menu-global:hover {
@@ -461,7 +461,6 @@ button, input[type="submit"], input[type="reset"] {
 		top: 6px;
 		right: 6px;
 		font-size: 15px;
-		border: 2.5px solid rgba(var(--off-black), 1);
 	}
 
 	.modal__popup {

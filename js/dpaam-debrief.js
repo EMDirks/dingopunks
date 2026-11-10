@@ -41,8 +41,14 @@
 
   const dpaamContainer = document.querySelector('.dpaam-debrief-container');
   // The teacher turned Bonus Missions off: the panel is detached below and never
-  // revealed, so the score stays centered on its own.
-  const undermurkHidden = typeof isUndermurkHidden === 'function' && isUndermurkHidden();
+  // revealed, so the score stays centered on its own. The student's own Enter the
+  // Undermurk setting (global menu) can change while this page is open, so it's
+  // checked live in revealMinigame() / updateDebriefUndermurkVisibility() instead.
+  const undermurkHidden = typeof isUndermurkTeacherHidden === 'function' && isUndermurkTeacherHidden();
+  const isStudentUndermurkOff = function () {
+    return typeof isUndermurkStudentOff === 'function' && isUndermurkStudentOff();
+  };
+  let statsDisplayFinished = false;
   const minigamePanel = document.querySelector('.dpaam-debrief-minigame-panel');
   const minigameEl = undermurkHidden ? null : document.querySelector('.dpaam-debrief-minigame');
 
@@ -562,6 +568,7 @@
           setFinalMedal(earnedMedalCount);
           toggleClass(finalScoreRankGroup, 'dpaam-debrief-final-rank-group--hidden', 'dpaam-debrief-final-rank-group--visible');
           sfx('debrief.rank');
+          sfx('debrief.rankClap');
           finalMedalImg.classList.add('dpaam-debrief-final-medal--emphasis');
           finishStatsDisplay();
         }, finalScoreRevealAfterTickDelay);
@@ -570,7 +577,7 @@
   }
 
   function revealMinigame() {
-    if (undermurkHidden || !dpaamContainer || !minigamePanel || minigamePanel.parentNode) {
+    if (undermurkHidden || isStudentUndermurkOff() || !dpaamContainer || !minigamePanel || minigamePanel.parentNode) {
       return;
     }
 
@@ -588,8 +595,29 @@
   }
 
   function finishStatsDisplay() {
-    setTimeout(revealMinigame, minigameDelayAfterStats);
+    setTimeout(function () {
+      statsDisplayFinished = true;
+      revealMinigame();
+    }, minigameDelayAfterStats);
   }
+
+  // Called from the global menu's Enter the Undermurk toggle: pull the panel and
+  // re-center the score, or bring it back in if the score has finished showing.
+  window.updateDebriefUndermurkVisibility = function () {
+    if (undermurkHidden || !dpaamContainer || !minigamePanel) {
+      return;
+    }
+    if (isStudentUndermurkOff()) {
+      if (minigamePanel.parentNode) {
+        minigamePanel.remove();
+        dpaamContainer.classList.add('dpaam-debrief-container--stats-centered');
+        if (typeof updateElementHeight === 'function') updateElementHeight();
+        if (typeof updateAbsoluteElements === 'function') updateAbsoluteElements();
+      }
+    } else if (statsDisplayFinished) {
+      revealMinigame();
+    }
+  };
 
   // Starts once VIEW SCORE is pressed on the outcome screen (js/debrief.js), so the
   // press has unlocked the page's sounds.

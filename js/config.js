@@ -17,12 +17,12 @@ const ALPHABET_KEYBOARD = true;
 
 // Shows a white animated Harper logo screen before the Dingo Punks bumper on the
 // play and free-play pages.
-const HARPER_BUMPER = false;
+const HARPER_BUMPER = true;
 
 // Shows the Dingo Punks logo bumper on the play and free-play pages, and its START
 // button on the play page. false skips both and opens straight on the splash. The
 // answer key's bumper isn't affected.
-const DINGO_PUNKS_BUMPER = false;
+const DINGO_PUNKS_BUMPER = true;
 
 // Shows the same logo bumper, with its START button, on Enter the Undermurk, with
 // the Undermurk logo on blue. false opens straight on the Undermurk setup.
