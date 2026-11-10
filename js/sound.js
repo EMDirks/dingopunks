@@ -25,8 +25,10 @@ const Sound = (function () {
   let sfxBus = null;             // gain for sound effects, into master
   let musicBus = null;           // gain for music & ambience (loops, music: true), into master
   let unlocked = false;
-  let muted = new URLSearchParams(window.location.search).get('mute') === '1';
-  let musicMuted = new URLSearchParams(window.location.search).get('muteMusic') === '1';
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlAudioOff = urlParams.get('audio') === '0';
+  let muted = urlParams.get('mute') === '1';
+  let musicMuted = urlParams.get('muteMusic') === '1';
   let format;                    // undefined = not checked yet, null = nothing playable
   let lettersSinceBlip = 0;
   let lastBlipAt = 0;
@@ -63,21 +65,15 @@ const Sound = (function () {
     };
   }
 
-  // A game's resource script may define localSoundConfig to add or override
-  // sounds, events and preload moments for that game only.
   function config() {
-    if (typeof SOUND_CONFIG === 'undefined' || !SOUND_CONFIG) return null;
-    if (typeof localSoundConfig === 'undefined' || !localSoundConfig) return SOUND_CONFIG;
-    return Object.assign({}, SOUND_CONFIG, {
-      sounds: Object.assign({}, SOUND_CONFIG.sounds, localSoundConfig.sounds),
-      events: Object.assign({}, SOUND_CONFIG.events, localSoundConfig.events),
-      preload: Object.assign({}, SOUND_CONFIG.preload, localSoundConfig.preload),
-    });
+    return typeof SOUND_CONFIG !== 'undefined' && SOUND_CONFIG ? SOUND_CONFIG : null;
   }
 
+  // The URL flag can't change while the page is open; debriefStats.audio is set by a
+  // share code after load, so it's checked live.
   function teacherTurnedOff() {
-    if (typeof debriefStats !== 'undefined' && String(debriefStats.audio) === '0') return true;
-    return new URLSearchParams(window.location.search).get('audio') === '0';
+    if (urlAudioOff) return true;
+    return typeof debriefStats !== 'undefined' && String(debriefStats.audio) === '0';
   }
 
   // First format in SOUND_CONFIG.formats this browser can play, or null.
@@ -372,11 +368,19 @@ const Sound = (function () {
     return true;
   }
 
+  // An event name that isn't a key in SOUND_CONFIG.events is a typo in game code: warn once.
+  // A null mapping is silent on purpose and isn't warned about.
+  function knownEvent(cfg, eventName) {
+    if (Object.prototype.hasOwnProperty.call(cfg.events, eventName)) return true;
+    logOnce('unknown event "' + eventName + '"');
+    return false;
+  }
+
   // Plays a game event from SOUND_CONFIG.events. detail: the letter, for the typewriter
   // events; or { progress } (0 to 1) for an event with a pitchRamp, like a score counting up.
   function event(eventName, detail) {
     const cfg = config();
-    if (!cfg || !cfg.events) return;
+    if (!cfg || !cfg.events || !knownEvent(cfg, eventName)) return;
     const isLetter = eventName === 'dialogue.letter' || eventName === 'cutscene.letter';
     fireMapping(cfg, cfg.events[eventName], isLetter, detail);
   }
@@ -436,7 +440,8 @@ const Sound = (function () {
   // stacked blips together and dropped the ones past maxVoices.
   function eventRun(eventName, count, gapMs) {
     const cfg = config();
-    const mapping = cfg && cfg.events && cfg.events[eventName];
+    if (!cfg || !cfg.events || !knownEvent(cfg, eventName)) return;
+    const mapping = cfg.events[eventName];
     const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
     if (typeof name !== 'string' || isSilenced(cfg.sounds && cfg.sounds[name])) return;
     for (let i = 0; i < count; i++) play(name, (i * gapMs) / 1000);

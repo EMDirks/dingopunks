@@ -25,6 +25,12 @@ const VOICE_CLIPS = {
 // mapLoops), fading 300ms in and 1s out.
 const ambience = (file, volume) => ({ src: ['ambience/' + file], volume, lazy: true, loop: { fadeInMs: 300, fadeOutMs: 1000 } });
 
+// Everything the debrief page plays (js/debrief.js, js/dpaam-debrief.js and the global menu),
+// loaded there instead of '*'. clap and the song are lazy, so naming them here is what loads them.
+const DEBRIEF_SOUNDS = ['click', 'open', 'close', 'lock', 'toggle', 'click-wood', 'whoosh', 'whoosh-scene',
+  'slap-paper', 'slap-metal', 'score-tick', 'medal-1', 'medal-2', 'medal-3', 'medal-4', 'medal-5',
+  'rank-chime', 'clap', 'music-dingo-punks-debrief'];
+
 const SOUND_CONFIG = {
   enabled: true,                 // master switch for the whole site
   masterVolume: 1.5625,          // multiplies every sound and loop; 1 = the mix below as written
@@ -491,7 +497,7 @@ const SOUND_CONFIG = {
       'index.html':      { sounds: ['click', 'key', 'select', 'code-box', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'click-wood', 'slap-paper', 'dangle'], delay: 0 },
       'answer-key.html': { sounds: ['click', 'key', 'select', 'code-box', 'open', 'close', 'lock', 'correct', 'wrong', 'whoosh', 'click-wood', 'slap-paper'], delay: 0 },
       'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'click-wood', 'slap-paper', 'dangle'], delay: 0 },
-      'debrief.html':    { sounds: '*', also: ['clap'], delay: 0 },
+      'debrief.html':    { sounds: DEBRIEF_SOUNDS, delay: 0 },
     },
     onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
     // also: lazy sounds to load with '*' (the intro and end songs, so neither waits on its file)

@@ -1894,6 +1894,11 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneSection;
   if (section === 'intro' || section === 'introNoLimit'){
     handlePreloading('onCutsceneStart');
+    // The theme's map loop is lazy (a big file); the intro gives it ~30s of cover to load.
+    if (typeof Sound !== 'undefined') {
+      const mapLoop = Sound.mapLoopFor(resourceTheme);
+      if (mapLoop) Sound.preload([mapLoop]);
+    }
     cutsceneSection = cutscene.intro
   }
   else {
