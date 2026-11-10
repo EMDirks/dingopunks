@@ -267,7 +267,11 @@ const Sound = (function () {
 
   // offsetSec: start that far ahead on the audio clock (exact spacing, unlike timers).
   // A scheduled sound skips the maxVoices check, since its run never overlaps itself.
-  function play(name, offsetSec) {
+  // rate: a pitch (playback rate) from an event's pitchRamp. The sound's own `pitch`
+  // range still varies it a little around that.
+  // Returns { source, duration } (duration: seconds of real time the clip plays for), or
+  // nothing when it didn't play.
+  function play(name, offsetSec, rate) {
     if (!isAvailable()) return;
     const decoded = buffers.get(name);
     if (!decoded) return;
@@ -282,9 +286,11 @@ const Sound = (function () {
 
     const source = ctx.createBufferSource();
     source.buffer = decoded[pickFileIndex(name, decoded.length)];
+    let playbackRate = rate > 0 ? rate : 1;
     if (Array.isArray(def.pitch)) {
-      source.playbackRate.value = def.pitch[0] + Math.random() * (def.pitch[1] - def.pitch[0]);
+      playbackRate *= def.pitch[0] + Math.random() * (def.pitch[1] - def.pitch[0]);
     }
+    if (playbackRate !== 1) source.playbackRate.value = playbackRate;
     const gain = ctx.createGain();
     gain.gain.value = typeof def.volume === 'number' ? def.volume : 1;
     source.connect(gain);
@@ -298,6 +304,7 @@ const Sound = (function () {
     };
     const startAt = offsetSec > 0 ? ctx.currentTime + offsetSec : ctx.currentTime;
     source.start(startAt);
+    let duration = source.buffer.duration / playbackRate;
     // fadeOutMs cuts a one-shot short: full volume for fadeOutAfterMs, then a fade to silence.
     if (def.fadeOutMs) {
       const fadeFrom = startAt + (def.fadeOutAfterMs || 0) / 1000;
@@ -305,7 +312,41 @@ const Sound = (function () {
       gain.gain.setValueAtTime(gain.gain.value, fadeFrom);
       gain.gain.linearRampToValueAtTime(0, fadeTo);
       source.stop(fadeTo);
+      duration = Math.min(duration, fadeTo - startAt);
     }
+    return { source: source, duration: duration };
+  }
+
+  // vocalize: true on a sound keeps it talking for a whole line of dialogue: a new random
+  // clip from its src every vocalizeEveryMs (the sound's own, else SOUND_CONFIG's), overlapping the ones still
+  // sounding, for durationMs. Scheduled on the audio clock so a busy page can't bunch them
+  // up. One character talks at a time: starting a vocalization (or stopVocalize) cuts off
+  // the one before.
+  let vocalSources = [];
+  // clips: play exactly this many, vocalizeEveryMs apart, however long the line (a
+  // characterVoices entry's clips); left out, clips keep coming until durationMs is up.
+  function vocalize(name, durationMs, delayMs, clips) {
+    stopVocalize();
+    const def = config().sounds[name] || {};
+    const everyMs = typeof def.vocalizeEveryMs === 'number' ? def.vocalizeEveryMs
+      : typeof config().vocalizeEveryMs === 'number' ? config().vocalizeEveryMs : 50;
+    const everySec = Math.max(10, everyMs) / 1000;
+    const startAt = Math.max(0, delayMs || 0) / 1000;
+    const endAt = startAt + durationMs / 1000;
+    const count = clips > 0 ? clips : Infinity;
+    for (let i = 0, at = startAt; i < count && (clips > 0 || at < endAt); i++, at += everySec) {
+      const played = play(name, at);
+      if (!played) break;
+      vocalSources.push(played.source);
+    }
+  }
+
+  function stopVocalize() {
+    const sources = vocalSources;
+    vocalSources = [];
+    sources.forEach(function (source) {
+      try { source.stop(); } catch (e) { /* already ended */ }
+    });
   }
 
   // The dialogue typewriter fires per letter; blip only every few letters.
@@ -321,7 +362,8 @@ const Sound = (function () {
     return true;
   }
 
-  // Plays a game event from SOUND_CONFIG.events.
+  // Plays a game event from SOUND_CONFIG.events. detail: the letter, for the typewriter
+  // events; or { progress } (0 to 1) for an event with a pitchRamp, like a score counting up.
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events) return;
@@ -335,7 +377,8 @@ const Sound = (function () {
   // after the wrong-code sound); delay plays the sound that many ms later, to
   // line it up with an animation; skipIfLocked stays quiet while the browser
   // still has audio locked (no tap yet); keepClick plays alongside the tap's
-  // click sound instead of replacing it.
+  // click sound instead of replacing it; pitchRamp: [from, to] pitches the sound
+  // from `from` at progress 0 up to `to` at progress 1 (detail.progress).
   // keepsClicks: true for sounds no tap causes (character voices), so they never
   // replace a tap's click sound.
   function fireMapping(cfg, mapping, isLetter, detail, keepsClicks) {
@@ -352,11 +395,30 @@ const Sound = (function () {
       pendingClick = null;
       if (!playingClick && !isLetter) lastGameSoundAt = performance.now();
     }
-    if (mapping.delay > 0) {
-      setTimeout(safe('event', function () { play(name); }), mapping.delay);
+    const def = cfg.sounds && cfg.sounds[name];
+    // In-game voices (every characterVoices table but cutscene) vocalize when SOUND_CONFIG
+    // says vocalizeInGame: true, unless the sound itself says vocalize: false.
+    const vocalizes = def && (def.vocalize === true
+      || (def.vocalize !== false && detail && detail.inGame && cfg.vocalizeInGame === true));
+    // An entry with clips vocalizes its count even when the line is done typing before the
+    // voice starts (a short player reply types in under the 300ms its box takes to open).
+    if (vocalizes && detail && (detail.durationMs > 0 || mapping.clips > 0)) {
+      vocalize(name, detail.durationMs, mapping.delay, mapping.clips);
       return;
     }
-    play(name);
+    const rate = rampedRate(mapping, detail);
+    if (mapping.delay > 0) {
+      setTimeout(safe('event', function () { play(name, undefined, rate); }), mapping.delay);
+      return;
+    }
+    play(name, undefined, rate);
+  }
+
+  function rampedRate(mapping, detail) {
+    const ramp = mapping && mapping.pitchRamp;
+    if (!Array.isArray(ramp) || !detail || typeof detail.progress !== 'number') return undefined;
+    const progress = Math.min(1, Math.max(0, detail.progress));
+    return ramp[0] + (ramp[1] - ramp[0]) * progress;
   }
 
   // Plays an event's sound `count` times, `gapMs` apart, scheduled on the audio clock.
@@ -374,7 +436,9 @@ const Sound = (function () {
   // delay) and returns true when the character has an entry, even a null one, so the caller
   // skips its letter blips. false = no entry: the caller keeps the blips.
   // extraDelay: ms added to the entry's own delay (the caller's animation timing).
-  function voice(theme, key, extraDelay) {
+  // durationMs: how long the line takes to type, for a sound with vocalize: true (left
+  // out, a vocalize sound plays once like any other voice).
+  function voice(theme, key, extraDelay, durationMs) {
     const cfg = config();
     const table = cfg && cfg.characterVoices && cfg.characterVoices[theme];
     if (!table || typeof key !== 'string' || !Object.prototype.hasOwnProperty.call(table, key)) return false;
@@ -384,7 +448,7 @@ const Sound = (function () {
         ? Object.assign({}, mapping, { delay: (mapping.delay || 0) + extraDelay })
         : { sound: mapping, delay: extraDelay };
     }
-    fireMapping(cfg, mapping, false, undefined, true);
+    fireMapping(cfg, mapping, false, typeof durationMs === 'number' ? { durationMs: durationMs, inGame: theme !== 'cutscene' } : undefined, true);
     return true;
   }
 
@@ -607,6 +671,7 @@ const Sound = (function () {
     event: safe('event', event),
     eventRun: safe('eventRun', eventRun),
     voice: safe('voice', voice),
+    stopVocalize: safe('stopVocalize', stopVocalize),
     setMuted: safe('setMuted', setMuted),
     isMuted: function () { return muted; },
     setMusicMuted: safe('setMusicMuted', setMusicMuted),

@@ -205,7 +205,7 @@ function drawScene(activityArrayIndex) {
                     setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
                   }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
-                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay) === true;
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay, text.length * typewriterDelay - voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
@@ -395,7 +395,7 @@ function drawScene(activityArrayIndex) {
                     setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
                   }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
-                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay) === true;
+                    voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay, text.length * typewriterDelay - voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);

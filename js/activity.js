@@ -780,6 +780,7 @@ function openActivityModal(i) {
 }
 function closeActivityModal(){
   typeof Sound !== 'undefined' && Sound.event('activity.closeWhoosh');
+  typeof Sound !== 'undefined' && Sound.stopVocalize();  // a character still talking stops with the modal
   fadeMapLoop(false);
   if (openState.hint === true){
     setTimeout(openHintModal,300,'closingActivity');

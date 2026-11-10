@@ -100,7 +100,7 @@ const undermurkVocab = {
     { word: 'wide', definition: 'having a lot of space from side to side', distractors: ['narrow', 'thin', 'tight', 'tiny', 'short'] },
     { word: 'crooked', definition: 'bent or not straight', distractors: ['straight', 'level', 'smooth', 'flat', 'even'] },
     { word: 'smooth', definition: 'even to the touch, without bumps', distractors: ['rough', 'bumpy', 'jagged', 'sharp', 'cracked'] },
-    { word: 'rough', definition: 'not smooth; covered with bumps or uneven places', distractors: ['smooth', 'silky', 'even', 'flat', 'soft'] },
+    { word: 'rough', definition: 'not smooth; covered with bumps', distractors: ['smooth', 'silky', 'even', 'flat', 'soft'] },
     { word: 'bright', definition: 'giving off a lot of light', distractors: ['dim', 'dark', 'dull', 'shadowy', 'faint'] },
     { word: 'dim', definition: 'not giving off much light', distractors: ['bright', 'shiny', 'glowing', 'sunny', 'clear'] },
     { word: 'lonely', definition: 'sad because you feel alone', distractors: ['cheerful', 'included', 'excited', 'proud', 'grateful'] },

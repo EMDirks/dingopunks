@@ -447,8 +447,8 @@
     }, { once: true });
   }
 
-  function sfx(eventName) {
-    typeof Sound !== 'undefined' && Sound.event(eventName);
+  function sfx(eventName, detail) {
+    typeof Sound !== 'undefined' && Sound.event(eventName, detail);
   }
 
   function setFinalMedal(index) {
@@ -475,16 +475,15 @@
     setFinalMedal(medalCountForScore(value));
   }
 
-  // The count-up ticks each time the number changes, at most once per scoreTickGapMs,
-  // so it rattles while the count is fast and slows to single ticks as it eases out.
+  // The count-up ticks on the frame the shown number changes, at most once per
+  // scoreTickGapMs, so it rattles while the count is fast and slows to single ticks
+  // as it eases out. A change inside the gap gets no tick rather than a late one, so
+  // a tick never plays on a frame where the number didn't change.
   const scoreTickGapMs = 70;
-  // Each tick fires this far ahead of the number it belongs to, so it lands on the
-  // number after audio output latency instead of ~50ms behind it.
-  const scoreTickLeadMs = 50;
 
   function animateFinalScore(element, target, duration, onValue, onComplete) {
     const startTime = performance.now();
-    let lastTickValue = 0;
+    let shownValue = 0;
     let lastTickAt = -Infinity;
 
     function easeOutQuart(progress) {
@@ -496,12 +495,13 @@
       const easedProgress = easeOutQuart(progress);
       const value = Math.round(easedProgress * target);
       element.textContent = String(value);
-      const upcomingProgress = Math.min((now + scoreTickLeadMs - startTime) / duration, 1);
-      const upcomingValue = Math.round(easeOutQuart(upcomingProgress) * target);
-      if (upcomingValue !== lastTickValue && now - lastTickAt >= scoreTickGapMs) {
-        lastTickAt = now;
-        lastTickValue = upcomingValue;
-        sfx('debrief.scoreTick');
+      if (value !== shownValue) {
+        shownValue = value;
+        if (now - lastTickAt >= scoreTickGapMs) {
+          lastTickAt = now;
+          // Climbs in pitch with the number (pitchRamp in SOUND_CONFIG).
+          sfx('debrief.scoreTick', { progress: value / target });
+        }
       }
 
       if (onValue) {
@@ -591,8 +591,9 @@
     setTimeout(revealMinigame, minigameDelayAfterStats);
   }
 
-  const debriefDelay = 3200;
-  setTimeout(bringInStats, debriefDelay);
+  // Starts once VIEW SCORE is pressed on the outcome screen (js/debrief.js), so the
+  // press has unlocked the page's sounds.
+  whenScoreViewed(bringInStats);
 
   // ---- help modal (same ? pattern as splash / index.html) ----
   const icon = q('#dpaam-icon-clickable--splash');

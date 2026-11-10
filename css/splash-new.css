@@ -776,57 +776,34 @@
 
 /* Lines up with .bumper-logo's center, under the bottom of its artwork. The middle
    value in top moves the logo and button together, as it does above, and the last
-   is the gap below the logo. The box-shadow is the button's 3D edge;
-   .bumper-start--visible:active moves the button down by the same amount to press it. */
+   is the gap below the logo. The button's look, states and pop-in are in
+   css/global.css, shared with the debrief's VIEW SCORE. */
 .bumper-start {
-    position: absolute;
     top: calc(48% - 5vh + 18vmin);
     left: 49%;
-    padding: 1.4vmin 5vmin 1.7vmin 5vmin;
-    background-color: rgba(var(--gold), 1);
-    color: rgba(var(--off-black), 1);
-    font-family: 'Primer Print Bold', cursive;
-    font-size: 4vmin;
-    border: 0.4vmin solid rgba(var(--off-black), 1);
-    border-radius: 1.2vmin;
-    box-shadow: 0 0.8vmin 0 rgba(var(--off-black), 1);
-    transition: transform 0.2s, opacity 0.1s;
 }
 
-/* Fills backwards only: filling forwards would hold the end transform over :active
-   and stop the button pressing down. */
-.bumper-start--visible {
-    transform: translate(-50%, 0) scale(1);
-    animation: bumper-start-pop 200ms backwards, bumper-logo-appear 50ms linear backwards;
-    opacity: 1;
+/* Enter the Undermurk's bumper (addStartBumper in js/splash-new.js): the same
+   bumper on blue, with the Undermurk logo. That logo is taller for its width, and
+   its box is 69vmin (the main logo's is 65vmin). The hang point is
+   the top left corner of its wooden plank, and START moves down to keep the same
+   gap below the sign's arrow. */
+.bumper-container--undermurk {
+    background-color: rgba(var(--blue), 1);
 }
 
-.bumper-start--visible:active {
-    box-shadow: 0 0 0 rgba(var(--off-black), 1);
-    transform: translate(-50%, 0.8vmin);
-    transition: none;
+.bumper-container--undermurk .bumper-logo {
+    background-image: url('../assets/enter-the-undermurk/logo/logo.png');
+    width: 69vmin;
+    height: 69vmin;
 }
 
-.bumper-start--hidden {
-    transform: translate(-50%, 0) scale(0.9);
-    opacity: 0;
-    pointer-events: none;
+.bumper-container--undermurk .bumper-logo--out {
+    transform-origin: 8% 25%;
 }
 
-/* Fades out exactly as it looks held down, so letting go doesn't pop it back up. */
-.bumper-start--pressed {
-    box-shadow: 0 0 0 rgba(var(--off-black), 1);
-    transform: translate(-50%, 0.8vmin);
-    transition: opacity 0.1s;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Off while pressed, so the color doesn't change again as it fades out. */
-@media (hover:hover) {
-    .bumper-start--visible:hover:not(:active) {
-        background-color: rgba(var(--off-white), 1);
-    }
+.bumper-container--undermurk .bumper-start {
+    top: calc(48% - 5vh + 25vmin);
 }
 
 .bumper-logo--hidden {
@@ -897,35 +874,7 @@
     }
 }
 
-/* Grows from nothing, overshoots its size, and settles. */
-@keyframes bumper-start-pop {
-    0% {
-        transform: translate(-50%, 0) scale(0);
-        animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1);
-    }
-    60% {
-        transform: translate(-50%, 0) scale(1.12);
-        animation-timing-function: ease-in-out;
-    }
-    100% {
-        transform: translate(-50%, 0) scale(1);
-    }
-}
-
-@keyframes bumper-logo-appear {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .bumper-start--visible {
-        animation: none;
-    }
-
     .bumper-logo--visible {
         animation: none;
         transition: opacity 200ms;

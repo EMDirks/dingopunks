@@ -108,7 +108,64 @@
     debriefButton.addEventListener('click', launchDebrief);
     panel.appendChild(debriefButton);
 
+    buildVoiceControls(panel);
+
     document.body.appendChild(panel);
+  }
+
+  // Voice clip sets (VOICE_CLIPS in js/sound-config.js), looped the way an in-game
+  // voice talks: a new random clip every vocalizeEveryMs, overlapping, at the in-game
+  // voice volume and pitch spread. Each set gets a debug-only sound and a 'debug'
+  // characterVoices entry, so playback runs through the real vocalize path.
+  const VOICE_CHUNK_MS = 2000;
+  let voiceTimer = null;
+
+  function buildVoiceControls(panel) {
+    if (typeof VOICE_CLIPS === 'undefined' || typeof Sound === 'undefined') return;
+    const sets = Object.keys(VOICE_CLIPS);
+    SOUND_CONFIG.characterVoices = SOUND_CONFIG.characterVoices || {};
+    const table = SOUND_CONFIG.characterVoices.debug = {};
+    sets.forEach(function(set) {
+      const name = 'debug-voice-' + set;
+      SOUND_CONFIG.sounds[name] = { src: VOICE_CLIPS[set], volume: 0.375, pitch: [0.9, 1.1], vocalize: true, lazy: true };
+      table[set] = name;
+    });
+
+    const voiceSelect = document.createElement('select');
+    voiceSelect.setAttribute('aria-label', 'Voice clips');
+    sets.forEach(function(set) { voiceSelect.add(new Option('Voice: ' + set, set)); });
+    panel.appendChild(voiceSelect);
+
+    const loopButton = document.createElement('button');
+    loopButton.textContent = 'Loop';
+    panel.appendChild(loopButton);
+
+    function stopVoiceLoop() {
+      clearInterval(voiceTimer);
+      voiceTimer = null;
+      Sound.stopVocalize();
+      loopButton.textContent = 'Loop';
+    }
+
+    function startVoiceLoop() {
+      stopVoiceLoop();
+      const set = voiceSelect.value;
+      Sound.preload([table[set]]);
+      const talk = function() { Sound.voice('debug', set, 0, VOICE_CHUNK_MS); };
+      talk();
+      voiceTimer = setInterval(talk, VOICE_CHUNK_MS);
+      loopButton.textContent = 'Stop';
+    }
+
+    loopButton.addEventListener('click', function() {
+      voiceTimer ? stopVoiceLoop() : startVoiceLoop();
+    });
+    // Switching sets while one loops moves straight to the new set.
+    voiceSelect.addEventListener('change', function() {
+      if (voiceTimer) startVoiceLoop();
+      else Sound.preload([table[voiceSelect.value]]);
+    });
+    Sound.preload([table[voiceSelect.value]]);
   }
 
   // A strong win: 2 players, every challenge done, no hints, 40 of 50 minutes left.

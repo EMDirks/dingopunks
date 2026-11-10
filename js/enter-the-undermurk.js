@@ -36,8 +36,17 @@ function umMaybeShowSetupNext() {
   }
 }
 
+// The bumper plays when the page opens and again after Play Again
+// (umReturnToSetup), not on any other redraw of the setup step.
+let umBumperShown = false;
+
 // Setup step: players, lives, and speed. Mirrors the main game's tab styling.
 function addUndermurkSetup() {
+  if (UNDERMURK_BUMPER && !umBumperShown && !splashReturnedBack) {
+    addStartBumper('bumper-container--undermurk');
+  }
+  umBumperShown = true;
+
   splashTitle.innerHTML = 'Set up your game.';
 
   settings.playerCount = null;
@@ -276,8 +285,9 @@ const umEls = {};
 
 let umSfxTimeoutIds = [];
 
-function umSfx(eventName) {
-  typeof Sound !== 'undefined' && Sound.event(eventName);
+// detail: passed on to Sound.event, e.g. { progress } for a pitchRamp.
+function umSfx(eventName, detail) {
+  typeof Sound !== 'undefined' && Sound.event(eventName, detail);
 }
 
 // For sounds lined up with an animation that starts later (the entrance's daisy chain).
@@ -369,7 +379,7 @@ const umEndOutcomeTiming = {
 // Staged results reveal timing (ms). Applied in umRevealEndResults().
 // Daisy chain: each step starts after the previous step finishes, plus its *Delay value.
 // A player's score finishes counting before the next player rises.
-// Order: subtitle → each player (rise, then count) → equals sign → team total (rise, then count) → Play Again.
+// Order: subtitle → each player (rise, then count) → equals sign → team total (rise, then count) → Play Again, with the team total popping.
 const umEndRevealTiming = {
   subtitleDelay: 200,     // extra wait after the results panel finishes fading in
   subtitleDuration: 300,  // how long the subtitle rise takes
@@ -385,6 +395,7 @@ const umEndRevealTiming = {
   teamTotalDuration: 300,
   actionsDelay: 200,      // extra wait after the team total finishes counting before Play Again
   actionsDuration: 300,
+  teamTotalPopDuration: 300, // the team total's pop, starting with Play Again; it stays popped up
 };
 
 // Final level. umTierNames and undermurkVocab must cover tiers 1..umMaxTier.
@@ -1287,7 +1298,7 @@ function umLevelsExploredLabel() {
 
 function umEndSubtitle(victory) {
   if (victory) {
-    return 'Victory! Your team defeated the Undermurk.';
+    return 'Your team explored the Undermurk.';
   }
 
   const tierName = umTierName(umTeamReachedTier());
@@ -1423,6 +1434,21 @@ function umStartEndRevealElement(element, startMs, durationMs) {
   element.style.animationDuration = durationMs + 'ms';
 }
 
+// The team total pops as Play Again comes in and stays a little bigger. Its rise-in is
+// long finished and ends where the pop starts, so the pop takes over its animation.
+function umPopEndTeamTotal() {
+  const element = umEls.endTeamTotal;
+  if (!element) {
+    return;
+  }
+
+  element.classList.remove('undermurk-end__reveal--in', 'undermurk-end__team-total--pop');
+  element.style.animationDelay = '';
+  element.style.animationDuration = umEndRevealTiming.teamTotalPopDuration + 'ms';
+  void element.offsetWidth;
+  element.classList.add('undermurk-end__team-total--pop');
+}
+
 function umSetEndScoreTarget(scoreEl, score) {
   if (!scoreEl) {
     return;
@@ -1459,7 +1485,8 @@ function umTickEndScore(scoreEl, done) {
   function advance() {
     current += 1;
     scoreEl.textContent = umFormatPoints(current);
-    umSfx('undermurk.scoreTick');
+    // Climbs in pitch from the first point to the last (pitchRamp in SOUND_CONFIG).
+    umSfx('undermurk.scoreTick', { progress: target > 1 ? (current - 1) / (target - 1) : 0 });
     if (current >= target) {
       finish();
       return;
@@ -1486,7 +1513,9 @@ function umRevealEndPlayers(targets, index) {
           umTickEndScore(umEls.endTeamScore, function () {
             umSfx('undermurk.teamTotal');
             umScheduleEndOutcomeTimeout(function () {
+              umPopEndTeamTotal();
               umStartEndRevealElement(targets.actions, 0, t.actionsDuration);
+              umSfx('undermurk.playAgainIn');
             }, t.actionsDelay);
           });
         }, t.teamTotalDuration);
@@ -2376,7 +2405,17 @@ function umReturnToSetup() {
   umClearSfxTimeouts();
   umResetOutcomeImage();
   umStopLoop('undermurk-end');
-  umSfx('undermurk.playAgain');
+
+  // Play Again opens on the bumper again, with the setup step drawn behind it. The
+  // setup's whoosh would play unseen under the bumper, so only the tap's click plays.
+  if (UNDERMURK_BUMPER) {
+    document.querySelectorAll('.bumper-container--undermurk').forEach(function (bumper) {
+      bumper.remove();
+    });
+    umBumperShown = false;
+  } else {
+    umSfx('undermurk.playAgain');
+  }
 
   if (umIndicatorEntranceTimeoutId) {
     clearTimeout(umIndicatorEntranceTimeoutId);

@@ -24,6 +24,10 @@ const HARPER_BUMPER = false;
 // answer key's bumper isn't affected.
 const DINGO_PUNKS_BUMPER = false;
 
+// Shows the same logo bumper, with its START button, on Enter the Undermurk, with
+// the Undermurk logo on blue. false opens straight on the Undermurk setup.
+const UNDERMURK_BUMPER = true;
+
 // Shows a back arrow (left of NEXT) on each splash step after the first. On the
 // "You're playing" step it reloads the page to an empty code entry.
 const SPLASH_BACK_BUTTON = false;

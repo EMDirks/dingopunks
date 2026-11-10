@@ -18,8 +18,11 @@ const publicFiles = [
   "preview.html",
 ];
 
-// Local testing panel; never published.
-const debugPanelScript = path.join(repoRoot, "js", "debug-panel.js");
+// Local testing panels; never published.
+const debugPanelScripts = new Set(
+  ["debug-panel.js", "undermurk-debug-panel.js"].map((file) => path.join(repoRoot, "js", file)),
+);
+const debugPanelPages = ["index.html", "enter-the-undermurk.html"];
 const debugPanelTag = /[ \t]*<!-- debug-panel:start[\s\S]*?<!-- debug-panel:end -->\r?\n/;
 
 await rm(outputDir, { recursive: true, force: true });
@@ -28,7 +31,7 @@ await mkdir(outputDir, { recursive: true });
 for (const directory of publicDirectories) {
   await cp(path.join(repoRoot, directory), path.join(outputDir, directory), {
     recursive: true,
-    filter: (source) => source !== debugPanelScript,
+    filter: (source) => !debugPanelScripts.has(source),
   });
 }
 
@@ -36,12 +39,14 @@ for (const file of publicFiles) {
   await cp(path.join(repoRoot, file), path.join(outputDir, file));
 }
 
-const indexPath = path.join(outputDir, "index.html");
-const indexHtml = (await readFile(indexPath, "utf8")).replace(debugPanelTag, "");
-if (indexHtml.includes("debug-panel")) {
-  throw new Error("index.html still references the debug panel after stripping it.");
+for (const page of debugPanelPages) {
+  const pagePath = path.join(outputDir, page);
+  const html = (await readFile(pagePath, "utf8")).replace(debugPanelTag, "");
+  if (html.includes("debug-panel")) {
+    throw new Error(`${page} still references a debug panel after stripping it.`);
+  }
+  await writeFile(pagePath, html);
 }
-await writeFile(indexPath, indexHtml);
 
 console.log(
   `Prepared Cloudflare Pages assets in ${outputDir} (${publicDirectories.length} directories, ${publicFiles.length} root files).`,

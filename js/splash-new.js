@@ -783,7 +783,8 @@ function addBumperStartButton(bumperContainer, onStart) {
     if (!awaitingBumperStart) return;
     awaitingBumperStart = false;
     toggleClass(startButton, 'bumper-start--visible', 'bumper-start--pressed');
-    activeInput__codeInput.focus({ preventScroll: true });
+    // Enter the Undermurk has no code box to focus.
+    if (activeInput__codeInput) activeInput__codeInput.focus({ preventScroll: true });
     // The dangle in onStart would otherwise replace the plain click (js/sound.js)
     typeof Sound !== 'undefined' && Sound.event('ui.click');
     onStart();
@@ -791,23 +792,13 @@ function addBumperStartButton(bumperContainer, onStart) {
   });
 }
 
-// game code
-function addAccess(){
-
-  if (splashReturnedBack){
-    // Coming back from the "You're playing" step: no bumper.
-  }
-  else if (gameMode !== "preview"){
-    if (DINGO_PUNKS_BUMPER) addBumper();
-    /*
-    addTheme();
-    */
-  }
-  else {
-    addPreviewBumper();
-  }
-  function addBumper(){
-    let bumperContainer = createElement('div', ['bumper-container', 'bumper-container--visible'], document.body);
+// The logo bumper that waits for START (or, on a direct link, plays straight
+// through). variantClass restyles it for another page, as
+// 'bumper-container--undermurk' does on Enter the Undermurk.
+function addStartBumper(variantClass){
+    const containerClasses = ['bumper-container', 'bumper-container--visible'];
+    if (variantClass) containerClasses.push(variantClass);
+    let bumperContainer = createElement('div', containerClasses, document.body);
     let bumperLogo = createElement('div', ['bumper-logo', 'bumper-logo--hidden'],bumperContainer);
     function hideBumperContainer(){
       toggleClass(bumperContainer,'bumper-container--visible','bumper-container--hidden');
@@ -835,6 +826,22 @@ function addAccess(){
       },BUMPER_START_FALL_DELAY_MS);
       setTimeout(hideBumperContainer,BUMPER_START_FALL_DELAY_MS + BUMPER_START_FADE_DELAY_MS);
     });
+}
+
+// game code
+function addAccess(){
+
+  if (splashReturnedBack){
+    // Coming back from the "You're playing" step: no bumper.
+  }
+  else if (gameMode !== "preview"){
+    if (DINGO_PUNKS_BUMPER) addStartBumper();
+    /*
+    addTheme();
+    */
+  }
+  else {
+    addPreviewBumper();
   }
   function addTheme(){
     const themeContainer = createElement('div', ['theme-container', 'theme-container--visible'], splash);
@@ -1661,23 +1668,82 @@ function addCharacter(){
     typeof Sound !== 'undefined' && Sound.event('character.allReady');
   }
 
+  function setChooseTitle(){
+    if (settings.wholeClass) {
+      splashTitle.innerHTML = '<span class="character-select-text-player">Teacher,</span> choose your character.';
+    } else {
+      splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
+    }
+  }
+
+  // RESET: shown left of START GAME once every character is picked; clears the roster so
+  // the players can pick again.
+  const resetButton = createElement('button', ['splash-button', 'splash-button--reset', 'splash-button--hidden'], splashContainer);
+  resetButton.textContent = 'Rechoose';
+  setIpadActiveState(resetButton);
+  let readyTimeouts = [];
+  // START GAME and RESET come in this long after the last pick (500ms after "All punks ready!")
+  const readyButtonsDelay = 700;
+
+  function showResetButton(){
+    // START GAME's width as a share of the container, so the gap holds when the splash resizes
+    const startShare = (splashButton.offsetWidth / splashContainer.offsetWidth) * 100;
+    resetButton.style.right = `${startShare + 1.5}%`;
+    toggleClass(resetButton, 'splash-button--hidden', 'splash-button--visible');
+  }
+
+  function hideReadyButtons(){
+    toggleClass(splashButton, 'splash-button--visible', 'splash-button--hidden');
+    toggleClass(resetButton, 'splash-button--visible', 'splash-button--hidden');
+  }
+
+  function resetCharacters(){
+    readyTimeouts.forEach(clearTimeout);
+    readyTimeouts = [];
+    hideReadyButtons();
+    playerCharacters = [];
+    playerNum = 1;
+    for (let i = 0; i < characterArray.length; i++) {
+      characterArray[i].selected = false;
+      const button = document.getElementById('character-select-button-' + i);
+      if (!button) continue;
+      button.classList.remove('character-select-button--disabled', 'character-select-button--translucent', 'character-select-button--selected');
+      button.classList.add('character-select-button--unselected', 'character-select-button--visible');
+      const image = button.querySelector('.character-select-button-image');
+      if (image) {
+        image.classList.remove('character-select-button-image--selected');
+        image.classList.add('character-select-button-image--unselected');
+      }
+    }
+    setChooseTitle();
+  }
+
+  resetButton.addEventListener('click', resetCharacters);
+  // START GAME takes RESET away with it
+  splashButton.addEventListener('click', function() {
+    toggleClass(resetButton, 'splash-button--visible', 'splash-button--hidden');
+  });
+
   function enterReadyState(){
     debriefStats.teamSize = playerNum;
-    setTimeout(lockCharacters,10);
-    setTimeout(fadeCharacters,100);
-    setTimeout(changeText,200);
+    readyTimeouts = [
+      setTimeout(lockCharacters,10),
+      setTimeout(fadeCharacters,100),
+      setTimeout(changeText,200),
+    ];
     if (isUndermurkPage){
       addUndermurkReadyButtons();
     }
     else {
       splashButton.textContent = 'Start Game';
-      setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
+      readyTimeouts.push(setTimeout(toggleClass,readyButtonsDelay,splashButton,'splash-button--hidden','splash-button--visible'));
     }
+    readyTimeouts.push(setTimeout(showResetButton,readyButtonsDelay));
   }
 
   function addUndermurkReadyButtons(){
     splashButton.textContent = 'Start Game';
-    setTimeout(toggleClass,200,splashButton,'splash-button--hidden','splash-button--visible');
+    readyTimeouts.push(setTimeout(toggleClass,readyButtonsDelay,splashButton,'splash-button--hidden','splash-button--visible'));
   }
 
   for (let i = 0; i < characterArray.length; i++) {
@@ -2034,6 +2100,14 @@ function addCutscene(cutsceneIndex,section){
   // Time left until the power-on panel starts fading, for afterReveal animations.
   const msUntilReveal = () => Math.max(0, cutsceneOpenedAt + cutsceneBootDelay - performance.now());
   setTimeout(() => drawScene(cutsceneIndex),initialTextDelay);
+  // SKIP INTRO fades in 1s after the cutscene opens, partway into the background
+  // settle (css/splash-new.css). Reduced motion has no power-on, so it shows right away.
+  if (cutsceneSkipText) {
+    const skipDelay = cutsceneBootDelay === 0 ? 0 : 1000;
+    setTimeout(() => {
+      toggleClass(cutsceneSkipText, 'cutscene-skip-text--hidden', 'cutscene-skip-text--visible');
+    }, Math.max(0, cutsceneOpenedAt + skipDelay - performance.now()));
+  }
   function drawScene(index){
 
     // get aliases
@@ -2349,7 +2423,8 @@ function addCutscene(cutsceneIndex,section){
       
         function continueFunction() {
           elementClass.style.visibility = "visible";
-          if (voiceKey !== undefined) { voiced = typeof Sound !== 'undefined' && Sound.voice('cutscene', voiceKey) === true; }
+          typeof Sound !== 'undefined' && Sound.stopVocalize();  // a vocalizing speaker stops when the next line starts
+          if (voiceKey !== undefined) { voiced = typeof Sound !== 'undefined' && Sound.voice('cutscene', voiceKey, 0, text.length * speed) === true; }
           // A cutscene file can tag a sprite or background image (some speakers are drawn
           // as one) with popOnSpeak: true to pop it as the line starts
           const popElement = sc_characterSprite?.popOnSpeak ? cutsceneCharacterSprite
@@ -2403,9 +2478,6 @@ function addCutscene(cutsceneIndex,section){
       animationsAfterText.forEach(play => play());
       toggleClass(cutsceneNextButton,'cutscene-next-button--hidden--out','cutscene-next-button--visible');
       toggleClass(cutsceneNextButton,'cutscene-next-button--hidden','cutscene-next-button--visible');
-      if (cutsceneIndex === 0){
-        toggleClass(cutsceneSkipText, 'cutscene-skip-text--hidden', 'cutscene-skip-text--visible');
-      }
     } 
 
   }

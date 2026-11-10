@@ -147,7 +147,10 @@ button,input {
             background-position: center;
             transition: transform 0.1s ease-in, opacity 0.1s ease-in;
             position: absolute;
-            top: 45%;
+            /* Raised to make room for VIEW SCORE below, as the code entry bumper's
+               logo is for START (css/splash-new.css). .debrief-view-score's top
+               starts from the same value, so they move together. */
+            top: calc(45% - 5vh);
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 3;
@@ -181,10 +184,62 @@ button,input {
             animation: 0.4s smash ease-out;
             animation-delay: 0.1s;
         }
+
+        /* VIEW SCORE pressed (js/debrief.js): a quick pop past its size, then it
+           shrinks away as it fades. Its whoosh is debrief.outcomeOut. */
+        .image-outcome--leave {
+            transform: translate(-50%, -50%) scale(0.4);
+            opacity: 0;
+            animation: outcome-leave 320ms both;
+        }
+
+        @keyframes outcome-leave {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+                animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1);
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(1.08);
+                opacity: 1;
+                animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.4);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .image-outcome--leave {
+                animation: none;
+                transition: opacity 200ms;
+            }
+        }
         
         .image-outcome--out {
             transform: translate(-50%, -50%) scale(2);
             opacity: 0;
+        }
+
+        /* VIEW SCORE, a .bumper-start (css/global.css). It sits beside the outcome
+           image, not inside it, so it doesn't smash with it. The image's square box
+           is 0.6 of .content-wrapper's width (min(100vw, 180vh)); the artwork is
+           1200x521 inside it, so its bottom edge is 0.1302 of that width below the
+           center. The first two values are .image-outcome's top; the last is the gap. It takes clicks though .page-wrapper
+           doesn't. */
+        .debrief-view-score {
+            top: calc(45% - 5vh + min(100vw, 180vh) * 0.1302 + 4.5vmin);
+            left: 50%;
+            z-index: 4;
+            pointer-events: auto;
+        }
+
+        /* FAIL's artwork ends at row 470 of its 1200x521 image, not at the bottom
+           as VICTORY's does, so its bottom edge is 0.1048 of the width below the
+           center ((470 - 260.5) / 1200 x 0.6). The gap is the same as VICTORY's. */
+        .debrief-view-score--fail {
+            top: calc(45% - 5vh + min(100vw, 180vh) * 0.1048 + 4.5vmin);
         }
 
 p {

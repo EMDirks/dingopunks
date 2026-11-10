@@ -62,9 +62,71 @@ if (UNDERMURK) {
   if (dpaamDebriefContainer) dpaamDebriefContainer.style.display = 'none';
 }
 
+// The outcome screen holds on VICTORY / FAIL until VIEW SCORE is pressed. The score
+// opens on a new page with no tap yet, so the browser keeps its sounds locked; the
+// press unlocks them before the scoring sequence starts.
+// Timing, counted from the outcome screen's start. The image comes in at 500ms and
+// settles by 1000ms (.image-outcome--in in css/debrief.css); VIEW SCORE pops in
+// just before, as START does on the code entry bumper.
+const OUTCOME_IMAGE_IN_MS = 500;
+const VIEW_SCORE_IN_MS = 900;
+// After the press: the pause before the outcome screen fades (1s, .page-wrapper),
+// then the wait from that fade's start to the first stat card.
+const VIEW_SCORE_FADE_DELAY_MS = 200;
+const SCORE_IN_AFTER_FADE_MS = 900;
+const VIEW_SCORE_REMOVE_MS = 200;
+
+let scoreViewed = false;
+const scoreViewedCallbacks = [];
+
+// Runs fn once VIEW SCORE has been pressed and the outcome screen is on its way out:
+// the scoring sequence (js/dpaam-debrief.js, or updateDebrief below) waits on it.
+function whenScoreViewed(fn){
+  if (scoreViewed) {
+    setTimeout(fn, SCORE_IN_AFTER_FADE_MS);
+  } else {
+    scoreViewedCallbacks.push(fn);
+  }
+}
+
+function addViewScoreButton(){
+  const viewScoreButton = document.createElement('button');
+  viewScoreButton.classList.add('bumper-start', 'bumper-start--hidden', 'debrief-view-score');
+  if (retrievedDebriefStats.outcome === 'fail') viewScoreButton.classList.add('debrief-view-score--fail');
+  viewScoreButton.textContent = 'VIEW SCORE';
+  viewScoreButton.setAttribute('ontouchstart', '');
+  pageWrapper.appendChild(viewScoreButton);
+
+  setTimeout(function(){
+    toggleClass(viewScoreButton, 'bumper-start--hidden', 'bumper-start--visible');
+    viewScoreButton.focus({ preventScroll: true });
+  }, VIEW_SCORE_IN_MS);
+
+  // Enter and Space click it natively; the press plays the standard click (js/sound.js).
+  viewScoreButton.addEventListener('click', function(){
+    if (scoreViewed) return;
+    scoreViewed = true;
+    toggleClass(viewScoreButton, 'bumper-start--visible', 'bumper-start--pressed');
+    viewScoreButton.blur();
+    // The debrief song starts from the press (after loops.debrief's delayMs), so
+    // it's never held back by the browser.
+    typeof Sound !== 'undefined' && Sound.startLoop('debrief');
+    setTimeout(function(){
+      // The badge pops and shrinks away (.image-outcome--leave) with a whoosh as the
+      // screen fades behind it.
+      toggleClass(imageOutcome,"image-outcome--in","image-outcome--leave");
+      typeof Sound !== 'undefined' && Sound.event('debrief.outcomeOut');
+      toggleClass(pageWrapper,"page-wrapper--visible","page-wrapper--hidden");
+      scoreViewedCallbacks.splice(0).forEach(function(fn){
+        setTimeout(fn, SCORE_IN_AFTER_FADE_MS);
+      });
+    }, VIEW_SCORE_FADE_DELAY_MS);
+    setTimeout(function(){ viewScoreButton.remove(); }, VIEW_SCORE_REMOVE_MS);
+  });
+}
+
 // Runs regardless of UNDERMURK — sets and animates the victory/fail image
 function initOutcomeImage(){
-  typeof Sound !== 'undefined' && Sound.startLoop('debrief');
   if (retrievedDebriefStats.outcome === 'fail'){
     imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/fail.png)";
   } else if (retrievedDebriefStats.outcome === 'victory'){
@@ -74,10 +136,8 @@ function initOutcomeImage(){
     updateElementHeight();
     updateAbsoluteElements();
     toggleClass(imageOutcome,"image-outcome--out","image-outcome--in");
-  }, 500);
-  setTimeout(function(){
-    toggleClass(pageWrapper,"page-wrapper--visible","page-wrapper--hidden");
-  }, 2300);
+  }, OUTCOME_IMAGE_IN_MS);
+  addViewScoreButton();
 }
 
 if (UNDERMURK) {
@@ -302,10 +362,11 @@ function updateDebrief(){
       toggleClass(buttonExit,"button__exit--hidden","button__exit--visible");
     }
 
-    let debriefDelay = 3200;
-    setTimeout(bringInStats,debriefDelay);
-    setTimeout(bringInScoreMeter,statElements.length * 300 + 100 + debriefDelay);
-    setTimeout(bringInExit, (statElements.length * 300) + 2500 + debriefDelay);
+    whenScoreViewed(function(){
+      bringInStats();
+      setTimeout(bringInScoreMeter,statElements.length * 300 + 100);
+      setTimeout(bringInExit, (statElements.length * 300) + 2500);
+    });
     /*
     setTimeout(bringInFooter, (statElements.length * 300) + 2000 + debriefDelay);
     */

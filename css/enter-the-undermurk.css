@@ -1148,6 +1148,28 @@ body {
     animation-fill-mode: both;
 }
 
+/* The team total's pop as Play Again comes in (umPopEndTeamTotal): overshoots, then
+   comes back down to rest a little bigger (fill-mode both holds it). */
+@keyframes undermurk-end-team-total-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.22);
+    }
+
+    100% {
+        transform: scale(1.12);
+    }
+}
+
+.undermurk-end__team-total--pop {
+    animation-name: undermurk-end-team-total-pop;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+    animation-fill-mode: both;
+}
+
 .undermurk-outcome {
     background-size: contain;
     background-repeat: no-repeat;
