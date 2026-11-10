@@ -200,7 +200,7 @@ const SOUND_CONFIG = {
   // for pages that never call handlePreloading (debrief.html), keyed by page.
   // sounds: '*' = everything in `sounds`, or a list of names. delay in ms.
   preload: {
-    onPinInput:      { sounds: '*', delay: 0 },   // first screen; all SFX together are ~100 KB
+    onPinInput:      { sounds: '*', delay: 0 },   // first screen
     onUndermurkPage: { sounds: '*', delay: 0 },
     onPageLoad:      { 'debrief.html': { sounds: '*', delay: 0 } },
     // later, music: onCutsceneStart: { music: ['theme'], delay: 500 },

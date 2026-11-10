@@ -155,18 +155,18 @@ const SOUND_CONFIG = {
     'voice-lavender': { src: VOICE_CLIPS.woof,    volume: 0.32, pitch: [0.9, 1.1] },    // Lavender
     whoosh:  { src: ['sfx/motion/whoosh'],                     volume: 0.3 },                 // splash swipe-out transitions
     'whoosh-scene': { src: ['sfx/motion/whoosh'],              volume: 0.225 },               // activity scene character and player sliding in: whoosh, 25% quieter
-    clap:    { src: ['sfx/feedback/clap.wav'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy (a 4.9s wav), preloaded on the debrief only
+    clap:    { src: ['sfx/feedback/clap'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy, preloaded on the debrief only
     'whoosh-cutscene': { src: ['sfx/motion/whoosh-soft'],           volume: 0.15 },                // Midnight Mall intro character moves
     'whoosh-badguy': { src: ['sfx/motion/crash'],        volume: 0.105 },                // bad guy slamming in/out of cutscenes
-    chime:   { src: ['sfx/feedback/chime.mp3'],           volume: 0.04 },                 // all characters selected
+    chime:   { src: ['sfx/feedback/chime'],           volume: 0.04 },                 // all characters selected
     dangle:  { src: ['sfx/motion/metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
-    'whoosh-node': { src: ['sfx/motion/whoosh-node.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
+    'whoosh-node': { src: ['sfx/motion/whoosh-node'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
     'tv-on':    { src: ['sfx/cutscene/tv-on'],               volume: 0.1 },                 // cutscene coming in
     'click-next': { src: ['sfx/ui/click'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
     lock:    { src: ['sfx/ui/locked'],                    volume: 0.3 },                 // placeholder until a lock sound is added
     correct: { src: ['sfx/feedback/coin'],                volume: 0.1 },
-    bell:    { src: ['sfx/feedback/bell.wav'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct); .wav until converted
+    bell:    { src: ['sfx/feedback/bell'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct)
     // Debrief medals lighting up one by one as the score meter fills: the correct coin,
     // a step higher each time (fixed pitch, so the run always climbs the same way).
     'medal-1': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [0.9, 0.9] },
@@ -174,8 +174,8 @@ const SOUND_CONFIG = {
     'medal-3': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.125, 1.125] },
     'medal-4': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.2, 1.2] },
     'medal-5': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [1.35, 1.35] },
-    'rank-chime': { src: ['sfx/feedback/chime.mp3'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
-    'rank-chime-soft': { src: ['sfx/feedback/chime.mp3'], volume: 0.03 },          // Undermurk new level: rank-chime at half volume
+    'rank-chime': { src: ['sfx/feedback/chime'], volume: 0.06 },                 // debrief: the rank popping up, the all-ready chime a little louder
+    'rank-chime-soft': { src: ['sfx/feedback/chime'], volume: 0.03 },          // Undermurk new level: rank-chime at half volume
     'score-tick': { src: ['sfx/ui/blip'], volume: 0.06, pitch: [0.95, 1.05], maxVoices: 2 },  // debrief: the total score counting up
     wrong:   { src: ['sfx/feedback/error'],                  volume: 0.45 },
 
@@ -196,18 +196,18 @@ const SOUND_CONFIG = {
     'ambience-creepy':           { src: ['ambience/creepy'],           volume: 0.1,   loop: { fadeInMs: 300, fadeOutMs: 500 } },  // the bad guys on screen in every fail cutscene; small, so not lazy
     // Each theme's map view and outro loop (mapLoops). The Enter the Undermurk minigame has none.
     'ambience-crickets':               ambience('crickets', 0.4),  // Escape the Midnight Mall
-    'ambience-beehive-blitz':          ambience('beehive-blitz.wav', 0.4),
-    'ambience-camp-calamari':          ambience('camp-calamari.wav', 0.2),
-    'ambience-cupids-countdown':       ambience('cupids-countdown.wav', 0.4),
-    'ambience-eggworld-emergency':     ambience('eggworld-emergency.wav', 0.15),
-    'ambience-final-bell-breakout':    ambience('final-bell-breakout.wav', 0.3),
-    'ambience-funhouse-fright':        ambience('funhouse-fright.wav', 0.08),
-    'ambience-paradise-panic':         ambience('paradise-panic.wav', 0.1),
-    'ambience-pickles-playground':     ambience('pickles-playground.wav', 0.3),
-    'ambience-rainbow-rescue':         ambience('rainbow-rescue.mp3', 0.4),
-    'ambience-the-hasty-harvest':      ambience('the-hasty-harvest.wav', 0.3),
+    'ambience-beehive-blitz':          ambience('beehive-blitz', 0.4),
+    'ambience-camp-calamari':          ambience('camp-calamari', 0.2),
+    'ambience-cupids-countdown':       ambience('cupids-countdown', 0.4),
+    'ambience-eggworld-emergency':     ambience('eggworld-emergency', 0.15),
+    'ambience-final-bell-breakout':    ambience('final-bell-breakout', 0.3),
+    'ambience-funhouse-fright':        ambience('funhouse-fright', 0.08),
+    'ambience-paradise-panic':         ambience('paradise-panic', 0.1),
+    'ambience-pickles-playground':     ambience('pickles-playground', 0.3),
+    'ambience-rainbow-rescue':         ambience('rainbow-rescue', 0.4),
+    'ambience-the-hasty-harvest':      ambience('the-hasty-harvest', 0.3),
     'ambience-the-yeti-and-the-yam':   ambience('the-yeti-and-the-yam', 0.25),
-    'ambience-turkey-takedown':        ambience('turkey-takedown.wav', 0.12),
+    'ambience-turkey-takedown':        ambience('turkey-takedown', 0.12),
     'ambience-wacky-workshop':         ambience('wacky-workshop', 0.12),
   },
 
@@ -500,7 +500,7 @@ const SOUND_CONFIG = {
       'free-play.html':  { sounds: ['click', 'open', 'close', 'lock', 'whoosh', 'click-wood', 'slap-paper', 'dangle'], delay: 0 },
       'debrief.html':    { sounds: DEBRIEF_SOUNDS, delay: 0 },
     },
-    onPinInput:      { sounds: '*', delay: 0 },   // code accepted; all SFX together are ~100 KB
+    onPinInput:      { sounds: '*', delay: 0 },   // code accepted
     // also: lazy sounds to load with '*' (the intro and end songs, so neither waits on its file)
     onUndermurkPage: { sounds: '*', also: ['music-undermurk-intro', 'music-undermurk-end'], delay: 0 },
   },
