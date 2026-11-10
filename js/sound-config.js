@@ -9,7 +9,7 @@
 // files in assets/audio/voice/<set>/ as <set>-1, <set>-2, … and list it here.
 const voiceSet = (name, count) => Array.from({ length: count }, (_, i) => `voice/${name}/${name}-${i + 1}`);
 const VOICE_CLIPS = {
-  mumble: ['huh', 'heh', 'hah', 'haeh', 'huuh'].map((m) => `voice/mumble/free-mumble-${m}`),   // the default mumbles
+  mumble:  voiceSet('mumble', 5),   // the default mumbles (J.J. Dingo, bad guys)
   woman:   voiceSet('woman', 5),
   man:     voiceSet('man', 5),
   andro:   voiceSet('andro', 5),
@@ -58,11 +58,11 @@ const SOUND_CONFIG = {
     clickWood: { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
     'clickWood-soft': { src: ['sfx/ui/click-wood'],        volume: 0.075 },               // Undermurk player arrow: clickWood, 25% quieter
     slapPaper: { src: ['sfx/motion/card-slide'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
-    slapMetal: { src: ['sfx/motion/match-wood-slam'],        volume: 0.05 },                 // game timer landing
+    slapMetal: { src: ['sfx/motion/wood-slam'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['sfx/ui/tab'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
     blip:    { src: ['sfx/ui/blip'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
-    typewriter: { src: ['sfx/cutscene/ken-typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text
+    typewriter: { src: ['sfx/cutscene/typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text
     'voice-JJDingo': { src: VOICE_CLIPS.mumble, volume: 0.5, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
     'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.6, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
     // In-game (activity scene) voices from here to voice-lavender are at 0.375: 25% under the 0.5 the cutscene voices use.
@@ -144,12 +144,12 @@ const SOUND_CONFIG = {
     'voice-lavender': { src: VOICE_CLIPS.woof,    volume: 0.375, pitch: [0.9, 1.1] },    // Lavender
     whoosh:  { src: ['sfx/motion/whoosh'],                     volume: 0.3 },                 // splash swipe-out transitions
     'whoosh-scene': { src: ['sfx/motion/whoosh'],              volume: 0.225 },               // activity scene character and player sliding in: whoosh, 25% quieter
-    clap:    { src: ['sfx/feedback/match-clap.wav'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy (a 4.9s wav), preloaded on the debrief only
-    'whoosh-cutscene': { src: ['sfx/motion/ken-whoosh'],           volume: 0.15 },                // Midnight Mall intro character moves
-    'whoosh-badguy': { src: ['sfx/motion/match-crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
+    clap:    { src: ['sfx/feedback/clap.wav'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy (a 4.9s wav), preloaded on the debrief only
+    'whoosh-cutscene': { src: ['sfx/motion/whoosh-soft'],           volume: 0.15 },                // Midnight Mall intro character moves
+    'whoosh-badguy': { src: ['sfx/motion/crash'],        volume: 0.07 },                 // Midnight Mall bad guy moves
     chime:   { src: ['sfx/feedback/chime.mp3'],           volume: 0.04 },                 // all characters selected
     'background-creepy': { src: ['ambience/creepy'], volume: 0.1 },                // Midnight Mall fail cutscene bad guy loop
-    'background-crickets': { src: ['ambience/free-crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
+    'background-crickets': { src: ['ambience/crickets'],   volume: 0.4 },                // Midnight Mall map view and outro loop
     // Each theme's own map view and outro ambient loop. lazy: these are big files, so each loads only when its loop starts.
     'background-beehive-blitz':         { src: ['ambience/beehive-blitz.wav'], volume: 0.4, lazy: true },
     'background-camp-calamari':         { src: ['ambience/camp-calamari.wav'], volume: 0.2, lazy: true },
@@ -164,10 +164,9 @@ const SOUND_CONFIG = {
     'background-the-yeti-and-the-yam':  { src: ['ambience/the-yeti-and-the-yam'], volume: 0.25, lazy: true },
     'background-turkey-takedown':       { src: ['ambience/turkey-takedown.wav'], volume: 0.12, lazy: true },
     'background-wacky-workshop':        { src: ['ambience/wacky-workshop'], volume: 0.12, lazy: true },
-    dangle:  { src: ['sfx/motion/match-metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
-    'whoosh-node': { src: ['sfx/motion/match-whoosh.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
-    tvOn:    { src: ['sfx/cutscene/match-tv-on'],               volume: 0.1 },                 // cutscene coming in
-    clickGlitch: { src: ['sfx/cutscene/match-glitch.wav'],     volume: 0.1 },                 // SKIP INTRO
+    dangle:  { src: ['sfx/motion/metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
+    'whoosh-node': { src: ['sfx/motion/whoosh-node.wav'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
+    tvOn:    { src: ['sfx/cutscene/tv-on'],               volume: 0.1 },                 // cutscene coming in
     clickNext: { src: ['sfx/ui/click'],       volume: 0.2 },                // cutscene Next, moving to the next scene
 
     'dingo-punks-end': { src: ['music/dingo-punks-debrief'], volume: 0.2, lazy: true },   // song, played once on the debrief page (loops.debrief, once: true)
@@ -175,7 +174,7 @@ const SOUND_CONFIG = {
 
     lock:    { src: ['sfx/ui/locked'],                    volume: 0.3 },                 // placeholder until a lock sound is added
     correct: { src: ['sfx/feedback/coin'],                volume: 0.1 },
-    bell:    { src: ['sfx/feedback/match-bell.wav'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct); .wav until converted
+    bell:    { src: ['sfx/feedback/bell.wav'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct); .wav until converted
     // Debrief medals lighting up one by one as the score meter fills: the correct coin,
     // a step higher each time (fixed pitch, so the run always climbs the same way).
     'medal-1': { src: ['sfx/feedback/coin'], volume: 0.1, pitch: [0.9, 0.9] },
@@ -551,7 +550,7 @@ const SOUND_CONFIG = {
   ],
 
   // Intro cutscenes: instead of a sound per letter, each line plays cutscene.typewriterRun
-  // a set number of times in a row, `gapMs` apart (ken-typewriter is 70ms, so at 60ms each blip overlaps the last by 10ms),
+  // a set number of times in a row, `gapMs` apart (the typewriter clip is 70ms, so at 60ms each blip overlaps the last by 10ms),
   // starting as the text appears. Lines with a character voice play the voice instead.
   // counts: per scene, first scene first ([7, 10] = 7 in scene 1, 10 in scene 2); scenes past the list use `count`.
   cutsceneTypewriter: { sections: ['intro', 'introNoLimit', 'undermurkIntro'], counts: [7, 10], count: 7, gapMs: 60 },
