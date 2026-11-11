@@ -71,12 +71,96 @@
 }
 
 /* Holds the background layers so the settle can't clash with their own
-   cutscene transforms. z-index keeps them under the character sprite. */
+   cutscene transforms. z-index keeps them under the character sprite.
+   The handheld camera: an uneven sway (translate, 8s) and a slight tilt
+   (rotate, 5.3s). The two loop on different lengths so the pattern doesn't
+   visibly repeat. They animate the individual properties, so they stack on
+   the settle's transform. Scaled up 2% so the sway and the tilt's corners
+   never show an edge. */
 .cutscene-background-stage {
     position: absolute;
     inset: 0;
     z-index: 3;
-    animation: cutscene-background-settle 1s cubic-bezier(0.22, 1, 0.36, 1) 0.69s backwards;
+    scale: 1.02;
+    animation:
+        cutscene-background-settle 1s cubic-bezier(0.22, 1, 0.36, 1) 0.69s backwards,
+        cutscene-handheld-sway 8s ease-in-out infinite,
+        cutscene-handheld-tilt 5.3s ease-in-out infinite;
+}
+
+@keyframes cutscene-handheld-sway {
+    0%, 100% { translate: 0 0; }
+    7% { translate: -0.25% 0.15%; }
+    13% { translate: -0.15% 0.3%; }
+    21% { translate: -0.45% 0.1%; }
+    28% { translate: -0.3% -0.2%; }
+    36% { translate: 0.05% -0.1%; }
+    42% { translate: 0.2% -0.35%; }
+    50% { translate: 0.45% -0.15%; }
+    57% { translate: 0.3% 0.1%; }
+    63% { translate: 0.5% 0.25%; }
+    71% { translate: 0.15% 0.35%; }
+    78% { translate: -0.1% 0.05%; }
+    86% { translate: -0.3% 0.2%; }
+    93% { translate: -0.1% -0.1%; }
+}
+
+@keyframes cutscene-handheld-tilt {
+    0%, 100% { rotate: 0deg; }
+    18% { rotate: -0.125deg; }
+    35% { rotate: 0.05deg; }
+    52% { rotate: 0.175deg; }
+    70% { rotate: -0.05deg; }
+    85% { rotate: -0.15deg; }
+}
+
+/* Parallax for the character sprite: the same sway, 2.2x as far, so the
+   nearer layer moves more, and the same tilt. Both stages are created in the
+   same frame (js/splash-new.js), so they stay in step.
+   Sprites that reach the bottom of the frame must never lift off it, so the
+   sway is shifted 1.1% down (its highest point stays 0.33% below the resting
+   spot, enough to cover the tilt's bottom corners), and it grows 3% from the
+   bottom edge to cover the side-to-side sway. z-index keeps it over the
+   backgrounds. */
+.cutscene-sprite-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    transform-origin: 50% 100%;
+    scale: 1.03;
+    animation:
+        cutscene-sprite-parallax 8s ease-in-out infinite,
+        cutscene-handheld-tilt 5.3s ease-in-out infinite;
+}
+
+/* The backgrounds hold still while a static image shows (STATIC_CUTSCENE_IMAGES
+   in js/splash-new.js). Only the sway and tilt pause; the settle still plays.
+   The sprite keeps moving, and js/splash-new.js snaps the backgrounds back in
+   step with it when the hold ends. The static image undoes the stage's 2% zoom
+   so it shows at its true size. */
+.cutscene-background-stage.cutscene-camera-held {
+    animation-play-state: running, paused, paused;
+}
+
+[data-cutscene-static] {
+    scale: calc(1 / 1.02);
+}
+
+@keyframes cutscene-sprite-parallax {
+    0%, 100% { translate: 0 1.1%; }
+    7% { translate: -0.55% 1.43%; }
+    13% { translate: -0.33% 1.76%; }
+    21% { translate: -0.99% 1.32%; }
+    28% { translate: -0.66% 0.66%; }
+    36% { translate: 0.11% 0.88%; }
+    42% { translate: 0.44% 0.33%; }
+    50% { translate: 0.99% 0.77%; }
+    57% { translate: 0.66% 1.32%; }
+    63% { translate: 1.1% 1.65%; }
+    71% { translate: 0.33% 1.87%; }
+    78% { translate: -0.22% 1.21%; }
+    86% { translate: -0.66% 1.54%; }
+    93% { translate: -0.22% 0.88%; }
 }
 
 @keyframes cutscene-background-settle {
@@ -97,8 +181,15 @@
         animation: none;
         opacity: 0;
     }
-    .cutscene-background-stage {
+    .cutscene-background-stage,
+    .cutscene-sprite-stage {
         animation: none;
+        scale: none;
+        translate: none;
+        rotate: none;
+    }
+    [data-cutscene-static] {
+        scale: none;
     }
 }
 

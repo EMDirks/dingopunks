@@ -214,12 +214,114 @@ function buildGlobalMenuHTML(state) {
 
   return `
     <div class="global-menu">
+      ${state !== 'unfinished' ? buildMyEscapeRoomHTML() : ''}
       <div class="global-menu__kids">
         <div class="global-menu__kids-links">${kidsLinks}</div>
       </div>
       <div class="global-menu__links">
         ${buildSettingsButtonHTML()}
         ${buildGlobalMenuLinkHTML('information', 'Information', 'modal-icon-information.png')}
+      </div>
+    </div>
+  `;
+}
+
+const TOPIC_LABEL_OVERRIDES = {
+  'authors-purpose': 'Author\'s Purpose',
+  'social-emotional-learning': 'SEL',
+};
+
+// games.js topic slug → label, e.g. mixed-reading-skills → Mixed Reading Skills
+// (same as formatLabel() in membership.js).
+function formatTopicLabel(topic) {
+  if (!topic) {
+    return '';
+  }
+  if (TOPIC_LABEL_OVERRIDES[topic]) {
+    return TOPIC_LABEL_OVERRIDES[topic];
+  }
+  return topic.split('-').filter(Boolean).map(function(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}
+
+function escapeMenuHTML(text) {
+  return String(text).replace(/[&<>"']/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+// My Escape Room, while playing: the game's theme, topic label and challenge count.
+// The number of challenges is picked in setup, after the menu starts showing the
+// section, so until then total is 0.
+function getPlayingRoomInfo() {
+  const info = typeof currentGameInfo !== 'undefined' ? currentGameInfo : null;
+  const title = (info && info.title) ||
+    (typeof resource !== 'undefined' && resource.info && resource.info.title) || '';
+  return {
+    title: title,
+    topic: formatTopicLabel(info && info.topic),
+    total: typeof settings !== 'undefined' ? Number(settings.activityCount) || 0 : 0,
+    completed: typeof debriefStats !== 'undefined' ? Number(debriefStats.activitiesCompleted) || 0 : 0,
+  };
+}
+
+// Adds the room to the stats that ride the debrief URL (and from there the Enter the
+// Undermurk URL), so the section still shows, unchanged, on pages that don't load the game.
+function addMyEscapeRoomToStats(stats) {
+  const room = getPlayingRoomInfo();
+  if (!room.title) {
+    return stats;
+  }
+  stats.roomTitle = room.title;
+  if (room.topic) stats.roomTopic = room.topic;
+  if (room.total) stats.roomTotal = room.total;
+  return stats;
+}
+
+// On the debrief and Undermurk pages: the room as the game left it, from the URL.
+function getUrlRoomInfo() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    title: params.get('roomTitle') || '',
+    topic: params.get('roomTopic') || '',
+    total: Number(params.get('roomTotal')) || 0,
+    completed: Number(params.get('activitiesCompleted')) || 0,
+  };
+}
+
+// My Escape Room: the game's theme and topic, and how many of its challenges are done.
+// Shown while playing, then on the debrief and Undermurk pages (from the URL), so kids
+// can always see which escape room they're in or just did.
+function buildMyEscapeRoomHTML() {
+  const room = isDebriefPage() || isEnterTheUndermurkPage() ? getUrlRoomInfo() : getPlayingRoomInfo();
+  if (!room.title) {
+    return '';
+  }
+  const title = escapeMenuHTML(room.title);
+  const total = room.total;
+  const completed = Math.min(room.completed, total);
+  // One segment per challenge, the first `completed` of them filled. Before setup picks
+  // the number of challenges, one empty segment stands in.
+  const segmentsHTML = Array.from({ length: Math.max(total, 1) }, function(_, i) {
+    return `<div class="global-menu__room-meter-segment${i < completed ? ' global-menu__room-meter-segment--done' : ''}"></div>`;
+  }).join('');
+  // Without a total the meter sits empty with no label. The label to the title's right
+  // ("N/N DONE", the N/N spaced out in its own span) is hidden from screen readers,
+  // which get the count from aria-valuetext.
+  const maxAttr = total ? ` aria-valuemax="${total}"` : '';
+  const valueText = total ? `${completed} of ${total} challenges complete` : '0 challenges complete';
+  const countHTML = total
+    ? `<span class="global-menu__room-count" aria-hidden="true"><span class="global-menu__room-count-fraction">${completed}/${total}</span> DONE</span>`
+    : '';
+  return `
+    <div class="global-menu__room" role="group" aria-label="My escape room">
+      <div class="global-menu__room-heading">
+        <span class="global-menu__room-title">${title}</span>
+        ${countHTML}
+      </div>
+      <div class="global-menu__room-meter" role="progressbar" aria-valuemin="0"${maxAttr} aria-valuenow="${completed}" aria-valuetext="${valueText}" aria-label="Challenges complete">
+        ${segmentsHTML}
       </div>
     </div>
   `;

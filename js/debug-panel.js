@@ -72,11 +72,33 @@
         font: 12px/1.2 system-ui, sans-serif;
       }
       .debug-panel select, .debug-panel button { font: inherit; padding: 3px 6px; }
+      .debug-panel--minimized > :not(.debug-panel__toggle) { display: none; }
     `;
     document.head.appendChild(style);
 
     const panel = document.createElement('div');
     panel.className = 'debug-panel';
+
+    // Minimize down to just this button. Remembered across reloads (Game reloads the page).
+    const MINIMIZED_KEY = 'debugPanelMinimized';
+    const toggle = document.createElement('button');
+    toggle.className = 'debug-panel__toggle';
+    function setMinimized(minimized) {
+      panel.classList.toggle('debug-panel--minimized', minimized);
+      toggle.textContent = minimized ? '▸' : '◂';
+      toggle.title = minimized ? 'Show debug panel' : 'Minimize debug panel';
+      toggle.setAttribute('aria-label', toggle.title);
+      toggle.setAttribute('aria-expanded', String(!minimized));
+    }
+    let startMinimized = false;
+    try { startMinimized = localStorage.getItem(MINIMIZED_KEY) === '1'; } catch (e) { /* ignore */ }
+    setMinimized(startMinimized);
+    toggle.addEventListener('click', function() {
+      const minimized = !panel.classList.contains('debug-panel--minimized');
+      setMinimized(minimized);
+      try { localStorage.setItem(MINIMIZED_KEY, minimized ? '1' : '0'); } catch (e) { /* ignore */ }
+    });
+    panel.appendChild(toggle);
 
     select = document.createElement('select');
     select.setAttribute('aria-label', 'Theme');
@@ -126,7 +148,7 @@
   // game, so these are the ones in js/sound-config.js. A voice missing here is named
   // after its picture's file.
   const VOICE_NAMES = {
-    'voice-jj-dingo': 'J.J. Dingo', 'voice-badguy': 'Bad guy',
+    'voice-jj-dingo': 'J.J. Dingo', 'voice-jj-dingo-intro': 'J.J. Dingo (intro)', 'voice-badguy': 'Bad guy',
     'voice-mint': 'Mint', 'voice-antares': 'Antares', 'voice-tubu': 'Tu-Bu', 'voice-jelly': 'Jelly',
     'voice-targ': 'T.O.R.G.', 'voice-winston': 'Winston', 'voice-hydrax': 'Hydrax', 'voice-lavender': 'Lavender',
     'voice-topsy': 'Terrible Topsy', 'voice-robustus': 'Robustus the Great', 'voice-shortnose': 'Martin Shortnose',
@@ -363,7 +385,7 @@
   function launchDebrief() {
     canRefresh = true;
     // Starts from debriefStats so the student's sound settings (mute, muteMusic) carry over.
-    const stats = Object.assign({}, debriefStats, DEBUG_DEBRIEF_VICTORY, {
+    const stats = Object.assign(addMyEscapeRoomToStats({}), debriefStats, DEBUG_DEBRIEF_VICTORY, {
       characters: characterArray.slice(0, DEBUG_DEBRIEF_VICTORY.teamSize).map(function(character) {
         return character.name;
       }).join(','),

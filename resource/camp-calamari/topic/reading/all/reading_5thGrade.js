@@ -171,7 +171,7 @@ const resource =  {
             hint: "Read the poem, then answer each question to fill in the crossword puzzle. The yellow letters, in order, are the answer.",
             isHintUsed: false,
             dialogue : {
-                incomplete: "Listen here, landlubber! We're brewing up a slime that'll have those pirates slipping and sliding all over. Problem is, this recipe from my old boss is real confusing... Can you make any sense of it?",
+                incomplete: "Listen up! We're brewing a slime that'll have those pirates slipping and sliding all over. Problem is, my boss's old recipe is real confusing... Can you make any sense of it?",
                 complete: "Appreciate the help, matey. This slime will have those pirates slipping and sliding like eels on a buttered deck!"
             }, 
             content: {

@@ -331,7 +331,9 @@ const Sound = (function () {
   let vocalSources = [];
   // clips: play exactly this many, vocalizeEveryMs apart, however long the line (a
   // characterVoices entry's clips); left out, clips keep coming until durationMs is up.
-  function vocalize(name, durationMs, delayMs, clips) {
+  // maxClips: with clips left out, stop after this many even if the line is still typing
+  // (SOUND_CONFIG.npcVoiceMaxClips).
+  function vocalize(name, durationMs, delayMs, clips, maxClips) {
     stopVocalize();
     const def = config().sounds[name] || {};
     const everyMs = typeof def.vocalizeEveryMs === 'number' ? def.vocalizeEveryMs
@@ -339,7 +341,7 @@ const Sound = (function () {
     const everySec = Math.max(10, everyMs) / 1000;
     const startAt = Math.max(0, delayMs || 0) / 1000;
     const endAt = startAt + durationMs / 1000;
-    const count = clips > 0 ? clips : Infinity;
+    const count = clips > 0 ? clips : maxClips > 0 ? maxClips : Infinity;
     for (let i = 0, at = startAt; i < count && (clips > 0 || at < endAt); i++, at += everySec) {
       const played = play(name, at);
       if (!played) break;
@@ -417,7 +419,7 @@ const Sound = (function () {
     // An entry with clips vocalizes its count even when the line is done typing before the
     // voice starts (a short player reply types in under the 300ms its box takes to open).
     if (vocalizes && detail && (detail.durationMs > 0 || mapping.clips > 0)) {
-      vocalize(name, detail.durationMs, mapping.delay, mapping.clips);
+      vocalize(name, detail.durationMs, mapping.delay, mapping.clips, detail.maxClips);
       return;
     }
     const rate = rampedRate(mapping, detail);
@@ -463,7 +465,11 @@ const Sound = (function () {
         ? Object.assign({}, mapping, { delay: (mapping.delay || 0) + extraDelay })
         : { sound: mapping, delay: extraDelay };
     }
-    fireMapping(cfg, mapping, false, typeof durationMs === 'number' ? { durationMs: durationMs, inGame: theme !== 'cutscene' } : undefined, true);
+    // Every speaker but the player's character (and the debug panel's clip sets) is an NPC,
+    // capped at SOUND_CONFIG.npcVoiceMaxClips clips per line.
+    const isNpc = theme !== 'player' && theme !== 'debug';
+    const maxClips = isNpc && cfg.npcVoiceMaxClips > 0 ? cfg.npcVoiceMaxClips : undefined;
+    fireMapping(cfg, mapping, false, typeof durationMs === 'number' ? { durationMs: durationMs, inGame: theme !== 'cutscene', maxClips: maxClips } : undefined, true);
     return true;
   }
 

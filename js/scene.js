@@ -160,9 +160,11 @@ function drawScene(activityArrayIndex) {
         typewriterDelay = 5;
         activityScenePlayerFrame.classList.add("state-display-none");
       }
+      // The character's (NPC's) text takes 0.6x the player's reply's time per letter.
+      const npcTypewriterDelay = typewriterDelay * 0.6;
   
       // open scene button when text is finished
-      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + delay__sceneButton;
+      let activitySceneButtonTimer = (dialogueText.length * npcTypewriterDelay) + delay__sceneButton;
       let activitySceneStartButtonTimer = (activitySceneButtonText.length * typewriterDelay);
       /* setTimeout(toggleClass, activitySceneButtonTimer + 500, activitySceneInstructions, "opacity-0", "opacity-1"); */
       if (resource.challengeArray[activityArrayIndex].info.state === "incomplete") {
@@ -187,6 +189,7 @@ function drawScene(activityArrayIndex) {
       // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
       function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
+        const letterDelay = element === activityScenedialogue ? npcTypewriterDelay : typewriterDelay;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
           characterSpan.innerText = text[i];
@@ -205,12 +208,13 @@ function drawScene(activityArrayIndex) {
                     setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
                   }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
+                    // the voice keeps the old typing time (typewriterDelay), so its audio is unchanged
                     voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay, text.length * typewriterDelay - voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
                   }
-              }, i * typewriterDelay);
+              }, i * letterDelay);
           }
           element.appendChild(characterSpan);
         }
@@ -351,9 +355,11 @@ function drawScene(activityArrayIndex) {
         typewriterDelay = 5;
         activityScenePlayerFrame.classList.add("state-display-none");
       }
+      // The character's (NPC's) text takes 0.6x the player's reply's time per letter.
+      const npcTypewriterDelay = typewriterDelay * 0.6;
   
       // open scene button when text is finished
-      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + 300;  // was 500, moved with the character's text
+      let activitySceneButtonTimer = (dialogueText.length * npcTypewriterDelay) + 300;  // was 500, moved with the character's text
       let activitySceneStartButtonTimer = (activitySceneButtonText.length * typewriterDelay);
       /* setTimeout(toggleClass, activitySceneButtonTimer + 500, activitySceneInstructions, "opacity-0", "opacity-1"); */
       if (resource.activityArray[activityArrayIndex-1].state === "incomplete") {
@@ -377,6 +383,7 @@ function drawScene(activityArrayIndex) {
       // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
       function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
+        const letterDelay = element === activityScenedialogue ? npcTypewriterDelay : typewriterDelay;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
           characterSpan.innerText = text[i];
@@ -395,12 +402,13 @@ function drawScene(activityArrayIndex) {
                     setTimeout(popSceneCharacter, voiceDelay, activityScenePlayer);
                   }
                   if (i === 0 && voiceKey !== undefined && onScreen) {
+                    // the voice keeps the old typing time (typewriterDelay), so its audio is unchanged
                     voiced = typeof Sound !== 'undefined' && Sound.voice(voiceTable, voiceKey, voiceDelay, text.length * typewriterDelay - voiceDelay) === true;
                   }
                   if (!voiced && onScreen) {
                     typeof Sound !== 'undefined' && Sound.event('dialogue.letter', text[i]);
                   }
-              }, i * typewriterDelay);
+              }, i * letterDelay);
           }
           element.appendChild(characterSpan);
         }

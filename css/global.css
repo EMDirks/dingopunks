@@ -468,7 +468,7 @@ button, input[type="submit"], input[type="reset"] {
     opacity: 0.9;
 }
 
-@media (max-width: 600px), (max-height: 600px) {
+@media (max-width: 650px), (max-height: 650px) {
 
 	.button-menu-global {
 		padding: 3px 6px;
@@ -591,6 +591,95 @@ button, input[type="submit"], input[type="reset"] {
 	box-sizing: border-box;
 }
 
+/* ── My Escape Room section ────────────────────────────────────────────── */
+
+.global-menu__room {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 14px 20px 18px 20px;
+	border-radius: 8px;
+	background-color: rgba(var(--off-black), 1);
+	font-family: 'Primer Print Bold', sans-serif;
+	color: rgba(var(--off-white), 1);
+	line-height: 1.1;
+	margin-top: 6px;
+}
+
+/* Theme on the left, progress (N/N DONE) on the right, on one line. */
+.global-menu__room-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+/* Normal line height: Primer Print's descenders (g, y, p) hang below a tight line box. */
+.global-menu__room-title {
+	font-size: 24px; /* matches the student buttons (.global-menu__kids-link, .global-menu__link) */
+	line-height: normal;
+}
+
+.global-menu__room-meter {
+	display: flex;
+	gap: 4px;
+	margin-top: 8px;
+	height: 14px;
+}
+
+/* One bar per challenge, sharing the row equally; full once that challenge is done. */
+.global-menu__room-meter-segment {
+	flex: 1;
+	border-radius: 3px;
+	background-color: rgba(var(--off-white), 1);
+	transition: background-color 0.4s ease;
+}
+
+.global-menu__room-meter-segment--done {
+	background-color: rgba(var(--teal), 1);
+}
+
+.global-menu__room-count {
+	flex-shrink: 0;
+	padding: 3px 12px 3px 12px;
+	border-radius: 999px;
+	background-color: rgba(var(--teal), 1);
+	color:  rgba(var(--off-black), 1);
+	font-size: 18px;
+	line-height: 1;
+	white-space: nowrap;
+	letter-spacing: 0px; /* DONE */
+}
+
+/* The N/N in "N/N DONE" */
+.global-menu__room-count-fraction {
+	letter-spacing: 2px;
+}
+
+/* Small screens. Kept here, after the rules above, so it wins without !important
+   (the shared small-screen block further up comes before them in the file). */
+@media (max-width: 650px), (max-height: 650px) {
+	.global-menu__room {
+		padding: 8px 10px 9px 10px;
+		gap: 2px;
+	}
+	.global-menu__room-title {
+		font-size: 16px;
+	}
+	.global-menu__room-count {
+		padding: 2px 8px 3px 8px;
+		font-size: 12px;
+	}
+	.global-menu__room-meter {
+		gap: 4px;
+		margin-top: 5px;
+		height: 8px;
+	}
+	.global-menu__room-meter-segment {
+		border-radius: 3px;
+	}
+}
+
 /* ── Kids section ──────────────────────────────────────────────────────── */
 
 .global-menu__kids {
@@ -686,7 +775,7 @@ button, input[type="submit"], input[type="reset"] {
 	outline-offset: 2px;
 }
 
-@media (max-width: 600px), (max-height: 600px) {
+@media (max-width: 650px), (max-height: 650px) {
 	.global-menu__links {
 		gap: 4px;
 	}
@@ -743,7 +832,7 @@ button, input[type="submit"], input[type="reset"] {
 	opacity: 0.7;
 }
 
-@media (max-width: 600px), (max-height: 600px) {
+@media (max-width: 650px), (max-height: 650px) {
 	.global-menu__information-links {
 		gap: 6px;
 	}
@@ -850,7 +939,7 @@ button, input[type="submit"], input[type="reset"] {
    the row, so cards stay exactly the three-card size. Widths mirror .modal__popup:
    min(100% - 64px, 600px) with 32px padding and a 12px gap. */
 .modal__popup--global-menu.modal__popup--global-menu-compact {
-	width: calc((min(100% - 64px, 600px) - 64px - 24px) * 2 / 3 + 12px + 64px);
+	width: calc((min(100% - 64px, 650px) - 64px - 24px) * 2 / 3 + 12px + 64px);
 }
 
 .modal__popup--global-menu-compact .global-menu__kids-link {
@@ -858,7 +947,7 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 /* Small screens: the popup is 380px with 16px padding and an 8px gap. */
-@media (max-width: 600px), (max-height: 600px) {
+@media (max-width: 650px), (max-height: 650px) {
 	.modal__popup--global-menu.modal__popup--global-menu-compact {
 		width: calc((380px - 32px - 16px) * 2 / 3 + 8px + 32px);
 	}

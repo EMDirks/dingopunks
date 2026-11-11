@@ -503,6 +503,7 @@ function reportMembershipCodeError(error, attemptedCode, countAttempt) {
 function loadResourceGame(theme, scriptPath, onReady) {
   resourceTheme = theme;
   resourceJS = scriptPath;
+  loadCurrentGameInfo('resource/' + theme + '/' + scriptPath);
 
   var scriptsDiv = document.getElementById('script-resource');
   scriptsDiv.innerHTML = '';
@@ -533,6 +534,23 @@ function loadResourceGame(theme, scriptPath, onReady) {
   cutsceneScript.src =
     'resource/' + resourceTheme  + '/cutscene/cutscene.js';
   cutsceneDiv.appendChild(cutsceneScript);
+}
+
+// The menu's My Escape Room section shows the game's theme and topic, which live
+// in js/games.js. Same unversioned URL play-share-code.js imports, so both share
+// one module. Membership, legacy and free-play games all load through here.
+let currentGameInfo = null;
+
+function loadCurrentGameInfo(path) {
+  currentGameInfo = null;
+  import(new URL('js/games.js', document.baseURI).href)
+    .then(function(module) {
+      const game = module.games.find(function(entry) { return entry.path === path; });
+      if (game && resourceTheme && path === 'resource/' + resourceTheme + '/' + resourceJS) {
+        currentGameInfo = { title: game.title, topic: game.topic };
+      }
+    })
+    .catch(function() { /* the section falls back to resource.info.title */ });
 }
 
 function canGoBackFromSplashStep(index){
@@ -1813,6 +1831,9 @@ function addCharacter(){
 /////////
 
 // add cutscene view
+// Background images the handheld camera leaves alone: it holds still while one shows.
+const STATIC_CUTSCENE_IMAGES = ['jjcrispy-alert.png'];
+
 // Loops started by a cutscene file's animations, which end with the cutscene at the
 // latest. False once it ends: SKIP INTRO can land while a line is still typing, and
 // that line's afterText animations still run.
@@ -1942,11 +1963,21 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneText = createElement('div',['cutscene-text',],cutsceneTextBox);
   let cutsceneCharacterName = createElement('p',['cutscene-character-name',],cutsceneTextBox);
   let cutsceneNextButton = createElement('button',['cutscene-next-button', 'cutscene-next-button--hidden'],cutsceneTextBox);
-  let cutsceneCharacterSprite = createElement('div',['cutscene-character-sprite'],splashContainer);
+  // Carries the sprite's parallax drift (css/splash-new.css), so the sprite's own
+  // animations and loops don't override it.
+  const cutsceneSpriteStage = createElement('div',['cutscene-sprite-stage'],splashContainer);
+  let cutsceneCharacterSprite = createElement('div',['cutscene-character-sprite'],cutsceneSpriteStage);
   const cutsceneBackgroundStage = createElement('div',['cutscene-background-stage'],splashContainer);
   let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],cutsceneBackgroundStage);
   let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],cutsceneBackgroundStage);
   let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],cutsceneBackgroundStage);
+  // Held from the start if the first scene shows a static image, so the camera doesn't
+  // move during the opening delay before that scene renders.
+  if ([cutsceneSection[0]?.backgroundImage1, cutsceneSection[0]?.backgroundImage2].some(
+    (imageObject) => imageObject && STATIC_CUTSCENE_IMAGES.includes(imageObject.path)
+  )) {
+    cutsceneBackgroundStage.classList.add('cutscene-camera-held');
+  }
   let cutsceneStaticOverlay = createElement('div',['cutscene-static-overlay','cutscene-static-overlay--hidden'],splashContainer);
   createElement('div',['cutscene-frame'],splashContainer);
 
@@ -2066,6 +2097,8 @@ function addCutscene(cutsceneIndex,section){
     if (playerCharacters.length) {
       debriefStats.characters = playerCharacters.join(',');
     }
+    // the menu's My Escape Room section, for the debrief and Undermurk pages
+    typeof addMyEscapeRoomToStats === 'function' && addMyEscapeRoomToStats(debriefStats);
 
     let queryString = Object.entries(debriefStats)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
@@ -2218,7 +2251,31 @@ function addCutscene(cutsceneIndex,section){
       ].forEach(([element, imageObject]) => {
         if (imageObject && imageObject.loop) element.dataset.cutsceneLoop = imageObject.loop;
         else delete element.dataset.cutsceneLoop;
+        if (imageObject && STATIC_CUTSCENE_IMAGES.includes(imageObject.path)) element.dataset.cutsceneStatic = '';
+        else delete element.dataset.cutsceneStatic;
       });
+
+      // Hold the backgrounds' handheld camera (css/splash-new.css) still while a static
+      // image shows. The sprite keeps moving, so when the hold ends the backgrounds jump
+      // to the sprite's point in the sway and tilt to stay in step with it.
+      const holdCamera = [sc_backgroundImage1, sc_backgroundImage2].some(
+        (imageObject) => imageObject && STATIC_CUTSCENE_IMAGES.includes(imageObject.path)
+      );
+      const wasHeld = cutsceneBackgroundStage.classList.contains('cutscene-camera-held');
+      cutsceneBackgroundStage.classList.toggle('cutscene-camera-held', holdCamera);
+      if (wasHeld && !holdCamera && cutsceneBackgroundStage.getAnimations) {
+        const spriteTime = {};
+        cutsceneSpriteStage.getAnimations().forEach((animation) => {
+          spriteTime[animation.animationName] = animation.currentTime;
+        });
+        cutsceneBackgroundStage.getAnimations().forEach((animation) => {
+          const name = animation.animationName === 'cutscene-handheld-sway'
+            ? 'cutscene-sprite-parallax' : animation.animationName;
+          if (name !== 'cutscene-background-settle' && spriteTime[name] != null) {
+            animation.currentTime = spriteTime[name];
+          }
+        });
+      }
 
       if (sc_characterSprite){
         updateCutsceneElement(cutsceneCharacterSprite, sc_characterSprite, 'characterSprite', 'cutscene-character-sprite', initialSceneDelay + performanceDelay);
@@ -2457,8 +2514,14 @@ function addCutscene(cutsceneIndex,section){
      // line instead of a sound per letter: bad guy lines in any cutscene, named speakers only in
      // intro and outro cutscenes (not fail).
      const voicedSection = ['intro', 'introNoLimit', 'undermurkIntro', 'outro', 'debugOutro'].includes(section);
+     // In intro cutscenes, an 'intro:<name>' entry (if listed) replaces '<name>'.
+     const isIntroSection = ['intro', 'introNoLimit', 'undermurkIntro'].includes(section);
+     const cutsceneVoices = typeof SOUND_CONFIG !== 'undefined' && SOUND_CONFIG.characterVoices && SOUND_CONFIG.characterVoices.cutscene;
+     const speakerName = sc_characterSprite?.name;
+     const introVoiceKey = isIntroSection && speakerName && cutsceneVoices
+       && Object.prototype.hasOwnProperty.call(cutsceneVoices, 'intro:' + speakerName) ? 'intro:' + speakerName : speakerName;
      const voiceKey = cutsceneSection[index].textStyle === 'badguy' ? 'badguy'
-       : voicedSection ? sc_characterSprite?.name : undefined;
+       : voicedSection ? introVoiceKey : undefined;
      let voiced = false;
      setTimeout(() => addTextByTypewriter(cutsceneText, sc_text, typewriterDelay), initialTextDelay);
       function addTextByTypewriter(elementClass, text, speed) {

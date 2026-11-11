@@ -38,6 +38,7 @@ const SOUND_CONFIG = {
   formats: ['ogg'],              // ogg only (readme/sound-cleanup.md, Decision 1); a browser that can't decode it gets no sound
   vocalizeEveryMs: 100,           // default ms between clips for a vocalize: true voice; a sound's own vocalizeEveryMs overrides it
   vocalizeInGame: true,         // every in-game (activity scene) character voice vocalizes, as if it had vocalize: true; vocalize: false on a sound opts it out. Cutscene voices only vocalize with their own vocalize: true
+  npcVoiceMaxClips: 3,            // a number caps every NPC's vocalized voice (every characterVoices table but player, cutscene speakers included) at that many clips per line; a short line still stops early. null = no cap. An entry's own clips overrides it
 
   // name → file(s) + mix. src are base names (the extension comes from `formats`), or a
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
@@ -75,6 +76,7 @@ const SOUND_CONFIG = {
     typewriter: { src: ['sfx/cutscene/typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text (outro and fail, per letter)
     'typewriter-soft': { src: ['sfx/cutscene/typewriter'], volume: 0.1, pitch: [1.3,1.4], maxVoices: 4 }, // intro cutscenes' typewriter run: typewriter, 50% softer
     'voice-jj-dingo': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
+    'voice-jj-dingo-intro': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.9, 1.1], vocalize: true }, // J.J. Dingo in intro cutscenes (characterVoices.cutscene['intro:J.J. DINGO'])
     'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.51, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
     // In-game (activity scene) voices from here to voice-lavender are at 0.32: 25% under J.J. Dingo's 0.43 (both 15% softer on 2026-11-10).
     // Midnight Mall challenge characters (activity scene). Starting pitches, to tune by ear.
@@ -145,7 +147,7 @@ const SOUND_CONFIG = {
     // The player-selected characters (characterVoices.player): one random clip when picked at
     // character select, and the vocalize engine for their replies in the activity scene.
     // Two pairs share a clip set, split by pitch (Mint/Hydrax, Antares/Lavender).
-    'voice-mint':     { src: VOICE_CLIPS.woman,   volume: 0.32, pitch: [0.9, 1.1] },    // Mint
+    'voice-mint':     { src: VOICE_CLIPS.woman,   volume: 0.32, pitch: [1, 1.1] },    // Mint
     'voice-antares':  { src: VOICE_CLIPS.man,   volume: 0.32, pitch: [0.9, 1.1] },  // Antares
     'voice-tubu':     { src: VOICE_CLIPS.boy,     volume: 0.32, pitch: [0.9, 1.1] },  // Tu-Bu
     'voice-jelly':    { src: VOICE_CLIPS.girl,    volume: 0.32, pitch: [0.9, 1.1] },  // Jelly
@@ -320,8 +322,8 @@ const SOUND_CONFIG = {
     'undermurk.playerFinished': { sound: 'rank-chime', delay: 100 },  // a player beats the last level's boss
     // End (umShowEndScreen and the results reveal):
     'undermurk.hudOut':      'whoosh-scene',                         // the player strip and level badge leaving
-    'undermurk.outcomeVictory': { sound: 'slap-metal', delay: 50 },   // VICTORY smashing in. Placeholder until a Success sound is added
-    'undermurk.outcomeFail': { sound: 'slap-metal', delay: 50 },      // FAIL smashing in: the same sound as VICTORY, no bad guy crash
+    'undermurk.outcomeVictory': { sound: 'whoosh-node', delay: 150 }, // VICTORY smashing in: the node-open whoosh, 50ms after the smash starts (its animation waits 100ms)
+    'undermurk.outcomeFail': { sound: 'whoosh-node', delay: 150 },    // FAIL smashing in: the same sound as VICTORY, no bad guy crash
     // The end song (music-undermurk-end) starts with the "Your team..." line, after VICTORY / FAIL leaves.
     'undermurk.outcomeOut':  'whoosh-scene',                         // the outcome image shrinking away before the results
     'undermurk.resultIn':    { sound: 'slap-paper', delay: 100 },     // each player's column and the team total rising in (300ms), like debrief.statIn
@@ -334,7 +336,8 @@ const SOUND_CONFIG = {
   // Character voices: one sound as a line starts, in place of the letter blips.
   // Keyed by where the character speaks, then by the character:
   //   cutscene: characterSprite.name exactly as the cutscene file writes it, or 'badguy'
-  //             for any line with textStyle: 'badguy' (checked before the name).
+  //             for any line with textStyle: 'badguy' (checked before the name). In intro
+  //             cutscenes, 'intro:<name>' is used in place of '<name>' when it's listed.
   //   <theme folder>: the challenge's intro.asset file name (assets.characterShopkeeper in
   //             the older activityArray format). The portrait, not the name, because the same
   //             character is named differently across challenges ("Terrible Topsy" / "Topsy").
@@ -355,6 +358,7 @@ const SOUND_CONFIG = {
     },
     cutscene: {
       'J.J. DINGO': { sound: 'voice-jj-dingo', delay: 50 }, // intro and outro cutscenes only (not fail); js/splash-new.js keeps that rule
+      'intro:J.J. DINGO': { sound: 'voice-jj-dingo-intro', delay: 50, clips: 1 }, // intro cutscenes: 1 clip per line, in place of the entry above
       badguy:       { sound: 'voice-badguy', delay: 50 },  // any cutscene
     },
     'escape-the-midnight-mall': {
