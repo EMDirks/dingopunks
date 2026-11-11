@@ -19,7 +19,7 @@ Line numbers are as of writing and will drift. The quoted code is the anchor, no
 | 5 | File names | **By role, not by source pack.** No `ken-`, `match-`, `free-` prefixes under `assets/audio/`. Attribution moves to `readme/sound-credits.md`. |
 | 6 | Unconverted files | **Renamed now under their current extension** (`sfx/motion/whoosh-node.wav`). Ethan's ogg conversion later drops the extension from each `src` (section 8). |
 | 7 | Voice preload | **Stays site-wide** (`'*'` at `onPinInput`). Per-theme voice loading is not worth the engine learning the theme for ~400 KB. |
-| 8 | `clickGlitch` | **Deleted.** `cutscene.skip` deliberately plays the standard click. The file goes back to `tools/sfx-library/`. |
+| 8 | `clickGlitch` | **Deleted.** `cutscene.skip` deliberately plays the standard click. The file is deleted. |
 
 ---
 
@@ -43,7 +43,7 @@ Every file under `assets/audio/` keeps its folder. Only stems with a source-pack
 |---|---|---|
 | `sfx/cutscene/ken-typewriter.ogg` | `sfx/cutscene/typewriter.ogg` | `typewriter` |
 | `sfx/cutscene/match-tv-on.ogg` | `sfx/cutscene/tv-on.ogg` | `tv-on` |
-| `sfx/cutscene/match-glitch.wav` | `tools/sfx-library/match-glitch.wav` | nothing (Decision 8) |
+| `sfx/cutscene/match-glitch.wav` | deleted | nothing (Decision 8) |
 | `sfx/feedback/match-bell.wav` | `sfx/feedback/bell.wav` | `bell` |
 | `sfx/feedback/match-clap.wav` | `sfx/feedback/clap.wav` | `clap` |
 | `sfx/motion/ken-whoosh.ogg` | `sfx/motion/whoosh-soft.ogg` | `whoosh-cutscene` |
@@ -270,7 +270,7 @@ const DEBRIEF_SOUNDS = ['click', 'open', 'close', 'lock', 'toggle', 'click-wood'
 
 ### 6e. Delete `clickGlitch`
 
-Remove the sound (`js/sound-config.js:170`) and `git mv` its file to `tools/sfx-library/` (section 1). Nothing maps to it.
+Remove the sound (`js/sound-config.js:170`) and delete its file. Nothing maps to it.
 
 ### 6f. Cache header for audio
 
@@ -289,7 +289,6 @@ Cloudflare Pages reads this file; Firebase hosting is a placeholder and needs no
 - `js/sound-config.js:28` `formats:` comment: replace "later: ['m4a', 'ogg']" with "ogg only (readme/sound-effects.md, Decision 2); browsers that can't decode it get silence".
 - `js/sound-config.js:40-43` and `:173-174, 192-193` comments that mention `loops[...]` or `loops.debrief`: reword to the new names.
 - `js/enter-the-undermurk.js:284` comment: `loops['undermurk-end']` becomes `music-undermurk-end`.
-- `tools/sfx-library/README.md`: add "Attribution for every shipped file is in `readme/sound-credits.md`." and note that `match-glitch.wav` lives here.
 - `sound.js` `FORMAT_TYPES` (`:16-20`) can keep its three entries; they cost nothing and document what `formats` accepts.
 
 ---
@@ -302,7 +301,7 @@ A new file, not deployed (`scripts/build-pages.mjs` copies only `assets`, `css`,
 # Sound credits
 
 Every audio file shipped under `assets/audio/`, where it came from and its licence.
-Unused files from the same packs are in `tools/sfx-library/`.
+Unused files from these packs are not kept; the Kenney packs (CC0) can be downloaded again from kenney.nl.
 
 | File | Original name | Source | Licence |
 |---|---|---|---|

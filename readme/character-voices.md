@@ -25,7 +25,7 @@ Not changed: the teacher Audio switch, the student toggles, the music bus, loops
 - Line numbers below are as of writing and will drift as edits land. The quoted code is the anchor, not the number.
 - Every call into `Sound` from game code stays guarded with `typeof Sound !== 'undefined' &&`, as the existing calls are. The game must never depend on audio.
 - Every new public method on `Sound` is wrapped in `safe(...)` like the others, so a bug in it logs once and returns `undefined`.
-- Don't touch `tools/sfx-library/` or add audio files. No new files are needed; every voice reuses the five `VOICE_CLIPS` already in `assets/audio/sfx/`.
+- Don't add audio files. No new files are needed; every voice reuses the five `VOICE_CLIPS` already in `assets/audio/sfx/`.
 
 ## Why the file cache comes first
 

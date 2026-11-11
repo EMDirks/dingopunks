@@ -1,6 +1,6 @@
 # Sound credits
 
-Every audio file shipped under `assets/audio/`, where it came from and its licence. Unused files from the same packs are in `tools/sfx-library/`.
+Every audio file shipped under `assets/audio/`, where it came from and its licence. Unused files from these packs are not kept; the Kenney packs (CC0) can be downloaded again from kenney.nl.
 
 "Original name" is the file's name when it was first added to the repository (`git log --diff-filter=A --name-only -- assets/audio`), so a source can be traced even where the pack isn't recorded. Rows marked **fill in** are ones the repository doesn't identify.
 

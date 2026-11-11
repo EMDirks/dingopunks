@@ -16,7 +16,7 @@ Nothing in the game may depend on audio working. Every hook is a one-line, fire-
 |---|----------|---------|
 | 1 | Default state of the teacher switch | **On** (missing = on), same shape as Bonus Missions. Turning it off applies to every code the teacher has already shared. |
 | 2 | Audio file format | **Ogg Vorbis as shipped for now.** iPads/Macs below iPadOS 18.4 / macOS 15.4 get silence; nothing breaks (a failed decode = no sound). Converting to a second format is planned for later: `src` entries are written as base names so a fallback slots in without touching game code (§3). |
-| 3 | What ships | Only the sounds mapped in the config. Move the rest of the 51-file Kenney library to `tools/sfx-library/` (not copied by `scripts/build-pages.mjs`). |
+| 3 | What ships | Only the sounds mapped in the config. Delete the rest of the 51-file Kenney library (it was parked in `tools/sfx-library/` until 2026-11-11). |
 | 4 | Pages with sound | Play (`index.html`), `free-play.html`, `preview.html` (**fully wired, same as play**), `answer-key.html`, `enter-the-undermurk.html`, `debrief.html`. Not `membership.html` or `404.html`. |
 | 5 | Hover ("rollover") sounds | Off. Config supports them if wanted later. |
 | 6 | Student mute | **In scope.** Separate Sound and Music on/off toggles in the global menu, per game (§6). Only shown when the teacher hasn't turned Audio off. |
@@ -327,7 +327,7 @@ On each of `index.html`, `free-play.html`, `preview.html`, `answer-key.html`, `e
 
 ## 8. Order of work (each step leaves `main`-mergeable state)
 
-1. **Audio assets**: audition and adjust the picks in `sound-config.js` (especially `whoosh` and `toggle`), then move unmapped files to `tools/sfx-library/`.
+1. **Audio assets**: audition and adjust the picks in `sound-config.js` (especially `whoosh` and `toggle`), then delete unmapped files.
 2. **Teacher setting** (§1): rules + tests → resolve-code + tests → `user-prefs` / `context` → modal markup + CSS → `membership.js` handlers → `play-share-code` / `launchMembershipGame`. Run `npm test` in `firebase-functions/`. Deploy backend before site (`firestore:rules,functions`).
 3. **Engine + config + page wiring** (§2, §3, §7) with only delegated clicks and the `handlePreloading` hook active. Verify zero console errors on all six pages, with audio on and with `?audio=0`.
 4. **Explicit hooks** (§4), one file at a time, re-testing the flow after each.
@@ -383,4 +383,4 @@ Backend
 - **Second audio format** for older iPads: convert the mapped files, set `formats: ['m4a', 'ogg']`. Config-only.
 - **Music**: `Sound.music.play(name, { fade })` streaming through an `<audio>` element + `createMediaElementSource` into the master gain (no decoding of multi-MB buffers); ducking under dialogue; loaded per moment via `music:` entries in `SOUND_CONFIG.preload`, per game via `localSoundConfig`. The teacher switch and student toggle cover it automatically.
 - `correct` / `wrong` sounds, debrief outcome stings and Undermurk tier transitions (events already reserved as `null`).
-- Hover sounds on desktop if ever wanted (`rollover*` kept in `tools/sfx-library/`).
+- Hover sounds on desktop if ever wanted (the Kenney UI Audio pack has `rollover*` sounds).
