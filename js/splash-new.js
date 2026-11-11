@@ -2036,6 +2036,21 @@ function addCutscene(cutsceneIndex,section){
       });
     }
     else if (section === "outro" || section === "fail") {
+      finishEndCutscene();
+    }
+        
+  }); 
+
+  // An outro or fail cutscene's ending (final Next or SKIP OUTRO): fade out and leave
+  // for the debrief. Runs once, whichever lands first.
+  let endCutsceneFinished = false;
+  function finishEndCutscene(){
+    if (endCutsceneFinished) return;
+    endCutsceneFinished = true;
+    if (cutsceneSkipText) {
+      cutsceneSkipText.style.transition = "opacity 0.1s";
+      toggleClass(cutsceneSkipText, 'cutscene-skip-text--visible', 'cutscene-skip-text--hidden');
+    }
       document.querySelector(".activity").style.display = "none";
       document.querySelector(".activity-node-container").style.display = "none";
       document.querySelector(".footer").style.display = "none";
@@ -2060,16 +2075,14 @@ function addCutscene(cutsceneIndex,section){
       function goToDebrief(){
         window.location.href = 'debrief.html?' + queryString;
       }
-
-    }
-        
-  }); 
+  }
 
   // skip button
   let cutsceneSkipText;
-  if (cutsceneSection == cutscene.intro || section === 'undermurkIntro'){
+  const isEndCutscene = ['outro', 'fail', 'debugOutro', 'debugFail'].includes(section);
+  if (cutsceneSection == cutscene.intro || section === 'undermurkIntro' || isEndCutscene){
     cutsceneSkipText = createElement('p',['cutscene-skip-text', 'cutscene-skip-text--hidden'],splashContainer);
-    cutsceneSkipText.textContent = "SKIP INTRO";
+    cutsceneSkipText.textContent = isEndCutscene ? "SKIP OUTRO" : "SKIP INTRO";
     cutsceneSkipText.addEventListener('click', function(event) {
       stopCutsceneLoops();
       typeof Sound !== 'undefined' && Sound.event('cutscene.skip');
@@ -2100,6 +2113,15 @@ function addCutscene(cutsceneIndex,section){
           textBox: cutsceneTextBox,
           skipText: cutsceneSkipText,
         });
+      }
+      else if (section === "outro" || section === "fail") {
+        toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
+        finishEndCutscene();
+      }
+      else if (isEndCutscene) {
+        // Debug panel: like its last Next, stay put, with the text box faded out.
+        toggleClass(cutsceneNextButton, 'cutscene-next-button--visible', 'cutscene-next-button--hidden');
+        toggleClass(cutsceneTextBox, 'cutscene-text-box--visible--new','cutscene-text-box--hidden--fade');
       }
     });
   }

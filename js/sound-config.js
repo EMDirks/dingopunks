@@ -233,7 +233,7 @@ const SOUND_CONFIG = {
     'splash.thumbnail':  { sound: 'slap-paper', delay: 100, skipIfLocked: true },  // 100ms into the 250ms spin-in; delay fine-tunes it
     'dialogue.letter':   'blip',     // activity scene dialogue
     'bumper.dangle':     { sound: 'dangle', delay: 200 },  // START pressed; 120 + the sound's 160ms clink lands just after the bottom of the logo's first swing (200ms)
-    'bumper.dangleUndermurk': { sound: 'dangle', delay: 50 },  // START pressed on Enter the Undermurk's bumper; 50ms into the logo's pop-and-slam
+    'bumper.dangleUndermurk': { sound: 'dangle', delay: 217 },  // START pressed on Enter the Undermurk's bumper: 70ms after the logo starts falling from its pop (42% of the 350ms bumper-logo-pop-slam in css/splash-new.css = 147ms)
     'bumper.dangleAuto': { sound: 'dangle', delay: 120, skipIfLocked: true },  // the same, on the bumpers that play with no tap (direct links, free play)
     'cutscene.start':    { sound: 'tv-on', delay: 350 },  // every cutscene; peaks as the scanline opens to the full panel
     'cutscene.next':     'click-next', // Next to the following scene

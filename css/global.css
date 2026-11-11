@@ -417,6 +417,21 @@ button, input[type="submit"], input[type="reset"] {
 	display: flex;
 }
 
+/* Quit confirm: Keep Playing sits in the footer, beside Quit. */
+.modal-version:has(.global-menu__keep-playing) {
+	display: flex;
+	margin-right: 0;
+}
+
+/* Quit is salmon, Keep Playing teal (the shared gold button is Quit here). */
+.modal__actions:has(.global-menu__keep-playing) .modal__button {
+	background-color: rgba(var(--salmon), 1);
+}
+
+.modal__actions:has(.global-menu__keep-playing) .global-menu__keep-playing {
+	background-color: rgba(var(--teal), 1);
+}
+
 .modal-version > *:not(:last-child)::after {
 	content: '•';
 	margin: 0 8px;
@@ -800,6 +815,30 @@ button, input[type="submit"], input[type="reset"] {
 	opacity: 0.75;
 }
 
+/* Inactive (Bonus Missions while playing Enter the Undermurk): looks the same,
+   but a press only jiggles the ON / OFF pill, like a locked menu card. */
+.global-menu__sound-toggle--inactive {
+	cursor: default;
+}
+
+/* Lock icon before ON / OFF in an inactive row's pill. */
+.global-menu__sound-toggle--inactive .global-menu__sound-toggle-state {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.global-menu__sound-toggle-lock {
+	height: 1em;
+	width: auto;
+}
+
+.global-menu__sound-toggle--inactive:hover .global-menu__sound-toggle-state,
+.global-menu__sound-toggle--inactive:active .global-menu__sound-toggle-state {
+	filter: none;
+}
+
 .global-menu__sound-toggle:focus-visible {
 	outline: 2px solid rgba(var(--off-black), 1);
 	outline-offset: 2px;
@@ -879,17 +918,15 @@ button, input[type="submit"], input[type="reset"] {
 	border-radius: 0 0 6px 6px;
 }
 
-.global-menu__kids-link--play .global-menu__kids-link-label,
-.global-menu__kids-link--playAgain .global-menu__kids-link-label {
-	background-color: rgba(var(--teal), 1);
-}
-
-.global-menu__kids-link--exitGame .global-menu__kids-link-label,
-.global-menu__kids-link--undermurk .global-menu__kids-link-label {
+.global-menu__kids-link--exitGame .global-menu__kids-link-label {
 	background-color: rgba(var(--salmon), 1);
 }
 
 .global-menu__kids-link--score .global-menu__kids-link-label {
+	background-color: rgba(var(--teal), 1);
+}
+
+.global-menu__kids-link--undermurk .global-menu__kids-link-label {
 	background-color: var(--dpaam-blue);
 }
 

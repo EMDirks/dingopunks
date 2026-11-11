@@ -9,14 +9,6 @@
 //   'finished'   — debrief page (escape room complete)
 
 const kidsCardImages = {
-  play: {
-    active: 'assets/global/menu-play-game.png',
-    inactive: 'assets/global/menu-play-now-inactive.png',
-  },
-  playAgain: {
-    active: 'assets/global/menu-play-again.png',
-    inactive: 'assets/global/menu-play-again-inactive.png',
-  },
   exitGame: {
     active: 'assets/global/menu-exit-game.png',
     inactive: 'assets/global/menu-exit-game-inactive.png',
@@ -36,11 +28,11 @@ const KIDS_LINK_ENTER_STAGGER_MS = 100;
 // Student cards wait this long before navigating, so their click sound plays.
 const KIDS_LINK_NAVIGATE_DELAY_MS = 200;
 
-function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, lockLabel, staggerIndex = 0 }) {
+function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, confirmQuit, lockLabel, staggerIndex = 0 }) {
   const tag = inactive ? 'span' : 'a';
   const hrefAttr = !inactive && refresh
     ? ' href="#" data-reload'
-    : !inactive && href ? ` href="${href}"` : '';
+    : !inactive && href ? ` href="${href}"${confirmQuit ? ' data-confirm-quit' : ''}` : '';
   const inactiveClass = inactive ? ' global-menu__kids-link--inactive' : '';
   const imageKeyClass = imageKey ? ` global-menu__kids-link--${imageKey}` : '';
   const enterDelay = KIDS_LINK_ENTER_BASE_DELAY_MS + staggerIndex * KIDS_LINK_ENTER_STAGGER_MS;
@@ -174,16 +166,6 @@ function isUndermurkHidden() {
   return isUndermurkTeacherHidden() || isUndermurkStudentOff();
 }
 
-function isIndexPage() {
-  return /(?:^|\/)(?:index(?:\.html)?)?$/.test(window.location.pathname);
-}
-
-// index.html's code-entry step never shows the Undermurk card; the Bonus
-// Missions toggle only governs what comes after.
-function isIndexCodeEntryMenu(state) {
-  return state === 'unfinished' && isIndexPage();
-}
-
 function withoutHiddenUndermurk(cards) {
   if (!isUndermurkHidden()) {
     return cards;
@@ -199,31 +181,30 @@ function appendLocationSearch(href) {
 }
 
 function buildGlobalMenuHTML(state) {
-  const playHomeHref = getPlayHomeHref();
-  const quitHomeHref = getQuitHomeHref();
+  // Quit This Escape Room leads every menu. Once a game has started it asks first
+  // (openQuitConfirmModal()); before that (code entry, 'unfinished') it just goes.
+  const quitCard = { href: getQuitHomeHref(), label: 'Quit This<br>Escape Room', imageKey: 'exitGame', confirmQuit: true };
 
   const kidsLinksByState = {
     unfinished: buildKidsLinksHTML([
-      { href: playHomeHref, label: 'Play an<br>Escape Room', imageKey: 'play' },
+      { ...quitCard, confirmQuit: false },
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
-      isIndexCodeEntryMenu('unfinished')
-        ? null
-        : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
-    ].filter(Boolean)),
+      { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
+    ]),
     active: buildKidsLinksHTML([
-      { href: quitHomeHref, label: 'Quit This<br>Escape Room', imageKey: 'exitGame' },
+      quitCard,
       { label: 'View Your<br>Score', imageKey: 'score', inactive: true, lockLabel: 'Finish Escape Room First' },
       { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Finish Escape Room First' },
     ]),
     finished: buildKidsLinksHTML([
-      { href: playHomeHref, label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
+      quitCard,
       { label: 'View Your<br>Score', imageKey: 'score', refresh: true },
       isUndermurkUnlocked()
         ? { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' }
         : { label: 'Enter the<br>Undermurk', imageKey: 'undermurk', inactive: true, lockLabel: 'Requires All-Access' },
     ]),
     undermurkFromDebrief: buildKidsLinksHTML([
-      { href: getPlayHomeHref(), label: 'Play Another<br>Escape Room', imageKey: 'playAgain' },
+      quitCard,
       { href: appendLocationSearch('debrief.html'), label: 'View Your<br>Score', imageKey: 'score' },
       { href: appendLocationSearch('enter-the-undermurk.html'), label: 'Enter the<br>Undermurk', imageKey: 'undermurk' },
     ]),
@@ -251,10 +232,10 @@ function isSoundSettingsAvailable() {
   return typeof Sound !== 'undefined' && Sound.isAvailable();
 }
 
-// The Enter the Undermurk row shows unless the teacher turned Bonus Missions off, and
-// not while playing it.
+// The Enter the Undermurk row shows unless the teacher turned Bonus Missions off.
+// While playing it, the row is inactive (see buildSettingsHTML()).
 function isUndermurkSettingAvailable() {
-  return !isUndermurkTeacherHidden() && !isEnterTheUndermurkPage();
+  return !isUndermurkTeacherHidden();
 }
 
 function buildSettingsButtonHTML() {
@@ -280,7 +261,11 @@ function buildSettingsHTML() {
     rows.push(buildSettingToggleHTML('audio', 'Audio', 'Play sound effects, voices, ambience, and music.', !Sound.isMuted() && !Sound.isMusicMuted()));
   }
   if (isUndermurkSettingAvailable()) {
-    rows.push(buildSettingToggleHTML('undermurk', 'Bonus Missions', 'Show Enter the Undermurk, a fast-finisher minigame.', !isUndermurkStudentOff()));
+    const inactive = isEnterTheUndermurkPage();
+    const description = inactive
+      ? 'You can\'t change this setting while doing a Bonus Mission.'
+      : 'Show Enter the Undermurk, a fast-finisher minigame.';
+    rows.push(buildSettingToggleHTML('undermurk', 'Bonus Missions', description, !isUndermurkStudentOff(), inactive));
   }
   return `
     <div class="global-menu__sound-toggles">
@@ -291,14 +276,21 @@ function buildSettingsHTML() {
 
 const SETTINGS_TEACHER_FOOTER_HTML = 'Teachers: you can also manage these settings from your account.';
 
-function buildSettingToggleHTML(setting, label, description, on) {
+// inactive rows don't change: a press jiggles the ON / OFF pill with the lock sound
+// (see initGlobalMenuSettingToggles()). aria-disabled rather than disabled, so clicks still arrive.
+function buildSettingToggleHTML(setting, label, description, on, inactive) {
+  const inactiveClass = inactive ? ' global-menu__sound-toggle--inactive' : '';
+  const disabledAttr = inactive ? ' aria-disabled="true"' : '';
+  const lockHTML = inactive
+    ? '<img class="global-menu__sound-toggle-lock" src="assets/dpaam/menu-locked.png" alt="">'
+    : '';
   return `
-    <button type="button" class="global-menu__sound-toggle" role="switch" aria-checked="${on}" data-setting="${setting}" data-sfx="none">
+    <button type="button" class="global-menu__sound-toggle${inactiveClass}" role="switch" aria-checked="${on}" data-setting="${setting}" data-sfx="none"${disabledAttr}>
       <span class="global-menu__sound-toggle-text">
         <span class="global-menu__sound-toggle-label">${label}</span>
         <span class="global-menu__sound-toggle-description">${description}</span>
       </span>
-      <span class="global-menu__sound-toggle-state" aria-hidden="true">${on ? 'ON' : 'OFF'}</span>
+      <span class="global-menu__sound-toggle-state" aria-hidden="true">${lockHTML}${on ? 'ON' : 'OFF'}</span>
     </button>
   `;
 }
@@ -334,13 +326,45 @@ function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML, modalOptions
     return;
   }
   // Back arrow before the title returns to the menu (like the membership Theme modal).
-  const titleHTML = `<button type="button" class="modal__back global-menu__back" aria-label="Back to menu">←</button>${title}`;
-  createModal(titleHTML, buildHTML(), 'Close', null, modalOptions);
+  // The Quit confirm passes noBack: Keep Playing, Quit and ✕ are its only ways out.
+  const titleHTML = modalOptions && modalOptions.noBack
+    ? title
+    : `<button type="button" class="modal__back global-menu__back" aria-label="Back to menu">←</button>${title}`;
+  const buttonLabel = (modalOptions && modalOptions.buttonLabel) || 'Close';
+  const onButtonClose = modalOptions && modalOptions.onButtonClose;
+  createModal(titleHTML, buildHTML(), buttonLabel, onButtonClose, modalOptions);
   // createModal() clears the footer, so fill it in afterwards.
   const modalVersionEl = document.querySelector('.modal-version');
   if (modalVersionEl && buildFooterHTML) {
     modalVersionEl.innerHTML = buildFooterHTML();
   }
+}
+
+// Quit This Escape Room asks first in our own modal. Quit lifts the page's
+// beforeunload guard (canRefresh, global.js) so the browser's own "Leave site?"
+// prompt doesn't follow; Keep Playing closes the modal and stays on the page.
+function openQuitConfirmModal(href) {
+  openModalFromGlobalMenu(
+    'Are you sure you want to quit?',
+    function() {
+      return 'If you quit this escape room, you\'ll lose all your progress. You\'ll have to start over from the beginning.';
+    },
+    function() {
+      return '<button type="button" class="modal__button global-menu__keep-playing">Keep Playing</button>';
+    },
+    {
+      buttonLabel: 'Quit Escape Room',
+      noBack: true,
+      onButtonClose: function() {
+        if (typeof canRefresh !== 'undefined') {
+          canRefresh = true;
+        }
+        setTimeout(function() {
+          window.location.href = href;
+        }, KIDS_LINK_NAVIGATE_DELAY_MS);
+      },
+    }
+  );
 }
 
 function buildVersionFooterHTML() {
@@ -353,6 +377,11 @@ function buildVersionFooterHTML() {
   document.addEventListener('click', function(e) {
     if (e.target.closest('.global-menu__back')) {
       openGlobalMenu(getGlobalMenuState());
+      return;
+    }
+    if (e.target.closest('.global-menu__keep-playing')) {
+      // Same close as the modal's X.
+      modalX.click();
       return;
     }
     if (!e.target.closest('.modal__popup--global-menu')) {
@@ -408,8 +437,12 @@ function rememberGameSetting(key, off) {
     if (navigating) {
       return;
     }
-    navigating = true;
     const href = link.getAttribute('href');
+    if (link.hasAttribute('data-confirm-quit')) {
+      openQuitConfirmModal(href);
+      return;
+    }
+    navigating = true;
     setTimeout(function() {
       if (link.hasAttribute('data-reload')) {
         window.location.reload();
@@ -424,6 +457,14 @@ function rememberGameSetting(key, off) {
   document.addEventListener('click', function(e) {
     const toggle = e.target.closest('.global-menu__sound-toggle');
     if (!toggle) {
+      return;
+    }
+    if (toggle.classList.contains('global-menu__sound-toggle--inactive')) {
+      typeof Sound !== 'undefined' && Sound.event('ui.locked');
+      const state = toggle.querySelector('.global-menu__sound-toggle-state');
+      state.classList.remove('global-menu__kids-link-lock-icon--wiggle');
+      void state.offsetWidth;
+      state.classList.add('global-menu__kids-link-lock-icon--wiggle');
       return;
     }
     const setting = toggle.getAttribute('data-setting');
@@ -495,7 +536,7 @@ function openGlobalMenu(state = 'unfinished') {
   // without wide empty margins.
   modalPopup.classList.toggle(
     'modal__popup--global-menu-compact',
-    isUndermurkHidden() || isIndexCodeEntryMenu(state)
+    isUndermurkHidden()
   );
   createModal('Menu', buildGlobalMenuHTML(state), 'Close');
 }
