@@ -45,21 +45,55 @@ export function isDisposableEmail(email, domains = DISPOSABLE_EMAIL_DOMAINS) {
   return false;
 }
 
+// Personal-mail providers. A graduation-year prefix only means something on a
+// school domain, so `07mustang@gmail.com` is left alone.
+const CONSUMER_EMAIL_DOMAINS = new Set([
+  "gmail.com",
+  "googlemail.com",
+  "yahoo.com",
+  "ymail.com",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "msn.com",
+  "icloud.com",
+  "me.com",
+  "aol.com",
+  "protonmail.com",
+  "proton.me",
+  "comcast.net",
+  "att.net",
+  "sbcglobal.net",
+  "verizon.net",
+]);
+
 /**
- * Whether an address looks school-issued to a student: "student" anywhere in
- * it (`jsmith@student.cuisd.org`) or an all-digit local part (`74892@cuisd.com`).
- * Student inboxes often bounce, so they never reach MailerLite. Deliberately
- * not widened to letter+digits (`s1234567@`): that starts catching teachers.
+ * Whether an address looks school-issued to a student. Student inboxes often
+ * bounce, so they never reach MailerLite. Each rule below was seen in real
+ * bounces:
+ *  - "student" anywhere (`jsmith@student.cuisd.org`)
+ *  - an all-digit local part (`74892@cuisd.com`)
+ *  - a "stu" or "st" subdomain (`jsmith@stu.cuisd.org`, `jsmith@st.sd272.org`)
+ *  - a "stu" tag ending the local part after `.`, `-` or `_` (`phall-stu@wusd9.org`)
+ *  - a two-digit graduation-year prefix on a non-consumer domain (`28bradshawe@eusdk8.us`)
+ * Deliberately not widened to letters+digits (`s1234567@`) or a bare "stu."
+ * (`stu.jones@`): those start catching teachers.
  * Mirrored client-side in js/membership-auth.js — keep the two in sync.
  */
 export function isStudentEmail(email) {
   if (typeof email !== "string") return false;
-  const at = email.lastIndexOf("@");
-  if (at < 0) return false;
-
   const normalized = email.trim().toLowerCase();
+  const at = normalized.lastIndexOf("@");
+  if (at < 0) return false;
+  const local = normalized.slice(0, at);
+  const domain = normalized.slice(at + 1);
+
   if (normalized.includes("student")) return true;
-  return /^\d+$/.test(normalized.slice(0, normalized.lastIndexOf("@")));
+  if (/^\d+$/.test(local)) return true;
+  if (/^stu?\./.test(domain)) return true;
+  if (/[.\-_]stu$/.test(local)) return true;
+  if (/^\d{2}[a-z]/.test(local) && !CONSUMER_EMAIL_DOMAINS.has(domain)) return true;
+  return false;
 }
 
 /**

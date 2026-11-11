@@ -86,6 +86,27 @@ describe("isStudentEmail", () => {
     assert.equal(isStudentEmail("JSmith@Students.CUISD.org"), true);
   });
 
+  test("matches a 'stu' or 'st' subdomain", () => {
+    assert.equal(isStudentEmail("jsmith@stu.cuisd.org"), true);
+    assert.equal(isStudentEmail("JSmith@STU.cuisd.org"), true);
+    assert.equal(isStudentEmail("hudsonjroraback@st.sd272.org"), true);
+  });
+
+  test("matches a 'stu' tag ending the local part after '.', '-' or '_'", () => {
+    assert.equal(isStudentEmail("jsmith.stu@cuisd.org"), true);
+    assert.equal(isStudentEmail("JSmith.STU@cuisd.org"), true);
+    assert.equal(isStudentEmail("phall-stu@wusd9.org"), true);
+    assert.equal(isStudentEmail("afloresdiaz1-stu@wusd9.org"), true);
+    assert.equal(isStudentEmail("jsmith_stu@cuisd.org"), true);
+  });
+
+  test("matches a two-digit graduation-year prefix on a school domain", () => {
+    assert.equal(isStudentEmail("28bradshawe@eusdk8.us"), true);
+    assert.equal(isStudentEmail("28mbschottel@warrick.k12.in.us"), true);
+    assert.equal(isStudentEmail("33petersteele@kentschools.net"), true);
+    assert.equal(isStudentEmail("18hepburnmurray@ab-ed.org"), true);
+  });
+
   test("matches an all-digit local part", () => {
     assert.equal(isStudentEmail("74892@cuisd.com"), true);
     assert.equal(isStudentEmail("  74892@cuisd.com  "), true);
@@ -96,6 +117,18 @@ describe("isStudentEmail", () => {
     assert.equal(isStudentEmail("msmith1987@cuisd.org"), false);
     assert.equal(isStudentEmail("s1234567@cuisd.org"), false);
     assert.equal(isStudentEmail("jane.doe@gmail.com"), false);
+    assert.equal(isStudentEmail("stu.jones@cuisd.org"), false);
+    assert.equal(isStudentEmail("kristu.lee@gmail.com"), false);
+    assert.equal(isStudentEmail("jsmith@instu.edu"), false);
+    assert.equal(isStudentEmail("jsmith@stmarys.org"), false);
+    assert.equal(isStudentEmail("jsmith-st@cuisd.org"), false);
+  });
+
+  test("does not match a graduation-year prefix on a consumer domain", () => {
+    assert.equal(isStudentEmail("07mustang@gmail.com"), false);
+    assert.equal(isStudentEmail("28jones@yahoo.com"), false);
+    assert.equal(isStudentEmail("2jsmith@cuisd.org"), false);
+    assert.equal(isStudentEmail("123abc@cuisd.org"), false);
   });
 
   test("returns false for missing or malformed addresses", () => {

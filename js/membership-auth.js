@@ -144,18 +144,49 @@ function formIsValid(form) {
   return false;
 }
 
-// School-issued student addresses ("student" anywhere, or an all-digit local
-// part like 74892@cuisd.com) bounce and hurt deliverability, so sign-up turns
-// them away. Mirrors isStudentEmail in firebase-functions/mailerlite.js, which
-// also keeps Google sign-ups with such addresses out of MailerLite.
+// Personal-mail providers. A graduation-year prefix only means something on a
+// school domain, so 07mustang@gmail.com is left alone.
+const CONSUMER_EMAIL_DOMAINS = new Set([
+  "gmail.com",
+  "googlemail.com",
+  "yahoo.com",
+  "ymail.com",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "msn.com",
+  "icloud.com",
+  "me.com",
+  "aol.com",
+  "protonmail.com",
+  "proton.me",
+  "comcast.net",
+  "att.net",
+  "sbcglobal.net",
+  "verizon.net",
+]);
+
+// School-issued student addresses bounce and hurt deliverability, so sign-up
+// turns them away: "student" anywhere, an all-digit local part (74892@cuisd.com),
+// a "stu" or "st" subdomain (jsmith@stu.cuisd.org, jsmith@st.sd272.org), a "stu"
+// tag ending the local part (phall-stu@wusd9.org), or a two-digit graduation-year
+// prefix on a school domain (28bradshawe@eusdk8.us). Mirrors isStudentEmail in
+// firebase-functions/mailerlite.js, which also keeps Google sign-ups with such
+// addresses out of MailerLite.
 function isStudentEmail(email) {
   if (typeof email !== "string") return false;
-  const at = email.lastIndexOf("@");
-  if (at < 0) return false;
-
   const normalized = email.trim().toLowerCase();
+  const at = normalized.lastIndexOf("@");
+  if (at < 0) return false;
+  const local = normalized.slice(0, at);
+  const domain = normalized.slice(at + 1);
+
   if (normalized.includes("student")) return true;
-  return /^\d+$/.test(normalized.slice(0, normalized.lastIndexOf("@")));
+  if (/^\d+$/.test(local)) return true;
+  if (/^stu?\./.test(domain)) return true;
+  if (/[.\-_]stu$/.test(local)) return true;
+  if (/^\d{2}[a-z]/.test(local) && !CONSUMER_EMAIL_DOMAINS.has(domain)) return true;
+  return false;
 }
 
 // Email verification is a soft gate: any signed-in user reaches the dashboard,
