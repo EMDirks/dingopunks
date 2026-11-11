@@ -657,8 +657,8 @@
     top: calc(50% - 5vh);
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 33.615vmin;
-    aspect-ratio: 800 / 382;
+    width: 31.356vmin; /* 20% over 26.13vmin (the old height at the frames' own shape) */
+    aspect-ratio: 661 / 406; /* logo-harper-frame-*.png */
 }
 
 .harper-bumper__frame {
