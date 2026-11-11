@@ -1,6 +1,31 @@
 // store user inputs
 let crosswordUserInputs = [];
 
+// auto-advance: starting on a lettered cell (A, B, C...) moves focus through that word's
+// empty cells as you type; starting anywhere else (or clicking away) turns it off
+let crosswordActiveWord = null;      // the inputs of the word being typed, in order
+let crosswordAutoFocusing = false;   // true while we move focus ourselves
+
+function focusNextCrosswordWordCell(inputElement){
+  const word = crosswordActiveWord;
+  const index = word ? word.indexOf(inputElement) : -1;
+  if (index === -1) return;
+  const next = word.slice(index + 1).find(cell => cell.value === '');
+  if (!next) {
+    crosswordActiveWord = null;
+    if (activeInput__codeInput === inputElement) activeInput__codeInput = null;
+    return;
+  }
+  crosswordAutoFocusing = true;
+  next.focus({ preventScroll: true });
+  crosswordAutoFocusing = false;
+  activeInput__codeInput = next;
+}
+
+// the software keyboard registers its handlers once per drawn activity, so one press can
+// call this several times; the debounce collapses them so we only move one cell
+const debouncedFocusNextCrosswordWordCell = debounce(focusNextCrosswordWordCell, 10);
+
 function drawCrossword(activityIndex){
 
   if (gameMode === "preview"){
@@ -58,7 +83,9 @@ function drawCrossword(activityIndex){
   // create elements: puzzle
   let machineItemCrosswordPuzzle = createElement("div", ["machine-item-crossword-puzzle", "machine-item"], machineColumnRight);
   let machineCrosswordTable = createElement("table", ["machine-crossword-table"], machineItemCrosswordPuzzle);
+  const crosswordInputGrid = [];
   for (let i = 0; i <  activityCrossword.puzzle.length; i++) {
+    crosswordInputGrid[i] = [];
     const rowIsAllEmpty = activityCrossword.puzzle[i].every(cell => cell === "0");
     const rowClasses = rowIsAllEmpty
       ? ["machine-crossword-row", "machine-crossword-row--all-empty"]
@@ -70,6 +97,7 @@ function drawCrossword(activityIndex){
         let machineCrosswordInput = createElement("input",["machine-crossword-input","machine-crossword-cell-filled","input-functionality-default"],machineCrosswordCell);
         machineCrosswordInput.type = "text";
         machineCrosswordInput.maxLength = 1;
+        crosswordInputGrid[i][j] = machineCrosswordInput;
         const regex = /\((.+)\)/;
         const match =  activityCrossword.puzzle[i][j].match(regex);
         if (match) {
@@ -116,11 +144,43 @@ function drawCrossword(activityIndex){
     }
   }
 
+  setCrosswordAutoAdvance(activityCrossword.puzzle, crosswordInputGrid);
+
   checkIfCrosswordIsFilled();
 
   // set software keyboard functionality
   setSoftwareKeyboardFunctionality("machine-crossword-input","machine-crossword-table",activityIndex);
   
+}
+
+// give each lettered cell the inputs of the word it starts, and pick the word up on focus
+function setCrosswordAutoAdvance(puzzle, inputGrid){
+  crosswordActiveWord = null;
+  const isLetter = (i, j) => i >= 0 && j >= 0 && i < puzzle.length && j < puzzle[i].length && puzzle[i][j] !== "0";
+
+  for (let i = 0; i < puzzle.length; i++) {
+    for (let j = 0; j < puzzle[i].length; j++) {
+      const input = inputGrid[i][j];
+      if (!input) continue;
+
+      let wordCells = null;
+      if (/^\(.+\)/.test(puzzle[i][j])) {
+        // the word runs the way this cell starts one: blank before it, letter after it
+        let di = 0, dj = 0;
+        if (!isLetter(i, j - 1) && isLetter(i, j + 1)) dj = 1;
+        else if (!isLetter(i - 1, j) && isLetter(i + 1, j)) di = 1;
+        if (di || dj) {
+          wordCells = [];
+          for (let r = i, c = j; isLetter(r, c); r += di, c += dj) wordCells.push(inputGrid[r][c]);
+        }
+      }
+
+      input.addEventListener('focus', () => {
+        if (crosswordAutoFocusing) return;
+        crosswordActiveWord = wordCells;
+      });
+    }
+  }
 }
 
 // check if filled

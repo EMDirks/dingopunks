@@ -74,7 +74,7 @@ const SOUND_CONFIG = {
     toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
     blip:    { src: ['sfx/ui/blip'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['sfx/cutscene/typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text (outro and fail, per letter)
-    'typewriter-soft': { src: ['sfx/cutscene/typewriter'], volume: 0.1, pitch: [1.3,1.4], maxVoices: 4 }, // intro cutscenes' typewriter run: typewriter, 50% softer
+    'typewriter-soft': { src: ['sfx/cutscene/typewriter'], volume: 0.15, pitch: [1.3,1.4], maxVoices: 4 }, // intro cutscenes' typewriter run: typewriter at 75% volume
     'voice-jj-dingo': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
     'voice-jj-dingo-intro': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.9, 1.1], vocalize: true }, // J.J. Dingo in intro cutscenes (characterVoices.cutscene['intro:J.J. DINGO'])
     'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.51, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal
@@ -160,7 +160,7 @@ const SOUND_CONFIG = {
     clap:    { src: ['sfx/feedback/clap'],          volume: 0.3, lazy: true },      // the debrief's rank coming in, after its chime; lazy, preloaded on the debrief only
     'whoosh-cutscene': { src: ['sfx/motion/whoosh-soft'],           volume: 0.15 },                // Midnight Mall intro character moves
     'whoosh-badguy': { src: ['sfx/motion/crash'],        volume: 0.105 },                // bad guy slamming in/out of cutscenes
-    chime:   { src: ['sfx/feedback/chime'],           volume: 0.04 },                 // all characters selected
+    chime:   { src: ['sfx/feedback/chime'],           volume: 0.04 },                 // character select's Start Game and Rechoose buttons coming in
     dangle:  { src: ['sfx/motion/metal-dangle'],     volume: 0.05 },                 // Dingo Punks bumper logo swinging loose
     'whoosh-node': { src: ['sfx/motion/whoosh-node'],    volume: 0.2 },                 // node tapped, challenge modal scaling in
     'tv-on':    { src: ['sfx/cutscene/tv-on'],               volume: 0.1 },                 // cutscene coming in
@@ -227,7 +227,7 @@ const SOUND_CONFIG = {
     'ui.tab':            'tab',
     'ui.setting':        'select',   // escape room setup tabs
     'ui.character':      'select',   // choosing a character
-    'character.allReady': 'chime',   // last character picked, with "All punks ready!"
+    'character.allReady': 'chime',   // "All punks ready!" with Start Game and Rechoose, 300ms after the last character is picked
     'code.inputsIn':     'chime',    // the secret code boxes come in after the student answers every question
     'game.finish':       'click',    // the map's Finish button (launches the outro): the standard button click (was 'chime')
     'ui.toggle':         'toggle',

@@ -29,6 +29,26 @@ function registerWrongCodeAttempt(key) {
   }
 }
 
+// after a wrong code's shake and red flash finish (the wrong letters clear partway through),
+// focus the first empty box so the student can type again straight away
+function refocusCodeInputAfterWrong(key, letterIndex) {
+  const flash = document.querySelector('.code-input-flash-' + key + '-' + letterIndex);
+  if (!flash) return;
+  flash.addEventListener('animationend', () => {
+    const line = flash.closest('.code-input-line');
+    if (!line || !line.isConnected || line.classList.contains('code-input-line--hidden')) return;
+    if (gameMode === "preview" || line.querySelector('.code-input-line__lockout-overlay')) return;
+    // leave it alone if the student has already clicked into a box
+    if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+    const codeInputs = Array.from(line.querySelectorAll('.code-input'));
+    const firstInput = codeInputs.find(input => input.value === '');
+    if (firstInput) {
+      firstInput.focus({ preventScroll: true });
+      activeInput__codeInput = firstInput;
+    }
+  }, { once: true });
+}
+
 function triggerCodeWordLockout(key) {
   if (!codeWordRateLimit[key]) {
     codeWordRateLimit[key] = { attempts: [], lockoutEndsAt: null, intervalId: null, startTimeoutId: null };
@@ -354,6 +374,8 @@ function setComplete(activityArrayIndex){
 
     function findNonIdenticalIndices(arr1, arr2) {
     
+      refocusCodeInputAfterWrong(activityArrayIndex, arr1.findIndex((letter, i) => letter !== arr2[i]));
+
       // Assuming both arrays have the same length for direct comparison
       for (let i = 0; i < arr1.length; i++) {
         if (arr1[i] !== arr2[i]) {
@@ -480,6 +502,8 @@ function setComplete(activityArrayIndex){
 
     function findNonIdenticalIndices(arr1, arr2) {
     
+      refocusCodeInputAfterWrong(activityArrayIndex - 1, arr1.findIndex((letter, i) => letter !== arr2[i]));
+
       // Assuming both arrays have the same length for direct comparison
       for (let i = 0; i < arr1.length; i++) {
         if (arr1[i] !== arr2[i]) {

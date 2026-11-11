@@ -1051,8 +1051,13 @@ function setHardwareKeyboardFunctionality(inputElement,inputClass,parentClass,ac
     else {
       // blur the input
       blurInput(inputElement);
-      // for now, exclude crossword inputs
-      if (inputClass !== "machine-crossword-input"){
+      // crossword inputs only advance within a word started on a lettered cell
+      if (inputClass === "machine-crossword-input"){
+        if (event.key !== 'Delete' && event.key !== 'Backspace') {
+          debouncedFocusNextCrosswordWordCell(inputElement);
+        }
+      }
+      else {
         // get the parent element containing all inputElement elements
         const parentElement = findParentWithClass(inputElement, parentClass);   
         // if the parent doesn't exist, end the function
@@ -1236,14 +1241,15 @@ function setSoftwareKeyboardFunctionality(inputClass,parentClass,activityIndex){
       if (inputClass == "machine-crossword-input"){
         // blur the input
         blurInput(activeInput__codeInput);
-        if (activeInput__codeInput.classList.contains('machine-crossword-input')){
-          activeInput__codeInput = null;
-        }  
-        /*
-        const parentElement = findParentWithClass(activeInput__codeInput, parentClass);
-        if (!parentElement) { return; } 
-        debouncedFocusNextInput(event, inputClass, activeInput__codeInput, parentElement, 'softwareKeyboard');
-        */
+        if (activeInput__codeInput && activeInput__codeInput.classList.contains('machine-crossword-input')){
+          // advance within a word started on a lettered cell (this clears the active input
+          // when there's nowhere to go)
+          if (crosswordActiveWord && crosswordActiveWord.includes(activeInput__codeInput)) {
+            debouncedFocusNextCrosswordWordCell(activeInput__codeInput);
+          } else {
+            activeInput__codeInput = null;
+          }
+        }
       }
 
       if (inputClass == "access-input"){

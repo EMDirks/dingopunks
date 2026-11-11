@@ -41,6 +41,7 @@
       // What the skipped splash steps and intro cutscene would have set up.
       ['onPinInput', 'onSettings', 'onCharacterSelect', 'onCutsceneStart'].forEach(handlePreloading);
       window.globalMenuSplashStarted = true;
+      window.globalMenuGameStarted = true;
       hideModalElement();
       initializeSave();
       Object.assign(settings, DEBUG_GAME_SETTINGS);

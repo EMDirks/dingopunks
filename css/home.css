@@ -61,7 +61,7 @@
     opacity: 1;
     transition: transform 0.2s, opacity 0.2s;
     transition-timing-function: ease-in;
-    will-change: transform opacity;
+    will-change: transform, opacity;
 }
 
 .activity-node-image {
@@ -182,8 +182,10 @@
     border-radius: 1.5vmin;
     border: 0.35vmin solid rgba(var(--black), 1);
     background-color: rgba(var(--black), 1);
-    transition: transform 0.2s, opacity 0.2s;
-    will-change: transform opacity;
+    /* No transition: opening and closing play keyframe animations (below), and Safari
+       ran the transition on top of the pop-in, which showed as a second, glitchy bounce.
+       Reduced motion, which turns the pop-in off, gets the transition back. */
+    will-change: transform, opacity;
 }
 
 .activity-modal--right {
@@ -254,6 +256,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .activity-modal {
+        transition: transform 0.2s, opacity 0.2s;
+    }
     .activity-modal--open {
         animation: none;
     }

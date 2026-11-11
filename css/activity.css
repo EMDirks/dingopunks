@@ -900,8 +900,10 @@
     background-repeat: no-repeat;
     background-position: center;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);  /* snappy ease-out */
-    transform-origin: center bottom; 
-    will-change: transform;
+    transform-origin: center bottom;
+    /* scale too: the speaking pop animates it, and Safari otherwise layers the sprite only
+       while the pop runs, nudging the whole scene by a subpixel as it starts and ends. */
+    will-change: transform, scale;
 }
 
 .activity-scene-character--hidden {

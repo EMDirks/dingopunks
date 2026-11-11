@@ -22,18 +22,22 @@ import { track } from "./membership/analytics.js";
 
 const AUTH_VIEW_HEADING_IDS = {
   signin: "dpaam-auth-heading-signin",
+  role: "dpaam-auth-heading-role",
+  student: "dpaam-auth-heading-student",
   signup: "dpaam-auth-heading-signup",
   reset: "dpaam-auth-heading-reset",
   "offer-loading": "dpaam-auth-heading-offer-loading",
   offer: "dpaam-auth-heading-offer",
 };
 
+// Every visit opens on the educator/student gate ("role" view), whatever the
+// link. ?auth= only decides which form "I'm an educator" leads to.
 const AUTH_QUERY_VIEWS = {
   login: "signin",
   signup: "signup",
 };
 
-function consumeRequestedAuthView() {
+function consumeRequestedEducatorView() {
   const url = new URL(window.location.href);
   const requested = url.searchParams.get("auth");
   if (requested === null) return "signin";
@@ -144,18 +148,49 @@ function formIsValid(form) {
   return false;
 }
 
-// School-issued student addresses ("student" anywhere, or an all-digit local
-// part like 74892@cuisd.com) bounce and hurt deliverability, so sign-up turns
-// them away. Mirrors isStudentEmail in firebase-functions/mailerlite.js, which
-// also keeps Google sign-ups with such addresses out of MailerLite.
+// Personal-mail providers. A graduation-year prefix only means something on a
+// school domain, so 07mustang@gmail.com is left alone.
+const CONSUMER_EMAIL_DOMAINS = new Set([
+  "gmail.com",
+  "googlemail.com",
+  "yahoo.com",
+  "ymail.com",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "msn.com",
+  "icloud.com",
+  "me.com",
+  "aol.com",
+  "protonmail.com",
+  "proton.me",
+  "comcast.net",
+  "att.net",
+  "sbcglobal.net",
+  "verizon.net",
+]);
+
+// School-issued student addresses bounce and hurt deliverability, so sign-up
+// turns them away: "student" anywhere, an all-digit local part (74892@cuisd.com),
+// a "stu" or "st" subdomain (jsmith@stu.cuisd.org, jsmith@st.sd272.org), a "stu"
+// tag ending the local part (phall-stu@wusd9.org), or a two-digit graduation-year
+// prefix on a school domain (28bradshawe@eusdk8.us). Mirrors isStudentEmail in
+// firebase-functions/mailerlite.js, which also keeps Google sign-ups with such
+// addresses out of MailerLite.
 function isStudentEmail(email) {
   if (typeof email !== "string") return false;
-  const at = email.lastIndexOf("@");
-  if (at < 0) return false;
-
   const normalized = email.trim().toLowerCase();
+  const at = normalized.lastIndexOf("@");
+  if (at < 0) return false;
+  const local = normalized.slice(0, at);
+  const domain = normalized.slice(at + 1);
+
   if (normalized.includes("student")) return true;
-  return /^\d+$/.test(normalized.slice(0, normalized.lastIndexOf("@")));
+  if (/^\d+$/.test(local)) return true;
+  if (/^stu?\./.test(domain)) return true;
+  if (/[.\-_]stu$/.test(local)) return true;
+  if (/^\d{2}[a-z]/.test(local) && !CONSUMER_EMAIL_DOMAINS.has(domain)) return true;
+  return false;
 }
 
 // Email verification is a soft gate: any signed-in user reaches the dashboard,
@@ -222,10 +257,13 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   preloadRecaptchaConfig();
 
-  let signedOutView = consumeRequestedAuthView();
+  // Which form "I'm an educator" opens: log in unless the link asked for sign up.
+  const educatorView = consumeRequestedEducatorView();
 
   const headerToggle = document.getElementById("dpaam-auth-header-toggle");
 
+  // The top-right Log in / Sign up switch only appears past the gate, once the
+  // visitor has said they're an educator.
   function updateAuthHeader(view) {
     if (!headerToggle) return;
 
@@ -263,7 +301,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
   showAuthSignIn = () => {
     if (section.hidden) return;
-    setAuthView("signin", { focus: true });
+    setAuthView("role", { focus: true });
   };
 
   function setAuthView(view, { focus = false } = {}) {
@@ -288,8 +326,29 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     if (!focus) return;
 
-    activeModal.querySelector(".dpaam-auth-input")?.focus();
+    (
+      activeModal.querySelector(".dpaam-auth-input") ??
+      activeModal.querySelector("[data-auth-autofocus]")
+    )?.focus();
   }
+
+  // One gate in front of log in and sign up: Google sign-in on the log-in form
+  // also creates accounts, so gating sign up alone would miss students.
+  // Educators continue to a form; students are pointed to play.dingopunks.com,
+  // since playing needs only a teacher's code, not an account.
+  document.getElementById("dpaam-auth-role-teacher")?.addEventListener("click", () => {
+    track("choose_role", { role: "educator" });
+    setAuthView(educatorView, { focus: true });
+  });
+
+  document.getElementById("dpaam-auth-role-student")?.addEventListener("click", () => {
+    track("choose_role", { role: "student" });
+    setAuthView("student", { focus: true });
+  });
+
+  document.getElementById("dpaam-auth-student-back")?.addEventListener("click", () => {
+    setAuthView("role", { focus: true });
+  });
 
   document.getElementById("dpaam-auth-show-reset")?.addEventListener("click", () => {
     const signInEmail = document.getElementById("dpaam-auth-signin-email");
@@ -324,7 +383,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
       setAuthView("reset", { focus: true });
     });
 
-    const signUpLink = makeMessageLink("create an account", () => {
+    const signUpLink = makeMessageLink("sign up for an account", () => {
       const signUpEmail = document.getElementById("dpaam-auth-signup-email");
       const signUpPassword = document.getElementById("dpaam-auth-signup-password");
       if (email && signUpEmail) signUpEmail.value = email;
@@ -360,7 +419,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   }
 
   wirePasswordToggles(section);
-  setAuthView(signedOutView);
+  setAuthView("role");
 
   const signInForm = document.getElementById("dpaam-auth-signin-form");
   signInForm?.addEventListener("submit", async (event) => {
@@ -589,8 +648,7 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   async function applyAuthState(user) {
     const revision = ++authStateRevision;
     const signedIn = userCanAccessDashboard(user);
-    const requestedView = signedOutView;
-    signedOutView = "signin";
+    const requestedView = "role";
 
     document.documentElement.classList.remove("dpaam-boot-signed-in");
     if (signedIn) {

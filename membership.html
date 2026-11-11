@@ -20,6 +20,14 @@
   <meta property="og:url" content="https://account.dingopunks.com/" />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/website/favicon-192x192.png">
+  <!-- Images on the first screen (the educator/student gate): the logo, J.J.
+       Dingo climbing onto the card (head and hands), and the two gate buttons'
+       characters. Preloaded so the card doesn't fill in piece by piece. -->
+  <link rel="preload" as="image" href="assets/branding/logo/logo-main.png" />
+  <link rel="preload" as="image" href="assets/dpaam/auth-modal-head.webp" />
+  <link rel="preload" as="image" href="assets/dpaam/auth-modal-hands.webp" />
+  <link rel="preload" as="image" href="assets/dpaam/auth-educator.png" />
+  <link rel="preload" as="image" href="assets/dpaam/auth-student.png" />
   <link rel="stylesheet" href="https://use.typekit.net/wkn1qca.css" />
   <link rel="stylesheet" href="css/membership.css?version=4.0.68" />
   <link rel="stylesheet" href="css/membership-auth.css?version=4.0.68" />
@@ -107,7 +115,7 @@
                 hidden
               ></p>
             </div>
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signin">Teacher log in</h1>
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signin">Log in</h1>
 
             <form class="dpaam-auth-form" id="dpaam-auth-signin-form" method="post" novalidate>
               <label class="dpaam-auth-field">
@@ -173,10 +181,77 @@
             </button>
 
             <p class="dpaam-auth-legal">
-              By logging in to your Dingo Punks account, you agree to our
-              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-              and
+              By logging in to your Dingo Punks account, you agree to the
+              <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
+              &amp;
               <a class="dpaam-auth-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+          </div>
+
+          <div
+            class="dpaam-auth-card"
+            id="dpaam-auth-modal-role"
+            data-auth-view="role"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-role">Hello!</h1>
+            <p class="dpaam-auth-lead">Your escape rooms await.</p>
+            <div class="dpaam-auth-role-choices">
+              <button
+                type="button"
+                class="dpaam-btn dpaam-auth-role-btn"
+                id="dpaam-auth-role-teacher"
+                data-auth-autofocus
+              >
+                <span class="dpaam-auth-role-label">I'm a teacher<br />or parent</span>
+                <img
+                  class="dpaam-auth-role-img"
+                  src="assets/dpaam/auth-educator.png"
+                  alt=""
+                  width="650"
+                  height="750"
+                  decoding="async"
+                />
+              </button>
+              <button
+                type="button"
+                class="dpaam-btn dpaam-auth-role-btn"
+                id="dpaam-auth-role-student"
+              >
+                <span class="dpaam-auth-role-label">I'm a<br />student</span>
+                <img
+                  class="dpaam-auth-role-img"
+                  src="assets/dpaam/auth-student.png"
+                  alt=""
+                  width="650"
+                  height="750"
+                  decoding="async"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="dpaam-auth-card"
+            id="dpaam-auth-modal-student"
+            data-auth-view="student"
+            hidden
+          >
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-student">No login needed</h1>
+            <p class="dpaam-auth-lead">
+              To get started, just click <a href="https://play.dingopunks.com/">Play Dingo Punks</a> and enter the game code your teacher gave you.
+            </p>
+            <a
+              class="dpaam-btn dpaam-auth-submit dpaam-auth-play-link"
+              href="https://play.dingopunks.com/"
+              data-auth-autofocus
+            >
+              Play Dingo Punks
+            </a>
+            <p class="dpaam-auth-legal">
+              <button type="button" class="dpaam-auth-link" id="dpaam-auth-student-back">
+                Back
+              </button>
             </p>
           </div>
 
@@ -186,8 +261,7 @@
             data-auth-view="signup"
             hidden
           >
-            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signup">Teacher sign up</h1>
-            <p class="dpaam-auth-lead">Your escape rooms await.</p>
+            <h1 class="dpaam-auth-title" id="dpaam-auth-heading-signup">Sign up</h1>
 
             <form class="dpaam-auth-form" id="dpaam-auth-signup-form" method="post" novalidate>
               <label class="dpaam-auth-field">
@@ -241,11 +315,11 @@
                   id="dpaam-auth-signup-consent"
                 />
                 <span>
-                  I'm 18 or older and agree to the
-                  <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-                  and
+                  I'm 18+ and agree to the
+                  <a class="dpaam-auth-link" href="https://dingopunks.com/pages/terms-of-service" target="_blank" rel="noopener noreferrer">Terms</a>
+                  &amp;
                   <a class="dpaam-auth-link" href="https://dingopunks.com/pages/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-                 I consent to receive emails about Dingo Punks news and special offers.
+                  I consent to receive emails about Dingo Punks news and offers.
                 </span>
               </label>
               <button

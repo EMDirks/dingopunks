@@ -1708,8 +1708,9 @@ function addCharacter(){
   resetButton.textContent = 'Rechoose';
   setIpadActiveState(resetButton);
   let readyTimeouts = [];
-  // START GAME and RESET come in this long after the last pick (500ms after "All punks ready!")
-  const readyButtonsDelay = 700;
+  // This long after the last pick, the other characters lock and fade, and START GAME and
+  // RESET come in with "All punks ready!" and its chime
+  const readyButtonsDelay = 300;
 
   function showResetButton(){
     // START GAME's width as a share of the container, so the gap holds when the splash resizes
@@ -1753,9 +1754,8 @@ function addCharacter(){
   function enterReadyState(){
     debriefStats.teamSize = playerNum;
     readyTimeouts = [
-      setTimeout(lockCharacters,10),
-      setTimeout(fadeCharacters,100),
-      setTimeout(changeText,200),
+      setTimeout(lockCharacters,readyButtonsDelay),
+      setTimeout(fadeCharacters,readyButtonsDelay),
     ];
     if (isUndermurkPage){
       addUndermurkReadyButtons();
@@ -1765,6 +1765,7 @@ function addCharacter(){
       readyTimeouts.push(setTimeout(toggleClass,readyButtonsDelay,splashButton,'splash-button--hidden','splash-button--visible'));
     }
     readyTimeouts.push(setTimeout(showResetButton,readyButtonsDelay));
+    readyTimeouts.push(setTimeout(changeText,readyButtonsDelay));
   }
 
   function addUndermurkReadyButtons(){
@@ -1819,7 +1820,7 @@ function addCharacter(){
       if (settings.wholeClass) {
         splashTitle.innerHTML = '<span class="character-select-text-player">Teacher,</span> choose your character.';
       } else {
-        splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character`;
+        splashTitle.innerHTML = `<span class="character-select-text-player">Player ${playerNum},</span> choose your character.`;
       }
     });
   }
@@ -1860,6 +1861,7 @@ function scaleNewGameElements(){
 }
 
 function startTimedGame(){
+  window.globalMenuGameStarted = true;
   createActivityNodes();
   createCodeBox();
   createFooter();
@@ -1868,6 +1870,7 @@ function startTimedGame(){
 }
 
 function startNoLimitGame(){
+  window.globalMenuGameStarted = true;
   createActivityNodes("noLimit");
   createCodeBox();
   scaleNewGameElements();
@@ -1971,6 +1974,12 @@ function addCutscene(cutsceneIndex,section){
   let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],cutsceneBackgroundStage);
   let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],cutsceneBackgroundStage);
   let cutsceneBackgroundColor = createElement('div',['cutscene-background-color'],cutsceneBackgroundStage);
+  // CUTSCENE_HANDHELD_CAMERA (js/config.js) off: both stages hold still (css/splash-new.css).
+  // Pages without js/config.js (preview) leave it off too.
+  if (typeof CUTSCENE_HANDHELD_CAMERA === 'undefined' || !CUTSCENE_HANDHELD_CAMERA) {
+    cutsceneSpriteStage.classList.add('cutscene-handheld-off');
+    cutsceneBackgroundStage.classList.add('cutscene-handheld-off');
+  }
   // Held from the start if the first scene shows a static image, so the camera doesn't
   // move during the opening delay before that scene renders.
   if ([cutsceneSection[0]?.backgroundImage1, cutsceneSection[0]?.backgroundImage2].some(

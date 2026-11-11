@@ -31,3 +31,8 @@ const UNDERMURK_BUMPER = true;
 // Shows a back arrow (left of NEXT) on each splash step after the first. On the
 // "You're playing" step it reloads the page to an empty code entry.
 const SPLASH_BACK_BUTTON = false;
+
+// Cutscenes' handheld camera: the backgrounds sway and tilt, and the character sprite
+// drifts further in front of them (parallax). false holds the camera still; the
+// backgrounds' opening settle still plays.
+const CUTSCENE_HANDHELD_CAMERA = false;

@@ -180,6 +180,17 @@ function appendLocationSearch(href) {
   return search ? href + search : href;
 }
 
+// My Escape Room waits for the game itself: hidden through code entry, setup, character
+// select and the intro cutscene, then shown once the map comes up (window.globalMenuGameStarted,
+// set by startTimedGame() / startNoLimitGame() in splash-new.js). The debrief and Undermurk
+// pages always show it.
+function isMyEscapeRoomShown(state) {
+  if (state === 'active') {
+    return !!window.globalMenuGameStarted;
+  }
+  return state !== 'unfinished';
+}
+
 function buildGlobalMenuHTML(state) {
   // Quit This Escape Room leads every menu. Once a game has started it asks first
   // (openQuitConfirmModal()); before that (code entry, 'unfinished') it just goes.
@@ -214,7 +225,7 @@ function buildGlobalMenuHTML(state) {
 
   return `
     <div class="global-menu">
-      ${state !== 'unfinished' ? buildMyEscapeRoomHTML() : ''}
+      ${isMyEscapeRoomShown(state) ? buildMyEscapeRoomHTML() : ''}
       <div class="global-menu__kids">
         <div class="global-menu__kids-links">${kidsLinks}</div>
       </div>
@@ -366,7 +377,7 @@ function buildSettingsHTML() {
     const inactive = isEnterTheUndermurkPage();
     const description = inactive
       ? 'You can\'t change this setting while doing a Bonus Mission.'
-      : 'Show Enter the Undermurk, a fast-finisher minigame.';
+      : 'Show Enter the Undermurk, a bonus minigame.';
     rows.push(buildSettingToggleHTML('undermurk', 'Bonus Missions', description, !isUndermurkStudentOff(), inactive));
   }
   return `
@@ -447,7 +458,7 @@ function openModalFromGlobalMenu(title, buildHTML, buildFooterHTML, modalOptions
 // prompt doesn't follow; Keep Playing closes the modal and stays on the page.
 function openQuitConfirmModal(href) {
   openModalFromGlobalMenu(
-    'Are you sure you want to quit?',
+    'Are you sure?',
     function() {
       return 'If you quit this escape room, you\'ll lose all your progress. You\'ll have to start over from the beginning.';
     },
@@ -455,7 +466,7 @@ function openQuitConfirmModal(href) {
       return '<button type="button" class="modal__button global-menu__keep-playing">Keep Playing</button>';
     },
     {
-      buttonLabel: 'Quit Escape Room',
+      buttonLabel: 'Quit',
       noBack: true,
       onButtonClose: function() {
         if (typeof canRefresh !== 'undefined') {

@@ -146,6 +146,22 @@
     scale: calc(1 / 1.02);
 }
 
+/* CUTSCENE_HANDHELD_CAMERA off (js/config.js): no sway, tilt or parallax, and no
+   zoom to hide their edges. The backgrounds keep their opening settle. */
+.cutscene-background-stage.cutscene-handheld-off {
+    scale: none;
+    animation: cutscene-background-settle 1s cubic-bezier(0.22, 1, 0.36, 1) 0.69s backwards;
+}
+
+.cutscene-sprite-stage.cutscene-handheld-off {
+    scale: none;
+    animation: none;
+}
+
+.cutscene-handheld-off [data-cutscene-static] {
+    scale: none;
+}
+
 @keyframes cutscene-sprite-parallax {
     0%, 100% { translate: 0 1.1%; }
     7% { translate: -0.55% 1.43%; }

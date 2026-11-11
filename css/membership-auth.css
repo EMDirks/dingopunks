@@ -63,7 +63,7 @@
   --dpaam-auth-climb-head-duration: 0.4s;
   --dpaam-auth-climb-start: calc(var(--dpaam-auth-enter-delay) + var(--dpaam-auth-enter-duration));
   width: 100%;
-  max-width: 440px;
+  max-width: 450px;
   margin: 0 auto;
   transform: translateY(var(--dpaam-auth-modal-offset-y));
   animation: dpaam-auth-main-enter var(--dpaam-auth-enter-duration) both;
@@ -78,13 +78,17 @@
   position: relative;
 }
 
+/* J.J. Dingo (head + hands) climbing onto the card. His width is the one
+   setting; the offset above the card scales with it (86px at 168px wide), so
+   he sits on the card's edge the same way at any size. */
 .dpaam-auth-deco {
+  --dpaam-auth-deco-w: 168px;
   position: absolute;
   left: 50%;
-  width: 168px;
+  width: var(--dpaam-auth-deco-w);
   height: auto;
   display: block;
-  top: -86px;
+  top: calc(var(--dpaam-auth-deco-w) * -86 / 168);
   pointer-events: none;
   user-select: none;
   transform: translateX(-50%);
@@ -102,6 +106,12 @@
   transform-origin: 50% 90%;
   animation: dpaam-auth-hands-enter var(--dpaam-auth-climb-hands-duration) both;
   animation-delay: var(--dpaam-auth-climb-start);
+}
+
+@media (max-width: 480px) {
+  .dpaam-auth-deco {
+    --dpaam-auth-deco-w: 128px;
+  }
 }
 
 .dpaam-auth-cards {
@@ -165,9 +175,15 @@
 
 .dpaam-auth-title {
   margin: -4px 0 var(--dpaam-pad-lg);
-  font-size: var(--dpaam-text-xl);
+  font-size: calc(var(--dpaam-text-xl) + 6px);
   font-weight: 600;
+  line-height: 1.2;
+  /* Gives back the space above and below that the tighter line height took,
+     (1.45 - 1.2) / 2 of the font size, so only a wrapped title's line gap shrinks
+     and the spacing tuned around the title stays put. */
+  padding-block: calc((calc(var(--dpaam-text-xl) + 6px)) * 0.125);
   text-align: center;
+  text-wrap: balance;
 }
 
 .dpaam-auth-lead {
@@ -183,8 +199,32 @@
   margin-bottom: var(--dpaam-pad-xl);
 }
 
-#dpaam-auth-modal-signup .dpaam-auth-title {
-  margin-bottom: calc(var(--dpaam-pad-md) + var(--dpaam-pad-xs));
+/* Inline link in a subtitle, like the student card's "Play Dingo Punks". */
+.dpaam-auth-lead a {
+  color: var(--dpaam-teal-accessible);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Student card: the title-to-subtitle gap is tuned by eye against the
+   subtitle-to-button gap. The title's line height already adds about 10px of
+   empty space under its letters. */
+#dpaam-auth-modal-student .dpaam-auth-title {
+  margin-bottom: 18px;
+}
+
+#dpaam-auth-modal-student .dpaam-auth-lead {
+  margin-top: 0;
+}
+
+/* The gate's "Hello!" is much larger than the other card titles. The padding
+   follows the same 0.125 rule as .dpaam-auth-title. */
+#dpaam-auth-modal-role .dpaam-auth-title {
+  font-size: calc(var(--dpaam-text-xl) + 22px);
+  padding-block: calc((calc(var(--dpaam-text-xl) + 22px)) * 0.125);
+  /* Bigger text carries more empty space under its letters, so the gap to
+     the subtitle is tighter here than on the student card. */
+  margin-bottom: 8px;
 }
 
 .dpaam-auth-message {
@@ -362,6 +402,77 @@
   font-size: var(--dpaam-text-md);
 }
 
+/* Sign-up role picker: "I'm an educator" and "I'm a student" as two square
+   buttons side by side, both in the white outlined (secondary) style of the
+   Google button. */
+.dpaam-auth-role-img {
+  display: block;
+  flex: none;
+  /* 143px wide is 165px tall at the pictures' 650x750 shape. On narrow phones
+     the picture is never wider than the label below it less 8px a side (the
+     label is inset 8px from each side of the button, so 32px in all), and its
+     height shrinks with it, leaving no empty band above it. */
+  width: min(143px, calc(100% - 32px));
+  height: auto;
+  margin-top: 8px;
+  pointer-events: none;
+}
+
+/* Each label sits 8px inside its button, so a 4px gap here leaves 20px
+   between the two labels. */
+.dpaam-auth-role-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+/* Label at the top, character portrait below it. The portraits are cut off
+   at their bottom edge, so they sit flush on the button's bottom edge. */
+.dpaam-auth-role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+  line-height: 1.22;
+  background: var(--dpaam-white);
+  border: 0;
+  color: var(--dpaam-black);
+  font-size: var(--dpaam-text-md);
+}
+
+/* The label is a flat, rounded off-black button under the picture. It stays
+   first in the markup so screen readers announce it first. */
+.dpaam-auth-role-label {
+  order: 1;
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  /* When one label wraps to more lines than the other (on phones), the
+     shorter one grows to match and centers its text, so both buttons end at
+     the same height. */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 var(--dpaam-pad-sm) var(--dpaam-pad-sm);
+  padding: var(--dpaam-pad-md) var(--dpaam-pad-sm);
+  border-radius: var(--dpaam-radius-lg);
+  background: var(--dpaam-black);
+  color: var(--dpaam-white);
+}
+
+/* The student card's play link is an <a> styled as the teal submit button. */
+.dpaam-auth-play-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
 .dpaam-auth-submit.is-loading {
   cursor: wait;
   opacity: 0.75;
@@ -487,7 +598,9 @@
 }
 
 #dpaam-auth #dpaam-auth-reset-back,
-#dpaam-auth #dpaam-auth-reset-back:hover {
+#dpaam-auth #dpaam-auth-reset-back:hover,
+#dpaam-auth #dpaam-auth-student-back,
+#dpaam-auth #dpaam-auth-student-back:hover {
   margin-top: 0;
   margin-bottom: 0;
   color: var(--dpaam-teal-accessible);
@@ -971,6 +1084,13 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
 
   .dpaam-auth-card {
     --dpaam-auth-card-pad-x: var(--dpaam-pad-md);
+  }
+
+  /* Gate: even 20px under the buttons, matching the sides. Each label already
+     sits 8px inside its button, so the card's bottom padding matches its side
+     padding (12px). */
+  #dpaam-auth-modal-role {
+    padding-bottom: var(--dpaam-auth-card-pad-x);
   }
 
   .dpaam-auth-consent {
