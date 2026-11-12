@@ -2034,6 +2034,15 @@ a.dpaam-topbar-btn {
   gap: 0;
 }
 
+.dpaam-settings-intro {
+  margin: 0 0 var(--dpaam-pad-lg);
+  padding-bottom: var(--dpaam-pad-lg);
+  border-bottom: 1px solid var(--dpaam-border);
+  font-size: var(--dpaam-text-sm);
+  line-height: 1.45;
+  color: var(--dpaam-black-muted);
+}
+
 .dpaam-settings-row {
   display: flex;
   align-items: flex-start;

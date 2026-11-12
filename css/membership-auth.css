@@ -290,6 +290,9 @@
   padding: 8px 12px;
   border: 1px solid var(--dpaam-border);
   border-radius: var(--dpaam-radius);
+  /* Without a size, fields fall back to the browser's control font, which
+     Safari draws smaller than Chrome. */
+  font-size: var(--dpaam-text-sm);
 }
 
 .dpaam-auth-form .dpaam-auth-input {
@@ -1215,5 +1218,16 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
     animation: none;
     opacity: 1;
     transform: translateX(-50%);
+  }
+}
+
+/* iOS Safari zooms in when a field under 16px is focused and stays zoomed,
+   even after login swaps in the dashboard. 16px on touch devices stops the
+   zoom. Kept last so it wins ties with rules like .dpaam-filter select. */
+@media (hover: none) and (pointer: coarse) {
+  .dpaam input:not([type="checkbox"]):not([type="radio"]),
+  .dpaam select,
+  .dpaam textarea {
+    font-size: 16px;
   }
 }

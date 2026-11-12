@@ -3,7 +3,7 @@ const UNDERMURK = true;
 
 // Master override for Enter the Undermurk. false = gated by the All-Access
 // debrief slug (undermurk=1). true = open to everyone, slug or not.
-const UNDERMURK_BUTTON = true;
+const UNDERMURK_BUTTON = false;
 
 // Controls the floating global-menu button
 const SHOW_GLOBAL_MENU_BUTTON = true;

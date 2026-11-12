@@ -447,14 +447,17 @@ button, input[type="submit"], input[type="reset"] {
 	color: rgba(var(--off-black), 1);
 }
 
+/* Oversized and centred on .site-container: the container is capped at 180vh
+   wide and is scaled to 0.8 on short landscape screens, so a 100vw backdrop
+   left bars of the page uncovered. body's overflow: hidden clips the excess. */
 .modal__blackout {
-    width: 100vw;
-    height: 150vh;
+    width: 300vw;
+    height: 300vh;
     background-color: rgba(var(--off-black), 1);
     position: absolute;
-    top: -25vh;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     z-index: 999;
     opacity: 0;
     transition: opacity 0.2s;
@@ -468,7 +471,7 @@ button, input[type="submit"], input[type="reset"] {
     opacity: 0.9;
 }
 
-@media (max-width: 650px), (max-height: 650px) {
+@media (max-width: 600px), (max-height: 600px) {
 
 	.button-menu-global {
 		padding: 3px 6px;
@@ -526,19 +529,6 @@ button, input[type="submit"], input[type="reset"] {
 	}
 	.global-menu__kids-link {
 		border-width: 1.5px !important;
-	}
-	.global-menu__sound-toggle {
-		font-size: 20px;
-	}
-	.global-menu__sound-toggles {
-		gap: 12px;
-	}
-	.global-menu__sound-toggle-description {
-		font-size: 16px;
-	}
-	.global-menu__sound-toggle-state {
-		min-width: 60px;
-		font-size: 16px;
 	}
 	.global-menu__kids-link--inactive .global-menu__kids-link-content {
 		border-width: 1.5px !important;
@@ -658,7 +648,7 @@ button, input[type="submit"], input[type="reset"] {
 
 /* Small screens. Kept here, after the rules above, so it wins without !important
    (the shared small-screen block further up comes before them in the file). */
-@media (max-width: 650px), (max-height: 650px) {
+@media (max-width: 600px), (max-height: 600px) {
 	.global-menu__room {
 		padding: 8px 10px 9px 10px;
 		gap: 2px;
@@ -775,7 +765,7 @@ button, input[type="submit"], input[type="reset"] {
 	outline-offset: 2px;
 }
 
-@media (max-width: 650px), (max-height: 650px) {
+@media (max-width: 600px), (max-height: 600px) {
 	.global-menu__links {
 		gap: 4px;
 	}
@@ -830,12 +820,6 @@ button, input[type="submit"], input[type="reset"] {
 
 .global-menu__information-link:hover {
 	opacity: 0.7;
-}
-
-@media (max-width: 650px), (max-height: 650px) {
-	.global-menu__information-links {
-		gap: 6px;
-	}
 }
 
 /* Settings modal: Sound effects and Music & ambience toggles. Each row stretches
@@ -934,6 +918,45 @@ button, input[type="submit"], input[type="reset"] {
 	border-radius: 6px;
 }
 
+/* Small screens: Settings and Information scaled to the 380px popup (20px title,
+   16px body). Kept after the rules above so it wins without !important. */
+@media (max-width: 600px), (max-height: 600px) {
+	.global-menu__sound-toggles {
+		gap: 10px;
+		margin-top: 0;
+	}
+	.global-menu__sound-toggle {
+		gap: 12px;
+		padding: 2px 0;
+		font-size: 18px;
+	}
+	.global-menu__sound-toggle-text {
+		gap: 3px;
+	}
+	.global-menu__sound-toggle-description {
+		font-size: 14px;
+		line-height: 1.3;
+	}
+	.global-menu__sound-toggle-state {
+		min-width: 52px;
+		padding: 6px 10px;
+		font-size: 14px;
+	}
+	.global-menu__sound-toggle--inactive .global-menu__sound-toggle-state {
+		gap: 4px;
+	}
+	.global-menu__information {
+		margin-top: 0;
+	}
+	.global-menu__information-links {
+		gap: 8px;
+	}
+	.global-menu__information-link {
+		font-size: 16px;
+		text-underline-offset: 2px;
+	}
+}
+
 /* Bonus Missions hidden: two cards. The popup shrinks to two thirds of the
    three-card content width (plus one gap and padding), and each card takes half
    the row, so cards stay exactly the three-card size. Widths mirror .modal__popup:
@@ -947,7 +970,7 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 /* Small screens: the popup is 380px with 16px padding and an 8px gap. */
-@media (max-width: 650px), (max-height: 650px) {
+@media (max-width: 600px), (max-height: 600px) {
 	.modal__popup--global-menu.modal__popup--global-menu-compact {
 		width: calc((380px - 32px - 16px) * 2 / 3 + 8px + 32px);
 	}

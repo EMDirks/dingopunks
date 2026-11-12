@@ -520,58 +520,6 @@ iconDebrief.addEventListener("click", function() {
   )
 });
 
-
-
-/*
-const debriefAssets = [
-
-    '../assets/debrief/medal/medal-1-hidden.png',
-    '../assets/debrief/medal/medal-1.png',
-    '../assets/debrief/medal/medal-2-hidden.png',
-    '../assets/debrief/medal/medal-2.png',
-    '../assets/debrief/medal/medal-3-hidden.png',
-    '../assets/debrief/medal/medal-3.png',
-    '../assets/debrief/medal/medal-4-hidden.png',
-    '../assets/debrief/medal/medal-4.png',
-    '../assets/debrief/medal/medal-5-hidden.png',
-    '../assets/debrief/medal/medal-5.png',
-    '../assets/debrief/misc/bean.png',
-];
-  
-  function createPreloadLink(imagePath) {
-    var link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = imagePath;
-    document.head.appendChild(link);
-  }
-  
-  function preloadImages(imagePaths, callback) {
-    var loadedImages = 0;
-    var totalImages = imagePaths.length;
-  
-    function imageLoaded() {
-      loadedImages++;
-      if (loadedImages === totalImages) {
-        callback();
-      }
-    }
-  
-    for (var i = 0; i < totalImages; i++) {
-      createPreloadLink(imagePaths[i]);
-      var img = new Image();
-      img.onload = imageLoaded;
-      img.onerror = imageLoaded;
-      img.src = imagePaths[i];
-    }
-  }
-  
-  // onload, preload images with priority-0
-  window.onload = function() {
-    preloadImages(debriefAssets, function() {});
-  };
-*/
-  
 let vh;
 function setContainerSize(){
     vh = window.innerHeight * 0.01;

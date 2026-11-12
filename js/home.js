@@ -15,14 +15,6 @@ function createActivityNodes(timeSelection){
     activityNodeContainer.classList.remove('state-display-none');
     activityNodeContainer.classList.add('state-display-flex');
 
-    // preload images with priority-2
-    /*
-    setTimeout(preloadImages2,3000);
-    function preloadImages2(){
-        preloadImages(globalAssets[2], function() {});
-        preloadImages(resourceAssets[2], function() {});
-    }
-    */
     /* siteContainer.style.backgroundImage = `url(assets/resource/background/${resource.global.background})`; */
 
     function removeValuesAfterIndex(array, index) {

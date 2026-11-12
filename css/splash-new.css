@@ -283,6 +283,23 @@
     opacity: 1;
 }
 
+/* One layer per sprite image in the cutscene (js/splash-new.js, cutsceneSpriteFrames),
+   with only the current one showing. Each is its own composited layer, so iOS Safari
+   paints it once and keeps it: a sprite change is an opacity switch with nothing to
+   decode, and the sprite's moves, pops and loops still run on the parent. */
+.cutscene-sprite-frame {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    opacity: 0;
+    will-change: opacity;
+    pointer-events: none;
+}
+
+.cutscene-sprite-frame--shown {
+    opacity: 1;
+}
+
 /* Animates scale, not transform, so the pop stacks on a sprite's own entrance or exit move.
    It stretches up from the bottom edge rather than translating: sprites that reach the bottom
    of the frame would otherwise lift off it and show a gap. */

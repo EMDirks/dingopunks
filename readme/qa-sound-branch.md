@@ -8,24 +8,29 @@ Covers every commit on `sound-effects` since `main` (42 commits, Oct 29 – Nov 
 
 ---
 
+BACKLOG
+
+• Make student buttons in the global menu smaller
+
+---
+
 ## 1. Every device
 
 ### Account page (membership.html)
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
 | 1.1 | Opens on the "Hello!" gate with two picture buttons (teacher or parent / student). Images load right away with no pop-in | ✅ | ✅ | ✅ | ✅ |
-• on Mac (Chrome and Safari), CB, and iPad, the "log in" modal appears briefly before the "Hello" modal replaces it
 | 1.2 | "I'm a student" → "No login needed" card → the link opens play.dingopunks.com | ✅ | ✅ | ✅ | ✅ |
 | 1.3 | "I'm a teacher or parent" → Log in. With `?auth=signup` it opens Sign up instead | ✅ | ✅ | ✅ | ✅ |
-• On all devices, everything works as ecpected EXCEPT the "email" input is currently focused by default on all devices. No field should be focused by default in the auth flow.
 | 1.4 | Forms are titled Log in / Sign up. Shorter legal and consent lines. Card titles are bigger and balanced | ✅ | ✅ | ✅ | ✅ |
 | 1.5 | Student-email block: `x@stu.school.org`, `x@st.school.org`, `jsmithstu@school.org`, `27jsmith@school.org` are rejected. A gmail address like `27jsmith@gmail.com` is allowed | ✅ | ✅ | ✅ | ✅ |
+
 
 ### Teacher Audio setting
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
-| 1.6 | Dashboard Settings: the Audio row has the new wording, saves, and survives a reload. Bonus Missions and favorites still save without resetting it | ☐ | ☐ | ☐ | ☐ |
-| 1.7 | Audio **off** → relaunch the *same* share code: silent everywhere (play, debrief, Undermurk). URL has `audio=0`. No Audio row in the student Settings | ☐ | ☐ | ☐ | ☐ |
+| 1.6 | Dashboard Settings: the Audio row has the new wording, saves, and survives a reload. Bonus Missions and favorites still save without resetting it | ✅ | ✅ | ✅ | ✅ |
+| 1.7 | Audio **off** → relaunch the *same* share code: silent everywhere (play, debrief, Undermurk). URL has `audio=0`. No Audio row in the student Settings | ✅ | ✅ | ✅ | ✅ |
 | 1.8 | Audio back **on** → sound and the student Audio row come back without re-sharing the code | ☐ | ☐ | ☐ | ☐ |
 
 ### Opening: bumpers and splash

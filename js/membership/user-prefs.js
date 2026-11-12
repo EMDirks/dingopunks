@@ -11,6 +11,12 @@ import { showToast } from "./toast.js";
 const SAVE_DEBOUNCE_MS = 1000;
 const FAVORITES_SAVE_ERROR = "Couldn't save favorites. Check your internet connection.";
 const SETTINGS_SAVE_ERROR = "Couldn't save settings. Check your internet connection.";
+// Firestore rejected the write (rules), so the connection isn't the problem.
+const SAVE_DENIED_ERROR = "Couldn't save. Please refresh the page and try again.";
+
+function saveErrorMessage(error, networkMessage) {
+  return error?.code === "permission-denied" ? SAVE_DENIED_ERROR : networkMessage;
+}
 
 const validGameIds = new Set(games.map((game) => game.id));
 
@@ -52,7 +58,7 @@ async function persistFavorites(uid) {
     await persistPrefs(uid);
   } catch (error) {
     console.error("Failed to save favorites", error);
-    showToast(FAVORITES_SAVE_ERROR);
+    showToast(saveErrorMessage(error, FAVORITES_SAVE_ERROR));
   }
 }
 
@@ -85,7 +91,7 @@ export async function saveShowBonusMissions(value) {
   } catch (error) {
     console.error("Failed to save Bonus Missions setting", error);
     state.showBonusMissions = previous;
-    showToast(SETTINGS_SAVE_ERROR);
+    showToast(saveErrorMessage(error, SETTINGS_SAVE_ERROR));
     return previous;
   }
 
@@ -108,7 +114,7 @@ export async function savePlayAudio(value) {
   } catch (error) {
     console.error("Failed to save Audio setting", error);
     state.playAudio = previous;
-    showToast(SETTINGS_SAVE_ERROR);
+    showToast(saveErrorMessage(error, SETTINGS_SAVE_ERROR));
     return previous;
   }
 

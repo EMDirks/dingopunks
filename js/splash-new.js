@@ -731,16 +731,6 @@ function transitionSplash(){
         setTimeout(addCutscene,splashExitDuration,cutsceneIntroIndex,'intro');
       }
     }
-
-    // preload images with priority-1
-    /*
-    setTimeout(preloadImages1,2000);
-    function preloadImages1(){
-        preloadImages(globalAssets[1], function() {});
-        preloadImages(resourceAssets[1], function() {});
-    }
-    */
-
   }
 }
 
@@ -1835,6 +1825,15 @@ function addCharacter(){
 // Background images the handheld camera leaves alone: it holds still while one shows.
 const STATIC_CUTSCENE_IMAGES = ['jjcrispy-alert.png'];
 
+// The URL of a cutscene file's sprite or background image, from its scope, or null.
+function cutsceneImageUrl(imageObject) {
+  if (!imageObject || !imageObject.path) return null;
+  if (imageObject.scope === 'local') return 'resource/' + resourceTheme + '/assets/cutscene/' + imageObject.path;
+  if (imageObject.scope === 'global') return 'assets/cutscene/' + imageObject.path;
+  if (imageObject.scope === 'undermurk') return 'assets/enter-the-undermurk/cutscene/' + imageObject.path;
+  return null;
+}
+
 // Loops started by a cutscene file's animations, which end with the cutscene at the
 // latest. False once it ends: SKIP INTRO can land while a line is still typing, and
 // that line's afterText animations still run.
@@ -1970,6 +1969,27 @@ function addCutscene(cutsceneIndex,section){
   // animations and loops don't override it.
   const cutsceneSpriteStage = createElement('div',['cutscene-sprite-stage'],splashContainer);
   let cutsceneCharacterSprite = createElement('div',['cutscene-character-sprite'],cutsceneSpriteStage);
+  // Each sprite image the cutscene uses gets its own layer inside the sprite, made and
+  // decoded as the cutscene opens. A sprite change only switches which layer shows
+  // (css/splash-new.css, .cutscene-sprite-frame). Swapping the sprite's background-image
+  // made iOS Safari decode the new image as it appeared, blanking the sprite for a frame
+  // or two, even on a replay with every image cached.
+  const cutsceneSpriteFrames = new Map();
+  cutsceneSection.forEach((scene) => {
+    const url = cutsceneImageUrl(scene.characterSprite);
+    if (!url || cutsceneSpriteFrames.has(url)) return;
+    const frame = createElement('div',['cutscene-sprite-frame'],cutsceneCharacterSprite);
+    frame.style.backgroundImage = 'url(' + url + ')';
+    cutsceneSpriteFrames.set(url, frame);
+    const image = new Image();
+    image.src = url;
+    if (image.decode) image.decode().catch(() => {});
+  });
+  function showCutsceneSpriteFrame(url) {
+    cutsceneSpriteFrames.forEach((frame, frameUrl) => {
+      frame.classList.toggle('cutscene-sprite-frame--shown', frameUrl === url);
+    });
+  }
   const cutsceneBackgroundStage = createElement('div',['cutscene-background-stage'],splashContainer);
   let cutsceneBackgroundImage1 = createElement('div',['cutscene-background-image-1'],cutsceneBackgroundStage);
   let cutsceneBackgroundImage2 = createElement('div',['cutscene-background-image-2'],cutsceneBackgroundStage);
@@ -2292,6 +2312,7 @@ function addCutscene(cutsceneIndex,section){
       else {
         removeAllClassesExcept(cutsceneCharacterSprite,'cutscene-character-sprite');
         cutsceneCharacterSprite.style = '';
+        showCutsceneSpriteFrame(null);
       }
       if (sc_backgroundImage1){
         updateCutsceneElement(cutsceneBackgroundImage1, sc_backgroundImage1, 'backgroundImage1', 'cutscene-background-image-1', initialSceneDelay + performanceDelay);
@@ -2335,7 +2356,8 @@ function addCutscene(cutsceneIndex,section){
             }
             else if (cutsceneSection[cutsceneIndex-1][spriteLabel] !== cutsceneSection[cutsceneIndex][spriteLabel]) {
               setTimeout(function () {
-                imageElement.style.backgroundImage = '';
+                if (imageElement === cutsceneCharacterSprite) showCutsceneSpriteFrame(null);
+                else imageElement.style.backgroundImage = '';
               }, delay);
             }
 
@@ -2364,15 +2386,10 @@ function addCutscene(cutsceneIndex,section){
       }
 
       function addBackgroundImage(imageElement,imageObject){
-        if (imageObject.path && imageObject.scope === 'local'){
-          imageElement.style.backgroundImage = "url(resource/" + resourceTheme + "/assets/cutscene/" + imageObject.path + ")";
-        }
-        if (imageObject.path && imageObject.scope === 'global'){
-          imageElement.style.backgroundImage = "url(assets/cutscene/" + imageObject.path + ")";
-        }
-        if (imageObject.path && imageObject.scope === 'undermurk'){
-          imageElement.style.backgroundImage = "url(assets/enter-the-undermurk/cutscene/" + imageObject.path + ")";
-        }
+        const url = cutsceneImageUrl(imageObject);
+        if (!url) return;
+        if (imageElement === cutsceneCharacterSprite) showCutsceneSpriteFrame(url);
+        else imageElement.style.backgroundImage = 'url(' + url + ')';
       }
 
       function scheduleAnimation(imageElement,imageObject,className,delay){

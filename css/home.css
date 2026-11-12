@@ -104,7 +104,6 @@
 }
 
 .activity-node--hidden {
-    transition: opacity 0.2s, transform 0.2s;
     opacity: 0;
     transform: translateY(-50%);
 }
@@ -112,7 +111,11 @@
 .activity-node--visible {
     opacity: 1;
     transform: translateY(0%);
-    animation: activity-node-in 0.18s;
+    animation: activity-node-in 0.18s both;
+    /* The keyframes own the reveal. Swapping in from --hidden would also start the base
+       0.2s transition, which Safari/iOS ran on top of the keyframes (a glitched double
+       bounce) and which outlasts them by 20ms everywhere (a hitch at the end). */
+    transition: none;
 }
 
 /* First reveal only: --visible comes off when an activity opens and isn't added
@@ -548,6 +551,7 @@
 .activity-node--gameEnd {
     opacity: 0;
     animation: activity-node-out 0.18s forwards;
+    transition: none; /* same as --visible: --hidden's transition would run under the keyframes */
 }
 
 /* Finish: activity-node-in played backwards, a small dip then a quick whip up and out. */

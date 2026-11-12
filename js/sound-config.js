@@ -40,6 +40,17 @@ const SOUND_CONFIG = {
   vocalizeInGame: true,         // every in-game (activity scene) character voice vocalizes, as if it had vocalize: true; vocalize: false on a sound opts it out. Cutscene voices only vocalize with their own vocalize: true
   npcVoiceMaxClips: 3,            // a number caps every NPC's vocalized voice (every characterVoices table but player, cutscene speakers included) at that many clips per line; a short line still stops early. null = no cap. An entry's own clips overrides it
 
+  // Screens with no audio at all: sound effects, music and ambience. Their sounds, events
+  // and preloads stay set up below; set a screen to false to bring its audio back.
+  //   bumper:    the Dingo Punks logo bumper, START and the logo's dangle included (also
+  //              Enter the Undermurk's and free play's bumpers): bumper.* events, and every
+  //              sound while a .bumper-container--visible is on screen
+  //   codeEntry: the game code screen (also the answer key's): access.* events (correct and
+  //              wrong code), and every sound while its .access-input boxes are on screen
+  //   allow:     events that still play on these screens: the correct-code sound (access.correct)
+  //              and the whoosh as the code screen flies out (splash.transition)
+  silentScreens: { bumper: true, codeEntry: true, allow: ['access.correct', 'splash.transition'] },
+
   // name → file(s) + mix. src are base names (the extension comes from `formats`), or a
   // full file name like 'correct.wav' to use that file as is. Several = random pick per play, never the same one twice in a row.
   // pitch: [min, max] playback rate. maxVoices: drop a play if this many are already sounding.
@@ -75,7 +86,7 @@ const SOUND_CONFIG = {
     toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
     blip:    { src: ['sfx/ui/blip'], volume: 0.22, pitch: [0.94, 1.06], maxVoices: 2 }, // activity scene dialogue
     typewriter: { src: ['sfx/cutscene/typewriter'], volume: 0.2, pitch: [1.3,1.4], maxVoices: 4 }, // cutscene text (outro and fail, per letter)
-    'typewriter-soft': { src: ['sfx/cutscene/typewriter'], volume: 0.15, pitch: [1.3,1.4], maxVoices: 4 }, // intro cutscenes' typewriter run: typewriter at 75% volume
+    'typewriter-soft': { src: ['sfx/cutscene/typewriter'], volume: 0.1, pitch: [1.3,1.4], maxVoices: 4 }, // intro cutscenes' typewriter run: typewriter at 50% volume
     'voice-jj-dingo': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.8,1] },              // J.J. Dingo (characterVoices.cutscene); pitch: [min, max], 1 = normal
     'voice-jj-dingo-intro': { src: VOICE_CLIPS.mumble, volume: 0.43, pitch: [0.9, 1.1], vocalize: true }, // J.J. Dingo in intro cutscenes (characterVoices.cutscene['intro:J.J. DINGO'])
     'voice-badguy': { src: VOICE_CLIPS.mumble, volume: 0.51, pitch: [0.6,0.7] },              // bad guy lines (characterVoices.cutscene); pitch: [min, max], 1 = normal

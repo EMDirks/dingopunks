@@ -100,6 +100,25 @@ const Sound = (function () {
     return pickFormat(cfg) !== null;
   }
 
+  // SOUND_CONFIG.silentScreens: no audio at all on the bumper or the game code screen.
+  // An event is checked when it fires (by its name and the screen), so a delayed sound
+  // fired there stays silent too. Events in silentScreens.allow always play.
+  function silentScreenAllows(cfg, eventName) {
+    const allow = (cfg.silentScreens && cfg.silentScreens.allow) || [];
+    return allow.indexOf(eventName) !== -1;
+  }
+
+  function onSilentScreen(cfg, eventName) {
+    const screens = cfg.silentScreens || {};
+    const name = eventName || '';
+    if (screens.bumper && (name.indexOf('bumper.') === 0
+      || document.querySelector('.bumper-container--visible'))) return true;
+    // The code boxes stay on screen, accepted, until the screen has flown out.
+    if (screens.codeEntry && (name.indexOf('access.') === 0
+      || document.querySelector('.access-input'))) return true;
+    return false;
+  }
+
   function masterLevel() {
     const cfg = config();
     return cfg && typeof cfg.masterVolume === 'number' ? cfg.masterVolume : 1;
@@ -277,12 +296,14 @@ const Sound = (function () {
   // range still varies it a little around that.
   // Returns { source, duration } (duration: seconds of real time the clip plays for), or
   // nothing when it didn't play.
-  function play(name, offsetSec, rate) {
+  // allowed: true for an event in silentScreens.allow, which plays on a silent screen.
+  function play(name, offsetSec, rate, allowed) {
     if (!isAvailable()) return;
     const decoded = buffers.get(name);
     if (!decoded) return;
     const def = config().sounds[name] || {};
     if (isSilenced(def)) return;
+    if (!allowed && onSilentScreen(config())) return;
     const live = voices.get(name) || 0;
     if (def.maxVoices && live >= def.maxVoices && offsetSec === undefined) return;
 
@@ -383,8 +404,10 @@ const Sound = (function () {
   function event(eventName, detail) {
     const cfg = config();
     if (!cfg || !cfg.events || !knownEvent(cfg, eventName)) return;
+    const allowed = silentScreenAllows(cfg, eventName);
+    if (!allowed && onSilentScreen(cfg, eventName)) return;
     const isLetter = eventName === 'dialogue.letter' || eventName === 'cutscene.letter';
-    fireMapping(cfg, cfg.events[eventName], isLetter, detail);
+    fireMapping(cfg, cfg.events[eventName], isLetter, detail, false, allowed);
   }
 
   // mapping is an `events` or `characterVoices` value: a sound name, or
@@ -397,7 +420,8 @@ const Sound = (function () {
   // from `from` at progress 0 up to `to` at progress 1 (detail.progress).
   // keepsClicks: true for sounds no tap causes (character voices), so they never
   // replace a tap's click sound.
-  function fireMapping(cfg, mapping, isLetter, detail, keepsClicks) {
+  // allowed: the event is in silentScreens.allow (see play).
+  function fireMapping(cfg, mapping, isLetter, detail, keepsClicks, allowed) {
     const name = mapping && typeof mapping === 'object' ? mapping.sound : mapping;
     if (typeof name !== 'string' || isSilenced(cfg.sounds && cfg.sounds[name])) return;
     if (mapping.skipAfterMs && performance.now() - lastSoundAt < mapping.skipAfterMs) {
@@ -424,10 +448,10 @@ const Sound = (function () {
     }
     const rate = rampedRate(mapping, detail);
     if (mapping.delay > 0) {
-      setTimeout(safe('event', function () { play(name, undefined, rate); }), mapping.delay);
+      setTimeout(safe('event', function () { play(name, undefined, rate, allowed); }), mapping.delay);
       return;
     }
-    play(name, undefined, rate);
+    play(name, undefined, rate, allowed);
   }
 
   function rampedRate(mapping, detail) {
