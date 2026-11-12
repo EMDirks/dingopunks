@@ -105,6 +105,10 @@ body {
    still showed scrollbars on iPad. */
 html {
 	overflow: hidden;
+	/* Stop mobile browsers (iOS Safari in landscape, Android) from enlarging long
+	   text blocks such as reading stories; font sizes are set in JS from the parent's width. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 *,
