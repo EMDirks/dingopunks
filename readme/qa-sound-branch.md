@@ -16,6 +16,8 @@ BACKLOG
 • Full screen mode
 • remove "buzz/whine" on iPad/mobile "Quit" click
 • Simpify "what's a game code modal"
+• Investigate drag and drop locking for column sort activities
+• Gate multiple choice answers to solving puzzle first / sorting activities first
 
 ---
 
