@@ -98,6 +98,7 @@ function drawDynamic(challengeIndex) {
         }
 
         activityBlock.classList.add('drag-and-drop');
+        if (dragAndDropType === "puzzle") activityBlock.dataset.puzzlePiece = '1'; // scene.js: no pop-in on a later visit
 
           // create elements inside container
 

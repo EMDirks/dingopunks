@@ -126,6 +126,7 @@ function drawScene(activityArrayIndex) {
           const draggableElements = document.querySelectorAll('.drag-and-drop');
           draggableElements.forEach(function(el) {
             if (el.dataset.puzzleFlyIn) return; // a puzzle's first open: flies into the pile below
+            if (el.dataset.puzzlePiece || el.classList.contains('activity-puzzle-piece')) return; // a puzzle's later visits: pieces are already where they were left, no pop-in
             el.classList.add('draggable--hidden');
             setTimeout(makeVisible, startHold + 500);
             function makeVisible(){
@@ -334,6 +335,7 @@ function drawScene(activityArrayIndex) {
           const draggableElements = document.querySelectorAll('.draggable');
           draggableElements.forEach(function(el) {
             if (el.dataset.puzzleFlyIn) return; // a puzzle's first open: flies into the pile below
+            if (el.dataset.puzzlePiece || el.classList.contains('activity-puzzle-piece')) return; // a puzzle's later visits: pieces are already where they were left, no pop-in
             el.classList.add('draggable--hidden');
             setTimeout(makeVisible, startHold + 400);
             function makeVisible(){

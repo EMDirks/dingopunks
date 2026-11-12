@@ -14,6 +14,7 @@ BACKLOG
 
 • Make student buttons in the global menu smaller
 • Full screen mode
+• remove "buzz/whine" on iPad/mobile "Quit" click
 
 ---
 
@@ -68,13 +69,13 @@ BACKLOG
 |---|---|---|---|---|---|
 | 1.28 | Nodes build, then scale, faster than before, with their slide-in sound. The timer lands with a metal slap | ✅ | ✅ | ✅ | ✅ |
 | 1.29 | Ambience is audible right away, even on slow wifi (preloaded), and fades while a challenge is open | ✅ | ✅ | ✅ | ✅ |
-| 1.30 | Opening a node plays one sound, with no extra click. Hint open/close each play one sound | ☐ | ☐ | ☐ | ☐ |
-| 1.31 | Challenge modal: no double bounce on open (Safari). On close it pops out, DONE/X vanish, and it closes only once even on a double tap | ☐ | ☐ | ☐ | ☐ |
-| 1.32 | Activity scene: player replies are voiced, the speaker pops, Midnight Mall characters have their own voices | ☐ | ☐ | ☐ | ☐ |
-| 1.33 | Multiple choice answer sound | ☐ | ☐ | ☐ | ☐ |
+| 1.30 | Opening a node plays one sound, with no extra click. Hint open/close each play one sound | ✅ | ✅ | ✅ | ✅ |
+| 1.31 | Challenge modal: no double bounce on open (Safari). On close it pops out, DONE/X vanish, and it closes only once even on a double tap | ✅ | ✅ | ✅ | ✅ |
+| 1.32 | Activity scene: player replies are voiced, the speaker pops, Midnight Mall characters have their own voices | ✅ | ✅ | ✅ | ✅ |
+| 1.33 | Multiple choice answer sound | ✅ | ✅ | ✅ | ✅ |
 | 1.34 | Secret code boxes: chime as they come in, first box focused, wrong code shakes then refocuses the first empty box | ☐ | ☐ | ☐ | ☐ |
-| 1.35 | Crossword: typing from a word's lettered cell moves through the word on its own. Tapping a crossword or cryptogram cell is silent (typing still clicks) | ☐ | ☐ | ☐ | ☐ |
-| 1.36 | Copy fixes: Camp Calamari's slime intro is reworded. Yeti and the Yam 4th/5th reading has the two answer letters marked. Final Bell says "detention" | ☐ | ☐ | ☐ | ☐ |
+| 1.35 | Crossword: typing from a word's lettered cell moves through the word on its own. Tapping a crossword or cryptogram cell is silent (typing still clicks) | ✅ | ✅ | ✅ | ✅ |
+| 1.36 | Copy fixes: Camp Calamari's slime intro is reworded. Yeti and the Yam 4th/5th reading has the two answer letters marked. Final Bell says "detention" | ✅ | ✅ | ✅ | ✅ |
 | 1.37 | Finish button clicks. Nodes leave with a reversed slide-in (0.18s, staggered) | ☐ | ☐ | ☐ | ☐ |
 
 ### Puzzle (uncommitted, check on a legacy *and* a dynamic puzzle)
@@ -84,7 +85,7 @@ BACKLOG
 | 1.39 | Picking up a piece straightens it and plays the choice sound. Grabbing a piece mid-flight lands it at once | ☐ | ☐ | ☐ | ☐ |
 | 1.40 | Dropping on the grid snaps to the nearest slot with a click and a small overshoot. Dropping on a taken slot swaps the two pieces | ☐ | ☐ | ☐ | ☐ |
 | 1.41 | Dropping outside the grid leaves the piece loose | ☐ | ☐ | ☐ | ☐ |
-| 1.42 | Close and reopen: positions **and tilts** are restored, with no second fly-in. A finished puzzle still checks as correct | ☐ | ☐ | ☐ | ☐ |
+| 1.42 | Close and reopen: positions **and tilts** are restored, with no second fly-in and no pop-in (the pieces are just there when the puzzle shows). A finished puzzle still checks as correct | ☐ | ☐ | ☐ | ☐ |
 | 1.43 | Answer key and preview show the solved layout. Preview stays non-draggable | ☐ | ☐ | ☐ | ☐ |
 
 ### Global menu (student)
