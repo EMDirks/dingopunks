@@ -125,12 +125,14 @@ function drawScene(activityArrayIndex) {
         if (gameMode !== "preview"){
           const draggableElements = document.querySelectorAll('.drag-and-drop');
           draggableElements.forEach(function(el) {
+            if (el.dataset.puzzleFlyIn) return; // a puzzle's first open: flies into the pile below
             el.classList.add('draggable--hidden');
             setTimeout(makeVisible, startHold + 500);
             function makeVisible(){
               toggleClass(el,"draggable--hidden","draggable--visible");
             }
           });
+          flyInPuzzlePieces(Array.from(document.querySelectorAll('.drag-and-drop[data-puzzle-fly-in]')), startHold + PUZZLE_FLY_AFTER_START_MS);
         }
 
       }
@@ -328,12 +330,14 @@ function drawScene(activityArrayIndex) {
         if (gameMode !== "preview"){
           const draggableElements = document.querySelectorAll('.draggable');
           draggableElements.forEach(function(el) {
+            if (el.dataset.puzzleFlyIn) return; // a puzzle's first open: flies into the pile below
             el.classList.add('draggable--hidden');
             setTimeout(makeVisible, startHold + 400);
             function makeVisible(){
               toggleClass(el,"draggable--hidden","draggable--visible");
             }
           });
+          flyInPuzzlePieces(Array.from(document.querySelectorAll('.draggable[data-puzzle-fly-in]')), startHold + PUZZLE_FLY_AFTER_START_MS);
         }
       }
       activityScenePlayer.style.backgroundImage = 'url(assets/player/' + playerImage + ')';

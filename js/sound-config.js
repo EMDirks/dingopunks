@@ -69,6 +69,7 @@ const SOUND_CONFIG = {
     'click-wood': { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
     'click-wood-soft': { src: ['sfx/ui/click-wood'],        volume: 0.075 },               // Undermurk player arrow: click-wood, 25% quieter
     'slap-paper': { src: ['sfx/motion/card-slide'], volume: 0.2, pitch: [0.94, 1.06] },                 // splash thumbnail spinning in
+    'card-fan':   { src: ['sfx/motion/card-fan'],   volume: 0.2 },                                     // puzzle pieces flying into the pile (0.72s, about the length of the fly-in)
     'slap-metal': { src: ['sfx/motion/wood-slam'],        volume: 0.05 },                 // game timer landing
     tab:     { src: ['sfx/ui/tab'],                   volume: 0.5 },                 // Undermurk setup tabs
     toggle:  { src: ['sfx/ui/toggle'],                    volume: 0.1, ignoreMute: true }, // global menu Audio toggle; ignoreMute, so it clicks on and off
@@ -224,6 +225,9 @@ const SOUND_CONFIG = {
     'ui.key':            'key',
     'ui.input':          'code-box',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
     'ui.inputPuzzle':    'code-box-soft', // tapping a crossword or cryptogram cell (in-game)
+    'puzzle.pickUp':     'choice',   // picking up a puzzle piece: the multiple choice answer sound
+    'puzzle.snap':       'click',    // a puzzle piece snapping into a grid slot (or swapping with the piece there)
+    'puzzle.flyIn':      'card-fan', // once, as the first puzzle piece sets off for the pile in the corner (a puzzle's first open)
     'ui.tab':            'tab',
     'ui.setting':        'select',   // escape room setup tabs
     'ui.character':      'select',   // choosing a character

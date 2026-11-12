@@ -16,7 +16,13 @@ function drawDynamic(challengeIndex) {
     let activitySortColumnContainer = createElement("div", ["activity-sort__column__container"], activityContainer);
     activitySortColumnContainer.style.zIndex = 0;
   }
-  
+
+  // a puzzle opened for the first time is piled in the corner once every piece exists (see puzzle.js)
+  let puzzlePileFirstOpen = false;
+  function savePuzzlePiece(piece, x, y) {
+    userInput["puzzle" + challengeIndex]["puzzlePosition"][piece.dataset.puzzleIndex] = { x: x + "%", y: y + "%", r: puzzlePieceTilt(piece) };
+  }
+
   for (let i = 0; i < activity.blockArray.length; i++) {
 
     ////////
@@ -108,44 +114,7 @@ function drawDynamic(challengeIndex) {
                 });
               }
               
-              switch(i){
-                case 0: 
-                  activityBlock.style.left = 15 + "%";
-                  activityBlock.style.top = 14 + "%";
-                  break;
-                case 1: 
-                  activityBlock.style.left = 37.25 + "%";
-                  activityBlock.style.top = 14 + "%";
-                  break;
-                case 2: 
-                  activityBlock.style.left = 59.5 + "%";
-                  activityBlock.style.top = 14 + "%";
-                  break;
-                case 3: 
-                  activityBlock.style.left = 15 + "%";
-                  activityBlock.style.top = 34.25 + "%";
-                  break;
-                case 4: 
-                  activityBlock.style.left = 37.25 + "%";
-                  activityBlock.style.top = 34.25 + "%";
-                  break;
-                case 5: 
-                  activityBlock.style.left = 59.5 + "%";
-                  activityBlock.style.top = 34.25 + "%";
-                  break;
-                case 6: 
-                  activityBlock.style.left = 15 + "%";
-                  activityBlock.style.top = 54.5 + "%";
-                  break;
-                case 7: 
-                  activityBlock.style.left = 37.25 + "%";
-                  activityBlock.style.top = 54.5 + "%";
-                  break;
-                case 8: 
-                  activityBlock.style.left = 59.5 + "%";
-                  activityBlock.style.top = 54.5 + "%";
-                  break;
-              }
+              placePuzzlePieceSolved(activityBlock, i);
             }
 
             // answer key: column1
@@ -261,6 +230,9 @@ function drawDynamic(challengeIndex) {
               if (userInput["puzzle" + challengeIndex] && userInput["puzzle" + challengeIndex]["puzzlePosition"][i]) {
                 activityBlock.style.left = userInput["puzzle" + challengeIndex]["puzzlePosition"][i].x;
                 activityBlock.style.top = userInput["puzzle" + challengeIndex]["puzzlePosition"][i].y;
+                if (userInput["puzzle" + challengeIndex]["puzzlePosition"][i].r) activityBlock.style.rotate = userInput["puzzle" + challengeIndex]["puzzlePosition"][i].r + "deg";
+              } else if (dragAndDropType === "puzzle") {
+                puzzlePileFirstOpen = true;
               } else {
                 setTimeout(randomizeBlocks,500);
                 function randomizeBlocks(){
@@ -278,10 +250,13 @@ function drawDynamic(challengeIndex) {
       
             // set drag functionality
             let isDragging = false;
+            let hasMoved = false;
+            let dragFrom;
             let currentX = parseFloat(activityBlock.style.left) || 0;
             let currentY = parseFloat(activityBlock.style.top) || 0;
             let initialX;
             let initialY;
+            activityBlock.dataset.puzzleIndex = i;
       
             document.addEventListener("mousedown", dragStart);
             document.addEventListener("mouseup", dragEnd);
@@ -311,17 +286,29 @@ function drawDynamic(challengeIndex) {
                   }
                 });
                 activityBlock.style.zIndex = maxZIndex + 1;
+                activityBlock.classList.remove('puzzle-piece--snapping');
+                if (dragAndDropType === "puzzle") liftPuzzlePiece(activityBlock);
+                dragFrom = puzzlePiecePosition(activityBlock);
+                hasMoved = false;
                 isDragging = true;
               }
-            } 
+            }
             function dragEnd(e) {
               toggleClass(activityModalWrapper, "overflow-y-hidden", "overflow-y-scroll");
+              const wasDragged = isDragging && hasMoved;
               isDragging = false;
-              
-              // save user inputs
+              hasMoved = false;
+
+              // puzzles snap into the grid (see puzzle.js); column sorts stay free
+              if (wasDragged && dragAndDropType === "puzzle") {
+                const pieces = Array.from(activityContainer.querySelectorAll('.drag-and-drop'));
+                snapPuzzlePiece(activityBlock, pieces, dragFrom, savePuzzlePiece);
+              }
+
+              // save user inputs (r: a piled puzzle piece's tilt, 0 otherwise)
               currentX = parseFloat(activityBlock.style.left) || 0;
               currentY = parseFloat(activityBlock.style.top) || 0;
-              userInput["puzzle" + challengeIndex]["puzzlePosition"][i] = { x: currentX + "%", y: currentY + "%" };
+              userInput["puzzle" + challengeIndex]["puzzlePosition"][i] = { x: currentX + "%", y: currentY + "%", r: puzzlePieceTilt(activityBlock) };
               
             }   
             function drag(e) {
@@ -345,9 +332,10 @@ function drawDynamic(challengeIndex) {
                 currentY = Math.max(minY, Math.min(currentY, maxY));
                 activityBlock.style.left = currentX + "%";
                 activityBlock.style.top = currentY + "%";
+                hasMoved = true;
               }
             }
-  
+
           }
 
         }
@@ -743,10 +731,14 @@ function drawDynamic(challengeIndex) {
         }   
         */
 
-      }  
+      }
 
     }
 
+  }
+
+  if (puzzlePileFirstOpen) {
+    pilePuzzlePieces(Array.from(activityContainer.querySelectorAll('.drag-and-drop')), savePuzzlePiece, 3);
   }
 
 }

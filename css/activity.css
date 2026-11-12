@@ -349,6 +349,13 @@
             background-size: 100% 100%;
         }
 
+        /* snapping into a grid slot, or into a swapped piece's old spot: a 90ms glide that
+           overshoots a hair and settles. The class stays on for PUZZLE_SNAP_MS in puzzle.js. */
+        .activity-puzzle-piece.puzzle-piece--snapping,
+        .drag-and-drop.puzzle-piece--snapping {
+            transition: left 90ms cubic-bezier(0.3, 1.6, 0.6, 1), top 90ms cubic-bezier(0.3, 1.6, 0.6, 1);
+        }
+
         .activity-puzzle-piece:active {
             /*
             transform: scale(1.02);

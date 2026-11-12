@@ -77,6 +77,8 @@ Do these after P1, but don't let them delay Elsewhere Post or regular escape-roo
 
 Valid improvements, but not current priorities.
 
+- [ ] **Convert legacy escape rooms to dynamic** 
+
 - [ ] **Move legacy 5-digit purchase-code resolution server-side.** Valid legacy codes are currently derivable from `googleAnalyticsID` strings in `js/analytics.js` / the browser bundle. Eventually move resolution server-side and define fallback behavior when Firebase is blocked or unavailable.
 
   **Deferred:** This is not currently considered an emergency issue.
@@ -107,18 +109,15 @@ Valid improvements, but not current priorities.
 
   Only implement scheduled deletion/archival once there is enough account volume for this to matter.
 
-- [ ] **Add modal tabs.** Build a reusable tab selector for shared play-side modals. Normalize modal markup across pages first.
-
 - [ ] **Dynamic escape-room thumbnails.** Eventually generate membership-library card images from room metadata instead of maintaining individual `thumbnail-*.png` files.
 
 - [ ] **Prevent bumper flicker on index page load.** Avoid the brief page flash before the teal opening overlay is injected.
 
 - [ ] **Add images to specific modals where they materially improve comprehension.** Do not treat this as a blanket requirement; create individual tasks only when a modal actually needs an illustration.
 
-- [ ] **Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.**
+- [X] **Add `assets/enter-the-undermurk/logo/logo.png` to the debrief.**
 
-- [ ] **Final Bell breakout:** Change language from “summer school” to “detention.”
-
+- [X] **Final Bell breakout:** Change language from “summer school” to “detention.”
 
 ## Product Expansion — Separate From Membership Stabilization
 
