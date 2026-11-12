@@ -97,7 +97,8 @@ BACKLOG
 | 1.43b | Picking up a card straightens it and plays the choice sound. Dropping it in an empty column snaps it to the top with a click | ☐ | ☐ | ☐ | ☐ |
 | 1.43c | Dropping below, above or between cards in a column puts it there: the others shift to make room, stacked 3px apart at their own heights, centred in the column under its header | ☐ | ☐ | ☐ | ☐ |
 | 1.43d | While dragging over a column, the cards part to show where it will land, and close up again when you drag away. Taking a card out of a column closes its gap | ☐ | ☐ | ☐ | ☐ |
-| 1.43e | Dropping outside every column leaves the card loose. A column with no room for the card doesn't part, and the card goes back where it was picked up | ☐ | ☐ | ☐ | ☐ |
+| 1.43e | Dropping outside every column leaves the card loose. A column with no room for the card doesn't part while you drag over it | ☐ | ☐ | ☐ | ☐ |
+| 1.43e2 | Dropping a card on a full column swaps it with the card it's over, with a click: the dropped card takes that card's place, and that card goes where the dropped one came from (its spot in another column, or loose where the drag started). If either card wouldn't fit after the swap, the dropped card goes back where it was picked up with the error sound (the code-rejected sound) | ☐ | ☐ | ☐ | ☐ |
 | 1.43f | Close and reopen: columns keep their order, loose cards stay put, no second fly-in or pop-in. Rotating the iPad/iPhone or resizing the window restacks the columns cleanly | ☐ | ☐ | ☐ | ☐ |
 | 1.43g | Answer key and preview show each column stacked as before, non-draggable | ☐ | ☐ | ☐ | ☐ |
 | 1.43h | Puzzles still pile, snap and swap as in 1.38–1.43 | ☐ | ☐ | ☐ | ☐ |

@@ -237,6 +237,7 @@ const SOUND_CONFIG = {
     'ui.input':          'code-box',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
     'puzzle.pickUp':     'choice',   // picking up a puzzle piece: the multiple choice answer sound
     'puzzle.snap':       'click',    // a puzzle piece snapping into a grid slot (or swapping with the piece there)
+    'sort.full':         'wrong',    // a sort card dropped on a column with no room for it: the error sound as it goes back
     'puzzle.flyIn':      'card-fan', // once, as the first puzzle piece sets off for the pile in the corner (a puzzle's first open)
     'ui.tab':            'tab',
     'ui.setting':        'select',   // escape room setup tabs

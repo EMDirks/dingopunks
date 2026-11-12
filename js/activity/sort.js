@@ -4,8 +4,10 @@
 // of any height. A card dropped over a column goes into the stack where it was
 // dropped (above the first card, between two, or at the end), and while it's
 // dragged over a column the cards there part to show where it will land. A card
-// dropped outside every column stays loose, for staging. A column refuses a card
-// that would run past its bottom: the card goes back to where it was picked up.
+// dropped outside every column stays loose, for staging. A card dropped on a
+// column with no room for it swaps with the card it's over, which goes where the
+// dragged card came from; if either card wouldn't fit after the swap, the dragged
+// card goes back to where it was picked up, with the error sound.
 // Positions are % of the activity area, as the drag code sets them. The order is
 // what's saved (userInput.puzzleN.sortColumns), so stacks are rebuilt at the
 // cards' current heights on every open and resize.
@@ -166,6 +168,53 @@ function createSortBoard(cards, columns, area, save) {
     return null;
   }
 
+  // The stacked card in a column that the dragged card is over: the one its centre
+  // is on, or the nearest one when the centre is in a gap or below the stack.
+  function cardUnder(column, card) {
+    const centerY = (parseFloat(card.style.top) || 0) + marginTop(card) + cardHeight(card) / 2;
+    let best = -1;
+    let bestDistance = Infinity;
+    let top = columnTop(column);
+    stacks[column].forEach(function(other, k) {
+      const height = cardHeight(other);
+      const distance = centerY < top ? top - centerY : centerY > top + height ? centerY - top - height : 0;
+      if (distance < bestDistance) { best = k; bestDistance = distance; }
+      top += height + gap();
+    });
+    return best;
+  }
+
+  // A drop on a full column: the dragged card takes the place of the card it's
+  // over, and that card goes where the dragged one came from (its spot in another
+  // column, or loose where the drag started). Returns false, changing nothing,
+  // when either card wouldn't fit in its new place.
+  function swap(card, column, origin, from) {
+    if (origin && origin.column === column) return false;
+    const index = cardUnder(column, card);
+    if (index === -1) return false;
+    const other = stacks[column][index];
+    const swappedHeight = stackHeight(stacks[column]) - cardHeight(other) + cardHeight(card);
+    if (columnTop(column) + swappedHeight > columnBox(column).bottom) return false;
+    if (origin && !fits(origin.column, other)) return false;
+
+    stacks[column].splice(index, 1, card);
+    card.style.rotate = '';
+    stack(column);
+    placeSortCard(card);
+    if (origin) {
+      stacks[origin.column].splice(origin.index, 0, other);
+      stack(origin.column);
+      placeSortCard(other);
+    } else {
+      // Loose where the dragged card was, kept inside the area if it's bigger.
+      other.classList.remove('sort-card--stacked');
+      const x = Math.max(0, Math.min(from.x, 100 - percentX(other.offsetWidth) - 2 * marginLeft(other)));
+      const y = Math.max(0, Math.min(from.y, 100 - cardHeight(other) - 2 * marginTop(other)));
+      placePuzzlePiece(other, x, y);
+    }
+    return true;
+  }
+
   function sameTarget(a, b) {
     if (!a || !b) return a === b;
     return a.column === b.column && a.index === b.index && a.fits === b.fits;
@@ -251,9 +300,12 @@ function createSortBoard(cards, columns, area, save) {
         stack(target.column);
         placeSortCard(card);
         typeof Sound !== 'undefined' && Sound.event('puzzle.snap');
+      } else if (target && swap(card, target.column, origin, from)) {
+        typeof Sound !== 'undefined' && Sound.event('puzzle.snap');
       } else if (target) {
-        // Full: back where it was picked up.
+        // Full, and no swap fits: back where it was picked up, with the error sound.
         stack(target.column);
+        typeof Sound !== 'undefined' && Sound.event('sort.full');
         if (origin) {
           stacks[origin.column].splice(origin.index, 0, card);
           stack(origin.column);
