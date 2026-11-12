@@ -13,11 +13,13 @@ Covers every commit on `sound-effects` since `main` (42 commits, Oct 29 – Nov 
 ### Account page (membership.html)
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
-| 1.1 | Opens on the "Hello!" gate with two picture buttons (teacher or parent / student). Images load right away with no pop-in | ☐ | ☐ | ☐ | ☐ |
-| 1.2 | "I'm a student" → "No login needed" card → the link opens play.dingopunks.com | ☐ | ☐ | ☐ | ☐ |
-| 1.3 | "I'm a teacher or parent" → Log in. With `?auth=signup` it opens Sign up instead | ☐ | ☐ | ☐ | ☐ |
-| 1.4 | Forms are titled Log in / Sign up. Shorter legal and consent lines. Card titles are bigger and balanced | ☐ | ☐ | ☐ | ☐ |
-| 1.5 | Student-email block: `x@stu.school.org`, `x@st.school.org`, `jsmithstu@school.org`, `27jsmith@school.org` are rejected. A gmail address like `27jsmith@gmail.com` is allowed | ☐ | ☐ | ☐ | ☐ |
+| 1.1 | Opens on the "Hello!" gate with two picture buttons (teacher or parent / student). Images load right away with no pop-in | ✅ | ✅ | ✅ | ✅ |
+• on Mac (Chrome and Safari), CB, and iPad, the "log in" modal appears briefly before the "Hello" modal replaces it
+| 1.2 | "I'm a student" → "No login needed" card → the link opens play.dingopunks.com | ✅ | ✅ | ✅ | ✅ |
+| 1.3 | "I'm a teacher or parent" → Log in. With `?auth=signup` it opens Sign up instead | ✅ | ✅ | ✅ | ✅ |
+• On all devices, everything works as ecpected EXCEPT the "email" input is currently focused by default on all devices. No field should be focused by default in the auth flow.
+| 1.4 | Forms are titled Log in / Sign up. Shorter legal and consent lines. Card titles are bigger and balanced | ✅ | ✅ | ✅ | ✅ |
+| 1.5 | Student-email block: `x@stu.school.org`, `x@st.school.org`, `jsmithstu@school.org`, `27jsmith@school.org` are rejected. A gmail address like `27jsmith@gmail.com` is allowed | ✅ | ✅ | ✅ | ✅ |
 
 ### Teacher Audio setting
 | # | Check | Mac | CB | iPad | iPh |
@@ -160,7 +162,7 @@ Covers every commit on `sound-effects` since `main` (42 commits, Oct 29 – Nov 
 ---
 
 ## 3. Before merging to main
-- [ ] Commit the puzzle work (puzzle.js, dynamic.js, scene.js, activity.css, sound-config.js, and the new `assets/audio/sfx/motion/card-fan.ogg`).
+- [x] Commit the puzzle work (committed in 2adc8ce).
 - [ ] Fill in the empty rows in `readme/sound-credits.md`, including card-fan.
 - [ ] Bump the version, build the pages, and publish per the usual sequence.
 

@@ -66,7 +66,7 @@
     <section
       class="dpaam-auth"
       id="dpaam-auth"
-      aria-labelledby="dpaam-auth-heading-signin"
+      aria-labelledby="dpaam-auth-heading-role"
     >
       <header class="dpaam-topbar dpaam-auth-topbar">
         <a class="dpaam-logo-link" href="https://dingopunks.com">
@@ -82,6 +82,7 @@
           type="button"
           class="dpaam-btn dpaam-topbar-btn"
           id="dpaam-auth-header-toggle"
+          hidden
         >
           Sign up
         </button>
@@ -100,7 +101,7 @@
               decoding="async"
             />
             <div class="dpaam-auth-cards">
-          <div class="dpaam-auth-card" id="dpaam-auth-modal-signin" data-auth-view="signin">
+          <div class="dpaam-auth-card" id="dpaam-auth-modal-signin" data-auth-view="signin" hidden>
             <div class="dpaam-auth-messages">
               <p
                 class="dpaam-auth-message dpaam-auth-message--error"
@@ -192,7 +193,6 @@
             class="dpaam-auth-card"
             id="dpaam-auth-modal-role"
             data-auth-view="role"
-            hidden
           >
             <h1 class="dpaam-auth-title" id="dpaam-auth-heading-role">Hello!</h1>
             <p class="dpaam-auth-lead">Your escape rooms await.</p>
@@ -201,7 +201,6 @@
                 type="button"
                 class="dpaam-btn dpaam-auth-role-btn"
                 id="dpaam-auth-role-teacher"
-                data-auth-autofocus
               >
                 <span class="dpaam-auth-role-label">I'm a teacher<br />or parent</span>
                 <img
@@ -244,7 +243,6 @@
             <a
               class="dpaam-btn dpaam-auth-submit dpaam-auth-play-link"
               href="https://play.dingopunks.com/"
-              data-auth-autofocus
             >
               Play Dingo Punks
             </a>

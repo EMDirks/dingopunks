@@ -296,15 +296,15 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   headerToggle?.addEventListener("click", () => {
     const signinCard = document.getElementById("dpaam-auth-modal-signin");
     const onSignin = signinCard && !signinCard.hidden;
-    setAuthView(onSignin ? "signup" : "signin", { focus: true });
+    setAuthView(onSignin ? "signup" : "signin");
   });
 
   showAuthSignIn = () => {
     if (section.hidden) return;
-    setAuthView("role", { focus: true });
+    setAuthView("role");
   };
 
-  function setAuthView(view, { focus = false } = {}) {
+  function setAuthView(view) {
     if (!AUTH_VIEW_HEADING_IDS[view]) return;
 
     const activeModal = modals.find((modal) => modal.dataset.authView === view);
@@ -323,13 +323,6 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     resetPasswordToggles(section);
     updateAuthHeader(view);
     setAuthOfferLayoutActive(view === "offer" || view === "offer-loading");
-
-    if (!focus) return;
-
-    (
-      activeModal.querySelector(".dpaam-auth-input") ??
-      activeModal.querySelector("[data-auth-autofocus]")
-    )?.focus();
   }
 
   // One gate in front of log in and sign up: Google sign-in on the log-in form
@@ -338,27 +331,27 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
   // since playing needs only a teacher's code, not an account.
   document.getElementById("dpaam-auth-role-teacher")?.addEventListener("click", () => {
     track("choose_role", { role: "educator" });
-    setAuthView(educatorView, { focus: true });
+    setAuthView(educatorView);
   });
 
   document.getElementById("dpaam-auth-role-student")?.addEventListener("click", () => {
     track("choose_role", { role: "student" });
-    setAuthView("student", { focus: true });
+    setAuthView("student");
   });
 
   document.getElementById("dpaam-auth-student-back")?.addEventListener("click", () => {
-    setAuthView("role", { focus: true });
+    setAuthView("role");
   });
 
   document.getElementById("dpaam-auth-show-reset")?.addEventListener("click", () => {
     const signInEmail = document.getElementById("dpaam-auth-signin-email");
     const resetEmail = document.getElementById("dpaam-auth-reset-email");
     if (signInEmail?.value && resetEmail) resetEmail.value = signInEmail.value;
-    setAuthView("reset", { focus: true });
+    setAuthView("reset");
   });
 
   document.getElementById("dpaam-auth-reset-back")?.addEventListener("click", () => {
-    setAuthView("signin", { focus: true });
+    setAuthView("signin");
   });
 
   function makeMessageLink(label, onClick) {
@@ -380,15 +373,13 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
     const resetLink = makeMessageLink("Reset your password", () => {
       const resetEmail = document.getElementById("dpaam-auth-reset-email");
       if (email && resetEmail) resetEmail.value = email;
-      setAuthView("reset", { focus: true });
+      setAuthView("reset");
     });
 
     const signUpLink = makeMessageLink("sign up for an account", () => {
       const signUpEmail = document.getElementById("dpaam-auth-signup-email");
-      const signUpPassword = document.getElementById("dpaam-auth-signup-password");
       if (email && signUpEmail) signUpEmail.value = email;
-      setAuthView("signup", { focus: !email });
-      if (email) signUpPassword?.focus();
+      setAuthView("signup");
     });
 
     el.append(
@@ -408,10 +399,8 @@ export function initAuth({ loadDashboardState, onDashboardLoaded } = {}) {
 
     const signInLink = makeMessageLink("Log in", () => {
       const signInEmail = document.getElementById("dpaam-auth-signin-email");
-      const signInPassword = document.getElementById("dpaam-auth-signin-password");
       if (email && signInEmail) signInEmail.value = email;
-      setAuthView("signin", { focus: !email });
-      if (email) signInPassword?.focus();
+      setAuthView("signin");
     });
 
     el.append("An account with this email already exists. ", signInLink, " instead.");
