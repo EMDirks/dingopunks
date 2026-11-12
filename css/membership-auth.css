@@ -461,7 +461,9 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 var(--dpaam-pad-sm) var(--dpaam-pad-sm);
-  padding: var(--dpaam-pad-md) var(--dpaam-pad-sm);
+  /* Bottom is 3px less than top: the line box leaves descender room under the
+     text, so equal padding reads as bottom-heavy. */
+  padding: var(--dpaam-pad-lg) 16px calc(var(--dpaam-pad-lg) - 3px);
   border-radius: var(--dpaam-radius-lg);
   background: var(--dpaam-black);
   color: var(--dpaam-white);
@@ -1094,6 +1096,16 @@ html.dpaam-boot-signed-in #dpaam-dashboard-skeleton[hidden] { display: block; }
      padding (12px). */
   #dpaam-auth-modal-role {
     padding-bottom: var(--dpaam-auth-card-pad-x);
+  }
+
+  /* Role picker labels: a touch smaller and tighter than on desktop, so the
+     pills don't crowd the portraits on a phone. */
+  .dpaam-auth-role-btn {
+    font-size: 16px;
+  }
+
+  .dpaam-auth-role-label {
+    padding: 14px var(--dpaam-pad-md) 12px;
   }
 
   .dpaam-auth-consent {
