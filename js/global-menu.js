@@ -225,9 +225,11 @@ function buildGlobalMenuHTML(state) {
 
   return `
     <div class="global-menu">
-      ${isMyEscapeRoomShown(state) ? buildMyEscapeRoomHTML() : ''}
-      <div class="global-menu__kids">
-        <div class="global-menu__kids-links">${kidsLinks}</div>
+      <div class="global-menu__student">
+        ${isMyEscapeRoomShown(state) ? buildMyEscapeRoomHTML() : ''}
+        <div class="global-menu__kids">
+          <div class="global-menu__kids-links">${kidsLinks}</div>
+        </div>
       </div>
       <div class="global-menu__links">
         ${buildSettingsButtonHTML()}
@@ -645,12 +647,6 @@ function openGlobalMenu(state = 'unfinished') {
     return;
   }
   modalPopup.classList.add('modal__popup--global-menu');
-  // Two cards instead of three: narrow the popup so they keep their size
-  // without wide empty margins.
-  modalPopup.classList.toggle(
-    'modal__popup--global-menu-compact',
-    isUndermurkHidden()
-  );
   createModal('Menu', buildGlobalMenuHTML(state), 'Close');
 }
 

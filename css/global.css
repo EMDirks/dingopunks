@@ -64,7 +64,7 @@
 	--dpaam-gray: #A08D8D;
 	--dpaam-beige: #FFE4AE;
 	--dpaam-orange: #FF934E;
-	--dpaam-tan: #D59981;
+	--dpaam-tan: #E2B08F;
 	--dpaam-blush: #EE5A6A;
 	--dpaam-pad-xl: 32px;
   
@@ -594,26 +594,40 @@ button, input[type="submit"], input[type="reset"] {
 	box-sizing: border-box;
 }
 
+/* ── Student panel ─────────────────────────────────────────────────────── */
+
+/* My Escape Room and the student cards share one tan panel. The cards'
+   pictures stand up out of their tops (.global-menu__kids-link-image is 131%
+   tall), so the room-to-cards spacing (gap + the kids' margin and padding)
+   leaves them room to clear the meter. */
+.global-menu__student {
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+	/* With the popup's 24px gap, about the 28px padding above the "Menu" title. */
+	margin-top: 8px;
+	padding: 20px;
+	border-radius: 12px;
+	/* The locked cards' label tan. */
+	background-color: var(--dpaam-tan);
+}
+
 /* ── My Escape Room section ────────────────────────────────────────────── */
 
 .global-menu__room {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	padding: 14px 20px 18px 20px;
-	border-radius: 8px;
-	background-color: rgba(var(--off-black), 1);
 	font-family: 'Primer Print Bold', sans-serif;
-	color: rgba(var(--off-white), 1);
+	color: rgba(var(--off-black), 1);
 	line-height: 1.1;
-	margin-top: 6px;
 }
 
-/* Theme on the left, progress (N/N DONE) on the right, on one line. */
+/* Theme on the left, progress (N/N) on the right, on one line. */
 .global-menu__room-heading {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: baseline;
 	gap: 12px;
 }
 
@@ -634,40 +648,43 @@ button, input[type="submit"], input[type="reset"] {
 .global-menu__room-meter-segment {
 	flex: 1;
 	border-radius: 3px;
-	background-color: rgba(var(--off-white), 1);
+	background-color: var(--dpaam-brown);
 	transition: background-color 0.4s ease;
 }
 
 .global-menu__room-meter-segment--done {
-	background-color: rgba(var(--teal), 1);
+	background-color: rgba(var(--off-black), 1);
 }
 
 .global-menu__room-count {
 	flex-shrink: 0;
-	/* 2px less on the right: letter-spacing leaves 2px after the last digit. */
-	padding: 3px 10px 3px 12px;
-	border-radius: 999px;
-	background-color: rgba(var(--teal), 1);
-	color:  rgba(var(--off-black), 1);
-	font-size: 18px;
-	line-height: 1;
+	/* Plain text, styled like the theme title beside it. */
+	font-size: 24px;
+	line-height: normal;
 	white-space: nowrap;
-	letter-spacing: 2px;
+	letter-spacing: 1px;
+	/* Letter-spacing leaves 1px after the last digit; pull it back so the count
+	   lines up with the meter's right edge. */
+	margin-right: -1px;
 }
 
 /* Small screens. Kept here, after the rules above, so it wins without !important
    (the shared small-screen block further up comes before them in the file). */
 @media (max-width: 600px), (max-height: 600px) {
+	.global-menu__student {
+		gap: 18px;
+		margin-top: 4px;
+		padding: 10px;
+		border-radius: 8px;
+	}
 	.global-menu__room {
-		padding: 8px 10px 9px 10px;
 		gap: 2px;
 	}
 	.global-menu__room-title {
 		font-size: 16px;
 	}
 	.global-menu__room-count {
-		padding: 2px 6px 3px 8px;
-		font-size: 12px;
+		font-size: 16px;
 	}
 	.global-menu__room-meter {
 		gap: 4px;
@@ -689,7 +706,7 @@ button, input[type="submit"], input[type="reset"] {
 	--global-menu-kids-gap: 12px;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: var(--global-menu-kids-gap);
 	width: 100%;
 	box-sizing: border-box;
@@ -697,7 +714,8 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 /* Cards are always a third of the row, so when Bonus Missions are hidden the
-   remaining two keep their size and sit centered instead of stretching. */
+   remaining two keep their size and sit at the left, and the popup keeps its
+   full width. */
 .global-menu__kids-link {
 	display: flex;
 	flex-direction: column;
@@ -782,9 +800,11 @@ button, input[type="submit"], input[type="reset"] {
 		font-size: 16px;
 		gap: 6px;
 	}
+	/* Smaller gold square (20px), same 12px icon. */
 	.global-menu__link-icon {
 		width: 12px;
 		height: 12px;
+		padding: 4px;
 	}
 }
 
@@ -966,25 +986,6 @@ button, input[type="submit"], input[type="reset"] {
 	}
 }
 
-/* Bonus Missions hidden: two cards. The popup shrinks to two thirds of the
-   three-card content width (plus one gap and padding), and each card takes half
-   the row, so cards stay exactly the three-card size. Widths mirror .modal__popup:
-   min(100% - 64px, 600px) with 32px padding and a 12px gap. */
-.modal__popup--global-menu.modal__popup--global-menu-compact {
-	width: calc((min(100% - 64px, 650px) - 64px - 24px) * 2 / 3 + 12px + 64px);
-}
-
-.modal__popup--global-menu-compact .global-menu__kids-link {
-	flex-basis: calc((100% - var(--global-menu-kids-gap)) / 2);
-}
-
-/* Small screens: the popup is 380px with 16px padding and an 8px gap. */
-@media (max-width: 600px), (max-height: 600px) {
-	.modal__popup--global-menu.modal__popup--global-menu-compact {
-		width: calc((380px - 32px - 16px) * 2 / 3 + 8px + 32px);
-	}
-}
-
 .modal__popup--global-menu .global-menu__kids-link {
 	opacity: 0;
 	transform: translateY(40px);
@@ -1076,10 +1077,9 @@ button, input[type="submit"], input[type="reset"] {
 	flex-direction: column;
 	flex: 1;
 	min-height: 0;
-	opacity: 0.7;
 	border: 2.5px solid var(--dpaam-brown);
 	border-radius: 8px;
-	background-color: rgba(var(--off-black), 1);
+	background-color: var(--dpaam-brown); /* matches the image area behind the picture */
 	overflow: visible;
 }
 
