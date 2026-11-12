@@ -14,6 +14,29 @@ const PUZZLE_SNAP_RANGE_X = (PUZZLE_SLOT_X[1] - PUZZLE_SLOT_X[0]) / 2;
 const PUZZLE_SNAP_RANGE_Y = (PUZZLE_SLOT_Y[1] - PUZZLE_SLOT_Y[0]) / 2;
 const PUZZLE_SNAP_MS = 90; // matches .puzzle-piece--snapping's glide in activity.css
 
+// Drag maths for puzzle pieces and drag-and-drop blocks, in % of the activity area.
+// The finger is measured against the area's on-screen box, and the piece's grab
+// offset from its layout position (offsetLeft/Top: untouched by its tilt or any
+// transform). Mixing on-screen pixels with offsetWidth broke on short landscape
+// screens, where .site-container is scaled to 0.8, and pieces jumped on pick-up.
+function dragPointInArea(e, area) {
+  const point = e.touches ? e.touches[0] : e;
+  const box = area.getBoundingClientRect();
+  return {
+    x: (point.clientX - box.left) / box.width * 100,
+    y: (point.clientY - box.top) / box.height * 100,
+  };
+}
+
+// Where the finger is on the piece, as an offset from the piece's top-left.
+function dragGrabOffset(e, piece, area) {
+  const point = dragPointInArea(e, area);
+  return {
+    x: point.x - piece.offsetLeft / area.offsetWidth * 100,
+    y: point.y - piece.offsetTop / area.offsetHeight * 100,
+  };
+}
+
 function puzzlePiecePosition(piece) {
   return { x: parseFloat(piece.style.left) || 0, y: parseFloat(piece.style.top) || 0 };
 }
@@ -205,8 +228,7 @@ function drawPuzzle() {
     let isDragging = false;
     let hasMoved = false;
     let dragFrom;
-    let initialX;
-    let initialY;
+    let grab; // finger's offset on the piece, % of the activity area (dragGrabOffset)
 
     document.addEventListener("mousedown", dragStart);
     document.addEventListener("mouseup", dragEnd);
@@ -219,14 +241,8 @@ function drawPuzzle() {
     activityPuzzlePiece.addEventListener("touchcancel", dragEnd, { passive: false });
 
     function dragStart(e) {
-      if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - activityPuzzlePiece.getBoundingClientRect().left;
-        initialY = e.touches[0].clientY - activityPuzzlePiece.getBoundingClientRect().top;
-      } else {
-        initialX = e.clientX - activityPuzzlePiece.getBoundingClientRect().left;
-        initialY = e.clientY - activityPuzzlePiece.getBoundingClientRect().top;
-      }
       if (e.target === activityPuzzlePiece) {
+        grab = dragGrabOffset(e, activityPuzzlePiece, activityModalContentContainerTop);
         const draggableElements = document.querySelectorAll('.draggable');
         let maxZIndex = 0;
         draggableElements.forEach(function(el) {
@@ -263,13 +279,9 @@ function drawPuzzle() {
         e.preventDefault();
         let currentX;
         let currentY;
-        if (e.type === "touchmove") {
-          currentX = (e.touches[0].clientX - activityModalContentContainerTop.getBoundingClientRect().left - initialX) / activityModalContentContainerTop.offsetWidth * 100;
-          currentY = (e.touches[0].clientY - activityModalContentContainerTop.getBoundingClientRect().top - initialY) / activityModalContentContainerTop.offsetHeight * 100;
-        } else {
-          currentX = (e.clientX - activityModalContentContainerTop.getBoundingClientRect().left - initialX) / activityModalContentContainerTop.offsetWidth * 100;
-          currentY = (e.clientY - activityModalContentContainerTop.getBoundingClientRect().top - initialY) / activityModalContentContainerTop.offsetHeight * 100;
-        }
+        const point = dragPointInArea(e, activityModalContentContainerTop);
+        currentX = point.x - grab.x;
+        currentY = point.y - grab.y;
         const pieceWidth = activityPuzzlePiece.offsetWidth / activityModalContentContainerTop.offsetWidth * 100;
         const pieceHeight = activityPuzzlePiece.offsetHeight / activityModalContentContainerTop.offsetHeight * 100;
         const minX = 0;

@@ -255,8 +255,7 @@ function drawDynamic(challengeIndex) {
             let dragFrom;
             let currentX = parseFloat(activityBlock.style.left) || 0;
             let currentY = parseFloat(activityBlock.style.top) || 0;
-            let initialX;
-            let initialY;
+            let grab; // finger's offset on the block, % of the activity area (dragGrabOffset)
             activityBlock.dataset.puzzleIndex = i;
       
             document.addEventListener("mousedown", dragStart);
@@ -270,14 +269,8 @@ function drawDynamic(challengeIndex) {
             activityBlock.addEventListener("touchcancel", dragEnd, { passive: false });
       
             function dragStart(e) {
-              if (e.type === "touchstart") {
-                initialX = e.touches[0].clientX - activityBlock.getBoundingClientRect().left;
-                initialY = e.touches[0].clientY - activityBlock.getBoundingClientRect().top;
-              } else {
-                initialX = e.clientX - activityBlock.getBoundingClientRect().left;
-                initialY = e.clientY - activityBlock.getBoundingClientRect().top;
-              }
               if (e.target === activityBlock) {
+                grab = dragGrabOffset(e, activityBlock, activityModalContentContainerTop);
                 const draggableElements = document.querySelectorAll('.drag-and-drop');
                 let maxZIndex = 2;
                 draggableElements.forEach(function(el) {
@@ -316,13 +309,9 @@ function drawDynamic(challengeIndex) {
               if (isDragging) {
                 toggleClass(activityModalWrapper, "overflow-y-scroll", "overflow-y-hidden");
                 e.preventDefault();
-                if (e.type === "touchmove") {
-                  currentX = (e.touches[0].clientX - activityModalContentContainerTop.getBoundingClientRect().left - initialX) / activityModalContentContainerTop.offsetWidth * 100;
-                  currentY = (e.touches[0].clientY - activityModalContentContainerTop.getBoundingClientRect().top - initialY) / activityModalContentContainerTop.offsetHeight * 100;
-                } else {
-                  currentX = (e.clientX - activityModalContentContainerTop.getBoundingClientRect().left - initialX) / activityModalContentContainerTop.offsetWidth * 100;
-                  currentY = (e.clientY - activityModalContentContainerTop.getBoundingClientRect().top - initialY) / activityModalContentContainerTop.offsetHeight * 100;
-                }
+                const point = dragPointInArea(e, activityModalContentContainerTop);
+                currentX = point.x - grab.x;
+                currentY = point.y - grab.y;
                 const pieceWidth = activityBlock.offsetWidth / activityModalContentContainerTop.offsetWidth * 100;
                 const pieceHeight = activityBlock.offsetHeight / activityModalContentContainerTop.offsetHeight * 100;
                 const minX = 0;
