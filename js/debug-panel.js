@@ -73,7 +73,9 @@
       document.getElementById('activity-node-' + (Number(index) + 1)).click();
       const start = document.querySelector('.activity-scene-button-start');
       if (start) start.click();
-      buildGridNudge(puzzleBackgroundKey());
+      const challenge = resource.challengeArray && resource.challengeArray[Number(index)];
+      const isSort = Boolean(challenge && challenge.activity.info.columnArray);
+      buildGridNudge(isSort ? null : puzzleBackgroundKey());
     });
   }
 
@@ -121,7 +123,7 @@
     location.search = params.toString();
   }
 
-  // Bottom-left box on a Puzzle menu page. Answer key: arrow buttons (or the arrow
+  // Bottom-left box on a Puzzle menu page (puzzles and column sorts). Answer key: arrow buttons (or the arrow
   // keys) move the whole grid, and the line to paste into PUZZLE_GRID_OFFSETS shows
   // beside them. Play: the pieces start in the pile and snap to the grid as tuned;
   // Restart deals them out again.
@@ -134,14 +136,17 @@
     modeButton.title = debugPuzzlePlay ? 'Back to the answer key, to nudge the grid' : 'Play this puzzle from the pile';
     modeButton.addEventListener('click', function() { switchPuzzleMode(!debugPuzzlePlay); });
 
-    if (debugPuzzlePlay) {
+    // A column sort (key null) has no grid to nudge: just the mode buttons.
+    if (debugPuzzlePlay || !key) {
       const label = document.createElement('span');
-      label.textContent = 'Playing ' + key;
+      label.textContent = key ? 'Playing ' + key : (debugPuzzlePlay ? 'Playing sort' : 'Sort answer key');
       box.appendChild(label);
-      const restartButton = document.createElement('button');
-      restartButton.textContent = 'Restart';
-      restartButton.addEventListener('click', function() { switchPuzzleMode(true); });
-      box.appendChild(restartButton);
+      if (debugPuzzlePlay) {
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Restart';
+        restartButton.addEventListener('click', function() { switchPuzzleMode(true); });
+        box.appendChild(restartButton);
+      }
       box.appendChild(modeButton);
       document.body.appendChild(box);
       return;
@@ -256,6 +261,7 @@
     }));
 
     const found = new Map();
+    const sorts = [];
     function add(file, game, index) {
       if (file && typeof file === 'object') file = file.path;
       if (file && !found.has(file)) found.set(file, game.id + ':' + index);
@@ -265,14 +271,23 @@
       (gameResource.challengeArray || []).forEach(function(challenge, i) {
         const info = challenge.activity && challenge.activity.info;
         if (info && info.functionality === 'drag-and-drop' && !info.columnArray) add(info.asset, themeGames[g], i);
+        // Column sorts: every one, named by game (sorts don't depend on the art).
+        if (info && info.functionality === 'drag-and-drop' && info.columnArray) {
+          const game = themeGames[g];
+          sorts.push({
+            file: 'Sort: ' + game.topic + ' ' + game.grades.join('/') + ' (' + info.columnArray.length + ' col)',
+            value: game.id + ':' + i,
+          });
+        }
       });
       (gameResource.activityArray || []).forEach(function(activity, i) {
         // Legacy pieces sit differently on the same art: their own entry (puzzleBackgroundKey).
         if (activity.content && activity.content.puzzle) add(activity.assets.activityBackground + ' (legacy)', themeGames[g], i);
       });
     });
-    return Array.from(found, function([file, value]) { return { file: file, value: value }; })
-      .sort(function(a, b) { return a.file.localeCompare(b.file); });
+    return Array.from(found, function([file, value]) { return { file: 'Puzzle: ' + file, value: value }; })
+      .sort(function(a, b) { return a.file.localeCompare(b.file); })
+      .concat(sorts.sort(function(a, b) { return a.file.localeCompare(b.file); }));
   }
 
   let select;
@@ -292,6 +307,7 @@
       .debug-panel--grid { top: auto; bottom: 8px; }
       .debug-panel--grid span { font: inherit; }
       .debug-panel__grid-line { font: 12px/1.2 ui-monospace, Menlo, monospace; user-select: all; }
+      .debug-show-drop-areas .activity-sort__column { background: rgba(255, 0, 0, 0.25); }
     `;
     document.head.appendChild(style);
 
@@ -366,7 +382,7 @@
       if (select.value !== theme) return;
       puzzleSelect.replaceChildren(new Option(puzzles.length ? 'Puzzle…' : 'No puzzles', ''));
       puzzles.forEach(function(puzzle) {
-        puzzleSelect.add(new Option('Puzzle: ' + puzzle.file.replace('.png', ''), puzzle.value));
+        puzzleSelect.add(new Option(puzzle.file.replace('.png', ''), puzzle.value));
       });
       if (debugPuzzle) puzzleSelect.value = debugPuzzle;
       if (!puzzleSelect.value) puzzleSelect.selectedIndex = 0;
@@ -376,6 +392,24 @@
     });
     panel.appendChild(puzzleSelect);
     fillPuzzleSelect();
+
+    // Tints each column sort column red: the area a card has to be centred over
+    // to drop into that column (sort.js). Off by default; remembered across reloads.
+    const DROP_AREAS_KEY = 'debugShowDropAreas';
+    const dropAreasButton = document.createElement('button');
+    function setDropAreas(show) {
+      document.documentElement.classList.toggle('debug-show-drop-areas', show);
+      dropAreasButton.textContent = show ? 'Drop areas: on' : 'Drop areas: off';
+    }
+    let showDropAreas = false; // off unless turned on
+    try { showDropAreas = localStorage.getItem(DROP_AREAS_KEY) === '1'; } catch (e) { /* ignore */ }
+    setDropAreas(showDropAreas);
+    dropAreasButton.addEventListener('click', function() {
+      showDropAreas = !showDropAreas;
+      setDropAreas(showDropAreas);
+      try { localStorage.setItem(DROP_AREAS_KEY, showDropAreas ? '1' : '0'); } catch (e) { /* ignore */ }
+    });
+    panel.appendChild(dropAreasButton);
 
     buildVoiceControls(panel);
     buildCharacterVoices(panel, themes);

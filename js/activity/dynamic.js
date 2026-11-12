@@ -19,6 +19,9 @@ function drawDynamic(challengeIndex) {
 
   // a puzzle opened for the first time is piled in the corner once every piece exists (see puzzle.js)
   let puzzlePileFirstOpen = false;
+  // column sorts: the same pile on a first open, and a board that snaps cards into ordered stacks (see sort.js)
+  let sortPileFirstOpen = false;
+  let sortBoard = null;
   function savePuzzlePiece(piece, x, y) {
     userInput["puzzle" + challengeIndex]["puzzlePosition"][piece.dataset.puzzleIndex] = { x: x + "%", y: y + "%", r: puzzlePieceTilt(piece) };
   }
@@ -50,6 +53,11 @@ function drawDynamic(challengeIndex) {
 
         if (activity.info.columnArray){
 
+          dragAndDropType = "column" + activity.info.columnArray.length;
+          activityBlock.classList.add("sort-card"); // dynamic.css: no drop shadow
+
+          // The columns, once (each block used to add its own identical set).
+          if (i === 0) {
           let activitySortColumnContainer = createElement("div", ["activity-sort__column__container"], activityContainer);
           activitySortColumnContainer.style.zIndex = 0;
           for (let c = 0; c < activity.info.columnArray.length; c++){
@@ -67,30 +75,17 @@ function drawDynamic(challengeIndex) {
               activitySortColumnText.classList.add("activity-sort__column__text--default");
             }
             
-            if (c === 0){
-              activitySortColumnText.style.transform = "rotate(-2deg)"
-            }
-            if (c === 1){
-              activitySortColumnText.style.transform = "rotate(2deg)"
-            }
-            if (c === 2){
-              activitySortColumnText.style.transform = "rotate(3deg)"
-            }
-
-
             if (activity.info.columnArray.length === 3){
               activitySortColumn.classList.add(style.dimension.width.column3Width);
-              dragAndDropType = "column3";
             }
             if (activity.info.columnArray.length === 2){
               activitySortColumn.classList.add(style.dimension.width.column2Width);
-              dragAndDropType = "column2"
             }
             if (activity.info.columnArray.length === 1){
               activitySortColumn.classList.add(style.dimension.width.column1Width);
-              dragAndDropType = "column1"
             }
 
+          }
           }
         }
         else {
@@ -98,7 +93,7 @@ function drawDynamic(challengeIndex) {
         }
 
         activityBlock.classList.add('drag-and-drop');
-        if (dragAndDropType === "puzzle") activityBlock.dataset.puzzlePiece = '1'; // scene.js: no pop-in on a later visit
+        activityBlock.dataset.puzzlePiece = '1'; // scene.js: no pop-in on a later visit (puzzle pieces and sort cards)
 
           // create elements inside container
 
@@ -118,114 +113,12 @@ function drawDynamic(challengeIndex) {
               placePuzzlePieceSolved(activityBlock, i);
             }
 
-            // answer key: column1
-            else if (dragAndDropType === "column1" && gameMode === "preview") {
-
-              const draggableElements = document.querySelectorAll('.drag-and-drop');
-            
-              if (gameMode === "preview" && dragAndDropEdit === false){
-                draggableElements.forEach(function(el) {
-                  el.classList.add('state-pointer-events-none');
-                });
-              }
-            
-              function positionElements() {
-                let currentTop = 0; // Adjust as needed for your starting point
-                const spacing = 1; // Adjust as needed for your desired spacing
-            
-                draggableElements.forEach(function(activityBlock) {
-                  activityBlock.style.left = "25.7%";
-                  activityBlock.style.top = `calc(${currentTop}px + 17%)`;
-                  const blockHeight = activityBlock.offsetHeight; // Get dynamic height
-                  currentTop += blockHeight + spacing;
-                });
-              }
-            
-              // Initial positioning
-              setTimeout(positionElements,200);
-            
-              // Recalculate positions on window resize
-              window.addEventListener('resize', positionElements);
-
+            // answer key: column sort. The cards are stacked in their columns once
+            // every card exists (createSortBoard, below the block loop).
+            else if (gameMode === "preview") {
+              if (dragAndDropEdit === false) activityBlock.classList.add('state-pointer-events-none');
             }
 
-            // answer key: column2
-            else if (dragAndDropType === "column2" && gameMode === "preview") {
-
-              const draggableElements = document.querySelectorAll('.drag-and-drop');
-            
-              if (gameMode === "preview" && dragAndDropEdit === false){
-                draggableElements.forEach(function(el) {
-                  el.classList.add('state-pointer-events-none');
-                });
-              }
-            
-              function positionElements() {
-                let currentTop0 = 0;
-                let currentTop1 = 0;
-                const spacing = 1;
-                draggableElements.forEach(function(activityBlock, i) {
-                    const correctIndex = activity.blockArray[i].correctIndex;
-                    if (correctIndex === 0) {
-                        activityBlock.style.left = "19.1%";
-                        activityBlock.style.top = `calc(${currentTop0}px + 16%)`;
-                        const blockHeight = activityBlock.offsetHeight;
-                        currentTop0 += blockHeight + spacing;
-                    } else if (correctIndex === 1) {
-                        activityBlock.style.left = "52.1%";
-                        activityBlock.style.top = `calc(${currentTop1}px + 16%)`;
-                        const blockHeight = activityBlock.offsetHeight;
-                        currentTop1 += blockHeight + spacing;
-                    }             
-                });
-              }
-                      
-              setTimeout(positionElements,200);    
-              window.addEventListener('resize', positionElements);
-
-            }
-
-            // answer key: column3
-            else if (dragAndDropType === "column3" && gameMode === "preview") {
-              const draggableElements = document.querySelectorAll('.drag-and-drop');
-            
-              if (gameMode === "preview" && dragAndDropEdit === false){
-                draggableElements.forEach(function(el) {
-                  el.classList.add('state-pointer-events-none');
-                });
-              }
-            
-              function positionElements() {
-                let currentTop0 = 0;
-                let currentTop1 = 0;
-                let currentTop2 = 0;
-                const spacing = 1;
-                draggableElements.forEach(function(activityBlock, i) {
-                    const correctIndex = activity.blockArray[i].correctIndex;
-                    if (correctIndex === 0) {
-                        activityBlock.style.left = "15.1%";
-                        activityBlock.style.top = `calc(${currentTop0}px + 15%)`;
-                        const blockHeight = activityBlock.offsetHeight;
-                        currentTop0 += blockHeight + spacing;
-                    } else if (correctIndex === 1) {
-                        activityBlock.style.left = "39.3%";
-                        activityBlock.style.top = `calc(${currentTop1}px + 15%)`;
-                        const blockHeight = activityBlock.offsetHeight;
-                        currentTop1 += blockHeight + spacing;
-                      } else if (correctIndex === 2) {
-                        activityBlock.style.left = "64.2%";
-                        activityBlock.style.top = `calc(${currentTop2}px + 15%)`;
-                        const blockHeight = activityBlock.offsetHeight;
-                        currentTop2 += blockHeight + spacing;
-                    }               
-                });
-              }
-             
-              setTimeout(positionElements,200);
-              window.addEventListener('resize', positionElements);
-
-            }
-            
             // no answer key
             else {
               if (userInput["puzzle" + challengeIndex] && userInput["puzzle" + challengeIndex]["puzzlePosition"][i]) {
@@ -235,20 +128,10 @@ function drawDynamic(challengeIndex) {
               } else if (dragAndDropType === "puzzle") {
                 puzzlePileFirstOpen = true;
               } else {
-                setTimeout(randomizeBlocks,500);
-                function randomizeBlocks(){
-                  activityBlock.style.left = Math.random() * 45 + 5 + "%";
-                  let randomTop = Math.random() * 40 + 22 + "%";
-                  activityBlock.style.top = randomTop;
-                   
-                  // save user inputs
-                  let currentX = parseFloat(activityBlock.style.left) || 0;
-                  let currentY = parseFloat(activityBlock.style.top) || 0;
-                  userInput["puzzle" + challengeIndex]["puzzlePosition"][i] = { x: currentX + "%", y: currentY + "%" };
-                }         
+                sortPileFirstOpen = true; // piled with the puzzle's pile and fly-in, below the block loop
               }
             }
-      
+
             // set drag functionality
             let isDragging = false;
             let hasMoved = false;
@@ -281,19 +164,27 @@ function drawDynamic(challengeIndex) {
                 });
                 activityBlock.style.zIndex = maxZIndex + 1;
                 activityBlock.classList.remove('puzzle-piece--snapping');
-                if (dragAndDropType === "puzzle") liftPuzzlePiece(activityBlock);
+                liftPuzzlePiece(activityBlock);
                 dragFrom = puzzlePiecePosition(activityBlock);
+                if (sortBoard) sortBoard.pickUp(activityBlock, dragFrom);
                 hasMoved = false;
                 isDragging = true;
               }
             }
             function dragEnd(e) {
               toggleClass(activityModalWrapper, "overflow-y-hidden", "overflow-y-scroll");
+              const wasPickedUp = isDragging;
               const wasDragged = isDragging && hasMoved;
               isDragging = false;
               hasMoved = false;
 
-              // puzzles snap into the grid (see puzzle.js); column sorts stay free
+              // column sorts snap into their stacks, and save the whole board (see sort.js)
+              if (sortBoard) {
+                if (wasPickedUp) sortBoard.drop(activityBlock);
+                return;
+              }
+
+              // puzzles snap into the grid (see puzzle.js)
               if (wasDragged && dragAndDropType === "puzzle") {
                 const pieces = Array.from(activityContainer.querySelectorAll('.drag-and-drop'));
                 snapPuzzlePiece(activityBlock, pieces, dragFrom, savePuzzlePiece);
@@ -323,6 +214,7 @@ function drawDynamic(challengeIndex) {
                 activityBlock.style.left = currentX + "%";
                 activityBlock.style.top = currentY + "%";
                 hasMoved = true;
+                if (sortBoard) sortBoard.dragOver(activityBlock);
               }
             }
 
@@ -729,6 +621,40 @@ function drawDynamic(challengeIndex) {
 
   if (puzzlePileFirstOpen) {
     pilePuzzlePieces(Array.from(activityContainer.querySelectorAll('.drag-and-drop')), savePuzzlePiece, 3);
+  }
+
+  // Column sort: stacks from the save (or the answers on the answer key), piled
+  // on a first open, and restacked whenever the area or a card changes size.
+  if (activity.info.functionality === "drag-and-drop" && activity.info.columnArray) {
+    const sortCards = Array.from(activityContainer.querySelectorAll('.drag-and-drop'));
+    const sortColumns = Array.from(activityContainer.querySelectorAll('.activity-sort__column'));
+    const sortSave = userInput["puzzle" + challengeIndex];
+    const saveSortBoard = function() {
+      if (!sortSave) return;
+      sortCards.forEach(function(card, i) {
+        sortSave.puzzlePosition[i] = { x: (parseFloat(card.style.left) || 0) + "%", y: (parseFloat(card.style.top) || 0) + "%", r: puzzlePieceTilt(card) };
+      });
+      sortSave.sortColumns = sortBoard.sortColumns();
+    };
+    sortBoard = createSortBoard(sortCards, sortColumns, activityModalContentContainerTop, saveSortBoard);
+    if (gameMode === "preview") {
+      sortBoard.loadAnswers(activity.blockArray.map(function(block) { return block.correctIndex; }));
+    } else if (sortSave && sortSave.sortColumns) {
+      sortBoard.load(sortSave.sortColumns); // a save from before snapping has none: its cards stay loose where they were
+    }
+    if (sortPileFirstOpen) sortBoard.pile(3);
+    sortBoard.restack();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      let restackFrame = null;
+      const sizeWatcher = new ResizeObserver(function() {
+        if (!sortCards[0] || !sortCards[0].isConnected) { sizeWatcher.disconnect(); return; }
+        cancelAnimationFrame(restackFrame);
+        restackFrame = requestAnimationFrame(sortBoard.restack);
+      });
+      sizeWatcher.observe(activityModalContentContainerTop);
+      sortCards.forEach(function(card) { sizeWatcher.observe(card); });
+    }
   }
 
 }
