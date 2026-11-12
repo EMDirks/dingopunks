@@ -724,6 +724,7 @@ function openActivityModal(i) {
         });
       }
       toggleClass(activity, "state-display-none", "state-display-block");
+      scrollToTop(activityModalWrapper);  // always open at the top (closing resets it too)
       typeof Sound !== 'undefined' && Sound.event('activity.open');
       typeof Sound !== 'undefined' && Sound.event('activity.openWhoosh');
       fadeMapLoop(true);
@@ -801,6 +802,7 @@ function openActivityModal(i) {
         });
       }
       toggleClass(activity, "state-display-none", "state-display-block");
+      scrollToTop(activityModalWrapper);  // always open at the top (closing resets it too)
       typeof Sound !== 'undefined' && Sound.event('activity.open');
       typeof Sound !== 'undefined' && Sound.event('activity.openWhoosh');
       fadeMapLoop(true);
@@ -841,8 +843,10 @@ function closeActivityModal(){
     tornDown = true;
     activityModal.removeEventListener("animationend", onPopOutEnd);
     clearTimeout(fallbackTimer);
-    toggleClass(activity, "state-display-block", "state-display-none");
+    // Scroll back to the top before hiding: a display: none element can't be scrolled, so
+    // the next challenge would open where this one was left. The modal is fully faded by now.
     scrollToTop(activityModalWrapper);
+    toggleClass(activity, "state-display-block", "state-display-none");
     if (openState.hint === true){
       openHintModal('closingActivity');
     }
