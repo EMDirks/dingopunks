@@ -15,6 +15,7 @@ BACKLOG
 • Make student buttons in the global menu smaller
 • Full screen mode
 • remove "buzz/whine" on iPad/mobile "Quit" click
+• Simpify "what's a game code modal"
 
 ---
 

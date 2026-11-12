@@ -341,8 +341,8 @@
                 url("../assets/interface/cursor/pointer-2x.png") 2x
             ), auto;
             */
-            width: 25%;
-            height: 24.5%;
+            width: 25.13%;  /* 25% + 0.5% */
+            height: 24.62%; /* 24.5% + 0.5% */
             border-radius: 0.1vmax;
             transition: transform 0s;
             touch-action: none;

@@ -1,5 +1,6 @@
 // Local testing panel: pick a theme and watch its intro, outro or fail cutscene,
-// launch its 4th grade mixed reading escape room, or jump to a victory debrief.
+// launch its 4th grade mixed reading escape room, jump to a victory debrief, or
+// open the answer key of one of its puzzles to line the grid up with the art.
 // scripts/build-pages.mjs leaves this file and its index.html tag out of the
 // production build. The host check is a backstop if the site is ever served
 // straight from the repo.
@@ -22,8 +23,15 @@
   // Game scripts declare top-level `let`s and Intro/Outro stub out game functions,
   // so a game gets a fresh page: Game reloads with ?debugGame=<theme>, and that
   // page boots straight to the map instead of drawing the splash.
-  const debugGameTheme = new URLSearchParams(location.search).get('debugGame');
+  // The Puzzle menu does the same with ?debugPuzzle=<game id>:<challenge index>,
+  // and that page opens the challenge's answer key, or with &debugPuzzleMode=play,
+  // the challenge as a player gets it (pieces in the pile, fresh save).
+  const debugParams = new URLSearchParams(location.search);
+  const debugGameTheme = debugParams.get('debugGame');
+  const debugPuzzle = debugParams.get('debugPuzzle');
+  const debugPuzzlePlay = debugParams.get('debugPuzzleMode') === 'play';
   if (debugGameTheme) startSplash = startDebugGame;
+  else if (debugPuzzle) startSplash = startDebugPuzzle;
 
   const DEBUG_GAME_SETTINGS = { playerCount: 5, activityCount: 5, timeLimit: '50 min', hints: 'Yes' };
 
@@ -37,7 +45,41 @@
     });
     if (!game) throw new Error('No 4th grade mixed reading game for ' + debugGameTheme);
 
-    loadResourceGame(debugGameTheme, game.path.slice(folder.length), function() {
+    loadDebugGame(game, function() {
+      createActivityNodes();
+      createCodeBox();
+      createFooter();
+      startMapLoop();
+    });
+  }
+
+  async function startDebugPuzzle() {
+    const { games } = await import('./games.js');
+    const [gameId, index] = debugPuzzle.split(':');
+    const game = games.find(function(candidate) { return candidate.id === gameId; });
+    if (!game) throw new Error('No game ' + gameId);
+
+    // Answer key mode, as answer-key.html sets it: every piece in its solved slot.
+    // Play mode keeps this page's own mode, as in a normal game.
+    if (!debugPuzzlePlay) {
+      gameMode = 'preview';
+      dragAndDropEdit = false;
+    }
+    loadDebugGame(game, function() {
+      // Keep every challenge (createActivityNodes trims to activityCount).
+      settings.activityCount = (resource.challengeArray || resource.activityArray).length;
+      createActivityNodes();
+      // The node's own click handler, then the scene's START, as the editor preview does.
+      document.getElementById('activity-node-' + (Number(index) + 1)).click();
+      const start = document.querySelector('.activity-scene-button-start');
+      if (start) start.click();
+      buildGridNudge(puzzleBackgroundKey());
+    });
+  }
+
+  function loadDebugGame(game, onReady) {
+    const theme = game.path.split('/')[1];
+    loadResourceGame(theme, game.path.slice(('resource/' + theme + '/').length), function() {
       // What the skipped splash steps and intro cutscene would have set up.
       ['onPinInput', 'onSettings', 'onCharacterSelect', 'onCutsceneStart'].forEach(handlePreloading);
       window.globalMenuSplashStarted = true;
@@ -53,16 +95,188 @@
 
       toggleClass(splash, 'splash--visible', 'splash--hidden');
       removeSplash();
-      createActivityNodes();
-      createCodeBox();
-      createFooter();
-      startMapLoop();
+      onReady();
     });
+  }
+
+  // Grid nudges (PUZZLE_GRID_OFFSETS in js/activity/puzzle.js), kept for this tab
+  // so jumping between puzzles doesn't lose them before they're pasted into the code.
+  // Applied now, before the puzzle draws.
+  const GRID_TWEAKS_KEY = 'debugPuzzleGridTweaks';
+  const GRID_STEP = 0.1;
+  const GRID_STEP_BIG = 0.5; // with Shift
+  const codeGridOffsets = typeof PUZZLE_GRID_OFFSETS === 'undefined' ? {} : JSON.parse(JSON.stringify(PUZZLE_GRID_OFFSETS));
+  let gridTweaks = {};
+  if (debugPuzzle && typeof PUZZLE_GRID_OFFSETS !== 'undefined') {
+    try { gridTweaks = JSON.parse(sessionStorage.getItem(GRID_TWEAKS_KEY)) || {}; } catch (e) { /* ignore */ }
+    Object.assign(PUZZLE_GRID_OFFSETS, gridTweaks);
+  }
+
+  // Reloads the same puzzle as its answer key, or to play.
+  function switchPuzzleMode(play) {
+    canRefresh = true;
+    const params = new URLSearchParams(location.search);
+    if (play) params.set('debugPuzzleMode', 'play');
+    else params.delete('debugPuzzleMode');
+    location.search = params.toString();
+  }
+
+  // Bottom-left box on a Puzzle menu page. Answer key: arrow buttons (or the arrow
+  // keys) move the whole grid, and the line to paste into PUZZLE_GRID_OFFSETS shows
+  // beside them. Play: the pieces start in the pile and snap to the grid as tuned;
+  // Restart deals them out again.
+  function buildGridNudge(key) {
+    const box = document.createElement('div');
+    box.className = 'debug-panel debug-panel--grid';
+
+    const modeButton = document.createElement('button');
+    modeButton.textContent = debugPuzzlePlay ? 'Answer key' : 'Play';
+    modeButton.title = debugPuzzlePlay ? 'Back to the answer key, to nudge the grid' : 'Play this puzzle from the pile';
+    modeButton.addEventListener('click', function() { switchPuzzleMode(!debugPuzzlePlay); });
+
+    if (debugPuzzlePlay) {
+      const label = document.createElement('span');
+      label.textContent = 'Playing ' + key;
+      box.appendChild(label);
+      const restartButton = document.createElement('button');
+      restartButton.textContent = 'Restart';
+      restartButton.addEventListener('click', function() { switchPuzzleMode(true); });
+      box.appendChild(restartButton);
+      box.appendChild(modeButton);
+      document.body.appendChild(box);
+      return;
+    }
+
+    const readout = document.createElement('code');
+    readout.className = 'debug-panel__grid-line';
+    const status = document.createElement('span');
+
+    function offset() {
+      const current = PUZZLE_GRID_OFFSETS[key] || {};
+      return { x: current.x || 0, y: current.y || 0 };
+    }
+    function line() {
+      const at = offset();
+      return "'" + key + "': { x: " + at.x + ', y: ' + at.y + ' },';
+    }
+    function render() {
+      readout.textContent = line();
+      const at = offset();
+      const inCode = codeGridOffsets[key] || {};
+      const saved = at.x === (inCode.x || 0) && at.y === (inCode.y || 0);
+      status.textContent = saved ? 'matches code' : 'not in code yet';
+    }
+    function setOffset(next) {
+      PUZZLE_GRID_OFFSETS[key] = next;
+      gridTweaks[key] = next;
+      try { sessionStorage.setItem(GRID_TWEAKS_KEY, JSON.stringify(gridTweaks)); } catch (e) { /* ignore */ }
+      document.querySelectorAll('[data-puzzle-slot]').forEach(function(piece) {
+        placePuzzlePieceSolved(piece, Number(piece.dataset.puzzleSlot));
+      });
+      render();
+    }
+    function nudge(dx, dy, big) {
+      const step = big ? GRID_STEP_BIG : GRID_STEP;
+      const at = offset();
+      const round = function(value) { return Math.round(value * 100) / 100; };
+      setOffset({ x: round(at.x + dx * step), y: round(at.y + dy * step) });
+    }
+
+    const label = document.createElement('span');
+    label.textContent = 'Grid';
+    box.appendChild(label);
+
+    const ARROWS = { ArrowLeft: ['←', -1, 0], ArrowUp: ['↑', 0, -1], ArrowDown: ['↓', 0, 1], ArrowRight: ['→', 1, 0] };
+    Object.keys(ARROWS).forEach(function(arrowKey) {
+      const [text, dx, dy] = ARROWS[arrowKey];
+      const button = document.createElement('button');
+      button.textContent = text;
+      button.title = 'Move the grid ' + GRID_STEP + '% (Shift: ' + GRID_STEP_BIG + '%), or use the arrow keys';
+      button.addEventListener('click', function(event) { nudge(dx, dy, event.shiftKey); });
+      box.appendChild(button);
+    });
+    document.addEventListener('keydown', function(event) {
+      const arrow = ARROWS[event.key];
+      if (!arrow || event.target.closest('input, textarea, select, [contenteditable]')) return;
+      event.preventDefault();
+      nudge(arrow[1], arrow[2], event.shiftKey);
+    });
+
+    box.appendChild(readout);
+
+    const copyButton = document.createElement('button');
+    copyButton.textContent = 'Copy';
+    copyButton.addEventListener('click', function() {
+      const text = line();
+      console.log(text);
+      navigator.clipboard.writeText(text).then(function() {
+        copyButton.textContent = 'Copied';
+        setTimeout(function() { copyButton.textContent = 'Copy'; }, 1200);
+      }).catch(function() { copyButton.textContent = 'See console'; });
+    });
+    box.appendChild(copyButton);
+
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset';
+    resetButton.title = 'Back to the value in the code';
+    resetButton.addEventListener('click', function() {
+      setOffset(Object.assign({ x: 0, y: 0 }, codeGridOffsets[key]));
+      delete gridTweaks[key];
+      try { sessionStorage.setItem(GRID_TWEAKS_KEY, JSON.stringify(gridTweaks)); } catch (e) { /* ignore */ }
+    });
+    box.appendChild(resetButton);
+    box.appendChild(modeButton);
+
+    box.appendChild(status);
+    render();
+    document.body.appendChild(box);
+  }
+
+  // Each background art with a puzzle in a theme, scanned from the theme's game
+  // files, with the first challenge that puts a puzzle on it: [{ file, value }],
+  // value being a debugPuzzle param. Puzzles are dynamic drag-and-drop challenges
+  // without columns, or legacy activities with content.puzzle.
+  const themePuzzleScans = {};
+  function themePuzzles(theme, games) {
+    if (!themePuzzleScans[theme]) themePuzzleScans[theme] = scanThemePuzzles(theme, games);
+    return themePuzzleScans[theme];
+  }
+
+  async function scanThemePuzzles(theme, games) {
+    const themeGames = games.filter(function(game) { return game.path.startsWith('resource/' + theme + '/'); });
+    const resources = await Promise.all(themeGames.map(async function(game) {
+      try {
+        const response = await fetch(game.path);
+        // Evaluated in a function scope: game files declare a top-level const resource.
+        return new Function(await response.text() + '\nreturn resource;')();
+      } catch (error) {
+        console.error('Debug panel: could not read ' + game.path, error);
+        return null;
+      }
+    }));
+
+    const found = new Map();
+    function add(file, game, index) {
+      if (file && typeof file === 'object') file = file.path;
+      if (file && !found.has(file)) found.set(file, game.id + ':' + index);
+    }
+    resources.forEach(function(gameResource, g) {
+      if (!gameResource) return;
+      (gameResource.challengeArray || []).forEach(function(challenge, i) {
+        const info = challenge.activity && challenge.activity.info;
+        if (info && info.functionality === 'drag-and-drop' && !info.columnArray) add(info.asset, themeGames[g], i);
+      });
+      (gameResource.activityArray || []).forEach(function(activity, i) {
+        if (activity.content && activity.content.puzzle) add(activity.assets.activityBackground, themeGames[g], i);
+      });
+    });
+    return Array.from(found, function([file, value]) { return { file: file, value: value }; })
+      .sort(function(a, b) { return a.file.localeCompare(b.file); });
   }
 
   let select;
 
-  function buildPanel(themes) {
+  function buildPanel(themes, games) {
     const style = document.createElement('style');
     style.textContent = `
       .debug-panel {
@@ -74,6 +288,9 @@
       }
       .debug-panel select, .debug-panel button { font: inherit; padding: 3px 6px; }
       .debug-panel--minimized > :not(.debug-panel__toggle) { display: none; }
+      .debug-panel--grid { top: auto; bottom: 8px; }
+      .debug-panel--grid span { font: inherit; }
+      .debug-panel__grid-line { font: 12px/1.2 ui-monospace, Menlo, monospace; user-select: all; }
     `;
     document.head.appendChild(style);
 
@@ -107,7 +324,14 @@
       select.add(new Option(theme.title, theme.main.split('/')[1]));
     });
     if (debugGameTheme) select.value = debugGameTheme;
-    select.addEventListener('change', function() { preloadTheme(select.value); });
+    if (debugPuzzle) {
+      const puzzleGame = games.find(function(game) { return game.id === debugPuzzle.split(':')[0]; });
+      if (puzzleGame) select.value = puzzleGame.path.split('/')[1];
+    }
+    select.addEventListener('change', function() {
+      preloadTheme(select.value);
+      fillPuzzleSelect();
+    });
     panel.appendChild(select);
 
     [['Intro', 'intro'], ['Outro', 'outro'], ['Fail', 'fail']].forEach(function([label, section]) {
@@ -130,6 +354,27 @@
     debriefButton.textContent = 'Debrief';
     debriefButton.addEventListener('click', launchDebrief);
     panel.appendChild(debriefButton);
+
+    // Opens the answer key of the theme's puzzle on that background art.
+    const puzzleSelect = document.createElement('select');
+    puzzleSelect.setAttribute('aria-label', 'Puzzle answer key');
+    async function fillPuzzleSelect() {
+      const theme = select.value;
+      puzzleSelect.replaceChildren(new Option('Puzzle: loading…', ''));
+      const puzzles = await themePuzzles(theme, games);
+      if (select.value !== theme) return;
+      puzzleSelect.replaceChildren(new Option(puzzles.length ? 'Puzzle…' : 'No puzzles', ''));
+      puzzles.forEach(function(puzzle) {
+        puzzleSelect.add(new Option('Puzzle: ' + puzzle.file.replace(/\.png$/, ''), puzzle.value));
+      });
+      if (debugPuzzle) puzzleSelect.value = debugPuzzle;
+      if (!puzzleSelect.value) puzzleSelect.selectedIndex = 0;
+    }
+    puzzleSelect.addEventListener('change', function() {
+      if (puzzleSelect.value) launchPuzzle(puzzleSelect.value);
+    });
+    panel.appendChild(puzzleSelect);
+    fillPuzzleSelect();
 
     buildVoiceControls(panel);
     buildCharacterVoices(panel, themes);
@@ -402,7 +647,16 @@
     // A running game asks before the page unloads; this is a deliberate restart.
     canRefresh = true;
     const params = new URLSearchParams(location.search);
+    params.delete('debugPuzzle');
     params.set('debugGame', select.value);
+    location.search = params.toString();
+  }
+
+  function launchPuzzle(value) {
+    canRefresh = true;
+    const params = new URLSearchParams(location.search);
+    params.delete('debugGame');
+    params.set('debugPuzzle', value);
     location.search = params.toString();
   }
 
@@ -481,8 +735,8 @@
     }
   }
 
-  import('./games.js').then(function({ themes }) {
-    buildPanel(themes.filter(function(theme) { return theme.main; }));
+  import('./games.js').then(function({ themes, games }) {
+    buildPanel(themes.filter(function(theme) { return theme.main; }), games);
     // Most sounds normally load when a game code is accepted, which the panel
     // skips. Without this, cutscene sound events are silently dropped.
     typeof Sound !== 'undefined' && Sound.onPreloadEvent('onPinInput');

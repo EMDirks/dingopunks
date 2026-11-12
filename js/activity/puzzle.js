@@ -4,11 +4,58 @@
 // taken slot, it swaps with the piece there, which moves to where the dragged
 // piece started. A piece dropped outside the grid stays loose, for staging.
 // Positions are % of the activity area, as the drag code sets them.
-const PUZZLE_SLOT_X = [15, 37.25, 59.5];
-const PUZZLE_SLOT_Y = [14, 34.25, 54.5];
+// Pieces overlap their neighbours so the tabs interlock. When the piece size
+// changes (dynamic.css, activity.css), scale the spacing with it to keep the fit:
+// these are the original [15, 37.25, 59.5] / [14, 34.25, 54.5] grown 0.5% with
+// the pieces, around the grid's middle.
+const PUZZLE_SLOT_X = [14.83, 37.19, 59.55];
+const PUZZLE_SLOT_Y = [13.84, 34.19, 54.54];
 const PUZZLE_SLOTS = PUZZLE_SLOT_Y.flatMap(function(y) {
   return PUZZLE_SLOT_X.map(function(x) { return { x: x, y: y }; });
 });
+
+// Per background art: moves the whole grid so it sits on the frame drawn in the
+// challenge's activity background (resource/<theme>/assets/activity/background/).
+// Keyed '<theme>/<file>'. x and y are % of the activity area, + is right and down.
+// A background not listed uses the grid as is. To tune one: on localhost, pick it
+// in the debug panel's Puzzle menu (opens its answer key), nudge with the arrow
+// keys (Shift for bigger steps), then Copy and paste the line here.
+const PUZZLE_GRID_OFFSETS = {
+  'escape-the-midnight-mall/the-candy-cave-2.png': { x: -0.4, y: 0 },
+  'escape-the-midnight-mall/zeeb-plex.png': { x: -0.5, y: 0.25 },
+  'pickles-playground/banana-gunk-jr.png': { x: -0.4, y: 0.05 },
+  'beehive-blitz/basil-rabbit-2.png': { x: -0.5, y: -0.05 },
+  'beehive-blitz/sunny-snap.png': { x: 0, y: 1.35 },
+  'camp-calamari/chef-gumbo-2.png': { x: -0.45, y: 0.2 },
+  'camp-calamari/madame-mystica.png': { x: 0.6, y: 1.3 },
+  'the-hasty-harvest/camp-gnomad.png': { x: -0.3, y: 0.3 },
+  'the-yeti-and-the-yam/fishbeard.png': { x: -0.3, y: 0.1 },
+  'the-yeti-and-the-yam/pippo-fizzlepop-2.png': { x: -0.4, y: -0.1 },
+  'rainbow-rescue/sunny-snap.png': { x: -0.3, y: 0.4 },
+};
+
+// The open challenge's background, as a PUZZLE_GRID_OFFSETS key.
+function puzzleBackgroundKey() {
+  let file;
+  if (resource.challengeArray) {
+    const challenge = resource.challengeArray[activityArrayIndex];
+    file = challenge && challenge.activity && challenge.activity.info.asset;
+    if (file && typeof file === 'object') file = file.path;
+  } else {
+    const activity = resource.activityArray[activityArrayIndex - 1];
+    file = activity && activity.assets && activity.assets.activityBackground;
+  }
+  return resourceTheme + '/' + file;
+}
+
+// The open challenge's slots: PUZZLE_SLOTS moved by its background's offset.
+function puzzleSlots() {
+  const offset = PUZZLE_GRID_OFFSETS[puzzleBackgroundKey()];
+  if (!offset) return PUZZLE_SLOTS;
+  return PUZZLE_SLOTS.map(function(slot) {
+    return { x: slot.x + (offset.x || 0), y: slot.y + (offset.y || 0) };
+  });
+}
 // Half the slot spacing: anywhere over the grid snaps, only outside it stays loose.
 const PUZZLE_SNAP_RANGE_X = (PUZZLE_SLOT_X[1] - PUZZLE_SLOT_X[0]) / 2;
 const PUZZLE_SNAP_RANGE_Y = (PUZZLE_SLOT_Y[1] - PUZZLE_SLOT_Y[0]) / 2;
@@ -57,7 +104,7 @@ function snapPuzzlePiece(piece, pieces, from, save) {
   const at = puzzlePiecePosition(piece);
   let slot = null;
   let bestDistance = Infinity;
-  PUZZLE_SLOTS.forEach(function(candidate) {
+  puzzleSlots().forEach(function(candidate) {
     const dx = Math.abs(at.x - candidate.x);
     const dy = Math.abs(at.y - candidate.y);
     if (dx <= PUZZLE_SNAP_RANGE_X && dy <= PUZZLE_SNAP_RANGE_Y && dx + dy < bestDistance) {
@@ -152,10 +199,12 @@ function liftPuzzlePiece(piece) {
   piece.style.rotate = '';
 }
 
-// Answer key: every piece in its solved slot.
+// Answer key: every piece in its solved slot. data-puzzle-slot lets the debug
+// panel move the pieces as it nudges the grid.
 function placePuzzlePieceSolved(piece, i) {
-  const slot = PUZZLE_SLOTS[i];
+  const slot = puzzleSlots()[i];
   if (!slot) return;
+  piece.dataset.puzzleSlot = i;
   piece.style.left = slot.x + '%';
   piece.style.top = slot.y + '%';
 }
