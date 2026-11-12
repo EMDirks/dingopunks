@@ -16,7 +16,9 @@ const PUZZLE_SLOTS = PUZZLE_SLOT_Y.flatMap(function(y) {
 
 // Per background art: moves the whole grid so it sits on the frame drawn in the
 // challenge's activity background (resource/<theme>/assets/activity/background/).
-// Keyed '<theme>/<file>'. x and y are % of the activity area, + is right and down.
+// Keyed '<theme>/<file>', or '<theme>/<file> (legacy)' for legacy activityArray
+// games, whose pieces sit differently on the same art and need their own values.
+// x and y are % of the activity area, + is right and down.
 // A background not listed uses the grid as is. To tune one: on localhost, pick it
 // in the debug panel's Puzzle menu (opens its answer key), nudge with the arrow
 // keys (Shift for bigger steps), then Copy and paste the line here.
@@ -32,6 +34,11 @@ const PUZZLE_GRID_OFFSETS = {
   'the-yeti-and-the-yam/fishbeard.png': { x: -0.3, y: 0.1 },
   'the-yeti-and-the-yam/pippo-fizzlepop-2.png': { x: -0.4, y: -0.1 },
   'rainbow-rescue/sunny-snap.png': { x: -0.3, y: 0.4 },
+  'escape-the-midnight-mall/zeeb-plex.png (legacy)': { x: 0, y: 1.45 },
+  'beehive-blitz/sunny-snap.png (legacy)': { x: 0, y: 1.35 },
+  'camp-calamari/madame-mystica.png (legacy)': { x: 0.6, y: 1.4 },
+  'the-hasty-harvest/camp-gnomad.png (legacy)': { x: 0.1, y: 1.4 },
+  'the-yeti-and-the-yam/fishbeard.png (legacy)': { x: 0, y: 1.5 },
 };
 
 // The open challenge's background, as a PUZZLE_GRID_OFFSETS key.
@@ -44,6 +51,7 @@ function puzzleBackgroundKey() {
   } else {
     const activity = resource.activityArray[activityArrayIndex - 1];
     file = activity && activity.assets && activity.assets.activityBackground;
+    return resourceTheme + '/' + file + ' (legacy)';
   }
   return resourceTheme + '/' + file;
 }

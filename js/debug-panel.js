@@ -267,7 +267,8 @@
         if (info && info.functionality === 'drag-and-drop' && !info.columnArray) add(info.asset, themeGames[g], i);
       });
       (gameResource.activityArray || []).forEach(function(activity, i) {
-        if (activity.content && activity.content.puzzle) add(activity.assets.activityBackground, themeGames[g], i);
+        // Legacy pieces sit differently on the same art: their own entry (puzzleBackgroundKey).
+        if (activity.content && activity.content.puzzle) add(activity.assets.activityBackground + ' (legacy)', themeGames[g], i);
       });
     });
     return Array.from(found, function([file, value]) { return { file: file, value: value }; })
@@ -365,7 +366,7 @@
       if (select.value !== theme) return;
       puzzleSelect.replaceChildren(new Option(puzzles.length ? 'Puzzle…' : 'No puzzles', ''));
       puzzles.forEach(function(puzzle) {
-        puzzleSelect.add(new Option('Puzzle: ' + puzzle.file.replace(/\.png$/, ''), puzzle.value));
+        puzzleSelect.add(new Option('Puzzle: ' + puzzle.file.replace('.png', ''), puzzle.value));
       });
       if (debugPuzzle) puzzleSelect.value = debugPuzzle;
       if (!puzzleSelect.value) puzzleSelect.selectedIndex = 0;

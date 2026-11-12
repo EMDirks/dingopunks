@@ -85,11 +85,11 @@ BACKLOG
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
 | 1.38 | First open: pieces fly in from the right, one after another, into a tilted pile in the bottom-right corner, under one card-fan sound | ✅ | ✅ | ✅ | ✅ |
-| 1.39 | Picking up a piece straightens it and plays the choice sound. Grabbing a piece mid-flight lands it at once. The piece stays under your finger (iPhone in landscape too), and so do column-sort blocks | ☐ | ☐ | ☐ | ☐ |
-| 1.40 | Dropping on the grid snaps to the nearest slot with a click and a small overshoot. Dropping on a taken slot swaps the two pieces | ☐ | ☐ | ☐ | ☐ |
-| 1.41 | Dropping outside the grid leaves the piece loose | ☐ | ☐ | ☐ | ☐ |
-| 1.42 | Close and reopen: positions **and tilts** are restored, with no second fly-in and no pop-in (the pieces are just there when the puzzle shows). A finished puzzle still checks as correct | ☐ | ☐ | ☐ | ☐ |
-| 1.43 | Answer key and preview show the solved layout. Preview stays non-draggable | ☐ | ☐ | ☐ | ☐ |
+| 1.39 | Picking up a piece straightens it and plays the choice sound. Grabbing a piece mid-flight lands it at once. The piece stays under your finger (iPhone in landscape too), and so do column-sort blocks | ✅ | ✅ | ✅ | ✅ |
+| 1.40 | Dropping on the grid snaps to the nearest slot with a click and a small overshoot. Dropping on a taken slot swaps the two pieces | ✅ | ✅ | ✅ | ✅ |
+| 1.41 | Dropping outside the grid leaves the piece loose | ✅ | ✅ | ✅ | ✅ |
+| 1.42 | Close and reopen: positions **and tilts** are restored, with no second fly-in and no pop-in (the pieces are just there when the puzzle shows). A finished puzzle still checks as correct | ✅ | ✅ | ✅ | ✅ |
+| 1.43 | Answer key and preview show the solved layout. Preview stays non-draggable | ✅ | ✅ | ✅ | ✅ |
 
 ### Global menu (student)
 | # | Check | Mac | CB | iPad | iPh |
