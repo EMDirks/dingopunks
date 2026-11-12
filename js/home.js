@@ -6,6 +6,14 @@
 function slideInActivityNode(activityNode){
     toggleClass(activityNode, "activity-node--hidden", "activity-node--visible");
     typeof Sound !== 'undefined' && Sound.event('activity.nodeIn');
+    // Once the slide-in ends, drop --visible so the node rests on --not-clicked (same
+    // look). Otherwise the first activity open removes --visible's animation in the
+    // same change that adds --clicked, and the browser skips the fade-out transition.
+    activityNode.addEventListener("animationend", function onNodeIn(e) {
+        if (e.target !== activityNode || e.animationName !== "activity-node-in") return;
+        activityNode.removeEventListener("animationend", onNodeIn);
+        activityNode.classList.remove("activity-node--visible");
+    });
 }
 
 function createActivityNodes(timeSelection){

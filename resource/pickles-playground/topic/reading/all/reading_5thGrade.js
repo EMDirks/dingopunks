@@ -50,7 +50,7 @@ const resource =  {
                 character: "Gribba",
                 asset: "gribba.png",
                 dialogue : {
-                    incomplete: "Found some weird notes down in the pit. Smelled like sadness, so I figured they were Pickle\'s. Can\'t read none of them, though. Words get all slippery in my brain. Think you can read \'em?",
+                    incomplete: "Found some weird notes down in the pit. Smelled like sadness, so I figured they were Pickle\'s. Can\'t read them, though. Words get all slippery in my brain. Think you can read \'em?",
                     complete: "Hmph. So there IS something down there. Just holler if it grabs yer leg alright?"
                 },
             },

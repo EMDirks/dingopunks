@@ -45,7 +45,7 @@ const resource =  {
                 character: "Gribba",
                 asset: "gribba.png",
                 dialogue : {
-                    incomplete: "Found this weird note down in the pit. Smelled like old peanut butter and sadness, so I figured it was Pickle\'s. Can\'t read none of it, though. Words get all slippery in my brain. Think you can read it?",
+                    incomplete: "Found this weird note down in the pit. Smelled like old peanut butter and sadness, so I figured it was Pickle\'s. Can\'t read it, though. Words get all slippery in my brain. Think you can read it?",
                     complete: "Hmph. So there IS something down there. Just holler if it grabs your leg alright?"
                 },
             },

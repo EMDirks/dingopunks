@@ -957,6 +957,11 @@
     bottom: 0;
     right: 0;
     transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    /* The player's side stacks shape (5) < text box (.activity-scene-button, 7) < sprite
+       (.activity-scene-player, 8). Each has its own layer so Safari keeps that order when
+       the modal's close animation starts; without them it briefly drew the shape and
+       sprite over the box. */
+    will-change: transform;
 }
 
 .activity-scene-player-frame--hidden {
@@ -985,6 +990,9 @@
     background-size: cover;
     background-position: center bottom;
     background-repeat: no-repeat;
+    /* its own layer (see .activity-scene-player-frame); scale too, for the speaking pop,
+       like .activity-scene-character */
+    will-change: transform, scale;
 }
 
 .activity-scene-player--close {
@@ -1013,6 +1021,11 @@
     transition: transform 0.2s, opacity 0.2s;  /* matches the player's box */
     transform: rotate(3deg);
     opacity: 1;
+    /* Its own layer, like .cutscene-text-box. The character sprite (z-index 4) always has
+       one, so without this iOS Safari briefly drew the sprite over this box as the modal's
+       close animation started, and each typed letter repainted more than the box
+       (laggy, chunky typing on Chromebooks). */
+    will-change: transform;
 }
 
 .activity-scene-dialogue-wrapper--close {
@@ -1123,6 +1136,7 @@
     background-color: rgba(var(--off-white), 1);
     transition: transform 0.2s, opacity 0.2s;
     opacity: 0;
+    will-change: transform;  /* its own layer (see .activity-scene-player-frame) */
 }
 
 .activity-scene-button--close {
@@ -1150,6 +1164,10 @@
     border: 0.35vmin solid rgba(var(--off-black), 1);
     padding: 0.7% 1.8% 0.8% 1.8%;
     transition: transform 0.1s linear;
+    /* Top of the scene (9), over the player's sprite (8) and text box (7). Those have their
+       own layers (see .activity-scene-player-frame), so this needs one too, or Safari drops
+       it under them when the modal's close animation starts. */
+    will-change: transform;
 }
 
 

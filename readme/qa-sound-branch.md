@@ -10,6 +10,8 @@ Covers every commit on `sound-effects` since `main` (42 commits, Oct 29 – Nov 
 
 BACKLOG
 
+• Remove crickets on Pickle's Playground loop
+
 • Make student buttons in the global menu smaller
 • Full screen mode
 
@@ -51,27 +53,27 @@ BACKLOG
 ### Intro cutscene (check Midnight Mall plus at least 2 other themes, one of them Wacky Workshop because its images were recompressed)
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
-| 1.19 | CRT power-on with static, with the first scene drawn behind it. Off-white frame | ☐ | ☐ | ☐ | ☐ |
-| 1.20 | The intro song starts on the first scene and plays to the end | ☐ | ☐ | ☐ | ☐ |
-| 1.21 | Typewriter is a fixed run per scene (7 / 9 / 7) at 75% volume, not one blip per letter | ☐ | ☐ | ☐ | ☐ |
-| 1.22 | Character moves whoosh. The speaker pops as their line starts, with no subpixel jump (Safari) | ☐ | ☐ | ☐ | ☐ |
-| 1.23 | Voice clips: J.J. Dingo mumbles once per line (intro only). Other voices are 15% softer and never more than 3 clips per line | ☐ | ☐ | ☐ | ☐ |
-| 1.24 | Bad guy slams in fast (150ms) with a screen shake and crash, and leaves silently | ☐ | ☐ | ☐ | ☐ |
-| 1.25 | Camera holds still (handheld flag off). Background settle still plays | ☐ | ☐ | ☐ | ☐ |
-| 1.26 | SKIP INTRO fades in 1s after the cutscene opens and is silent | ☐ | ☐ | ☐ | ☐ |
-| 1.27 | Intro ends: about 500ms of off-black, the song fades out over 5s under the map, and the theme's ambience fades in | ☐ | ☐ | ☐ | ☐ |
+| 1.19 | CRT power-on with static, with the first scene drawn behind it. Off-white frame | ✅ | ✅ | ✅ | ✅ |
+| 1.20 | The intro song starts on the first scene and plays to the end | ✅ | ✅ | ✅ | ✅ |
+| 1.21 | Typewriter is a fixed run per scene (7 / 9 / 7) at 75% volume, not one blip per letter | ✅ | ✅ | ✅ | ✅ |
+| 1.22 | Character moves whoosh. The speaker pops as their line starts, with no subpixel jump (Safari) | ✅ | ✅ | ✅ | ✅ |
+| 1.23 | Voice clips: J.J. Dingo mumbles once per line (intro only). Other voices are 15% softer and never more than 3 clips per line | ✅ | ✅ | ✅ | ✅ |
+| 1.24 | Bad guy slams in fast (150ms) with a screen shake and crash, and leaves silently | ✅ | ✅ | ✅ | ✅ |
+| 1.25 | Camera holds still (handheld flag off). Background settle still plays | ✅ | ✅ | ✅ | ✅ |
+| 1.26 | SKIP INTRO fades in 1s after the cutscene opens and is silent | ✅ | ✅ | ✅ | ✅ |
+| 1.27 | Intro ends: about 500ms of off-black, the song fades out over 5s under the map, and the theme's ambience fades in | ✅ | ✅ | ✅ | ✅ |
 
 ### Map and challenges
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
-| 1.28 | Nodes build, then scale, faster than before, with their slide-in sound. The timer lands with a metal slap | ☐ | ☐ | ☐ | ☐ |
-| 1.29 | Ambience is audible right away, even on slow wifi (preloaded), and fades while a challenge is open | ☐ | ☐ | ☐ | ☐ |
+| 1.28 | Nodes build, then scale, faster than before, with their slide-in sound. The timer lands with a metal slap | ✅ | ✅ | ✅ | ✅ |
+| 1.29 | Ambience is audible right away, even on slow wifi (preloaded), and fades while a challenge is open | ✅ | ✅ | ✅ | ✅ |
 | 1.30 | Opening a node plays one sound, with no extra click. Hint open/close each play one sound | ☐ | ☐ | ☐ | ☐ |
 | 1.31 | Challenge modal: no double bounce on open (Safari). On close it pops out, DONE/X vanish, and it closes only once even on a double tap | ☐ | ☐ | ☐ | ☐ |
 | 1.32 | Activity scene: player replies are voiced, the speaker pops, Midnight Mall characters have their own voices | ☐ | ☐ | ☐ | ☐ |
 | 1.33 | Multiple choice answer sound | ☐ | ☐ | ☐ | ☐ |
 | 1.34 | Secret code boxes: chime as they come in, first box focused, wrong code shakes then refocuses the first empty box | ☐ | ☐ | ☐ | ☐ |
-| 1.35 | Crossword: typing from a word's lettered cell moves through the word on its own. Cell taps play the soft code-box sound | ☐ | ☐ | ☐ | ☐ |
+| 1.35 | Crossword: typing from a word's lettered cell moves through the word on its own. Tapping a crossword or cryptogram cell is silent (typing still clicks) | ☐ | ☐ | ☐ | ☐ |
 | 1.36 | Copy fixes: Camp Calamari's slime intro is reworded. Yeti and the Yam 4th/5th reading has the two answer letters marked. Final Bell says "detention" | ☐ | ☐ | ☐ | ☐ |
 | 1.37 | Finish button clicks. Nodes leave with a reversed slide-in (0.18s, staggered) | ☐ | ☐ | ☐ | ☐ |
 

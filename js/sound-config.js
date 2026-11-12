@@ -74,7 +74,6 @@ const SOUND_CONFIG = {
 
     click:   { src: ['sfx/ui/click'],                     volume: 0.2 },
     'code-box': { src: ['sfx/ui/close'],                      volume: 0.2 },                 // tapping a game code box (splash) or a secret code box (in-game)
-    'code-box-soft': { src: ['sfx/ui/close'],                  volume: 0.15 },                // code-box 25% softer: tapping a crossword or cryptogram cell (in-game)
     choice:  { src: ['sfx/ui/toggle'],                     volume: 0.1 },                 // picking a multiple choice answer: the settings ON / OFF sound (toggle), but it respects mute
     key:     { src: ['sfx/ui/click'], volume: 0.2 },                // code keyboard
     'click-wood': { src: ['sfx/ui/click-wood'],               volume: 0.1 },                 // global menu student cards sliding in
@@ -236,7 +235,6 @@ const SOUND_CONFIG = {
     'ui.choice':         'choice',   // a multiple choice answer selected (not re-tapping the one already picked)
     'ui.key':            'key',
     'ui.input':          'code-box',  // tapping a game code box (splash) or a secret code box (in-game) (was 'select')
-    'ui.inputPuzzle':    'code-box-soft', // tapping a crossword or cryptogram cell (in-game)
     'puzzle.pickUp':     'choice',   // picking up a puzzle piece: the multiple choice answer sound
     'puzzle.snap':       'click',    // a puzzle piece snapping into a grid slot (or swapping with the piece there)
     'puzzle.flyIn':      'card-fan', // once, as the first puzzle piece sets off for the pile in the corner (a puzzle's first open)
@@ -534,7 +532,7 @@ const SOUND_CONFIG = {
   // every key clicks, including the last one before a correct/wrong code sound.
   clicks: [
     { match: '.keyboard-button',                      event: 'ui.key', on: 'press' },
-    { match: '.machine-crossword-input, .machine-item-cryptogram-input', event: 'ui.inputPuzzle' }, // crossword and cryptogram cells (in-game): the code box sound, 25% softer, on release
+    { match: '.machine-crossword-input, .machine-item-cryptogram-input', event: null }, // crossword and cryptogram cells (in-game): silent on tap (typing still clicks)
     { match: '.access-input, .code-input', event: 'ui.input' }, // game code boxes (splash) and secret code boxes (in-game), on release
     { match: '.cutscene-next-button',                 event: null }, // cutscene Next: its sounds come from cutscene.next / cutscene.nextLast
     { match: '.code-box-button',                      event: 'game.finish' }, // the map's Finish (launches the outro)

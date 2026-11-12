@@ -118,8 +118,9 @@
     transition: none;
 }
 
-/* First reveal only: --visible comes off when an activity opens and isn't added
-   back, so hover and press keep their own transition. */
+/* First reveal only: slideInActivityNode (js/home.js) takes --visible off when this
+   ends and never adds it back, so hover, press and the activity-open fade-out
+   (--clicked) keep their own transition. */
 @keyframes activity-node-in {
     0% {
         opacity: 0;
@@ -236,7 +237,8 @@
 
 /* Closing back to the map (js/activity.js, closeActivityModal adds it with --close).
    Its own class, not --close, so the pop-out doesn't play on page load. A small lift,
-   then it sinks, shrinks and fades; .activity hides 300ms in, after it ends. */
+   then it sinks, shrinks and fades. closeActivityModal hides .activity and clears the
+   challenge on this animation's animationend (keep the keyframe names in sync there). */
 .activity-modal--closing {
     animation: activity-modal-pop-out 0.24s both;
 }

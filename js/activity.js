@@ -428,8 +428,7 @@ function setComplete(activityArrayIndex){
       activityButtonDone.addEventListener("click", function() {
         hideButtonThenClose(activityButtonDone, function() {
           setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
-          closeActivityModal();
-          setTimeout(clearActivity,250);  // once the modal has popped out
+          closeActivityModal();  // clears the activity once the pop-out ends
         });
       });
 
@@ -556,8 +555,7 @@ function setComplete(activityArrayIndex){
       activityButtonDone.addEventListener("click", function() {
         hideButtonThenClose(activityButtonDone, function() {
           setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
-          closeActivityModal();
-          setTimeout(clearActivity,250);  // once the modal has popped out
+          closeActivityModal();  // clears the activity once the pop-out ends
         });
       });
 
@@ -628,8 +626,7 @@ buttonCloseModal.addEventListener("click", function() {
   hideButtonThenClose(buttonCloseModal, function() {
     toggleClass(activityModalWrapper,"overflow-y-hidden","overflow-y-scroll");
     setTimeout(toggleClass, 450, activityModalContentContainerToggle, "activity-modal-content-container-toggle--visible", "activity-modal-content-container-toggle--hidden");
-    closeActivityModal();
-    setTimeout(clearActivity,250);  // once the modal has popped out
+    closeActivityModal();  // clears the activity once the pop-out ends
   });
 });
 
@@ -829,14 +826,37 @@ function closeActivityModal(){
   typeof Sound !== 'undefined' && Sound.event('activity.closeWhoosh');
   typeof Sound !== 'undefined' && Sound.stopVocalize();  // a character still talking stops with the modal
   fadeMapLoop(false);
-  if (openState.hint === true){
-    setTimeout(openHintModal,300,'closingActivity');
-  }
-  setTimeout(scrollToTop,300,activityModalWrapper);
   toggleClass(activityModal, "activity-modal--open", "activity-modal--close");
   activityModal.classList.add("activity-modal--closing");  // its pop-out (css/home.css)
   /* toggleClass(activityBlackout, "activity-blackout--open", "activity-blackout--close"); */
-  setTimeout(toggleClass, 300, activity, "state-display-block", "state-display-none");
+
+  // Nothing inside the modal changes until the pop-out has finished: on slow devices
+  // (Chromebooks) it starts late, and fixed timers cut it off and removed the NPC scene
+  // while it was still on screen, flashing the activity behind it. The modal stays over
+  // the map (invisible, still catching taps) until this runs, so if animationend never
+  // arrives (tab hidden, device asleep), the fallback timer runs it instead.
+  let tornDown = false;
+  function finishClosingActivity(){
+    if (tornDown) return;
+    tornDown = true;
+    activityModal.removeEventListener("animationend", onPopOutEnd);
+    clearTimeout(fallbackTimer);
+    toggleClass(activity, "state-display-block", "state-display-none");
+    scrollToTop(activityModalWrapper);
+    if (openState.hint === true){
+      openHintModal('closingActivity');
+    }
+    clearActivity();
+  }
+  function onPopOutEnd(e){
+    // the pop-out, or the plain fade under reduced motion; not a child's animation
+    if (e.target !== activityModal) return;
+    if (e.animationName !== "activity-modal-pop-out" && e.animationName !== "activity-modal-fade-out") return;
+    finishClosingActivity();
+  }
+  activityModal.addEventListener("animationend", onPopOutEnd);
+  const fallbackTimer = setTimeout(finishClosingActivity, 500);
+
   setTimeout(removeTopBackgroundImage,2000);
   function removeTopBackgroundImage(){
     activityModalContentContainerTop.style.backgroundImage = "none";

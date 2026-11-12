@@ -162,11 +162,11 @@ function drawScene(activityArrayIndex) {
         typewriterDelay = 5;
         activityScenePlayerFrame.classList.add("state-display-none");
       }
-      // The character's (NPC's) text takes 0.6x the player's reply's time per letter.
-      const npcTypewriterDelay = typewriterDelay * 0.6;
+      // The character's (NPC's) text types at the cutscene speed (typewriterDelay), the same as
+      // the player's reply. It was 0.6x, which showed in chunks on slower devices (Chromebooks).
   
       // open scene button when text is finished
-      let activitySceneButtonTimer = (dialogueText.length * npcTypewriterDelay) + delay__sceneButton;
+      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + delay__sceneButton;
       let activitySceneStartButtonTimer = (activitySceneButtonText.length * typewriterDelay);
       /* setTimeout(toggleClass, activitySceneButtonTimer + 500, activitySceneInstructions, "opacity-0", "opacity-1"); */
       if (resource.challengeArray[activityArrayIndex].info.state === "incomplete") {
@@ -175,7 +175,7 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activityScenePlayerFrame, "activity-scene-player-frame--hidden", "activity-scene-player-frame--visible");
       /* setTimeout(toggleClass, activitySceneButtonTimer + 1100, activitySceneCharacter, null, "activity-scene-character--pushed-left"); */
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activityScenePlayer, "activity-scene-player--close", "activity-scene-player--open");
-      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + delay__sceneTopic);
+      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + delay__sceneTopic, activityScenePlayer);
       setTimeout(toggleClass, activitySceneButtonTimer + delay__sceneTopic, activitySceneCharacter, null, "activity-scene-characater--blackout");
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + delay__closeButton + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
@@ -191,7 +191,7 @@ function drawScene(activityArrayIndex) {
       // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
       function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
-        const letterDelay = element === activityScenedialogue ? npcTypewriterDelay : typewriterDelay;
+        const letterDelay = typewriterDelay;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
           characterSpan.innerText = text[i];
@@ -200,8 +200,11 @@ function drawScene(activityArrayIndex) {
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
-                  // Text from a closed activity keeps typing off-screen; keep it silent.
-                  const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  // Text from a closing or closed activity keeps typing; keep it silent (sceneIsLive).
+                  // Don't read layout here (e.g. offsetParent): it runs on every letter and made
+                  // typing lag. If the scene is ever hidden without being removed, sceneIsLive
+                  // needs another check.
+                  const onScreen = sceneIsLive(characterSpan);
                   if (i === 0 && onScreen && element === activityScenedialogue) {
                     popSceneCharacter(activitySceneCharacter);
                   }
@@ -359,11 +362,11 @@ function drawScene(activityArrayIndex) {
         typewriterDelay = 5;
         activityScenePlayerFrame.classList.add("state-display-none");
       }
-      // The character's (NPC's) text takes 0.6x the player's reply's time per letter.
-      const npcTypewriterDelay = typewriterDelay * 0.6;
+      // The character's (NPC's) text types at the cutscene speed (typewriterDelay), the same as
+      // the player's reply. It was 0.6x, which showed in chunks on slower devices (Chromebooks).
   
       // open scene button when text is finished
-      let activitySceneButtonTimer = (dialogueText.length * npcTypewriterDelay) + 300;  // was 500, moved with the character's text
+      let activitySceneButtonTimer = (dialogueText.length * typewriterDelay) + 300;  // was 500, moved with the character's text
       let activitySceneStartButtonTimer = (activitySceneButtonText.length * typewriterDelay);
       /* setTimeout(toggleClass, activitySceneButtonTimer + 500, activitySceneInstructions, "opacity-0", "opacity-1"); */
       if (resource.activityArray[activityArrayIndex-1].state === "incomplete") {
@@ -372,7 +375,7 @@ function drawScene(activityArrayIndex) {
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activityScenePlayerFrame, "activity-scene-player-frame--hidden", "activity-scene-player-frame--visible");
       /* setTimeout(toggleClass, activitySceneButtonTimer + 1100, activitySceneCharacter, null, "activity-scene-character--pushed-left"); */
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activityScenePlayer, "activity-scene-player--close", "activity-scene-player--open");
-      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + 1700);
+      if (gameMode !== "preview") setTimeout(playScenePlayerIn, activitySceneButtonTimer + 1700, activityScenePlayer);
       setTimeout(toggleClass, activitySceneButtonTimer + 1700, activitySceneCharacter, null, "activity-scene-characater--blackout");
       setTimeout(toggleClass, activitySceneButtonTimer + 2000, activitySceneButton, "activity-scene-button--close", "activity-scene-button--open");
       setTimeout(toggleClass, activitySceneButtonTimer + 2000 + activitySceneStartButtonTimer, activitySceneButtonStart, "activity-scene-button-start--hidden", "activity-scene-button-start--visible");
@@ -387,7 +390,7 @@ function drawScene(activityArrayIndex) {
       // voiceDelay: ms added to the voice's own delay, for text that types before its box shows.
       function addText(text, element, voiceKey, voiceTable = resourceTheme, voiceDelay = 0){
         let voiced = false;
-        const letterDelay = element === activityScenedialogue ? npcTypewriterDelay : typewriterDelay;
+        const letterDelay = typewriterDelay;
         for (let i = 0; i < text.length; i++) {
           const characterSpan = document.createElement('span');
           characterSpan.innerText = text[i];
@@ -396,8 +399,11 @@ function drawScene(activityArrayIndex) {
           function addText(){
               setTimeout(() => {
                   characterSpan.style.opacity = 1;
-                  // Text from a closed activity keeps typing off-screen; keep it silent.
-                  const onScreen = characterSpan.isConnected && characterSpan.offsetParent !== null;
+                  // Text from a closing or closed activity keeps typing; keep it silent (sceneIsLive).
+                  // Don't read layout here (e.g. offsetParent): it runs on every letter and made
+                  // typing lag. If the scene is ever hidden without being removed, sceneIsLive
+                  // needs another check.
+                  const onScreen = sceneIsLive(characterSpan);
                   if (i === 0 && onScreen && element === activityScenedialogue) {
                     popSceneCharacter(activitySceneCharacter);
                   }
@@ -426,10 +432,17 @@ function drawScene(activityArrayIndex) {
 }
 
 
+// A scene's sounds are scheduled on timers when the challenge opens. They only play while
+// the scene is still on the page (closing removes it once the pop-out ends; see
+// closeActivityModal in js/activity.js) and the challenge isn't closing (X or Done pressed).
+function sceneIsLive(element) {
+  return element.isConnected && !activityModal.classList.contains('activity-modal--closing');
+}
+
 // Slides an activity scene's character in from off screen and plays its whoosh.
 function slideInSceneCharacter(character) {
   toggleClass(character, "activity-scene-character--hidden", "activity-scene-character--visible");
-  typeof Sound !== 'undefined' && Sound.event('scene.characterIn');
+  if (sceneIsLive(character)) typeof Sound !== 'undefined' && Sound.event('scene.characterIn');
 }
 
 // Pops an activity scene's character or player as its line starts, like a cutscene speaker's popOnSpeak.
@@ -440,12 +453,12 @@ function popSceneCharacter(character) {
 }
 
 // The player's graphic sliding in from off screen.
-function playScenePlayerIn() {
-  typeof Sound !== 'undefined' && Sound.event('scene.playerIn');
+function playScenePlayerIn(player) {
+  if (sceneIsLive(player)) typeof Sound !== 'undefined' && Sound.event('scene.playerIn');
 }
 
 // Opens an activity scene's dialogue box and plays its sound.
 function openSceneDialogue(wrapper) {
   toggleClass(wrapper, "activity-scene-dialogue-wrapper--close", "activity-scene-dialogue-wrapper--open");
-  typeof Sound !== 'undefined' && Sound.event('scene.open');
+  if (sceneIsLive(wrapper)) typeof Sound !== 'undefined' && Sound.event('scene.open');
 }
