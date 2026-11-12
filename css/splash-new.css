@@ -25,14 +25,35 @@
    filters). js/splash-new.js removes the overlay when it ends.
    The panel is full at 0.69s (0.2s delay + 70% of the 0.7s beam), and the
    warm-up starts there. Timed against this: the tvOn delay in
-   js/sound-config.js. */
+   js/sound-config.js.
+   The panel draws its own copy of .cutscene-frame's off-white border (same
+   overshoot, width and radius), so the frame shows from the first frame and
+   the power-on plays inside it. The beam (::after) fills the padding box,
+   inside the border. Once the panel fades, the real frame underneath is
+   identical, so the swap doesn't show. Without the border, the dark panel's
+   edge sat on the clip edge over the frame and a hairline of the frame
+   flickered through.
+   The border fades in over 500ms as the cutscene loads. While it's
+   transparent, the panel's off-black background (painted under the border)
+   shows there, so it fades up from black. */
 .cutscene-tv-on {
     position: absolute;
-    inset: 0;
+    inset: -1px;
     z-index: 1001;
+    border: calc(0.3vmin + 1px) solid rgba(var(--off-white), 1);
+    border-radius: calc(2vmin + 1px);
+    box-sizing: border-box;
     background-color: rgba(var(--off-black), 1);
     pointer-events: none;
-    animation: cutscene-tv-on-fade 0.45s cubic-bezier(0.16, 0.8, 0.3, 1) 0.69s both;
+    animation:
+        cutscene-tv-on-frame 0.5s ease-out both,
+        cutscene-tv-on-fade 0.45s cubic-bezier(0.16, 0.8, 0.3, 1) 0.69s both;
+}
+
+@keyframes cutscene-tv-on-frame {
+    from {
+        border-color: rgba(var(--off-white), 0);
+    }
 }
 
 .cutscene-tv-on::after {
@@ -233,7 +254,8 @@
 
 /* Off-white frame around intro, outro and fail cutscenes, matching the
    character screens (.activity-scene-container in css/activity.css). Sits over
-   the static overlay; the CRT power-on covers it until the picture warms up.
+   the static overlay; the CRT power-on draws a matching copy over it (keep
+   the two in sync), so the frame is visible from the first frame.
    It overshoots the .splash-container-wrapper clip by 1px on every side (and
    the border is 1px wider to keep 0.3vmin visible), so the wrapper's clip
    draws the outer edge. Otherwise the two rounded edges anti-alias
@@ -1116,6 +1138,7 @@
 
 .modal__whole-class-image {
     width: 100%;
+    height: auto; /* with the img's width/height attributes, reserves its space before WebKit decodes it */
     margin: 5% auto 1% auto;
     display: block;
 }

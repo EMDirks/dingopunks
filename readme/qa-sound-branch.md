@@ -11,6 +11,7 @@ Covers every commit on `sound-effects` since `main` (42 commits, Oct 29 – Nov 
 BACKLOG
 
 • Make student buttons in the global menu smaller
+• Full screen mode
 
 ---
 
@@ -31,21 +32,21 @@ BACKLOG
 |---|---|---|---|---|---|
 | 1.6 | Dashboard Settings: the Audio row has the new wording, saves, and survives a reload. Bonus Missions and favorites still save without resetting it | ✅ | ✅ | ✅ | ✅ |
 | 1.7 | Audio **off** → relaunch the *same* share code: silent everywhere (play, debrief, Undermurk). URL has `audio=0`. No Audio row in the student Settings | ✅ | ✅ | ✅ | ✅ |
-| 1.8 | Audio back **on** → sound and the student Audio row come back without re-sharing the code | ☐ | ☐ | ☐ | ☐ |
+| 1.8 | Audio back **on** → sound and the student Audio row come back without re-sharing the code | ✅ | ✅ | ✅ | ✅ |
 
 ### Opening: bumpers and splash
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
-| 1.9 | Harper bumper (white, animated logo, frames re-exported at 661×406) is sharp and correctly sized, not stretched | ☐ | ☐ | ☐ | ☐ |
-| 1.10 | Dingo Punks bumper: logo slams in, dangles, hangs and falls with the dangle sound. Pressing START unlocks sound on the first tap | ☐ | ☐ | ☐ | ☐ |
-| 1.11 | Splash: the logo is smaller, the thumbnail tosses in (paper slap), swipe-outs wind up with a whoosh. No Harper corner logo or "presents" frames | ☐ | ☐ | ☐ | ☐ |
-| 1.12 | Code entry: each box tap plays the code-box sound. The on-screen keyboard clicks on press, including the 5th key | ☐ | ☐ | ☐ | ☐ |
-| 1.13 | Correct code: the sound plays as the boxes pop gold, not on the last key | ☐ | ☐ | ☐ | ☐ |
-| 1.14 | Wrong code: shake → uh-oh → the "That code didn't work" popup opens after the shake, silently. The first empty box gets focus again | ☐ | ☐ | ☐ | ☐ |
-| 1.15 | Can't-connect modal: new wording, and the teacher help link works | ☐ | ☐ | ☐ | ☐ |
-| 1.16 | RESET next to START GAME works. Setup tabs and character picks click | ☐ | ☐ | ☐ | ☐ |
-| 1.17 | Character select: after the last pick, the lock, fade, "All punks ready!", buttons and chime all come in together about 300ms later | ☐ | ☐ | ☐ | ☐ |
-| 1.18 | START is held for 300ms with the node-open whoosh | ☐ | ☐ | ☐ | ☐ |
+| 1.9 | Harper bumper (white, animated logo, frames re-exported at 661×406) is sharp and correctly sized, not stretched | ✅ | ✅ | ✅ | ✅ |
+| 1.10 | Dingo Punks bumper: logo slams in, dangles, hangs and falls with the dangle sound. Pressing START unlocks sound on the first tap | ✅ | ✅ | ✅ | ✅ |
+| 1.11 | Splash: the logo is smaller, the thumbnail tosses in (paper slap), swipe-outs wind up with a whoosh. No Harper corner logo or "presents" frames | ✅ | ✅ | ✅ | ✅ |
+| 1.12 | Code entry: each box tap plays the code-box sound. The on-screen keyboard clicks on press, including the 5th key | ✅ | ✅ | ✅ | ✅ |
+| 1.13 | Correct code: the sound plays as the boxes pop gold, not on the last key | ✅ | ✅ | ✅ | ✅ |
+| 1.14 | Wrong code: shake → uh-oh → the "That code didn't work" popup opens after the shake, silently. The first empty box gets focus again | ✅ | ✅ | ✅ | ✅ |
+| 1.15 | Can't-connect modal: new wording, and the teacher help link works | ✅ | ✅ | ✅ | ✅ |
+| 1.16 | RESET next to START GAME works. Setup tabs and character picks click | ✅ | ✅ | ✅ | ✅ |
+| 1.17 | Character select: after the last pick, the lock, fade, "All punks ready!", buttons and chime all come in together about 300ms later | ✅ | ✅ | ✅ | ✅ |
+| 1.18 | START is held for 300ms with the node-open whoosh | ✅ | ✅ | ✅ | ✅ |
 
 ### Intro cutscene (check Midnight Mall plus at least 2 other themes, one of them Wacky Workshop because its images were recompressed)
 | # | Check | Mac | CB | iPad | iPh |

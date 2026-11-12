@@ -99,6 +99,14 @@ body {
 	height: 100%;
 }
 
+/* With overflow set on html, body's overflow: hidden clips body's own box
+   instead of passing up to the viewport. iOS Safari doesn't fully honour
+   overflow: hidden on the viewport: oversized content like .modal__blackout
+   still showed scrollbars on iPad. */
+html {
+	overflow: hidden;
+}
+
 *,
 html,
 body
@@ -449,7 +457,8 @@ button, input[type="submit"], input[type="reset"] {
 
 /* Oversized and centred on .site-container: the container is capped at 180vh
    wide and is scaled to 0.8 on short landscape screens, so a 100vw backdrop
-   left bars of the page uncovered. body's overflow: hidden clips the excess. */
+   left bars of the page uncovered. body's overflow: hidden clips the excess
+   (it needs html's overflow: hidden too, or iOS shows scrollbars). */
 .modal__blackout {
     width: 300vw;
     height: 300vh;

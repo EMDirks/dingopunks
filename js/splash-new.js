@@ -680,6 +680,15 @@ function drawSplash(){
 
 }
 
+// Slide the code keypad out with the step, but only if it's on screen: the
+// off-left exit animation starts at full opacity, so on steps that never showed
+// it (preview, free play) it would flash in over the step.
+function slideSplashKeyboardOut(){
+  if (keyboardSplash && keyboardSplash.classList.contains('keyboard-splash--center')) {
+    toggleClass(keyboardSplash,'keyboard-splash--center','keyboard-splash--off-left');
+  }
+}
+
 // transition splash
 function transitionSplash(){
   typeof Sound !== 'undefined' && Sound.event('splash.transition');
@@ -688,7 +697,7 @@ function transitionSplash(){
     toggleClass(splashNav,'splash-nav--visible','splash-nav--hidden');
     // transition container out
     toggleClass(splashContainer,'splash-container--center','splash-container--off-left');
-    toggleClass(keyboardSplash,'keyboard-splash--center','keyboard-splash--off-left');
+    slideSplashKeyboardOut();
     // clear container
     setTimeout(clearSplashScreenContainer,splashExitDuration);
     function clearSplashScreenContainer(){
@@ -702,7 +711,7 @@ function transitionSplash(){
   }  
   else {
     toggleClass(splashContainer,'splash-container--center','splash-container--off-left');
-    toggleClass(keyboardSplash,'keyboard-splash--center','keyboard-splash--off-left');
+    slideSplashKeyboardOut();
     setTimeout(clearSplashScreenContainer,splashExitDuration);
     function clearSplashScreenContainer(){
       const childrenToRemove = splashContainerWrapper.querySelectorAll("*");
@@ -721,6 +730,7 @@ function transitionSplash(){
       setTimeout(removeSplash,2000);
       setTimeout(clearSplashContainer,2100);
       createActivityNodes("noLimit");
+      scaleNewGameElements();
       // createCodeBox();
     }
     else {
@@ -1531,7 +1541,7 @@ function addSetup(){
                 if (settings.playerCount === 'Whole class') {
                   createModal(
                     'How to play as a whole class',
-                    'Whole Class Mode requires <span class="p--highlight">one device for the entire class,</span> like a smart TV or projector. The teacher leads the game and calls on students to answer each question.<img class="modal__whole-class-image" src="assets/splash/whole-class.png" alt="Whole class mode illustration">',
+                    'Whole Class Mode requires <span class="p--highlight">one device for the entire class,</span> like a smart TV or projector. The teacher leads the game and calls on students to answer each question.<img class="modal__whole-class-image" src="assets/splash/whole-class.png" width="1122" height="455" alt="Whole class mode illustration">',
                     'Close'
                   );
                   settings.playerCount = 1;
@@ -1871,7 +1881,9 @@ function startTimedGame(){
 function startNoLimitGame(){
   window.globalMenuGameStarted = true;
   createActivityNodes("noLimit");
-  createCodeBox();
+  // Preview leaves out the final code node (see createActivityNodes), so
+  // createCodeBox would throw on it and stop the scaling below from running.
+  if (gameMode !== "preview") createCodeBox();
   scaleNewGameElements();
   startMapLoop();
 }
