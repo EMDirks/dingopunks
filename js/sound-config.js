@@ -180,6 +180,7 @@ const SOUND_CONFIG = {
 
     lock:    { src: ['sfx/ui/locked'],                    volume: 0.3 },                 // placeholder until a lock sound is added
     correct: { src: ['sfx/feedback/coin'],                volume: 0.1 },
+    'correct-code': { src: ['sfx/feedback/coin'],         volume: 0.06 },                // a secret code solved in-game: the same coin, softer so it sits level with the game code screen's
     bell:    { src: ['sfx/feedback/bell'],      volume: 0.05, fadeOutAfterMs: 200, fadeOutMs: 1000 },                 // Undermurk: a right answer (undermurk.correct)
     // Debrief medals lighting up one by one as the score meter fills: the correct coin,
     // a step higher each time (fixed pitch, so the run always climbs the same way).
@@ -291,7 +292,7 @@ const SOUND_CONFIG = {
     
     'access.correct':    { sound: 'correct', delay: 0 },  // fires as the code boxes pop gold; delay fine-tunes it
     'access.wrong':      'wrong',    // game code rejected (wrong, expired or couldn't be checked)
-    'code.correct':      { sound: 'correct', delay: 200 },  // a secret code solved in-game: the same sound as access.correct, 200ms later
+    'code.correct':      { sound: 'correct-code', delay: 200 },  // a secret code solved in-game: access.correct's coin, softer, 200ms later
     'code.wrong':        'wrong',    // a secret code rejected in-game: the same sound as access.wrong
     'code.lockout':      null,       // reserved
     'debrief.victory':   null,       // reserved

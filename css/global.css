@@ -631,18 +631,14 @@ button, input[type="submit"], input[type="reset"] {
 
 .global-menu__room-count {
 	flex-shrink: 0;
-	padding: 3px 12px 3px 12px;
+	/* 2px less on the right: letter-spacing leaves 2px after the last digit. */
+	padding: 3px 10px 3px 12px;
 	border-radius: 999px;
 	background-color: rgba(var(--teal), 1);
 	color:  rgba(var(--off-black), 1);
 	font-size: 18px;
 	line-height: 1;
 	white-space: nowrap;
-	letter-spacing: 0px; /* DONE */
-}
-
-/* The N/N in "N/N DONE" */
-.global-menu__room-count-fraction {
 	letter-spacing: 2px;
 }
 
@@ -657,7 +653,7 @@ button, input[type="submit"], input[type="reset"] {
 		font-size: 16px;
 	}
 	.global-menu__room-count {
-		padding: 2px 8px 3px 8px;
+		padding: 2px 6px 3px 8px;
 		font-size: 12px;
 	}
 	.global-menu__room-meter {

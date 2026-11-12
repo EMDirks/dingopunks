@@ -318,12 +318,12 @@ function buildMyEscapeRoomHTML() {
     return `<div class="global-menu__room-meter-segment${i < completed ? ' global-menu__room-meter-segment--done' : ''}"></div>`;
   }).join('');
   // Without a total the meter sits empty with no label. The label to the title's right
-  // ("N/N DONE", the N/N spaced out in its own span) is hidden from screen readers,
+  // ("N/N") is hidden from screen readers,
   // which get the count from aria-valuetext.
   const maxAttr = total ? ` aria-valuemax="${total}"` : '';
   const valueText = total ? `${completed} of ${total} challenges complete` : '0 challenges complete';
   const countHTML = total
-    ? `<span class="global-menu__room-count" aria-hidden="true"><span class="global-menu__room-count-fraction">${completed}/${total}</span> DONE</span>`
+    ? `<span class="global-menu__room-count" aria-hidden="true">${completed}/${total}</span>`
     : '';
   return `
     <div class="global-menu__room" role="group" aria-label="My escape room">
