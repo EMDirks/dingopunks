@@ -17,6 +17,7 @@ BACKLOG
 • remove "buzz/whine" on iPad/mobile "Quit" click
 • Simpify "what's a game code modal"
 • Gate multiple choice answers to solving puzzle first / sorting activities first
+• Get the wrong code? Lock out! Switch answers? Lock out!
 
 ---
 

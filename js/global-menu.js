@@ -23,7 +23,18 @@ const kidsCardImages = {
   },
 };
 
-const KIDS_LINK_ENTER_BASE_DELAY_MS = 200;
+// The cards start once the student panel (theme, count and meter) has mostly come in:
+// it starts at 150ms and takes 200ms (.global-menu__student in global.css).
+const KIDS_LINK_ENTER_BASE_DELAY_MS = 300;
+// Then the meter fills, 50ms after the cards would start (so at 350ms, as in
+// global.css); the cards wait for it (--global-menu-cards-delay on the panel).
+// Nothing done, no wait.
+const METER_FILL_PAUSE_MS = 50;     // these two match .global-menu__room-meter-fill
+const METER_FILL_DURATION_MS = 250; // in global.css
+
+function getMeterFillMs(completed) {
+  return completed ? METER_FILL_PAUSE_MS + METER_FILL_DURATION_MS : 0;
+}
 const KIDS_LINK_ENTER_STAGGER_MS = 100;
 // Student cards wait this long before navigating, so their click sound plays.
 const KIDS_LINK_NAVIGATE_DELAY_MS = 200;
@@ -36,7 +47,7 @@ function buildKidsLinkCard({ href, label, imageKey, inactive, refresh, confirmQu
   const inactiveClass = inactive ? ' global-menu__kids-link--inactive' : '';
   const imageKeyClass = imageKey ? ` global-menu__kids-link--${imageKey}` : '';
   const enterDelay = KIDS_LINK_ENTER_BASE_DELAY_MS + staggerIndex * KIDS_LINK_ENTER_STAGGER_MS;
-  const styleAttr = ` style="animation-delay: ${enterDelay}ms"`;
+  const styleAttr = ` style="animation-delay: calc(var(--global-menu-cards-delay, 0ms) + ${enterDelay}ms)"`;
   const image = kidsCardImages[imageKey][inactive ? 'inactive' : 'active'];
   const imageWrapHTML = `
       <div class="global-menu__kids-link-image-wrap">
@@ -222,11 +233,13 @@ function buildGlobalMenuHTML(state) {
   };
 
   const kidsLinks = kidsLinksByState[state] || kidsLinksByState.unfinished;
+  const room = isMyEscapeRoomShown(state) ? getMyEscapeRoom() : null;
+  const cardsDelay = room ? getMeterFillMs(room.completed) : 0;
 
   return `
     <div class="global-menu">
-      <div class="global-menu__student">
-        ${isMyEscapeRoomShown(state) ? buildMyEscapeRoomHTML() : ''}
+      <div class="global-menu__student" style="--global-menu-cards-delay: ${cardsDelay}ms">
+        ${room ? buildMyEscapeRoomHTML(room) : ''}
         <div class="global-menu__kids">
           <div class="global-menu__kids-links">${kidsLinks}</div>
         </div>
@@ -305,36 +318,36 @@ function getUrlRoomInfo() {
 
 // My Escape Room: the game's theme and topic, and how many of its challenges are done.
 // Shown while playing, then on the debrief and Undermurk pages (from the URL), so kids
-// can always see which escape room they're in or just did.
-function buildMyEscapeRoomHTML() {
+// can always see which escape room they're in or just did. null when there's no room.
+function getMyEscapeRoom() {
   const room = isDebriefPage() || isEnterTheUndermurkPage() ? getUrlRoomInfo() : getPlayingRoomInfo();
   if (!room.title) {
-    return '';
+    return null;
   }
+  room.completed = Math.min(room.completed, room.total);
+  return room;
+}
+
+function buildMyEscapeRoomHTML(room) {
   const title = escapeMenuHTML(room.title);
   const total = room.total;
-  const completed = Math.min(room.completed, total);
-  // One segment per challenge, the first `completed` of them filled. Before setup picks
-  // the number of challenges, one empty segment stands in.
-  const segmentsHTML = Array.from({ length: Math.max(total, 1) }, function(_, i) {
-    return `<div class="global-menu__room-meter-segment${i < completed ? ' global-menu__room-meter-segment--done' : ''}"></div>`;
-  }).join('');
-  // Without a total the meter sits empty with no label. The label to the title's right
-  // ("N/N") is hidden from screen readers,
-  // which get the count from aria-valuetext.
+  const completed = room.completed;
+  // One bar, filled to the share of challenges done (empty until setup picks the
+  // number of challenges).
+  const percent = total ? (completed / total) * 100 : 0;
+  // The "N% Done" label starts at 0% and ticks up with the fill (initMeterTickUp).
+  // It's hidden from screen readers, which get the count from the meter's
+  // aria-valuetext.
   const maxAttr = total ? ` aria-valuemax="${total}"` : '';
   const valueText = total ? `${completed} of ${total} challenges complete` : '0 challenges complete';
-  const countHTML = total
-    ? `<span class="global-menu__room-count" aria-hidden="true">${completed}/${total}</span>`
-    : '';
   return `
     <div class="global-menu__room" role="group" aria-label="My escape room">
       <div class="global-menu__room-heading">
         <span class="global-menu__room-title">${title}</span>
-        ${countHTML}
+        <span class="global-menu__room-label" aria-hidden="true" data-percent="${Math.round(percent)}">0% Done</span>
       </div>
       <div class="global-menu__room-meter" role="progressbar" aria-valuemin="0"${maxAttr} aria-valuenow="${completed}" aria-valuetext="${valueText}" aria-label="Challenges complete">
-        ${segmentsHTML}
+        <div class="global-menu__room-meter-fill" style="width: ${percent}%"></div>
       </div>
     </div>
   `;
@@ -684,6 +697,47 @@ function playInactiveKidsLinkWiggle(link) {
     if (e.animationName === 'global-menu-kids-link-lock-label-slam') {
       e.target.classList.remove('global-menu__kids-link-lock-label--flash');
     }
+  });
+})();
+
+// The "N% Done" label ticks up from 0 while the meter fills, over the fill's
+// duration with a similar snappy ease-out, and lands on the exact number when it ends.
+(function initMeterTickUp() {
+  function labelFor(fill) {
+    const room = fill.closest('.global-menu__room');
+    return room && room.querySelector('.global-menu__room-label[data-percent]');
+  }
+  function show(label, value) {
+    label.textContent = value + '% Done';
+  }
+  document.addEventListener('animationstart', function(e) {
+    if (e.animationName !== 'global-menu-meter-fill') {
+      return;
+    }
+    const label = labelFor(e.target);
+    if (!label) {
+      return;
+    }
+    const target = Number(label.dataset.percent) || 0;
+    const start = performance.now();
+    function tick(now) {
+      if (!label.isConnected) {
+        return;
+      }
+      const t = Math.min((now - start) / METER_FILL_DURATION_MS, 1);
+      show(label, Math.round(target * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+  });
+  document.addEventListener('animationend', function(e) {
+    if (e.animationName !== 'global-menu-meter-fill') {
+      return;
+    }
+    const label = labelFor(e.target);
+    label && show(label, Number(label.dataset.percent) || 0);
   });
 })();
 

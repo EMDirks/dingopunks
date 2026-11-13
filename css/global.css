@@ -623,7 +623,7 @@ button, input[type="submit"], input[type="reset"] {
 	line-height: 1.1;
 }
 
-/* Theme on the left, progress (N/N) on the right, on one line. */
+/* Theme on the left, "N% Done" on the right, on one line. */
 .global-menu__room-heading {
 	display: flex;
 	justify-content: space-between;
@@ -638,34 +638,26 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .global-menu__room-meter {
-	display: flex;
-	gap: 4px;
 	margin-top: 8px;
 	height: 14px;
-}
-
-/* One bar per challenge, sharing the row equally; full once that challenge is done. */
-.global-menu__room-meter-segment {
-	flex: 1;
+	overflow: hidden;
 	border-radius: 3px;
 	background-color: var(--dpaam-brown);
-	transition: background-color 0.4s ease;
 }
 
-.global-menu__room-meter-segment--done {
+/* One bar; the fill's width (set in global-menu.js) is the share of challenges done. */
+.global-menu__room-meter-fill {
+	height: 100%;
 	background-color: rgba(var(--off-black), 1);
+	transform-origin: left center;
 }
 
-.global-menu__room-count {
+/* "N% Done", on the right; styled like the theme title beside it. */
+.global-menu__room-label {
 	flex-shrink: 0;
-	/* Plain text, styled like the theme title beside it. */
 	font-size: 24px;
 	line-height: normal;
 	white-space: nowrap;
-	letter-spacing: 1px;
-	/* Letter-spacing leaves 1px after the last digit; pull it back so the count
-	   lines up with the meter's right edge. */
-	margin-right: -1px;
 }
 
 /* Small screens. Kept here, after the rules above, so it wins without !important
@@ -683,16 +675,12 @@ button, input[type="submit"], input[type="reset"] {
 	.global-menu__room-title {
 		font-size: 16px;
 	}
-	.global-menu__room-count {
+	.global-menu__room-label {
 		font-size: 16px;
 	}
 	.global-menu__room-meter {
-		gap: 4px;
 		margin-top: 5px;
 		height: 8px;
-	}
-	.global-menu__room-meter-segment {
-		border-radius: 3px;
 	}
 }
 
@@ -983,6 +971,48 @@ button, input[type="submit"], input[type="reset"] {
 	.global-menu__information-link {
 		font-size: 16px;
 		text-underline-offset: 2px;
+	}
+}
+
+/* The meter fills after the panel, before the cards (METER_FILL_* in
+   global-menu.js; keep the 0.25s and 350ms in step with them: the cards'
+   300ms base delay plus a 50ms pause). */
+.modal__popup--global-menu .global-menu__room-meter-fill {
+	transform: scaleX(0);
+}
+
+.modal__popup--global-menu.modal__popup--visible .global-menu__room-meter-fill {
+	animation: global-menu-meter-fill 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) 350ms forwards;
+}
+
+@keyframes global-menu-meter-fill {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+/* The student panel comes in first, then its cards one by one
+   (KIDS_LINK_ENTER_BASE_DELAY_MS in global-menu.js starts them after it). */
+.modal__popup--global-menu .global-menu__student {
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.modal__popup--global-menu.modal__popup--visible .global-menu__student {
+	animation: global-menu-student-in 0.2s ease-out 150ms forwards;
+}
+
+@keyframes global-menu-student-in {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
 
