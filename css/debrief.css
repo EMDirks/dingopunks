@@ -147,7 +147,11 @@ button,input {
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            transition: transform 0.1s ease-in, opacity 0.1s ease-in;
+            /* Sized here, not in js/debrief.js, so nothing resizes it as it flies in:
+               0.6 of .content-wrapper's width (min(100vw, 180vh)), cut to the
+               artwork's 1200x521 shape so the layer carries no empty space. */
+            width: calc(min(100vw, 180vh) * 0.6);
+            aspect-ratio: 1200 / 521;
             position: absolute;
             /* Raised to make room for VIEW SCORE below, as the code entry bumper's
                logo is for START (css/splash-new.css). .debrief-view-score's top
@@ -156,35 +160,49 @@ button,input {
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 3;
-            will-change: transform;
+            will-change: transform, opacity;
         }
 
-        @keyframes smash {
+        /* VICTORY / FAIL flying in: one animation from 1.5x down past its size,
+           then the smash wobble, so nothing hands off mid-motion. 500ms, settled by
+           1000ms from the outcome screen's start (OUTCOME_IMAGE_IN_MS in
+           js/debrief.js). */
+        @keyframes outcome-in {
             0% {
-                transform: translate(-50%, -50%) scale(1);
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+                animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
             }
-            20% {
-                transform: translate(-50%, -50%) scale(0.8);
+            15% {
+                opacity: 1;
             }
             40% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+                animation-timing-function: ease-out;
+            }
+            55% {
                 transform: translate(-50%, -50%) scale(1.05);
+                animation-timing-function: ease-in-out;
             }
-            60% {
+            70% {
                 transform: translate(-50%, -50%) scale(0.975);
+                animation-timing-function: ease-in-out;
             }
-            80% {
+            85% {
                 transform: translate(-50%, -50%) scale(1.01);
+                animation-timing-function: ease-in-out;
             }
             100% {
                 transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
             }
         }
-        
+
         .image-outcome--in {
             transform: translate(-50%, -50%) scale(1);
             opacity: 1;
-            animation: 0.4s smash ease-out;
-            animation-delay: 0.1s;
+            animation: outcome-in 500ms both;
         }
 
         /* VIEW SCORE pressed (js/debrief.js): a quick pop past its size, then it
@@ -220,14 +238,14 @@ button,input {
         }
         
         .image-outcome--out {
-            transform: translate(-50%, -50%) scale(2);
+            transform: translate(-50%, -50%) scale(1.5);
             opacity: 0;
         }
 
         /* VIEW SCORE, a .bumper-start (css/global.css). It sits beside the outcome
-           image, not inside it, so it doesn't smash with it. The image's square box
-           is 0.6 of .content-wrapper's width (min(100vw, 180vh)); the artwork is
-           1200x521 inside it, so its bottom edge is 0.1302 of that width below the
+           image, not inside it, so it doesn't smash with it. The image's box is 0.6
+           of .content-wrapper's width (min(100vw, 180vh)) and the artwork's
+           1200x521 shape, so its bottom edge is 0.1302 of that width below the
            center. The first two values are .image-outcome's top; the last is the gap. It takes clicks though .page-wrapper
            doesn't. */
         .debrief-view-score {

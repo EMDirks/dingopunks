@@ -52,6 +52,16 @@
 
   <body>
 
+		<!-- Harper bumper cover: in the HTML so it is there on the first paint, before the
+		     scripts load (playHarperBumper in js/splash-new.js takes it over). A BACK reload
+		     skips the bumper, so the cover is dropped straight away. -->
+		<div class = "harper-bumper"></div>
+		<script>
+			try {
+				if (sessionStorage.getItem('dingoPunksSplashBack') === '1') document.querySelector('.harper-bumper').remove();
+			} catch (e) {}
+		</script>
+
 		<!-- device rotation -->
 		<div class = "div-rotate">
 			<div class = "div-rotate-content">

@@ -27,13 +27,14 @@ const kidsCardImages = {
 // it starts at 150ms and takes 200ms (.global-menu__student in global.css).
 const KIDS_LINK_ENTER_BASE_DELAY_MS = 300;
 // Then the meter fills, 50ms after the cards would start (so at 350ms, as in
-// global.css); the cards wait for it (--global-menu-cards-delay on the panel).
-// Nothing done, no wait.
+// global.css); the cards wait for it, plus a short gap once it's full
+// (--global-menu-cards-delay on the panel). Nothing done, no wait.
 const METER_FILL_PAUSE_MS = 50;     // these two match .global-menu__room-meter-fill
 const METER_FILL_DURATION_MS = 250; // in global.css
+const METER_TO_CARDS_GAP_MS = 100;
 
 function getMeterFillMs(completed) {
-  return completed ? METER_FILL_PAUSE_MS + METER_FILL_DURATION_MS : 0;
+  return completed ? METER_FILL_PAUSE_MS + METER_FILL_DURATION_MS + METER_TO_CARDS_GAP_MS : 0;
 }
 const KIDS_LINK_ENTER_STAGGER_MS = 100;
 // Student cards wait this long before navigating, so their click sound plays.

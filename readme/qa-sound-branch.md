@@ -17,7 +17,10 @@ BACKLOG
 • remove "buzz/whine" on iPad/mobile "Quit" click
 • Simpify "what's a game code modal"
 • Gate multiple choice answers to solving puzzle first / sorting activities first
+• Allow 1 attempt at answers before lockout
+• Rework wrong answers to form real words
 • Get the wrong code? Lock out! Switch answers? Lock out!
+• Investigate and fix: sounds sometimes play VERY late on Safari (MacBook Pro); a new tab with the play link fixes it. Trigger unknown (suspects: waking from sleep, AirPods/headphones, coming back from another tab or app). Likely cause: Safari pauses the page's audio, and `play()` in js/sound.js queues sounds until it resumes instead of skipping them. Fix ideas: skip sound effects while audio is paused (keep queueing only for the first tap), resume on any tap whenever audio isn't running, and rebuild the audio if it won't come back.
 
 ---
 
@@ -123,6 +126,7 @@ BACKLOG
 ### Debrief
 | # | Check | Mac | CB | iPad | iPh |
 |---|---|---|---|---|---|
+| 1.51b | VICTORY and FAIL fly in smoothly, with no stutter or jump (check the Chromebook especially). Same size and spot as before, and VIEW SCORE sits the same gap below each | ☐ | ☐ | ☐ | ☐ |
 | 1.52 | The outcome screen waits on VIEW SCORE. Tapping it unlocks sound and starts the debrief song, played once | ☐ | ☐ | ☐ | ☐ |
 | 1.53 | Stat, tier, score, medal (pitched up per medal), rank and bonus panel sounds. Count-up ticks rise in pitch and stay in sync with the number | ☐ | ☐ | ☐ | ☐ |
 | 1.54 | Scoring runs **once**, including on the older (non-DPAAM) debrief. Bonus panel slides in quickly. Score card is teal, Undermurk card is blue | ☐ | ☐ | ☐ | ☐ |

@@ -2669,6 +2669,9 @@ document.addEventListener("DOMContentLoaded", function() {
   if (HARPER_BUMPER && gameMode !== 'preview' && !isUndermurkPage && !splashReturnedBack) {
     playHarperBumper(startSplash);
   } else {
+    // The page's static cover (index.html, free-play.html) isn't needed.
+    const cover = document.querySelector('.harper-bumper');
+    if (cover) cover.remove();
     startSplash();
   }
 });
@@ -2684,7 +2687,10 @@ function startSplash() {
 // calls onFadeStart as it fades, so the Dingo Punks bumper starts underneath it.
 // The frames are stacked and shown one at a time, so a swap can never flash blank.
 function playHarperBumper(onFadeStart) {
-  const bumper = createElement('div', ['harper-bumper'], document.body);
+  // Takes over the static cover in the page's HTML, so nothing behind it shows
+  // while the scripts load; other pages get a new one.
+  const bumper = document.querySelector('.harper-bumper')
+    || createElement('div', ['harper-bumper'], document.body);
   const logo = createElement('div', ['harper-bumper__logo'], bumper);
   logo.setAttribute('role', 'img');
   logo.setAttribute('aria-label', 'Harper');

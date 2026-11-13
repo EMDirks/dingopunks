@@ -354,9 +354,10 @@ let cutscene = {
                 path: 'reward.png',
                 scope: 'local',
                 animation: {
-                    start: 'opacity-1',
-                    end: 'opacity-0',
-                    duration: 'transition-opacity-1000ms',
+                    start: 'transform-translate_0_0',
+                    end: 'transform-translate_0_100',
+                    duration: 'transition-transform-300ms',
+                    delay: 300,
                 },
             }, 
             backgroundColor: 'background-color-black'

@@ -53,7 +53,7 @@ const debriefContainer = document.querySelector('.debrief-container');
 const dpaamDebriefContainer = document.querySelector('.dpaam-debrief-container');
 if (UNDERMURK) {
   // Keep debrief-container in the layout (hidden) so updateAbsoluteElements
-  // can still read its offsetWidth to size .image-outcome.
+  // can still read its offsetWidth to size the elements it scales.
   if (debriefContainer) {
     debriefContainer.style.visibility = 'hidden';
     debriefContainer.style.pointerEvents = 'none';
@@ -132,9 +132,9 @@ function initOutcomeImage(){
   } else if (retrievedDebriefStats.outcome === 'victory'){
     imageOutcome.style.backgroundImage = "url(assets/debrief/outcome/victory.png)";
   }
+  // Only the class swap here: the image is sized in CSS, so no layout work lands on
+  // the frame its animation starts (it stuttered on Chromebooks).
   setTimeout(function(){
-    updateElementHeight();
-    updateAbsoluteElements();
     toggleClass(imageOutcome,"image-outcome--out","image-outcome--in");
   }, OUTCOME_IMAGE_IN_MS);
   addViewScoreButton();
@@ -581,7 +581,6 @@ function updateElementHeight() {
 function updateAbsoluteElements() {
 
     const elements = [  
-      ['.image-outcome', 0.8, 'widthHeight'],
       ['.icon-clickable--debrief', 0.04, 'fontSize'],
       ['.style-border--default', 0.0025, 'borderWidth'],
       ['.style-border--debrief', 0.004, 'borderWidth'],
